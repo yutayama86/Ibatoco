@@ -60,6 +60,10 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
         'https://hb.afl.rakuten.co.jp/hgc/579937d6.d51864df.579937d7.bf4673dd/?pc=https%3A%2F%2Ftravel.rakuten.co.jp%2Fyado%2Fibaraki%2Foarai.html&link_type=text&ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9',
       'https://travel.rakuten.co.jp/yado/ibaraki/mito.html':
         'https://hb.afl.rakuten.co.jp/hgc/579937d6.d51864df.579937d7.bf4673dd/?pc=https%3A%2F%2Ftravel.rakuten.co.jp%2Fyado%2Fibaraki%2Fmito.html&link_type=text&ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9',
+      // つくば・土浦・取手（117件）。土浦駅前の宿を含む。11月7日の土浦花火向け
+      // ※ URLの綴りで判断しないこと。tsuchiura.html は鹿嶋・潮来・北浦を返す
+      'https://travel.rakuten.co.jp/yado/ibaraki/tsukuba.html':
+        'https://hb.afl.rakuten.co.jp/hgc/579937d6.d51864df.579937d7.bf4673dd/?pc=https%3A%2F%2Ftravel.rakuten.co.jp%2Fyado%2Fibaraki%2Ftsukuba.html&link_type=text&ut=eyJwYWdlIjoidXJsIiwidHlwZSI6InRleHQiLCJjb2wiOjF9',
     },
   },
   jalan: {
