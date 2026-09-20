@@ -127,6 +127,111 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "rockinstar-carnival-2026",
+      "name": "rockin'star Carnival 2026",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-03",
+      "endDate": null,
+      "officialUrl": "https://rockinstarcarnival.jp/",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "開催12日前の公式発表済み大型イベント。国営ひたち海浜公園で11:00開場、12:30開演、18:00〜19:15に約2万発の花火。荒天中止、入場券が必要。イバトコ単独記事なしを2026-09-21確認。緊急候補。"
+    },
+    {
+      "id": "mito-hagi-matsuri-2026",
+      "name": "第58回水戸の萩まつり",
+      "municipality": "mito",
+      "startDate": "2026-09-12",
+      "endDate": "2026-10-04",
+      "officialUrl": "https://mitokoumon.com/festival/hagi.html",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "偕楽園。園内約750株の萩、期間中ライトアップ。10月3日に秋の夕べ、荒天時は10月4日へ順延。検索需要・来訪・消費・交通需要は根拠未取得のためunknown。"
+    },
+    {
+      "id": "hitachi-seaside-kochia-carnival-2026",
+      "name": "きて みて さわって コキアカーニバル",
+      "municipality": "hitachinaka",
+      "startDate": "2026-09-18",
+      "endDate": "2026-11-03",
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": "/kouyou/",
+      "articleUpdatedAt": null,
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で開催期間を確認。コキアは2026-09-17時点予想で10月10日頃から紅葉、10月15日頃に見頃。季節料金期間は10月9日〜11月3日。"
+    },
+    {
+      "id": "jr-ibaraki-typhoon25-20260921",
+      "name": "台風25号に伴う茨城県内JR運転変更",
+      "municipality": "prefecturewide",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-22",
+      "officialUrl": "https://traininfo.jreast.co.jp/train_info/kanto.aspx",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "2026-09-21 06:49頃のJR東日本公式情報。常磐線・水郡線・水戸線・鹿島線で遅延、運休、運転取りやめ予定が発表。運行状況は変動するため公開時に公式再確認必須。"
+    },
+    {
+      "id": "hitachi-seaside-park-closure-20260921",
+      "name": "国営ひたち海浜公園 台風25号による臨時閉園",
+      "municipality": "hitachinaka",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-21",
+      "officialUrl": "https://www.hitachikaihin.jp/",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "2026-09-21は台風25号の影響で臨時閉園。9月21日のコキアライトアップも中止。翌日以降は公式の最新発表を再確認する。"
     }
   ]
 }
