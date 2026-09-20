@@ -15,7 +15,7 @@
  *   public/images/card/<slug>.png      … 一覧カード。記事の市町村を濃く塗り分ける
  * 地図データを更新したら、これも作り直すこと。
  */
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, statSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { deflateSync } from 'node:zlib';

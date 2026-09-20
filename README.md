@@ -31,7 +31,10 @@ npm run dev
 | URL | 内容 | 企画書の階層 |
 | --- | --- | --- |
 | `/` | トップページ | — |
-| `/eat/` `/life/` `/sauna-play/` `/beauty/` `/company/` | ジャンル別 記事一覧 | 階層1：集客メディア |
+| `/events/` `/news/` | イベント・実用ガイド／ニュース解説 | 集客・意思決定 |
+| `/sports/` | 県内スポーツの試合・観戦情報 | 集客・地域行動 |
+| `/area/` `/area/[slug]/` | 44市町村ハブ・市町村ガイド | 地域ハブ |
+| `/eat/` `/life/` `/sauna-play/` `/beauty/` `/stay/` `/company/` | ジャンル別 記事一覧 | 体験・テーマ |
 | `/eat/[slug]/` など | 体験レポート記事 | 階層1 |
 | `/place/` | 掲載店舗・企業 一覧 | 階層2 |
 | `/place/[id]/` | 店舗・企業専用LP（ペライチ） | 階層2 |
@@ -41,6 +44,8 @@ npm run dev
 | `/contact/` | お問い合わせ | 階層4 |
 | `/reporters/` | 本人確認済みローカルエディター | — |
 | `/about/` `/privacy/` | 運営情報・ポリシー | — |
+
+実装全体の現状・保護対象・改善順序は [`docs/growth-rebuild-audit.md`](docs/growth-rebuild-audit.md) を参照してください。
 
 予約は各施設の公式窓口へ案内します。イバトコは現在、予約の受付・仲介を行いません。
 

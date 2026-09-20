@@ -31,7 +31,7 @@ const src = await readFile(FILE, 'utf8');
 if (args.length === 0) {
   const rows = [...src.matchAll(/id: '([^']+)',\s*\n\s*date: '([^']+)',\s*\n\s*url: '([^']+)',\s*\n\s*kind: '([^']+)',\s*\n\s*change: '([^']+)'/g)];
   console.log(`SEO改善履歴 ${rows.length} 件（新しい順）\n`);
-  for (const [, id, date, url, kind, change] of rows) {
+  for (const [, , date, url, kind, change] of rows) {
     console.log(`  ${date}  ${kind.padEnd(13)} ${url}`);
     console.log(`            ${change}`);
   }

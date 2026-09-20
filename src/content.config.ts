@@ -117,6 +117,10 @@ const places = defineCollection({
     publishedAt: z.coerce.date(),
     draft: z.boolean().default(false),
     reviewed: z.boolean().default(false),
+    // 空コレクション時のAstro警告を防ぐ非公開プレースホルダー用。
+    // 実コンテンツでは指定しない。
+    sample: z.boolean().default(false),
+    noindex: z.boolean().default(false),
     verifiedAt: z.coerce.date().optional(),
     disclosure: z.enum(['editorial', 'partner', 'pr']).default('editorial'),
     disclosureNote: z.string().optional(),
@@ -127,6 +131,9 @@ const places = defineCollection({
     }
     if (!data.draft && !data.reviewed) {
       ctx.addIssue({ code: 'custom', path: ['reviewed'], message: '公開には公式情報との照合（reviewed: true）が必要です。' });
+    }
+    if (data.sample && !data.noindex) {
+      ctx.addIssue({ code: 'custom', path: ['noindex'], message: '実装確認用サンプルは noindex: true にしてください。' });
     }
   }),
 });
