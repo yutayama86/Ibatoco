@@ -1,6 +1,177 @@
 {
   "schemaVersion": 1,
-  "asOf": null,
-  "source": null,
-  "pages": []
+  "asOf": "2026-09-16",
+  "source": {
+    "spreadsheetTitle": "イバトコ SEO・流入データ",
+    "spreadsheetId": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w",
+    "spreadsheetUpdatedAt": "2026-09-20T07:34:21+09:00",
+    "checkedAt": "2026-09-21T07:01:52+09:00",
+    "status": "partial-anomaly",
+    "ga4LatestDate": "2026-09-19",
+    "gscLatestDate": "2026-09-16",
+    "freshness": {
+      "ga4Days": 2,
+      "gscDays": 5
+    },
+    "warnings": [
+      "GSC最新日は2026-09-16で確認時点から48時間超。新規施策の即時判断には使用しない。",
+      "GA4 2026-09-19は208セッションに対してエンゲージメント セッション2、率0.96%で前日までと不連続。エンゲージメント指標は異常値として扱う。",
+      "generate_lead、outbound_booking_click、local_business_click、intent_select、next_action、/biz/遷移のページ・地域・目的別内訳は接続シートに未収録。値はunknown。"
+    ]
+  },
+  "windows": {
+    "ga4": {
+      "latestDay": {
+        "date": "2026-09-19",
+        "users": 191,
+        "sessions": 208,
+        "engagedSessions": 2,
+        "engagementRate": 0.0096,
+        "quality": "anomalous-engagement"
+      },
+      "recent7": {
+        "start": "2026-09-13",
+        "end": "2026-09-19",
+        "users": 1407,
+        "sessions": 1537,
+        "engagedSessions": 790,
+        "keyEvents": 1
+      },
+      "previous7": {
+        "start": "2026-09-06",
+        "end": "2026-09-12",
+        "users": 978,
+        "sessions": 1053,
+        "engagedSessions": 619,
+        "keyEvents": 0
+      },
+      "recent28": {
+        "start": "2026-08-23",
+        "end": "2026-09-19",
+        "users": 3050,
+        "sessions": 3350,
+        "engagedSessions": 1848,
+        "keyEvents": 4
+      },
+      "recent7VsPrevious7": {
+        "usersPct": 43.9,
+        "sessionsPct": 46
+      },
+      "channelRecent7": [
+        {
+          "channel": "Organic Search",
+          "sessions": 1229
+        },
+        {
+          "channel": "Referral",
+          "sessions": 128
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 97
+        },
+        {
+          "channel": "Cross-network",
+          "sessions": 75
+        },
+        {
+          "channel": "Direct",
+          "sessions": 66
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 11
+        },
+        {
+          "channel": "AI Assistant",
+          "sessions": 10
+        }
+      ]
+    },
+    "gsc": {
+      "latestDay": {
+        "date": "2026-09-16",
+        "clicks": 105,
+        "impressions": 4075,
+        "ctr": 0.025766871165644172,
+        "averagePosition": 7.4169325153374235,
+        "quality": "stale-over-48h"
+      },
+      "recent7": {
+        "start": "2026-09-10",
+        "end": "2026-09-16",
+        "clicks": 763,
+        "impressions": 19484,
+        "ctr": 0.03916,
+        "averagePosition": 8.028
+      },
+      "previous7": {
+        "start": "2026-09-03",
+        "end": "2026-09-09",
+        "clicks": 331,
+        "impressions": 7072,
+        "ctr": 0.0468,
+        "averagePosition": 9.021
+      },
+      "recent28": {
+        "start": "2026-08-20",
+        "end": "2026-09-16",
+        "clicks": 1284,
+        "impressions": 34867,
+        "ctr": 0.03683,
+        "averagePosition": 8.756
+      }
+    }
+  },
+  "conversionDetail": {
+    "available": false,
+    "metrics": [
+      "generate_lead",
+      "outbound_booking_click",
+      "local_business_click",
+      "business_listing_cta_click",
+      "intent_select",
+      "next_action",
+      "biz_path_transition"
+    ],
+    "value": "unknown",
+    "reason": "接続シートにイベント別・ページ別明細がないため"
+  },
+  "pages": [
+    {
+      "label": "茨城デジタルパスポート",
+      "ga4Recent7Sessions": 489,
+      "gscRecent7Clicks": 128,
+      "intent": "制度利用",
+      "region": "茨城県"
+    },
+    {
+      "label": "大洗あんこう祭",
+      "ga4Recent7Sessions": 371,
+      "gscRecent7Clicks": 282,
+      "intent": "イベント・来訪",
+      "region": "大洗町"
+    },
+    {
+      "label": "笠間新栗まつり",
+      "ga4Recent7Sessions": 114,
+      "gscRecent7Clicks": 19,
+      "intent": "イベント・飲食",
+      "region": "笠間市"
+    },
+    {
+      "label": "水戸スタジアムアクセス",
+      "ga4Recent7Sessions": 33,
+      "gscRecent7Clicks": 45,
+      "intent": "SPORTS・交通",
+      "region": "水戸市"
+    },
+    {
+      "label": "鹿島ニューカッスル観戦ガイド",
+      "ga4Recent7Sessions": 29,
+      "gscRecent7Clicks": 16,
+      "intent": "SPORTS・来訪",
+      "region": "鹿嶋市"
+    }
+  ]
 }
