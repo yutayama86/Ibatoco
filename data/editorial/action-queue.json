@@ -1,5 +1,28 @@
 {
   "schemaVersion": 1,
-  "updatedAt": null,
-  "actions": []
+  "updatedAt": "2026-09-21",
+  "actions": [
+    {
+      "id": "20260921-kashima-antlers-score-correction",
+      "title": "鹿島アントラーズ 9月19日川崎戦の結果誤記訂正",
+      "kind": "sports",
+      "targetUrl": "/sports/kashima-antlers/",
+      "targetFile": "src/data/sports/matches/kashima-antlers.json",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-21",
+      "specPath": "docs/editorial/specs/20260921-kashima-antlers-score-correction.md",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/pages/games"
+      ],
+      "acceptanceCriteria": [
+        "「0-2で敗れています」が対象ファイルからなくなる",
+        "指定箇所が「3-3で引き分けました」に置換される",
+        "score.home=3、score.away=3およびrecapの3-3記載が保持される",
+        "対象ファイル以外に差分を出さない",
+        "npm run verifyがエラー・警告0件で成功する"
+      ],
+      "notes": "公式結果と本文の矛盾を直す最小差分。指定外変更禁止。"
+    }
+  ]
 }
