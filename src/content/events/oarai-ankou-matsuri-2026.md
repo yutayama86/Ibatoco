@@ -2,7 +2,7 @@
 title: "大洗あんこう祭2026｜11月14日・15日開催。日程と確認先まとめ"
 description: "大洗秋まつり 商工感謝祭＆大洗あんこう祭は2026年11月14日（土）・15日（日）開催予定。大洗観光協会の令和8年度スケジュールで確認しました。時間・会場・駐車場の確認先とあわせて整理します。"
 pubDate: 2026-09-02
-updatedDate: 2026-09-16
+updatedDate: 2026-09-20
 articleType: "event"
 searchIntent: "大洗のあんこう祭が今年いつ開催されるのかを知りたい"
 keyword: "大洗あんこう祭 2026"
@@ -51,7 +51,7 @@ faq:
 booking:
   heading: "大洗に泊まる・現地を確かめる"
   intro: "祭り当日の大洗は混み合います。宿は早めに押さえ、開催の詳細は町の公式発表で確認してください。"
-  basis: "公式の一次情報を先に置き、そのあとに空室と料金を比べられる予約サイトを並べています。報酬の有無で順番は決めていません（2026年9月16日時点でいずれも提携していません）。"
+  basis: "公式の一次情報を先に置き、そのあとに空室と料金を比べられる予約サイトを並べています。報酬の有無で順番は決めていません。楽天トラベルとじゃらんnetは提携しており、そのリンクは広告です（2026年9月20日時点）。"
   items:
     - label: "大洗観光協会の宿泊施設一覧"
       provider: "official"
@@ -78,15 +78,18 @@ sourceUrls:
   - label: "大洗観光協会｜令和8年度 大洗町年間イベントスケジュールが決定しました"
     url: "https://www.oarai-info.jp/news/postid_9910/"
     accessedAt: 2026-09-02
-  - label: "大洗観光協会｜イベント情報"
+  - label: "大洗観光協会｜イベント情報（2026年9月20日に再確認。11月14日・15日の記載を確認）"
     url: "https://www.oarai-info.jp/event/"
-    accessedAt: 2026-09-02
+    accessedAt: 2026-09-20
   - label: "大洗町商工会｜大洗秋まつり 商工感謝祭&あんこう祭り 開催のお知らせ（令和7年分）"
     url: "https://r.goope.jp/oarai-shokokai/info/6509385"
     accessedAt: 2026-09-02
 relatedArticleUrls:
   - "/matsuri/"
   - "/area/oarai/"
+  - "/events/oarai-hotel-buffet-guide/"
+  - "/events/nakaminato-ichibazushi-guide/"
+  - "/events/ibaraki-bus-tour-spots/"
   - "/events/oarai-kaijo-hanabi-2026/"
   - "/events/ibaraki-events-november-2026/"
 commercialPriority: high

@@ -114,6 +114,41 @@ if (!relExpr) {
   }
 }
 
+// ---- 広告表示と本文の食い違い ----
+// 記事の booking.basis に「提携していません」と書いてあるのに、
+// その記事の booking.items に status: 'active' の提供元が入っていると、
+// 画面には「アフィリエイト広告を含みます」と「提携していません」が同時に出る。
+// 実際にこれが4記事で公開されていた（2026-09-20に修正）。二度目を防ぐ。
+const affiliatesSrc = readFileSync('src/data/affiliates.ts', 'utf8');
+// [^{}]* にしているのは、提供元ブロックの境界をまたがせないため。
+// [\s\S]*? だと official（status: 'none'）から次のブロックの 'active' まで
+// 読みにいってしまい、提携していない提供元まで提携済みと判定する。
+const activeProviders = [...affiliatesSrc.matchAll(/'?([a-z0-9-]+)'?:\s*\{[^{}]*status:\s*'active'/g)]
+  .map((m) => m[1]);
+// 記事は .md なので srcFiles（.astro / .ts）には入っていない。別に集める
+const contentFiles = [];
+(function walkMd(dir) {
+  for (const entry of readdirSync(dir)) {
+    const p = join(dir, entry);
+    try {
+      if (readdirSync(p).length >= 0) { walkMd(p); continue; }
+    } catch {
+      if (/\.mdx?$/.test(entry)) contentFiles.push(p);
+    }
+  }
+})('src/content');
+for (const file of contentFiles) {
+  const src = readFileSync(file, 'utf8');
+  // 「いずれも提携していません」という一括の否定だけを見る。
+  // 「akippaとは提携していません」のように提供元を名指しした否定は正しいので通す。
+  if (!/^\s*basis:.*いずれも提携して(い|お)?ま?せん/m.test(src)) continue;
+  const used = activeProviders.filter((p) => src.includes(`provider: "${p}"`));
+  if (used.length > 0) {
+    add('error', 'affiliate-disclosure',
+      `${file} は basis で「提携していません」と書いていますが、提携済みの提供元を使っています: ${used.join(', ')}`);
+  }
+}
+
 // ---- 出力 ----
 const errors = findings.filter((f) => f.level === 'error');
 const warns = findings.filter((f) => f.level === 'warn');
