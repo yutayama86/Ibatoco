@@ -1,0 +1,544 @@
+/* interior.css editorial-pages — 読み込み順は ../interior.css で固定 */
+/* --- Fixed/editorial pages -------------------------------------------- */
+/*
+ * 方針・規約などの文章ページ。ほかの下層と同じくヘッダーに接する全幅にする。
+ * 紙色の上に浮いた角丸カードのままだと、ここだけ旧デザインとして残る。
+ *
+ * 背景だけ全幅に広げ、本文は --reading-col の段として中央に置く。
+ * ここは width:auto の全幅ブロックなので、padding の % は親（＝画面幅）で
+ * 正しく解決する。幅の決まった要素へ同じ書き方をしてはいけない。
+ * width の !important は、狭い画面用の .wrap 指定が後ろで勝つため。
+ */
+body.interior-site :is(.policy, .pv, .rsv, .nf) {
+  position: relative;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 0 clamp(2rem, 5vw, 4rem);
+  padding: clamp(2rem, 5vw, 4.5rem) max(1.25rem, calc((100% - var(--reading-col)) / 2));
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* 背景は疑似要素に持たせ、下端を紙色へ溶かす（見出しバンドと同じ手当て） */
+body.interior-site :is(.policy, .pv, .rsv, .nf)::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(255,255,255,.9);
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+  mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+}
+
+body.interior-site :is(.policy-title, .pv-title, .rsv-title, .nf-title, .tag-title) {
+  margin-top: .7rem;
+  color: var(--color-deep-blue);
+  font-size: var(--interior-title-xl) !important;
+  line-height: 1.24 !important;
+  text-wrap: balance;
+}
+
+body.interior-site .prose {
+  font-size: clamp(.98rem, .95rem + .2vw, 1.08rem);
+  line-height: 2.08;
+}
+
+body.interior-site .prose h2 {
+  margin-top: 3em;
+  padding: 0 0 .7rem;
+  border-bottom: 1px solid var(--interior-line);
+  border-left: 0;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  line-height: 1.55;
+}
+
+body.interior-site .prose h3 {
+  color: var(--color-deep-blue);
+}
+
+body.interior-site .prose a {
+  color: var(--interior-blue);
+}
+
+/*
+ * 問い合わせはページ全体が1枚のパネル。ほかの下層と同じく、
+ * ヘッダーとのあいだに紙色を挟まず接触させる。
+ * 幅は全面に広げ、中身だけ --interior-gutter で本文カラムに揃える。
+ */
+body.interior-site .contact {
+  /* ::before を自分に重ねるための基準 */
+  position: relative;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 0 clamp(1.2rem, 2.5vw, 2.25rem);
+  padding: clamp(2rem, 3.5vw, 3.25rem) var(--interior-gutter);
+  border: 0;
+  border-radius: 0;
+  /* 見出しバンドと同じく、背景は ::before に持たせて下端を溶かす */
+  background: transparent;
+  box-shadow: none;
+}
+
+body.interior-site .contact::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(241,247,253,.92));
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+  mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+}
+
+body.interior-site .contact h1 {
+  color: var(--color-deep-blue);
+  text-wrap: balance;
+}
+
+body.interior-site .contact-form {
+  padding: clamp(1.3rem, 2.2vw, 1.85rem);
+  border: 1px solid var(--interior-line);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.78);
+}
+
+body.interior-site .contact-form :is(input, select, textarea) {
+  min-height: 3.25rem;
+  padding: .8rem .9rem;
+  border: 1px solid rgba(23,43,53,.18);
+  border-radius: .55rem;
+  background: rgba(255,255,255,.9);
+}
+
+body.interior-site .contact-form textarea {
+  min-height: 10rem;
+}
+
+body.interior-site .contact-form :is(input, select, textarea):focus {
+  border-color: var(--interior-blue);
+  outline: 2px solid rgba(31,99,191,.14);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+body.interior-site .contact-form button,
+body.interior-site .biz-cta > a,
+body.interior-site .biz-head > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.1rem;
+  padding: .75rem 1.25rem;
+  border: 1px solid var(--interior-blue);
+  border-radius: 999px;
+  background: var(--interior-blue);
+  color: #fff !important;
+  border-bottom: 0 !important;
+  font-weight: 700;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+body.interior-site :is(.contact-form button, .biz-cta > a, .biz-head > a):hover {
+  transform: translateY(-2px);
+  background: var(--color-deep-blue);
+  box-shadow: 0 12px 28px rgba(7,28,76,.18);
+}
+
+body.interior-site :is(.separation, .scope, .biz-cta) {
+  border-top-color: var(--interior-line);
+}
+
+body.interior-site :is(.separation, .scope) {
+  background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(239,247,255,.34));
+}
+
+body.interior-site .services li {
+  border-color: var(--interior-line);
+}
+
+body.interior-site .types article {
+  padding: 1.35rem;
+  border: 1px solid var(--interior-line);
+  border-top: 3px solid var(--interior-blue);
+  border-radius: .85rem;
+  background: rgba(255,255,255,.72);
+}
+
+body.interior-site .separation > .bp-wrap,
+body.interior-site .scope > .bp-wrap {
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+body.interior-site .services li > span {
+  color: rgba(23,79,153,.42);
+}
+
+body.interior-site .services li {
+  align-items: start;
+  transition: background-color .2s ease, padding-inline .2s ease;
+}
+
+body.interior-site .services li:hover {
+  padding-inline: .75rem;
+  background: rgba(237,246,255,.55);
+}
+
+body.interior-site .scope li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+body.interior-site .scope li::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: .65rem;
+  width: .45rem;
+  height: .45rem;
+  border-radius: 50%;
+  background: var(--interior-blue);
+  transform: translateY(-50%);
+}
+
+body.interior-site .biz-cta {
+  margin-block: clamp(3rem, 6vw, 6rem);
+  padding: clamp(2rem, 4vw, 3.5rem);
+  border: 1px solid rgba(31,99,191,.13);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(123,185,241,.23), transparent 34%),
+    linear-gradient(135deg, rgba(255,255,255,.96), rgba(238,246,255,.86));
+  box-shadow: var(--interior-shadow);
+}
+
+body.interior-site .place-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+body.interior-site .place-list article {
+  position: relative;
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  padding: clamp(1.35rem, 2.8vw, 2rem);
+  overflow: hidden;
+  border: 1px solid rgba(31,99,191,.12);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(123,185,241,.15), transparent 36%),
+    rgba(255,255,255,.88);
+  box-shadow: 0 12px 34px rgba(25,55,88,.05);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+body.interior-site .place-list article:hover {
+  transform: translateY(-4px);
+  border-color: rgba(31,99,191,.28);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .place-list article > p:first-child {
+  color: var(--interior-blue);
+  font-family: var(--font-brand-meta);
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+body.interior-site .place-list article > a {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--interior-blue);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+body.interior-site .tag-group + .tag-group {
+  margin-top: clamp(3rem, 5.5vw, 5rem);
+  padding-top: clamp(2.5rem, 4.5vw, 4rem);
+  border-top: 1px solid var(--interior-line);
+}
+
+body.interior-site .tag-group > h2 {
+  margin: .75rem 0 1.7rem;
+  color: var(--color-deep-blue);
+  font: 600 clamp(1.7rem, 3.3vw, 2.8rem)/1.35 var(--font-brand-display);
+}
+
+/*
+ * タグページの見出しも、記事や道の駅と同じ素の読みカラムにする。
+ * ここだけ紙色に浮いた角丸カードのまま残っていた。
+ */
+body.interior-site .tag-hero {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+/* ガイド一覧の見出しも同じ。カードをやめて読みカラムに揃える */
+body.interior-site .guide-index-head {
+  position: relative;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  padding-block: clamp(2rem, 3.6vw, 3.4rem);
+}
+
+body.interior-site .ig-head {
+  margin-top: clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(2.3rem, 5vw, 4.5rem);
+  border: 1px solid rgba(31,99,191,.12);
+  border-radius: 1.3rem;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(123,185,241,.27), transparent 31%),
+    linear-gradient(135deg, rgba(255,255,255,.98), rgba(238,246,255,.9));
+  box-shadow: 0 18px 58px rgba(36,77,110,.07);
+}
+
+body.interior-site .ig-head h1 {
+  color: var(--color-deep-blue);
+  text-wrap: balance;
+}
+
+body.interior-site .ig-body {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+body.interior-site .ig-quick {
+  padding: clamp(1.5rem, 4vw, 2.4rem);
+  border: 1px solid rgba(31,99,191,.14);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(237,246,255,.92), rgba(255,255,255,.95));
+  box-shadow: 0 14px 38px rgba(25,55,88,.06);
+}
+
+body.interior-site .ig-section {
+  padding-top: clamp(2.3rem, 5vw, 3.5rem);
+  border-top: 1px solid var(--interior-line);
+}
+
+body.interior-site .ig-sources {
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 96% 0%, rgba(111,178,239,.18), transparent 34%),
+    linear-gradient(145deg, #09243c, #071744);
+  box-shadow: var(--interior-shadow);
+}
+
+body.interior-site :is(.ag-section, .guide-section, .taste-section, .experience-section, .route-section, .season-section, .basics-section, .practical-section, .faq-section, .tg-spots, .tg-practical) {
+  scroll-margin-top: calc(var(--site-header-height) + 2rem);
+}
+
+body.interior-site.route-reporters :is(.rp-way, .rp-people-empty) {
+  border-color: rgba(31,99,191,.13);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 12px 34px rgba(25,55,88,.05);
+}
+
+body.interior-site.route-reporters .rp-way:hover {
+  border-color: rgba(31,99,191,.3);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site.route-reporters .rp-standard-grid article {
+  border-top-color: var(--interior-blue);
+}
+
+body.interior-site .guide-index-head .page-title {
+  max-width: 13em;
+  color: var(--color-deep-blue);
+  font-size: var(--interior-title-xl) !important;
+  line-height: 1.24 !important;
+  text-wrap: balance;
+}
+
+body.interior-site .guide-index-head .page-lead {
+  margin: 1.35rem 0 0;
+  color: #5f6f76;
+  font-size: clamp(.95rem, 1.3vw, 1.06rem);
+}
+
+body.interior-site .gl-grid {
+  gap: clamp(1rem, 2.5vw, 1.7rem);
+}
+
+body.interior-site .gl-card {
+  height: 100%;
+  border-color: rgba(31,99,191,.12);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 12px 34px rgba(25,55,88,.055);
+}
+
+body.interior-site .gl-card::before {
+  width: 4px;
+  background: linear-gradient(180deg, var(--interior-blue), var(--interior-moss));
+}
+
+body.interior-site .gl-card:hover {
+  border-color: rgba(31,99,191,.28);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site :is(.gl-eyebrow, .gl-more) {
+  color: var(--interior-blue);
+}
+
+body.interior-site .gd-hero,
+body.interior-site .xc-hero {
+  margin-top: clamp(1.25rem, 3vw, 2.5rem);
+  padding: 0;
+  background: transparent;
+  color: var(--color-charcoal);
+}
+
+body.interior-site :is(.gd-hero, .xc-hero) > .wrap {
+  padding: clamp(2rem, 3.7vw, 3.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(31,99,191,.12);
+  border-radius: 1.3rem;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(123,185,241,.27), transparent 31%),
+    linear-gradient(135deg, rgba(255,255,255,.98), rgba(238,246,255,.9));
+  box-shadow: 0 18px 58px rgba(36,77,110,.07);
+}
+
+body.interior-site :is(.gd-hero, .xc-hero) .crumbs {
+  color: #728087;
+}
+
+body.interior-site :is(.gd-title, .xc-title) {
+  max-width: 15em;
+  color: var(--color-deep-blue);
+  font-size: var(--interior-title-xl) !important;
+  line-height: 1.25 !important;
+  text-wrap: balance;
+}
+
+body.interior-site :is(.gd-lead, .xc-lead) {
+  max-width: 58ch;
+  color: #5f6f76;
+  line-height: 1.9;
+}
+
+body.interior-site .gd-eyebrow {
+  color: var(--interior-blue);
+  font-family: var(--font-brand-meta);
+  font-weight: 700;
+}
+
+body.interior-site .gd-tags .chip {
+  border-color: rgba(31,99,191,.24);
+  background: rgba(255,255,255,.7);
+  color: var(--interior-blue);
+}
+
+body.interior-site .gd-step-num {
+  background: var(--interior-blue);
+}
+
+body.interior-site .gd-step::before {
+  background: linear-gradient(180deg, rgba(31,99,191,.35), rgba(185,199,134,.4));
+}
+
+body.interior-site :is(.gd-step-body, .gd-cta, .mc-cta) {
+  border: 1px solid var(--interior-line);
+  border-radius: .9rem;
+  background: rgba(255,255,255,.78);
+}
+
+body.interior-site .gd-step-body {
+  padding: 1.25rem 1.35rem;
+}
+
+body.interior-site :is(.gd-cta, .mc-cta) {
+  background: linear-gradient(135deg, rgba(238,246,255,.9), rgba(255,255,255,.96));
+}
+
+body.interior-site .btn--shu {
+  --bg: var(--interior-blue);
+  --fg: #fff;
+}
+
+body.interior-site .xc-place {
+  border-color: var(--interior-line);
+  border-radius: .8rem;
+  background: rgba(255,255,255,.78);
+}
+
+body.interior-site .xc-place:hover {
+  border-color: var(--interior-blue);
+  box-shadow: 0 12px 28px rgba(25,55,88,.08);
+}
+
+body.interior-site .ok-group {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 2.6rem);
+  border: 1px solid var(--interior-line);
+  border-radius: 1.1rem;
+}
+
+body.interior-site .ok-group:nth-child(1) {
+  background: rgba(237,246,255,.62);
+}
+
+body.interior-site .ok-group:nth-child(2) {
+  background: rgba(255,255,255,.68);
+}
+
+body.interior-site .ok-group:nth-child(3) {
+  background: rgba(239,242,223,.65);
+}
+
+body.interior-site .ok-group ul {
+  border: 0;
+  background: transparent;
+  gap: 0;
+}
+
+body.interior-site .ok-group li {
+  border-top: 1px solid var(--interior-line);
+}
+
+body.interior-site .ok-group a {
+  min-height: 8.5rem;
+  padding-inline: .35rem 2rem;
+  background: transparent;
+}
+
+body.interior-site .ok-region {
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 95% 0%, rgba(185,199,134,.28), transparent 32%),
+    linear-gradient(135deg, rgba(239,247,255,.9), rgba(255,255,255,.92));
+  box-shadow: var(--interior-shadow);
+}
+
+body.interior-site .ok-note {
+  border-radius: .9rem;
+  background: rgba(255,255,255,.76);
+}
+
+/* 道の駅・reporters の見出しも、記事と同じく素の読みカラムに揃える */
+body.interior-site .me-head > .bp-wrap,
+body.interior-site .rp-hero > .bp-wrap {
+  padding-block: clamp(2.1rem, 3.8vw, 3.6rem);
+}
+
+body.interior-site :is(.me-head h1, .rp-hero h1) {
+  max-width: 12em;
+  color: var(--color-deep-blue);
+  font-size: var(--interior-title-xl) !important;
+  line-height: 1.22 !important;
+  text-wrap: balance;
+}
+
+body.interior-site .me-source,
+body.interior-site .rp-promise,
+body.interior-site .rp-final {
+  background:
+    radial-gradient(circle at 95% 0%, rgba(111,178,239,.17), transparent 31%),
+    linear-gradient(145deg, #09243c, #071744);
+}
+

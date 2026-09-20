@@ -9,7 +9,7 @@
     "build": "astro build",
     "check": "node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && astro check && astro build",
     "audit:site": "node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && npm run build && node scripts/quality-audit.mjs",
-    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/data-audit.mjs",
+    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs",
     "verify:article": "node scripts/verify-article.mjs",
     "wait:deploy": "node scripts/wait-deploy.mjs",
     "deploy": "npm run audit:site && npx wrangler deploy",
@@ -26,6 +26,7 @@
     "sports:status": "node scripts/sports-status.mjs",
     "audit:tech": "node scripts/tech-audit.mjs",
     "audit:data": "node scripts/data-audit.mjs",
+    "audit:repo": "node scripts/repository-audit.mjs",
     "opportunity": "node scripts/opportunity.mjs"
   },
   "dependencies": {

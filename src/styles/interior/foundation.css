@@ -1,0 +1,388 @@
+/* interior.css foundation — 読み込み順は ../interior.css で固定 */
+/* =============================================================
+   IBATOCO — Interior editorial system
+   TOPは完全に隔離し、一覧・記事・エリア・固定ページだけを整える。
+   ============================================================= */
+
+body.interior-site {
+  --interior-blue: #174f99;
+  --interior-blue-deep: #071c4c;
+  --interior-sky: #dcecff;
+  --interior-sky-soft: #eef6ff;
+  --interior-moss: #bdca8e;
+  --interior-paper: #fbfaf6;
+  --interior-line: rgba(23, 43, 53, .13);
+  --interior-shadow: 0 20px 56px rgba(25, 55, 88, .085);
+  --interior-shadow-hover: 0 24px 58px rgba(25, 55, 88, .125);
+  --interior-title-xl: clamp(2.2rem, 3.45vw, 3.6rem);
+  --interior-title-lg: clamp(1.95rem, 2.8vw, 2.85rem);
+  --interior-hero-y: clamp(1.9rem, 3.1vw, 3rem);
+  --interior-section-y: clamp(2.75rem, 5vw, 5rem);
+  /*
+   * 本文カラムの左端までの距離。下層の .bp-wrap は
+   *   width: min(100% - clamp(2rem, 7vw, 7.5rem), 1280px)
+   * を中央寄せしているので、その左余白と同じ値になるよう分解したもの。
+   * 全幅の背景を敷きつつ文字だけカラムに揃えたいときに padding として使う。
+   */
+  --interior-gutter: max(clamp(1rem, 3.5vw, 3.75rem), calc((100% - 1280px) / 2));
+  /*
+   * 見出しの読みカラム。下層ページの見出しは全部この幅の中央カラムに置く。
+   * 基準は /events/[slug]/。揃える前の h1 の左端は
+   * 320 / 360 / 375 / 379 / 385 / 540 / 570 / 602 の8種類に散っていた。
+   */
+  --reading-col: 780px;
+  background: var(--color-paper);
+}
+
+body.interior-site #main-content {
+  position: relative;
+  isolation: isolate;
+  min-height: 68vh;
+  overflow: visible;
+}
+
+body.interior-site #main-content::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0 0 auto;
+  height: clamp(18rem, 35vw, 30rem);
+  background:
+    radial-gradient(ellipse at 84% 2%, rgba(113, 179, 239, .18), transparent 42%),
+    linear-gradient(180deg, #f7fbff 0%, rgba(246, 242, 233, 0) 100%);
+  pointer-events: none;
+}
+
+body.interior-site .bp-wrap,
+body.interior-site .wrap {
+  width: min(calc(100% - clamp(2rem, 7vw, 7.5rem)), 1280px);
+}
+
+body.interior-site .bp-reading {
+  width: min(calc(100% - 2rem), 780px);
+}
+
+body.interior-site .bp-kicker,
+body.interior-site .eyebrow {
+  color: var(--interior-blue);
+  font-family: var(--font-brand-meta);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .17em;
+}
+
+body.interior-site .bp-section-title {
+  font-size: clamp(1.55rem, 2.5vw, 2.45rem);
+  letter-spacing: .015em;
+  text-wrap: balance;
+}
+
+body.interior-site .bp-title {
+  font-size: var(--interior-title-xl);
+  line-height: 1.24;
+  text-wrap: balance;
+}
+
+body.interior-site .bp-section {
+  padding-block: var(--interior-section-y);
+}
+
+body.interior-site .bp-link,
+body.interior-site .ul-link {
+  color: var(--interior-blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+}
+
+body.interior-site .crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .45rem .65rem;
+  margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  color: #728087;
+  font: 600 .7rem/1.6 var(--font-brand-meta);
+  letter-spacing: .035em;
+}
+
+body.interior-site .crumbs a {
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease, border-color .2s ease;
+}
+
+body.interior-site .crumbs a:hover,
+body.interior-site .crumbs a:focus-visible {
+  color: var(--interior-blue);
+  border-color: currentColor;
+}
+
+/* --- 読みカラム（見出しの位置を全下層で揃える） --------------------------
+ *
+ * 実装は grid の単一カラム（justify-content: center）。
+ * padding で寄せる方法（padding-inline: calc((100% - 780px) / 2)）は使わない。
+ * % は「自分の幅」ではなく「親（＝包含ブロック）の幅」で解決されるため、
+ * すでに幅の決まった要素へ当てると内容が潰れる。実際にこれを .ev-head
+ * （780px幅）へ当てて本番の見出しが1文字ずつ折り返した。
+ * 全幅（width:auto）のバンドに限れば % でも正しく解決するので、下の
+ * .policy 系だけは既存の padding 方式のまま数値を共通変数へ寄せている。
+ *
+ * 除外したもの（構造上、中央の読みカラムに載せられない）
+ * - .tg-head__copy … テーマページ。右半分が写真の分割ヒーロー
+ * - .contact       … 左に案内・右にフォームの2カラム
+ * - 多言語トップ    … ヘッダーから別テンプレート
+ * - /area/         … 44市町村マップ本体
+ */
+body.interior-site :is(
+  .news-index__head, .category-head, .about-head, .biz-head, .places-head,
+  .hanabi-head, .person-head, .sp-head, .tm-head, .ev-head,
+  .news-detail__head, .story-head, .ag-head-copy, .guide-index-head, .tag-hero
+),
+body.interior-site :is(.area-head, .ok-head, .me-head, .rp-hero) > .bp-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, var(--reading-col));
+  justify-content: center;
+}
+
+/* --- Editorial hero ---------------------------------------------------- */
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+) {
+  position: relative;
+  /*
+   * ヘッダーに接する全幅バンド。以前は紙色の上に浮いた角丸カードで、
+   * ヘッダーとのあいだに16pxの紙色が挟まって帯が二重に見えていた。
+   *
+   * 幅は 100vw ではなく親（main）基準の auto/% で取る。vw はスクロールバーを
+   * 含むため、その分だけ横にはみ出して横スクロールが出てしまう。
+   * 左右paddingを --interior-gutter（＝下層 .bp-wrap の左余白と同値）にすることで、
+   * 全幅の背景のまま、文字は本文カラムと同じ位置から始まる。
+   *
+   * !important が要るのは、これらの見出しが .bp-wrap も併せ持つため。
+   * 狭い画面用の `body.interior-site .bp-wrap { width: ... }` が同じ特異度で
+   * 後ろに定義されており、これがないと900px以下で幅が戻ってしまう。
+   */
+  width: auto !important;
+  max-width: none !important;
+  margin: 0;
+  /* 下層ごとに残っている旧来の大きな余白を、共通スケールへ確実に揃える。 */
+  padding: var(--interior-hero-y) var(--interior-gutter) !important;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  /* 背景は ::before が持つ。下端を溶かすため（下のコメント参照） */
+  background: transparent;
+  box-shadow: none;
+}
+
+/*
+ * バンドの下端を紙色へ溶かす。以前は 1px の枠線で切っていたが、
+ * 淡い青と紙色がそのままぶつかって境目が目立っていた。
+ *
+ * 紙色を上から塗り重ねる方法は取らない。バンドの高さはページごとに違い、
+ * 背後の #main-content::before（上部の淡い青）はまだ残っているので、
+ * 塗ると今度は逆向きの段差ができる。
+ * そこで背景を疑似要素へ移し、下端でマスクして透過させる。背後が
+ * そのまま出るため、どの高さでも継ぎ目にならない。
+ */
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+)::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 90% 14%, rgba(121, 183, 239, .23), transparent 29%),
+    linear-gradient(132deg, rgba(255, 255, 255, .98), rgba(239, 247, 255, .94));
+  /* 標準プロパティを後に置く。逆にすると minifier が -webkit- だけを残し、
+     Chrome では効かなくなる（ヘッダーで実際に起きた） */
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+  mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+}
+
+/*
+ * .area-head と .ok-head は内側に自前の .bp-wrap を持つ。
+ * バンド側でも左右paddingを入れると二重にインデントされるので、内側に任せる。
+ */
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+):has(> .bp-wrap) {
+  padding-inline: 0 !important;
+}
+
+/*
+ * バンドをヘッダーに接触させる。見出しは常に親の最初の子なので、
+ * 親に残っている上余白（例：article.daigo-guide の padding-top）を取り除く。
+ */
+body.interior-site :is(main, article, section, header, div):has(> :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head,
+  .tg-head
+):first-child) {
+  padding-top: 0;
+}
+
+/*
+ * テーマガイド（/umi/ /yama/ 等）の見出しは、右半分が写真の2カラム。
+ * 背景と枠は親の .tg-head が持ち、この要素は器にすぎない。
+ * 左は本文カラムの位置（--interior-gutter）に揃え、右は写真との間隔を取る。
+ * 共有の全幅バンド指定が !important なので、こちらも !important で上書きする。
+ */
+body.interior-site .tg-head__copy {
+  padding: var(--interior-hero-y) clamp(1.4rem, 4.2vw, 4rem) !important;
+}
+
+/* 装飾線は2カラムの左側に入ると写真と競合するので出さない */
+body.interior-site .tg-head__copy::after {
+  display: none;
+}
+
+/*
+ * 見出しバンド右下にあった青い装飾線は出さない。
+ * 何も示していない線で、全幅バンドにしたあとは端に浮いて見えるだけだった。
+ * 1ページだけ消すと不揃いになるので、全ページで止める。
+ */
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+)::after {
+  content: none;
+}
+
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+) h1 {
+  max-width: 12em;
+  margin-top: .9rem;
+  color: var(--color-deep-blue);
+  font: 600 var(--interior-title-xl)/1.22 var(--font-brand-display) !important;
+  letter-spacing: .015em;
+  text-wrap: balance;
+}
+
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .area-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+) > p:last-of-type {
+  /* 幅は読みカラムが決める。ここで更に絞ると基準ページと段の幅が変わる */
+  max-width: none;
+  margin-top: clamp(1.2rem, 2.4vw, 1.8rem);
+  color: #5f6d73;
+  font-size: clamp(.94rem, 1.35vw, 1.08rem);
+  line-height: 2;
+}
+
+body.interior-site .category-head nav:not(.crumbs) {
+  margin-top: 2.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(23, 43, 53, .11);
+}
+
+body.interior-site .category-head nav:not(.crumbs) a {
+  padding: .5rem .85rem;
+  border: 1px solid rgba(23, 43, 53, .12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .68);
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+body.interior-site .category-head nav:not(.crumbs) a[aria-current='page'],
+body.interior-site .category-head nav:not(.crumbs) a:hover {
+  border-color: var(--interior-blue);
+  background: var(--interior-blue);
+  color: #fff;
+}
+
+/*
+ * ニュース一覧の見出しは、説明をタイトルの右へ置く2カラムだった。
+ * 読みカラムに揃えるため縦積みにする（この段だけ左端が 320px に残っていた）。
+ */
+@media (min-width: 901px) {
+  body.interior-site.route-news .news-index__head {
+    grid-template-columns: minmax(0, var(--reading-col));
+    row-gap: .8rem;
+  }
+
+  body.interior-site.route-news .news-index__head nav {
+    margin-bottom: 1rem;
+  }
+
+  body.interior-site.route-news .news-index__head h1 {
+    margin-top: .2rem;
+    font-size: var(--interior-title-xl);
+  }
+}
+

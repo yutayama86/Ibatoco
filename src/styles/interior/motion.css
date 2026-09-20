@@ -1,0 +1,8 @@
+/* interior.css motion — 読み込み順は ../interior.css で固定 */
+/* --- Motion: restrained and useful ----------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  body.interior-site [data-reveal] {
+    transition-duration: .48s;
+  }
+}
+

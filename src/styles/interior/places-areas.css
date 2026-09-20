@@ -1,0 +1,310 @@
+/* interior.css places-areas — 読み込み順は ../interior.css で固定 */
+/* --- Place, theme and area families ----------------------------------- */
+body.interior-site .place-head {
+  align-items: center;
+}
+
+body.interior-site :is(.place-head h1, .ag-head h1, .ig-head h1) {
+  max-width: 15em;
+  color: var(--color-deep-blue);
+  font-size: var(--interior-title-xl) !important;
+  line-height: 1.24 !important;
+  letter-spacing: .012em;
+  text-wrap: balance;
+}
+
+body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide, .ig) {
+  padding-top: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+body.interior-site :is(.ag-head, .area-head) {
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+body.interior-site .place-head > div:first-child {
+  padding: clamp(2rem, 4.5vw, 3.7rem);
+  border: 1px solid rgba(31, 99, 191, .12);
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(238,246,255,.88));
+  box-shadow: 0 18px 55px rgba(36, 77, 110, .065);
+}
+
+body.interior-site .place-note {
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--interior-line);
+  border-radius: .75rem;
+  background: rgba(255,255,255,.72);
+}
+
+/*
+ * 記事がまだ無いときの知らせ。カードで大きく見せると、
+ * 中身が無いことをかえって強調してしまう。
+ * 罫線と余白だけの静かな注記にして、下に実在ページへの出口を置く。
+ */
+body.interior-site :is(.category-empty, .place-empty) {
+  position: relative;
+  margin-block: clamp(2.5rem, 6vw, 5rem);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body.interior-site :is(.category-empty, .place-empty) h2 {
+  /* 13em は見出しが64pxだった頃の値。小さくした今は文の途中で折れてしまう */
+  max-width: 24em;
+  color: var(--color-deep-blue);
+  text-wrap: balance;
+}
+
+body.interior-site :is(.category-empty, .place-empty) > p:not(.bp-kicker) {
+  max-width: 46rem;
+  line-height: 2;
+}
+
+body.interior-site :is(.category-empty, .place-empty) > a {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.9rem;
+  padding-inline: 1.15rem;
+  border: 1px solid rgba(31, 99, 191, .24);
+  border-radius: 999px;
+  color: var(--interior-blue);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+body.interior-site :is(.category-empty, .place-empty) > a:hover {
+  background: var(--interior-blue);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* 見出しはページのh1と張り合わないところまで落とす（64px→28px前後） */
+body.interior-site :is(.category-empty, .place-empty) h2 {
+  font-size: clamp(1.35rem, 2.1vw, 1.75rem) !important;
+  line-height: 1.6 !important;
+}
+
+/* 行き止まりにしないための出口 */
+body.interior-site .empty-exits {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  padding-top: clamp(1.6rem, 3vw, 2.2rem);
+  border-top: 1px solid var(--interior-line);
+}
+
+body.interior-site .empty-exits h3 {
+  color: var(--color-soil);
+  font: 700 .7rem var(--font-brand-meta);
+  letter-spacing: .14em;
+}
+
+body.interior-site .empty-exits ul {
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+body.interior-site .empty-exits li + li {
+  border-top: 1px solid var(--color-mist);
+}
+
+body.interior-site .empty-exits li a {
+  display: block;
+  padding: .95rem 0;
+  color: var(--color-ink);
+  font: 600 1rem/1.65 var(--font-brand-display);
+}
+
+body.interior-site .empty-exits li a:hover {
+  color: var(--interior-blue);
+}
+
+body.interior-site .empty-more {
+  margin-top: 1.2rem;
+}
+
+body.interior-site .empty-more a {
+  color: var(--interior-blue);
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+body.interior-site .place-grid > aside {
+  position: sticky;
+  top: calc(var(--site-header-height) + 1.5rem);
+  padding: 1.35rem;
+  border: 1px solid var(--interior-line);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.8);
+}
+
+body.interior-site .theme-filter {
+  border-block: 1px solid var(--interior-line);
+  background: rgba(255,255,255,.62);
+}
+
+body.interior-site .tg {
+  padding-top: clamp(1rem, 2.2vw, 1.8rem);
+}
+
+/*
+ * テーマガイドの見出しも、ほかの下層と同じくヘッダーに接する全幅にする。
+ * 紙色の上に浮いた角丸カードのままだと、ここだけ旧デザインが残って見える。
+ * 写真が下端まで来るので、下は溶かさずそのまま切る（写真の終わりが境界になる）。
+ */
+body.interior-site .tg-head {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(132deg, rgba(255,255,255,.98), rgba(239,247,255,.94));
+  box-shadow: none;
+}
+
+body.interior-site .tg-head__copy {
+  width: auto;
+  margin: 0;
+  /* padding は上の「Editorial hero」節で !important 指定済み。ここでは触らない */
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.interior-site .tg-head__copy::after {
+  display: none;
+}
+
+body.interior-site .tg-head__copy h1 {
+  font-size: var(--interior-title-xl);
+  line-height: 1.2;
+}
+
+body.interior-site .tg-hero {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.interior-site .tg-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+@media (min-width: 961px) {
+  body.interior-site .tg-head--with-hero {
+    display: grid;
+    grid-template-columns: minmax(26rem, .82fr) minmax(0, 1.18fr);
+    min-height: clamp(24rem, 35vw, 27rem);
+    /*
+     * 本文カラムに合わせる左余白は、コピー側ではなくここで取る。
+     * .tg-head__copy はグリッド項目なので、padding の % が
+     * 「グリッド領域の幅」基準になり、--interior-gutter が正しく解決しない。
+     * 親（通常フローのブロック）で取れば画面幅基準になる。
+     */
+    padding-left: var(--interior-gutter);
+  }
+
+  body.interior-site .tg-head--with-hero .tg-head__copy {
+    padding-left: 0 !important;
+  }
+
+  body.interior-site .tg-head__copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  body.interior-site .tg-head__copy .crumbs {
+    margin-bottom: clamp(1.3rem, 2.2vw, 2rem);
+  }
+
+  body.interior-site .tg-head__copy .tg-lead {
+    font-size: .98rem;
+    line-height: 1.9;
+  }
+
+  body.interior-site .tg-hero,
+  body.interior-site .tg-hero img {
+    height: 100%;
+    min-height: clamp(24rem, 35vw, 27rem);
+    aspect-ratio: auto;
+  }
+}
+
+body.interior-site :is(.tg-card, .hanabi-card) {
+  overflow: hidden;
+  border: 1px solid rgba(31, 99, 191, .11);
+  border-radius: 1rem;
+  box-shadow: 0 12px 34px rgba(25,55,88,.055);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+body.interior-site :is(.tg-card, .hanabi-card):hover {
+  transform: translateY(-4px);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .tg-info {
+  overflow: hidden;
+  border: 0;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 92% 4%, rgba(111, 178, 239, .20), transparent 35%),
+    linear-gradient(145deg, #09223b, #071744);
+  box-shadow: var(--interior-shadow);
+}
+
+body.interior-site .area-index-main {
+  padding-block: clamp(2.2rem, 5vw, 4.5rem);
+  background: transparent;
+}
+
+body.interior-site .area-index-main > .bp-wrap:last-child {
+  margin-top: 1.2rem;
+  padding: clamp(1.35rem, 4vw, 3.5rem);
+  border: 1px solid rgba(31, 99, 191, .12);
+  border-radius: 1.4rem;
+  background: rgba(255,255,255,.73);
+  box-shadow: var(--interior-shadow);
+}
+
+body.interior-site :is(.area-jump, .ag-jump, .me-jump) {
+  top: var(--site-header-height);
+  border-color: var(--interior-line);
+  background: rgba(251, 250, 246, .91);
+  box-shadow: 0 10px 30px rgba(25,55,88,.045);
+}
+
+body.interior-site .area-themes {
+  background: rgba(239,247,255,.42);
+}
+
+body.interior-site .area-themes a,
+body.interior-site .ok-group a,
+body.interior-site .ok-region a {
+  transition: transform .22s ease, background-color .22s ease, box-shadow .22s ease;
+}
+
+body.interior-site .area-themes a:hover,
+body.interior-site .ok-group a:hover,
+body.interior-site .ok-region a:hover {
+  z-index: 1;
+  transform: translateY(-2px);
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(25,55,88,.09);
+}
+
