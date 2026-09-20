@@ -28,6 +28,29 @@ export interface ThemeStatus {
   heading: string;
   /** いま何が見られるか、次に何が変わるか。左が項目名、右が中身 */
   rows: [string, string][];
+  /**
+   * スポット別の「いま」。「茨城 紅葉 見頃」で来た人が最初に見る表。
+   *
+   * **公式が予想を出していないスポットは、出ていないと書く。**
+   * 他のまとめサイトは前年の日付や独自予想で埋めているが、
+   * それをやると読者が空振りする。イバトコが色づきを予想することはしない。
+   * `confirmed` は「公式の発表を確認できたか」。表示の強弱にだけ使う。
+   */
+  spotBoard?: {
+    heading: string;
+    note?: string;
+    rows: {
+      spot: string;
+      area: string;
+      /** 市町村ページへつなぐ。44市町村のslug */
+      areaSlug?: string;
+      /** 例年の見頃 */
+      usual: string;
+      /** その年の公式発表。無ければ「発表なし」と書く */
+      now: string;
+      confirmed: boolean;
+    }[];
+  };
   note?: string;
   links?: { label: string; href: string }[];
 }
@@ -335,6 +358,19 @@ export const THEMES: Record<Theme['slug'], Theme> = {
         ['紅葉見頃', '10月15日頃（同上）。例年、紅葉のピークは1週間〜10日程とされています。'],
         ['夜の見どころ', 'コキアライトアップは9月18日（金）〜27日（日）の10日間。約4万本のコキアを音と光で照らします。演出は17:30に始まり、1セット約50分を5回。観覧には別途、有料の観覧券が必要です。'],
       ],
+      spotBoard: {
+        heading: 'いま、どこが見頃か',
+        note: '「2026年の発表」の列は、各スポットの公式サイト・観光協会をイバトコが確認した結果です。2026年9月20日時点で、その年の見頃予想を出しているのは国営ひたち海浜公園のコキアだけでした。ほかのスポットは、例年の時期だけが分かっている状態です。前年の日付を今年の見頃として載せることはしません。',
+        rows: [
+          { spot: 'コキア（国営ひたち海浜公園）', area: 'ひたちなか市', areaSlug: 'hitachinaka', usual: '10月中旬', now: '紅葉始め10月10日頃、見頃10月15日頃（公園公式・9月17日時点の予想）', confirmed: true },
+          { spot: '袋田の滝', area: '大子町', areaSlug: 'daigo', usual: '11月ごろ', now: '2026年分の発表は確認できず（9月20日確認）', confirmed: false },
+          { spot: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', usual: '11月ごろ', now: '2026年分の発表は確認できず（9月20日確認）', confirmed: false },
+          { spot: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', usual: '11月ごろ', now: '2026年分の発表は確認できず（9月20日確認）', confirmed: false },
+          { spot: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', usual: '11月ごろ', now: '2026年分の発表は確認できず（9月20日確認）', confirmed: false },
+          { spot: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', usual: '11月ごろ', now: '2026年分の発表は確認できず（9月20日確認）。公式は「例年秋季〜冬季にかけ夜間運行を開催」としています', confirmed: false },
+          { spot: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', usual: '11月ごろ', now: '未確認', confirmed: false },
+        ],
+      },
       note: '紅葉予想は今後の天候で変わると公園公式が明記しています。出かける前に公式の最新情報を確認してください。イバトコが独自に日々の色づきを予想することはしません。',
       links: [
         { label: '茨城の公園（ひたち海浜公園ほか）', href: '/koen/' },

@@ -39,6 +39,37 @@ const { theme } = Astro.props;
     )}
   </header>
 
+  {/*
+    スポット別の一覧は、見出しの脇（狭いカラム）ではなく本文の幅で出す。
+    「茨城 紅葉 見頃」で来た人が最初に読む表なので、ヒーロー画像の横に
+    押し込むと列が潰れて読めない。
+  */}
+  {theme.status?.spotBoard && (
+    <section class="tg-board bp-wrap" aria-labelledby="tg-board-h">
+      <p class="bp-kicker">AT A GLANCE</p>
+      <h2 id="tg-board-h">{theme.status.spotBoard.heading}</h2>
+      {/* 横に長い表はページ全体を横スクロールさせず、この枠の中だけで送る */}
+      <div class="tg-board__scroll">
+        <table>
+          <thead>
+            <tr><th scope="col">スポット</th><th scope="col">エリア</th><th scope="col">例年</th><th scope="col">2026年の発表</th></tr>
+          </thead>
+          <tbody>
+            {theme.status.spotBoard.rows.map((r) => (
+              <tr class:list={[r.confirmed && 'is-confirmed']}>
+                <th scope="row">{r.spot}</th>
+                <td>{r.areaSlug ? <a href={`/area/${r.areaSlug}/`}>{r.area}</a> : r.area}</td>
+                <td>{r.usual}</td>
+                <td>{r.now}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {theme.status.spotBoard.note && <p class="tg-board__note">{theme.status.spotBoard.note}</p>}
+    </section>
+  )}
+
   {theme.sections.length > 0 && (
     <section class="tg-angle bp-wrap">
       <div class="tg-angle__grid">
@@ -126,6 +157,20 @@ const { theme } = Astro.props;
   .tg-status dt{font:600 .92rem var(--font-brand-display);color:var(--color-ink)}
   .tg-status dd{margin:0;color:var(--color-soil);font-size:.88rem;line-height:1.85}
   .tg-status__note{margin:.9rem 0 0;color:var(--color-soil);font-size:.8rem;line-height:1.8}
+
+  .tg-board{padding-block:clamp(2.25rem,4.5vw,3.25rem)}
+  .tg-board h2{margin:.55rem 0 1.1rem;font:600 clamp(1.3rem,2.6vw,1.75rem)/1.4 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
+  .tg-board__scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white)}
+  .tg-board table{width:100%;min-width:40rem;border-collapse:collapse;font-size:.86rem}
+  .tg-board th,.tg-board td{padding:.85rem 1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--color-mist);line-height:1.8}
+  .tg-board tbody tr:last-child th,.tg-board tbody tr:last-child td{border-bottom:0}
+  .tg-board thead th{background:color-mix(in srgb,var(--color-mist) 40%,transparent);color:var(--color-tide);font:700 .72rem var(--font-brand-meta);letter-spacing:.06em;white-space:nowrap}
+  .tg-board tbody th{width:14rem;font:600 .92rem var(--font-brand-display);color:var(--color-ink)}
+  .tg-board td{color:var(--color-soil)}
+  .tg-board td a{color:var(--interior-blue,var(--color-tide));border-bottom:1px solid currentColor}
+  /* 公式の発表があるものだけ、行の頭に印を付ける。無いものを目立たせない */
+  .tg-board tr.is-confirmed th[scope=row]{box-shadow:inset 3px 0 0 var(--color-signal,#a63f32)}
+  .tg-board__note{max-width:var(--measure);margin:1rem 0 0;color:var(--color-soil);font-size:.82rem;line-height:1.9}
   .tg-status__links{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin:.9rem 0 0;padding:0;list-style:none}
   .tg-status__links li{margin:0}
   .tg-status__links a{display:inline-flex;align-items:center;gap:.3rem;color:var(--color-tide);font-size:.85rem;text-decoration:none;border-bottom:1px solid currentColor}

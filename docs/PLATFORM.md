@@ -1,6 +1,6 @@
 # イバトコの構造と、壊してはいけない約束
 
-最終更新：2026年9月20日
+最終更新：2026年9月20日（GitHubリポジトリは同日 `yutayama86/-` → `yutayama86/ibatoco` に改名）
 
 このファイルは、**あとから来た人（人でもAIでも）が設計思想を壊さないため**にある。
 「なぜそうなっているか」を書く。手順書ではない。
@@ -96,6 +96,13 @@ partnerType   editorial（既定）/ partner / pr
 - 公式の一次情報を必ず先に置く。**報酬の高さで並べ替えない**
 - 広告リンクを含むページは、記事の冒頭に `#アフィリエイト広告` を表示する
 - 提携が成立していない提供元を「広告」として出さない（`status: 'active'` のときだけ）
+- **`status` を変えたら、記事の `booking.basis` も直す。**
+  「いずれも提携していません」と書いたまま提携済みにすると、同じカードの中に
+  「アフィリエイト広告を含みます」と「提携していません」が並ぶ。実際に4記事で公開されていた
+  （2026-09-20に修正）。`scripts/data-audit.mjs` が検査するが、検査は最後の砦で、直すのは人
+- **URLの綴りから提供元のページを推測しない。**
+  `travel.rakuten.co.jp/yado/ibaraki/tsuchiura.html` は土浦ではなく**鹿嶋・潮来・北浦**を返す。
+  貼る前に必ず開いて、どのエリアかを確かめる
 
 ### /biz/（有料支援）
 
@@ -119,9 +126,13 @@ partnerType   editorial（既定）/ partner / pr
 | `local_business_click` | 事業者の公式・予約・SNSへ移動（IDを付けられるリンクだけ） |
 | `next_action_click` | 「今週できること」「ここから続けて読む」を押した |
 
-`next_action_click` のパラメータ：`destination_type`（event / sports / season / theme / nearby）、
-`when_bucket`（today / tomorrow / weekend / thisWeek）、`action_source`（this_week / article_next）。
+`next_action_click` のパラメータ：`destination_type`（event / sports / season / theme / nearby /
+month / area）、`when_bucket`（today / tomorrow / weekend / thisWeek）、
+`action_source`（this_week / article_next / events_find）。
 **どの区分・どの種類が押されるかで、次にどのデータを厚くすべきかを決める。**
+
+`this_week`（`ThisWeek.astro`）は `pageType` を受け取る。TOP以外に置くときは必ず渡すこと。
+渡さないと `page_type: 'home'` で送られ、どのページの反応か分からなくなる。
 
 ### 地域行動数（North Star の候補）
 
@@ -176,7 +187,7 @@ local_business_click + outbound_booking_click + next_action_click
 ```
 npm run verify        型検査 → 品質監査 → 技術監査 → データ監査
 npm run audit:tech    canonical / sitemap / robots / 重複メタ / JSON-LD / alt / 重い画像
-npm run audit:data    business ID / relatedBusinesses / GA4イベント名 / 広告rel
+npm run audit:data    business ID / relatedBusinesses / GA4イベント名 / 広告rel / 広告表示と本文の食い違い
 npm run opportunity   送客先が無い「地域 × 意図」を出す（営業候補）
 ```
 
