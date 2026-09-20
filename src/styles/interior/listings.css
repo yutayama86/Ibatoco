@@ -1,0 +1,262 @@
+/* interior.css listings — 読み込み順は ../interior.css で固定 */
+/* --- Listing rhythm ---------------------------------------------------- */
+body.interior-site :is(
+  .news-index__list,
+  .category-grid,
+  .place-list,
+  .area-content,
+  .tag-hero + .section,
+  .ok-body
+) {
+  padding-block: clamp(2.5rem, 4.8vw, 4.5rem);
+}
+
+/* --- カード（サイト共通） ---------------------------------------------
+ *
+ * 一覧のカードは、以前ページごとに別々のCSSで5通り書かれていた
+ * （.tm-cards / .sp-articles / .area-evcards / .ev-index / .hanabi-thisyear__list）。
+ * 見た目を変えるたびに5か所直す必要があったので、ここ1か所にまとめる。
+ *
+ * 使い方：
+ *   <ul class="bp-cards">
+ *     <li><a href="…">
+ *       <img …>                       ← 任意
+ *       <span class="bp-card__meta">   ← 任意（日付・市町村など）
+ *       <strong>タイトル</strong>
+ *       <small>抜粋</small>            ← 任意
+ *     </a></li>
+ *   </ul>
+ *
+ * NewsCard.astro は本文抜粋を持つ厚いカードなので構造は別だが、
+ * 枠線・角丸・影は下の --card-* を共有する（見た目の定義は1か所）。
+ */
+body.interior-site {
+  --card-border: 1px solid rgba(23, 79, 153, .12);
+  --card-radius: 1rem;
+  --card-surface: rgba(255, 255, 255, .94);
+  --card-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+}
+
+body.interior-site .bp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(1.15rem, 2.5vw, 2rem);
+  margin-top: 1.8rem;
+  padding: 0;
+  list-style: none;
+}
+
+body.interior-site .bp-cards > li {
+  display: flex;
+}
+
+body.interior-site .bp-cards > li > a {
+  display: grid;
+  /*
+   * minmax(0,1fr) は必須。既定の auto だと、見出しの word-break:auto-phrase が
+   * 最長の文節ぶんの min-content 幅を要求し、トラックがカードからはみ出す。
+   * 実際に /news/ で1枚だけ画像枠が227pxではなく237pxになり、同じ行の
+   * 見出しが10pxずれていた。
+   */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto 1fr;
+  width: 100%;
+  overflow: hidden;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--card-surface);
+  box-shadow: var(--card-shadow);
+  color: var(--color-ink);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+body.interior-site .bp-cards > li > a:hover,
+body.interior-site .bp-cards > li > a:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(23, 79, 153, .27);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .bp-cards img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--interior-sky-soft);
+}
+
+/*
+ * 札は必ず1行に収める。折り返しを許すと、市町村名の長いカードだけ札が2行になり、
+ * 同じ行のカードで見出しの高さが揃わない（実測で最大31pxずれた）。
+ * あふれる分は省略記号にする。
+ */
+body.interior-site .bp-card__meta {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: .45rem .7rem;
+  min-width: 0;
+  padding: .95rem 1.15rem 0;
+  color: var(--interior-blue);
+  font: 700 .68rem var(--font-brand-meta);
+  letter-spacing: .06em;
+}
+
+body.interior-site .bp-card__meta > * {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+body.interior-site .bp-card__meta time {
+  flex: none;
+}
+
+body.interior-site .bp-card__meta b {
+  font-weight: 700;
+  color: var(--color-soil);
+}
+
+body.interior-site .bp-cards strong {
+  padding: .5rem 1.15rem 0;
+  color: var(--color-deep-blue);
+  font: 600 1rem/1.65 var(--font-brand-display);
+  text-wrap: pretty;
+}
+
+/* 日付が無い記事では画像の直下に見出しが来るので、そのぶん余白を足す */
+body.interior-site .bp-cards img + strong {
+  padding-top: .95rem;
+}
+
+body.interior-site .bp-cards small {
+  padding: .55rem 1.15rem 0;
+  color: var(--color-soil);
+  font-size: .82rem;
+  line-height: 1.85;
+}
+
+body.interior-site .bp-cards > li > a > :last-child {
+  padding-bottom: 1.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.interior-site .bp-cards > li > a { transition: none; }
+  body.interior-site .bp-cards > li > a:hover { transform: none; }
+}
+
+body.interior-site :is(.news-grid, .category-grid, .tag-grid) {
+  gap: clamp(1.15rem, 2.5vw, 2rem);
+}
+
+body.interior-site.route-news .news-index__list .news-grid {
+  /* TOPの新着ニュースと同じく、PCではカード3枚横並び */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* 3枚だと窮屈になる幅で2枚へ。720px以下は下のブロックで1枚になる */
+@media (max-width: 1100px) {
+  body.interior-site.route-news .news-index__list .news-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+body.interior-site .news-card {
+  overflow: hidden;
+  border: 1px solid rgba(23, 79, 153, .12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+body.interior-site .news-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(23, 79, 153, .27);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .news-card__image {
+  background: linear-gradient(145deg, var(--interior-sky-soft), #edf0df);
+}
+
+body.interior-site .news-card__body {
+  padding: clamp(1.2rem, 2.2vw, 1.55rem);
+}
+
+body.interior-site .news-card__meta {
+  color: var(--interior-blue);
+  font-weight: 700;
+}
+
+body.interior-site .news-card h3 {
+  color: var(--color-deep-blue);
+  text-wrap: pretty;
+}
+
+body.interior-site .bsc {
+  gap: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(23, 79, 153, .12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+}
+
+body.interior-site .bsc:hover {
+  transform: translateY(-3px);
+  border-color: rgba(23, 79, 153, .27);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .bsc-media {
+  border-radius: 0;
+}
+
+body.interior-site .bsc-body {
+  display: flex;
+  min-height: 13rem;
+  flex-direction: column;
+  padding: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+
+body.interior-site .bsc-read {
+  margin-top: auto;
+  padding-top: 1.1rem;
+  color: var(--interior-blue);
+}
+
+body.interior-site .bsc.is-featured {
+  border-radius: 1.35rem;
+}
+
+body.interior-site .card-link {
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(23, 79, 153, .12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+body.interior-site .card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--interior-shadow-hover);
+}
+
+body.interior-site .card-media {
+  border-radius: 0;
+}
+
+body.interior-site .card-body {
+  padding: 1.3rem;
+}
+
+body.interior-site .card-link:hover .card-title {
+  color: var(--interior-blue);
+}
+

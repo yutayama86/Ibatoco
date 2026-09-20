@@ -36,8 +36,6 @@ const areaNews = (await getIndexableNews())
   .filter((item) => item.data.municipalities.includes(slug!))
   .slice(0, 8);
 // この街のイベント。開催が近い順。終わったものは出さない
-const nowD = new Date();
-const todayD = new Date(nowD.getFullYear(), nowD.getMonth(), nowD.getDate());
 const areaEvents = (await getEventsByMunicipality(slug!))
   .filter((e) => {
     // 日付で落とすのは、開催日の決まっている催し（articleType: 'event'）だけ。
@@ -53,8 +51,6 @@ const areaEvents = (await getEventsByMunicipality(slug!))
   .slice(0, 6);
 const eventPath = (id: string) => `/events/${id.split('/').pop()}/`;
 const eventDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' }).format(x);
-const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
-const newsDate = (d: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 // ニュース解説もこの街の記録に数える。数えないと、記事があるのに
 // 「まだありません」と出てしまう。
 const hasContent = articles.length + stores.length + areaNews.length + areaEvents.length > 0;

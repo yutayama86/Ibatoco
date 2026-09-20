@@ -16,6 +16,21 @@ const SITE = 'https://ibatoco.jp';
 const BIG_IMAGE = 400 * 1024;
 const BIG_JS = 150 * 1024;
 
+// Cloudflareで恒久転送する旧URLは、転送先canonicalが正しい。
+// 自己参照canonicalだけを正解にすると、正常な移行ページを警告してしまう。
+const redirectCanonicals = new Map();
+const redirectsPath = 'public/_redirects';
+if (existsSync(redirectsPath)) {
+  for (const line of readFileSync(redirectsPath, 'utf8').split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const [from, to, status] = trimmed.split(/\s+/);
+    if (from?.startsWith('/') && to?.startsWith('/') && ['301', '308'].includes(status)) {
+      redirectCanonicals.set(from, new URL(to, SITE).href);
+    }
+  }
+}
+
 const pages = [];
 (function walk(dir) {
   for (const entry of readdirSync(dir)) {
@@ -52,7 +67,8 @@ for (const file of pages) {
     if (!canonical.startsWith('https://')) add('error', 'canonical', `${url} の canonical が https ではありません: ${canonical}`);
     if (canonical.startsWith('https://www.')) add('error', 'canonical', `${url} の canonical が www 付きです: ${canonical}`);
     const expected = `${SITE}${url}`;
-    if (canonical !== expected && canonical !== expected.replace(/\/$/, '')) {
+    const redirectCanonical = redirectCanonicals.get(url);
+    if (canonical !== expected && canonical !== expected.replace(/\/$/, '') && canonical !== redirectCanonical) {
       add('warn', 'canonical', `${url} の canonical が自分自身を指していません: ${canonical}`);
     }
   }
@@ -100,7 +116,7 @@ for (const file of pages) {
 for (const [value, urls] of titles) {
   if (urls.length > 1) add('error', 'duplicate-title', `title が ${urls.length} ページで重複: 「${value.slice(0, 50)}」 → ${urls.slice(0, 4).join(' , ')}`);
 }
-for (const [value, urls] of descriptions) {
+for (const urls of descriptions.values()) {
   if (urls.length > 1) add('error', 'duplicate-description', `description が ${urls.length} ページで重複 → ${urls.slice(0, 4).join(' , ')}`);
 }
 

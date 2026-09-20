@@ -86,8 +86,6 @@ const crumbs: Crumb[] = [
   { name: '茨城のイベント・おでかけ', href: '/events/' },
   { name: d.title },
 ];
-const pageUrl = new URL(`/events/${entry.id.split('/').pop()}/`, Astro.site).href;
-
 /**
  * 目次と見出し番号は、実際に描画されるセクションから作る。
  * ここを1か所にしないと、条件で消えたセクションの番号が飛ぶ。

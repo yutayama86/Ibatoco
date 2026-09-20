@@ -1,0 +1,239 @@
+/* interior.css responsive — 読み込み順は ../interior.css で固定 */
+/* --- Tablet / mobile --------------------------------------------------- */
+@media (max-width: 900px) {
+  body.interior-site {
+    /* この幅では .bp-wrap の余白が 2rem になるので、見出しバンドの左右も揃える */
+    --interior-gutter: max(1rem, calc((100% - 1280px) / 2));
+  }
+
+  body.interior-site .bp-wrap,
+  body.interior-site .wrap {
+    width: min(calc(100% - 2rem), 1280px);
+  }
+
+  body.interior-site .news-detail__layout,
+  body.interior-site .story-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.interior-site .news-detail__toc,
+  body.interior-site .story-grid > aside,
+  body.interior-site .place-grid > aside {
+    position: static;
+  }
+
+  body.interior-site .news-detail__toc {
+    display: none;
+  }
+
+  /*
+   * 情報源パネルは本文より左右へ 1.2rem はみ出す組み。この幅では
+   * .bp-wrap の余白が 1rem しかないので、はみ出しが画面を 3px 超えて
+   * 横スクロールが出ていた。狭い画面では広げない。
+   */
+  body.interior-site .news-detail__body #sources {
+    margin-inline: 0;
+  }
+
+  body.interior-site :is(.area-jump, .ag-jump, .me-jump) {
+    top: var(--site-header-height);
+  }
+
+  body.interior-site .place-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  body.interior-site {
+    --interior-title-xl: clamp(1.95rem, 8.2vw, 2.65rem);
+    --interior-title-lg: clamp(1.75rem, 7.4vw, 2.3rem);
+    --interior-hero-y: 1.65rem;
+    --interior-section-y: clamp(2.75rem, 10vw, 4rem);
+  }
+
+  body.interior-site #main-content::before {
+    height: 27rem;
+  }
+
+  body.interior-site :is(
+    .news-index__head,
+    .category-head,
+    .about-head,
+    .biz-head,
+    .places-head,
+    .area-head,
+    .tg-head__copy,
+    .hanabi-head,
+    .ok-head,
+    .person-head,
+  .sp-head,
+  .tm-head
+  ) {
+    /* 全幅バンドはモバイルでも維持する。左右は bp-wrap の余白（1rem）に揃える */
+    margin: 0;
+    padding: 1.65rem var(--interior-gutter) 1.9rem !important;
+    border-radius: 0;
+  }
+
+  body.interior-site :is(
+    .news-index__head,
+    .category-head,
+    .about-head,
+    .biz-head,
+    .places-head,
+    .area-head,
+    .tg-head__copy,
+    .hanabi-head,
+    .ok-head,
+    .person-head,
+  .sp-head,
+  .tm-head
+  ) h1 {
+    font-size: var(--interior-title-xl);
+    line-height: 1.27;
+  }
+
+  body.interior-site :is(.news-detail__head, .story-head) {
+    padding-block: 1.5rem 1.8rem;
+  }
+
+  body.interior-site :is(.news-detail__head, .story-head) h1 {
+    font-size: var(--interior-title-lg);
+    line-height: 1.4;
+  }
+
+  body.interior-site :is(.news-detail__hero, .story-hero, .place-image, .tg-hero) {
+    width: calc(100% - 1.5rem);
+    border-radius: .8rem;
+  }
+
+  body.interior-site :is(.news-detail__layout, .story-grid, .place-grid) {
+    width: min(calc(100% - 2rem), 1280px);
+    padding-block: 2.5rem 3.75rem;
+  }
+
+  body.interior-site .bsc-body {
+    min-height: 0;
+  }
+
+  body.interior-site.route-news .news-index__list .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 「新着」の大きな1枚を廃止し全件を等しいカードにしたため、
+     先頭カードだけを打ち消していた指定は不要になった（画像なしカードで
+     余分な行が生まれるため残さない） */
+
+  body.interior-site .category-grid > .bsc:first-child {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  body.interior-site .category-grid > .bsc:first-child .bsc-media {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* 狭い画面でも全幅のまま。上の余白と角丸は付け直さない */
+  body.interior-site :is(.policy, .pv, .rsv, .nf) {
+    margin: 0 0 2rem;
+    padding: 1.35rem max(1rem, calc((100% - var(--reading-col)) / 2)) 1.75rem;
+    border-radius: 0;
+  }
+
+  /* 問い合わせは狭い画面でも全幅パネルのまま。上の余白と角丸は付け直さない */
+  body.interior-site .contact {
+    margin: 0 0 2rem;
+    padding: 1.35rem var(--interior-gutter) 1.75rem;
+  }
+
+  body.interior-site .prose {
+    font-size: .98rem;
+    line-height: 2;
+  }
+
+  body.interior-site .category-head nav:not(.crumbs) {
+    gap: .5rem;
+  }
+
+  body.interior-site .category-head nav:not(.crumbs) a {
+    font-size: .75rem;
+  }
+
+  body.interior-site :is(.area-jump, .ag-jump, .me-jump) {
+    top: var(--site-header-height);
+  }
+
+  body.interior-site .place-list {
+    grid-template-columns: 1fr;
+  }
+
+  body.interior-site .place-list article {
+    min-height: 14rem;
+  }
+
+  body.interior-site .news-detail__body #sources {
+    margin-inline: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  body.interior-site {
+    /* この幅では .bp-wrap の余白が 1.5rem になるので、見出しバンドの左右も揃える */
+    --interior-gutter: .75rem;
+  }
+
+  body.interior-site .bp-wrap,
+  body.interior-site .wrap {
+    width: calc(100% - 1.5rem);
+  }
+
+  body.interior-site .crumbs {
+    margin-bottom: 1.25rem;
+    font-size: .65rem;
+  }
+}
+
+/* テーマページはスマホでも文章と写真を一続きの表紙として見せる。 */
+@media (max-width: 960px) {
+  body.interior-site .tg-head {
+    /* 狭い画面でも全幅バンドのまま。角丸と左右余白は付け直さない */
+    width: auto;
+    margin: 0;
+  }
+
+  body.interior-site .tg-head__copy {
+    width: auto;
+    margin: 0;
+    padding: clamp(1.8rem, 6vw, 2.6rem) var(--interior-gutter);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  body.interior-site .tg-head__copy::after {
+    display: none;
+  }
+
+  body.interior-site .tg-head .tg-hero {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  body.interior-site .tg-head .tg-hero img {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 420px) {
+  body.interior-site .tg-head {
+    /* 全幅バンドを維持（以前はここで角丸カードに戻していた） */
+    width: auto;
+    border-radius: 0;
+  }
+}
+
