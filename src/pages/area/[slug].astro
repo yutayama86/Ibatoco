@@ -206,7 +206,7 @@ const jsonLd: Record<string, unknown>[] = [
                 {b.description && <p>{b.description}</p>}
                 {b.verifiedAt && <span class="area-biz__checked">{b.verifiedAt} 時点の公開情報で確認</span>}
               </div>
-              {b.officialUrl && <a href={b.officialUrl} target="_blank" rel="noopener noreferrer" data-business-id={b.id} data-business-category={b.category}>公式サイト ↗</a>}
+              {b.officialUrl && <a href={b.officialUrl} target="_blank" rel="noopener noreferrer" data-business-id={b.id} data-business-name={b.name} data-business-category={b.category} data-business-municipality={b.municipality}>公式サイト ↗</a>}
             </li>
           ))}
         </ul>
@@ -264,6 +264,26 @@ const jsonLd: Record<string, unknown>[] = [
     </section>
   )}
 </BrandBase>
+
+<script>
+  import { trackLocalBusinessClick } from '../../lib/analytics-events';
+
+  // 街のページから事業者の公式サイトへ出ていくクリック。
+  // IDを付けられるリンクにだけ付ける（名前だけでは後から名寄せできないため）。
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-business-id]')) {
+    link.addEventListener('click', () => {
+      trackLocalBusinessClick({
+        business_id: link.dataset.businessId ?? '',
+        business_name: link.dataset.businessName ?? '',
+        business_category: link.dataset.businessCategory ?? '',
+        link_kind: 'official',
+        page_type: 'area',
+        municipality: link.dataset.businessMunicipality ?? '',
+        content_category: 'area',
+      });
+    });
+  }
+</script>
 
 <style>
   .area-week{padding-block:clamp(2rem,4vw,3rem)}
