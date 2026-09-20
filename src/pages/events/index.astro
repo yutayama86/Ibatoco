@@ -2,17 +2,23 @@
 /**
  * /events/ — イベント・おでかけの入口。
  *
- * 「茨城 イベント」「茨城 9月 イベント」のような検索に対して、
- * 開催が近い順に並べる。記事が増えたぶんだけ厚くなる。
- * 終わったイベントは下の「開催が終わったもの」へ落とし、消さない
+ * 「茨城 イベント」「茨城 イベント 今週末」「茨城 9月 イベント」で来た人が、
+ * 最初の画面で「で、今なにがあるの？」に答えられることを最優先にする。
+ *
+ * 上から：今日・今週末（既存データから毎ビルド計算）→ 月・エリア・ジャンルの
+ * 入口 → 月別の記事一覧。終わったイベントは下へ落とし、消さない
  * （翌年の同時期に更新して使うため）。
+ *
+ * 探す入口はすべて静的HTML。JavaScriptで絞り込む仕掛けは入れない
+ * （クロールされない・モバイルで重い）。
  */
 import BrandBase from '../../layouts/BrandBase.astro';
 import { CARD_IMAGES } from '../../data/card-images';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import ThisWeek from '../../components/ThisWeek.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getIndexableEvents } from '../../lib/content';
-import { MUNI_BY_SLUG } from '../../data/areas';
+import { MUNI_BY_SLUG, REGIONS, REGION_ORDER } from '../../data/areas';
 
 const all = await getIndexableEvents();
 const now = new Date();
@@ -29,6 +35,51 @@ for (const e of upcoming) {
   const key = d ? `${d.getFullYear()}年${d.getMonth() + 1}月` : 'いつでも';
   byMonth.set(key, [...(byMonth.get(key) ?? []), e]);
 }
+/** 月見出しへのジャンプ用ID。「2026年11月」→「m-2026-11」 */
+const monthId = (label: string) => {
+  const m = label.match(/^(\d{4})年(\d{1,2})月$/);
+  return m ? `m-${m[1]}-${String(m[2]).padStart(2, '0')}` : 'm-anytime';
+};
+
+/**
+ * エリアから探す。
+ * 記事がある市町村だけを、件数つきで出す。
+ * 記事が1本も無い市町村をここに並べると、押しても何も出てこない。
+ * 44市町村すべての入口は /area/ にあるので、最後にそちらへ送る。
+ */
+const eventCountByMuni = new Map<string, number>();
+for (const e of all) {
+  for (const slug of e.data.municipalities) {
+    eventCountByMuni.set(slug, (eventCountByMuni.get(slug) ?? 0) + 1);
+  }
+}
+const areaGroups = REGION_ORDER.map((region) => ({
+  region,
+  name: REGIONS[region].label,
+  towns: [...eventCountByMuni.entries()]
+    .map(([slug, count]) => ({ muni: MUNI_BY_SLUG.get(slug), count }))
+    .filter((x) => x.muni?.region === region)
+    .sort((a, b) => b.count - a.count),
+})).filter((g) => g.towns.length > 0);
+
+/**
+ * ジャンルから探す。既にあるテーマページへ送る。
+ * 「子ども向け」「デート」のような、記事の実体が無い切り口のページは作らない
+ * （中身の薄いページが増えるだけで、読者にも検索にも役に立たない）。
+ */
+const GENRES: { label: string; href: string; note: string }[] = [
+  { label: '花火', href: '/hanabi/', note: '大会の日程・有料席・駐車場' },
+  { label: '祭り', href: '/matsuri/', note: '土地に受け継がれてきた行事' },
+  { label: '紅葉', href: '/kouyou/', note: 'コキアから渓谷まで、色づく順番' },
+  { label: '花', href: '/hana/', note: '梅・桜・ネモフィラ・あじさい' },
+  { label: '公園', href: '/koen/', note: '花の名所と庭園' },
+  { label: '海', href: '/umi/', note: '海岸・漁港・水族館' },
+  { label: '山', href: '/yama/', note: '筑波山と奥久慈の渓谷' },
+  { label: '川と湖', href: '/kawa/', note: '滝・吊橋・霞ヶ浦' },
+  { label: '道の駅', href: '/michinoeki/', note: 'ドライブの立ち寄り先' },
+  { label: 'スポーツ観戦', href: '/sports/', note: '鹿島・水戸・ロボッツの日程' },
+  { label: 'おでかけ全般', href: '/odekake/', note: '目的から探す' },
+];
 
 const path = (e: (typeof all)[number]) => `/events/${e.id.split('/').pop()}/`;
 const fmt = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' }).format(x);
@@ -56,8 +107,8 @@ const jsonLd = [
 ---
 
 <BrandBase
-  title="茨城のイベント・おでかけ｜日程・会場・駐車場｜イバトコ"
-  description="茨城県のイベント、花火大会、祭り、季節のおでかけ情報。開催日・会場・料金・駐車場・アクセスを、公式で確認できたものだけまとめています。確認できていないことは、確認できていないと書きます。"
+  title="茨城のイベント｜今日・今週末の開催と月別一覧｜イバトコ"
+  description="茨城県のイベントを、今日・今週末・月別・エリア・ジャンルから探せます。花火大会、祭り、紅葉、季節のおでかけの開催日・会場・料金・駐車場・アクセスを、公式で確認できたものだけ掲載。確認できていないことは、確認できていないと書きます。"
   jsonLd={jsonLd}
 >
   <header class="ev-head bp-wrap">
@@ -67,9 +118,58 @@ const jsonLd = [
     <p>日程、会場、料金、駐車場。出かける前に知りたいことを、公式で確認できたものだけ載せています。確認できていない項目は、埋めずに「確認できていない」と書きます。</p>
   </header>
 
+  {/* 最初の画面で「で、今なにがあるの？」に答える。既存データから毎ビルド計算する */}
+  <ThisWeek
+    pageType="events"
+    heading="今日・今週末、茨城でできること"
+    lead="日程を公式で確認できたイベント・試合・期間もののうち、これから来るものだけを出しています。終わったものは出しません。"
+  />
+
+  <nav class="bp-wrap bp-section ev-find" aria-labelledby="ev-find" data-events-find>
+    <h2 id="ev-find" class="bp-section-title">探す</h2>
+
+    {byMonth.size > 0 && (
+      <div class="ev-find__block">
+        <h3>月から</h3>
+        <ul class="ev-chips">
+          {[...byMonth.entries()].map(([month, items]) => (
+            <li><a href={`#${monthId(month)}`} data-find-kind="month">{month}<small>{items.length}</small></a></li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {areaGroups.length > 0 && (
+      <div class="ev-find__block">
+        <h3>エリアから</h3>
+        <p class="ev-find__note">イベントの記事がある市町村です。かっこ内は記事の本数。</p>
+        {areaGroups.map((g) => (
+          <div class="ev-find__region">
+            <p class="ev-find__region-name">{g.name}</p>
+            <ul class="ev-chips">
+              {g.towns.map((t) => (
+                <li><a href={`/area/${t.muni!.slug}/`} data-find-kind="area">{t.muni!.name}<small>{t.count}</small></a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <p class="ev-find__more"><a href="/area/" data-find-kind="area">44市町村すべてを地図から見る →</a></p>
+      </div>
+    )}
+
+    <div class="ev-find__block">
+      <h3>ジャンルから</h3>
+      <ul class="ev-genres">
+        {GENRES.map((g) => (
+          <li><a href={g.href} data-find-kind="theme"><strong>{g.label}</strong><span>{g.note}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+
   {upcoming.length > 0 ? (
     [...byMonth.entries()].map(([month, items]) => (
-      <section class="bp-wrap bp-section">
+      <section class="bp-wrap bp-section" id={monthId(month)}>
         <h2 class="bp-section-title">{month}</h2>
         <ul class="bp-cards">{items.map((e) => (
           <li><a href={path(e)}>
@@ -108,17 +208,34 @@ const jsonLd = [
   )}
 
   <section class="bp-wrap bp-section">
-    <h2 class="bp-section-title">ほかの入口から探す</h2>
-    <ul class="ev-links">
-      <li><a href="/hanabi/">茨城の花火 →</a></li>
-      <li><a href="/matsuri/">茨城の祭り →</a></li>
-      <li><a href="/kouyou/">茨城の紅葉 →</a></li>
-      <li><a href="/odekake/">茨城のおでかけ →</a></li>
-      <li><a href="/area/">44市町村から探す →</a></li>
-      <li><a href="/news/">茨城ニュース解説 →</a></li>
-    </ul>
+    <h2 class="bp-section-title">この一覧の作り方</h2>
+    <div class="ev-policy">
+      <p>日程・時間・料金・駐車場は、<strong>イベント公式 → 自治体 → 観光協会 → 主催者 → 公共交通</strong>の順に一次情報をあたって確認しています。まとめサイトを情報源にはしません。</p>
+      <p>前年の情報を使うときは「前年実績」と書き、その年の発表を確認できていないことを明記します。<strong>「去年こうだったから今年もこう」とは書きません。</strong></p>
+      <p>各記事には確認した情報源のURLと確認日を載せています。開催内容は変わることがあるため、出かける前に公式の最新情報をご確認ください。</p>
+      <p class="ev-policy__links"><a href="/news/">茨城ニュース解説を読む →</a></p>
+    </div>
   </section>
 </BrandBase>
+
+<script>
+  import { commonParams, trackEvent } from '../../lib/analytics-events';
+
+  // 「探す」のどの入口が使われるかを見る。
+  // 月・エリア・ジャンルのどれが押されるかで、次にどの記事を足すかが決まる。
+  for (const nav of document.querySelectorAll<HTMLElement>('[data-events-find]')) {
+    for (const link of nav.querySelectorAll<HTMLAnchorElement>('a[data-find-kind]')) {
+      link.addEventListener('click', () => {
+        trackEvent('next_action_click', {
+          ...commonParams({ page_type: 'events', content_category: 'hub' }),
+          destination_type: link.dataset.findKind ?? '',
+          action_source: 'events_find',
+          destination_url: link.getAttribute('href') ?? '',
+        });
+      });
+    }
+  }
+</script>
 
 <style>
   .ev-head h1{margin-top:.9rem;font:600 clamp(2.2rem,5vw,3.6rem)/1.3 var(--font-brand-display);color:var(--color-ink)}
@@ -129,6 +246,36 @@ const jsonLd = [
   .ev-empty{color:var(--color-soil);line-height:1.9}
   .ev-links{display:grid;gap:.7rem;padding:0;list-style:none}
   .ev-links a{color:var(--interior-blue,#174f99);font-size:.9rem;font-weight:700}
+
+  /* ── 探す ── */
+  .ev-find__block+.ev-find__block{margin-top:2.25rem;padding-top:2.25rem;border-top:1px solid var(--color-mist)}
+  .ev-find h3{margin:0 0 .85rem;font:600 1.12rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .ev-find__note{margin:-.4rem 0 .9rem;color:var(--color-soil);font-size:.82rem;line-height:1.8}
+  .ev-find__region+.ev-find__region{margin-top:1rem}
+  .ev-find__region-name{margin:0 0 .5rem;color:var(--color-tide);font:700 .74rem var(--font-brand-meta);letter-spacing:.08em}
+  .ev-find__more{margin-top:1.1rem}
+  .ev-find__more a{color:var(--interior-blue,#174f99);font-size:.88rem;font-weight:700}
+
+  /* タップ目標を44px以上に保つため、上下は .55rem 以上を確保する */
+  .ev-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;list-style:none}
+  .ev-chips li{margin:0}
+  .ev-chips a{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:.55rem .95rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-white);color:var(--color-ink);font-size:.88rem;font-weight:600;text-decoration:none;transition:border-color .2s ease,color .2s ease}
+  .ev-chips a:hover,.ev-chips a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
+  .ev-chips a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
+  .ev-chips small{color:var(--color-soil);font:700 .72rem var(--font-brand-meta);font-variant-numeric:tabular-nums}
+
+  .ev-genres{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:.7rem;margin:0;padding:0;list-style:none}
+  .ev-genres li{margin:0}
+  .ev-genres a{display:grid;gap:.25rem;min-height:44px;padding:.9rem 1rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white);color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
+  .ev-genres a:hover,.ev-genres a:focus-visible{border-color:var(--color-tide);box-shadow:0 10px 26px rgba(25,55,88,.1)}
+  .ev-genres a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
+  .ev-genres strong{font:600 1rem/1.5 var(--font-brand-display)}
+  .ev-genres span{color:var(--color-soil);font-size:.8rem;line-height:1.75}
+
+  .ev-policy{display:grid;gap:1rem;max-width:var(--measure)}
+  .ev-policy p{margin:0;color:var(--color-soil);font-size:.9rem;line-height:1.95}
+  .ev-policy strong{color:var(--color-ink)}
+  .ev-policy__links a{color:var(--interior-blue,#174f99);font-weight:700}
   /* 終了したイベントは薄く。カード本体の見た目は interior.css の .bp-cards が持つ */
   .ev-past > li > a{opacity:.72}
 </style>

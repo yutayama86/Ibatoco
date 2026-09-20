@@ -10,6 +10,18 @@
  */
 import { getWeekBoard, type HappeningKind } from '../lib/happenings';
 
+interface Props {
+  /** GA4 の page_type。置いたページに合わせる（TOP以外から使うとき必須） */
+  pageType?: string;
+  heading?: string;
+  lead?: string;
+}
+const {
+  pageType = 'home',
+  heading = '今週、茨城でできること',
+  lead = '公開情報で日程を確認できたものだけを並べています。終わったものは出していません。',
+} = Astro.props;
+
 const board = await getWeekBoard();
 
 const KIND_LABEL: Record<HappeningKind, string> = {
@@ -20,11 +32,11 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 ---
 
 {board.length > 0 && (
-  <section class="tw" aria-labelledby="tw-title" data-this-week>
+  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType}>
     <div class="bp-wrap">
       <p class="bp-kicker">THIS WEEK</p>
-      <h2 id="tw-title" class="tw__title">今週、茨城でできること</h2>
-      <p class="tw__lead">公開情報で日程を確認できたものだけを並べています。終わったものは出していません。</p>
+      <h2 id="tw-title" class="tw__title">{heading}</h2>
+      <p class="tw__lead">{lead}</p>
 
       <div class="tw__groups">
         {board.map((group) => (
@@ -58,10 +70,11 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   // どの区分（今日/今週末/この先）と、どの種類（試合/イベント/開催中）が
   // 押されるかで、次にどのデータを厚くすべきかが決まる。
   for (const block of document.querySelectorAll<HTMLElement>('[data-this-week]')) {
+    const pageType = block.dataset.pageType ?? 'home';
     for (const link of block.querySelectorAll<HTMLAnchorElement>('a[data-week-kind]')) {
       link.addEventListener('click', () => {
         trackEvent('next_action_click', {
-          ...commonParams({ page_type: 'home' }),
+          ...commonParams({ page_type: pageType }),
           destination_type: link.dataset.weekKind ?? '',
           when_bucket: link.dataset.weekBucket ?? '',
           action_source: 'this_week',
