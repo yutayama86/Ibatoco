@@ -31,3 +31,6 @@ pnpm-debug.log*
 
 # 生成物（CSVから再生成できる）
 db/seed-stores.sql
+
+# 編集OSの日次生成物（GitHub Actionsのartifactで保持）
+reports/editorial/

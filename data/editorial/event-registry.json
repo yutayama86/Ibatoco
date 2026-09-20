@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-21",
+  "events": [
+    {
+      "id": "joso-kinugawa-hanabi-2026",
+      "name": "第59回常総きぬ川花火大会",
+      "municipality": "joso",
+      "startDate": "2026-09-12",
+      "endDate": null,
+      "officialUrl": "https://www.cnplayguide.com/joso-hanabi/",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-16",
+      "articleUrl": "/events/joso-kinugawa-hanabi-2026/",
+      "articleUpdatedAt": "2026-09-16",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tonegawa-hanabi-2026",
+      "name": "第39回 利根川大花火大会",
+      "municipality": "sakai",
+      "startDate": "2026-09-19",
+      "endDate": null,
+      "officialUrl": "https://www.sakai-hanabi.com/",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-16",
+      "articleUrl": "/events/tonegawa-hanabi-2026/",
+      "articleUpdatedAt": "2026-09-16",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "oarai-kaijo-hanabi-2026",
+      "name": "大洗海上花火大会2026",
+      "municipality": "oarai",
+      "startDate": "2026-09-26",
+      "endDate": null,
+      "officialUrl": "https://www.oarai-hanabi.jp/",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-14",
+      "articleUrl": "/events/oarai-kaijo-hanabi-2026/",
+      "articleUpdatedAt": "2026-09-14",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "chikusei-hanabi-2026",
+      "name": "ちくせい花火大会2026",
+      "municipality": "chikusei",
+      "startDate": "2026-10-17",
+      "endDate": null,
+      "officialUrl": "https://www.city.chikusei.lg.jp/kankou/kankou-news/page013678.html",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-02",
+      "articleUrl": "/events/chikusei-hanabi-2026/",
+      "articleUpdatedAt": "2026-09-02",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tsuchiura-hanabi-2026",
+      "name": "第95回土浦全国花火競技大会",
+      "municipality": "tsuchiura",
+      "startDate": "2026-11-07",
+      "endDate": null,
+      "officialUrl": "https://www.tsuchiura-hanabi.jp/",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-20",
+      "articleUrl": "/events/tsuchiura-hanabi-2026/",
+      "articleUpdatedAt": "2026-09-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "oarai-ankou-matsuri-2026",
+      "name": "大洗秋まつり 商工感謝祭＆大洗あんこう祭",
+      "municipality": "oarai",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.oarai-info.jp/event/",
+      "discoveredAt": "2026-09-02",
+      "verifiedAt": "2026-09-20",
+      "articleUrl": "/events/oarai-ankou-matsuri-2026/",
+      "articleUpdatedAt": "2026-09-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    }
+  ]
+}
