@@ -232,6 +232,111 @@
         "logisticsDemand": "high"
       },
       "notes": "2026-09-21は台風25号の影響で臨時閉園。9月21日のコキアライトアップも中止。翌日以降は公式の最新発表を再確認する。"
+    },
+    {
+      "id": "kobun-marron-fair-2026",
+      "name": "好文マロンフェア",
+      "municipality": "mito",
+      "startDate": "2026-09-18",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、会場、料金、交通は未確認のため、記事化・断定は保留。"
+    },
+    {
+      "id": "ami-premium-outlets-silver-week-sale-2026",
+      "name": "あみプレミアム・アウトレット Silver Week Sale",
+      "municipality": "ami",
+      "startDate": "2026-09-18",
+      "endDate": "2026-09-27",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
+    },
+    {
+      "id": "kamine-park-autumn-festival-2026",
+      "name": "かみね公園秋まつり",
+      "municipality": "hitachi",
+      "startDate": "2026-09-19",
+      "endDate": "2026-10-18",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
+    },
+    {
+      "id": "daigo-tea-cafe-stamp-rally-2026",
+      "name": "大子茶カフェスタンプラリー",
+      "municipality": "daigo",
+      "startDate": "2026-09-19",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "県公式一覧では9月19〜21日、10月10〜12日、11月14〜15日の分散開催。startDate/endDateは全体期間で、連続開催ではない。主催者個別URL、会場、料金、交通は未確認。"
+    },
+    {
+      "id": "yumenoba-space-event-2026",
+      "name": "ユメノバ 宇宙イベント",
+      "municipality": "chikusei",
+      "startDate": "2026-09-19",
+      "endDate": "2026-09-23",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。イベント正式表記、主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
     }
   ]
 }
