@@ -4,6 +4,10 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    # 05:45 JST。06:00の日次編集判断より前に、台帳と在庫の機械監査を終える。
+    - cron: '45 20 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,3 +26,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - name: Generate editorial daily brief
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run editorial:daily
+      - name: Add editorial brief to job summary
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: cat reports/editorial/daily-brief.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload editorial brief
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: editorial-brief-${{ github.run_id }}
+          path: reports/editorial/
+          retention-days: 30

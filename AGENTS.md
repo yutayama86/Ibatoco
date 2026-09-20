@@ -70,3 +70,13 @@ TOP専用の挙動は`HomeAreaExplorer.astro`、下層・一覧用の二段階�
 - `npm run verify`を通し、エラー・警告0件を確認する。
 - TOP変更時は、FV3枚、ブランド背景、テーマ6件、地図44件、取材と編集3件が残っているか確認する。
 - 視覚判断を独断で変えず、未定義の変更はCodex／クリエイティブディレクターへ確認する。
+
+## 編集OSと実装分担
+
+- 情報監視・記事判断・SEO設計・完成原稿はChatGPT側、Claude Codeは完成仕様の実装を担当する。
+- `data/editorial/event-registry.json` の未掲載候補を、記事化しないことを理由に削除しない。
+- Claude Codeは `data/editorial/action-queue.json` で `status: "ready"` の案件だけ実装する。
+- `ready` の正本は `docs/editorial/specs/` の指定ファイル。正本にない調査・構成・本文・URL変更を独自に追加しない。
+- 実装前に `npm run editorial:daily` を実行し、`reports/editorial/claude-implementation-brief.md` を確認する。
+- 新しいイベント記事を追加したら `npm run editorial:sync` で台帳へ同期する。
+- 詳細は `docs/EDITORIAL_OS.md` を正本とする。
