@@ -13,7 +13,7 @@
 
 backend:
   name: github
-  repo: yutayama86/ibatoco   # GitHubリポジトリ（2026-09-20に「-」から改名）
+  repo: yutayama86/Ibatoco   # GitHubリポジトリ（2026-09-20時点の正式名。大文字のIに注意）
   branch: main
   # Cloudflare Pages で運用する場合、OAuthプロキシのURLを設定します:
   # base_url: https://your-oauth-proxy.example.workers.dev
