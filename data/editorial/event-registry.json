@@ -192,27 +192,6 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
-      "id": "jr-ibaraki-typhoon25-20260921",
-      "name": "台風25号に伴う茨城県内JR運転変更",
-      "municipality": "prefecturewide",
-      "startDate": "2026-09-21",
-      "endDate": "2026-09-22",
-      "officialUrl": "https://traininfo.jreast.co.jp/train_info/kanto.aspx",
-      "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
-      "importance": "large",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "high"
-      },
-      "notes": "2026-09-21 06:49頃のJR東日本公式情報。常磐線・水郡線・水戸線・鹿島線で遅延、運休、運転取りやめ予定が発表。運行状況は変動するため公開時に公式再確認必須。"
-    },
-    {
       "id": "hitachi-seaside-park-closure-20260921",
       "name": "国営ひたち海浜公園 台風25号による臨時閉園",
       "municipality": "hitachinaka",
@@ -232,6 +211,27 @@
         "logisticsDemand": "high"
       },
       "notes": "2026-09-21は台風25号の影響で臨時閉園。9月21日のコキアライトアップも中止。翌日以降は公式の最新発表を再確認する。"
+    },
+    {
+      "id": "jr-ibaraki-typhoon25-20260921",
+      "name": "台風25号に伴う茨城県内JR運転変更",
+      "municipality": "prefecturewide",
+      "startDate": "2026-09-21",
+      "endDate": "2026-09-22",
+      "officialUrl": "https://traininfo.jreast.co.jp/train_info/kanto.aspx",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-21",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "2026-09-21 06:49頃のJR東日本公式情報。常磐線・水郡線・水戸線・鹿島線で遅延、運休、運転取りやめ予定が発表。運行状況は変動するため公開時に公式再確認必須。"
     },
     {
       "id": "oarai-kaijo-hanabi-2026",
