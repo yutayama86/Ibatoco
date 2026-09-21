@@ -19,6 +19,7 @@
 - `data/editorial/performance-snapshot.json`：GA4/GSCの最新スナップショット。未取得時はnullのままにし、推測値を入れない
 - `data/editorial/growth-targets.json`：North Starとガードレール。現在はGA4 `screen_page_views`（Views）ローリング28日100,000
 - `data/editorial/action-queue.json`：施策候補と実装可否
+- `data/editorial/growth-opportunities.json`：SEO/SNS/International/CRO/Product/Technicalの成長機会バックログと需要根拠
 - `docs/editorial/specs/*.md`：ChatGPTが完成させた実装仕様
 - `src/data/seo-changes.ts`：既存の改善履歴。7日・28日のクールダウン判定に使用
 
@@ -41,7 +42,7 @@
 2. 新規情報をイベント台帳へ追加する。今日記事化しない情報も `discovered` で残す
 3. 市町村は曜日ローテーションで詳細確認し、週1回は44市町村を完全棚卸しする
 4. `npm run editorial:daily` で公開在庫と同期し、未掲載候補・変更凍結・実装キューを生成する
-5. ChatGPTが期待値最大の成長施策1件を選ぶ。低リスクならそのままGitHubへ実装し、PRを作成する。高リスクまたは大規模なら`docs/editorial/specs/`に完成仕様を作る
+5. ChatGPTがSEO/SNS/International/CRO/Product/Technicalを比較し、期待値最大の成長テーマを選ぶ。低リスクならgrowth batchとしてそのままGitHubへ実装し、PRを作成する。大規模でも高リスク項目を含まなければ同様に進める
 6. 低リスク実装はCIで`npm run verify`が成功した場合だけマージする。失敗したら修正し、通るまでマージしない
 7. `data/editorial/popular-pages.json` を直近7日GA4 Viewsで更新し、回遊モジュールの候補を最新化する
 8. 公開後は当日/7日/28日のGA4/GSCとイベント指標で効果検証する。効果が弱ければ次の施策へ修正する
@@ -72,6 +73,32 @@
 `data/editorial/popular-pages.json` はGA4直近7日 `screen_page_views` を使い、ホーム、404、noindex、終了済みで後継導線のないページを除外して上位8件を保存する。`GrowthNextReads.astro` がnews/events上で最大3件を表示し、`growth_next_view` / `growth_next_click` で検証する。
 
 7日後は最低500 viewを目安にCTRとViews/sessionを評価し、CTR 2%以上かつViews/session +5%以上を成功目安とする。500 view以上でCTR 1%未満、またはViews/session悪化なら候補選定・配置・文言を変更する。
+
+## SEOマーケター運用
+
+Organic Searchが大きい場合、GSCだけでなく市場需要を探索する。毎日 query×page を起点に候補KWを最低20件集め、検索意図でクラスタ化する。
+
+需要根拠は4段階で保持する。
+- `exact`: 外部キーワードツール等で確認できた月間検索ボリューム
+- `observed`: GSCで実際に観測したimpressions
+- `proxy`: Google Trends、関連検索、SERP等からみた相対需要
+- `unknown`: 数値を確認できない
+
+`exact`以外を月間検索ボリュームと呼ばない。検索需要、順位余地、CTR余地、季節性、収益/送客意図、既存URL有無、工数、期待増分Viewsを比較し、新規/改善/統合/見送りを決める。
+
+## Channel Scout
+
+毎日 SEO / SNS / International / CRO / Product / Technical を同じ土俵で比較する。SNSはThreads等の流入と検索急伸テーマ、InternationalはGA4 country/languageとGSC country/query、CROはViews/sessionとCTA/送客、Productは地域DBや予約/比較導線、Technicalは計測・構造・速度・indexationを確認する。
+
+Internationalは多言語ページ量産を目的にしない。既にGSC露出がある国・言語・クエリを優先し、既存ページのCTR・検索意図・内部リンク・hreflang・現地語導線を改善する。
+
+## Growth Batch / 大規模改修
+
+成長テーマは原則1つだが、実装は複数ファイル・複数ページをまとめたgrowth batchでよい。小修正の連打より、同じボトルネックを横断的に解消する方が期待値が高い場合はテンプレート・内部リンク・IA・国際基盤・イベントDB等を大規模改修する。
+
+URL変更/削除/統合、広告/契約/権利、計測ID、大規模IA/デザイン変更は人の承認対象。それ以外の横断コード改修はPRとCIを通して自動実行できる。
+
+日次終了条件は『何か1つ直した』ではなく、当日の戦略テーマについて調査→実装→CI→公開可能状態→検証条件登録まで完了していること。
 
 ## GA4 Deep Discovery
 
