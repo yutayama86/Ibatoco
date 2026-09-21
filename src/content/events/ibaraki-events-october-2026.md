@@ -2,7 +2,7 @@
 title: "茨城のイベント2026年10月｜ロッキンスター音楽花火・ちくせい花火・コキア"
 description: "2026年10月の茨城県イベント。10月3日のrockin'star Carnival、17日のちくせい花火大会、国営ひたち海浜公園のコキア、いばらきフラワーパークのイルミネーションを公式情報からまとめます。"
 pubDate: 2026-09-02
-updatedDate: 2026-09-20
+updatedDate: 2026-09-21
 articleType: "roundup"
 searchIntent: "2026年10月に茨城県で何かイベントがないか、まとめて知りたい"
 keyword: "茨城 10月 イベント 2026"
