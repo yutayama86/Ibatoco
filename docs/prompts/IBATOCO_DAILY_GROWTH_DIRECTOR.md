@@ -34,6 +34,18 @@ Google Drive「イバトコ SEO・流入データ」の `Growth_100k` に1日1�
 
 毎日 `data/editorial/popular-pages.json` をGA4直近7日screen_page_views上位8ページで更新する。ホーム、404、noindex、終了済みで後継導線のないページは除外する。GrowthNextReadsの `growth_next_view` / `growth_next_click` と Views/session を7日・28日で検証する。
 
+## Revenue Operating Mode
+
+アクセス成長と収益成長を分けて管理する。毎日 `data/editorial/revenue-opportunities.json` と `docs/REVENUE_OS.md` を読み、GA4 Viewsだけでなく、確定収益・Revenue/1,000 Views・booking click・business CTA・lead・B2B受注のどこがボトルネックかを判定する。
+
+高流入ページを discover / visit / book / buy / business / repeat に分類する。discoverには無理に広告を置かず、visit/book/buyには文脈一致する旅行・予約・駐車場・体験・店舗送客を、businessには検索需要レポート/予約導線診断/制作支援を、repeatには再訪導線を検討する。
+
+毎日、旅行・予約送客 / 地域事業者リード / Sponsor / Owned Audience / 求人 / Data・自治体 / Inbound の7レーンを比較する。確定成果が無いものを売上扱いしない。ASPの発生・承認・入金、B2B問い合わせ・受注・入金は分けて扱う。
+
+Google Drive `Revenue_Funnel` に、Views、Sessions、Organic Sessions、booking clicks、business CTA view/click、lead、確定Affiliate成果/報酬、B2B問い合わせ/受注/売上、Revenue/1,000 Views、ボトルネック、次アクションを記録する。
+
+汎用的な『相談する』CTAより、データに基づく具体的なB2B入口（例: 検索需要レポート、店舗情報/予約導線診断）を優先する。一般読者向け記事でB2B CTAを強くしすぎない。
+
 ## SEOマーケター・市場需要モード
 
 Organic Searchが主要チャネルなら、単に既存GSCの順位を直すのではなく「市場にどれだけ需要があるか」「イバトコがどのクエリ群を取りにいくべきか」まで毎日判断する。

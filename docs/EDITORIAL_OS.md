@@ -20,6 +20,8 @@
 - `data/editorial/growth-targets.json`：North Starとガードレール。現在はGA4 `screen_page_views`（Views）ローリング28日100,000
 - `data/editorial/action-queue.json`：施策候補と実装可否
 - `data/editorial/growth-opportunities.json`：SEO/SNS/International/CRO/Product/Technicalの成長機会バックログと需要根拠
+- `data/editorial/revenue-opportunities.json`：旅行送客、B2B、Sponsor、Owned Audience、求人、Data、Inboundの収益機会正本
+- `docs/REVENUE_OS.md`：収益の定義、ファネル、実行・検証ルール
 - `docs/editorial/specs/*.md`：ChatGPTが完成させた実装仕様
 - `src/data/seo-changes.ts`：既存の改善履歴。7日・28日のクールダウン判定に使用
 
@@ -73,6 +75,21 @@
 `data/editorial/popular-pages.json` はGA4直近7日 `screen_page_views` を使い、ホーム、404、noindex、終了済みで後継導線のないページを除外して上位8件を保存する。`GrowthNextReads.astro` がnews/events上で最大3件を表示し、`growth_next_view` / `growth_next_click` で検証する。
 
 7日後は最低500 viewを目安にCTRとViews/sessionを評価し、CTR 2%以上かつViews/session +5%以上を成功目安とする。500 view以上でCTR 1%未満、またはViews/session悪化なら候補選定・配置・文言を変更する。
+
+## Revenue OS
+
+GA4 Views 100,000は集客North Starであり、収益そのものではない。日次OSは必ずRevenue OSも並走させる。
+
+- 確定収益、確定B2B受注、Revenue/1,000 Viewsを事業KPIとして別管理する
+- 高流入ページを discover / visit / book / buy / business / repeat に分類し、意図に合う収益導線だけを置く
+- 旅行/予約、地域事業者リード、Sponsor、Owned Audience、求人、地域データ、Inboundを収益レーンとして比較する
+- 収益が0の場合は「収益化済み」と言わず、露出→クリック→発生→承認→入金のどこで止まっているかを特定する
+- Google Drive `Revenue_Funnel` に日次/週次の実績を記録する
+- `affiliate-results.csv` と `business-inquiries.csv` は確定値だけを記録し、推定値で埋めない
+- 低リスクのCTA/送客/計測/レポート型B2B入口改善はGrowth Batchで自動実行可能
+- 料金公開、ASP申請、スポンサー商品価格、契約、決済、有料求人掲載は人の確認対象
+
+特に初期は、ページビューを増やすだけではなく、高意図ページの割合とRevenue/1,000 Viewsを同時に上げる。
 
 ## SEOマーケター運用
 

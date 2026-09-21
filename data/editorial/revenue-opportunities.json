@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-21",
+  "objective": "GA4 Views 100,000を収益へ変換し、確定売上・粗利・Revenue per 1,000 Viewsを継続的に上げる",
+  "current": {
+    "period": "2026-08-24..2026-09-20",
+    "views": 4658,
+    "sessions": 3477,
+    "organicSearchSessions": 2957,
+    "outboundBookingClicks": 9,
+    "businessCtaViews": 180,
+    "businessCtaClicks": 0,
+    "generateLead": 4,
+    "confirmedAffiliateConversions": 0,
+    "confirmedAffiliateRevenueYen": 0,
+    "confirmedB2BInquiries": 0,
+    "confirmedOrders": 0,
+    "confirmedOrderRevenueYen": 0,
+    "revenuePer1000ViewsYen": 0,
+    "activeAffiliateBookingClicks": 2,
+    "nonMonetizedOrOfficialBookingClicks": 7,
+    "generateLeadBreakdown": {
+      "local_editor": 2,
+      "coverage_listing_inquiry": 1,
+      "other": 1,
+      "confirmed_paid_business_lead": 0
+    },
+    "activeAffiliateClickShare": 0.2222222222222222,
+    "returningSessions": 317,
+    "returningViews": 522,
+    "returningSessionShare": 0.09117054932412999,
+    "returningViewShare": 0.11206526406182911,
+    "ownedAudienceCapture": "not implemented"
+  },
+  "revenueLanes": [
+    {
+      "id": "transaction-affiliate",
+      "name": "旅行・予約・送客",
+      "priority": "high",
+      "models": [
+        "宿泊アフィリエイト",
+        "駐車場",
+        "体験・観光予約",
+        "飲食/施設予約"
+      ],
+      "triggerIntents": [
+        "泊まる",
+        "予約",
+        "アクセス",
+        "駐車場",
+        "料金",
+        "チケット",
+        "周辺"
+      ],
+      "rule": "高意図ページだけに文脈一致した導線を置き、公式情報を先に出す。成果未確認を収益化済みと呼ばない。"
+    },
+    {
+      "id": "b2b-leadgen",
+      "name": "地域事業者リード",
+      "priority": "high",
+      "models": [
+        "検索需要レポート",
+        "店舗情報/予約導線改善",
+        "Web/SNS/SEO支援",
+        "掲載情報整備"
+      ],
+      "triggerIntents": [
+        "事業者",
+        "店舗",
+        "集客",
+        "掲載",
+        "検索",
+        "予約導線"
+      ],
+      "rule": "一般読者向け汎用CTAを増やさず、データに基づく具体的な診断・レポートを入口にする。"
+    },
+    {
+      "id": "sponsorship",
+      "name": "スポンサー/PR",
+      "priority": "medium",
+      "models": [
+        "イベントガイド協賛",
+        "エリアスポンサー",
+        "SPORTSスポンサー",
+        "特集タイアップ"
+      ],
+      "triggerIntents": [
+        "大型イベント",
+        "エリアハブ",
+        "スポーツ",
+        "季節特集"
+      ],
+      "rule": "編集順位を販売しない。PR/Partner/Editorialを明確に分離する。"
+    },
+    {
+      "id": "owned-audience",
+      "name": "再訪・自社オーディエンス",
+      "priority": "medium",
+      "models": [
+        "メール",
+        "LINE",
+        "通知",
+        "お気に入り/保存"
+      ],
+      "triggerIntents": [
+        "イベント更新",
+        "見頃",
+        "試合",
+        "交通",
+        "雨天変更"
+      ],
+      "rule": "再訪価値が高い更新型テーマでのみ獲得し、登録数ではなく再訪Viewsと送客で評価する。"
+    },
+    {
+      "id": "jobs",
+      "name": "地域求人・採用",
+      "priority": "medium",
+      "models": [
+        "求人掲載",
+        "採用特集",
+        "採用SNS/コンテンツ支援"
+      ],
+      "triggerIntents": [
+        "地域企業",
+        "店舗",
+        "観光事業者",
+        "人手不足"
+      ],
+      "rule": "求人媒体化は在庫と需要が確認できてから。先に事業者接点と求職需要を計測する。"
+    },
+    {
+      "id": "data-licensing",
+      "name": "地域データ/法人・自治体",
+      "priority": "medium",
+      "models": [
+        "イベントデータ提供",
+        "地域検索需要レポート",
+        "ホワイトラベル記事/ウィジェット",
+        "自治体・観光協会向け分析"
+      ],
+      "triggerIntents": [
+        "イベントDB",
+        "44市町村",
+        "検索需要",
+        "観光動向"
+      ],
+      "rule": "一次情報・更新履歴・構造化データを資産化し、単発記事制作より継続データ提供を優先する。"
+    },
+    {
+      "id": "inbound",
+      "name": "訪日旅行者",
+      "priority": "high",
+      "models": [
+        "宿泊/体験送客",
+        "東京発日帰りルート",
+        "多言語スポンサー"
+      ],
+      "triggerIntents": [
+        "from Tokyo",
+        "how to get",
+        "day trip",
+        "hotel",
+        "season",
+        "ticket"
+      ],
+      "rule": "既に検索露出がある英語/繁中/韓国語クエリを先に収益導線へ接続する。"
+    }
+  ],
+  "scoring": {
+    "fields": [
+      "expectedViewsLift",
+      "purchaseIntent",
+      "revenuePotential",
+      "repeatability",
+      "assetValue",
+      "implementationCost",
+      "timeToRevenue",
+      "risk"
+    ],
+    "note": "固定点数だけで機械決定せず、根拠と不確実性を残す。"
+  },
+  "rules": [
+    "Views目標と収益目標を分離する。アクセス増だけを成功扱いしない。",
+    "確定収益はASP/入金/受注記録で確認できる値だけ。推定売上を実績に混ぜない。",
+    "各高流入ページに monetizationIntent を持たせ、適切な収益モデルが無い場合は無理に広告を置かない。",
+    "毎日、最も収益化に近いボトルネックを1つ特定し、低リスクならGrowth Batchとして実装する。",
+    "広告・PR・提携は編集評価やランキングと分離する。",
+    "outbound_booking_clickをpartner_status別に分解し、クリックされる未提携/公式リンクを提携・直取引候補として発見する。",
+    "generate_leadを件数だけで評価せず、form_subjectで contributor/editorial/business/other に分類し、収益ファネルではpaid business leadだけを別集計する。",
+    "Booking clickのうちactive partnerへの比率をMonetized Click Shareとして監視する。公式情報を広告化せず、未提携サービスで需要が確認できた場合だけ提携/直取引候補にする。",
+    "returning session share / returning view shareを追い、SEO依存を下げる。Owned Audience未実装のため、LINE/メール等は新規導入候補として扱うが、外部アカウント作成や送信基盤契約はユーザー承認が必要。"
+  ]
+}
