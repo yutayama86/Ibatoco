@@ -72,6 +72,8 @@ const ALLOWED_EVENTS = new Set([
   'generate_lead',
   'local_business_click',
   'next_action_click',
+  'growth_next_view',
+  'growth_next_click',
 ]);
 const srcFiles = [];
 (function walk(dir) {
