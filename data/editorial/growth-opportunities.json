@@ -95,6 +95,76 @@
       },
       "opportunity": "Threadsは検索に次ぐ外部成長チャネル候補。検索で伸びたテーマをSNS向けに再編集し、翌日の検索・直接流入波及まで確認する。",
       "nextReview": "daily"
+    },
+    {
+      "id": "discovery-google-discover-news",
+      "lane": "technical",
+      "status": "execute",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "current": [
+          "OG images 1200x630",
+          "NewsArticle structured data",
+          "RSS",
+          "sitemap"
+        ],
+        "gaps": [
+          "max-image-preview:large was missing",
+          "dedicated news sitemap was missing"
+        ]
+      },
+      "opportunity": "検索以外の発見面を増やす。技術要件を整えたうえで、Discoverレポートが出たら実データで投資判断する。",
+      "nextReview": "2026-09-28"
+    },
+    {
+      "id": "owned-audience-retention",
+      "lane": "product",
+      "status": "active",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "returningSessions": 317,
+        "totalSessions": 3477,
+        "returningSessionShare": 0.0912,
+        "returningViews": 522,
+        "totalViews": 4658
+      },
+      "opportunity": "見頃・イベント変更・スポーツ・交通など更新需要でOwned Audienceを作り、SEO依存を下げる。",
+      "nextReview": "weekly"
+    },
+    {
+      "id": "brand-backlink-distribution",
+      "lane": "seo",
+      "status": "observe",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "note": "明示的な被リンク獲得/指名検索監視がGrowth OSに未統合だったため追加"
+      },
+      "opportunity": "一次情報・地域データ・埋込ウィジェット・現地取材を、自治体・施設・店舗から引用される資産へ変える。",
+      "nextReview": "weekly"
+    },
+    {
+      "id": "verified-business-directory",
+      "lane": "product",
+      "status": "active",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "placeInfrastructure": true,
+        "publishedVerifiedStores": 0
+      },
+      "opportunity": "/place/をLocal Entity Graphへ育て、SEO・送客・店舗支援・データ事業を接続する。",
+      "nextReview": "weekly"
+    },
+    {
+      "id": "google-preferred-sources",
+      "lane": "sns",
+      "status": "observe",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "officialFeature": "Preferred Sources is globally available for Top Stories and can appear in AI Mode/AI Overviews where available",
+        "eligibility": "ibatoco.jp eligibility not yet confirmed"
+      },
+      "opportunity": "source preferences toolでibatoco.jpが確認できた場合、サイト内にPreferred Source導線を追加しGoogle内での再発見性を高める。",
+      "nextReview": "weekly"
     }
   ]
 }

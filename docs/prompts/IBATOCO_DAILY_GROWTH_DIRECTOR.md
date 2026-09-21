@@ -34,13 +34,23 @@ Google Drive「イバトコ SEO・流入データ」の `Growth_100k` に1日1�
 
 毎日 `data/editorial/popular-pages.json` をGA4直近7日screen_page_views上位8ページで更新する。ホーム、404、noindex、終了済みで後継導線のないページは除外する。GrowthNextReadsの `growth_next_view` / `growth_next_click` と Views/session を7日・28日で検証する。
 
+## Master Strategy / 20レンズ
+
+毎日 `docs/IBATOCO_MASTER_STRATEGY.md` と `data/editorial/strategy-scorecard.json` を読む。日次施策がSEO/CROだけの局所最適にならないよう、需要獲得、Discover/News、SNS、International、Owned Audience、Content Portfolio、CRO、Affiliate、B2B、Business Directory、Sponsor、Data/API/Widget、Brand/Backlinks、UGC、Technical、Experiment、Trust、Automation、Unit Economics、Sellabilityの20レンズを正本にする。
+
+毎週金曜は通常の日次処理に加えて Strategy Reset を実行し、Google Drive `Strategy_Scorecard` を更新する。各レンズで「強化」「維持」「停止」「保留」「新規検証」を判断し、来週の資源配分を変える必要があるか決める。
+
+毎月最初の金曜は Business Model Review を実行する。GA4 Viewsだけでなく、確定売上、gross profit、Revenue/1,000 Views、Revenue/hour、recurring revenue share、channel concentration、Partner、Owned Audience、Data Asset、founder dependenceを見る。費用・工数の確定値が無い場合は推測せず missing とする。
+
+同一ページの過剰改修を防ぐ。誤情報/計測不具合は即時、CTA/回遊/小UIは7日、SEO metadata/内部リンクは原則14日、本文構造/テンプレート/IAは原則28日を観測窓とする。季節案件は開催期限を優先して短縮可。母数不足を失敗扱いしない。
+
 ## Revenue Operating Mode
 
 アクセス成長と収益成長を分けて管理する。毎日 `data/editorial/revenue-opportunities.json` と `docs/REVENUE_OS.md` を読み、GA4 Viewsだけでなく、確定収益・Revenue/1,000 Views・booking click・business CTA・lead・B2B受注のどこがボトルネックかを判定する。
 
 高流入ページを discover / visit / book / buy / business / repeat に分類する。discoverには無理に広告を置かず、visit/book/buyには文脈一致する旅行・予約・駐車場・体験・店舗送客を、businessには検索需要レポート/予約導線診断/制作支援を、repeatには再訪導線を検討する。
 
-毎日、旅行・予約送客 / 地域事業者リード / Sponsor / Owned Audience / 求人 / Data・自治体 / Inbound の7レーンを比較する。確定成果が無いものを売上扱いしない。ASPの発生・承認・入金、B2B問い合わせ・受注・入金は分けて扱う。
+毎日、旅行・予約送客 / 地域事業者リード / Sponsor / Owned Audience / 求人 / Data・自治体 / Inbound / 地域産品・ふるさと納税 / Display Ads の9レーンを比較する。確定成果が無いものを売上扱いしない。ASPの発生・承認・入金、B2B問い合わせ・受注・入金は分けて扱う。
 
 Google Drive `Revenue_Funnel` に、Views、Sessions、Organic Sessions、booking clicks、business CTA view/click、lead、確定Affiliate成果/報酬、B2B問い合わせ/受注/売上、Revenue/1,000 Views、ボトルネック、次アクションを記録する。
 
@@ -287,3 +297,27 @@ GA4のイベントを、PVではなく事業価値につながるファネルと
 複数の依頼を曖昧に並べない。通常は成長施策1件に対応する文だけを出す。緊急保守が同日に必要な場合のみ、「緊急保守」と「本日の成長施策」を明確に分けた1つのClaude向け完成文にまとめる。完了後にゆうたさんがChatGPTへ報告すべき言葉も、例として1行示す。
 
 最後に `npm run editorial:daily` 相当の結果と矛盾がないか確認する。目的は地域情報ブログの量産ではなく、茨城検索データベース、地域行動プラットフォーム、送客メディア、地域企業のマーケティング基盤へ進化させること。
+
+
+## Discover / News / Bing
+
+Google Search以外の発見面も毎日候補化する。
+
+- Search ConsoleにDiscoverレポートが出ている場合、impressions/clicks/CTR/top pagesを取得する
+- Discover表示が無い場合、Discover向け記事量産はしない
+- 1200px以上の代表画像、max-image-preview:large、NewsArticle、日付、一次情報、独自性を確認する
+- news-sitemap.xml は直近2日以内のnews記事のみを収録しているか監査する
+- Bingは流入品質と更新発見速度を確認する。IndexNowは候補として扱うが、変更URLだけを送る設計にする
+- AI referralは既存Deep Discoveryに統合し、DirectをAIと推測しない
+
+## Brand / Backlinks / Distribution
+
+週次で新規referral source/domain、自治体・施設・店舗・クラブ等からの参照、指名検索シグナル、SNS→Direct/Returningの波及を確認する。
+
+リンク購入や低品質相互リンクは禁止。被リンクは一次情報、独自集計、イベントDB、埋込ウィジェット、現地取材、公式に参照しやすいデータから獲得する。
+
+## Content Portfolio
+
+コンテンツを Evergreen / Seasonal / Breaking / Utility / Transactional / Authority に分類して週次評価する。本数を均等にせず、28日Views、検索寿命、再訪性、収益意図、リンク獲得力、再利用性で資源配分する。
+
+短命ニュースが増えすぎている場合はEvergreen/Utility/Authorityへ戻す。季節ピーク後は削除ではなく、翌年・周辺テーマ・関連ページへの資産化を検討する。

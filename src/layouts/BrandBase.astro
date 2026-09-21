@@ -74,8 +74,8 @@ const routeSegment = pathname.split('/').filter(Boolean)[0]?.replace(/[^a-z0-9-]
     <meta name="description" content={description} />
     <meta name="theme-color" content="#edf6ff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    {/* 検索結果には出さないが、そこから先の記事はたどらせる（タグ・空の一覧などのリンクハブを殺さない） */}
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {/* Discover / 画像プレビュー用に large を明示。noindex ページは検索結果には出さずリンク追跡は許可する。 */}
+    <meta name="robots" content={noindex ? 'noindex, follow, max-image-preview:large' : 'max-image-preview:large'} />
     <link rel="canonical" href={canonical} />
     {alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={absolute(alt.path)} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={absolute(xDefault)} />}

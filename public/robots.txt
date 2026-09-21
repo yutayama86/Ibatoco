@@ -25,3 +25,4 @@ Allow: /
 
 # サイト要約（AI向け）: https://ibatoco.jp/llms.txt
 Sitemap: https://ibatoco.jp/sitemap.xml
+Sitemap: https://ibatoco.jp/news-sitemap.xml

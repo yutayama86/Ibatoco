@@ -21,6 +21,17 @@
         "position"
       ],
       "note": "GSC表示回数はNorth Starではない。GA4 Viewsを増やすための検索獲得診断に使う。"
+    },
+    "business": {
+      "role": "business_health",
+      "metrics": [
+        "confirmed_revenue",
+        "gross_profit",
+        "revenue_per_1000_views",
+        "revenue_per_hour",
+        "recurring_revenue_share"
+      ],
+      "note": "値が取得できない場合は推測しない。Views 100,000達成だけで事業成功としない。"
     }
   },
   "guardrails": {
@@ -35,7 +46,15 @@
       "gsc position",
       "business_cta_click",
       "outbound_booking_click",
-      "generate_lead"
+      "generate_lead",
+      "returning sessions",
+      "returning views",
+      "confirmed affiliate revenue",
+      "confirmed B2B revenue",
+      "revenue per 1000 views",
+      "gross profit",
+      "revenue per hour",
+      "channel concentration"
     ],
     "notes": "GA4 Viewsだけを増やすための不要なページ分割や自動リロードは禁止。検索意図適合、一次情報性、流入、回遊、送客・問い合わせを同時に確認する。"
   }
