@@ -191,7 +191,8 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   }
 </script>
 
-<style>
+<!-- ブラウザで日付ごとに再生成するカードにも適用する。tw固有クラスだけなので他要素へ波及しない -->
+<style is:global>
   .tw{padding-block:clamp(2.5rem,5vw,4rem);background:var(--color-white)}
   .tw__title{margin-top:.6rem;font:600 clamp(1.6rem,3.2vw,2.4rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .tw__lead{margin-top:.8rem;max-width:var(--measure);color:var(--color-soil);font-size:.88rem;line-height:1.9}
