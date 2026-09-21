@@ -12,24 +12,13 @@
  *  4. eventInfo の日付と今日を比べる
  */
 import type { CollectionEntry } from 'astro:content';
+import { dateOnlyFromCoercedDate, dateOnlyFromInstant } from './date-only.js';
 
 export type EventLifecycle = 'upcoming' | 'today' | 'ended' | 'evergreen';
 
 /** 今日の0時（日本時間）。日付だけで比べるため、時刻は落とす */
 export function startOfTodayJst(now: Date = new Date()): Date {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Tokyo',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(now);
-  const [y, m, d] = parts.split('-').map(Number);
-  return new Date(y!, m! - 1, d!);
-}
-
-/** 日付だけを取り出して比較できる形にする */
-function dayOnly(d: Date): Date {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  return dateOnlyFromInstant(now, 'Asia/Tokyo');
 }
 
 export function lifecycleOf(entry: CollectionEntry<'events'>, now: Date = new Date()): EventLifecycle {
@@ -42,8 +31,8 @@ export function lifecycleOf(entry: CollectionEntry<'events'>, now: Date = new Da
   if (!info?.startDate) return 'evergreen';
 
   const today = startOfTodayJst(now);
-  const start = dayOnly(info.startDate);
-  const end = info.endDate ? dayOnly(info.endDate) : start;
+  const start = dateOnlyFromCoercedDate(info.startDate);
+  const end = info.endDate ? dateOnlyFromCoercedDate(info.endDate) : start;
 
   if (today < start) return 'upcoming';
   if (today > end) return 'ended';
