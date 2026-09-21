@@ -1,0 +1,122 @@
+---
+import popular from '../../data/editorial/popular-pages.json';
+import { getEvents, getNews } from '../lib/content';
+
+interface Props {
+  currentPath: string;
+  pageType: 'news' | 'events';
+}
+
+const { currentPath, pageType } = Astro.props;
+const [news, events] = await Promise.all([getNews(), getEvents()]);
+
+const titleByPath = new Map<string, string>();
+for (const item of news) {
+  titleByPath.set(`/news/${item.id.split('/').pop()}/`, item.data.title);
+}
+for (const item of events) {
+  titleByPath.set(`/events/${item.id.split('/').pop()}/`, item.data.title);
+}
+
+const items = popular.pages
+  .filter((entry) => entry.path !== currentPath)
+  .map((entry, index) => ({
+    ...entry,
+    title: titleByPath.get(entry.path),
+    rank: index + 1,
+  }))
+  .filter((entry): entry is typeof entry & { title: string } => Boolean(entry.title))
+  .slice(0, 3);
+
+const hasItems = items.length > 0;
+---
+
+{hasItems && (
+  <nav
+    class="growth-next"
+    aria-labelledby="growth-next-title"
+    data-growth-next
+    data-page-type={pageType}
+    data-current-path={currentPath}
+  >
+    <p class="growth-next__kicker">TRENDING NOW</p>
+    <h2 id="growth-next-title">いま読まれている茨城情報</h2>
+    <p class="growth-next__lead">次に知りたい情報を、直近7日の閲覧データから案内します。</p>
+    <ol>
+      {items.map((item) => (
+        <li>
+          <a
+            href={item.path}
+            data-growth-next-link
+            data-rank={String(item.rank)}
+            data-target-path={item.path}
+          >
+            <span class="growth-next__rank">{String(item.rank).padStart(2, '0')}</span>
+            <span class="growth-next__title">{item.title}</span>
+            <span class="growth-next__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<script>
+  import { commonParams, trackEvent } from '../lib/analytics-events';
+
+  for (const block of document.querySelectorAll<HTMLElement>('[data-growth-next]')) {
+    let viewed = false;
+    const pageType = block.dataset.pageType ?? '';
+    const currentPath = block.dataset.currentPath ?? window.location.pathname;
+
+    const sendView = () => {
+      if (viewed) return;
+      viewed = true;
+      trackEvent('growth_next_view', {
+        ...commonParams({ page_type: pageType }),
+        source_page: currentPath,
+        item_count: block.querySelectorAll('[data-growth-next-link]').length,
+      });
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          sendView();
+          observer.disconnect();
+        }
+      }, { threshold: 0.35 });
+      observer.observe(block);
+    } else {
+      sendView();
+    }
+
+    for (const link of block.querySelectorAll<HTMLAnchorElement>('[data-growth-next-link]')) {
+      link.addEventListener('click', () => {
+        trackEvent('growth_next_click', {
+          ...commonParams({ page_type: pageType }),
+          source_page: currentPath,
+          destination_url: link.dataset.targetPath ?? link.getAttribute('href') ?? '',
+          item_rank: Number(link.dataset.rank ?? 0),
+        });
+      });
+    }
+  }
+</script>
+
+<style>
+  .growth-next{margin:2rem 0 2.5rem;padding:1.15rem 1.2rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:linear-gradient(180deg,var(--interior-sky-soft,#eef6ff),var(--color-white))}
+  .growth-next__kicker{margin:0;color:var(--interior-blue,var(--color-tide));font:700 .66rem var(--font-brand-meta);letter-spacing:.14em}
+  .growth-next h2{margin:.35rem 0 0;font:600 clamp(1.12rem,2vw,1.35rem)/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .growth-next__lead{margin:.4rem 0 0;color:var(--color-soil);font-size:.78rem;line-height:1.7}
+  .growth-next ol{display:grid;gap:.55rem;margin:1rem 0 0;padding:0;list-style:none}
+  .growth-next li{margin:0;padding:0}
+  .growth-next li::before{content:none}
+  .growth-next a{display:grid;grid-template-columns:2.1rem minmax(0,1fr) auto;align-items:center;gap:.65rem;padding:.75rem .8rem;border:1px solid color-mix(in srgb,var(--color-mist) 80%,transparent);border-radius:.7rem;background:var(--color-white);color:var(--color-ink);text-decoration:none;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .growth-next a:hover,.growth-next a:focus-visible{transform:translateY(-1px);border-color:var(--interior-blue,var(--color-tide));box-shadow:0 8px 22px rgba(25,55,88,.09)}
+  .growth-next a:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
+  .growth-next__rank{font:700 .68rem var(--font-brand-meta);letter-spacing:.08em;color:var(--interior-blue,var(--color-tide))}
+  .growth-next__title{font-size:.9rem;line-height:1.6;font-weight:700}
+  .growth-next__arrow{color:var(--interior-blue,var(--color-tide))}
+  @media(max-width:520px){.growth-next{padding:1rem}.growth-next a{grid-template-columns:1.7rem minmax(0,1fr) auto;padding:.7rem}.growth-next__title{font-size:.86rem}}
+</style>
