@@ -380,6 +380,40 @@ sourceUrls / verifiedAt / updatedDate / corrections を使い、未確認情報�
 
 これらは「できるか」ではなく、現行レーンより期待値が高くなった時だけ再評価する。
 
+
+## 新しいアイデアの処理
+
+新しい施策を思いつくたびに戦略を作り直さない。必ず次のGateを通す。
+
+1. **Evidence** — exact / observed / proxy / official market data のどれがあるか。根拠なしなら observe。
+2. **Stage Fit** — 現在の成長ステージで今やるべきか。
+3. **Existing Asset** — 既存URL、既存データ、既存テンプレートで解けないか。
+4. **User Intent** — discover / visit / book / buy / business / repeat のどれか。
+5. **Economic Path** — Views、Returning、Booking、Paid Lead、Revenue、Data Assetのどれを動かすか。
+6. **Moat** — 一回限りか、データ・内部リンク・Entity・顧客・再訪として残るか。
+7. **Cost / Risk** — 工数、運用負荷、権利、SEO、UX、vendor dependency。
+8. **Measurement** — 7/14/28日後に何で継続/停止を判断するか。
+9. **Opportunity Cost** — 現在の最優先Growth Batchより期待値が高いか。
+
+Gateを通らない案は「面白い」だけで実行しない。observe / rejected に残す。
+
+## 戦略を再検討するトリガー
+
+通常は毎週金曜・毎月最初の金曜以外にMaster Strategyを作り直さない。
+
+ただし以下は臨時再検討のトリガー。
+
+- GA4/GSCの主要トレンドが明確に反転
+- 主要チャネル構成が大きく変化
+- 初めての確定収益、初めての有料B2B受注、初めての継続契約
+- 新しい流入面が実データで急増
+- Google等の大きな検索仕様変更
+- Windsor.ai / GA4 / GSC等のデータ供給停止
+- 重大な誤情報、権利、規約、広告表示リスク
+- 開催日・季節ピークが近く通常の観測窓では間に合わない
+
+それ以外は日次OSに任せ、場当たり的な方向転換をしない。
+
 ## 運用 cadence
 
 ### 毎日
