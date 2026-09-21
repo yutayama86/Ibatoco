@@ -382,3 +382,20 @@ form_start 2 / **generate_lead 1**。イベント自体は届いている。
 
 確かめるには、GA4 Data API で期間を8/1〜8/29にして keyEvents を取る。
 1件以上なら登録済み、0なら未登録の疑いが濃い。
+
+
+## Local Business Actions
+
+`/place/` の事業者ページはPVだけで価値評価しない。
+
+`local_business_click` を以下の `link_kind` で送る。
+
+- `official`: 公式サイト
+- `map`: Google マップ
+- `tel`: 電話
+- `reservation`: 予約（導線実装時）
+
+主要分析軸は `business_id`、`link_kind`、`source_page`。
+事業者ごとの Action CTR = local_business_click / place page views を見て、無料掲載・Partner支援の価値証明に使う。
+
+2026-09-21時点では `business_id` と `link_kind` はGA4カスタムディメンションとして取得可能。事業者名は公開表示には使えるが、分析の名寄せは変更されにくい business_id を主キーにする。

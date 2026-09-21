@@ -381,6 +381,89 @@ sourceUrls / verifiedAt / updatedDate / corrections を使い、未確認情報�
 これらは「できるか」ではなく、現行レーンより期待値が高くなった時だけ再評価する。
 
 
+
+## Cross-cutting Blind Spot Controls
+
+20レンズだけでは見落としやすい横断課題を、5つのControlとして固定する。
+
+### 1. Market Whitespace / Competitor Radar
+
+GSCは「すでにイバトコが表示された需要」しか見えない。したがってGSCだけでSEO投資先を決めると、未露出の大市場を永続的に見落とす。
+
+毎週、以下から新規需要を探索し、Google Drive `Market_Whitespace` に記録する。
+
+- 競合/公式/観光メディアが獲得しているテーマ
+- Google Trends、関連検索、SERPの派生意図
+- 季節カレンダーと大型イベント
+- 県の観光・産業データ
+- SNSで急増している地域テーマ
+- 読者/事業者から来た質問
+
+検索ボリュームは確認できた場合だけ exact。確認できない場合は observed / proxy / unknown を維持する。
+
+競合の記事本数を真似しない。イバトコが一次情報、地域密度、実用性、更新性、取引導線のいずれかで明確に強くできるテーマだけ投資する。
+
+### 2. First-party Demand Sensor
+
+外部検索データだけでなく、サイト内で読者が何を探しているかを将来の需要センサーにする。
+
+候補:
+- サイト内検索
+- zero-result query
+- 「次に知りたい」クリック
+- 訂正/追加情報リクエスト
+- 保存/通知
+- FAQ展開
+- 問い合わせ subject
+
+トラフィックが十分になる前に大型検索システムは作らない。実装した場合は検索語をPII除去して保存し、zero-resultをSEO/Product backlogへ送る。
+
+### 3. Local Action Value Proof
+
+/place/ の価値はPVではなく、地域事業者へ実際の行動を生んだかで証明する。
+
+最低限追う:
+- `local_business_click` + `link_kind=official`
+- `link_kind=map`
+- `link_kind=tel`
+- `link_kind=reservation`
+
+将来は事業者ごとに Page Views → Action CTR → Booking/Lead を示せる状態にする。これが無料掲載から有料の情報整備・運用支援へつなぐ営業根拠になる。
+
+### 4. B2B CRM / LTV
+
+問い合わせ件数だけでは事業にならない。paid business leadを以下のstageで追う。
+
+`new → qualified → meeting → proposal → won / lost → active → renewal / churn`
+
+Google Drive `B2B_CRM` に流入ページ、チャネル、相談種別、見積、受注、MRR、更新/失注理由を記録する。
+
+事業KPIは lead数ではなく:
+- paid lead rate
+- proposal rate
+- win rate
+- average order value
+- MRR / recurring revenue
+- renewal
+- lead source別売上
+
+個人情報は必要最小限にし、公開GitHubへ顧客情報を保存しない。
+
+### 5. Governance / Legal / Security / Accessibility
+
+成長速度が上がっても、以下を壊さない。
+
+- 景品表示法・ステマ規制を含む広告表示
+- Affiliate/ASP規約
+- 写真・ロゴ・文章等の権利
+- 個人情報/問い合わせデータ
+- GA4等の計測とprivacy disclosure
+- accessibility（キーボード、alt、contrast、semantic HTML）
+- dependency/security alerts
+- 外部ツールの権限最小化
+
+法令や契約条件は推測で自動変更しない。問題が疑われる場合は公開拡大より修正を優先する。
+
 ## 新しいアイデアの処理
 
 新しい施策を思いつくたびに戦略を作り直さない。必ず次のGateを通す。

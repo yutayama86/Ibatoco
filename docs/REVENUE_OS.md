@@ -106,3 +106,25 @@ Google Driveの `Partner_Pipeline` に、検索/行動データから見つけ�
 - Sponsor/PR/Partnerの適合性がある既知事業者
 
 ChatGPTは候補発見と根拠整理までは自動で行う。新規ASP申請、営業連絡、価格提示、契約はユーザー承認が必要。編集順位・おすすめ順位を販売しない。
+
+
+## B2B CRM
+
+paid business leadは `generate_lead` の件数ではなく、Google Drive `B2B_CRM` で商談ライフサイクルを追う。
+
+`new → qualified → meeting → proposal → won / lost → active → renewal / churn`
+
+最低限見る指標:
+- paid business lead rate
+- proposal rate
+- win rate
+- average order value
+- MRR / recurring revenue
+- renewal
+- lead source / landing page別の受注金額
+
+顧客の個人情報・連絡先を公開GitHubへ保存しない。
+
+## Local Business Action Revenue Proof
+
+`/place/` が公開されたら、事業者ページの価値をPVではなく `local_business_click` の official / map / tel / reservation で示す。Action CTRが出れば、無料掲載から情報整備・予約導線・Web/SNS/SEO支援へ提案する根拠になる。

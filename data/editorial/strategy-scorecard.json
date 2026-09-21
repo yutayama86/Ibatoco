@@ -76,6 +76,53 @@
     "Do not sell editorial ranking.",
     "Do not repeatedly modify the same page before the observation window closes unless facts are wrong.",
     "Do not silently infer data when connectors fail.",
-    "Do not build large products before demand evidence."
+    "Do not build large products before demand evidence.",
+    "Do not let GSC-only discovery hide queries where Ibatoco has zero current impressions.",
+    "Do not evaluate local business pages by page views alone; track real outbound actions.",
+    "Do not count editorial/contributor contacts as paid B2B pipeline.",
+    "Do not persist customer personal data in the public GitHub repository.",
+    "Do not accelerate monetization by weakening disclosure, rights, privacy, accessibility, or security."
+  ],
+  "crossCuttingControls": [
+    {
+      "id": "market-whitespace",
+      "status": "active",
+      "artifact": "Google Drive / Market_Whitespace",
+      "cadence": "weekly"
+    },
+    {
+      "id": "first-party-demand",
+      "status": "candidate",
+      "artifact": "future onsite search/feedback signals",
+      "cadence": "stage-gated"
+    },
+    {
+      "id": "local-action-value",
+      "status": "execute",
+      "metrics": [
+        "local_business_click",
+        "link_kind"
+      ],
+      "cadence": "daily when place inventory exists"
+    },
+    {
+      "id": "b2b-crm-ltv",
+      "status": "active",
+      "artifact": "Google Drive / B2B_CRM",
+      "cadence": "on lead + weekly"
+    },
+    {
+      "id": "governance-risk",
+      "status": "active",
+      "areas": [
+        "ad disclosure",
+        "affiliate terms",
+        "rights",
+        "privacy",
+        "accessibility",
+        "security"
+      ],
+      "cadence": "continuous"
+    }
   ]
 }

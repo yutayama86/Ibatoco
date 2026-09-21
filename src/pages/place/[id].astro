@@ -26,7 +26,7 @@ const jsonLd = {
 ---
 
 <BrandBase title={`${data.name}｜イバトコ`} description={data.description} image={data.cover} jsonLd={jsonLd}>
-  <article class="place">
+  <article class="place" data-place-id={store.id} data-place-name={data.name} data-place-category={data.category}>
     <header class="place-head bp-wrap">
       <div>
         <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/place/">場所</a>{areaSlug && <><span>/</span><a href={`/area/${areaSlug}/`}>{data.area}</a></>}</nav>
@@ -44,12 +44,33 @@ const jsonLd = {
         {data.features.length > 0 && <section><p class="bp-kicker">FEATURES</p><ul class="features">{data.features.map((feature) => <li>{feature}</li>)}</ul></section>}
         {data.faq.length > 0 && <section><p class="bp-kicker">QUESTIONS</p><h2>訪れる前に</h2><dl class="faq">{data.faq.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl></section>}
       </div>
-      <aside><p class="facts-label">基本情報</p><PlaceFacts store={store} />{data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer">公式サイトを確認する ↗</a>}<p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p></aside>
+      <aside><p class="facts-label">基本情報</p><PlaceFacts store={store} />{data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer" data-place-action="official">公式サイトを確認する ↗</a>}<p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p></aside>
     </div>
   </article>
 
   {articles.length > 0 && <section class="bp-wrap bp-section"><p class="bp-kicker">REPORTED STORIES</p><h2 class="bp-section-title">この場所を取材した記事</h2><div class="related">{articles.slice(0,2).map((article) => <BrandStoryCard article={article} />)}</div></section>}
 </BrandBase>
+
+<script>
+  import { trackLocalBusinessClick } from '../../lib/analytics-events';
+
+  for (const page of document.querySelectorAll<HTMLElement>('[data-place-id]')) {
+    const businessId = page.dataset.placeId ?? '';
+    const businessName = page.dataset.placeName ?? '';
+    const businessCategory = page.dataset.placeCategory ?? '';
+    for (const link of page.querySelectorAll<HTMLAnchorElement>('[data-place-action]')) {
+      link.addEventListener('click', () => {
+        trackLocalBusinessClick({
+          business_id: businessId,
+          business_name: businessName,
+          business_category: businessCategory,
+          link_kind: link.dataset.placeAction ?? 'official',
+          page_type: 'place',
+        });
+      });
+    }
+  }
+</script>
 
 <style>
   .place{padding-block:clamp(4rem,9vw,7rem)}.crumbs{display:flex;gap:.55rem;margin-bottom:1.5rem;color:var(--color-soil);font-size:.78rem}.crumbs a{border-bottom:1px solid transparent}.crumbs a:hover{border-color:var(--color-tide)}
