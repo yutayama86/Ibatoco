@@ -22,6 +22,8 @@
 - `data/editorial/growth-opportunities.json`：SEO/SNS/International/CRO/Product/Technicalの成長機会バックログと需要根拠
 - `data/editorial/revenue-opportunities.json`：旅行送客、B2B、Sponsor、Owned Audience、求人、Data、Inboundの収益機会正本
 - `docs/REVENUE_OS.md`：収益の定義、ファネル、実行・検証ルール
+- `docs/IBATOCO_MASTER_STRATEGY.md`：20の戦略レンズ、週次・月次の資源配分ルール、長期の事業価値設計
+- `data/editorial/strategy-scorecard.json`：20レンズの状態、集中リスク、実験観測窓
 - `docs/editorial/specs/*.md`：ChatGPTが完成させた実装仕様
 - `src/data/seo-changes.ts`：既存の改善履歴。7日・28日のクールダウン判定に使用
 
@@ -276,3 +278,48 @@ npm run editorial:daily
 - 公開承認など人の判断が必要なら、判断事項だけを短く示す
 - ユーザー作業がない日は「本日は対応不要」と明記する
 - Claude実装後にChatGPTへ返してもらう報告文の例を1行付ける
+
+
+## Strategy Reset
+
+日次の最適化だけでは局所最適に陥るため、毎週金曜は `docs/IBATOCO_MASTER_STRATEGY.md` の20レンズを再監査する。
+
+確認するもの:
+- 新しい需要・流入面
+- Organic Searchへの集中度
+- Returning / Owned Audience
+- Content Portfolioの寿命・季節性
+- Revenue Funnel / Unit Economics
+- Business Directory / Data Asset
+- Sponsor / Partner Pipeline
+- Brand / Backlinks / Referral
+- International
+- Technical / Indexation / Discover / News
+- Trust / Freshness
+- Automation / connector health
+- Sellability / founder dependence
+
+金曜は「今週やったことの報告」ではなく、来週の資源配分を変える必要があるかを判断する。
+
+毎月最初の金曜は Business Model Review とし、Viewsよりも gross profit、Revenue/1,000 Views、Revenue/hour、recurring revenue share、channel concentration、Partner、Owned Audience、Data asset、founder dependenceを優先して見る。
+
+## 実験観測窓
+
+同一ページを短期間に何度も改修して因果を壊さない。
+
+- 誤情報・計測不具合: 即時修正
+- CTA/回遊/小UI: 7日または十分な母数まで
+- SEO title/description/内部リンク: 原則14日
+- 本文構造/テンプレート/IA: 原則28日
+- 季節案件: 開催期限を優先し短縮可
+
+母数不足は失敗ではない。複数の大変更を同じURLで重ねる場合は、明確な理由を記録する。
+
+## Discovery Surface
+
+検索だけでなく、Google Discover / News / Bing / AI / Referralを発見面として監視する。
+
+- DiscoverはSearch Consoleにレポートが出た場合だけ専用KPI化する
+- 大画像、独自性、地域専門性、タイムリーさを重視する
+- News sitemapは直近2日以内のnews記事だけを含める
+- IndexNowはBing等への更新通知候補。導入時は変更URLだけを送信し、全URL乱発はしない
