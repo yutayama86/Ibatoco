@@ -64,6 +64,7 @@ for (const id of seen) {
 // ---- GA4 イベント名 ----
 // 送ってよい名前を明示する。増やすときはここも直す（名前のゆらぎを防ぐ）
 const ALLOWED_EVENTS = new Set([
+  'booking_guide_view',
   'outbound_booking_click',
   'business_cta_view',
   'business_cta_click',
