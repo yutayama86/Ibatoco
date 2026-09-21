@@ -22,7 +22,34 @@
         "対象ファイル以外に差分を出さない",
         "npm run verifyがエラー・警告0件で成功する"
       ],
-      "notes": "公式結果と本文の矛盾を直す最小差分。指定外変更禁止。"
+      "notes": "緊急保守。今日の成長施策枠には含めず、指定1文のみ訂正する。"
+    },
+    {
+      "id": "20260921-rockinstar-carnival-2026",
+      "title": "rockin'star Carnival 2026 新規記事＋10月イベントページSEO改善",
+      "kind": "new-article",
+      "targetUrl": "/events/rockinstar-carnival-2026/",
+      "targetFile": "src/content/events/rockinstar-carnival-2026.md",
+      "additionalTargetFile": "src/content/events/ibaraki-events-october-2026.md",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-21",
+      "specPath": "docs/editorial/specs/20260921-rockinstar-carnival-2026.md",
+      "primarySourceUrls": [
+        "https://rockinstarcarnival.jp/",
+        "https://rockinstarcarnival.jp/2026/ticket/ippan/",
+        "https://rockinstarcarnival.jp/2026/access/",
+        "https://rockinstarcarnival.jp/2026/notice/",
+        "https://www.hitachikaihin.jp/access/"
+      ],
+      "acceptanceCriteria": [
+        "/events/rockinstar-carnival-2026/が生成される",
+        "指定されたtitle、description、本文構造、FAQ、料金、交通、駐車場情報が反映される",
+        "10月イベントまとめから新規記事への内部リンクが追加される",
+        "公式画像・ロゴ・出演者写真を使用しない",
+        "npm run editorial:sync、npm run editorial:check、npm run verifyが成功する"
+      ],
+      "notes": "本日の成長施策。開催12日前の大型未掲載イベント。SEO・AIO・内部リンクを含む完成仕様。"
     }
   ]
 }
