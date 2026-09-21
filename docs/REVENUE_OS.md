@@ -62,3 +62,17 @@ GA4 Views 100,000は集客目標であり、事業目標ではない。Revenue O
 ## 検証
 
 収益施策は 7日/28日で、露出→クリック→CV→確定成果まで追う。クリック増だけで成功にしない。ASPの承認遅延がある場合は、クリック/発生/承認/入金を別々に扱う。
+
+
+## Monetization Gap
+
+毎日 `outbound_booking_click` を `partner_status` / `link_provider` / page で分解する。
+
+- クリックされているが `partner_status: none` → 提携・直取引・別の収益導線候補
+- BookingGuideが見られているのにクリックされない → 文言・位置・選択肢の問題
+- クリックされているのに成果0 → 提携条件、商品適合、承認遅延、リンク品質を確認
+- 成果が出る → 同じ検索意図・地域・イベントへ横展開
+
+`booking_guide_view` を分母にして、BookingGuide CTRを計測する。ページPVだけを分母にしない。
+
+2026-09-21時点では、確認できた9件の outbound booking click のうち、active affiliateへのクリックは楽天トラベル2件。残りは公式または未提携サービスへのクリックだった。したがって「クリック需要はあるが、収益対象への接続率が低い」が初期仮説。
