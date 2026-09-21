@@ -19,7 +19,14 @@ import kashimaMatches from '../data/sports/matches/kashima-antlers.json';
 import mitoMatches from '../data/sports/matches/mito-hollyhock.json';
 import { THEMES } from '../data/themes';
 import { MUNI_BY_SLUG } from '../data/areas';
-import { addDateOnlyDays, dateOnlyFromCoercedDate, dateOnlyWeekday, parseDateOnly } from './date-only.js';
+import { addDateOnlyDays, dateOnlyFromCoercedDate, parseDateOnly } from './date-only.js';
+import {
+  dedupeSeasonHappenings,
+  happeningBucket,
+  happeningDateLabel,
+  happeningWeekendRange,
+  isHappeningActive,
+} from './happening-schedule.js';
 import { startOfTodayJst } from './lifecycle';
 
 export type HappeningKind = 'event' | 'sports' | 'season';
@@ -37,12 +44,16 @@ export interface Happening {
   end: Date;
   /** 「9月23日(水) 17:00」のような表示用の文字列 */
   dateLabel: string;
+  /** 公式に開始時刻がある場合だけ。ブラウザで日付が変わった際の再表示に使う */
+  startTime?: string;
   /** 市町村名。分かるものだけ */
   place?: string;
   /** 市町村slug。街のページで絞り込むのに使う */
   municipality?: string;
   /** 期間ものかどうか（今日も開催中、の表示に使う） */
   ongoing: boolean;
+  /** ビルド時点で開催期間内か。ブラウザ側でも日本時間から再計算する */
+  active: boolean;
 }
 
 /** ホームスタジアムのある市町村。街のページに試合を出すために使う */
@@ -51,38 +62,22 @@ const HOME_MUNICIPALITY: Partial<Record<SportsTeamSlug, string>> = {
   'mito-hollyhock': 'naka',
 };
 
-const JP_DATE = new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short', timeZone: 'Asia/Tokyo' });
-
 /**
  * 今週末（次に来る土曜と日曜）。
  * 今日が土日なら「今日を含む週末」を指す。
  */
 export function weekendRange(today: Date): { start: Date; end: Date } {
-  const dow = dateOnlyWeekday(today); // 0=日（日本の暦日をUTC固定で保持）
-  if (dow === 0) return { start: addDateOnlyDays(today, -1), end: today };
-  if (dow === 6) return { start: today, end: addDateOnlyDays(today, 1) };
-  const toSat = 6 - dow;
-  const sat = addDateOnlyDays(today, toSat);
-  return { start: sat, end: addDateOnlyDays(sat, 1) };
+  return happeningWeekendRange(today);
 }
 
 function bucketOf(h: Happening, today: Date): WhenBucket | null {
-  const tomorrow = addDateOnlyDays(today, 1);
-  const weekend = weekendRange(today);
-  const weekEnd = addDateOnlyDays(today, 7);
-  const covers = (d: Date) => h.start <= d && d <= h.end;
-
-  if (covers(today)) return 'today';
-  if (covers(tomorrow)) return 'tomorrow';
-  if (h.start <= weekend.end && h.end >= weekend.start) return 'weekend';
-  if (h.start <= weekEnd && h.end >= today) return 'thisWeek';
-  return null;
+  return happeningBucket(h.start, h.end, today);
 }
 
 /** 今日から1週間のあいだに関係するものを集める */
-export async function getHappenings(now: Date = new Date()): Promise<Happening[]> {
+export async function getHappenings(now: Date = new Date(), horizonDays = 7): Promise<Happening[]> {
   const today = startOfTodayJst(now);
-  const horizon = addDateOnlyDays(today, 7);
+  const horizon = addDateOnlyDays(today, horizonDays);
   const out: Happening[] = [];
 
   // 1) イベント記事（開催日が決まっているものだけ）
@@ -99,10 +94,12 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
       title: entry.data.title.split('｜')[0]!,
       href: `/events/${entry.id.split('/').pop()}/`,
       start, end,
-      dateLabel: info.startTime ? `${JP_DATE.format(start)} ${info.startTime}` : JP_DATE.format(start),
+      dateLabel: happeningDateLabel(start, end, today, info.startTime),
+      startTime: info.startTime,
       place: muni ? MUNI_BY_SLUG.get(muni)?.name : undefined,
       municipality: muni,
       ongoing: end > start,
+      active: isHappeningActive(start, end, today),
     });
   }
 
@@ -126,11 +123,13 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
         title: `${team.name} vs ${m.opponent}`,
         href: `/sports/${slug}/`,
         start, end: start,
-        dateLabel: m.kickoff ? `${JP_DATE.format(start)} ${m.kickoff}` : JP_DATE.format(start),
+        dateLabel: happeningDateLabel(start, start, today, m.kickoff),
+        startTime: m.kickoff,
         place: m.homeAway === 'home' ? m.venue : `アウェイ・${m.venue ?? ''}`,
         // ホームゲームだけ、その街の出来事として扱う（アウェイは県外のため）
         municipality: m.homeAway === 'home' ? HOME_MUNICIPALITY[slug] : undefined,
         ongoing: false,
+        active: isHappeningActive(start, start, today),
       });
     }
   }
@@ -147,14 +146,15 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
       title: period.label,
       href: period.href ?? `/${theme.slug}/`,
       start, end,
-      dateLabel: `${JP_DATE.format(start)} 〜 ${JP_DATE.format(end)}`,
+      dateLabel: happeningDateLabel(start, end, today),
       place: period.place,
       municipality: period.municipality,
       ongoing: true,
+      active: isHappeningActive(start, end, today),
     });
   }
 
-  return out.sort((a, b) => a.start.valueOf() - b.start.valueOf());
+  return dedupeSeasonHappenings(out).sort((a, b) => a.start.valueOf() - b.start.valueOf());
 }
 
 /** 表示用に「今日 / 明日 / 今週末 / 今週」へ振り分ける。空の区分は返さない */

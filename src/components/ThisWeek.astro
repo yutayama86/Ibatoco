@@ -8,7 +8,7 @@
  * 該当が1件も無ければ、このブロックごと出さない。
  * 「今日は何もありません」と書くくらいなら、無いほうがよい。
  */
-import { getWeekBoard, type HappeningKind } from '../lib/happenings';
+import { getHappenings, getWeekBoard, type HappeningKind } from '../lib/happenings';
 
 interface Props {
   /** GA4 の page_type。置いたページに合わせる（TOP以外から使うとき必須） */
@@ -22,7 +22,22 @@ const {
   lead = '公開情報で日程を確認できたものだけを並べています。終わったものは出していません。',
 } = Astro.props;
 
-const board = await getWeekBoard();
+const now = new Date();
+const board = await getWeekBoard(now);
+// 静的サイトでも日付の経過だけで自動表示・自動非表示できるよう、120日分を埋め込む。
+// 新しい公式発表の追加は通常の公開フロー、既知イベントの状態遷移はブラウザ側が担う。
+const candidates = await getHappenings(now, 120);
+const manifest = JSON.stringify(candidates.map((item) => ({
+  kind: item.kind,
+  title: item.title,
+  href: item.href,
+  start: item.start.toISOString().slice(0, 10),
+  end: item.end.toISOString().slice(0, 10),
+  startTime: item.startTime,
+  place: item.place,
+  municipality: item.municipality,
+  ongoing: item.ongoing,
+}))).replace(/</g, '\\u003c');
 
 const KIND_LABEL: Record<HappeningKind, string> = {
   event: 'イベント',
@@ -31,8 +46,8 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 };
 ---
 
-{board.length > 0 && (
-  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType}>
+{candidates.length > 0 && (
+  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType} hidden={board.length === 0}>
     <div class="bp-wrap">
       <p class="bp-kicker">THIS WEEK</p>
       <h2 id="tw-title" class="tw__title">{heading}</h2>
@@ -47,7 +62,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
                 <li>
                   <a href={item.href} data-week-kind={item.kind} data-week-bucket={group.bucket} data-week-place={item.place ?? ''}>
                     <span class="tw__meta">
-                      <span class:list={['tw__kind', `is-${item.kind}`]}>{KIND_LABEL[item.kind]}</span>
+                      <span class:list={['tw__kind', `is-${item.active && item.ongoing ? 'season' : item.kind}`]}>{item.active && item.ongoing ? '開催中' : KIND_LABEL[item.kind]}</span>
                       <time>{item.dateLabel}</time>
                     </span>
                     <strong>{item.title}</strong>
@@ -59,29 +74,120 @@ const KIND_LABEL: Record<HappeningKind, string> = {
           </div>
         ))}
       </div>
+      <script is:inline type="application/json" data-this-week-items set:html={manifest}></script>
     </div>
   </section>
 )}
 
 <script>
   import { commonParams, trackEvent } from '../lib/analytics-events';
+  import { dateOnlyFromInstant, parseDateOnly } from '../lib/date-only.js';
+  import { happeningBucket, happeningDateLabel, isHappeningActive } from '../lib/happening-schedule.js';
+  import type { HappeningKind } from '../lib/happenings';
+
+  type ClientHappening = {
+    kind: HappeningKind;
+    title: string;
+    href: string;
+    start: string;
+    end: string;
+    startTime?: string;
+    place?: string;
+    municipality?: string;
+    ongoing: boolean;
+  };
+
+  const kindLabel: Record<HappeningKind, string> = {
+    event: 'イベント',
+    sports: '試合',
+    season: '開催中',
+  };
+  const bucketLabel = {
+    today: '今日',
+    tomorrow: '明日',
+    weekend: '今週末',
+    thisWeek: 'この先1週間',
+  } as const;
+  const bucketOrder = ['today', 'tomorrow', 'weekend', 'thisWeek'] as const;
+
+  const appendTextElement = (parent: Element, tag: string, text: string, className?: string) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    element.textContent = text;
+    parent.append(element);
+    return element;
+  };
+
+  const renderCurrentWeek = (block: HTMLElement) => {
+    const source = block.querySelector<HTMLScriptElement>('[data-this-week-items]');
+    const groups = block.querySelector<HTMLElement>('.tw__groups');
+    if (!source || !groups) return;
+
+    let items: ClientHappening[] = [];
+    try { items = JSON.parse(source.textContent ?? '[]') as ClientHappening[]; } catch { return; }
+
+    const today = dateOnlyFromInstant(new Date(), 'Asia/Tokyo');
+    const grouped = new Map<string, { item: ClientHappening; start: Date; end: Date }[]>();
+    for (const item of items) {
+      const start = parseDateOnly(item.start);
+      const end = parseDateOnly(item.end);
+      const bucket = happeningBucket(start, end, today);
+      if (!bucket) continue;
+      const current = grouped.get(bucket) ?? [];
+      current.push({ item, start, end });
+      grouped.set(bucket, current);
+    }
+
+    groups.replaceChildren();
+    for (const bucket of bucketOrder) {
+      const entries = grouped.get(bucket);
+      if (!entries?.length) continue;
+      const group = document.createElement('div');
+      group.className = 'tw__group';
+      appendTextElement(group, 'p', bucketLabel[bucket], 'tw__when');
+      const list = document.createElement('ul');
+      list.className = 'tw__list';
+      for (const { item, start, end } of entries) {
+        const active = item.ongoing && isHappeningActive(start, end, today);
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.dataset.weekKind = item.kind;
+        link.dataset.weekBucket = bucket;
+        link.dataset.weekPlace = item.place ?? '';
+        const meta = document.createElement('span');
+        meta.className = 'tw__meta';
+        appendTextElement(meta, 'span', active ? '開催中' : kindLabel[item.kind], `tw__kind is-${active ? 'season' : item.kind}`);
+        appendTextElement(meta, 'time', happeningDateLabel(start, end, today, item.startTime));
+        link.append(meta);
+        appendTextElement(link, 'strong', item.title);
+        if (item.place) appendTextElement(link, 'span', item.place, 'tw__place');
+        li.append(link);
+        list.append(li);
+      }
+      group.append(list);
+      groups.append(group);
+    }
+    block.hidden = groups.childElementCount === 0;
+  };
 
   // 「今週できること」のどれが押されるかを見る。
   // どの区分（今日/今週末/この先）と、どの種類（試合/イベント/開催中）が
   // 押されるかで、次にどのデータを厚くすべきかが決まる。
   for (const block of document.querySelectorAll<HTMLElement>('[data-this-week]')) {
+    renderCurrentWeek(block);
     const pageType = block.dataset.pageType ?? 'home';
-    for (const link of block.querySelectorAll<HTMLAnchorElement>('a[data-week-kind]')) {
-      link.addEventListener('click', () => {
-        trackEvent('next_action_click', {
-          ...commonParams({ page_type: pageType }),
-          destination_type: link.dataset.weekKind ?? '',
-          when_bucket: link.dataset.weekBucket ?? '',
-          action_source: 'this_week',
-          destination_url: link.getAttribute('href') ?? '',
-        });
+    block.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-week-kind]');
+      if (!link) return;
+      trackEvent('next_action_click', {
+        ...commonParams({ page_type: pageType }),
+        destination_type: link.dataset.weekKind ?? '',
+        when_bucket: link.dataset.weekBucket ?? '',
+        action_source: 'this_week',
+        destination_url: link.getAttribute('href') ?? '',
       });
-    }
+    });
   }
 </script>
 
