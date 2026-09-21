@@ -164,6 +164,40 @@
         "ticket"
       ],
       "rule": "既に検索露出がある英語/繁中/韓国語クエリを先に収益導線へ接続する。"
+    },
+    {
+      "id": "regional-commerce",
+      "name": "地域産品・ふるさと納税・EC送客",
+      "priority": "medium",
+      "models": [
+        "ふるさと納税送客",
+        "干し芋・メロン・納豆等の地域産品",
+        "ギフト/お取り寄せ",
+        "公式EC/affiliate送客"
+      ],
+      "triggerIntents": [
+        "おすすめ",
+        "通販",
+        "お取り寄せ",
+        "ふるさと納税",
+        "返礼品",
+        "ギフト",
+        "買う"
+      ],
+      "rule": "検索需要と提携条件を確認してから実装する。自治体/公式/生産者情報を優先し、未確認のランキングや価格断定を作らない。"
+    },
+    {
+      "id": "display-ads",
+      "name": "ディスプレイ広告",
+      "priority": "low",
+      "models": [
+        "AdSense等のコンテキスト広告",
+        "将来のprogrammatic"
+      ],
+      "triggerIntents": [
+        "大規模な情報閲覧トラフィック"
+      ],
+      "rule": "収益の床として扱い、主力にしない。ページ速度、CLS、読者体験、affiliate/B2B CTRを悪化させる場合は縮小する。トラフィック規模が小さい段階で広告枠最適化に時間を使わない。"
     }
   ],
   "scoring": {
@@ -188,6 +222,8 @@
     "outbound_booking_clickをpartner_status別に分解し、クリックされる未提携/公式リンクを提携・直取引候補として発見する。",
     "generate_leadを件数だけで評価せず、form_subjectで contributor/editorial/business/other に分類し、収益ファネルではpaid business leadだけを別集計する。",
     "Booking clickのうちactive partnerへの比率をMonetized Click Shareとして監視する。公式情報を広告化せず、未提携サービスで需要が確認できた場合だけ提携/直取引候補にする。",
-    "returning session share / returning view shareを追い、SEO依存を下げる。Owned Audience未実装のため、LINE/メール等は新規導入候補として扱うが、外部アカウント作成や送信基盤契約はユーザー承認が必要。"
+    "returning session share / returning view shareを追い、SEO依存を下げる。Owned Audience未実装のため、LINE/メール等は新規導入候補として扱うが、外部アカウント作成や送信基盤契約はユーザー承認が必要。",
+    "ふるさと納税・地域産品は年末需要候補としてSEO市場需要を検証する。検索需要や提携条件が確認できるまで量産しない。",
+    "ディスプレイ広告は規模が出てからの床収益。高意図ページの取引導線より優先しない。"
   ]
 }
