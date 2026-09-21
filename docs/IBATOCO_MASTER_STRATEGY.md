@@ -67,11 +67,17 @@ SEOは以下を優先する。
 - 既存ページで意図を満たせない独立クエリだけ新規URL
 - イベント終了後も翌年・周辺テーマへ資産化できるURL
 
-### Discover / News
+### Discover / News / Preferred Sources
 
 Google Discoverは検索キーワードとは別の増幅面として扱う。
 大画像、独自性、タイムリーさ、地域専門性を前提に、Discover露出が出た場合だけ専用KPIを追う。
 Discover狙いの記事量産はしない。
+
+2026年のGoogle Discoverでは、ローカルに関連するコンテンツ、独自性、タイムリーさ、トピック単位の専門性が重視されているため、イバトコの地域特化性は活かす。ただし露出は保証されない。
+
+Google Preferred Sourcesは、ユーザーがイバトコを優先ソースとして選べる場合、Top StoriesやAI Mode/AI Overviewsでの発見性を高める可能性がある。サイトがGoogleのsource preferences toolに出ることを確認できた場合のみ、Preferred Sourceボタン導入を候補化する。
+
+Google Search Profileは、claim可能になった場合にWeb/SNSの横断フォロー導線として検討する。未確認のままバッジを置かない。
 
 ### SNS
 
