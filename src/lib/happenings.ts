@@ -19,6 +19,7 @@ import kashimaMatches from '../data/sports/matches/kashima-antlers.json';
 import mitoMatches from '../data/sports/matches/mito-hollyhock.json';
 import { THEMES } from '../data/themes';
 import { MUNI_BY_SLUG } from '../data/areas';
+import { addDateOnlyDays, dateOnlyFromCoercedDate, dateOnlyWeekday, parseDateOnly } from './date-only.js';
 import { startOfTodayJst } from './lifecycle';
 
 export type HappeningKind = 'event' | 'sports' | 'season';
@@ -52,32 +53,23 @@ const HOME_MUNICIPALITY: Partial<Record<SportsTeamSlug, string>> = {
 
 const JP_DATE = new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short', timeZone: 'Asia/Tokyo' });
 
-function dayOnly(d: Date): Date {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-function addDays(d: Date, n: number): Date {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
-}
-
 /**
  * 今週末（次に来る土曜と日曜）。
  * 今日が土日なら「今日を含む週末」を指す。
  */
 export function weekendRange(today: Date): { start: Date; end: Date } {
-  const dow = today.getDay(); // 0=日
-  if (dow === 0) return { start: addDays(today, -1), end: today };
-  if (dow === 6) return { start: today, end: addDays(today, 1) };
+  const dow = dateOnlyWeekday(today); // 0=日（日本の暦日をUTC固定で保持）
+  if (dow === 0) return { start: addDateOnlyDays(today, -1), end: today };
+  if (dow === 6) return { start: today, end: addDateOnlyDays(today, 1) };
   const toSat = 6 - dow;
-  const sat = addDays(today, toSat);
-  return { start: sat, end: addDays(sat, 1) };
+  const sat = addDateOnlyDays(today, toSat);
+  return { start: sat, end: addDateOnlyDays(sat, 1) };
 }
 
 function bucketOf(h: Happening, today: Date): WhenBucket | null {
-  const tomorrow = addDays(today, 1);
+  const tomorrow = addDateOnlyDays(today, 1);
   const weekend = weekendRange(today);
-  const weekEnd = addDays(today, 7);
+  const weekEnd = addDateOnlyDays(today, 7);
   const covers = (d: Date) => h.start <= d && d <= h.end;
 
   if (covers(today)) return 'today';
@@ -90,7 +82,7 @@ function bucketOf(h: Happening, today: Date): WhenBucket | null {
 /** 今日から1週間のあいだに関係するものを集める */
 export async function getHappenings(now: Date = new Date()): Promise<Happening[]> {
   const today = startOfTodayJst(now);
-  const horizon = addDays(today, 7);
+  const horizon = addDateOnlyDays(today, 7);
   const out: Happening[] = [];
 
   // 1) イベント記事（開催日が決まっているものだけ）
@@ -98,8 +90,8 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
   for (const entry of events) {
     const info = entry.data.eventInfo;
     if (entry.data.articleType !== 'event' || !info?.startDate) continue;
-    const start = dayOnly(info.startDate);
-    const end = info.endDate ? dayOnly(info.endDate) : start;
+    const start = dateOnlyFromCoercedDate(info.startDate);
+    const end = info.endDate ? dateOnlyFromCoercedDate(info.endDate) : start;
     if (end < today || start > horizon) continue;
     const muni = entry.data.municipalities[0];
     out.push({
@@ -127,7 +119,7 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
     }[];
     for (const m of matches) {
       if (m.status !== 'scheduled') continue;
-      const start = dayOnly(new Date(`${m.date}T00:00:00+09:00`));
+      const start = parseDateOnly(m.date);
       if (start < today || start > horizon) continue;
       out.push({
         kind: 'sports',
@@ -147,8 +139,8 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
   for (const theme of Object.values(THEMES)) {
     const period = theme.status?.period;
     if (!period) continue;
-    const start = dayOnly(new Date(`${period.from}T00:00:00+09:00`));
-    const end = dayOnly(new Date(`${period.to}T00:00:00+09:00`));
+    const start = parseDateOnly(period.from);
+    const end = parseDateOnly(period.to);
     if (end < today || start > horizon) continue;
     out.push({
       kind: 'season',
