@@ -17,7 +17,7 @@
 
 - `data/editorial/event-registry.json`：発見済みイベント。未掲載でも削除しない
 - `data/editorial/performance-snapshot.json`：GA4/GSCの最新スナップショット。未取得時はnullのままにし、推測値を入れない
-- `data/editorial/growth-targets.json`：North Starとガードレール。現在はGSCローリング28日表示100,000
+- `data/editorial/growth-targets.json`：North Starとガードレール。現在はGA4 `screen_page_views`（Views）ローリング28日100,000
 - `data/editorial/action-queue.json`：施策候補と実装可否
 - `docs/editorial/specs/*.md`：ChatGPTが完成させた実装仕様
 - `src/data/seo-changes.ts`：既存の改善履歴。7日・28日のクールダウン判定に使用
@@ -26,12 +26,13 @@
 
 ## North Star と Growth Control
 
-- 一次目標は Search Console のローリング28日表示回数100,000
+- 一次目標は GA4 `screen_page_views`（Views）のローリング28日100,000
 - 安定達成は100,000以上を14日連続で維持した状態
-- 毎日 `Growth_100k` へ、28日表示、進捗率、残差、直近7日、7日日平均、28日換算ランレート、必要日平均、判定を1行追記する
-- 直近7日の28日換算が100,000未満なら、緊急保守以外の施策は「残差を最も効率よく縮めるか」を主要判断基準にする
-- 表示回数だけの量産はしない。clicks / CTR / position / Organic Search sessions / engagement / CTA / lead をガードレールにする
-- イベント単発ピークだけでは安定達成とみなさず、制度・交通・観光・SPORTS・地域DBなど再現性のある検索在庫を増やす
+- 毎日 `Growth_100k` へ、28日Views、進捗率、残差、直近7日Views、7日日平均、28日換算ランレート、必要日平均、判定を1行追記する
+- 直近7日Viewsの28日換算が100,000未満なら、緊急保守以外の施策は「残差を最も効率よく縮めるか」を主要判断基準にする
+- Viewsだけを増やす不要なページ分割・自動リロード・低品質量産はしない。active users / sessions / engagement / Organic Search sessions / GSC clicks・CTR・position / CTA / lead をガードレールにする
+- GSC impressionsはNorth Starではなく、GA4 Viewsを増やすための検索獲得診断として扱う
+- イベント単発ピークだけでは安定達成とみなさず、制度・交通・観光・SPORTS・地域DBなど再現性のある流入在庫を増やす
 - CIのscheduled runでは `npm run growth:target` で `reports/editorial/growth-target.md` を生成する
 
 ## 日次フロー
