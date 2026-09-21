@@ -57,7 +57,12 @@ for (const file of files) {
   if (!isUtility && !noindex && h1Count !== 1) failures.push(`${path}: h1 が ${h1Count} 件`);
 
   if (!isUtility && !noindex) {
-    if (!/<meta\s+name=["']description["']\s+content=["'][^"']{20,}/i.test(html)) failures.push(`${path}: description が不足`);
+    // 引用符は content= の開始記号と同じものだけを終端として扱う。
+    // 以前は [^"']{20,} としていたため、description にアポストロフィが入る記事
+    // （例「rockin'star Carnival 2026は…」）が7文字目で切れ、
+    // 正しく出力されているのに「不足」と誤判定していた。
+    const desc = html.match(/<meta\s+name=["']description["']\s+content=(["'])([\s\S]*?)\1/i);
+    if (!desc || desc[2].length < 20) failures.push(`${path}: description が不足`);
     if (!/<link\s+rel=["']canonical["']\s+href=["']https:\/\/ibatoco\.jp\//i.test(html)) failures.push(`${path}: canonical が不足`);
   }
 

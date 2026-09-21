@@ -199,12 +199,18 @@ function mergeEvent(existing, generated) {
 function syncRegistry(inventory, persist) {
   const registry = readJson(EVENT_REGISTRY);
   const existingByArticle = new Map(registry.events.filter((event) => event.articleUrl).map((event) => [event.articleUrl, event]));
+  // IDでも突き合わせる。記事化前の候補は articleUrl が null なので、
+  // articleUrl だけで照合すると「手入力の候補」と「記事からの自動生成」が
+  // 同じIDのまま2件並び、editorial:check が重複エラーで落ちる。
+  const existingById = new Map(registry.events.map((event) => [event.id, event]));
   const generated = inventory.map(eventFromContent).filter(Boolean);
   const generatedUrls = new Set(generated.map((event) => event.articleUrl));
-  const manual = registry.events.filter((event) => !event.articleUrl || !generatedUrls.has(event.articleUrl));
+  const generatedIds = new Set(generated.map((event) => event.id));
+  const manual = registry.events.filter((event) =>
+    !generatedIds.has(event.id) && (!event.articleUrl || !generatedUrls.has(event.articleUrl)));
   const events = [
     ...manual,
-    ...generated.map((event) => mergeEvent(existingByArticle.get(event.articleUrl), event)),
+    ...generated.map((event) => mergeEvent(existingByArticle.get(event.articleUrl) ?? existingById.get(event.id), event)),
   ].sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999') || a.name.localeCompare(b.name, 'ja'));
   const next = { schemaVersion: 1, updatedAt: tokyoDate(), events };
   if (persist) writeJson(EVENT_REGISTRY, next);
