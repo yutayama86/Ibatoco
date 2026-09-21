@@ -153,6 +153,18 @@
       },
       "opportunity": "/place/をLocal Entity Graphへ育て、SEO・送客・店舗支援・データ事業を接続する。",
       "nextReview": "weekly"
+    },
+    {
+      "id": "google-preferred-sources",
+      "lane": "sns",
+      "status": "observe",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "officialFeature": "Preferred Sources is globally available for Top Stories and can appear in AI Mode/AI Overviews where available",
+        "eligibility": "ibatoco.jp eligibility not yet confirmed"
+      },
+      "opportunity": "source preferences toolでibatoco.jpが確認できた場合、サイト内にPreferred Source導線を追加しGoogle内での再発見性を高める。",
+      "nextReview": "weekly"
     }
   ]
 }
