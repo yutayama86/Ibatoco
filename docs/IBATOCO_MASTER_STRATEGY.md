@@ -190,6 +190,46 @@ Revenue OSの7レーンを継続する。
 - SNSからの再訪
 を確認する。
 
+
+## Geo Portfolio
+
+44市町村を均等に埋めることを目標にしない。地域投資は次の需要シグナルで決める。
+
+- GSC query / impressions / clicks
+- GA4 Views / engagement / Returning
+- 観光入込客・イベント規模
+- visit / book / buy の行動意図
+- 地域事業者の在庫とB2B可能性
+- 競合の強さ
+- 一次情報を継続更新できるか
+
+2025年の観光入込客数上位は、ひたちなか市約508万人、大洗町約476万人、つくば市約376万人、常総市約350万人、笠間市約337万人。これは検索需要そのものではないが、市場需要proxyとしてSEO/GSCデータと組み合わせる。
+
+「全市町村1記事ずつ」より、需要の厚い地域で Search → Event → Place → Booking → Partner の密度を高める方を優先する。
+
+## Reader Utility Layer
+
+記事を読むだけで終わらせず、読者の次の行動を短くする。
+
+候補:
+- Add to Calendar / ICS
+- 地図・経路
+- 駐車場
+- 予約・チケット
+- 雨天/開催変更
+- 今週/今日
+- 保存/通知
+- 周辺の食・宿
+- 公式情報への確認導線
+
+実装する場合は view → utility click → next page / outbound / Returning を計測する。機能数を増やすこと自体は目的にしない。
+
+## Discover Image Policy
+
+現在のOGP生成カードには文字中心の図版が多い。SNSシェア用としては使えるが、Google Discoverは代表性の高い大画像と、テキスト過多ではない画像を推奨している。
+
+今後、権利を確認できたオリジナル写真・現地写真・代表ビジュアルがある記事では、SNS用タイトルカードと検索/Discover向け代表画像を分離できる設計を優先する。権利の無い写真をDiscover目的で転載しない。
+
 ## International
 
 翻訳量産をしない。
