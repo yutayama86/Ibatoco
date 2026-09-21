@@ -76,3 +76,21 @@ GA4 Views 100,000は集客目標であり、事業目標ではない。Revenue O
 `booking_guide_view` を分母にして、BookingGuide CTRを計測する。ページPVだけを分母にしない。
 
 2026-09-21時点では、確認できた9件の outbound booking click のうち、active affiliateへのクリックは楽天トラベル2件。残りは公式または未提携サービスへのクリックだった。したがって「クリック需要はあるが、収益対象への接続率が低い」が初期仮説。
+
+
+## Lead Quality
+
+`generate_lead` を一律に売上リードと数えない。毎日 `form_subject` で分類する。
+
+- contributor: ローカルエディター等の応募
+- editorial: 取材・掲載相談など。広告/有料支援とは限らない
+- business: Web/SNS/SEO/予約導線等の有料相談
+- other: その他
+
+2026-08-24〜09-20の generate_lead 4件は、ローカルエディター2、取材・掲載相談1、その他1。有料B2B受注に直結した確定リードは記録上0。したがって「lead 4 = 商談4」と解釈しない。
+
+## Monetized Click Share
+
+`outbound_booking_click` 9件のうち、active affiliateへのクリックは2件。初期のMonetized Click Shareは22.2%。残り7件は公式または未提携先だった。
+
+公式リンクを無理に広告へ置換しない。読者が実際に押している未提携サービスについてのみ、提携可能性・直取引・同等の収益導線を調べる。公式情報は常に優先する。
