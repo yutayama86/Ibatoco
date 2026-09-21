@@ -147,7 +147,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "開催12日前の公式発表済み大型イベント。国営ひたち海浜公園で11:00開場、12:30開演、18:00〜19:15に約2万発の花火。荒天中止、入場券が必要。イバトコ単独記事なしを2026-09-21確認。緊急候補。"
+      "notes": "開催12日前の公式発表済み大型イベント。約2万発の音楽花火、チケット制、勝田駅シャトルバス・事前駐車券あり。完成仕様 docs/editorial/specs/20260921-rockinstar-carnival-2026.md を作成し、実装キューready。"
     },
     {
       "id": "mito-hagi-matsuri-2026",
