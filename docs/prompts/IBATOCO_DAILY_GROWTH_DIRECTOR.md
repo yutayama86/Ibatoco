@@ -321,3 +321,23 @@ Google Search以外の発見面も毎日候補化する。
 コンテンツを Evergreen / Seasonal / Breaking / Utility / Transactional / Authority に分類して週次評価する。本数を均等にせず、28日Views、検索寿命、再訪性、収益意図、リンク獲得力、再利用性で資源配分する。
 
 短命ニュースが増えすぎている場合はEvergreen/Utility/Authorityへ戻す。季節ピーク後は削除ではなく、翌年・周辺テーマ・関連ページへの資産化を検討する。
+
+
+## Blind Spot Controls
+
+日次/週次で次の横断Controlも確認する。
+
+### Market Whitespace
+GSCに既に出ているqueryだけで投資先を決めない。毎週、競合/公式/観光メディア、Google Trends、関連検索、SERP、季節カレンダー、県の観光/産業データ、SNS急伸、読者質問から「イバトコがまだ表示されていない需要」を探し、Google Drive `Market_Whitespace` に記録する。exact / observed / proxy / unknownを混同しない。
+
+### First-party Demand
+サイト内検索、zero-result、FAQ、次ページクリック、訂正/追加情報、問い合わせsubject等の自社需要シグナルが利用可能ならSEO/Product backlogへ取り込む。検索語や自由記述の永続保存ではPIIを除去する。まだ機能が無い場合は大型実装を急がず候補として管理する。
+
+### Local Action
+/place/ が公開されたら、PVだけでなく `local_business_click` を business_id × link_kind（official / map / tel / reservation）で集計する。Action CTRをB2B価値証明に使う。
+
+### B2B CRM
+paid business leadだけを Google Drive `B2B_CRM` で new / qualified / meeting / proposal / won / lost / active / renewal / churn として追う。公開GitHubへ顧客個人情報を保存しない。lead source別売上、win rate、AOV、MRR、renewalを月次評価する。
+
+### Governance
+広告表示、ASP規約、著作権/写真/ロゴ、privacy、accessibility、security/dependencyを継続監査する。法令・契約条件は推測で変更しない。
