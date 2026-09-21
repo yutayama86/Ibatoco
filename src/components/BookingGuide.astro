@@ -80,7 +80,34 @@ const KIND_LABEL: Record<string, string> = {
 
   for (const block of document.querySelectorAll<HTMLElement>('[data-booking-guide]')) {
     const pageType = block.dataset.pageType ?? '';
-    for (const link of block.querySelectorAll<HTMLAnchorElement>('a[data-provider]')) {
+    const links = Array.from(block.querySelectorAll<HTMLAnchorElement>('a[data-provider]'));
+    let viewed = false;
+
+    const sendView = () => {
+      if (viewed) return;
+      viewed = true;
+      const activeItems = links.filter((link) => link.dataset.partnerStatus === 'active').length;
+      trackEvent('booking_guide_view', {
+        ...commonParams({ page_type: pageType, municipality: block.dataset.municipality, content_category: block.dataset.contentCategory }),
+        link_page_type: pageType,
+        item_count: links.length,
+        active_partner_items: activeItems,
+      });
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          sendView();
+          observer.disconnect();
+        }
+      }, { threshold: 0.35 });
+      observer.observe(block);
+    } else {
+      sendView();
+    }
+
+    for (const link of links) {
       link.addEventListener('click', () => {
         trackEvent('outbound_booking_click', {
           // 既存パラメータは変えない。共通の軸（source_page など）だけ足す
