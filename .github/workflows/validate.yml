@@ -29,9 +29,15 @@ jobs:
       - name: Generate editorial daily brief
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run editorial:daily
+      - name: Generate 100k growth target status
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run growth:target
       - name: Add editorial brief to job summary
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        run: cat reports/editorial/daily-brief.md >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          cat reports/editorial/growth-target.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
+          cat reports/editorial/daily-brief.md >> "$GITHUB_STEP_SUMMARY"
       - name: Upload editorial brief
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4

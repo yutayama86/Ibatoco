@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "primary": {
+    "name": "Google検索の月間表示回数10万",
+    "source": "Google Search Console",
+    "property": "sc-domain:ibatoco.jp",
+    "metric": "impressions",
+    "windowDays": 28,
+    "target": 100000,
+    "stabilityDays": 14,
+    "definition": "Search Consoleの合計表示回数をローリング28日で100,000以上。単発イベントの山だけでなく14日連続で目標水準を維持できたら安定達成とみなす。"
+  },
+  "guardrails": {
+    "doNotOptimizeImpressionsAlone": true,
+    "watch": [
+      "clicks",
+      "ctr",
+      "position",
+      "organic sessions",
+      "engagement rate",
+      "business_cta_click",
+      "outbound_booking_click",
+      "generate_lead"
+    ],
+    "notes": "表示回数だけを増やすための無関係記事量産はしない。検索意図適合、一次情報性、クリック、回遊、送客・問い合わせを同時に確認する。"
+  }
+}

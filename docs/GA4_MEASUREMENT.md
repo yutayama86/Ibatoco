@@ -126,6 +126,32 @@ Chrome・Safariなど）で1回ずつ開くこと。
 **有効問い合わせ件数**は GA4 では判定できない（中身を見ないと分からない）。
 Formspree に届いたメールを週1回数え、`generate_lead` の件数と並べて記録する。
 
+### 1-6. CTAクリック計測の確認（2026-09-21）
+
+`business_cta_click` は **実装済み**。未実装ではない。
+
+- `src/components/BusinessCta.astro` で、CTAリンクのclick時に `business_cta_click` を送信
+- news / events / sports の主要詳細テンプレートすべてに `BusinessCta` を接続
+- `cta_type`, `cta_location`, `cta_page_type`, `source_page`, municipality / category を付与
+- CTA起点は30分だけsessionStorageへ保持し、フォーム到達・開始・`generate_lead` まで引き継ぐ
+- 内部CTAにUTMを付けず、Organic Search等の元セッション帰属を壊さない
+
+Windsor.ai経由のGA4直接取得で、2026-09-14〜09-20は次を確認した。
+
+| イベント | 件数 |
+|---|---:|
+| `business_cta_view` | 180 |
+| `business_cta_click` | 0 |
+| `contact_form_view` | 4 |
+| `contact_form_start` | 1 |
+| `generate_lead` | 1 |
+| `outbound_booking_click` | 9 |
+
+したがって `business_cta_click = 0` だけを見て「計測の穴」と断定しない。
+コード上の計測経路は存在するため、`npm run audit:analytics` が通っている限り、まず
+**CTAを180回見られてクリック0回というCROシグナル**として扱う。
+実ユーザーのクリックが発生したのにイベントが出ない証拠が得られた場合のみ、計測障害へ昇格する。
+
 ---
 
 ## 2. 管理画面でやること（コードからは設定できない）
@@ -205,10 +231,10 @@ ibatoco.jp へのリンクを踏むと発生する。1-1の除外は「イバト
 | Referrer-Policy によるリファラ欠落 | レスポンスヘッダ | `strict-origin-when-cross-origin`。クロスオリジンでも**オリジンは送る**ので判定に支障なし |
 | 別レイアウトからの重複計測 | `src/layouts/Base.astro` の参照元 | **どこからも使われていない**（後述） |
 
-**残る landmine**：`src/layouts/Base.astro` は現在どのページからも使われていないが、
-中に**古い無条件のGA4スニペット**が残っている。将来これを使い回すと、
-ホスト判定も自己除外も流入分類も効かないまま計測されてしまう。
-使う予定がなければ削除するのが安全。
+**対応済み（2026-09-21）**：未使用だった `src/layouts/Base.astro` は削除し、GA4起動処理を
+`src/layouts/BrandBase.astro` の1系統へ統一した。さらに `npm run audit:analytics` をCIに追加し、
+別レイアウトへの古いgtagスニペット混入、主要イベント実装の欠落、BusinessCtaの配線漏れを
+ビルド前に検出する。
 
 ### 3-2. 管理画面で確認すること
 

@@ -1,177 +1,294 @@
 {
-  "schemaVersion": 1,
-  "asOf": "2026-09-16",
+  "schemaVersion": 2,
+  "asOf": "2026-09-20",
   "source": {
-    "spreadsheetTitle": "イバトコ SEO・流入データ",
-    "spreadsheetId": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w",
-    "spreadsheetUpdatedAt": "2026-09-20T07:34:21+09:00",
-    "checkedAt": "2026-09-21T07:01:52+09:00",
-    "status": "partial-anomaly",
-    "ga4LatestDate": "2026-09-19",
-    "gscLatestDate": "2026-09-16",
-    "freshness": {
-      "ga4Days": 2,
-      "gscDays": 5
+    "primary": "Windsor.ai direct connectors",
+    "ga4": {
+      "connector": "googleanalytics4",
+      "accountId": "547804264",
+      "name": "イバトコ",
+      "latestDate": "2026-09-20"
     },
+    "gsc": {
+      "connector": "searchconsole",
+      "accountId": "sc-domain:ibatoco.jp",
+      "latestDate": "2026-09-19"
+    },
+    "fallbackSpreadsheet": {
+      "title": "イバトコ SEO・流入データ",
+      "id": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w"
+    },
+    "checkedAt": "2026-09-21T21:04:00+09:00",
+    "status": "direct-ok",
     "warnings": [
-      "GSC最新日は2026-09-16で確認時点から48時間超。新規施策の即時判断には使用しない。",
-      "GA4 2026-09-19は208セッションに対してエンゲージメント セッション2、率0.96%で前日までと不連続。エンゲージメント指標は異常値として扱う。",
-      "generate_lead、outbound_booking_click、local_business_click、intent_select、next_action、/biz/遷移のページ・地域・目的別内訳は接続シートに未収録。値はunknown。"
+      "Search Consoleは通常の処理遅延があるため、取得可能な最新日2026-09-19を基準に判断する。",
+      "business_cta_clickはコード実装済みだが直近7日で実績0。business_cta_view 180に対するCROシグナルとして扱い、計測漏れとは断定しない。"
     ]
+  },
+  "northStar": {
+    "metric": "gsc_impressions",
+    "windowDays": 28,
+    "target": 100000,
+    "current": 46059,
+    "progress": 0.46059,
+    "gap": 53941,
+    "recent7Impressions": 23298,
+    "recent7DailyAverage": 3328.29,
+    "runRate28FromRecent7": 93192,
+    "requiredDailyAverage": 3571.43,
+    "requiredUpliftVsRecent7": 0.0731,
+    "stabilityDays": 14,
+    "status": "below-pace"
   },
   "windows": {
     "ga4": {
       "latestDay": {
-        "date": "2026-09-19",
-        "users": 191,
-        "sessions": 208,
-        "engagedSessions": 2,
-        "engagementRate": 0.0096,
-        "quality": "anomalous-engagement"
+        "date": "2026-09-20",
+        "users": 202,
+        "sessions": 226,
+        "engagedSessions": 136,
+        "engagementRate": 0.6018,
+        "averageEngagementTimePerSession": 31.146,
+        "keyEvents": 0,
+        "quality": "direct"
       },
       "recent7": {
-        "start": "2026-09-13",
-        "end": "2026-09-19",
-        "users": 1407,
-        "sessions": 1537,
-        "engagedSessions": 790,
+        "start": "2026-09-14",
+        "end": "2026-09-20",
+        "users": 1442,
+        "sessions": 1603,
+        "engagedSessions": 949,
+        "engagementRate": 0.592,
+        "averageEngagementTimePerSession": 39.8484,
         "keyEvents": 1
       },
       "previous7": {
-        "start": "2026-09-06",
-        "end": "2026-09-12",
-        "users": 978,
-        "sessions": 1053,
-        "engagedSessions": 619,
+        "start": "2026-09-07",
+        "end": "2026-09-13",
+        "users": 1065,
+        "sessions": 1153,
+        "engagedSessions": 681,
+        "engagementRate": 0.5906,
+        "averageEngagementTimePerSession": 29.6548,
         "keyEvents": 0
       },
       "recent28": {
-        "start": "2026-08-23",
-        "end": "2026-09-19",
-        "users": 3050,
-        "sessions": 3350,
-        "engagedSessions": 1848,
+        "start": "2026-08-24",
+        "end": "2026-09-20",
+        "users": 3172,
+        "sessions": 3477,
+        "engagedSessions": 2106,
+        "engagementRate": 0.6057,
+        "averageEngagementTimePerSession": 38.6011,
         "keyEvents": 4
       },
       "recent7VsPrevious7": {
-        "usersPct": 43.9,
-        "sessionsPct": 46
+        "usersPct": 35.4,
+        "sessionsPct": 39
       },
       "channelRecent7": [
         {
           "channel": "Organic Search",
-          "sessions": 1229
+          "sessions": 1369
         },
         {
           "channel": "Referral",
-          "sessions": 128
-        },
-        {
-          "channel": "Unassigned",
-          "sessions": 97
-        },
-        {
-          "channel": "Cross-network",
-          "sessions": 75
+          "sessions": 138
         },
         {
           "channel": "Direct",
-          "sessions": 66
+          "sessions": 69
         },
         {
           "channel": "Organic Social",
-          "sessions": 11
+          "sessions": 13
         },
         {
           "channel": "AI Assistant",
-          "sessions": 10
+          "sessions": 9
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 3
         }
       ]
     },
     "gsc": {
       "latestDay": {
-        "date": "2026-09-16",
-        "clicks": 105,
-        "impressions": 4075,
-        "ctr": 0.025766871165644172,
-        "averagePosition": 7.4169325153374235,
-        "quality": "stale-over-48h"
+        "date": "2026-09-19",
+        "clicks": 114,
+        "impressions": 3643,
+        "ctr": 0.0313,
+        "averagePosition": 7.5358,
+        "quality": "latest-available"
       },
       "recent7": {
-        "start": "2026-09-10",
-        "end": "2026-09-16",
-        "clicks": 763,
-        "impressions": 19484,
-        "ctr": 0.03916,
-        "averagePosition": 8.028
+        "start": "2026-09-13",
+        "end": "2026-09-19",
+        "clicks": 735,
+        "impressions": 23298,
+        "ctr": 0.0315,
+        "averagePosition": 7.7419
       },
       "previous7": {
-        "start": "2026-09-03",
-        "end": "2026-09-09",
-        "clicks": 331,
-        "impressions": 7072,
-        "ctr": 0.0468,
-        "averagePosition": 9.021
+        "start": "2026-09-06",
+        "end": "2026-09-12",
+        "clicks": 628,
+        "impressions": 11747,
+        "ctr": 0.0535,
+        "averagePosition": 8.1496
       },
       "recent28": {
-        "start": "2026-08-20",
-        "end": "2026-09-16",
-        "clicks": 1284,
-        "impressions": 34867,
-        "ctr": 0.03683,
-        "averagePosition": 8.756
+        "start": "2026-08-23",
+        "end": "2026-09-19",
+        "clicks": 1655,
+        "impressions": 46059,
+        "ctr": 0.0359,
+        "averagePosition": 8.4098
+      },
+      "recent7VsPrevious7": {
+        "clicksPct": 17,
+        "impressionsPct": 98.3
       }
     }
   },
   "conversionDetail": {
-    "available": false,
-    "metrics": [
-      "generate_lead",
-      "outbound_booking_click",
-      "local_business_click",
-      "business_listing_cta_click",
-      "intent_select",
-      "next_action",
-      "biz_path_transition"
-    ],
-    "value": "unknown",
-    "reason": "接続シートにイベント別・ページ別明細がないため"
+    "available": true,
+    "source": "Windsor.ai GA4 direct",
+    "recent7": {
+      "start": "2026-09-14",
+      "end": "2026-09-20",
+      "business_cta_view": 180,
+      "business_cta_click": 0,
+      "outbound_booking_click": 9,
+      "contact_form_view": 4,
+      "contact_form_start": 1,
+      "form_start": 1,
+      "generate_lead": 1
+    },
+    "previous7": {
+      "start": "2026-09-07",
+      "end": "2026-09-13",
+      "business_cta_view": 0,
+      "business_cta_click": 0,
+      "outbound_booking_click": 0,
+      "contact_form_view": 0,
+      "contact_form_start": 0,
+      "form_start": 0,
+      "generate_lead": 0
+    },
+    "recent28": {
+      "start": "2026-08-24",
+      "end": "2026-09-20",
+      "business_cta_view": 180,
+      "business_cta_click": 0,
+      "outbound_booking_click": 9,
+      "contact_form_view": 4,
+      "contact_form_start": 1,
+      "form_start": 4,
+      "generate_lead": 4
+    },
+    "interpretation": "CTAクリックイベントはコード実装済み。0件は現時点ではCROシグナル。generate_leadはキーイベントとして計測されている。"
+  },
+  "ga4Discovery": {
+    "checkedAt": "2026-09-21T20:54:00+09:00",
+    "findings": [
+      {
+        "signalType": "high-quality-referral-search",
+        "sourceMedium": "service.smt.docomo.ne.jp / referral",
+        "period": "2026-08-24..2026-09-20",
+        "sessions": 50,
+        "activeUsers": 48,
+        "engagedSessions": 40,
+        "engagementRate": 0.8,
+        "averageEngagementTimePerSession": 64.22,
+        "landingPages": [
+          {
+            "path": "/news/ibaraki-passport-2026/",
+            "sessions": 15
+          },
+          {
+            "path": "/events/oarai-ankou-matsuri-2026/",
+            "sessions": 13
+          },
+          {
+            "path": "/news/kasama-shinguri-matsuri-2026/",
+            "sessions": 5
+          }
+        ],
+        "referrerEvidence": "service.smt.docomo.ne.jp/portal/search/web/result.html with q= and dmenu_top UTM observed",
+        "searchTermsOrUtm": [
+          "茨城パスポート",
+          "大洗あんこう祭 2026",
+          "笠間栗祭り 2026",
+          "utm_source=dmenu_top",
+          "utm_medium=owned"
+        ],
+        "impact": "制度・祭り・交通など具体行動検索がdメニュー内Web検索でも流入",
+        "recommendedAction": "検索ピーク前の一次情報記事と行動意図FAQを増やす",
+        "deepDiveBlocked": false,
+        "missingDimensions": []
+      }
+    ]
+  },
+  "gscDiscovery": {
+    "checkedAt": "2026-09-21T21:00:00+09:00",
+    "findings": [
+      {
+        "signalType": "high-impression-low-ctr",
+        "query": "茨城パスポート",
+        "page": "/news/ibaraki-passport-2026/",
+        "period": "2026-09-12..2026-09-18",
+        "clicks": 51,
+        "impressions": 4143,
+        "ctr": 0.0123,
+        "position": 7.4979,
+        "recommendedAction": "直近改修のクールダウンを守りつつtitle/description/冒頭回答の改善余地を再評価"
+      },
+      {
+        "signalType": "high-impression-low-ctr",
+        "query": "観戦 場所 鹿島アントラーズ 対 ニューカッスル・ジェッツ",
+        "page": "/news/kashima-newcastle-jets-acle-guide-2026-09-15/",
+        "period": "2026-09-12..2026-09-18",
+        "clicks": 2,
+        "impressions": 423,
+        "ctr": 0.0047,
+        "position": 6.4752,
+        "recommendedAction": "観戦場所という検索意図とtitle/H1/冒頭回答の一致を点検"
+      },
+      {
+        "signalType": "high-impression-low-ctr",
+        "query": "水戸信用金庫スタジアム アクセス",
+        "page": "/news/mito-hollyhock-new-stadium-access/",
+        "period": "2026-09-12..2026-09-18",
+        "clicks": 4,
+        "impressions": 338,
+        "ctr": 0.0118,
+        "position": 8.0266,
+        "recommendedAction": "アクセス・駐車場・駅からの移動意図を強化候補化"
+      }
+    ]
   },
   "pages": [
     {
       "label": "茨城デジタルパスポート",
-      "ga4Recent7Sessions": 489,
-      "gscRecent7Clicks": 128,
       "intent": "制度利用",
       "region": "茨城県"
     },
     {
       "label": "大洗あんこう祭",
-      "ga4Recent7Sessions": 371,
-      "gscRecent7Clicks": 282,
       "intent": "イベント・来訪",
       "region": "大洗町"
     },
     {
       "label": "笠間新栗まつり",
-      "ga4Recent7Sessions": 114,
-      "gscRecent7Clicks": 19,
       "intent": "イベント・飲食",
       "region": "笠間市"
     },
     {
       "label": "水戸スタジアムアクセス",
-      "ga4Recent7Sessions": 33,
-      "gscRecent7Clicks": 45,
       "intent": "SPORTS・交通",
       "region": "水戸市"
-    },
-    {
-      "label": "鹿島ニューカッスル観戦ガイド",
-      "ga4Recent7Sessions": 29,
-      "gscRecent7Clicks": 16,
-      "intent": "SPORTS・来訪",
-      "region": "鹿嶋市"
     }
   ]
 }

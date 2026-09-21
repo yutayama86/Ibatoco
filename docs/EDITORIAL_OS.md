@@ -17,15 +17,26 @@
 
 - `data/editorial/event-registry.json`：発見済みイベント。未掲載でも削除しない
 - `data/editorial/performance-snapshot.json`：GA4/GSCの最新スナップショット。未取得時はnullのままにし、推測値を入れない
+- `data/editorial/growth-targets.json`：North Starとガードレール。現在はGSCローリング28日表示100,000
 - `data/editorial/action-queue.json`：施策候補と実装可否
 - `docs/editorial/specs/*.md`：ChatGPTが完成させた実装仕様
 - `src/data/seo-changes.ts`：既存の改善履歴。7日・28日のクールダウン判定に使用
 
 `reports/editorial/` は自動生成物です。直接編集しません。
 
+## North Star と Growth Control
+
+- 一次目標は Search Console のローリング28日表示回数100,000
+- 安定達成は100,000以上を14日連続で維持した状態
+- 毎日 `Growth_100k` へ、28日表示、進捗率、残差、直近7日、7日日平均、28日換算ランレート、必要日平均、判定を1行追記する
+- 直近7日の28日換算が100,000未満なら、緊急保守以外の施策は「残差を最も効率よく縮めるか」を主要判断基準にする
+- 表示回数だけの量産はしない。clicks / CTR / position / Organic Search sessions / engagement / CTA / lead をガードレールにする
+- イベント単発ピークだけでは安定達成とみなさず、制度・交通・観光・SPORTS・地域DBなど再現性のある検索在庫を増やす
+- CIのscheduled runでは `npm run growth:target` で `reports/editorial/growth-target.md` を生成する
+
 ## 日次フロー
 
-1. ChatGPTがGA4/GSC、県・主要施設・交通・SPORTS、30日以内のイベントを確認する
+1. ChatGPTがWindsor.aiでGA4/GSCを直接取得し、100k Growth Control、県・主要施設・交通・SPORTS、30日以内のイベントを確認する
 2. 新規情報をイベント台帳へ追加する。今日記事化しない情報も `discovered` で残す
 3. 市町村は曜日ローテーションで詳細確認し、週1回は44市町村を完全棚卸しする
 4. `npm run editorial:daily` で公開在庫と同期し、未掲載候補・変更凍結・実装キューを生成する
@@ -162,6 +173,13 @@ npm run editorial:daily
 - 台帳やfrontmatterの値だけで完了扱いにせず、公開画面の表示日、曜日、開催中／終了判定まで公式情報と照合する
 - 1日前後のずれ、曜日不一致、開始日と終了日の入れ替わりがあれば緊急保守とし、成長施策とは別枠で即時修正する
 - Claude Codeの受入条件には `npm run date:check` と `npm run verify` を含める
+
+## 計測回帰を防ぐルール
+
+- `npm run audit:analytics` で `business_cta_view` / `business_cta_click` / `outbound_booking_click` / `contact_form_view` / `contact_form_start` / `generate_lead` の実装と主要ページへのBusinessCta接続を機械検査する
+- GA4の起動処理は `src/layouts/BrandBase.astro` の1系統だけにする。別レイアウトに古いgtagスニペットを置かない
+- `business_cta_view > 0` で `business_cta_click = 0` は即「計測漏れ」と断定しない。auditが通っていればまずCROシグナルとして扱い、クリック実績と導線を確認する
+- 内部CTAに `utm_*` を付けてセッション流入元を上書きしない
 
 ## 抜け漏れを防ぐルール
 
