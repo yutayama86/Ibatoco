@@ -345,5 +345,35 @@
         "views": 184
       }
     ]
-  }
+  },
+  "experiments": [
+    {
+      "id": "20260921-growth-next-reads",
+      "startedAt": "2026-09-21",
+      "status": "running",
+      "hypothesis": "検索流入の多いnews/events本文上部に直近7日人気ページを3件提示すると、内部回遊が増えてGA4 Views/sessionが上がる。",
+      "baseline": {
+        "period": "2026-09-14..2026-09-20",
+        "views": 1849,
+        "sessions": 1603,
+        "viewsPerSession": 1.1535
+      },
+      "metrics": [
+        "growth_next_view",
+        "growth_next_click",
+        "views_per_session",
+        "screen_page_views"
+      ],
+      "successCriteria": {
+        "minModuleViews": 500,
+        "clickThroughRate": 0.02,
+        "viewsPerSessionLift": 0.05
+      },
+      "stopOrChangeCriteria": "growth_next_viewが500以上でCTR 1%未満、または7日後にviews/sessionが悪化した場合は配置・文言・候補選定を再設計する。",
+      "verifyAfter": [
+        "2026-09-28",
+        "2026-10-19"
+      ]
+    }
+  ]
 }
