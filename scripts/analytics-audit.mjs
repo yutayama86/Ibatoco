@@ -32,8 +32,8 @@ requirePattern('src/pages/events/\[slug\].astro', 'BusinessCta wired on events',
 requirePattern('src/pages/sports/\[team\].astro', 'BusinessCta wired on sports', /<BusinessCta\b/);
 requirePattern('src/components/GrowthNextReads.astro', 'growth_next_view instrumentation', /growth_next_view/);
 requirePattern('src/components/GrowthNextReads.astro', 'growth_next_click instrumentation', /growth_next_click/);
-requirePattern('src/pages/news/\\[slug\\].astro', 'GrowthNextReads wired on news', /<GrowthNextReads\\b/);
-requirePattern('src/pages/events/\\[slug\\].astro', 'GrowthNextReads wired on events', /<GrowthNextReads\\b/);
+requirePattern('src/pages/news/[slug].astro', 'GrowthNextReads wired on news', /<GrowthNextReads\b/);
+requirePattern('src/pages/events/[slug].astro', 'GrowthNextReads wired on events', /<GrowthNextReads\b/);
 requirePattern('src/layouts/BrandBase.astro', 'landing traffic attribution', /landing_traffic_kind/);
 requirePattern('src/layouts/BrandBase.astro', 'AI referral attribution', /ai_source/);
 
