@@ -4,24 +4,24 @@
 
 Claude Codeには戦略判断、調査、記事構成、本文執筆を丸投げしない。ChatGPT側で一次情報、SEO、完成原稿、内部リンク、CTA、構造化データ、変更禁止箇所、検証条件まで決め、実装だけを渡す。
 
-## North Star：月間検索表示10万
+## North Star：GA4 月間表示回数10万
 
-唯一の一次目標は `data/editorial/growth-targets.json` を正本とする。現在の目標は **Google Search Consoleのローリング28日表示回数100,000**。単発イベントのピークだけでなく14日連続で目標水準を維持できたら安定達成とみなす。
+唯一の一次目標は `data/editorial/growth-targets.json` を正本とする。現在の目標は **GA4のscreen_page_views（Views）をローリング28日で100,000**。ウェブではpage_viewを集計し、同一ユーザーの再閲覧も表示回数として数える。単発イベントのピークだけでなく14日連続で目標水準を維持できたら安定達成とみなす。
 
-毎日、GSC最新取得可能日を基準に次を必ず計算する。
+毎日、GA4の最新確定日を基準に次を必ず計算する。
 
-- ローリング28日表示回数 / 100,000 の進捗率
+- ローリング28日Views / 100,000 の進捗率
 - 目標までの残差
-- 直近7日表示回数と1日平均
+- 直近7日Viewsと1日平均
 - 直近7日平均を28日換算したランレート
 - 100,000 ÷ 28 = 必要日平均
 - 現在ペースから必要な増加率
-- 28日表示回数への寄与が大きいページ / クエリ
-- 直近7日の伸びを作ったページ / クエリと、その再現性
+- 28日Viewsへの寄与が大きいページ
+- 直近7日のViews増加を作ったページと、その再現性
 
-表示回数だけを増やす無関係記事量産は禁止。clicks、CTR、position、Organic Search sessions、engagement、CTA/送客、generate_leadをガードレールにする。季節イベント1本のピークで100,000を超えても「安定達成」とは扱わず、制度・交通・観光・地域データベース・SPORTS等の非単発需要を増やす。
+Viewsだけを増やす不要なページ分割・自動リロード・質の低い量産は禁止。active_users、sessions、engagement、Organic Search sessions、GSC clicks/CTR/position、CTA/送客、generate_leadをガードレールにする。GSCのimpressionsはNorth Starではなく、GA4 Viewsを増やすための検索獲得診断として使う。季節イベント1本のピークで100,000を超えても「安定達成」とは扱わず、制度・交通・観光・地域データベース・SPORTS等の非単発需要を増やす。
 
-直近7日の28日換算ランレートが100,000未満なら、緊急保守を除くその日の成長施策は「100,000への残差を最も効率よく縮めるか」を主要判断基準にする。ランレートが100,000以上でも、持続性と収益性を優先し、不要な変更をしない。
+直近7日のViewsを28日換算したランレートが100,000未満なら、緊急保守を除くその日の成長施策は「GA4 Views 100,000への残差を最も効率よく縮めるか」を主要判断基準にする。ランレートが100,000以上でも、持続性と収益性を優先し、不要な変更をしない。
 
 Google Drive「イバトコ SEO・流入データ」の `Growth_100k` に1日1行だけ記録する。
 
@@ -65,7 +65,7 @@ GA4は最新確定日、直近7日、前7日、直近28日で比較する。GA4�
 
 見る指標:
 
-- GA4: users, sessions, channel, source, LP, engagement, generate_lead, outbound_booking_click, local_business_click, biz_cta_click, business_listing_cta_click, intent_select, next_action_click, model_course_click
+- GA4: screen_page_views（Views）, users, sessions, channel, source, LP, engagement, generate_lead, outbound_booking_click, local_business_click, biz_cta_click, business_listing_cta_click, intent_select, next_action_click, model_course_click
 - GSC: clicks, impressions, CTR, position, query, page
 
 地域、テーマ、検索意図、予約意図、事業者接点まで分類する。PVだけで施策を評価しない。
@@ -209,7 +209,7 @@ GA4のイベントを、PVではなく事業価値につながるファネルと
 ## 日次出力
 
 1. データ品質
-2. 100k Growth Control（進捗・ランレート・残差・主要寄与）
+2. 100k Growth Control（GA4 Viewsの進捗・ランレート・残差・主要寄与）
 3. 新規発見と台帳更新
 4. 重要未掲載イベント
 5. GA4 Deep Discovery
