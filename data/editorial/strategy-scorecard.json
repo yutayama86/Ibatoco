@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-21",
+  "sourceSheet": "イバトコ SEO・流入データ / Strategy_Scorecard",
+  "reviewCadence": {
+    "daily": "execution",
+    "weeklyFriday": "20-lens strategic audit",
+    "firstFridayOfMonth": "business model and sellability review"
+  },
+  "lenses": [
+    "seo-demand",
+    "discover-news",
+    "sns",
+    "international",
+    "owned-audience",
+    "content-portfolio",
+    "cro-recirculation",
+    "affiliate-transaction",
+    "b2b-leadgen",
+    "business-directory",
+    "sponsorship",
+    "data-api-widget",
+    "brand-backlinks-pr",
+    "ugc-local-network",
+    "technical-indexation-ux",
+    "measurement-experiment",
+    "trust-freshness",
+    "automation-resilience",
+    "unit-economics",
+    "sellability-founder-dependence"
+  ],
+  "currentRisks": [
+    {
+      "id": "organic-concentration",
+      "evidence": "2957/3477 sessions from Organic Search in 2026-08-24..09-20",
+      "severity": "high"
+    },
+    {
+      "id": "low-retention",
+      "evidence": "317 returning sessions / 3477 total sessions",
+      "severity": "high"
+    },
+    {
+      "id": "weak-monetization",
+      "evidence": "9 booking clicks, only 2 active-affiliate clicks, confirmed revenue 0",
+      "severity": "high"
+    },
+    {
+      "id": "b2b-cta-gap",
+      "evidence": "business_cta_view 180 / business_cta_click 0",
+      "severity": "high"
+    },
+    {
+      "id": "place-inventory-zero",
+      "evidence": "/place/ infrastructure exists but no published verified stores",
+      "severity": "medium"
+    },
+    {
+      "id": "vendor-free-tier-dependency",
+      "evidence": "daily OS depends on Windsor.ai direct connection plus Google Sheet fallback",
+      "severity": "medium"
+    }
+  ],
+  "experimentWindows": {
+    "factualOrMeasurementFix": "immediate",
+    "ctaOrSmallUi": "7d_or_sample_threshold",
+    "seoMetadataOrInternalLinks": "14d_default",
+    "contentStructureOrTemplate": "28d_default",
+    "seasonalOverride": "allowed_when_event_deadline_requires"
+  },
+  "guardrails": [
+    "Do not optimize page views alone.",
+    "Do not publish duplicate-intent pages.",
+    "Do not treat generate_lead as paid business lead without classification.",
+    "Do not treat estimated revenue as confirmed revenue.",
+    "Do not sell editorial ranking.",
+    "Do not repeatedly modify the same page before the observation window closes unless facts are wrong.",
+    "Do not silently infer data when connectors fail.",
+    "Do not build large products before demand evidence."
+  ]
+}
