@@ -16,6 +16,27 @@ const SITE = 'https://ibatoco.jp';
 const BIG_IMAGE = 400 * 1024;
 const BIG_JS = 150 * 1024;
 
+/**
+ * 相手側がHTTPSに対応していないと確認できた参照先。
+ *
+ * **推測で載せない。** 実際に443へ接続し、応答しないことを確かめてから書く。
+ * ここに入れるのは「直せないと分かっている」ものだけで、直せるものは直す。
+ * 出典として必要なリンクを、警告を消すために外すことはしない。
+ *
+ * 警告を残し続けると、本当に直すべき http:// が埋もれる。だから消す代わりに、
+ * いつ・何を確認したかをここに残す。相手がHTTPS化したら行ごと削除すること。
+ */
+const HTTP_ONLY_HOSTS = [
+  {
+    host: 'www.amabiki.or.jp',
+    checkedAt: '2026-09-21',
+    // HTTP は 200 を返すのでサイト自体は稼働している。
+    // https://www.amabiki.or.jp/ は SSL_ERROR_SYSCALL とタイムアウトで応答なし。
+    // 同じ環境から他サイトのHTTPSは通るため、こちら側の遮断ではない。
+    reason: '雨引観音（雨引山楽法寺）公式。443が応答せずHTTPS非対応。/hana/ のあじさい祭の出典',
+  },
+];
+
 // Cloudflareで恒久転送する旧URLは、転送先canonicalが正しい。
 // 自己参照canonicalだけを正解にすると、正常な移行ページを警告してしまう。
 const redirectCanonicals = new Map();
@@ -108,6 +129,8 @@ for (const file of pages) {
 
   // http:// のリンク（外部含む）
   for (const m of html.matchAll(/href="(http:\/\/[^"]+)"/g)) {
+    const known = HTTP_ONLY_HOSTS.find((h) => m[1].startsWith(`http://${h.host}/`));
+    if (known) continue; // 相手側がHTTPS非対応と確認済み（下の一覧）
     add('warn', 'https', `${url} に http:// のリンクがあります: ${m[1]}`);
   }
 }

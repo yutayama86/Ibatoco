@@ -103,6 +103,11 @@ partnerType   editorial（既定）/ partner / pr
 - **URLの綴りから提供元のページを推測しない。**
   `travel.rakuten.co.jp/yado/ibaraki/tsuchiura.html` は土浦ではなく**鹿嶋・潮来・北浦**を返す。
   貼る前に必ず開いて、どのエリアかを確かめる
+- **`booking.items` の `provider` は、必ず `LINK_PROVIDERS` に登録してから使う。**
+  `providerName()` は未登録のIDを素のまま返すので、日本語のページに
+  `rockinstar-official` のような英語スラッグが読者に見えてしまう。
+  公式サイトや公式のチケット受付先は `status: 'none'`（広告ではない）で登録する
+  （`cn-playguide`・`eplus`・`rockinstar-ticket` がその例）
 
 ### /biz/（有料支援）
 

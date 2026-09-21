@@ -97,6 +97,15 @@ npm run editorial:daily
 
 `ready` は「Claudeが考えなくても実装できる完成仕様」がある場合だけ使います。調査中や本文未完成は `candidate` のままにします。
 
+## 仕様を書くときの注意
+
+- **`booking.items` の `provider` は、`src/data/affiliates.ts` に登録済みのIDを指定する。**
+  未登録のIDを書くと、読者に英語スラッグがそのまま表示されます
+  （`rockin'star Carnival 2026` で実際に起きました）。新しい提供元が必要なら、
+  仕様の「実装指定」に登録内容（表示名・`status`・広告かどうか）も書いてください。
+- 受入条件でフィールド名を書くときは、実データのキー名に合わせる。
+  試合のスコアは `score.own` / `score.opponent` です（`score.home` / `score.away` ではない）。
+
 ## 日付品質（日本基準）
 
 - 日次判断、イベント台帳、公開記事、TOPの「今週」表示はすべて `Asia/Tokyo`（日本時間）を唯一の基準にする
