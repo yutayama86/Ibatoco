@@ -1,27 +1,42 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "primary": {
-    "name": "Google検索の月間表示回数10万",
-    "source": "Google Search Console",
-    "property": "sc-domain:ibatoco.jp",
-    "metric": "impressions",
+    "name": "GA4 月間表示回数10万",
+    "source": "Google Analytics 4",
+    "accountId": "547804264",
+    "metric": "screen_page_views",
+    "metricLabel": "Views（ウェブでは page_view。再閲覧を含む）",
     "windowDays": 28,
     "target": 100000,
     "stabilityDays": 14,
-    "definition": "Search Consoleの合計表示回数をローリング28日で100,000以上。単発イベントの山だけでなく14日連続で目標水準を維持できたら安定達成とみなす。"
+    "definition": "GA4のscreen_page_views（Views）をローリング28日で100,000以上。単発イベントの山だけでなく14日連続で目標水準を維持できたら安定達成とみなす。"
+  },
+  "secondary": {
+    "searchConsole": {
+      "role": "acquisition_diagnostic",
+      "metrics": [
+        "clicks",
+        "impressions",
+        "ctr",
+        "position"
+      ],
+      "note": "GSC表示回数はNorth Starではない。GA4 Viewsを増やすための検索獲得診断に使う。"
+    }
   },
   "guardrails": {
-    "doNotOptimizeImpressionsAlone": true,
+    "doNotOptimizeViewsAlone": true,
     "watch": [
-      "clicks",
-      "ctr",
-      "position",
-      "organic sessions",
-      "engagement rate",
+      "active_users",
+      "sessions",
+      "engagement_rate",
+      "organic search sessions",
+      "gsc clicks",
+      "gsc ctr",
+      "gsc position",
       "business_cta_click",
       "outbound_booking_click",
       "generate_lead"
     ],
-    "notes": "表示回数だけを増やすための無関係記事量産はしない。検索意図適合、一次情報性、クリック、回遊、送客・問い合わせを同時に確認する。"
+    "notes": "GA4 Viewsだけを増やすための不要なページ分割や自動リロードは禁止。検索意図適合、一次情報性、流入、回遊、送客・問い合わせを同時に確認する。"
   }
 }
