@@ -51,6 +51,7 @@ export function dateOnlyFromInstant(value, timeZone = 'Asia/Tokyo') {
     month: '2-digit',
     day: '2-digit',
   }).formatToParts(value);
+  /** @param {string} type */
   const pick = (type) => parts.find((part) => part.type === type)?.value;
   return parseDateOnly(`${pick('year')}-${pick('month')}-${pick('day')}`);
 }
