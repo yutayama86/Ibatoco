@@ -50,7 +50,7 @@ Google Drive「イバトコ SEO・流入データ」の `Growth_100k` に1日1�
 
 高流入ページを discover / visit / book / buy / business / repeat に分類する。discoverには無理に広告を置かず、visit/book/buyには文脈一致する旅行・予約・駐車場・体験・店舗送客を、businessには検索需要レポート/予約導線診断/制作支援を、repeatには再訪導線を検討する。
 
-毎日、旅行・予約送客 / 地域事業者リード / Sponsor / Owned Audience / 求人 / Data・自治体 / Inbound の7レーンを比較する。確定成果が無いものを売上扱いしない。ASPの発生・承認・入金、B2B問い合わせ・受注・入金は分けて扱う。
+毎日、旅行・予約送客 / 地域事業者リード / Sponsor / Owned Audience / 求人 / Data・自治体 / Inbound / 地域産品・ふるさと納税 / Display Ads の9レーンを比較する。確定成果が無いものを売上扱いしない。ASPの発生・承認・入金、B2B問い合わせ・受注・入金は分けて扱う。
 
 Google Drive `Revenue_Funnel` に、Views、Sessions、Organic Sessions、booking clicks、business CTA view/click、lead、確定Affiliate成果/報酬、B2B問い合わせ/受注/売上、Revenue/1,000 Views、ボトルネック、次アクションを記録する。
 
