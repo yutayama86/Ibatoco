@@ -12,6 +12,11 @@ import {
   dateOnlyWeekday,
   parseDateOnly,
 } from '../src/lib/date-only.js';
+import {
+  dedupeSeasonHappenings,
+  happeningBucket,
+  happeningDateLabel,
+} from '../src/lib/happening-schedule.js';
 
 const errors = [];
 const expect = (actual, expected, label) => {
@@ -31,6 +36,19 @@ expect(iso(kokiaStart), '2026-09-18', 'コキア開始日');
 expect(iso(kokiaEnd), '2026-11-03', 'コキア終了日');
 expect(ja.format(kokiaStart), '9月18日(金)', 'コキア開始日の表示');
 expect(ja.format(kokiaEnd), '11月3日(火)', 'コキア終了日の表示');
+
+const todaySep21 = parseDateOnly('2026-09-21');
+expect(happeningBucket(kokiaStart, kokiaEnd, todaySep21), 'today', '開催期間中の今日区分');
+expect(happeningDateLabel(kokiaStart, kokiaEnd, todaySep21), '開催中｜11月3日(火)まで', '開催期間中の表示');
+expect(happeningBucket(kokiaStart, kokiaEnd, parseDateOnly('2026-11-04')), null, '終了翌日の自動非表示');
+expect(
+  dedupeSeasonHappenings([
+    { kind: 'event', href: '/events/kochia/' },
+    { kind: 'season', href: '/events/kochia/' },
+  ]).length,
+  1,
+  '専用記事と季節データの重複排除',
+);
 
 expect(iso(parseDateOnly('2026-09-22')), '2026-09-22', 'ISO日付の解析');
 expect(dateOnlyWeekday(parseDateOnly('2026-09-22')), 2, '曜日のUTC固定');
