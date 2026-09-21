@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-21",
+  "policy": {
+    "objective": "GA4 Views月間100,000への期待増分を最大化する",
+    "lanes": [
+      "seo",
+      "sns",
+      "international",
+      "product",
+      "cro",
+      "technical"
+    ],
+    "volumeEvidenceLevels": {
+      "exact": "外部キーワードツール等で月間検索ボリュームを確認できた値",
+      "observed": "GSC impressions / query×page 等、自サイトが実際に観測した需要",
+      "proxy": "Google Trends・関連検索・SERP等から見た相対需要",
+      "unknown": "確認できないため数値化しない"
+    },
+    "rules": [
+      "検索ボリュームを推測しない。exactが無ければobserved/proxyと明記する",
+      "既存URLで取れる需要は新規記事乱立より既存改善を優先する",
+      "大規模改修は全体テンプレート/IA/内部リンク/多言語基盤など横断効果が見込める場合に限る",
+      "改修量ではなく期待増分Views・収益性・再現性・失敗時損失で優先する"
+    ]
+  },
+  "opportunities": [
+    {
+      "id": "intl-hitachi-seaside-from-tokyo",
+      "lane": "international",
+      "status": "observe",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "gscQueries": [
+          {
+            "query": "hitachi seaside park from tokyo",
+            "impressions": 65,
+            "clicks": 0,
+            "position": 9.3385
+          },
+          {
+            "query": "tokyo to hitachi seaside park",
+            "impressions": 26,
+            "clicks": 0,
+            "position": 19.0385
+          },
+          {
+            "query": "how far is hitachi seaside park from tokyo",
+            "impressions": 10,
+            "clicks": 0,
+            "position": 8.5
+          },
+          {
+            "query": "how to get to hitachi seaside park from tokyo",
+            "impressions": 10,
+            "clicks": 0,
+            "position": 9.3
+          }
+        ],
+        "countrySignal": {
+          "country": "United States",
+          "impressions": 1176,
+          "clicks": 1,
+          "position": 9.869
+        },
+        "page": "/en/hitachi-seaside-park-from-tokyo/"
+      },
+      "opportunity": "英語圏で既に検索露出がある。新規英語ページ量産前に既存ページのCTR・SERP適合・内部回遊を検証する。",
+      "nextReview": "2026-09-28"
+    },
+    {
+      "id": "seo-organic-dominance",
+      "lane": "seo",
+      "status": "active",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "recent7Sessions": 1603,
+        "organicSearchSessions": 1369,
+        "organicShare": 0.854
+      },
+      "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
+      "nextReview": "daily"
+    },
+    {
+      "id": "sns-threads-referral",
+      "lane": "sns",
+      "status": "active",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "source": "l.threads.com",
+        "period": "2026-08-24..2026-09-20",
+        "sessions": 240,
+        "engagedSessions": 134,
+        "engagementRate": 0.5583
+      },
+      "opportunity": "Threadsは検索に次ぐ外部成長チャネル候補。検索で伸びたテーマをSNS向けに再編集し、翌日の検索・直接流入波及まで確認する。",
+      "nextReview": "daily"
+    }
+  ]
+}
