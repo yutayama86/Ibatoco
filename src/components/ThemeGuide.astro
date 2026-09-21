@@ -17,17 +17,6 @@ const { theme } = Astro.props;
       <p class="bp-kicker">{theme.kicker}</p>
       <h1>{theme.title}</h1>
       <p class="tg-lead">{theme.lead}</p>
-      {theme.status && (
-        <section class="tg-status" aria-labelledby="tg-status-h">
-          <p class="tg-status__kicker">NOW<span>{theme.status.updatedAt}時点</span></p>
-          <h2 id="tg-status-h">{theme.status.heading}</h2>
-          <dl>{theme.status.rows.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
-          {theme.status.note && <p class="tg-status__note">{theme.status.note}</p>}
-          {theme.status.links && theme.status.links.length > 0 && (
-            <ul class="tg-status__links">{theme.status.links.map((l) => <li><a href={l.href}>{l.label}<span aria-hidden="true">→</span></a></li>)}</ul>
-          )}
-        </section>
-      )}
     </div>
     {theme.hero && (
       <figure class="tg-hero">
@@ -38,6 +27,21 @@ const { theme } = Astro.props;
       </figure>
     )}
   </header>
+
+  {/* 長い最新情報をヒーロー横に置くと画像まで同じ高さへ伸びるため、本文幅で分離する */}
+  {theme.status && (
+    <div class="tg-status-wrap bp-wrap">
+      <section class="tg-status" aria-labelledby="tg-status-h">
+        <p class="tg-status__kicker">NOW<span>{theme.status.updatedAt}時点</span></p>
+        <h2 id="tg-status-h">{theme.status.heading}</h2>
+        <dl>{theme.status.rows.map(([t, d]) => <div><dt>{t}</dt><dd>{d}</dd></div>)}</dl>
+        {theme.status.note && <p class="tg-status__note">{theme.status.note}</p>}
+        {theme.status.links && theme.status.links.length > 0 && (
+          <ul class="tg-status__links">{theme.status.links.map((l) => <li><a href={l.href}>{l.label}<span aria-hidden="true">→</span></a></li>)}</ul>
+        )}
+      </section>
+    </div>
+  )}
 
   {/*
     スポット別の一覧は、見出しの脇（狭いカラム）ではなく本文の幅で出す。
@@ -148,7 +152,8 @@ const { theme } = Astro.props;
   .tg-card h3{margin-top:.5rem;font:600 clamp(1.2rem,2vw,1.55rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .tg-card__desc{margin-top:.7rem;color:var(--color-soil);line-height:1.85;font-size:.9rem}
   .tg-card__map{display:inline-block;margin-top:.9rem;color:var(--color-tide);font-size:.8rem;border-bottom:1px solid}
-  .tg-status{margin-top:clamp(1.75rem,3.5vw,2.5rem);padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white)}
+  .tg-status-wrap{padding-top:clamp(1.75rem,3.5vw,2.5rem)}
+  .tg-status{margin:0;padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white)}
   .tg-status__kicker{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem;margin:0;color:var(--color-tide);font:700 .68rem var(--font-brand-meta);letter-spacing:.14em}
   .tg-status__kicker span{color:var(--color-soil);font-weight:500;letter-spacing:.04em}
   .tg-status h2{margin:.5rem 0 0;font:600 clamp(1.15rem,2.2vw,1.45rem)/1.5 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}

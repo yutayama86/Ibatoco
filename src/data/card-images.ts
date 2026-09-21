@@ -5,6 +5,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "hoshiimo-shake-fair-2026": "/images/card/hoshiimo-shake-fair-2026-a4a6dfa6.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",
+  "hitachi-seaside-kochia-carnival-2026": "/images/card/hitachi-seaside-kochia-carnival-2026-4e47820e.png",
   "ibaraki-autumn-odekake-2026": "/images/card/ibaraki-autumn-odekake-2026-36366c15.png",
   "ibaraki-bus-tour-spots": "/images/card/ibaraki-bus-tour-spots-fb191f6b.png",
   "ibaraki-events-november-2026": "/images/card/ibaraki-events-november-2026-6a395d52.png",
