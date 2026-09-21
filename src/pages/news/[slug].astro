@@ -11,6 +11,7 @@ import PassportStampIndex from '../../components/PassportStampIndex.astro';
 import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
+import GrowthNextReads from '../../components/GrowthNextReads.astro';
 import { hasPaidLink } from '../../data/affiliates';
 
 export const getStaticPaths = (async () => (await getNews()).map((item) => ({
@@ -141,6 +142,7 @@ if (data.faq.length > 0) jsonLd.push({
         {visualImagePath && <figure class="news-detail__hero"><img src={visualImagePath} alt={data.ogImageAlt} loading="eager" width="1200" height="630" />{data.imageCredit && <figcaption>写真：<a href={data.imageCreditUrl} target="_blank" rel="noopener noreferrer">{data.imageCredit}</a>{data.imageLicense && <> / <a href={data.imageLicenseUrl} target="_blank" rel="noopener noreferrer">{data.imageLicense}</a></>}</figcaption>}</figure>}
 
         <section id="conclusion" class="news-conclusion"><p class="section-number">01 / CONCLUSION</p><h2>結論</h2><p>{data.conclusion}</p></section>
+        <GrowthNextReads currentPath={`/news/${slug}/`} pageType="news" />
         {guide ? <>
           {guide.sections.map((section, index) => <section id={section.id} class="guide-section">
             <p class="section-number">{pad(index + 2)}{section.kicker && ` / ${section.kicker}`}</p><h2>{section.heading}</h2>

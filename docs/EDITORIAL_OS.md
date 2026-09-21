@@ -8,10 +8,10 @@
 
 | 担当 | 責任 |
 | --- | --- |
-| ChatGPT | 外部監視、GA4/GSC分析、一次情報確認、優先順位、完成原稿、SEO、内部リンク、CTA、KPI |
+| ChatGPT | 外部監視、GA4/GSC分析、一次情報確認、優先順位、完成仕様、低リスク施策のGitHub実装・PR・CI確認・マージ、7日/28日検証 |
 | 編集OS | 台帳の永続化、公開在庫との照合、抜け漏れ検知、7日/28日の変更抑止、実装可否の機械判定 |
-| Claude Code | `ready`になった完成仕様の実装、build/typecheck/リンク確認 |
-| 人 | 公開責任、事実・権利・広告表示・重要な戦略変更の承認 |
+| Claude Code | 大規模・複雑な実装が必要な場合の補助。日次の標準経路ではない |
+| 人 | URL変更、価格、契約・権利、広告表示、計測ID、重要な戦略変更など高リスク判断の承認 |
 
 ## 正本となるファイル
 
@@ -41,11 +41,37 @@
 2. 新規情報をイベント台帳へ追加する。今日記事化しない情報も `discovered` で残す
 3. 市町村は曜日ローテーションで詳細確認し、週1回は44市町村を完全棚卸しする
 4. `npm run editorial:daily` で公開在庫と同期し、未掲載候補・変更凍結・実装キューを生成する
-5. ChatGPTが期待値最大の成長施策1件を選び、`docs/editorial/specs/` に完成仕様を作る。緊急保守があっても成長施策を省略しない
-6. `action-queue.json` を `ready` にする。一次情報URL・受入条件・specPathが欠けると検証が失敗する
-7. Claude Codeは生成された `reports/editorial/claude-implementation-brief.md` に従って実装する
-8. 日次報告の最後に「ゆうたさんにお願いすること」を出し、Claude Codeへ渡す完成文、確認だけ必要な事項、または対応不要のいずれかを明示する
-9. 公開後、`npm run seo:log` で改善履歴を残す。7日・28日後に評価する
+5. ChatGPTが期待値最大の成長施策1件を選ぶ。低リスクならそのままGitHubへ実装し、PRを作成する。高リスクまたは大規模なら`docs/editorial/specs/`に完成仕様を作る
+6. 低リスク実装はCIで`npm run verify`が成功した場合だけマージする。失敗したら修正し、通るまでマージしない
+7. `data/editorial/popular-pages.json` を直近7日GA4 Viewsで更新し、回遊モジュールの候補を最新化する
+8. 公開後は当日/7日/28日のGA4/GSCとイベント指標で効果検証する。効果が弱ければ次の施策へ修正する
+9. 日次報告の最後に「ゆうたさんにお願いすること」を出す。自動実行可能な範囲なら原則「対応不要」とする
+
+## 自動実行ポリシー
+
+ユーザーは「提案だけ」で止めず、進行・実行・検証までを日次OSへ委任している。したがって、期待値最大の施策が低リスクならChatGPTがGitHub上で直接完了させる。
+
+### 自動実行してよい
+- `data/editorial/popular-pages.json` の直近7日GA4 Views上位への更新
+- 内部リンク、関連記事、回遊モジュールの候補データ更新
+- 既存URLを変えない小規模な内部導線改善
+- 公式一次情報で確定した日付・会場・交通等の最小修正
+- 計測イベントの欠落修正、CIガード追加
+- 構造化データやmetadataの明白な技術不整合修正（検索意図や訴求を大きく変えないもの）
+
+実装は `growth/YYYYMMDD-slug` または `fix/YYYYMMDD-slug` ブランチ → PR → `npm run verify` を含むCI成功 → merge の順に行う。CI失敗時はマージしない。
+
+### 人の確認が必要
+- URL変更、削除、統合、リダイレクト方針
+- 価格、契約、広告主、ASP、権利・許諾
+- GA4/GSCの計測ID・アカウント変更
+- 大規模なデザイン/IA変更
+- 事実関係に一次情報で確証がない変更
+
+### 毎日の人気ページフィード
+`data/editorial/popular-pages.json` はGA4直近7日 `screen_page_views` を使い、ホーム、404、noindex、終了済みで後継導線のないページを除外して上位8件を保存する。`GrowthNextReads.astro` がnews/events上で最大3件を表示し、`growth_next_view` / `growth_next_click` で検証する。
+
+7日後は最低500 viewを目安にCTRとViews/sessionを評価し、CTR 2%以上かつViews/session +5%以上を成功目安とする。500 view以上でCTR 1%未満、またはViews/session悪化なら候補選定・配置・文言を変更する。
 
 ## GA4 Deep Discovery
 

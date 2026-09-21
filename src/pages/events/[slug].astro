@@ -16,6 +16,7 @@ import { INTERNAL_LINK_LABELS } from '../../data/internal-links';
 import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
+import GrowthNextReads from '../../components/GrowthNextReads.astro';
 import { hasPaidLink } from '../../data/affiliates';
 import { getEvents } from '../../lib/content';
 import { MUNI_BY_SLUG } from '../../data/areas';
@@ -210,6 +211,8 @@ if (d.faq.length > 0) {
       <ul class="ev-points">{d.keyPoints.map((p) => <li>{p}</li>)}</ul>
     </section>
   )}
+
+  <GrowthNextReads currentPath={`/events/${entry.id.split('/').pop()}/`} pageType="events" />
 
   {d.highlights.length > 0 && (
     <section id="highlights" aria-labelledby="ev-high">
