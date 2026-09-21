@@ -98,6 +98,18 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
     status: 'none',
     note: '大会公式のチケット受付先。広告ではない',
   },
+  'rockinstar-official': {
+    id: 'rockinstar-official',
+    name: "rockin'star Carnival 公式",
+    status: 'none',
+    note: 'イベント公式サイト。広告ではない',
+  },
+  'rockinstar-ticket': {
+    id: 'rockinstar-ticket',
+    name: "rockin'star Carnival チケット",
+    status: 'none',
+    note: 'イベント公式のチケット案内。広告ではない',
+  },
 };
 
 export function providerName(id: string): string {
