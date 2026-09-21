@@ -165,6 +165,29 @@
       },
       "opportunity": "source preferences toolでibatoco.jpが確認できた場合、サイト内にPreferred Source導線を追加しGoogle内での再発見性を高める。",
       "nextReview": "weekly"
+    },
+    {
+      "id": "market-whitespace-radar",
+      "lane": "seo",
+      "status": "active",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "gap": "GSC only observes queries where Ibatoco already has impressions"
+      },
+      "opportunity": "Weekly external-demand scan prevents zero-impression market blind spots.",
+      "nextReview": "weekly"
+    },
+    {
+      "id": "local-business-action-proof",
+      "lane": "product",
+      "status": "execute",
+      "evidenceDate": "2026-09-21",
+      "evidence": {
+        "placeInventory": 0,
+        "tracking": "official/map/tel tracking wired for future /place/ pages"
+      },
+      "opportunity": "Prove local business value with actions rather than page views.",
+      "nextReview": "when place inventory > 0"
     }
   ]
 }
