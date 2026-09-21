@@ -9,7 +9,7 @@
       "targetUrl": "/sports/kashima-antlers/",
       "targetFile": "src/data/sports/matches/kashima-antlers.json",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-21",
       "specPath": "docs/editorial/specs/20260921-kashima-antlers-score-correction.md",
       "primarySourceUrls": [
@@ -22,7 +22,8 @@
         "対象ファイル以外に差分を出さない",
         "npm run verifyがエラー・警告0件で成功する"
       ],
-      "notes": "緊急保守。今日の成長施策枠には含めず、指定1文のみ訂正する。"
+      "notes": "PR #8 で実装・マージ済み（2026-09-21）。緊急保守。今日の成長施策枠には含めず、指定1文のみ訂正する。",
+      "completedAt": "2026-09-21"
     },
     {
       "id": "20260921-rockinstar-carnival-2026",
@@ -32,7 +33,7 @@
       "targetFile": "src/content/events/rockinstar-carnival-2026.md",
       "additionalTargetFile": "src/content/events/ibaraki-events-october-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-21",
       "specPath": "docs/editorial/specs/20260921-rockinstar-carnival-2026.md",
       "primarySourceUrls": [
@@ -49,7 +50,8 @@
         "公式画像・ロゴ・出演者写真を使用しない",
         "npm run editorial:sync、npm run editorial:check、npm run verifyが成功する"
       ],
-      "notes": "本日の成長施策。開催12日前の大型未掲載イベント。SEO・AIO・内部リンクを含む完成仕様。"
+      "notes": "PR #10 で実装・マージ済み（2026-09-21）。本日の成長施策。開催12日前の大型未掲載イベント。SEO・AIO・内部リンクを含む完成仕様。",
+      "completedAt": "2026-09-21"
     }
   ]
 }
