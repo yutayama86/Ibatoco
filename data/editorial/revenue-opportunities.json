@@ -18,7 +18,14 @@
     "confirmedOrderRevenueYen": 0,
     "revenuePer1000ViewsYen": 0,
     "activeAffiliateBookingClicks": 2,
-    "nonMonetizedOrOfficialBookingClicks": 7
+    "nonMonetizedOrOfficialBookingClicks": 7,
+    "generateLeadBreakdown": {
+      "local_editor": 2,
+      "coverage_listing_inquiry": 1,
+      "other": 1,
+      "confirmed_paid_business_lead": 0
+    },
+    "activeAffiliateClickShare": 0.2222222222222222
   },
   "revenueLanes": [
     {
@@ -173,6 +180,8 @@
     "各高流入ページに monetizationIntent を持たせ、適切な収益モデルが無い場合は無理に広告を置かない。",
     "毎日、最も収益化に近いボトルネックを1つ特定し、低リスクならGrowth Batchとして実装する。",
     "広告・PR・提携は編集評価やランキングと分離する。",
-    "outbound_booking_clickをpartner_status別に分解し、クリックされる未提携/公式リンクを提携・直取引候補として発見する。"
+    "outbound_booking_clickをpartner_status別に分解し、クリックされる未提携/公式リンクを提携・直取引候補として発見する。",
+    "generate_leadを件数だけで評価せず、form_subjectで contributor/editorial/business/other に分類し、収益ファネルではpaid business leadだけを別集計する。",
+    "Booking clickのうちactive partnerへの比率をMonetized Click Shareとして監視する。公式情報を広告化せず、未提携サービスで需要が確認できた場合だけ提携/直取引候補にする。"
   ]
 }
