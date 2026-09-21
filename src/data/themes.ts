@@ -24,7 +24,7 @@ export interface ThemeStatus {
    * 開催期間。入っている期間だけ「今週の茨城」に出る（src/lib/happenings.ts）。
    * 季節が終わったら status ごと消すこと（古い期間を残さない）。
    */
-  period?: { from: string; to: string; label: string; place?: string; municipality?: string };
+  period?: { from: string; to: string; label: string; place?: string; municipality?: string; href?: string };
   heading: string;
   /** いま何が見られるか、次に何が変わるか。左が項目名、右が中身 */
   rows: [string, string][];
@@ -342,17 +342,18 @@ export const THEMES: Record<Theme['slug'], Theme> = {
     title: '茨城の紅葉',
     lead: '秋の茨城は、9月のコキアから11月の渓谷へと、順に色づいていきます。ひたちなかのみはらしの丘を埋めるコキア。日本三名瀑・袋田の滝、日本最大級の吊橋がかかる竜神峡、橋を包む花貫渓谷の紅葉のトンネル。丘から渓谷まで、茨城の秋をまとめました。',
     status: {
-      updatedAt: '2026年9月18日',
+      updatedAt: '2026年9月21日',
       period: {
         from: '2026-09-18',
         to: '2026-11-03',
         label: 'きて みて さわって コキアカーニバル（国営ひたち海浜公園）',
         place: 'ひたちなか市',
         municipality: 'hitachinaka',
+        href: '/events/hitachi-seaside-kochia-carnival-2026/',
       },
       heading: 'いまのコキアと、次に色が変わる目安',
       rows: [
-        ['いまの状態', '9月18日（金）に「きて みて さわって コキアカーニバル」が始まりました。公園公式の観賞時期では、コキアは9月下旬まで「緑葉」の期間です。'],
+        ['いまの状態', '9月18日（金）に「きて みて さわって コキアカーニバル」が始まりました。9月21日（月・祝）は台風25号の影響で臨時閉園し、同日のコキアライトアップも中止です。翌日以降の開園状況は公園公式で確認してください。'],
         ['次に色が変わる順番', '公園公式が示している観賞時期は、緑葉（8月中旬〜9月下旬）→ グラデーション・緑と赤（10月上旬）→ 紅葉（10月中旬）→ グラデーション・赤と茶（10月下旬）→ 黄金（10月下旬〜11月初旬）です。その年の気象条件によって変動すると明記されています。'],
         ['紅葉始め', '10月10日頃（公園公式の予想、9月17日時点）'],
         ['紅葉見頃', '10月15日頃（同上）。例年、紅葉のピークは1週間〜10日程とされています。'],
@@ -373,6 +374,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       },
       note: '紅葉予想は今後の天候で変わると公園公式が明記しています。出かける前に公式の最新情報を確認してください。イバトコが独自に日々の色づきを予想することはしません。',
       links: [
+        { label: 'コキアカーニバル2026｜日程・見頃・料金・アクセス', href: '/events/hitachi-seaside-kochia-carnival-2026/' },
         { label: '茨城の公園（ひたち海浜公園ほか）', href: '/koen/' },
         { label: 'ひたちなか市を読む', href: '/area/hitachinaka/' },
         { label: '那珂湊おさかな市場で昼を食べる', href: '/events/nakaminato-ichibazushi-guide/' },
@@ -415,7 +417,8 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       { question: 'コキア以外の紅葉はいつ頃ですか。', answer: '袋田の滝、竜神峡・竜神大吊橋、花貫渓谷、御前山、奥久慈、筑波山は、いずれも例年11月ごろが見頃です。標高や年によって前後するため、各施設の公式情報や観光いばらきの紅葉情報で確認してください。' },
     ],
     sources: [
-      { label: '国営ひたち海浜公園（2026年コキア紅葉＆混雑予想）', url: 'https://www.hitachikaihin.jp/news/park/page001059.html' },
+      { label: '国営ひたち海浜公園（コキアカーニバル2026）', url: 'https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html' },
+      { label: '国営ひたち海浜公園（2026年コキア紅葉＆混雑予想）', url: 'https://www.hitachikaihin.jp/event/kochiacarnival2026/page001034.html' },
       { label: '国営ひたち海浜公園（コキア・観賞時期）', url: 'https://www.hitachikaihin.jp/flower-plant/flower/kochia.html' },
       { label: '国営ひたち海浜公園（コキアライトアップ2026）', url: 'https://www.hitachikaihin.jp/event/kochialightup/' },
       { label: '国営ひたち海浜公園（電車・バスでのアクセス）', url: 'https://www.hitachikaihin.jp/access/train-bus.html' },
@@ -427,7 +430,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
     related: [
       { slug: 'hitachinaka', name: 'ひたちなか市' }, { slug: 'daigo', name: '大子町' }, { slug: 'hitachiota', name: '常陸太田市' }, { slug: 'takahagi', name: '高萩市' }, { slug: 'hitachiomiya', name: '常陸大宮市' }, { slug: 'tsukuba', name: 'つくば市' }, { slug: 'hitachi', name: '日立市' },
     ],
-    checkedAt: '2026年9月18日',
+    checkedAt: '2026年9月21日',
     metaTitle: '茨城の紅葉2026｜コキアの見頃予想と袋田の滝・竜神大吊橋・花貫渓谷｜イバトコ',
     metaDescription: 'ひたち海浜公園のコキアは2026年10月10日頃に紅葉始め、10月15日頃に見頃の予想（公園公式・9月17日時点）。コキアカーニバルとライトアップの日程、入園料と無料日、袋田の滝・竜神大吊橋・花貫渓谷など11月の紅葉の名所をまとめました。',
   },

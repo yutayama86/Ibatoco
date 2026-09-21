@@ -145,7 +145,7 @@ export async function getHappenings(now: Date = new Date()): Promise<Happening[]
     out.push({
       kind: 'season',
       title: period.label,
-      href: `/${theme.slug}/`,
+      href: period.href ?? `/${theme.slug}/`,
       start, end,
       dateLabel: `${JP_DATE.format(start)} 〜 ${JP_DATE.format(end)}`,
       place: period.place,
