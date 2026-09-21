@@ -23,6 +23,7 @@ function requirePattern(path, label, pattern) {
 
 requirePattern('src/components/BusinessCta.astro', 'business_cta_view instrumentation', /business_cta_view/);
 requirePattern('src/components/BusinessCta.astro', 'business_cta_click instrumentation', /business_cta_click/);
+requirePattern('src/components/BookingGuide.astro', 'booking_guide_view instrumentation', /booking_guide_view/);
 requirePattern('src/components/BookingGuide.astro', 'outbound_booking_click instrumentation', /outbound_booking_click/);
 requirePattern('src/pages/contact.astro', 'contact_form_view instrumentation', /contact_form_view/);
 requirePattern('src/pages/contact.astro', 'contact_form_start instrumentation', /contact_form_start/);
