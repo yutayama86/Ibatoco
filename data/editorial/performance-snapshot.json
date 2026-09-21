@@ -21,22 +21,26 @@
     "checkedAt": "2026-09-21T21:04:00+09:00",
     "status": "direct-ok",
     "warnings": [
+      "North StarはGA4 screen_page_views（Views）ローリング28日100,000。GSC impressionsは補助指標。",
       "Search Consoleは通常の処理遅延があるため、取得可能な最新日2026-09-19を基準に判断する。",
       "business_cta_clickはコード実装済みだが直近7日で実績0。business_cta_view 180に対するCROシグナルとして扱い、計測漏れとは断定しない。"
     ]
   },
   "northStar": {
-    "metric": "gsc_impressions",
+    "metric": "ga4_screen_page_views",
+    "metricLabel": "GA4 Views (screen_page_views)",
     "windowDays": 28,
     "target": 100000,
-    "current": 46059,
-    "progress": 0.46059,
-    "gap": 53941,
-    "recent7Impressions": 23298,
-    "recent7DailyAverage": 3328.29,
-    "runRate28FromRecent7": 93192,
+    "current": 4658,
+    "progress": 0.04658,
+    "gap": 95342,
+    "recent7Views": 1849,
+    "previous7Views": 1551,
+    "recent7VsPrevious7Pct": 19.2,
+    "recent7DailyAverage": 264.14,
+    "runRate28FromRecent7": 7396,
     "requiredDailyAverage": 3571.43,
-    "requiredUpliftVsRecent7": 0.0731,
+    "requiredUpliftVsRecent7": 12.5208,
     "stabilityDays": 14,
     "status": "below-pace"
   },
@@ -50,7 +54,8 @@
         "engagementRate": 0.6018,
         "averageEngagementTimePerSession": 31.146,
         "keyEvents": 0,
-        "quality": "direct"
+        "quality": "direct",
+        "views": 246
       },
       "recent7": {
         "start": "2026-09-14",
@@ -60,7 +65,8 @@
         "engagedSessions": 949,
         "engagementRate": 0.592,
         "averageEngagementTimePerSession": 39.8484,
-        "keyEvents": 1
+        "keyEvents": 1,
+        "views": 1849
       },
       "previous7": {
         "start": "2026-09-07",
@@ -70,7 +76,8 @@
         "engagedSessions": 681,
         "engagementRate": 0.5906,
         "averageEngagementTimePerSession": 29.6548,
-        "keyEvents": 0
+        "keyEvents": 0,
+        "views": 1551
       },
       "recent28": {
         "start": "2026-08-24",
@@ -80,11 +87,13 @@
         "engagedSessions": 2106,
         "engagementRate": 0.6057,
         "averageEngagementTimePerSession": 38.6011,
-        "keyEvents": 4
+        "keyEvents": 4,
+        "views": 4658
       },
       "recent7VsPrevious7": {
         "usersPct": 35.4,
-        "sessionsPct": 39
+        "sessionsPct": 39,
+        "viewsPct": 19.2
       },
       "channelRecent7": [
         {
@@ -290,5 +299,51 @@
       "intent": "SPORTS・交通",
       "region": "水戸市"
     }
-  ]
+  ],
+  "ga4TopPages": {
+    "recent7": [
+      {
+        "path": "/news/ibaraki-passport-2026/",
+        "views": 593
+      },
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "views": 399
+      },
+      {
+        "path": "/news/kasama-shinguri-matsuri-2026/",
+        "views": 180
+      },
+      {
+        "path": "/",
+        "views": 112
+      },
+      {
+        "path": "/events/tonegawa-hanabi-2026/",
+        "views": 60
+      }
+    ],
+    "recent28": [
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "views": 1078
+      },
+      {
+        "path": "/news/ibaraki-passport-2026/",
+        "views": 593
+      },
+      {
+        "path": "/",
+        "views": 396
+      },
+      {
+        "path": "/news/mito-hollyhock-new-stadium-access/",
+        "views": 275
+      },
+      {
+        "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
+        "views": 184
+      }
+    ]
+  }
 }
