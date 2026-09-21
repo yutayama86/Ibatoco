@@ -72,6 +72,17 @@
 必要なディメンションが取得できないときは `deepDiveBlocked: true` と不足項目を保存し、ユーザーへの日次手作業依頼に置き換えない。計測基盤の改善を施策候補として評価します。
 
 
+## GSC Deep Discovery と収益ファネル
+
+- Search Consoleは `query × page` で最新取得可能日 / 直近7日 / 前7日 / 直近28日を比較する
+- 高表示・低CTR、8〜20位の伸びかけ、急伸/急落、カニバリ、行動意図クラスター、新規露出を日次発見する
+- GSC固有の通常遅延を48時間警告と同一視しない
+- 重要発見はGoogle Driveの `GSC_発見ログ` に追記する
+- GA4は `business_cta_view → contact_form_view → form_start/contact_form_start → generate_lead` と `outbound_booking_click` をファネルとして監視する
+- 流入増だけでなく、`流入元 → LP → CTA/送客 → lead` まで評価する
+- 計測できない段階は成功扱いせず、計測改善候補にする
+- 7日/28日評価では `src/data/seo-changes.ts` とGitHub変更履歴を照合し、季節性や外部要因が強ければ因果を断定しない
+
 ## コマンド
 
 ```bash
