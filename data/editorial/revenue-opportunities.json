@@ -25,7 +25,12 @@
       "other": 1,
       "confirmed_paid_business_lead": 0
     },
-    "activeAffiliateClickShare": 0.2222222222222222
+    "activeAffiliateClickShare": 0.2222222222222222,
+    "returningSessions": 317,
+    "returningViews": 522,
+    "returningSessionShare": 0.09117054932412999,
+    "returningViewShare": 0.11206526406182911,
+    "ownedAudienceCapture": "not implemented"
   },
   "revenueLanes": [
     {
@@ -182,6 +187,7 @@
     "広告・PR・提携は編集評価やランキングと分離する。",
     "outbound_booking_clickをpartner_status別に分解し、クリックされる未提携/公式リンクを提携・直取引候補として発見する。",
     "generate_leadを件数だけで評価せず、form_subjectで contributor/editorial/business/other に分類し、収益ファネルではpaid business leadだけを別集計する。",
-    "Booking clickのうちactive partnerへの比率をMonetized Click Shareとして監視する。公式情報を広告化せず、未提携サービスで需要が確認できた場合だけ提携/直取引候補にする。"
+    "Booking clickのうちactive partnerへの比率をMonetized Click Shareとして監視する。公式情報を広告化せず、未提携サービスで需要が確認できた場合だけ提携/直取引候補にする。",
+    "returning session share / returning view shareを追い、SEO依存を下げる。Owned Audience未実装のため、LINE/メール等は新規導入候補として扱うが、外部アカウント作成や送信基盤契約はユーザー承認が必要。"
   ]
 }
