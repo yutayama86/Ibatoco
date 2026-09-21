@@ -130,6 +130,8 @@ Revenue OSの7レーンを継続する。
 5. 求人
 6. 地域データ / 法人・自治体
 7. Inbound
+8. 地域産品・ふるさと納税・EC送客
+9. Display Ads（床収益。後順位）
 
 追加原則:
 
@@ -272,6 +274,71 @@ sourceUrls / verifiedAt / updatedDate / corrections を使い、未確認情報�
 - ブランドアカウント/契約/権利の整理
 - データ/コンテンツの権利関係
 - 収益レーンの集中度
+
+
+## 成長ステージ
+
+### Stage 0: 現在〜10,000 Views / 28日
+
+目的は「流入と最初の取引を証明する」。
+
+- SEO勝ち筋を増やす
+- Booking/CRO計測を完成
+- 最初のAffiliate確定成果
+- 最初のPaid B2B lead / 受注
+- /place/ の公開確認済み在庫を需要地域から作る
+- Owned Audienceの最小検証
+- Discover/News/Bingの技術面を整える
+
+広告ネットワーク最適化、大規模アプリ、独自決済、会員課金には時間を使わない。
+
+### Stage 1: 10,000〜30,000 Views
+
+目的は「再現する収益レーンを2つ以上作る」。
+
+- 旅行/予約送客の横展開
+- B2B診断→制作/運用への商談化
+- Verified Business Directory拡張
+- Owned Audienceの再訪効果確認
+- 地域産品/ふるさと納税等のTransactional SEO検証
+- Sponsorの最小販売仮説
+
+### Stage 2: 30,000〜100,000 Views
+
+目的は「検索以外と継続収益を育てる」。
+
+- Search concentration低下
+- Sponsor/Partner継続化
+- Data/Widgetの利用者獲得
+- Inbound収益化
+- Direct/Returning増加
+- 必要ならディスプレイ広告を床収益として導入
+
+### Stage 3: 100,000 Views安定後
+
+目的は「利益と事業価値の最大化」。
+
+- 粗利の低い施策を削る
+- recurring revenue shareを増やす
+- データ/API/法人契約を育てる
+- founder dependenceを下げる
+- M&Aで評価される権利・データ・顧客・SOPを整理する
+
+## 後回しにするもの
+
+機会があっても、現在は優先しない。
+
+- 自社EC在庫・物流
+- ネイティブアプリ
+- 大規模な有料会員機能
+- 自前イベント主催
+- PV目的だけの大量プログラマティックSEO
+- 需要確認前の求人媒体化
+- 需要確認前の巨大API
+- 広告枠だらけのメディア化
+- 編集順位の販売
+
+これらは「できるか」ではなく、現行レーンより期待値が高くなった時だけ再評価する。
 
 ## 運用 cadence
 
