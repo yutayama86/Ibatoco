@@ -9,7 +9,7 @@
     "build": "astro build",
     "check": "npm run date:check && node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && astro check && astro build",
     "audit:site": "node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && npm run build && node scripts/quality-audit.mjs",
-    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && npm run editorial:check",
+    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && node scripts/analytics-audit.mjs && npm run editorial:check",
     "verify:article": "node scripts/verify-article.mjs",
     "wait:deploy": "node scripts/wait-deploy.mjs",
     "deploy": "npm run audit:site && npx wrangler deploy",
@@ -32,7 +32,9 @@
     "editorial:sync": "node scripts/editorial-os.mjs sync",
     "editorial:check": "node scripts/editorial-os.mjs check",
     "editorial:daily": "node scripts/editorial-os.mjs daily",
-    "editorial:inventory": "node scripts/editorial-os.mjs inventory"
+    "editorial:inventory": "node scripts/editorial-os.mjs inventory",
+    "audit:analytics": "node scripts/analytics-audit.mjs",
+    "growth:target": "node scripts/growth-target.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
