@@ -76,6 +76,9 @@ for (const file of pages) {
 
   const isNoindex = /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(html);
   if (isNoindex) noindexCount++;
+  if (!/name="robots"[^>]+content="[^"]*max-image-preview:large/i.test(html)) {
+    add('warn', 'image-preview', `${url} に max-image-preview:large がありません`);
+  }
 
   // canonical
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
@@ -147,11 +150,14 @@ for (const urls of descriptions.values()) {
 const sitemapPath = join(DIST, 'sitemap-index.xml');
 const sitemapAlt = join(DIST, 'sitemap.xml');
 if (!existsSync(sitemapPath) && !existsSync(sitemapAlt)) add('error', 'sitemap', 'sitemap が出力されていません');
+const newsSitemapPath = join(DIST, 'news-sitemap.xml');
+if (!existsSync(newsSitemapPath)) add('error', 'news-sitemap', 'news-sitemap.xml が出力されていません');
 const robotsPath = join(DIST, 'robots.txt');
 if (!existsSync(robotsPath)) add('error', 'robots', 'robots.txt がありません');
 else {
   const robots = readFileSync(robotsPath, 'utf8');
   if (!/Sitemap:/i.test(robots)) add('warn', 'robots', 'robots.txt に Sitemap の記載がありません');
+  if (!robots.includes('/news-sitemap.xml')) add('warn', 'robots', 'robots.txt に News sitemap の記載がありません');
   if (/^\s*Disallow:\s*\/\s*$/m.test(robots)) add('error', 'robots', 'robots.txt がサイト全体を拒否しています');
 }
 
