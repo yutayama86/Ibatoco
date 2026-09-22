@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-21",
+  "updatedAt": "2026-09-22",
   "events": [
     {
       "id": "mito-hagi-matsuri-2026",
-      "name": "第58回水戸の萩まつり",
+      "name": "第59回水戸の萩まつり",
       "municipality": "mito",
       "startDate": "2026-09-12",
       "endDate": "2026-10-04",
       "officialUrl": "https://mitokoumon.com/festival/hagi.html",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -21,7 +21,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "偕楽園。園内約750株の萩、期間中ライトアップ。10月3日に秋の夕べ、荒天時は10月4日へ順延。検索需要・来訪・消費・交通需要は根拠未取得のためunknown。"
+      "notes": "茨城県公式観光情報で第59回、主催者公式で令和8年9月12日〜10月4日・偕楽園・約750株・日没〜20時のライトアップを確認。10月3日に秋の宵、雨天時は10月4日へ順延。検索需要・来訪・消費・交通需要は根拠未取得のためunknown。"
     },
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -50,12 +50,12 @@
       "municipality": "ami",
       "startDate": "2026-09-18",
       "endDate": "2026-09-27",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1417&mode=detail",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -63,7 +63,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
+      "notes": "茨城県公式観光情報の個別ページで9月18日〜27日、あみプレミアム・アウトレット開催を確認。施設公式特設ページも同ページから案内。料金・交通需要は未確認のためunknown。"
     },
     {
       "id": "hitachi-seaside-kochia-carnival-2026",
@@ -74,9 +74,9 @@
       "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
       "discoveredAt": "2026-09-21",
       "verifiedAt": "2026-09-21",
-      "articleUrl": "/events/hitachi-seaside-kochia-carnival-2026/",
-      "articleUpdatedAt": "2026-09-21",
-      "status": "published",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -87,17 +87,17 @@
       "notes": "国営ひたち海浜公園公式で開催期間を確認。コキアは2026-09-17時点予想で10月10日頃から紅葉、10月15日頃に見頃。季節料金期間は10月9日〜11月3日。"
     },
     {
-      "id": "kobun-marron-fair-2026",
-      "name": "好文マロンフェア",
-      "municipality": "mito",
-      "startDate": "2026-09-18",
-      "endDate": "2026-11-23",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php",
-      "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "id": "kashima-antlers-emperors-cup-kofu-20260923",
+      "name": "鹿島アントラーズ vs ヴァンフォーレ甲府（天皇杯3回戦）",
+      "municipality": "kashima",
+      "startDate": "2026-09-23",
+      "endDate": null,
+      "officialUrl": "https://www.antlers.co.jp/pages/games",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -105,7 +105,154 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、会場、料金、交通は未確認のため、記事化・断定は保留。"
+      "notes": "鹿島アントラーズ公式試合日程で、2026年9月23日17時開始、メルカリスタジアム、天皇杯3回戦、対ヴァンフォーレ甲府と確認。需要シグナルは根拠未取得のためunknown。"
+    },
+    {
+      "id": "hitachi-seaside-health-sports-festival-2026",
+      "name": "健康スポーツフェスティバル",
+      "municipality": "hitachinaka",
+      "startDate": "2026-09-27",
+      "endDate": null,
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で9月27日10時〜15時、水のステージ周辺と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "ibaraki-urban-greening-festival-2026",
+      "name": "いばらき都市緑化フェスティバル",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-11",
+      "endDate": null,
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で10月11日10時〜15時、たまごの森と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "hitachi-seaside-pottery-festival-2026",
+      "name": "海浜陶芸まつり",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-17",
+      "endDate": "2026-10-18",
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で10月17日・18日10時〜16時、みはらしの里周辺と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "hitachi-seaside-volunteer-festival-2026",
+      "name": "ボランティアまつり",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-24",
+      "endDate": null,
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で10月24日10時〜15時、みはらしの里と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "hitachi-seaside-wind-music-carnival-2026",
+      "name": "吹奏楽カーニバル",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-25",
+      "endDate": null,
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で10月25日10時〜15時40分、水のステージと確認。詳細は10月上旬以降公開予定。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "hitachi-seaside-umi-hana-sotoasobi-2026",
+      "name": "海・花 そとあそび 2026",
+      "municipality": "hitachinaka",
+      "startDate": "2026-11-07",
+      "endDate": "2026-11-08",
+      "officialUrl": "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": "/events/hitachi-seaside-kochia-carnival-2026/",
+      "articleUpdatedAt": "2026-09-21",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "国営ひたち海浜公園公式で11月7日・8日10時〜15時30分、大草原・バーベキュー広場と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+    },
+    {
+      "id": "kobun-marron-fair-2026",
+      "name": "好文マロンフェア",
+      "municipality": "mito",
+      "startDate": "2026-09-18",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1419&mode=detail",
+      "discoveredAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県公式観光情報の個別ページで9月18日〜11月23日、みと好文テラス（水戸市千波町3081-1）開催を確認。検索需要・来訪・交通需要は根拠未取得のためunknown。"
     },
     {
       "id": "kamine-park-autumn-festival-2026",
@@ -113,12 +260,12 @@
       "municipality": "hitachi",
       "startDate": "2026-09-19",
       "endDate": "2026-10-18",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1412&mode=detail",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -126,7 +273,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
+      "notes": "茨城県公式観光情報の個別ページで9月19日〜10月18日、日立市かみね公園（レジャーランド・遊園地・動物園）開催を確認。休園日を挟む分散日程。料金・交通は施設公式で再確認が必要。"
     },
     {
       "id": "yumenoba-space-event-2026",
@@ -134,12 +281,12 @@
       "municipality": "chikusei",
       "startDate": "2026-09-19",
       "endDate": "2026-09-23",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1387&mode=detail",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -147,7 +294,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報のイベント一覧で日程を確認。イベント正式表記、主催者の個別一次情報URL、料金、交通は未確認のため、記事化・断定は保留。"
+      "notes": "茨城県公式観光情報の個別ページで正式名、9月19日〜23日、宇宙館案内・YS-11機内見学などの実施を確認。各体験は無料だが、施設入館条件は主催者公式で再確認が必要。"
     },
     {
       "id": "daigo-tea-cafe-stamp-rally-2026",
@@ -220,7 +367,7 @@
       "endDate": "2026-09-22",
       "officialUrl": "https://traininfo.jreast.co.jp/train_info/kanto.aspx",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -231,7 +378,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "high"
       },
-      "notes": "2026-09-21 06:49頃のJR東日本公式情報。常磐線・水郡線・水戸線・鹿島線で遅延、運休、運転取りやめ予定が発表。運行状況は変動するため公開時に公式再確認必須。"
+      "notes": "JR東日本公式を2026-09-22 07:00現在で再確認。常磐線は上野〜取手で一部遅延・運休、水郡線と水戸線は平常運転、鹿島線は佐原〜鹿島神宮で運転見合わせ・夕方頃再開見込み。運行状況は変動するため利用直前に公式再確認必須。"
     },
     {
       "id": "oarai-kaijo-hanabi-2026",
@@ -241,18 +388,18 @@
       "endDate": null,
       "officialUrl": "https://www.oarai-hanabi.jp/",
       "discoveredAt": "2026-09-02",
-      "verifiedAt": "2026-09-14",
+      "verifiedAt": "2026-09-22",
       "articleUrl": "/events/oarai-kaijo-hanabi-2026/",
-      "articleUpdatedAt": "2026-09-14",
+      "articleUpdatedAt": "2026-09-22",
       "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
         "visitorDraw": "unknown",
         "localSpend": "unknown",
-        "logisticsDemand": "unknown"
+        "logisticsDemand": "high"
       },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+      "notes": "開催4日前の公式再確認。大洗鹿島線は臨時ダイヤで運行予定。混雑予想は水戸発15〜17時、大洗発は花火終了後19時30分〜23時頃。Suica・PASMO非対応で、往復乗車券またはデジタル企画乗車券の事前準備を公式が案内。"
     },
     {
       "id": "rockinstar-carnival-2026",
@@ -295,6 +442,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "matsuri-yuki-2026",
+      "name": "祭りゆうき2026",
+      "municipality": "yuki",
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-25",
+      "officialUrl": "https://www.city.yuki.lg.jp/kankou/event/page007363.html",
+      "discoveredAt": "2026-09-22",
+      "verifiedAt": "2026-09-22",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "結城市公式で10月24日10時〜16時・25日10時〜15時、結城市役所北側駐車場・けやき公園周辺などで開催と確認。市公式が『結城市最大のお祭り』と案内。市役所駐車場は利用不可で工業団地内に臨時駐車場を開設予定、詳細は後日公開。検索需要・来訪・消費需要は根拠未取得のためunknown。"
     },
     {
       "id": "tsuchiura-hanabi-2026",
