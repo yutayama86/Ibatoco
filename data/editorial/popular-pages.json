@@ -1,53 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-21T21:45:00+09:00",
+  "generatedAt": "2026-09-23T07:20:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-14",
-      "end": "2026-09-20"
+      "start": "2026-09-15",
+      "end": "2026-09-21"
     }
   },
   "baseline": {
-    "views": 1849,
-    "sessions": 1603,
-    "viewsPerSession": 1.1535
+    "views": 1914,
+    "sessions": 1668,
+    "viewsPerSession": 1.1475
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。",
   "pages": [
     {
       "path": "/news/ibaraki-passport-2026/",
-      "views": 593
+      "views": 648
     },
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 399
+      "views": 440
     },
     {
       "path": "/news/kasama-shinguri-matsuri-2026/",
-      "views": 180
+      "views": 213
     },
     {
       "path": "/events/tonegawa-hanabi-2026/",
-      "views": 60
-    },
-    {
-      "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
-      "views": 42
+      "views": 52
     },
     {
       "path": "/news/ibaraki-underpass-kansui-33-2026/",
-      "views": 41
+      "views": 45
     },
     {
-      "path": "/news/kashima-newcastle-jets-acle-guide-2026-09-15/",
-      "views": 34
+      "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
+      "views": 39
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
       "views": 33
+    },
+    {
+      "path": "/events/ibaraki-bus-tour-spots/",
+      "views": 23
     }
   ]
 }
