@@ -302,36 +302,3 @@ export async function getIndexableEvents(): Promise<CollectionEntry<'events'>[]>
 export async function getEventsByMunicipality(slug: string) {
   return (await getIndexableEvents()).filter((item) => item.data.municipalities.includes(slug as never));
 }
-
-/**
- * TOPの「イバトコをつくった理由」に出す、確かめた量。
- *
- * 「確かめたことだけを書いています」という主張の裏づけなので、
- * **毎ビルド実データから数える。手で書かない。**
- * 手書きの数字は必ず古くなり、そのときブランドの根幹が嘘になる。
- *
- * - articles … 公開していて noindex でない記事
- * - sources  … それらが記録している一次情報URLの総数
- * - municipalities … 記事が実際に扱った市町村の数（44のうち何市町村か）
- */
-export async function getEditorialFootprint(): Promise<{
-  articles: number; sources: number; municipalities: number; totalMunicipalities: number;
-}> {
-  const [news, events, articles] = await Promise.all([
-    getIndexableNews(), getIndexableEvents(), getPublishedArticles(),
-  ]);
-  const all = [...news, ...events, ...articles];
-  let sources = 0;
-  const towns = new Set<string>();
-  for (const entry of all) {
-    const data = entry.data as { sourceUrls?: unknown[]; municipalities?: string[] };
-    sources += data.sourceUrls?.length ?? 0;
-    for (const slug of data.municipalities ?? []) towns.add(slug);
-  }
-  return {
-    articles: all.length,
-    sources,
-    municipalities: towns.size,
-    totalMunicipalities: MUNI_BY_SLUG.size,
-  };
-}
