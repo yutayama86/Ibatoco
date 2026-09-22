@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-09-23",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,23 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "news-desk-daily-frequency",
+      "lane": "product",
+      "status": "active",
+      "evidenceDate": "2026-09-23",
+      "evidence": {
+        "rule": "daily 3-5 verified news",
+        "publishedToday": 4,
+        "topics": [
+          "sports",
+          "transport",
+          "event"
+        ]
+      },
+      "opportunity": "公式一次情報の短報を毎日3〜5本公開し、再訪機会と地域行動データを増やす。長文SEO記事と分離する。",
+      "nextReview": "daily"
+    },
     {
       "id": "seo-oarai-fireworks-transport-intent",
       "lane": "seo",
@@ -93,11 +110,11 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-21",
+      "evidenceDate": "2026-09-23",
       "evidence": {
-        "recent7Sessions": 1603,
-        "organicSearchSessions": 1369,
-        "organicShare": 0.854
+        "recent7Sessions": 1668,
+        "organicSearchSessions": 1453,
+        "organicShare": 0.8711
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
@@ -141,13 +158,13 @@
       "id": "owned-audience-retention",
       "lane": "product",
       "status": "active",
-      "evidenceDate": "2026-09-21",
+      "evidenceDate": "2026-09-23",
       "evidence": {
-        "returningSessions": 317,
-        "totalSessions": 3477,
-        "returningSessionShare": 0.0912,
-        "returningViews": 522,
-        "totalViews": 4658
+        "returningSessions": 339,
+        "totalSessionsByNewReturningDimension": 3707,
+        "returningSessionShare": 0.0914,
+        "returningViews": 542,
+        "totalViews": 4853
       },
       "opportunity": "見頃・イベント変更・スポーツ・交通など更新需要でOwned Audienceを作り、SEO依存を下げる。",
       "nextReview": "weekly"
