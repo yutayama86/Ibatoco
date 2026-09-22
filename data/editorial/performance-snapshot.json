@@ -18,9 +18,18 @@
       "title": "イバトコ SEO・流入データ",
       "id": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w"
     },
-    "checkedAt": "2026-09-21T21:04:00+09:00",
-    "status": "direct-ok",
+    "checkedAt": "2026-09-22T11:42:43+09:00",
+    "lastConfirmedAt": "2026-09-22T11:42:43+09:00",
+    "status": "direct-ok-with-latest-day-anomaly",
+    "freshness": {
+      "basisDateAsiaTokyo": "2026-09-22",
+      "ga4LatestConfirmedDate": "2026-09-20",
+      "gscLatestConfirmedDate": "2026-09-19",
+      "todayRefreshSucceeded": true
+    },
     "warnings": [
+      "2026-09-22 11:42 JSTにWindsor.aiとGoogle Driveの接続復旧を確認。GA4/GSCの実データ取得、Growth_100k・Revenue_Funnelの追記、読み戻しまで成功。",
+      "GA4 2026-09-21はViews 217・Sessions 210に対してengaged_sessions 1・engagement_rate 0.0048の異常値だったため、最新確定日は2026-09-20のままとし、9月21日の値を集計へ採用していない。",
       "North StarはGA4 screen_page_views（Views）ローリング28日100,000。GSC impressionsは補助指標。",
       "Search Consoleは通常の処理遅延があるため、取得可能な最新日2026-09-19を基準に判断する。",
       "business_cta_clickはコード実装済みだが直近7日で実績0。business_cta_view 180に対するCROシグナルとして扱い、計測漏れとは断定しない。"
