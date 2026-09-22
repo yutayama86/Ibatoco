@@ -200,6 +200,37 @@ npm run opportunity   送客先が無い「地域 × 意図」を出す（営業
 
 ---
 
+## 8.5 公開が止まったとき
+
+mainへpushすると Cloudflare が自動でビルドし、本番へ出る。`npm run deploy` は要らない。
+
+**ただし、失敗しても自動でやり直さない。** 2026-09-22 に実際に止まった。
+
+- GitHub Actions の `build` は成功していた（コードの問題ではない）
+- Cloudflare の `Workers Builds: ibatoco` が **所要0秒で failure**
+- GitHubのcheckには**理由が出ない**。ビルドへのリンクだけが載る
+
+確認のしかた。
+
+```
+GET /repos/yutayama86/Ibatoco/commits/<sha>/check-runs
+→ "Workers Builds: ibatoco" の conclusion を見る
+```
+
+`conclusion: success` なのに本番が古いときは、単に反映待ち（1〜3分）。
+`failure` なら止まっている。**本番を見ただけでは区別できない。**
+
+直し方は2つ。
+
+1. Cloudflareのダッシュボードで、そのビルドを Retry する（失敗の理由もここでしか見られない）
+2. mainに新しいコミットを積んで、ビルドを起こし直す。
+   **直接pushはしない。**PRを作ってマージする
+
+繰り返し失敗するなら、コミットを積み直しても直らない。
+ダッシュボードで理由を読むこと（無料プランのビルド枠など、リポジトリ側では分からない）。
+
+---
+
 ## 9. 絶対にやらないこと
 
 - 既存URLを変える／記事を大量削除する／大量リダイレクトを作る
