@@ -317,13 +317,30 @@ function newsDeskStatus(inventory) {
     .sort((a, b) => b.pubDate.localeCompare(a.pubDate) || (b.updatedDate ?? '').localeCompare(a.updatedDate ?? ''));
   const latest = publishedNews[0] ?? null;
   const daysSinceLatest = latest ? dateDiff(latest.pubDate, today) : null;
+  const publishedToday = publishedNews.filter((item) => item.pubDate === today);
+  const dailyMinimum = 3;
+  const dailyMaximum = 5;
   return {
     checkedAt: today,
     latestPublishedAt: latest?.pubDate ?? null,
     latestTitle: latest?.title ?? null,
     latestUrl: latest?.url ?? null,
     daysSinceLatest,
-    status: latest && daysSinceLatest <= 1 ? 'current' : 'review-required',
+    publishedToday: publishedToday.length,
+    dailyMinimum,
+    dailyMaximum,
+    remainingToMinimum: Math.max(0, dailyMinimum - publishedToday.length),
+    status: publishedToday.length < dailyMinimum
+      ? 'publication-required'
+      : publishedToday.length <= dailyMaximum
+        ? 'target-met'
+        : 'over-target',
+    todayItems: publishedToday.map((item) => ({
+      title: item.title,
+      url: item.url,
+      pubDate: item.pubDate,
+      updatedDate: item.updatedDate,
+    })),
     latestItems: publishedNews.slice(0, 5).map((item) => ({
       title: item.title,
       url: item.url,
@@ -359,8 +376,16 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
     '',
     `- 最新公開: ${newsDesk.latestPublishedAt ?? '公開記事なし'}${newsDesk.latestTitle ? `｜${newsDesk.latestTitle}` : ''}`,
     `- 経過: ${newsDesk.daysSinceLatest == null ? '不明' : `${newsDesk.daysSinceLatest}日`}`,
-    `- 判定: ${newsDesk.status === 'current' ? '正常' : '要確認（公式一次情報と公開 /news/ を同日中に照合）'}`,
-    '- 公開記事が2暦日以上空いた場合は、公式一次情報に公開価値のある動きがないか必ず確認する。該当情報があれば同日中に新規公開または既存更新し、低品質な穴埋め記事は作らない。',
+    `- 本日公開: ${newsDesk.publishedToday}本 / 必須${newsDesk.dailyMinimum}本・標準${newsDesk.dailyMinimum}〜${newsDesk.dailyMaximum}本`,
+    `- 残り: ${newsDesk.remainingToMinimum}本`,
+    `- 判定: ${newsDesk.status === 'target-met' ? '達成' : newsDesk.status === 'over-target' ? '上限超過（量より質を再確認）' : '公開必須'}`,
+    '- 毎日、公式一次情報を根拠に最低3本、標準3〜5本を公開する。速報性が弱い日は、交通・行政・イベント・SPORTS・地域経済・季節実用情報の短報を使い、未確認情報や重複記事は作らない。',
+    '',
+    '### 本日の公開',
+    '',
+    ...(newsDesk.todayItems.length ? newsDesk.todayItems.map((item) =>
+      `- ${item.title}｜${item.url}`
+    ) : ['- まだ公開なし']),
     '',
     '### 直近のニュース',
     '',
