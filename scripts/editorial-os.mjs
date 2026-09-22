@@ -310,6 +310,29 @@ function improvementWatchlist() {
   });
 }
 
+function newsDeskStatus(inventory) {
+  const today = tokyoDate();
+  const publishedNews = inventory
+    .filter((item) => item.type === 'news' && !item.draft && item.reviewed && item.pubDate && item.pubDate <= today)
+    .sort((a, b) => b.pubDate.localeCompare(a.pubDate) || (b.updatedDate ?? '').localeCompare(a.updatedDate ?? ''));
+  const latest = publishedNews[0] ?? null;
+  const daysSinceLatest = latest ? dateDiff(latest.pubDate, today) : null;
+  return {
+    checkedAt: today,
+    latestPublishedAt: latest?.pubDate ?? null,
+    latestTitle: latest?.title ?? null,
+    latestUrl: latest?.url ?? null,
+    daysSinceLatest,
+    status: latest && daysSinceLatest <= 1 ? 'current' : 'review-required',
+    latestItems: publishedNews.slice(0, 5).map((item) => ({
+      title: item.title,
+      url: item.url,
+      pubDate: item.pubDate,
+      updatedDate: item.updatedDate,
+    })),
+  };
+}
+
 function actionPriority(action) {
   const value = { critical: 4, high: 3, medium: 2, low: 1 }[action.priority] ?? 0;
   const ready = action.status === 'ready' ? 10 : 0;
@@ -321,6 +344,7 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
   const changes = improvementWatchlist();
   const ready = actions.actions.filter((action) => action.status === 'ready').sort((a, b) => actionPriority(b) - actionPriority(a));
   const published = inventory.filter((item) => !item.draft && item.reviewed);
+  const newsDesk = newsDeskStatus(inventory);
   const within120 = registry.events.filter((event) => event.startDate && dateDiff(tokyoDate(), event.startDate) >= 0 && dateDiff(tokyoDate(), event.startDate) <= 120);
   const lines = [
     `# イバトコ日次編集ブリーフ｜${tokyoDate()}`,
@@ -331,7 +355,20 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
     `- 検証: エラー${validation.errors.length}件・警告${validation.warnings.length}件`,
     ...validation.warnings.map((warning) => `- 警告: ${warning}`),
     '',
-    '## 2. 情報カバレッジ',
+    '## 2. News Desk',
+    '',
+    `- 最新公開: ${newsDesk.latestPublishedAt ?? '公開記事なし'}${newsDesk.latestTitle ? `｜${newsDesk.latestTitle}` : ''}`,
+    `- 経過: ${newsDesk.daysSinceLatest == null ? '不明' : `${newsDesk.daysSinceLatest}日`}`,
+    `- 判定: ${newsDesk.status === 'current' ? '正常' : '要確認（公式一次情報と公開 /news/ を同日中に照合）'}`,
+    '- 公開記事が2暦日以上空いた場合は、公式一次情報に公開価値のある動きがないか必ず確認する。該当情報があれば同日中に新規公開または既存更新し、低品質な穴埋め記事は作らない。',
+    '',
+    '### 直近のニュース',
+    '',
+    ...(newsDesk.latestItems.length ? newsDesk.latestItems.map((item) =>
+      `- ${item.pubDate}｜${item.title}｜${item.url}`
+    ) : ['- 公開記事なし']),
+    '',
+    '## 3. 情報カバレッジ',
     '',
     `- イベント台帳: ${registry.events.length}件`,
     `- 今後120日: ${within120.length}件`,
@@ -344,17 +381,17 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
       `- [${event.urgency}] ${event.name}｜${event.startDate ?? '日程未確認'}｜${event.municipality ?? '地域未設定'}｜根拠スコア${event.evidenceScore}/12｜${event.officialUrl ?? '一次情報未登録'}`
     ) : ['- なし（未発見を意味しない。外部監視は別途必須）']),
     '',
-    '## 3. 実装キュー',
+    '## 4. 実装キュー',
     '',
     ...(ready.length ? ready.map((action) => `- [実装可] ${action.title}｜${action.kind}｜${action.specPath}`) : ['- 実装可の案件なし。Claudeへ調査・執筆を丸投げしない。']),
     '',
-    '## 4. 改善待ち',
+    '## 5. 改善待ち',
     '',
     `- 7日以内・変更凍結: ${changes.filter((change) => change.decision === 'freeze').length}件`,
     `- 8〜27日・経過観察: ${changes.filter((change) => change.decision === 'observe').length}件`,
     `- 28日以上・再評価可: ${changes.filter((change) => change.decision === 'eligible-for-review').length}件`,
     '',
-    '## 5. 今日の判断',
+    '## 6. 今日の判断',
     '',
     ready.length
       ? `実装対象は「${ready[0].title}」。完成仕様 ${ready[0].specPath} だけを正本として実装する。`
@@ -441,6 +478,7 @@ writeJson(join(REPORT_DIR, 'content-inventory.json'), { generatedAt: tokyoDate()
 writeJson(join(REPORT_DIR, 'daily-brief.json'), {
   generatedAt: tokyoDate(),
   dataQuality: { performanceAsOf: performance.asOf, warnings: validation.warnings },
+  newsDesk: newsDeskStatus(inventory),
   coverageCandidates: coverageCandidates(registry),
   improvementWatchlist: improvementWatchlist(),
   readyActions: actions.actions.filter((action) => action.status === 'ready'),
