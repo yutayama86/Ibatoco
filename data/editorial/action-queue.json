@@ -56,7 +56,7 @@
     {
       "id": "20260923-news-desk-popular-pages",
       "title": "News Desk公式短報4本＋直近7日人気ページ更新",
-      "kind": "growth-batch",
+      "kind": "update",
       "targetUrl": "/news/",
       "targetFile": "data/editorial/popular-pages.json",
       "additionalTargetFiles": [
