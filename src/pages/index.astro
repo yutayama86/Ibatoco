@@ -5,12 +5,10 @@ import ThisWeek from '../components/ThisWeek.astro';
 import HomeEditorialProcess from '../components/HomeEditorialProcess.astro';
 import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
 import NewsCard from '../components/NewsCard.astro';
-import { getIndexableNews, getEditorialFootprint } from '../lib/content';
+import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
 
 const latestNews = (await getIndexableNews()).slice(0, 3);
-// 「確かめたことだけを書いています」の裏づけ。毎ビルド実データから数える
-const footprint = await getEditorialFootprint();
 
 // TOP修正指示書 §5：title に「茨城」を含める（ブランドタグライン「現地から、信頼を編む。」はフッター/Aboutで維持）。
 const pageTitle = 'イバトコ｜茨城を歩いてつくるローカルメディア';
@@ -110,42 +108,12 @@ const heroSlides = [
       <div class="origin-copy">
         <p class="bp-kicker">イバトコをつくった理由</p>
         <h2 class="bp-section-title">検索では見つからない、<br />この土地の理由を。</h2>
-        <p class="origin-lead">口コミの星の数には、その店がそこにある理由までは書かれていません。現地へ行き、人に会い、確かめたことだけを書いています。</p>
         {/*
-          「消えるもの」と「すること」を対にして見せる。以前は同じ見た目の
-          段落が2つ並ぶだけで、どちらが問題でどちらが答えなのか分からなかった。
-          番号付きの3枚組は HomeEditorialProcess（01 FIELD / 02 VERIFY /
-          03 UPDATE）が持っているので、ここでは番号を使わず対比だけで見せる。
+          文の切れ目で改行する。1行に流すと「現地へ／行き」のように
+          語の途中で折れて読みにくかった。文単位で分けると、狭い画面でも
+          意味の切れ目が行頭に来る。
         */}
-        <div class="origin-note">
-          <div class="origin-note__item">
-            <p class="origin-note__label"><span>WHAT DISAPPEARS</span>記録されないまま、消えていくもの</p>
-            <p>朝五時の漁港のにおい。何十年も手が覚えている仕事。看板を出していない店の由来。どれも、短い投稿では残りません。</p>
-          </div>
-          <div class="origin-note__item origin-note__item--answer">
-            <p class="origin-note__label"><span>WHAT WE DO</span>イバトコがすること</p>
-            <p>足を運び、本人に聞き、公式の発表と突き合わせる。知られていないものを、あとから探せる状態にして残す。それがイバトコの仕事です。</p>
-          </div>
-        </div>
-        {/*
-          主張を言葉だけで終わらせず、実際に確かめた量を置く。
-          数字は src/lib/content.ts が毎ビルド数える（手で書かない）。
-          「37 / 44」のように、まだ届いていないことも隠さずに出す。
-        */}
-        <dl class="origin-proof">
-          <div>
-            <dt>確認した一次情報</dt>
-            <dd><b>{footprint.sources}</b><span>件</span></dd>
-          </div>
-          <div>
-            <dt>公開した記事</dt>
-            <dd><b>{footprint.articles}</b><span>本</span></dd>
-          </div>
-          <div>
-            <dt>取り上げた市町村</dt>
-            <dd><b>{footprint.municipalities}</b><span>/ {footprint.totalMunicipalities}</span></dd>
-          </div>
-        </dl>
+        <p class="origin-lead">口コミの星の数には、その店がそこにある理由までは書かれていません。<br />現地へ行き、人に会い、確かめたことだけを書いています。</p>
         <a href="/about/">私たちについて <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -261,25 +229,13 @@ const heroSlides = [
   .hero-controls{display:flex;gap:.55rem;margin-top:2rem}.hero-controls button{width:3.6rem;padding:.55rem 0;border:0;border-top:1px solid rgba(255,255,255,.4);background:transparent;color:rgba(255,255,255,.55);cursor:pointer;text-align:left;transition:border-color .25s ease,color .25s ease}.hero-controls button:hover,.hero-controls button:focus-visible,.hero-controls button.is-active{border-color:#fff;color:#fff}.hero-controls span{font:.62rem var(--font-brand-meta)}
   .brand-origin{position:relative;isolation:isolate;overflow:hidden;min-height:47rem;background:linear-gradient(145deg,#fff 0%,#f3f8fe 62%,#f7f8ec 100%);color:var(--color-deep-blue)}
   .origin-sky{position:absolute;z-index:-1;inset:0;pointer-events:none}.origin-sky::before{content:'';position:absolute;left:-11rem;top:-15rem;width:min(48vw,44rem);height:32rem;border-radius:46% 54% 57% 43% / 61% 44% 56% 39%;background:linear-gradient(140deg,rgba(90,161,221,.66),rgba(202,228,250,.2));transform:rotate(-10deg)}.origin-sky::after{content:'';position:absolute;right:-12rem;top:-8rem;width:min(37vw,34rem);height:22rem;border-radius:56% 44% 66% 34%;background:rgba(190,204,142,.34);transform:rotate(13deg)}
-  .origin-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-top:clamp(6.5rem,10vw,9rem);padding-bottom:17rem}.origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid rgba(7,23,68,.28);color:var(--color-brand-blue)}.origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}.origin-index b{font:500 .68rem/1 var(--font-brand-meta)}.origin-copy{max-width:57rem}.brand-origin .bp-kicker{color:var(--color-brand-blue)}.brand-origin h2{max-width:52rem;margin-top:1.05rem;font-size:clamp(2.5rem,4.4vw,4.4rem);line-height:1.42;letter-spacing:.025em;color:var(--color-deep-blue)}.origin-lead{max-width:45rem;margin-top:1.65rem;font:500 clamp(1rem,1.35vw,1.22rem)/2 var(--font-brand-body);letter-spacing:.015em;color:#33435f}/*
-   * 「消えるもの」と「すること」の対。左は失われていく側なので線も文字も弱く、
-   * 右は残す側なのでブランド色の線と白い面で受け止める。
-   * 見出しの小さな欧文ラベルは .origin-index と同じ組み方に揃えている。
+  .origin-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-top:clamp(6.5rem,10vw,9rem);padding-bottom:17rem}.origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid rgba(7,23,68,.28);color:var(--color-brand-blue)}.origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}.origin-index b{font:500 .68rem/1 var(--font-brand-meta)}.origin-copy{max-width:57rem}.brand-origin .bp-kicker{color:var(--color-brand-blue)}.brand-origin h2{max-width:52rem;margin-top:1.05rem;font-size:clamp(2.5rem,4.4vw,4.4rem);line-height:1.42;letter-spacing:.025em;color:var(--color-deep-blue)}/*
+   * global.css は p に line-break:strict しか掛けていない（長い散文に
+   * auto-phrase を掛けると行末が波打つため）。ただしこのリードは2文だけの
+   * 見出し相当で、既定のままだと狭い画面で「書／いています」のように
+   * 語の途中で折れた。短い文字列なので、ここだけ文節で折る。
    */
-  .origin-note{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.25rem,3vw,2.75rem);max-width:52rem;margin-top:2.5rem}
-  .origin-note__item{padding-top:1.1rem;border-top:1px solid rgba(7,23,68,.17)}
-  .origin-note__item--answer{padding:1.4rem 1.5rem 1.5rem;border-top:2px solid var(--color-brand-blue);border-radius:0 0 .85rem .85rem;background:rgba(255,255,255,.78);box-shadow:0 14px 34px rgba(7,23,68,.07)}
-  .origin-note__label{display:grid;gap:.45rem;margin-bottom:.85rem;font:700 .9rem/1.6 var(--font-brand-body);letter-spacing:.01em;color:var(--color-deep-blue)}
-  .origin-note__label span{font:700 .56rem/1 var(--font-brand-meta);letter-spacing:.2em;color:var(--color-brand-blue)}
-  .origin-note p{font-size:.82rem;line-height:1.95;color:var(--color-soil)}
-  .origin-note__item--answer p:not(.origin-note__label){color:#33435f}
-  /* 確かめた量。数字を主役にして、文字だけの面に硬い要素を一つ入れる */
-  .origin-proof{display:flex;flex-wrap:wrap;gap:clamp(1.75rem,4vw,3.25rem);max-width:52rem;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(7,23,68,.17)}
-  .origin-proof div{display:grid;gap:.35rem}
-  .origin-proof dt{font:700 .62rem/1.4 var(--font-brand-meta);letter-spacing:.12em;color:var(--color-brand-blue)}
-  .origin-proof dd{display:flex;align-items:baseline;gap:.35rem;margin:0;color:var(--color-deep-blue)}
-  .origin-proof b{font:600 clamp(1.9rem,2.8vw,2.6rem)/1 var(--font-brand-display);letter-spacing:.01em;font-variant-numeric:tabular-nums}
-  .origin-proof span{font-size:.76rem;color:var(--color-soil)}.origin-copy>a{display:inline-flex;align-items:center;gap:1.6rem;margin-top:2rem;padding-bottom:.45rem;border-bottom:1px solid var(--color-deep-blue);font-size:.82rem;font-weight:700;color:var(--color-deep-blue)}.origin-copy>a span{color:var(--color-brand-blue);transition:transform .2s ease}.origin-copy>a:hover span,.origin-copy>a:focus-visible span{transform:translate(.2rem,-.2rem)}
+  .origin-lead{max-width:45rem;margin-top:1.65rem;font:500 clamp(1rem,1.35vw,1.22rem)/2 var(--font-brand-body);letter-spacing:.015em;color:#33435f;word-break:auto-phrase}.origin-copy>a{display:inline-flex;align-items:center;gap:1.6rem;margin-top:2rem;padding-bottom:.45rem;border-bottom:1px solid var(--color-deep-blue);font-size:.82rem;font-weight:700;color:var(--color-deep-blue)}.origin-copy>a span{color:var(--color-brand-blue);transition:transform .2s ease}.origin-copy>a:hover span,.origin-copy>a:focus-visible span{transform:translate(.2rem,-.2rem)}
   .origin-scene{position:absolute;z-index:1;inset:auto 0 0;height:17rem;pointer-events:none}.origin-scene svg{width:100%;height:100%}.scene-skyline{fill:#dfeefa}.scene-hill--back{fill:#bfd3e7;opacity:.76}.scene-hill{fill:#a8c2de;opacity:.82}.scene-garden{fill:#c8d3a5;opacity:.83}.scene-water{fill:#7daed4;opacity:.72}.scene-lines{fill:none;stroke:#fff;stroke-width:2;opacity:.72}
   .home-news{position:relative;overflow:hidden;padding-block:clamp(6rem,9vw,8rem);background:#f1f7fc}.home-news::after{content:'';position:absolute;top:-5rem;right:-7rem;width:42rem;height:22rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#8fbce3;opacity:.16;transform:rotate(6deg)}.home-news>.bp-wrap{position:relative;z-index:1}.home-news .bp-kicker{color:var(--color-brand-blue)}.home-news__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.55fr);align-items:end;gap:clamp(2rem,8vw,8rem)}.home-news__head h2{margin-top:.8rem;color:var(--color-deep-blue)}.home-news__head>p{max-width:29rem;color:var(--color-soil);line-height:1.9}.home-news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.15rem;margin-top:3rem}.home-news__grid :global(.news-card){box-shadow:0 1.2rem 3rem rgba(26,65,99,.065);transition:transform .28s ease,box-shadow .28s ease}.home-news__grid :global(.news-card:hover){transform:translateY(-5px);box-shadow:0 1.7rem 3.5rem rgba(26,65,99,.12)}.home-news__preparing{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;padding:1.3rem 0;border-block:1px solid var(--color-mist);color:var(--color-soil)}.home-news__preparing p{color:var(--color-ink);font-weight:600}.home-news__preparing span{font-size:.8rem}.home-news__link{display:inline-block;margin-top:2rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-deep-blue);font-size:.82rem;font-weight:700;color:var(--color-deep-blue)}
   .discover{position:relative;overflow:hidden;background:#fbfcfe}.discover::after{content:'';position:absolute;right:-8rem;top:-7rem;width:35rem;height:18rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#8fbce3;opacity:.11;transform:rotate(6deg)}.discover-grid{position:relative;z-index:1;padding-block:clamp(6rem,9vw,8rem)}.discover-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.55fr);align-items:end;gap:clamp(2rem,8vw,8rem);margin-bottom:clamp(3rem,5vw,4.5rem)}.discover .bp-kicker{color:var(--color-brand-blue)}.discover h2{margin-top:.85rem;color:var(--color-deep-blue)}.discover-head>p{max-width:28rem;padding-bottom:.35rem;color:var(--color-soil);line-height:2}.area-home{background:#edf3f7;padding-block:clamp(6rem,8vw,7rem)}
@@ -294,7 +250,7 @@ const heroSlides = [
   @media(max-width:900px){.home-news__grid{grid-template-columns:1fr}}
   @media(max-width:960px){.partner-layout{grid-template-columns:minmax(0,.92fr) minmax(24rem,1.08fr);gap:3rem}.partner-storyboard{min-height:35rem}.partner-storyboard figure{left:1rem}}
   @media(max-width:880px){.partner-layout{grid-template-columns:1fr;grid-template-areas:"copy" "storyboard" "actions";grid-template-rows:auto;gap:2.2rem}.partner-storyboard{min-height:37rem}.partner-storyboard figure{left:2rem}.partner-actions{margin-top:.35rem}}
-  @media(max-width:800px){.discover-head,.home-news__head{grid-template-columns:1fr}.origin-grid{grid-template-columns:1fr;padding-top:5.5rem;padding-bottom:13rem}.origin-index{display:none}.origin-note{grid-template-columns:1fr;gap:.8rem}.origin-scene{height:12rem}.home-hero{height:calc(100svh - var(--site-header-height));min-height:680px}.hero-inner{width:min(calc(100% - 2rem),92rem)}.hero-shade{background:linear-gradient(rgba(9,28,35,.08) 9%,rgba(9,28,35,.48) 44%,rgba(9,28,35,.92) 100%)}.home-news__preparing{display:grid}}
+  @media(max-width:800px){.discover-head,.home-news__head{grid-template-columns:1fr}.origin-grid{grid-template-columns:1fr;padding-top:5.5rem;padding-bottom:13rem}.origin-index{display:none}.origin-scene{height:12rem}.home-hero{height:calc(100svh - var(--site-header-height));min-height:680px}.hero-inner{width:min(calc(100% - 2rem),92rem)}.hero-shade{background:linear-gradient(rgba(9,28,35,.08) 9%,rgba(9,28,35,.48) 44%,rgba(9,28,35,.92) 100%)}.home-news__preparing{display:grid}}
   @media(max-width:560px){.home-hero{height:calc(100svh - var(--site-header-height));min-height:650px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{gap:.45rem;margin-top:1.3rem}.hero-cta{width:calc(50% - .23rem);height:4.5rem;grid-template-columns:1rem 1fr .9rem;gap:.35rem;padding-inline:.65rem}.cta-index{margin-top:1rem;font-size:.45rem}.cta-label{font-size:.7rem}.cta-label small{font-size:.46rem}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.45rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.origin-sky::before{left:-15rem;width:27rem}.origin-sky::after{right:-12rem;width:22rem}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
   @media(prefers-reduced-motion:reduce){.hero-slide,.hero-cta,.hero-cta::before,.cta-arrow{transition:none}}
   @media(max-width:360px){.hero-copy .bp-title{font-size:1.8rem;line-height:1.4}}
