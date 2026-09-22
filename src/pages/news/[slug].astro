@@ -227,10 +227,20 @@ if (data.faq.length > 0) jsonLd.push({
   @media(max-width:560px){.ref-list{padding:1.1rem}.ref-list dl{grid-template-columns:1fr;gap:0}.ref-list dt{border-bottom:0;padding-bottom:0}.ref-list dd{padding-top:.45rem}}
   /* ガイド型記事。色・角丸・ボタンは interior.css の内ページの見た目（青・角丸・丸いボタン）に合わせる */
   .guide-summary{display:grid;gap:1.1rem;margin-top:1.8rem}
-  .guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.25rem),1fr));gap:.6rem;margin:0;padding:0;list-style:none}
+  /*
+   * トラックの下限は 8.25rem（132px）では足りない。カードの値は日本語の
+   * 複合語（「笠松運動公園付帯駐車場」など）になりやすく、global.css の
+   * word-break:auto-phrase は文節でしか折らないため、この種の語はどこでも
+   * 折れない。minmax の下限がトラックの自動最小値を打ち消すので、
+   * トラックは中身に合わせて広がらず、文字がカードの外へ出る。
+   * 実際に /news/mito-shinkin-stadium-parking/ で6枚中3枚が最大55pxはみ出していた。
+   * 下限を 12.5rem に上げ、それでも収まらない語のために strong 側で
+   * 最後の手段の折り返しを許す（auto-phrase が効く語はこれまでどおり文節で折れる）。
+   */
+  .guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12.5rem),1fr));gap:.6rem;margin:0;padding:0;list-style:none}
   .guide-cards li{display:grid;align-content:start;gap:.3rem;padding:.9rem 1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.85rem;background:#fff}
   .guide-cards span{color:var(--interior-blue,var(--color-tide));font:700 .7rem var(--font-brand-meta);letter-spacing:.06em}
-  .guide-cards strong{font:600 1.05rem/1.45 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
+  .guide-cards strong{font:600 1.05rem/1.45 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
   .guide-cards li.is-emphasis{border-color:color-mix(in srgb,var(--color-signal) 45%,transparent)}
   .guide-cards li.is-emphasis span{color:var(--color-signal)}
   .guide-cta{display:grid;justify-items:start;gap:.55rem}
