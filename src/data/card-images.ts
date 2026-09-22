@@ -2,7 +2,10 @@
 // 記事ごとのカード画像。ファイル名に内容のハッシュが入っているので、
 // 中身が変わればURLも変わり、古い画像が表示され続けることがない。
 export const CARD_IMAGES: Record<string, string> = {
+  "ami-premium-outlets-silver-week-sale-2026": "/images/card/ami-premium-outlets-silver-week-sale-2026-aa8ca6d9.png",
+  "hitachi-seaside-health-sports-festival-2026": "/images/card/hitachi-seaside-health-sports-festival-2026-4e47820e.png",
   "hoshiimo-shake-fair-2026": "/images/card/hoshiimo-shake-fair-2026-a4a6dfa6.png",
+  "kashima-antlers-kofu-emperors-cup-2026-09-23": "/images/card/kashima-antlers-kofu-emperors-cup-2026-09-23-57697a75.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",
   "hitachi-seaside-kochia-carnival-2026": "/images/card/hitachi-seaside-kochia-carnival-2026-4e47820e.png",
