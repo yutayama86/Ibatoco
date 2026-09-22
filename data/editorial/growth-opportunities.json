@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-21",
+  "updatedAt": "2026-09-22",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,27 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "seo-oarai-fireworks-transport-intent",
+      "lane": "seo",
+      "status": "execute",
+      "evidenceDate": "2026-09-22",
+      "evidence": {
+        "page": "/events/oarai-kaijo-hanabi-2026/",
+        "eventDate": "2026-09-26",
+        "officialUpdateDate": "2026-09-20",
+        "officialSource": "https://www.oarai-hanabi.jp/traffic/page000042.html",
+        "confirmedNeeds": [
+          "temporary train timetable",
+          "crowding windows",
+          "IC card not accepted",
+          "advance ticket preparation"
+        ],
+        "searchDemand": "unknown"
+      },
+      "opportunity": "開催4日前の公式交通情報を既存記事へ反映し、アクセス意図と来訪実用性を強化。新規ページを作らず既存URLに需要を集約する。",
+      "nextReview": "2026-09-29"
+    },
     {
       "id": "intl-hitachi-seaside-from-tokyo",
       "lane": "international",
