@@ -18,7 +18,7 @@
         "data/editorial/performance-snapshot.json"
       ],
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-09-24",
       "specPath": "docs/editorial/specs/20260924-en-hitachi-seaside-park-title.md",
       "primarySourceUrls": [
@@ -36,7 +36,8 @@
         "TOPページ、既存カードCSS、既存記事画像に差分がない",
         "npm run verifyを含むCIが成功し、本番/news/と個別URLを確認する"
       ],
-      "notes": "GSC 28日で主要英語クエリ81表示・0クリック・平均8.7654位。9月10日の本文更新から14日経過後のmetadata実験。"
+      "notes": "PR #38で実装・CI成功・mainへマージ・本番反映確認済み。GSC 28日で主要英語クエリ81表示・0クリック・平均8.7654位。9月10日の本文更新から14日経過後のmetadata実験。",
+      "completedAt": "2026-09-24"
     },
     {
       "id": "20260921-kashima-antlers-score-correction",
