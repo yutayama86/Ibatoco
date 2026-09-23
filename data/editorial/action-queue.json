@@ -1,7 +1,43 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-23",
+  "updatedAt": "2026-09-24",
   "actions": [
+    {
+      "id": "20260924-en-hitachi-seaside-park-title-news-desk",
+      "title": "英語版ひたち海浜公園title改善＋News Desk 4本",
+      "kind": "seo",
+      "targetUrl": "/en/hitachi-seaside-park-from-tokyo/",
+      "targetFile": "src/data/intl-guides.ts",
+      "additionalTargetFiles": [
+        "src/content/news/kashima-antlers-kofu-result-2026-09-23.md",
+        "src/content/news/ibaraki-wage-support-seminar-chikusei-2026.md",
+        "src/content/news/ibaraki-cycling-event-subsidy-2026.md",
+        "src/content/news/shimotsuma-job-fair-2026.md",
+        "src/data/card-images.ts",
+        "data/editorial/popular-pages.json",
+        "data/editorial/performance-snapshot.json"
+      ],
+      "priority": "high",
+      "status": "in-progress",
+      "createdAt": "2026-09-24",
+      "specPath": "docs/editorial/specs/20260924-en-hitachi-seaside-park-title.md",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/blogs/games/2026092317",
+        "https://www.pref.ibaraki.jp/shokorodo/rosei/rodo/chingin/kenshuu.html",
+        "https://cycling.pref.ibaraki.jp/business/business-12064/",
+        "https://cycling.pref.ibaraki.jp/business/business-12110/",
+        "https://jobcafe.pref.ibaraki.jp/Event/eventDetail?event_id=1083"
+      ],
+      "acceptanceCriteria": [
+        "英語ガイドのtitleだけが指定どおり変更され、URL・H1・本文は不変",
+        "2026-09-24公開ニュースが4本あり、draft=falseかつreviewed=true",
+        "4本すべてに一次情報URLと確認日がある",
+        "4本すべてのカード画像とsrc/data/card-images.ts対応行が同一PRにある",
+        "TOPページ、既存カードCSS、既存記事画像に差分がない",
+        "npm run verifyを含むCIが成功し、本番/news/と個別URLを確認する"
+      ],
+      "notes": "GSC 28日で主要英語クエリ81表示・0クリック・平均8.7654位。9月10日の本文更新から14日経過後のmetadata実験。"
+    },
     {
       "id": "20260921-kashima-antlers-score-correction",
       "title": "鹿島アントラーズ 9月19日川崎戦の結果誤記訂正",

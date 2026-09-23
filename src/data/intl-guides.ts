@@ -64,7 +64,7 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     translationKey: 'hitachi-seaside-park-from-tokyo',
     // 「(2026 Guide)」は年が古びるうえ、狙うクエリ（train / bus）と一致する語がない。
     // 主要クエリ "how to get to ... from Tokyo" を保ったまま、交通手段を明示する。
-    title: 'How to Get to Hitachi Seaside Park from Tokyo: Train & Bus Guide',
+    title: 'Hitachi Seaside Park from Tokyo (2026): Train, Bus & Travel Time',
     description: 'Travel from Tokyo to Hitachi Seaside Park by train and bus via Katsuta. Route, admission fees, and the park’s 2026 autumn kochia forecast and seasonal fee dates.',
     h1: 'How to Get to Hitachi Seaside Park from Tokyo',
     lead: [

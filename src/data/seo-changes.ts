@@ -44,6 +44,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20260924-en-hitachi-seaside-park-from-tokyo-title',
+    date: '2026-09-24',
+    url: '/en/hitachi-seaside-park-from-tokyo/',
+    kind: 'on-page',
+    change: 'SEO titleを検索語順に合わせて「Hitachi Seaside Park from Tokyo (2026): Train, Bus & Travel Time」へ変更。H1・description・本文・URLは変更なし',
+    queries: ['hitachi seaside park from tokyo', 'how far is hitachi seaside park from tokyo', 'how to get to hitachi seaside park from tokyo'],
+    commit: 'pending-pr',
+    note: '変更前28日（2026-08-25〜09-21）は主要クエリ81表示・0クリック・平均8.7654位。2026-09-10の本文更新から14日経過後のmetadata実験。7日・28日で評価する。',
+  },
+  {
     id: '20260916-events-joso-kinugawa-hanabi-2026',
     date: '2026-09-16',
     url: '/events/joso-kinugawa-hanabi-2026/',

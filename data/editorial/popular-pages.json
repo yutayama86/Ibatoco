@@ -1,53 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-23T07:20:00+09:00",
+  "generatedAt": "2026-09-24T07:00:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-15",
-      "end": "2026-09-21"
+      "start": "2026-09-16",
+      "end": "2026-09-22"
     }
   },
   "baseline": {
-    "views": 1914,
-    "sessions": 1668,
-    "viewsPerSession": 1.1475
+    "views": 1890,
+    "sessions": 1648,
+    "viewsPerSession": 1.1468
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。",
   "pages": [
     {
       "path": "/news/ibaraki-passport-2026/",
-      "views": 648
+      "views": 531
     },
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 440
+      "views": 482
     },
     {
       "path": "/news/kasama-shinguri-matsuri-2026/",
-      "views": 213
+      "views": 262
     },
     {
       "path": "/events/tonegawa-hanabi-2026/",
-      "views": 52
+      "views": 49
     },
     {
       "path": "/news/ibaraki-underpass-kansui-33-2026/",
-      "views": 45
+      "views": 41
     },
     {
       "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
-      "views": 39
+      "views": 35
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 33
+      "views": 34
     },
     {
-      "path": "/events/ibaraki-bus-tour-spots/",
-      "views": 23
+      "path": "/news/ibaraki-kasen-hanran-kiken-2026/",
+      "views": 17
     }
   ]
 }
