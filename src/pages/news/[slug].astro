@@ -105,7 +105,20 @@ const jsonLd: Record<string, unknown>[] = [
 const eventDay = (x: Date) =>
   new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(x);
 // location（placeName）が無い Event は Google の必須項目を満たさないため出力しない
-if (data.event && data.event.placeName) jsonLd.push({ '@context': 'https://schema.org', '@type': 'Event', name: data.event.name, startDate: eventDay(data.event.startDate), ...(data.event.endDate ? { endDate: eventDay(data.event.endDate) } : {}), ...(data.event.url ? { url: data.event.url } : {}), ...(data.event.placeName ? { location: { '@type': 'Place', name: data.event.placeName, ...(data.event.address ? { address: data.event.address } : {}) } } : {}) });
+if (data.event && data.event.placeName) jsonLd.push({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: data.event.name,
+  description: data.description,
+  startDate: eventDay(data.event.startDate),
+  ...(data.event.endDate ? { endDate: eventDay(data.event.endDate) } : {}),
+  ...(data.event.url ? { url: data.event.url } : {}),
+  location: {
+    '@type': 'Place',
+    name: data.event.placeName,
+    ...(data.event.address ? { address: data.event.address } : {}),
+  },
+});
 if (data.place) jsonLd.push({ '@context': 'https://schema.org', '@type': 'Place', name: data.place.name, ...(data.place.address ? { address: data.place.address } : {}), ...(data.place.url ? { url: data.place.url } : {}) });
 if (data.faq.length > 0) jsonLd.push({
   '@context': 'https://schema.org',
