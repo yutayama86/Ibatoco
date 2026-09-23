@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-23",
+  "updatedAt": "2026-09-24",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -29,14 +29,14 @@
       "id": "news-desk-daily-frequency",
       "lane": "product",
       "status": "active",
-      "evidenceDate": "2026-09-23",
+      "evidenceDate": "2026-09-24",
       "evidence": {
         "rule": "daily 3-5 verified news",
         "publishedToday": 4,
         "topics": [
           "sports",
-          "transport",
-          "event"
+          "economy",
+          "tourism"
         ]
       },
       "opportunity": "公式一次情報の短報を毎日3〜5本公開し、再訪機会と地域行動データを増やす。長文SEO記事と分離する。",
@@ -66,33 +66,33 @@
     {
       "id": "intl-hitachi-seaside-from-tokyo",
       "lane": "international",
-      "status": "observe",
-      "evidenceDate": "2026-09-21",
+      "status": "experiment-running",
+      "evidenceDate": "2026-09-24",
       "evidence": {
         "gscQueries": [
           {
             "query": "hitachi seaside park from tokyo",
-            "impressions": 65,
+            "impressions": 81,
             "clicks": 0,
-            "position": 9.3385
+            "position": 8.7654
           },
           {
             "query": "tokyo to hitachi seaside park",
-            "impressions": 26,
+            "impressions": 27,
             "clicks": 0,
-            "position": 19.0385
+            "position": 18.4074
           },
           {
             "query": "how far is hitachi seaside park from tokyo",
-            "impressions": 10,
+            "impressions": 11,
             "clicks": 0,
-            "position": 8.5
+            "position": 8.0909
           },
           {
             "query": "how to get to hitachi seaside park from tokyo",
-            "impressions": 10,
+            "impressions": 12,
             "clicks": 0,
-            "position": 9.3
+            "position": 9.0833
           }
         ],
         "countrySignal": {
@@ -103,8 +103,8 @@
         },
         "page": "/en/hitachi-seaside-park-from-tokyo/"
       },
-      "opportunity": "英語圏で既に検索露出がある。新規英語ページ量産前に既存ページのCTR・SERP適合・内部回遊を検証する。",
-      "nextReview": "2026-09-28"
+      "opportunity": "英語圏で既に検索露出がある。検索語を先頭に置くtitleへ変更し、本文・H1・URLを固定したCTR実験を行う。",
+      "nextReview": "2026-10-01"
     },
     {
       "id": "seo-organic-dominance",
@@ -112,9 +112,9 @@
       "status": "active",
       "evidenceDate": "2026-09-23",
       "evidence": {
-        "recent7Sessions": 1668,
-        "organicSearchSessions": 1453,
-        "organicShare": 0.8711
+        "recent7Sessions": 1648,
+        "organicSearchSessions": 1463,
+        "organicShare": 0.8877
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
@@ -158,13 +158,13 @@
       "id": "owned-audience-retention",
       "lane": "product",
       "status": "active",
-      "evidenceDate": "2026-09-23",
+      "evidenceDate": "2026-09-24",
       "evidence": {
-        "returningSessions": 339,
-        "totalSessionsByNewReturningDimension": 3707,
-        "returningSessionShare": 0.0914,
-        "returningViews": 542,
-        "totalViews": 4853
+        "returningSessions": 356,
+        "totalSessionsByNewReturningDimension": 3737,
+        "returningSessionShare": 0.0953,
+        "returningViews": 557,
+        "totalViews": 4947
       },
       "opportunity": "見頃・イベント変更・スポーツ・交通など更新需要でOwned Audienceを作り、SEO依存を下げる。",
       "nextReview": "weekly"
