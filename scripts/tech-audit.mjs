@@ -118,7 +118,22 @@ for (const file of pages) {
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     jsonLdBlocks++;
     try {
-      JSON.parse(m[1]);
+      const parsed = JSON.parse(m[1]);
+      const stack = Array.isArray(parsed) ? [...parsed] : [parsed];
+      while (stack.length > 0) {
+        const node = stack.pop();
+        if (!node || typeof node !== 'object') continue;
+
+        const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+        if (types.includes('Event') && !node.description) {
+          add('error', 'event-description', `${url} の Event 構造化データに description がありません`);
+        }
+
+        for (const value of Object.values(node)) {
+          if (Array.isArray(value)) stack.push(...value);
+          else if (value && typeof value === 'object') stack.push(value);
+        }
+      }
     } catch {
       add('error', 'json-ld', `${url} の JSON-LD が壊れています`);
     }
