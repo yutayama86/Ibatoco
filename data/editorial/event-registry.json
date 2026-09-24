@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-24",
+  "updatedAt": "2026-09-25",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -547,6 +547,70 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "hitachi-no-kagayaki-tonkatsu-fair-2026",
+      "name": "常陸の輝き とんかつフェア",
+      "municipality": null,
+      "startDate": "2026-09-25",
+      "endDate": "2026-10-08",
+      "officialUrl": "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924hanbaisenryaku.pdf",
+      "discoveredAt": "2026-09-25",
+      "verifiedAt": "2026-09-25",
+      "articleUrl": "/news/hitachi-no-kagayaki-tonkatsu-fair-2026/",
+      "articleUpdatedAt": "2026-09-25",
+      "status": "published",
+      "importance": "normal",
+      "signals": {"searchDemand": "unknown", "visitorDraw": "unknown", "localSpend": "medium", "logisticsDemand": "unknown"},
+      "notes": "県公式で9月25日〜10月8日、県内12店・首都圏8店の計20店と確認。需要・消費実績は未公表のためunknown。"
+    },
+    {
+      "id": "ibaraki-food-drive-autumn-2026",
+      "name": "2026いばらきフードドライブキャンペーン",
+      "municipality": null,
+      "startDate": "2026-10-01",
+      "endDate": "2026-11-30",
+      "officialUrl": "https://www.pref.ibaraki.jp/seikatsukankyo/kansei/kankyo/foodloss/fooddrivecampaign.html",
+      "discoveredAt": "2026-09-25",
+      "verifiedAt": "2026-09-25",
+      "articleUrl": "/news/ibaraki-food-drive-autumn-2026/",
+      "articleUpdatedAt": "2026-09-25",
+      "status": "published",
+      "importance": "normal",
+      "signals": {"searchDemand": "unknown", "visitorDraw": "unknown", "localSpend": "unknown", "logisticsDemand": "unknown"},
+      "notes": "県公式で10月1日〜11月30日、県内約380か所、寄付食品の条件を確認。検索需要は根拠未取得のためunknown。"
+    },
+    {
+      "id": "ibaraki-robots-human-rights-leader-2026",
+      "name": "茨城ロボッツ選手への茨城県人権啓発リーダー委嘱",
+      "municipality": "mito",
+      "startDate": "2026-09-29",
+      "endDate": "2027-03-31",
+      "officialUrl": "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924hukusiseisaku.pdf",
+      "discoveredAt": "2026-09-25",
+      "verifiedAt": "2026-09-25",
+      "articleUrl": "/news/ibaraki-robots-human-rights-leader-2026/",
+      "articleUpdatedAt": "2026-09-25",
+      "status": "published",
+      "importance": "normal",
+      "signals": {"searchDemand": "unknown", "visitorDraw": "unknown", "localSpend": "unknown", "logisticsDemand": "unknown"},
+      "notes": "県公式で9月29日委嘱、10月11日から啓発動画3本を発信予定と確認。一般参加可否は記載なし。"
+    },
+    {
+      "id": "shimotsuma-keisui-melon-ginza-2026",
+      "name": "下妻産恵水梨・アールスメロン限定販売",
+      "municipality": "shimotsuma",
+      "startDate": "2026-10-03",
+      "endDate": "2026-10-04",
+      "officialUrl": "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924pryuti.pdf",
+      "discoveredAt": "2026-09-25",
+      "verifiedAt": "2026-09-25",
+      "articleUrl": "/news/shimotsuma-keisui-melon-ginza-2026/",
+      "articleUpdatedAt": "2026-09-25",
+      "status": "published",
+      "importance": "normal",
+      "signals": {"searchDemand": "unknown", "visitorDraw": "unknown", "localSpend": "medium", "logisticsDemand": "unknown"},
+      "notes": "県・下妻市公式で10月3・4日10時30分〜15時、IBARAKI senseで限定販売と確認。販売実績はunknown。"
     }
   ]
 }

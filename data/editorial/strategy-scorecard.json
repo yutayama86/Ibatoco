@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-21",
+  "updatedAt": "2026-09-25",
   "sourceSheet": "イバトコ SEO・流入データ / Strategy_Scorecard",
   "reviewCadence": {
     "daily": "execution",
@@ -32,7 +32,7 @@
   "currentRisks": [
     {
       "id": "organic-concentration",
-      "evidence": "2957/3477 sessions from Organic Search in 2026-08-24..09-20",
+      "evidence": "3504/4092 sessions from Organic Search in 2026-08-27..09-23 (85.6%)",
       "severity": "high"
     },
     {
@@ -42,12 +42,12 @@
     },
     {
       "id": "weak-monetization",
-      "evidence": "9 booking clicks, only 2 active-affiliate clicks, confirmed revenue 0",
+      "evidence": "20 outbound booking clicks in 2026-09-17..09-23; confirmed revenue 0",
       "severity": "high"
     },
     {
       "id": "b2b-cta-gap",
-      "evidence": "business_cta_view 180 / business_cta_click 0",
+      "evidence": "business_cta_view 220 / business_cta_click 0 in 2026-09-17..09-23",
       "severity": "high"
     },
     {
@@ -83,6 +83,57 @@
     "Do not persist customer personal data in the public GitHub repository.",
     "Do not accelerate monetization by weakening disclosure, rights, privacy, accessibility, or security."
   ],
+  "latestStrategyReset": {
+    "reviewedAt": "2026-09-25",
+    "businessModelReviewRequired": false,
+    "evidence": {
+      "ga4Period": "2026-08-27..2026-09-23",
+      "ga4Views28d": 5334,
+      "ga4ViewsRecent7": 1903,
+      "ga4ViewsPrevious7": 1790,
+      "gscPeriod": "2026-09-16..2026-09-22",
+      "gscClicks7d": 858,
+      "gscImpressions7d": 23351,
+      "confirmedRevenueYen": 0,
+      "outboundBookingClicks7d": 20,
+      "businessCtaViews7d": 220,
+      "businessCtaClicks7d": 0
+    },
+    "lensDecisions": [
+      {"lens": "seo-demand", "decision": "strengthen", "reason": "Organic Search is 85.6% of 28-day sessions and GSC impressions grew 39.3% week over week."},
+      {"lens": "discover-news", "decision": "strengthen", "reason": "Daily primary-source news provides recurring discovery opportunities; keep 3-5 daily with card-image QA."},
+      {"lens": "sns", "decision": "maintain", "reason": "Organic Social is measurable but small; redistribute proven search themes without adding paid tools."},
+      {"lens": "international", "decision": "hold", "reason": "English title experiment started 2026-09-24 and remains inside its observation window."},
+      {"lens": "owned-audience", "decision": "hold", "reason": "External account or delivery infrastructure would require approval; prove repeat-use demand first."},
+      {"lens": "content-portfolio", "decision": "strengthen", "reason": "Seasonal event and practical-action pages lead both GA4 and GSC; avoid duplicate intent."},
+      {"lens": "cro-recirculation", "decision": "hold", "reason": "GrowthNext has 355 views and 5 clicks, below its 500-view decision threshold until 2026-09-28."},
+      {"lens": "affiliate-transaction", "decision": "maintain", "reason": "20 booking clicks show intent, but confirmed revenue remains zero and akippa is pending."},
+      {"lens": "b2b-leadgen", "decision": "strengthen", "reason": "220 CTA views and zero clicks identify message-to-action conversion as the bottleneck."},
+      {"lens": "business-directory", "decision": "hold", "reason": "Verified published place inventory is still zero; do not scale an empty directory."},
+      {"lens": "sponsorship", "decision": "hold", "reason": "No approved sponsor inventory or commercial terms; preserve editorial independence."},
+      {"lens": "data-api-widget", "decision": "maintain", "reason": "Event registry and structured primary-source records are compounding assets; no large product build yet."},
+      {"lens": "brand-backlinks-pr", "decision": "new-test", "reason": "Test whether original event logistics summaries earn official/local citations before building outreach."},
+      {"lens": "ugc-local-network", "decision": "hold", "reason": "Rights, moderation and contributor governance are not yet ready for scale."},
+      {"lens": "technical-indexation-ux", "decision": "maintain", "reason": "News sitemap, NewsArticle and 1200x630 card infrastructure are in place; verify every deploy."},
+      {"lens": "measurement-experiment", "decision": "strengthen", "reason": "GA4 9/23 normalized while 9/24 became anomalous; rolling confirmation and backfill are required."},
+      {"lens": "trust-freshness", "decision": "strengthen", "reason": "Date, weekday and event-status correctness remain immediate-fix controls."},
+      {"lens": "automation-resilience", "decision": "strengthen", "reason": "Direct Windsor reads and Drive readback both succeeded; keep production-browser verification as a hard gate."},
+      {"lens": "unit-economics", "decision": "hold", "reason": "Revenue, gross profit and labor-cost inputs remain insufficient for reliable unit economics."},
+      {"lens": "sellability-founder-dependence", "decision": "maintain", "reason": "Editorial registry, action queue and specifications reduce implicit founder knowledge, but human approvals remain necessary for commercial actions."}
+    ],
+    "nextWeekAllocation": [
+      {"area": "seasonal-search-and-news", "share": 0.45},
+      {"area": "revenue-measurement-and-b2b-conversion", "share": 0.25},
+      {"area": "trust-freshness-and-automation", "share": 0.2},
+      {"area": "international-and-new-channels", "share": 0.1}
+    ],
+    "stopOrHold": [
+      "Do not change GrowthNext before the 500-view or 2026-09-28 gate.",
+      "Do not add unapproved akippa links while the application is pending.",
+      "Do not expand /place/ until verified businesses exist.",
+      "Do not alter the English title experiment before its 14-day review."
+    ]
+  },
   "crossCuttingControls": [
     {
       "id": "market-whitespace",

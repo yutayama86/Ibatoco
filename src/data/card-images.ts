@@ -3,9 +3,12 @@
 // 中身が変わればURLも変わり、古い画像が表示され続けることがない。
 export const CARD_IMAGES: Record<string, string> = {
   "ami-premium-outlets-silver-week-sale-2026": "/images/card/ami-premium-outlets-silver-week-sale-2026-aa8ca6d9.png",
+  "hitachi-no-kagayaki-tonkatsu-fair-2026": "/images/card/hitachi-no-kagayaki-tonkatsu-fair-2026-4c8cbdb8.png",
   "hitachi-seaside-health-sports-festival-2026": "/images/card/hitachi-seaside-health-sports-festival-2026-4e47820e.png",
   "hoshiimo-shake-fair-2026": "/images/card/hoshiimo-shake-fair-2026-a4a6dfa6.png",
   "ibaraki-cycling-event-subsidy-2026": "/images/card/ibaraki-cycling-event-subsidy-2026-70c10873.png",
+  "ibaraki-food-drive-autumn-2026": "/images/card/ibaraki-food-drive-autumn-2026-4c8cbdb8.png",
+  "ibaraki-robots-human-rights-leader-2026": "/images/card/ibaraki-robots-human-rights-leader-2026-6c5eb34d.png",
   "ibaraki-wage-support-seminar-chikusei-2026": "/images/card/ibaraki-wage-support-seminar-chikusei-2026-480f2a7d.png",
   "kashima-antlers-kofu-emperors-cup-2026-09-23": "/images/card/kashima-antlers-kofu-emperors-cup-2026-09-23-57697a75.png",
   "kashima-antlers-kofu-result-2026-09-23": "/images/card/kashima-antlers-kofu-result-2026-09-23-57697a75.png",
@@ -13,6 +16,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "mito-marathon-measurement-chip-2026": "/images/card/mito-marathon-measurement-chip-2026-6c5eb34d.png",
   "mitsukaido-rail-yard-event-2026": "/images/card/mitsukaido-rail-yard-event-2026-d1446ad4.png",
   "shimotsuma-job-fair-2026": "/images/card/shimotsuma-job-fair-2026-7e804637.png",
+  "shimotsuma-keisui-melon-ginza-2026": "/images/card/shimotsuma-keisui-melon-ginza-2026-7e804637.png",
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",
