@@ -1,7 +1,47 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-24",
+  "updatedAt": "2026-09-25",
   "actions": [
+    {
+      "id": "20260925-news-desk-growth-control-strategy-reset",
+      "title": "News Desk公式短報4本＋Growth Control更新＋Strategy Reset",
+      "kind": "measurement",
+      "targetUrl": "/news/",
+      "targetFile": "data/editorial/popular-pages.json",
+      "additionalTargetFiles": [
+        "src/content/news/hitachi-no-kagayaki-tonkatsu-fair-2026.md",
+        "src/content/news/ibaraki-food-drive-autumn-2026.md",
+        "src/content/news/ibaraki-robots-human-rights-leader-2026.md",
+        "src/content/news/shimotsuma-keisui-melon-ginza-2026.md",
+        "src/data/card-images.ts",
+        "data/editorial/performance-snapshot.json",
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/strategy-scorecard.json",
+        "data/editorial/event-registry.json"
+      ],
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-09-25",
+      "completedAt": "2026-09-25",
+      "specPath": "docs/editorial/specs/20260925-news-desk-growth-control-strategy-reset.md",
+      "primarySourceUrls": [
+        "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924hanbaisenryaku.pdf",
+        "https://www.pref.ibaraki.jp/seikatsukankyo/kansei/kankyo/foodloss/fooddrivecampaign.html",
+        "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924hukusiseisaku.pdf",
+        "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260924pryuti.pdf"
+      ],
+      "acceptanceCriteria": [
+        "2026-09-25公開ニュースが4本あり、draft=falseかつreviewed=true",
+        "4本すべてに一次情報URLと確認日がある",
+        "4本すべてのカード画像とsrc/data/card-images.ts対応行が同一PRにある",
+        "直近7日人気ページが2026-09-17〜09-23のGA4実測値へ更新される",
+        "9月23日の正常化と9月24日の異常値除外がperformance snapshotへ記録される",
+        "20レンズのStrategy Resetと翌週資源配分が保存される",
+        "TOPページ、既存カードCSS、既存記事画像に差分がない",
+        "npm run verifyを含むCIが成功し、本番/news/と個別URLを実ブラウザで確認する"
+      ],
+      "notes": "勝ちページと進行中実験は観測窓を維持。新規短報、実測人気ページ、計測異常補正、週次資源配分だけを更新する。"
+    },
     {
       "id": "20260924-en-hitachi-seaside-park-title-news-desk",
       "title": "英語版ひたち海浜公園title改善＋News Desk 4本",

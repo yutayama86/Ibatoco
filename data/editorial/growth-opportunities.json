@@ -110,11 +110,13 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-23",
+      "evidenceDate": "2026-09-25",
       "evidence": {
-        "recent7Sessions": 1648,
-        "organicSearchSessions": 1463,
-        "organicShare": 0.8877
+        "recent28Sessions": 4092,
+        "organicSearchSessions": 3504,
+        "organicShare": 0.8563,
+        "recent7Views": 1903,
+        "previous7Views": 1790
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"

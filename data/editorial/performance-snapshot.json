@@ -1,38 +1,39 @@
 {
   "schemaVersion": 2,
-  "asOf": "2026-09-22",
+  "asOf": "2026-09-23",
   "source": {
     "primary": "Windsor.ai direct connectors",
     "ga4": {
       "connector": "googleanalytics4",
       "accountId": "547804264",
       "name": "イバトコ",
-      "latestDate": "2026-09-22"
+      "latestDate": "2026-09-23"
     },
     "gsc": {
       "connector": "searchconsole",
       "accountId": "sc-domain:ibatoco.jp",
-      "latestDate": "2026-09-21"
+      "latestDate": "2026-09-22"
     },
     "fallbackSpreadsheet": {
       "title": "イバトコ SEO・流入データ",
       "id": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w"
     },
-    "checkedAt": "2026-09-24T07:00:00+09:00",
-    "lastConfirmedAt": "2026-09-24T07:00:00+09:00",
+    "checkedAt": "2026-09-25T07:00:00+09:00",
+    "lastConfirmedAt": "2026-09-25T07:00:00+09:00",
     "status": "direct-ok-with-latest-day-anomaly",
     "freshness": {
-      "basisDateAsiaTokyo": "2026-09-24",
-      "ga4LatestConfirmedDate": "2026-09-22",
-      "gscLatestConfirmedDate": "2026-09-21",
+      "basisDateAsiaTokyo": "2026-09-25",
+      "ga4LatestConfirmedDate": "2026-09-23",
+      "gscLatestConfirmedDate": "2026-09-22",
       "todayRefreshSucceeded": true
     },
     "warnings": [
       "Windsor.aiのGA4/GSCとGoogle Driveを実データ取得まで確認。日次ログの書き込み・読み戻しを同日実施する。",
-      "GA4 2026-09-23はViews 302・Sessions 303に対してengagedSessions 3・engagement_rate 0.0099の異常値だったため不採用。最新確定日は2026-09-22とした。",
+      "前日に異常扱いしたGA4 2026-09-23はViews 345・Sessions 311・engagedSessions 208・engagement_rate 0.6688へ正常化したため確定値へ復帰。",
+      "GA4 2026-09-24はViews 240・Sessions 249に対してengagedSessions 3・engagement_rate 0.0120の異常値だったため不採用。最新確定日は2026-09-23とした。",
       "North StarはGA4 screen_page_views（Views）ローリング28日100,000。GSC impressionsは補助指標。",
-      "Search Consoleは通常の処理遅延があるため、取得可能な最新日2026-09-21を基準に判断する。",
-      "GrowthNextは直近28日でもview 141・click 1（CTR 0.709%）で500view未満。失敗判定せず2026-09-28まで観測する。"
+      "Search Consoleは通常の処理遅延があるため、取得可能な最新日2026-09-22を基準に判断する。",
+      "GrowthNextは直近7日でview 355・click 5（CTR 1.41%）で500view未満。失敗判定せず2026-09-28まで観測する。"
     ]
   },
   "northStar": {
@@ -40,136 +41,136 @@
     "metricLabel": "GA4 Views (screen_page_views)",
     "windowDays": 28,
     "target": 100000,
-    "current": 5047,
-    "progress": 0.05047,
-    "gap": 94953,
-    "recent7Views": 1890,
-    "previous7Views": 1608,
-    "recent7VsPrevious7Pct": 17.54,
-    "recent7DailyAverage": 270,
-    "runRate28FromRecent7": 7560,
+    "current": 5334,
+    "progress": 0.05334,
+    "gap": 94666,
+    "recent7Views": 1903,
+    "previous7Views": 1790,
+    "recent7VsPrevious7Pct": 6.31,
+    "recent7DailyAverage": 271.86,
+    "runRate28FromRecent7": 7612,
     "requiredDailyAverage": 3571.43,
-    "requiredUpliftVsRecent7": 12.2275,
+    "requiredUpliftVsRecent7": 12.1364,
     "stabilityDays": 14,
     "status": "below-pace"
   },
   "windows": {
     "ga4": {
       "latestDay": {
-        "date": "2026-09-22",
-        "users": 174,
-        "sessions": 193,
-        "engagedSessions": 136,
-        "engagementRate": 0.7047,
-        "averageEngagementTimePerSession": 40.3212,
+        "date": "2026-09-23",
+        "users": 297,
+        "sessions": 311,
+        "engagedSessions": 208,
+        "engagementRate": 0.6688,
+        "averageEngagementTimePerSession": null,
         "keyEvents": 0,
         "quality": "direct",
-        "views": 215
+        "views": 345
       },
       "recent7": {
-        "start": "2026-09-16",
-        "end": "2026-09-22",
-        "users": 1489,
-        "sessions": 1648,
-        "engagedSessions": 1014,
-        "engagementRate": 0.6153,
-        "averageEngagementTimePerSession": 40.7706,
-        "keyEvents": 1,
-        "views": 1890,
-        "viewsPerSession": 1.1468
+        "start": "2026-09-17",
+        "end": "2026-09-23",
+        "users": 1513,
+        "sessions": 1679,
+        "engagedSessions": 1038,
+        "engagementRate": 0.6182,
+        "averageEngagementTimePerSession": null,
+        "keyEvents": 0,
+        "views": 1903,
+        "viewsPerSession": 1.1334
       },
       "previous7": {
-        "start": "2026-09-09",
-        "end": "2026-09-15",
-        "users": 1205,
-        "sessions": 1296,
-        "engagedSessions": 733,
-        "engagementRate": 0.5656,
-        "averageEngagementTimePerSession": 29.956,
+        "start": "2026-09-10",
+        "end": "2026-09-16",
+        "users": 1353,
+        "sessions": 1466,
+        "engagedSessions": 854,
+        "engagementRate": 0.5825,
+        "averageEngagementTimePerSession": null,
         "keyEvents": 0,
-        "views": 1608,
-        "viewsPerSession": 1.2407
+        "views": 1790,
+        "viewsPerSession": 1.221
       },
       "recent28": {
-        "start": "2026-08-26",
-        "end": "2026-09-22",
-        "users": 3587,
-        "sessions": 3949,
-        "engagedSessions": 2344,
-        "engagementRate": 0.5936,
-        "averageEngagementTimePerSession": 37.7427,
+        "start": "2026-08-27",
+        "end": "2026-09-23",
+        "users": 3763,
+        "sessions": 4092,
+        "engagedSessions": 2536,
+        "engagementRate": 0.6197,
+        "averageEngagementTimePerSession": null,
         "keyEvents": 4,
-        "views": 5047,
-        "viewsPerSession": 1.2781
+        "views": 5334,
+        "viewsPerSession": 1.3035
       },
       "recent7VsPrevious7": {
-        "usersPct": 23.57,
-        "sessionsPct": 27.16,
-        "viewsPct": 17.54
+        "usersPct": 11.83,
+        "sessionsPct": 14.53,
+        "viewsPct": 6.31
       },
       "channelRecent7": [
         {
           "channel": "Organic Search",
-          "sessions": 1463
+          "sessions": 1499
         },
         {
           "channel": "Referral",
-          "sessions": 87
+          "sessions": 82
         },
         {
           "channel": "Direct",
-          "sessions": 71
+          "sessions": 69
         },
         {
           "channel": "AI Assistant",
-          "sessions": 12
+          "sessions": 11
         },
         {
           "channel": "Organic Social",
-          "sessions": 10
+          "sessions": 9
         },
         {
           "channel": "Unassigned",
-          "sessions": 4
+          "sessions": 7
         }
       ]
     },
     "gsc": {
       "latestDay": {
-        "date": "2026-09-21",
-        "clicks": 114,
-        "impressions": 2291,
-        "ctr": 0.0498,
-        "averagePosition": 7.2636,
+        "date": "2026-09-22",
+        "clicks": 144,
+        "impressions": 3292,
+        "ctr": 0.0437,
+        "averagePosition": 6.2075,
         "quality": "latest-available"
       },
       "recent7": {
-        "start": "2026-09-15",
-        "end": "2026-09-21",
-        "clicks": 828,
-        "impressions": 24346,
-        "ctr": 0.034,
-        "averagePosition": 7.5154
+        "start": "2026-09-16",
+        "end": "2026-09-22",
+        "clicks": 858,
+        "impressions": 23351,
+        "ctr": 0.0367,
+        "averagePosition": 7.1674
       },
       "previous7": {
-        "start": "2026-09-08",
-        "end": "2026-09-14",
-        "clicks": 658,
-        "impressions": 13512,
-        "ctr": 0.0487,
-        "averagePosition": 8.1864
+        "start": "2026-09-09",
+        "end": "2026-09-15",
+        "clicks": 724,
+        "impressions": 16759,
+        "ctr": 0.0432,
+        "averagePosition": 8.2227
       },
       "recent28": {
-        "start": "2026-08-25",
-        "end": "2026-09-21",
-        "clicks": 1891,
-        "impressions": 50564,
-        "ctr": 0.0374,
-        "averagePosition": 8.2341
+        "start": "2026-08-26",
+        "end": "2026-09-22",
+        "clicks": 2016,
+        "impressions": 53532,
+        "ctr": 0.0377,
+        "averagePosition": 8.0148
       },
       "recent7VsPrevious7": {
-        "clicksPct": 25.84,
-        "impressionsPct": 80.18
+        "clicksPct": 18.51,
+        "impressionsPct": 39.33
       }
     }
   },
@@ -177,18 +178,18 @@
     "available": true,
     "source": "Windsor.ai GA4 direct",
     "recent7": {
-      "start": "2026-09-16",
-      "end": "2026-09-22",
-      "business_cta_view": 227,
+      "start": "2026-09-17",
+      "end": "2026-09-23",
+      "business_cta_view": 220,
       "business_cta_click": 0,
-      "outbound_booking_click": 16,
-      "booking_guide_view": 41,
-      "growth_next_view": 141,
-      "growth_next_click": 1,
-      "contact_form_view": 4,
-      "contact_form_start": 1,
-      "form_start": 1,
-      "generate_lead": 1
+      "outbound_booking_click": 20,
+      "booking_guide_view": 81,
+      "growth_next_view": 355,
+      "growth_next_click": 5,
+      "contact_form_view": 3,
+      "contact_form_start": 0,
+      "form_start": 0,
+      "generate_lead": 0
     },
     "previous7": {
       "start": "2026-09-09",
@@ -383,58 +384,58 @@
   "ga4TopPages": {
     "recent7": [
       {
-        "path": "/news/ibaraki-passport-2026/",
+        "path": "/events/oarai-ankou-matsuri-2026/",
         "views": 531
       },
       {
-        "path": "/events/oarai-ankou-matsuri-2026/",
-        "views": 482
+        "path": "/news/ibaraki-passport-2026/",
+        "views": 362
       },
       {
         "path": "/news/kasama-shinguri-matsuri-2026/",
-        "views": 262
+        "views": 341
       },
       {
         "path": "/",
-        "views": 113
+        "views": 103
       },
       {
-        "path": "/events/tonegawa-hanabi-2026/",
-        "views": 49
+        "path": "/news/kashima-antlers-kofu-emperors-cup-2026-09-23/",
+        "views": 71
       },
       {
         "path": "/news/ibaraki-underpass-kansui-33-2026/",
-        "views": 41
-      },
-      {
-        "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
-        "views": 35
+        "views": 39
       },
       {
         "path": "/news/mito-hollyhock-new-stadium-access/",
-        "views": 34
+        "views": 31
+      },
+      {
+        "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
+        "views": 30
       }
     ],
     "recent28": [
       {
         "path": "/events/oarai-ankou-matsuri-2026/",
-        "views": 1252
+        "views": 1336
       },
       {
         "path": "/news/ibaraki-passport-2026/",
-        "views": 645
+        "views": 656
       },
       {
         "path": "/",
-        "views": 457
-      },
-      {
-        "path": "/news/mito-hollyhock-new-stadium-access/",
-        "views": 277
+        "views": 440
       },
       {
         "path": "/news/kasama-shinguri-matsuri-2026/",
-        "views": 262
+        "views": 367
+      },
+      {
+        "path": "/news/mito-hollyhock-new-stadium-access/",
+        "views": 274
       }
     ]
   },
