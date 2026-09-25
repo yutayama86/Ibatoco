@@ -1,7 +1,28 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-25",
+  "updatedAt": "2026-09-26",
   "events": [
+    {
+      "id": "ibaraki-airport-sky-day-2026",
+      "name": "茨城空港 2026空の日イベント",
+      "municipality": "omitama",
+      "startDate": "2026-09-27",
+      "endDate": "2026-09-27",
+      "officialUrl": "https://www.ibaraki-airport.net/soranohi2026/",
+      "discoveredAt": "2026-09-26",
+      "verifiedAt": "2026-09-26",
+      "articleUrl": "/news/ibaraki-airport-sky-day-2026/",
+      "articleUpdatedAt": "2026-09-26",
+      "status": "published",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "茨城空港公式で9月27日開催、来場者用第3・臨時駐車場、混雑見込みを確認。検索需要・来場者数は公表根拠がないためunknown。"
+    },
     {
       "id": "joso-kinugawa-hanabi-2026",
       "name": "第59回常総きぬ川花火大会",

@@ -1,7 +1,45 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-25",
+  "updatedAt": "2026-09-26",
   "actions": [
+    {
+      "id": "20260926-akippa-revenue-control-news-desk",
+      "title": "akippa収益正本更新＋News Desk公式短報3本",
+      "kind": "revenue",
+      "targetUrl": "/news/",
+      "targetFile": "data/editorial/revenue-opportunities.json",
+      "additionalTargetFiles": [
+        "src/content/news/ibaraki-airport-sky-day-2026.md",
+        "src/content/news/ibaraki-population-september-2026.md",
+        "src/content/news/ibaraki-outsourced-email-leak-2026.md",
+        "src/data/card-images.ts",
+        "data/editorial/popular-pages.json",
+        "data/editorial/performance-snapshot.json",
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/strategy-scorecard.json",
+        "data/editorial/event-registry.json"
+      ],
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-09-26",
+      "completedAt": "2026-09-26",
+      "primarySourceUrls": [
+        "https://www.ibaraki-airport.net/soranohi2026/",
+        "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260925toukei.pdf",
+        "https://www.pref.ibaraki.jp/somu/hodo/hodo/pressrelease/hodohappyoushiryou/2203/documents/260925tayousei.pdf"
+      ],
+      "acceptanceCriteria": [
+        "2026-09-26公開ニュースが3本あり、draft=falseかつreviewed=true",
+        "3本すべてに一次情報URLと確認日がある",
+        "3本すべてのカード画像とsrc/data/card-images.ts対応行が同一PRにある",
+        "akippaを申請中ではなく登録済みとして管理正本へ反映し、未確認の成果を計上しない",
+        "直近7日人気ページが2026-09-18〜09-24のGA4実測値へ更新される",
+        "GA4 9月25日のエンゲージメント異常値を除外し、9月24日を最新確定日として記録する",
+        "TOPページ、既存カードCSS、既存記事画像に差分がない",
+        "npm run verifyを含むCIが成功し、本番/news/と個別URLを実ブラウザで確認する"
+      ],
+      "notes": "前日までの申請中表記を、mainで確認した公式登録状態へ更新。既存リンク・ページ本文は再改修せず、収益管理と計測正本だけを整合させる。"
+    },
     {
       "id": "20260925-news-desk-growth-control-strategy-reset",
       "title": "News Desk公式短報4本＋Growth Control更新＋Strategy Reset",
