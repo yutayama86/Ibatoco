@@ -88,9 +88,15 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
   akippa: {
     id: 'akippa',
     name: 'akippa',
-    status: 'none',
-    network: '未提携（候補：A8.net、バリューコマース）',
-    note: 'クラブ公式が案内している予約制駐車場サービス',
+    status: 'active',
+    network: 'A8.net（提携承認 2026-09-24／プログラムID s00000017017001）',
+    note: 'クラブ公式が案内している予約制駐車場サービス。成果は新規駐車場利用（税抜）の5%。表示回数計測用の1x1画像は入れていない（docs/MONETIZATION.md）',
+    affiliateLinks: {
+      // 水戸ホーリーホックの予約制駐車場 特設ページ。
+      // 駐車場記事の上部CTA・記事末CTAと、アクセス記事の予約導線が同じURLを指す
+      'https://www.akippa.com/event/mito-hollyhock':
+        'https://px.a8.net/svt/ejp?a8mat=4BCCJM+B43BAQ+3NAY+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.akippa.com%2Fevent%2Fmito-hollyhock',
+    },
   },
   eplus: {
     id: 'eplus',
