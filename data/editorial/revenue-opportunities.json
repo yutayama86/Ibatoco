@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-24",
+  "updatedAt": "2026-09-26",
   "objective": "GA4 Views 100,000を収益へ変換し、確定売上・粗利・Revenue per 1,000 Viewsを継続的に上げる",
   "current": {
-    "period": "2026-08-26..2026-09-22",
-    "views": 5047,
-    "sessions": 3949,
-    "organicSearchSessions": 3257,
-    "outboundBookingClicks": 17,
-    "bookingGuideViews": 41,
-    "businessCtaViews": 230,
+    "period": "2026-08-28..2026-09-24",
+    "views": 5447,
+    "sessions": 4289,
+    "organicSearchSessions": "missing",
+    "outboundBookingClicks": 20,
+    "bookingGuideViews": 113,
+    "businessCtaViews": 228,
     "businessCtaClicks": 0,
-    "generateLead": 4,
+    "generateLead": 0,
     "confirmedAffiliateConversions": 0,
     "confirmedAffiliateRevenueYen": 0,
     "confirmedB2BInquiries": 0,
@@ -28,7 +28,7 @@
     "returningSessionShare": 0.0953,
     "returningViewShare": 0.1126,
     "ownedAudienceCapture": "not implemented",
-    "note": "akippaは申請中。未承認CTAは追加しない。provider/partner_status別クリックと売上は取得不能のためmissing。"
+    "note": "akippaは2026-09-26時点でリポジトリの正式affiliate設定に登録済み。登録対象は水戸ホーリーホック関連のイベントページ。provider/partner_status別クリック、成果、売上は取得不能のためmissingであり、未確認の成果は計上しない。"
   },
   "revenueLanes": [
     {

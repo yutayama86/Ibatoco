@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-25",
+  "updatedAt": "2026-09-26",
   "sourceSheet": "イバトコ SEO・流入データ / Strategy_Scorecard",
   "reviewCadence": {
     "daily": "execution",
@@ -32,7 +32,7 @@
   "currentRisks": [
     {
       "id": "organic-concentration",
-      "evidence": "3504/4092 sessions from Organic Search in 2026-08-27..09-23 (85.6%)",
+      "evidence": "1549/1699 sessions from Organic Search in 2026-09-18..09-24 (91.1%)",
       "severity": "high"
     },
     {
@@ -42,12 +42,12 @@
     },
     {
       "id": "weak-monetization",
-      "evidence": "20 outbound booking clicks in 2026-09-17..09-23; confirmed revenue 0",
+      "evidence": "20 outbound booking clicks in 2026-09-18..09-24; confirmed revenue 0; akippa affiliate configuration is active for the approved event URL",
       "severity": "high"
     },
     {
       "id": "b2b-cta-gap",
-      "evidence": "business_cta_view 220 / business_cta_click 0 in 2026-09-17..09-23",
+      "evidence": "business_cta_view 228 / business_cta_click 0 in 2026-09-18..09-24",
       "severity": "high"
     },
     {
@@ -100,14 +100,14 @@
       "businessCtaClicks7d": 0
     },
     "lensDecisions": [
-      {"lens": "seo-demand", "decision": "strengthen", "reason": "Organic Search is 85.6% of 28-day sessions and GSC impressions grew 39.3% week over week."},
+      {"lens": "seo-demand", "decision": "strengthen", "reason": "Organic Search is 91.1% of recent 7-day sessions and GSC impressions grew 52.0% week over week."},
       {"lens": "discover-news", "decision": "strengthen", "reason": "Daily primary-source news provides recurring discovery opportunities; keep 3-5 daily with card-image QA."},
       {"lens": "sns", "decision": "maintain", "reason": "Organic Social is measurable but small; redistribute proven search themes without adding paid tools."},
       {"lens": "international", "decision": "hold", "reason": "English title experiment started 2026-09-24 and remains inside its observation window."},
       {"lens": "owned-audience", "decision": "hold", "reason": "External account or delivery infrastructure would require approval; prove repeat-use demand first."},
       {"lens": "content-portfolio", "decision": "strengthen", "reason": "Seasonal event and practical-action pages lead both GA4 and GSC; avoid duplicate intent."},
       {"lens": "cro-recirculation", "decision": "hold", "reason": "GrowthNext has 355 views and 5 clicks, below its 500-view decision threshold until 2026-09-28."},
-      {"lens": "affiliate-transaction", "decision": "maintain", "reason": "20 booking clicks show intent, but confirmed revenue remains zero and akippa is pending."},
+      {"lens": "affiliate-transaction", "decision": "strengthen", "reason": "20 booking clicks show intent and the approved akippa event URL is active, but provider-level clicks and confirmed revenue remain missing."},
       {"lens": "b2b-leadgen", "decision": "strengthen", "reason": "220 CTA views and zero clicks identify message-to-action conversion as the bottleneck."},
       {"lens": "business-directory", "decision": "hold", "reason": "Verified published place inventory is still zero; do not scale an empty directory."},
       {"lens": "sponsorship", "decision": "hold", "reason": "No approved sponsor inventory or commercial terms; preserve editorial independence."},
@@ -129,7 +129,7 @@
     ],
     "stopOrHold": [
       "Do not change GrowthNext before the 500-view or 2026-09-28 gate.",
-      "Do not add unapproved akippa links while the application is pending.",
+      "Do not expand akippa links beyond the registered event URL without confirmed approval and exact affiliate URLs.",
       "Do not expand /place/ until verified businesses exist.",
       "Do not alter the English title experiment before its 14-day review."
     ]
