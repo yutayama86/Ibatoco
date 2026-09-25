@@ -138,6 +138,29 @@ export function hasPaidLink(links: { provider: string; url: string }[]): boolean
   return links.some((link) => isPaidLink(link.provider, link.url));
 }
 
+/**
+ * URLだけから広告リンクを引く。
+ *
+ * `booking.items` は provider を持つが、ガイド記事の cta（`guide.cta` /
+ * `guide.bottomCta` / `section.cta`）は href しか持たない。
+ * そこが素のリンクのままだと、一番押される導線が報酬にならない。
+ *
+ * `affiliateLinks` は「元URL → 生成リンク」の対応表で、同じ元URLを
+ * 2つの提供元が持つことはない（同じ広告主を2つのASPで持たない方針）。
+ * だからURLから提供元を一意に引ける。
+ *
+ * 提携していない、または生成リンクが未登録なら null。
+ * そのときリンクは素のまま出て、広告表示も出ない（正しい挙動）。
+ */
+export function paidLinkFor(url: string): { provider: string; href: string } | null {
+  for (const provider of Object.values(LINK_PROVIDERS)) {
+    if (provider.status !== 'active') continue;
+    const href = provider.affiliateLinks?.[url];
+    if (href) return { provider: provider.id, href };
+  }
+  return null;
+}
+
 /** GA4へ送る提携状態。集計時に「未提携のまま押されている」ことが分かるようにする */
 export function partnerStatus(id: string): AffiliateStatus {
   return LINK_PROVIDERS[id]?.status ?? 'none';
