@@ -117,6 +117,20 @@ if (!relExpr) {
   }
 }
 
+// ガイド記事の cta も広告リンクになる（src/pages/news/[slug].astro の linkAttrs）。
+// BookingGuide と同じ条件を満たしているかを、こちらでも見る。
+// 一番押される導線なので、ここが素のリンクや noreferrer 付きに戻ると取りこぼす。
+const newsPage = readFileSync('src/pages/news/[slug].astro', 'utf8');
+const ctaRel = newsPage.match(/rel:\s*paid\s*\?\s*'([^']*)'\s*:\s*'([^']*)'/);
+if (!ctaRel) {
+  add('error', 'affiliate-rel', 'news/[slug].astro の cta の rel の出し分けを確認できませんでした');
+} else if (ctaRel[1] !== 'nofollow sponsored noopener') {
+  add('error', 'affiliate-rel', `ガイド記事 cta の広告リンクの rel が想定と違います: ${ctaRel[1]}`);
+}
+if (!/const ctaHref = \(href: string\) => paidLinkFor\(href\)\?\.href \?\? href;/.test(newsPage)) {
+  add('error', 'affiliate-rel', 'ガイド記事の cta が広告リンクへ差し替わらなくなっています（ctaHref を確認）');
+}
+
 // ---- 広告表示と本文の食い違い ----
 // 記事の booking.basis に「提携していません」と書いてあるのに、
 // その記事の booking.items に status: 'active' の提供元が入っていると、

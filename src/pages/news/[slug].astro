@@ -12,7 +12,7 @@ import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
-import { hasPaidLink } from '../../data/affiliates';
+import { hasPaidLink, paidLinkFor } from '../../data/affiliates';
 
 export const getStaticPaths = (async () => (await getNews()).map((item) => ({
   params: { slug: item.id.split('/').pop() },
@@ -47,8 +47,19 @@ const changesHeading = data.accessGuide ? 'アクセス・駐車場・公共交�
  * 目次と節番号はそこから組み立てる。標準の記事の番号（08 / FAQ など）は変えない。
  */
 const guide = data.guide;
+/**
+ * ガイド記事の cta は href しか持たないので、URLから広告リンクを引く。
+ * 未提携・未登録なら null が返り、素のリンクのまま出る。
+ */
+const guideCtaHrefs = guide
+  ? [guide.cta?.href, guide.bottomCta?.href, ...guide.sections.map((s) => s.cta?.href)].filter(
+      (href): href is string => Boolean(href),
+    )
+  : [];
 /** 広告リンクを含むページは、記事の冒頭（ファーストビュー）でも広告であることを示す（ASPの掲載条件） */
-const hasAd = Boolean(data.booking) && hasPaidLink(data.booking!.items);
+const hasAd =
+  (Boolean(data.booking) && hasPaidLink(data.booking!.items)) ||
+  guideCtaHrefs.some((href) => paidLinkFor(href) !== null);
 const pad = (n: number) => String(n).padStart(2, '0');
 const guideFaqNo = guide ? guide.sections.length + 2 : 8;
 const guideSourcesNo = guide ? guideFaqNo + (data.faq.length > 0 ? 1 : 0) : 9;
@@ -62,7 +73,21 @@ const tocItems = guide
     ]
   : null;
 const isExternal = (href: string) => /^https?:\/\//.test(href);
-const linkAttrs = (href: string) => (isExternal(href) ? { target: '_blank', rel: 'noopener noreferrer' } : {});
+/**
+ * cta の実際の行き先。広告リンクが登録されていればそちらへ差し替える。
+ * ASPが生成したURLをそのまま使う（組み立て直すと計測に乗らない）。
+ */
+const ctaHref = (href: string) => paidLinkFor(href)?.href ?? href;
+/**
+ * 広告リンクの rel は `nofollow sponsored noopener`。
+ * **noreferrer を付けない。** 参照元が消えると掲載サイトを照合できず、成果が否認されうる。
+ * 広告でないリンクはこれまでどおり noopener noreferrer。
+ */
+const linkAttrs = (href: string) => {
+  if (!isExternal(href)) return {};
+  const paid = paidLinkFor(href);
+  return { target: '_blank', rel: paid ? 'nofollow sponsored noopener' : 'noopener noreferrer' };
+};
 
 const organizationId = `${SITE_CONFIG.domain}/#organization`;
 const jsonLd: Record<string, unknown>[] = [
@@ -144,7 +169,7 @@ if (data.faq.length > 0) jsonLd.push({
       <div class="news-detail__dates"><time datetime={data.pubDate.toISOString()}>公開 {formatDate(data.pubDate)}</time>{data.updatedDate && <time datetime={data.updatedDate.toISOString()}>更新 {formatDate(data.updatedDate)}</time>}<span>{data.author}</span></div>
       {guide && <div class="guide-summary">
         <ul class="guide-cards" aria-label="要点">{guide.summaryCards.map((card) => <li class:list={[{ 'is-emphasis': card.emphasis }]}><span>{card.label}</span><strong>{card.value}</strong></li>)}</ul>
-        {guide.cta && <div class="guide-cta"><a href={guide.cta.href} {...linkAttrs(guide.cta.href)}>{guide.cta.label}<span aria-hidden="true">{isExternal(guide.cta.href) ? '↗' : '→'}</span>{isExternal(guide.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.cta.note && <p>{guide.cta.note}</p>}</div>}
+        {guide.cta && <div class="guide-cta"><a href={ctaHref(guide.cta.href)} {...linkAttrs(guide.cta.href)}>{guide.cta.label}<span aria-hidden="true">{isExternal(guide.cta.href) ? '↗' : '→'}</span>{isExternal(guide.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.cta.note && <p>{guide.cta.note}</p>}</div>}
       </div>}
     </header>
 
@@ -165,10 +190,10 @@ if (data.faq.length > 0) jsonLd.push({
             {section.items.length > 0 && <ul>{section.items.map((entry) => <li>{entry}</li>)}</ul>}
             {section.details.length > 0 && <div class="guide-details">{section.details.map((detail) => <div><h3>{detail.title}</h3><dl>{detail.rows.map((row) => <><dt>{row.label}</dt><dd>{row.value}</dd></>)}</dl></div>)}</div>}
             {section.notes.length > 0 && <ul class="guide-notes">{section.notes.map((note) => <li>{note}</li>)}</ul>}
-            {section.cta && <div class="guide-cta guide-cta--inline"><a href={section.cta.href} {...linkAttrs(section.cta.href)}>{section.cta.label}<span aria-hidden="true">{isExternal(section.cta.href) ? '↗' : '→'}</span>{isExternal(section.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{section.cta.note && <p>{section.cta.note}</p>}</div>}
+            {section.cta && <div class="guide-cta guide-cta--inline"><a href={ctaHref(section.cta.href)} {...linkAttrs(section.cta.href)}>{section.cta.label}<span aria-hidden="true">{isExternal(section.cta.href) ? '↗' : '→'}</span>{isExternal(section.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{section.cta.note && <p>{section.cta.note}</p>}</div>}
             {section.block === 'passport-stamp-spots' && <PassportStampIndex />}
           </section>)}
-          {guide.bottomCta && <div class="guide-cta guide-cta--bottom"><a href={guide.bottomCta.href} {...linkAttrs(guide.bottomCta.href)}>{guide.bottomCta.label}<span aria-hidden="true">{isExternal(guide.bottomCta.href) ? '↗' : '→'}</span>{isExternal(guide.bottomCta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.bottomCta.note && <p>{guide.bottomCta.note}</p>}</div>}
+          {guide.bottomCta && <div class="guide-cta guide-cta--bottom"><a href={ctaHref(guide.bottomCta.href)} {...linkAttrs(guide.bottomCta.href)}>{guide.bottomCta.label}<span aria-hidden="true">{isExternal(guide.bottomCta.href) ? '↗' : '→'}</span>{isExternal(guide.bottomCta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.bottomCta.note && <p>{guide.bottomCta.note}</p>}</div>}
         </> : <>
         <section id="points"><p class="section-number">02 / KEY POINTS</p><h2>この記事でわかること</h2><ul>{data.keyPoints.map((point) => <li>{point}</li>)}</ul></section>
         <section id="what-happened"><p class="section-number">03 / WHAT HAPPENED</p><h2>何が起きた？</h2><p>{data.whatHappened}</p>
