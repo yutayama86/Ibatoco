@@ -9,8 +9,9 @@
       "targetUrl": "/events/fukuroda-falls-autumn-2026/",
       "targetFile": "src/content/events/fukuroda-falls-autumn-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-27",
+      "completedAt": "2026-09-27",
       "specPath": "docs/editorial/specs/20260927-fukuroda-falls-autumn-2026.md",
       "primarySourceUrls": [
         "https://www.daigo-kanko.jp/fukuroda-falls.html",
@@ -34,8 +35,9 @@
       "targetUrl": "/events/ryujin-bridge-autumn-2026/",
       "targetFile": "src/content/events/ryujin-bridge-autumn-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-27",
+      "completedAt": "2026-09-27",
       "specPath": "docs/editorial/specs/20260927-ryujin-bridge-autumn-2026.md",
       "primarySourceUrls": [
         "https://ohtsuribashi.ryujinkyo.jp/guide.html",
@@ -57,8 +59,9 @@
       "targetUrl": "/events/hananuki-gorge-autumn-2026/",
       "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-27",
+      "completedAt": "2026-09-27",
       "specPath": "docs/editorial/specs/20260927-hananuki-gorge-autumn-2026.md",
       "primarySourceUrls": [
         "https://www.city.takahagi.ibaraki.jp/cal.php?category=0&day=1&lc=0&mode=detail&month=11&year=2025",
@@ -80,8 +83,9 @@
       "targetUrl": "/events/tsukuba-autumn-2026/",
       "targetFile": "src/content/events/tsukuba-autumn-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-27",
+      "completedAt": "2026-09-27",
       "specPath": "docs/editorial/specs/20260927-tsukuba-autumn-2026.md",
       "primarySourceUrls": [
         "https://mt-tsukuba.com/",

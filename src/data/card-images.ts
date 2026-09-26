@@ -23,6 +23,8 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",
+  "fukuroda-falls-autumn-2026": "/images/card/fukuroda-falls-autumn-2026-49bd2cf5.png",
+  "hananuki-gorge-autumn-2026": "/images/card/hananuki-gorge-autumn-2026-19f4a7d1.png",
   "hitachi-seaside-kochia-carnival-2026": "/images/card/hitachi-seaside-kochia-carnival-2026-4e47820e.png",
   "ibaraki-autumn-odekake-2026": "/images/card/ibaraki-autumn-odekake-2026-36366c15.png",
   "ibaraki-bus-tour-spots": "/images/card/ibaraki-bus-tour-spots-fb191f6b.png",
@@ -38,6 +40,8 @@ export const CARD_IMAGES: Record<string, string> = {
   "oarai-hotel-buffet-guide": "/images/card/oarai-hotel-buffet-guide-7e5f8ef8.png",
   "oarai-kaijo-hanabi-2026": "/images/card/oarai-kaijo-hanabi-2026-7e5f8ef8.png",
   "rockinstar-carnival-2026": "/images/card/rockinstar-carnival-2026-4e47820e.png",
+  "ryujin-bridge-autumn-2026": "/images/card/ryujin-bridge-autumn-2026-0eca618d.png",
   "tonegawa-hanabi-2026": "/images/card/tonegawa-hanabi-2026-8a53b596.png",
-  "tsuchiura-hanabi-2026": "/images/card/tsuchiura-hanabi-2026-7f388fe6.png"
+  "tsuchiura-hanabi-2026": "/images/card/tsuchiura-hanabi-2026-7f388fe6.png",
+  "tsukuba-autumn-2026": "/images/card/tsukuba-autumn-2026-866134fe.png"
 };

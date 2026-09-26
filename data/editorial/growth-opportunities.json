@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-09-27",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -28,10 +28,10 @@
     {
       "id": "news-desk-daily-frequency",
       "lane": "product",
-      "status": "active",
-      "evidenceDate": "2026-09-26",
+      "status": "paused-by-owner",
+      "evidenceDate": "2026-09-27",
       "evidence": {
-        "rule": "daily 3-5 verified news",
+        "rule": "daily quota stopped; publish only when demand evidence supports November PV impact",
         "publishedToday": 3,
         "topics": [
           "government",
@@ -39,8 +39,27 @@
           "tourism"
         ]
       },
-      "opportunity": "公式一次情報の短報を毎日3〜5本公開し、再訪機会と地域行動データを増やす。長文SEO記事と分離する。",
-      "nextReview": "daily"
+      "opportunity": "ニュース本数をKPIにせず、11月100,000 PVへの期待増分が季節SEOより高い場合だけ公開する。",
+      "nextReview": "2026-10-02"
+    },
+    {
+      "id": "november-autumn-four-destination-cluster",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-09-27",
+      "evidence": {
+        "hub": "/kouyou/",
+        "pages": [
+          "/events/fukuroda-falls-autumn-2026/",
+          "/events/ryujin-bridge-autumn-2026/",
+          "/events/hananuki-gorge-autumn-2026/",
+          "/events/tsukuba-autumn-2026/"
+        ],
+        "official2026AutumnDetails": "not-yet-announced",
+        "searchDemand": "unknown"
+      },
+      "opportunity": "11月の紅葉需要に先行して4目的地の実用ガイドを公開し、紅葉ハブと双方向リンクする。2026年の見頃・催事・交通情報は公式発表後に即日更新する。",
+      "nextReview": "2026-10-11"
     },
     {
       "id": "seo-oarai-fireworks-transport-intent",
@@ -110,13 +129,13 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-26",
+      "evidenceDate": "2026-09-27",
       "evidence": {
-        "recent28Sessions": 4289,
-        "organicSearchSessionsRecent7": 1549,
-        "organicShareRecent7": 0.9111,
-        "recent7Views": 1887,
-        "previous7Views": 1844
+        "recent28Sessions": 4695,
+        "organicSearchSessionsRecent7": 1573,
+        "organicShareRecent7": 0.9114,
+        "recent7Views": 1959,
+        "previous7Views": 1892
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
