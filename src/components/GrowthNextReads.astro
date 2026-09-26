@@ -1,6 +1,28 @@
 ---
+/**
+ * 記事を読み終える前に置く「次に読む」枠。
+ *
+ * ## なぜ人気順だけにしないか
+ * 以前は popular-pages.json の全体人気を、どのページでも同じ3本出していた。
+ * その結果、大洗あんこう祭の読者に笠間の栗まつりと茨城パスポートを出していて、
+ * クリック率は2.1%しかなかった（2026-09-24週の実測）。
+ * 「大洗の次に大洗を読む」ようにしないと押されない。
+ *
+ * ## なぜ終了判定を毎回するか
+ * popular-pages.json は生成時点の順位なので、そのあと終わったイベントが残る。
+ * 実際 9月27日に、9月26日で終わった大洗海上花火を出していた。
+ * 保存した値は必ず古くなる（docs/PLATFORM.md §6）。findRelated は既定で
+ * 終了イベントを外すので、人気順で埋めるぶんも同じ基準で落とす。
+ *
+ * ## 並べ方
+ * 1. 文脈が近いもの（市町村・意図・カテゴリで重みづけ）を先に
+ * 2. 足りない分を全体人気で埋める
+ * どちらも終了イベントと現在のページは出さない。
+ */
 import popular from '../../data/editorial/popular-pages.json';
 import { getEvents, getNews } from '../lib/content';
+import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
+import { findRelated } from '../lib/related';
 
 interface Props {
   currentPath: string;
@@ -8,7 +30,7 @@ interface Props {
 }
 
 const { currentPath, pageType } = Astro.props;
-const [news, events] = await Promise.all([getNews(), getEvents()]);
+const [news, events, allFacets] = await Promise.all([getNews(), getEvents(), getAllFacets()]);
 
 const titleByPath = new Map<string, string>();
 for (const item of news) {
@@ -18,16 +40,41 @@ for (const item of events) {
   titleByPath.set(`/events/${item.id.split('/').pop()}/`, item.data.title);
 }
 
-const items = popular.pages
-  .filter((entry) => entry.path !== currentPath)
-  .map((entry, index) => ({
-    ...entry,
-    title: titleByPath.get(entry.path),
-    rank: index + 1,
-  }))
-  .filter((entry): entry is typeof entry & { title: string } => Boolean(entry.title))
-  .slice(0, 3);
+/** いま開いているページの分類。見つからなければ文脈での並べ替えはしない */
+let currentFacets: ContentFacets | null = null;
+const newsEntry = news.find((item) => `/news/${item.id.split('/').pop()}/` === currentPath);
+if (newsEntry) currentFacets = facetsOfNews(newsEntry);
+const eventEntry = events.find((item) => `/events/${item.id.split('/').pop()}/` === currentPath);
+if (eventEntry) currentFacets = facetsOfEvent(eventEntry);
 
+/** 出してよいパス。終了イベントと noindex は除く（findRelated と同じ基準） */
+const linkable = new Set(
+  allFacets
+    .filter((f) => !f.noindex && f.eventLifecycle !== 'ended')
+    .map((f) => f.path),
+);
+
+const picked: { path: string; title: string }[] = [];
+const seen = new Set<string>([currentPath]);
+const push = (path: string) => {
+  if (seen.has(path) || !linkable.has(path)) return;
+  const title = titleByPath.get(path);
+  if (!title) return;
+  seen.add(path);
+  picked.push({ path, title });
+};
+
+// 1) 文脈が近いもの
+if (currentFacets) {
+  for (const candidate of findRelated(currentFacets, allFacets, { limit: 3 })) push(candidate.facets.path);
+}
+// 2) 足りない分を全体人気で埋める
+for (const entry of popular.pages) {
+  if (picked.length >= 3) break;
+  push(entry.path);
+}
+
+const items = picked.slice(0, 3).map((item, index) => ({ ...item, rank: index + 1 }));
 const hasItems = items.length > 0;
 ---
 
@@ -39,9 +86,14 @@ const hasItems = items.length > 0;
     data-page-type={pageType}
     data-current-path={currentPath}
   >
-    <p class="growth-next__kicker">TRENDING NOW</p>
-    <h2 id="growth-next-title">いま読まれている茨城情報</h2>
-    <p class="growth-next__lead">次に知りたい情報を、直近7日の閲覧データから案内します。</p>
+    {/*
+      見出しは選び方に合わせる。人気順だけで並べていたころの
+      「いま読まれている」「直近7日の閲覧データから」は、
+      文脈で選ぶようになった時点で事実と違う。
+    */}
+    <p class="growth-next__kicker">READ NEXT</p>
+    <h2 id="growth-next-title">この記事の次に読むなら</h2>
+    <p class="growth-next__lead">同じ街・同じ目的の記事を先に並べています。終わったイベントは出しません。</p>
     <ol>
       {items.map((item) => (
         <li>
