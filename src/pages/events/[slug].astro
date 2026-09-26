@@ -104,6 +104,22 @@ const sections = ([
 const no = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
 
 const jsonLd: Record<string, unknown>[] = [breadcrumbJsonLd(crumbs, Astro.site)];
+// 日付が未発表の季節ガイドは Event を推測で出さず、記事としての
+// 出典・更新情報を Article で明示する。Event と Article の二重化を避ける。
+if (d.articleType === 'guide') {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: d.title,
+    description: d.description,
+    datePublished: iso(d.pubDate),
+    dateModified: iso(d.updatedDate ?? d.pubDate),
+    mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+    ...(d.ogImage ? { image: new URL(d.ogImage, Astro.site).toString() } : {}),
+    author: { '@type': 'Organization', name: 'イバトコ' },
+    publisher: { '@type': 'Organization', name: 'イバトコ', url: new URL('/', Astro.site).toString() },
+  });
+}
 // Google の Event は location が必須。会場も住所も確認できていないイベントで
 // Event を出すと、リッチリザルトの対象にならないうえ Search Console に
 // エラーとして積み上がる。確認できるまで出力しない（推測で会場を書かない）。
