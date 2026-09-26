@@ -77,6 +77,11 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
         'https://px.a8.net/svt/ejp?a8mat=4BCCJM+CULTTE+14CS+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2F100000%2FLRG_101400%2F',
       'https://www.jalan.net/100000/LRG_100500/':
         'https://px.a8.net/svt/ejp?a8mat=4BCCJM+CULTTE+14CS+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2F100000%2FLRG_100500%2F',
+      // 霞ヶ浦・土浦・鹿島・潮来（77件）。土浦花火向け。
+      // ※ じゃらんは土浦を鹿島・潮来と同じ枠に入れている。楽天の
+      //   「つくば・土浦・取手」とは範囲が違うので、記事の文言もそれぞれに合わせる
+      'https://www.jalan.net/100000/LRG_101100/':
+        'https://px.a8.net/svt/ejp?a8mat=4BCCJM+CULTTE+14CS+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2F100000%2FLRG_101100%2F',
     },
   },
   'cn-playguide': {
