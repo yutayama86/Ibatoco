@@ -101,6 +101,7 @@ const { theme } = Astro.props;
             <p class="tg-card__area">{sp.areaSlug ? <a href={`/area/${sp.areaSlug}/`}>{sp.area}</a> : sp.area}</p>
             <h3>{sp.name}</h3>
             <p class="tg-card__desc">{sp.desc}</p>
+            {sp.href && <a class="tg-card__more" href={sp.href}>見頃・料金・駐車場を読む <span aria-hidden="true">→</span></a>}
             {sp.mapQuery && <a class="tg-card__map" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sp.mapQuery)}`} target="_blank" rel="noopener">Google マップで見る <span aria-hidden="true">↗</span></a>}
           </div>
         </article>
@@ -152,6 +153,9 @@ const { theme } = Astro.props;
   .tg-card h3{margin-top:.5rem;font:600 clamp(1.2rem,2vw,1.55rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .tg-card__desc{margin-top:.7rem;color:var(--color-soil);line-height:1.85;font-size:.9rem}
   .tg-card__map{display:inline-block;margin-top:.9rem;color:var(--color-tide);font-size:.8rem;border-bottom:1px solid}
+  /* 個別記事への導線。外部（マップ）より先に、太字で置く */
+  .tg-card__more{display:block;margin-top:.9rem;color:var(--color-tide);font-size:.8rem;font-weight:700}
+  .tg-card__more span{margin-left:.15rem}
   .tg-status-wrap{padding-top:clamp(1.75rem,3.5vw,2.5rem)}
   .tg-status{margin:0;padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white)}
   .tg-status__kicker{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem;margin:0;color:var(--color-tide);font:700 .68rem var(--font-brand-meta);letter-spacing:.14em}

@@ -23,6 +23,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",
+  "fukuroda-falls-autumn-2026": "/images/card/fukuroda-falls-autumn-2026-49bd2cf5.png",
   "hitachi-seaside-kochia-carnival-2026": "/images/card/hitachi-seaside-kochia-carnival-2026-4e47820e.png",
   "ibaraki-autumn-odekake-2026": "/images/card/ibaraki-autumn-odekake-2026-36366c15.png",
   "ibaraki-bus-tour-spots": "/images/card/ibaraki-bus-tour-spots-fb191f6b.png",

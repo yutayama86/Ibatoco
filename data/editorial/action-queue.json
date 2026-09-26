@@ -9,7 +9,7 @@
       "targetUrl": "/events/fukuroda-falls-autumn-2026/",
       "targetFile": "src/content/events/fukuroda-falls-autumn-2026.md",
       "priority": "critical",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-09-27",
       "specPath": "docs/editorial/specs/20260927-fukuroda-falls-autumn-2026.md",
       "primarySourceUrls": [
@@ -25,7 +25,15 @@
         "主要本文をevents構造化フィールドに格納",
         "CTAは承認済み提携かつ実在在庫確認時のみ",
         "npm run verify成功"
-      ]
+      ],
+      "completedAt": "2026-09-27",
+      "additionalTargetFiles": [
+        "src/data/themes.ts",
+        "src/components/ThemeGuide.astro",
+        "src/data/card-images.ts",
+        "data/editorial/event-registry.json"
+      ],
+      "notes": "一次情報5URLを実ブラウザで照合。2026年の見頃・ライトアップは未発表のため掲載せず、2025年度実績と明示して記載。提携済み広告に大子・奥久慈の在庫が無いため広告CTAは置かず、公式リンクのみ。"
     },
     {
       "id": "20260927-ryujin-bridge-autumn-2026",
