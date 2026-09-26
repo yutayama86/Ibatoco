@@ -10,7 +10,7 @@
  * 自前で撮ったものは表示先が無いので省略し、文字だけ出す。
  */
 export interface ThemeImage { src: string; alt: string; credit: string; creditUrl?: string; }
-export interface ThemeSpot { name: string; area: string; areaSlug?: string; desc: string; image?: ThemeImage; mapQuery?: string; }
+export interface ThemeSpot { name: string; area: string; areaSlug?: string; desc: string; image?: ThemeImage; mapQuery?: string; detailUrl?: string; }
 export interface ThemeSection { kicker: string; title: string; body: string; }
 /**
  * 「いま、どうなっているか」を冒頭で出すための枠。
@@ -375,6 +375,10 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       note: '紅葉予想は今後の天候で変わると公園公式が明記しています。出かける前に公式の最新情報を確認してください。イバトコが独自に日々の色づきを予想することはしません。',
       links: [
         { label: 'コキアカーニバル2026｜日程・見頃・料金・アクセス', href: '/events/hitachi-seaside-kochia-carnival-2026/' },
+        { label: '袋田の滝の紅葉2026｜料金・駐車場・アクセス', href: '/events/fukuroda-falls-autumn-2026/' },
+        { label: '竜神大吊橋の紅葉2026｜料金・駐車場・混雑', href: '/events/ryujin-bridge-autumn-2026/' },
+        { label: '花貫渓谷の紅葉2026｜駐車場・シャトルバス', href: '/events/hananuki-gorge-autumn-2026/' },
+        { label: '筑波山の紅葉2026｜夜間運行・駐車場・混雑', href: '/events/tsukuba-autumn-2026/' },
         { label: '茨城の公園（ひたち海浜公園ほか）', href: '/koen/' },
         { label: 'ひたちなか市を読む', href: '/area/hitachinaka/' },
         { label: '那珂湊おさかな市場で昼を食べる', href: '/events/nakaminato-ichibazushi-guide/' },
@@ -391,12 +395,12 @@ export const THEMES: Record<Theme['slug'], Theme> = {
     spotsHeading: '紅葉の名所',
     spots: [
       { name: 'コキア（国営ひたち海浜公園）', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: 'みはらしの丘とみはらしの里に、今年は約4万本。ふもとから頂上まで続く風景になります。公園公式は2026年の紅葉を10月10日頃に始まり、10月15日頃に見頃と予想しています（9月17日時点）。9月18日〜11月3日は「コキアカーニバル」。', mapQuery: '国営ひたち海浜公園 みはらしの丘' },
-      { name: '袋田の滝', area: '大子町', areaSlug: 'daigo', desc: '高さ120メートル、幅73メートルの日本三名瀑。周囲の大岩壁を紅葉が彩ります。例年11月ごろが見頃です。', mapQuery: '袋田の滝 大子町' },
-      { name: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', desc: '全長375メートルの歩行者専用吊橋（日本最大級）から、紅葉の渓谷を見下ろせます。竜神峡紅葉まつりも開かれます。', mapQuery: '竜神大吊橋 常陸太田市' },
-      { name: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', desc: '汐見滝吊り橋のあたりで、赤や黄に色づいた木々が橋を包む「紅葉のトンネル」になります。まつり期間にはライトアップも。' },
+      { name: '袋田の滝', area: '大子町', areaSlug: 'daigo', desc: '高さ120メートル、幅73メートルの日本三名瀑。周囲の大岩壁を紅葉が彩ります。例年11月ごろが見頃です。', mapQuery: '袋田の滝 大子町', detailUrl: '/events/fukuroda-falls-autumn-2026/' },
+      { name: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', desc: '全長375メートルの歩行者専用吊橋（日本最大級）から、紅葉の渓谷を見下ろせます。2026年の紅葉まつり日程は公式発表後に更新します。', mapQuery: '竜神大吊橋 常陸太田市', detailUrl: '/events/ryujin-bridge-autumn-2026/' },
+      { name: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', desc: '汐見滝吊り橋のあたりで、赤や黄に色づいた木々が橋を包む「紅葉のトンネル」になります。2026年のまつり・ライトアップ日程は公式発表後に更新します。', detailUrl: '/events/hananuki-gorge-autumn-2026/' },
       { name: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', desc: '「関東の嵐山」と呼ばれる、茨城百景のひとつ。那珂川ごしに見る紅葉が知られます。' },
       { name: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', desc: '奥久慈男体山の岩山や、裏側から眺められる月待の滝など、奥久慈一帯が色づきます。' },
-      { name: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', desc: '日本百名山で最も低い筑波山も、秋には山肌が色づきます。ケーブルカーやロープウェイから紅葉を見られます。', mapQuery: '筑波山' },
+      { name: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', desc: '日本百名山で最も低い筑波山も、秋には山肌が色づきます。ケーブルカーやロープウェイから紅葉を見られます。', mapQuery: '筑波山', detailUrl: '/events/tsukuba-autumn-2026/' },
     ],
     practical: [
       ['見頃', 'コキアは10月中旬から下旬。渓谷や滝は、いずれも例年11月ごろが見頃です。標高や年で前後するため、各公式・観光いばらきの紅葉情報を確認してください。'],

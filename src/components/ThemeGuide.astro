@@ -101,6 +101,7 @@ const { theme } = Astro.props;
             <p class="tg-card__area">{sp.areaSlug ? <a href={`/area/${sp.areaSlug}/`}>{sp.area}</a> : sp.area}</p>
             <h3>{sp.name}</h3>
             <p class="tg-card__desc">{sp.desc}</p>
+            {sp.detailUrl && <a class="tg-card__detail" href={sp.detailUrl}>2026年の詳しい情報を見る <span aria-hidden="true">→</span></a>}
             {sp.mapQuery && <a class="tg-card__map" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sp.mapQuery)}`} target="_blank" rel="noopener">Google マップで見る <span aria-hidden="true">↗</span></a>}
           </div>
         </article>
@@ -151,6 +152,7 @@ const { theme } = Astro.props;
   .tg-card__area{font:600 .72rem var(--font-brand-meta);letter-spacing:.08em;color:var(--color-tide)}.tg-card__area a{color:inherit;border-bottom:1px solid}
   .tg-card h3{margin-top:.5rem;font:600 clamp(1.2rem,2vw,1.55rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .tg-card__desc{margin-top:.7rem;color:var(--color-soil);line-height:1.85;font-size:.9rem}
+  .tg-card__detail{display:inline-block;margin-top:.9rem;color:var(--color-tide);font-weight:600;font-size:.82rem;border-bottom:1px solid}
   .tg-card__map{display:inline-block;margin-top:.9rem;color:var(--color-tide);font-size:.8rem;border-bottom:1px solid}
   .tg-status-wrap{padding-top:clamp(1.75rem,3.5vw,2.5rem)}
   .tg-status{margin:0;padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white)}
