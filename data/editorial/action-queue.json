@@ -1,7 +1,102 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-26",
+  "updatedAt": "2026-09-27",
   "actions": [
+    {
+      "id": "20260927-fukuroda-falls-autumn-2026",
+      "title": "袋田の滝の紅葉2026 完成記事",
+      "kind": "new-article",
+      "targetUrl": "/events/fukuroda-falls-autumn-2026/",
+      "targetFile": "src/content/events/fukuroda-falls-autumn-2026.md",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-27",
+      "specPath": "docs/editorial/specs/20260927-fukuroda-falls-autumn-2026.md",
+      "primarySourceUrls": [
+        "https://www.daigo-kanko.jp/fukuroda-falls.html",
+        "https://www.daigo-kanko.jp/fukuroda-falls/access.html",
+        "https://www.daigo-kanko.jp/fukuroda-falls/season.html",
+        "https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html"
+      ],
+      "acceptanceCriteria": [
+        "2026年見頃・ライトアップ未発表を推測しない",
+        "常緑の営業時間・料金・駐車場・アクセスを一次情報で実装",
+        "/kouyou/と/area/daigo/へ双方向導線",
+        "主要本文をevents構造化フィールドに格納",
+        "CTAは承認済み提携かつ実在在庫確認時のみ",
+        "npm run verify成功"
+      ]
+    },
+    {
+      "id": "20260927-ryujin-bridge-autumn-2026",
+      "title": "竜神大吊橋の紅葉2026 完成記事",
+      "kind": "new-article",
+      "targetUrl": "/events/ryujin-bridge-autumn-2026/",
+      "targetFile": "src/content/events/ryujin-bridge-autumn-2026.md",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-27",
+      "specPath": "docs/editorial/specs/20260927-ryujin-bridge-autumn-2026.md",
+      "primarySourceUrls": [
+        "https://ohtsuribashi.ryujinkyo.jp/guide.html",
+        "https://ohtsuribashi.ryujinkyo.jp/access.html",
+        "https://ohtsuribashi.ryujinkyo.jp/event.html"
+      ],
+      "acceptanceCriteria": [
+        "2026年見頃・紅葉まつり日程を推測しない",
+        "料金・無料駐車場・アクセスを一次情報で実装",
+        "バンジー条件・予約先は実装時に再確認",
+        "/kouyou/と/area/hitachiota/へ双方向導線",
+        "npm run verify成功"
+      ]
+    },
+    {
+      "id": "20260927-hananuki-gorge-autumn-2026",
+      "title": "花貫渓谷の紅葉2026 完成記事",
+      "kind": "new-article",
+      "targetUrl": "/events/hananuki-gorge-autumn-2026/",
+      "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-27",
+      "specPath": "docs/editorial/specs/20260927-hananuki-gorge-autumn-2026.md",
+      "primarySourceUrls": [
+        "https://www.city.takahagi.ibaraki.jp/cal.php?category=0&day=1&lc=0&mode=detail&month=11&year=2025",
+        "https://www.ibarakiguide.jp/spot.php?code=236&mode=detail",
+        "https://www.ibako.co.jp/contents/newsrelease/2025/10/30652.html",
+        "https://www.ibako.co.jp/contents/newsrelease/2025/10/30655.html"
+      ],
+      "acceptanceCriteria": [
+        "2025年実績を2026年確定情報として流用しない",
+        "見頃・まつり・ライトアップ・シャトルバスは2026公式発表後更新",
+        "/kouyou/と/area/takahagi/へ双方向導線",
+        "npm run verify成功"
+      ]
+    },
+    {
+      "id": "20260927-tsukuba-autumn-2026",
+      "title": "筑波山の紅葉2026 完成記事",
+      "kind": "new-article",
+      "targetUrl": "/events/tsukuba-autumn-2026/",
+      "targetFile": "src/content/events/tsukuba-autumn-2026.md",
+      "priority": "critical",
+      "status": "ready",
+      "createdAt": "2026-09-27",
+      "specPath": "docs/editorial/specs/20260927-tsukuba-autumn-2026.md",
+      "primarySourceUrls": [
+        "https://mt-tsukuba.com/",
+        "https://mt-tsukuba.com/cablecar-timetable/",
+        "https://mt-tsukuba.com/ropeway-timetable/",
+        "https://ttca.jp/tourisminfo/mttsukuba/%E9%A7%90%E8%BB%8A%E5%A0%B4/",
+        "https://www.city.tsukuba.lg.jp/tourism/tsukubasan/13717.html"
+      ],
+      "acceptanceCriteria": [
+        "2026年見頃・秋夜間運行日程を推測しない",
+        "通常運行・駐車場・混雑を一次情報で実装",
+        "/kouyou/と/area/tsukuba/へ双方向導線",
+        "npm run verify成功"
+      ]
+    },
     {
       "id": "20260926-akippa-revenue-control-news-desk",
       "title": "akippa収益正本更新＋News Desk公式短報3本",
