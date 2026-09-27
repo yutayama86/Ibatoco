@@ -1,0 +1,162 @@
+---
+/**
+ * 協賛の申込フォーム（/sponsor/apply/）。
+ *
+ * 目的：打ち合わせなしで申し込めるようにする。営業に使える時間が限られているため、
+ * 料金が決まっている協賛は、ここから見積り不要で受け付ける。
+ *
+ * - 送信先は問い合わせと同じ Formspree（SITE_CONFIG.formEndpoint）
+ * - 送信完了は generate_lead（form_id: sponsor_apply）。到達・入力開始は contact_form_view / start
+ * - 掲載規約への同意を必須にする（/sponsor/terms/）
+ * - 写真はフォームで受け取らない（返信メールに添付してもらう）
+ * - 検索結果には出さない（noindex）。入口は /sponsor/
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import { SITE_CONFIG } from '../../data/site';
+import { SPONSOR_PLANS, MONITOR_OFFER, MEMBER_DISCOUNT, memberDiscountText, yen } from '../../data/sponsorship';
+import { SPONSOR_TEXT_MAX } from '../../data/sponsors';
+import { getEvents } from '../../lib/content';
+import { getAllFacets } from '../../lib/taxonomy';
+
+const FORM_ENDPOINT = SITE_CONFIG.formEndpoint;
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '協賛のご案内', href: '/sponsor/' }, { name: '協賛の申し込み' }];
+
+// 掲載先の候補：終了していないイベント・季節の記事
+const facets = await getAllFacets();
+const linkable = new Set(facets.filter((f) => !f.noindex && f.eventLifecycle !== 'ended').map((f) => f.path));
+const targets = (await getEvents())
+  .map((entry) => ({ path: `/events/${entry.id.split('/').pop()}/`, title: entry.data.title.split('｜')[0] }))
+  .filter((item) => linkable.has(item.path))
+  .sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+---
+<BrandBase title="協賛の申し込み｜イバトコ" description="イバトコの協賛（イベント協賛枠・PR記事・シーズン協賛）の申込フォーム。" noindex>
+  <section class="apply bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <header class="apply__head">
+      <p class="bp-kicker">APPLY</p>
+      <h1>協賛の申し込み</h1>
+      <p>内容を確認し、3営業日以内にメールでご連絡します。掲載の内容と料金をお伝えし、合意いただいてから進めます。<b>請求は掲載を始めたあと</b>です。</p>
+      <ul class="apply__plans">{SPONSOR_PLANS.map((plan) => <li><strong>{plan.name}</strong>{yen(plan.price)}／{plan.unit}（税別）</li>)}</ul>
+      <p class="apply__note">メニューの内容は <a href="/sponsor/">協賛のご案内</a> をご覧ください。まだ決まっていない場合は「まず相談したい」を選んでください。</p>
+    </header>
+
+    <form class="apply-form" method="POST" action={FORM_ENDPOINT || undefined} data-endpoint={FORM_ENDPOINT}>
+      <input type="hidden" name="_subject" value="【協賛の申し込み】" />
+      <input type="hidden" name="inquiry_type" value="協賛の申し込み" />
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" />
+
+      <div class="field field--wide">
+        <label for="plan">お申し込みのメニュー <small>必須</small></label>
+        <select id="plan" name="plan" required>
+          <option value="">選択してください</option>
+          {SPONSOR_PLANS.map((plan) => <option value={plan.name}>{plan.name}（{yen(plan.price)}／{plan.unit}）</option>)}
+          <option value="まず相談したい">まず相談したい</option>
+        </select>
+      </div>
+      <div class="field field--wide field--check">
+        <label class="check"><input type="checkbox" name="monitor" value="希望する" /> {MONITOR_OFFER.label}を希望する（{MONITOR_OFFER.text}）</label>
+      </div>
+      <div class="field field--wide">
+        <label for="member">所属する観光協会・商工会 <small class="is-optional">任意</small></label>
+        <input id="member" name="member" type="text" placeholder="例：大洗観光協会" aria-describedby="member-help" />
+        <p class="help" id="member-help">{MEMBER_DISCOUNT.label}：{memberDiscountText()}</p>
+      </div>
+      <div class="field"><label for="company">事業者名・団体名 <small>必須</small></label><input id="company" name="company" type="text" required autocomplete="organization" /></div>
+      <div class="field"><label for="name">ご担当者名 <small>必須</small></label><input id="name" name="name" type="text" required autocomplete="name" /></div>
+      <div class="field"><label for="email">メールアドレス <small>必須</small></label><input id="email" name="email" type="email" required autocomplete="email" /></div>
+      <div class="field"><label for="tel">電話番号 <small class="is-optional">任意</small></label><input id="tel" name="tel" type="tel" autocomplete="tel" /></div>
+      <div class="field field--wide">
+        <label for="target">掲載を希望する記事 <small class="is-optional">任意</small></label>
+        <select id="target" name="target">
+          <option value="">おまかせ・相談して決めたい</option>
+          {targets.map((item) => <option value={item.path}>{item.title}</option>)}
+        </select>
+      </div>
+      <div class="field field--wide"><label for="period">掲載したい時期 <small class="is-optional">任意</small></label><input id="period" name="period" type="text" placeholder="例：10月中旬から11月7日まで" /></div>
+      <div class="field field--wide">
+        <label for="copy">紹介文（{SPONSOR_TEXT_MAX}字以内） <small class="is-optional">任意</small></label>
+        <textarea id="copy" name="copy" rows="3" maxlength={SPONSOR_TEXT_MAX} data-count-target="copy-count" aria-describedby="copy-help"></textarea>
+        <p class="help" id="copy-help"><span id="copy-count">0</span>／{SPONSOR_TEXT_MAX}字。イベント協賛枠に載せる文章です。根拠のない「No.1」「必ず」などの表現は載せられません。</p>
+      </div>
+      <div class="field field--wide"><label for="url">リンク先のURL <small class="is-optional">任意</small></label><input id="url" name="url" type="url" placeholder="https://" /></div>
+      <div class="field field--wide"><label for="billing">請求書の宛名 <small class="is-optional">任意</small></label><input id="billing" name="billing" type="text" /></div>
+      <div class="field field--wide"><label for="message">ご質問・ご要望 <small class="is-optional">任意</small></label><textarea id="message" name="message" rows="4"></textarea></div>
+      <p class="help field--wide">写真は、こちらからの返信メールに添付してお送りください。利用の権利をお持ちの写真に限ります。</p>
+      <div class="field field--wide field--check">
+        <label class="check"><input type="checkbox" name="agree" value="同意する" required /> <span><a href="/sponsor/terms/" target="_blank" rel="noopener">協賛（広告）掲載規約</a>と<a href="/about/pr-policy/" target="_blank" rel="noopener">PR・広告の方針</a>に同意します <small>必須</small></span></label>
+      </div>
+      <div class="apply-form__actions field--wide">
+        <button type="submit"><span>申し込む</span><span aria-hidden="true">→</span></button>
+        <p class="privacy">送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p>
+      </div>
+      <p class="form-status field--wide" data-status role="status" aria-live="polite" hidden></p>
+    </form>
+  </section>
+</BrandBase>
+
+<style>
+  .apply{display:grid;grid-template-columns:minmax(16rem,.8fr) minmax(0,1.2fr);gap:clamp(2rem,5vw,4.5rem);align-items:start;padding-block:clamp(2.5rem,6vw,4.5rem)}
+  .apply>:global(.crumbs){grid-column:1/-1;margin:0}
+  .apply__head h1{margin-top:.8rem;font:600 clamp(1.9rem,4vw,2.7rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .apply__head>p:not(.bp-kicker){margin-top:1.1rem;color:var(--color-soil);line-height:1.95}
+  .apply__head b{color:var(--color-ink)}
+  .apply__plans{display:grid;gap:.5rem;margin-top:1.3rem;padding:1rem 1.1rem;border:1px solid var(--color-mist);border-radius:.75rem;background:var(--color-white);list-style:none}
+  .apply__plans li{color:var(--color-soil);font-size:.86rem;line-height:1.7}
+  .apply__plans li::before{content:none}
+  .apply__plans strong{margin-right:.6rem;color:var(--color-ink)}
+  .apply__note{font-size:.84rem}
+  .apply__note a{color:var(--color-tide);border-bottom:1px solid}
+  .apply-form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 1.1rem}
+  .field{display:grid;gap:.45rem}
+  .field--wide{grid-column:1/-1}
+  .apply-form label{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--color-ink)}
+  .apply-form label small{padding:.1rem .42rem;border-radius:999px;background:color-mix(in srgb,var(--color-tide) 10%,var(--color-white));color:var(--color-tide);font-size:.62rem}
+  .apply-form label small.is-optional{background:var(--color-paper);color:var(--color-soil)}
+  .apply-form input:not([type=checkbox]),.apply-form select,.apply-form textarea{width:100%;padding:.85rem 0;border:0;border-bottom:1px solid var(--color-mist);border-radius:0;background:transparent;color:var(--color-ink);font:inherit}
+  .apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:0;border-color:var(--color-tide);box-shadow:0 2px 0 var(--color-tide)}
+  .apply-form textarea{resize:vertical}
+  .field--check .check{align-items:flex-start;flex-wrap:nowrap;gap:.6rem;font-weight:500;line-height:1.7}
+  .field--check input{flex:none;width:1.1rem;height:1.1rem;margin-top:.25rem;accent-color:var(--color-tide)}
+  .field--check a{color:var(--color-tide);border-bottom:1px solid}
+  .help{color:var(--color-soil);font-size:.76rem;line-height:1.7}
+  .apply-form__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1.1rem}
+  .apply-form button{display:inline-flex;align-items:center;justify-content:space-between;gap:2rem;min-width:12rem;min-height:3.2rem;padding:.7rem 1.25rem;border:1px solid var(--color-tide);border-radius:999px;background:var(--color-tide);color:#fff;font:700 .92rem var(--font-brand-body);cursor:pointer}
+  .apply-form button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .privacy{color:var(--color-soil);font-size:.72rem;line-height:1.7}
+  .privacy a{border-bottom:1px solid}
+  .honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  @media(max-width:900px){.apply{grid-template-columns:1fr}}
+  @media(max-width:640px){.apply-form{grid-template-columns:1fr}.field{grid-column:1!important}.apply-form__actions{flex-direction:column;align-items:stretch}.apply-form button{width:100%}}
+</style>
+
+<script>
+  import { submitForm } from '../../lib/forms';
+  import { trackEvent } from '../../lib/analytics-events';
+
+  const form = document.querySelector<HTMLFormElement>('.apply-form');
+  if (form) {
+    // 文字数の表示
+    const copy = form.querySelector<HTMLTextAreaElement>('#copy');
+    const count = document.getElementById('copy-count');
+    if (copy && count) copy.addEventListener('input', () => { count.textContent = String([...copy.value].length); });
+
+    // ?plan=event-slot のように来たら、メニューを選んだ状態にする
+    const planId = new URLSearchParams(location.search).get('plan');
+    const plan = form.querySelector<HTMLSelectElement>('#plan');
+    const planNames: Record<string, string> = { 'event-slot': 'イベント協賛枠', 'pr-article': 'PR記事', season: 'シーズン協賛' };
+    if (planId && plan && planNames[planId]) plan.value = planNames[planId];
+
+    const selected = () => plan?.value || '';
+    trackEvent('contact_form_view', { form_id: 'sponsor_apply', form_subject: selected() });
+    form.addEventListener('focusin', () => trackEvent('contact_form_start', { form_id: 'sponsor_apply', form_subject: selected() }), { once: true });
+
+    // 件名に事業者名とメニューを入れる（submitForm より先に登録する）
+    form.addEventListener('submit', () => {
+      const company = (form.elements.namedItem('company') as HTMLInputElement | null)?.value.trim() ?? '';
+      const subject = form.querySelector<HTMLInputElement>('input[name="_subject"]');
+      if (subject) subject.value = `【協賛の申し込み】${company}${selected() ? `（${selected()}）` : ''}`;
+    });
+    submitForm(form, { successText: 'お申し込みを受け付けました。内容を確認し、3営業日以内にメールでご連絡します。', conversionId: 'sponsor_apply', mailSubject: '【協賛の申し込み】' });
+  }
+</script>

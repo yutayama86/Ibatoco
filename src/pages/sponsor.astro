@@ -12,7 +12,7 @@ import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 import { getEvents, getNews } from '../lib/content';
 import snapshot from '../../data/editorial/performance-snapshot.json';
-import { SPONSOR_PLANS, MONITOR_OFFER, yen } from '../data/sponsorship';
+import { SPONSOR_PLANS, MONITOR_OFFER, MEMBER_DISCOUNT, memberDiscountText, yen } from '../data/sponsorship';
 
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
 
@@ -68,7 +68,10 @@ const jsonLd = [
     <p class="bp-kicker">SPONSORSHIP</p>
     <h1>茨城へ行く前に、<br />調べる人へ届ける。</h1>
     <p>イバトコの読者は、イベントや施設、制度の名前で検索して、行く前に調べに来る人です。その読者に向けて、PRと明示したうえで、事業や取り組みを紹介できます。</p>
-    <a class="sp-head__cta" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="head">協賛について相談する <span aria-hidden="true">→</span></a>
+    <div class="sp-head__actions">
+      <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="head_apply">申し込む <span aria-hidden="true">→</span></a>
+      <a class="sp-head__sub" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="head">まず相談する</a>
+    </div>
   </header>
 
   <section class="sp-stats bp-wrap bp-section" aria-labelledby="sp-stats-h">
@@ -99,6 +102,7 @@ const jsonLd = [
           <p class="sp-plan__price"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
           <p class="sp-plan__summary">{plan.summary}</p>
           <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
+          <a class="sp-plan__apply" href={`/sponsor/apply/?plan=${plan.id}`} data-sponsor-cta={`apply_${plan.id}`}>このメニューで申し込む <span aria-hidden="true">→</span></a>
           {plan.options && (
             <div class="sp-plan__options">
               <p>オプション</p>
@@ -109,6 +113,7 @@ const jsonLd = [
       ))}
     </div>
     <p class="sp-monitor"><strong>{MONITOR_OFFER.label}</strong>{MONITOR_OFFER.text}</p>
+    <p class="sp-monitor"><strong>{MEMBER_DISCOUNT.label}</strong>{memberDiscountText()}</p>
   </div></section>
 
   <section class="sp-rules bp-wrap bp-section" aria-labelledby="sp-rules-h">
@@ -120,14 +125,14 @@ const jsonLd = [
       <li>紹介文に、根拠のない「No.1」「必ず」などの表現は載せません。</li>
       <li>ご報告する数字は実測値だけです。推計や見込みは使いません。</li>
     </ul>
-    <a class="sp-link" href="/about/pr-policy/">PR・広告の方針を読む →</a>
+    <p class="sp-links"><a class="sp-link" href="/about/pr-policy/">PR・広告の方針を読む →</a><a class="sp-link" href="/sponsor/terms/">協賛（広告）掲載規約を読む →</a></p>
   </section>
 
   <section class="sp-flow" aria-labelledby="sp-flow-h"><div class="bp-wrap">
     <p class="bp-kicker">FLOW</p>
     <h2 id="sp-flow-h">ご相談から報告まで</h2>
     <ol>
-      <li><strong>ご相談</strong><span>フォームから、目的と時期をお送りください</span></li>
+      <li><strong>お申し込み・ご相談</strong><span><a href="/sponsor/apply/">申込フォーム</a>から送ってください。メニューが決まっていなくても構いません</span></li>
       <li><strong>お見積り</strong><span>掲載する記事・期間・料金をお伝えします。合意いただいてから進めます</span></li>
       <li><strong>素材のご提供</strong><span>紹介文・写真・資料をお送りください</span></li>
       <li><strong>掲載</strong><span>公開前に内容をご確認いただきます。掲載を始めたあとにご請求します</span></li>
@@ -144,8 +149,11 @@ const jsonLd = [
   <section class="sp-cta bp-reading">
     <p class="bp-kicker">CONTACT</p>
     <h2>まずは、ご相談ください。</h2>
-    <p>目的と時期をうかがったうえで、合う形をご提案します。媒体資料もお送りできます。</p>
-    <a class="sp-head__cta" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="bottom">協賛について相談する <span aria-hidden="true">→</span></a>
+    <p>メニューが決まっていれば、フォームから打ち合わせなしで申し込めます。決まっていなければ、目的と時期をうかがって合う形をご提案します。媒体資料もお送りできます。</p>
+    <div class="sp-head__actions">
+      <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="bottom_apply">申し込む <span aria-hidden="true">→</span></a>
+      <a class="sp-head__sub" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="bottom">まず相談する</a>
+    </div>
   </section>
 </BrandBase>
 
@@ -155,6 +163,11 @@ const jsonLd = [
   .sp-head>p:not(.bp-kicker){max-width:var(--measure);margin-top:1.8rem;line-height:2;color:var(--color-soil)}
   .sp-head__cta{display:inline-flex;align-items:center;gap:.6rem;justify-self:start;align-self:flex-start;width:max-content;max-width:100%;min-height:3rem;margin-top:2rem;padding:.7rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700;text-decoration:none}
   .sp-head__cta:hover,.sp-head__cta:focus-visible{background:var(--color-ink)}
+  .sp-head__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.4rem;margin-top:2rem}
+  .sp-head__actions .sp-head__cta{margin-top:0}
+  .sp-head__sub{color:var(--color-tide);font-weight:700;border-bottom:1px solid}
+  .sp-plan__apply{align-self:flex-start;margin-top:1rem;color:var(--color-tide);font-weight:700;font-size:.9rem;border-bottom:1px solid}
+  .sp-links{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem}
   .sp-head__cta:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   .sp-stats h2,.sp-plans h2,.sp-rules h2,.sp-flow h2,.sp-faq h2,.sp-cta h2{margin-top:.8rem;font:600 clamp(1.8rem,4.4vw,3.2rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .sp-stats__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:1.25rem;margin-top:2rem}
@@ -186,6 +199,7 @@ const jsonLd = [
   .sp-plan__options ul{margin-top:.4rem}
   .sp-monitor{max-width:var(--measure);margin-top:1.8rem;padding:1rem 1.2rem;border-radius:.75rem;background:var(--color-paper);border:1px solid var(--color-mist);color:var(--color-soil);font-size:.9rem;line-height:1.9}
   .sp-monitor strong{margin-right:.6rem;color:var(--color-ink)}
+  .sp-monitor+.sp-monitor{margin-top:.8rem}
   .sp-rules__list{display:grid;gap:0;margin-top:1.8rem;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
   .sp-rules__list li{padding:1rem 0;border-bottom:1px solid var(--color-mist);color:var(--color-ink);line-height:1.8}
   .sp-rules__list li::before{content:none}
@@ -196,6 +210,7 @@ const jsonLd = [
   .sp-flow li::before{content:counter(step);grid-row:span 2;display:grid;place-items:center;width:2.2rem;height:2.2rem;border:1px solid var(--color-tide);border-radius:50%;color:var(--color-tide);font:700 .85rem var(--font-brand-meta)}
   .sp-flow strong{color:var(--color-ink)}
   .sp-flow span{color:var(--color-soil);font-size:.88rem;line-height:1.8}
+  .sp-flow span a{color:var(--color-tide);border-bottom:1px solid}
   .sp-faq dl{margin-top:1.6rem;border-top:1px solid var(--color-mist)}
   .sp-faq dl>div{padding:1.15rem 0;border-bottom:1px solid var(--color-mist)}
   .sp-faq dt{font:600 1rem/1.6 var(--font-brand-display);color:var(--color-ink)}
