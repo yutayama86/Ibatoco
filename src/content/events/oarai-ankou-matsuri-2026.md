@@ -85,6 +85,7 @@ sourceUrls:
     url: "https://r.goope.jp/oarai-shokokai/info/6509385"
     accessedAt: 2026-09-02
 relatedArticleUrls:
+  - "/events/oarai-ankou-nabe-guide/"
   - "/matsuri/"
   - "/area/oarai/"
   - "/events/oarai-hotel-buffet-guide/"
