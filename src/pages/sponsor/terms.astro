@@ -1,0 +1,54 @@
+---
+/**
+ * 協賛（広告）掲載規約。/sponsor/apply/ の申し込みは、この規約への同意を必須にしている。
+ * 料金は src/data/sponsorship.ts、表示の方針は /about/pr-policy/。
+ * 条文を変えるときは、改定日を更新し、掲載中の協賛先には事前に知らせる。
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+
+const updated = '2026年9月27日';
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '協賛のご案内', href: '/sponsor/' }, { name: '協賛（広告）掲載規約' }];
+
+const articles: { title: string; items: string[] }[] = [
+  { title: '第1条（適用）', items: ['この規約は、イバトコ（以下「当メディア」）が提供するイベント協賛枠、PR記事、シーズン協賛（以下「協賛」）に適用します。', '協賛を申し込む事業者・団体（以下「協賛者」）は、この規約と「PR・広告の方針」に同意したうえで申し込むものとします。'] },
+  { title: '第2条（表示）', items: ['協賛による枠と記事には、「PR」と文言で明示します。', '協賛の有無によって、当メディアの編集記事の事実・評価・並び順を変えることはありません。'] },
+  { title: '第3条（掲載の基準）', items: ['次のいずれかにあたる内容は掲載しません。法令に反するもの、事実を確認できないもの、読者に誤解を与えるおそれがあるもの（根拠のない「No.1」「必ず」などの表現を含む）、公序良俗に反するもの、第三者の権利を侵害するもの。', '当メディアは、表現の修正をお願いすること、または掲載をお断りすることがあります。'] },
+  { title: '第4条（素材）', items: ['協賛者は、提供する文章・写真・ロゴ等について、掲載に必要な権利を持っていること、または権利者の許諾を得ていることを保証します。', '素材に起因して第三者との紛争が生じた場合は、協賛者の責任と負担で解決するものとします。'] },
+  { title: '第5条（料金と支払い）', items: ['料金は、事前にお伝えするお見積りのとおりとします（税別）。', '請求は掲載を始めたあとに行います。支払期限は請求書の発行月の翌月末日とし、振込手数料は協賛者の負担とします。'] },
+  { title: '第6条（キャンセル）', items: ['掲載を始める前のキャンセルは、料金をいただきません。ただしPR記事は、制作に着手したあとのキャンセルについて、料金の50％をいただきます。', '掲載を始めたあとのキャンセルは、料金を返金しません。'] },
+  { title: '第7条（掲載の中断・停止）', items: ['システム障害、天災その他やむを得ない事情により、掲載が一時的に中断することがあります。', '掲載後に、第3条にあたる内容であることが分かった場合は、掲載を停止することがあります。この場合、協賛者の責めによるときは返金しません。'] },
+  { title: '第8条（成果とご報告）', items: ['当メディアは、協賛による集客数・売上・検索順位などの成果を保証しません。', 'ご報告する数字は、アクセス解析による実測値とします。推計や見込みは用いません。'] },
+  { title: '第9条（責任の範囲）', items: ['当メディアの責めによって協賛者に損害が生じた場合、当メディアが負う責任は、その協賛について受け取った料金の額を上限とします。'] },
+  { title: '第10条（個人情報）', items: ['申し込みで受け取った情報は、プライバシーポリシーに従って取り扱います。'] },
+  { title: '第11条（規約の変更）', items: ['当メディアは、この規約を変更することがあります。掲載中の協賛者には、変更の内容を事前にお知らせします。'] },
+  { title: '第12条（準拠法・管轄）', items: ['この規約は日本法に従って解釈します。協賛に関する紛争は、当メディアの運営者の所在地を管轄する地方裁判所を第一審の専属的合意管轄裁判所とします。'] },
+];
+---
+<BrandBase title="協賛（広告）掲載規約｜イバトコ" description="イバトコの協賛（イベント協賛枠・PR記事・シーズン協賛）の掲載規約。PRの表示、掲載の基準、料金と支払い、キャンセル、成果の非保証について。" jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
+  <article class="terms bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">TERMS</p>
+    <h1>協賛（広告）掲載規約</h1>
+    <p class="terms__updated">制定：{updated}</p>
+    {articles.map((article) => (
+      <section>
+        <h2>{article.title}</h2>
+        <ol>{article.items.map((item) => <li>{item}</li>)}</ol>
+      </section>
+    ))}
+    <p class="terms__links"><a href="/sponsor/">協賛のご案内</a> ／ <a href="/about/pr-policy/">PR・広告の方針</a> ／ <a href="/privacy/">プライバシーポリシー</a></p>
+  </article>
+</BrandBase>
+<style>
+  .terms{max-width:760px;padding-block:clamp(2.5rem,7vw,4.5rem)}
+  .terms h1{margin-top:.8rem;font:600 clamp(1.9rem,4.5vw,2.8rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .terms__updated{margin-top:.6rem;color:var(--color-soil);font-size:.84rem}
+  .terms section{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--color-mist)}
+  .terms h2{font:600 1.1rem/1.6 var(--font-brand-display);color:var(--color-ink)}
+  .terms ol{display:grid;gap:.6rem;margin-top:.7rem;padding-left:1.4rem;list-style:decimal}
+  .terms li{color:var(--color-charcoal,var(--color-ink));font-size:.92rem;line-height:1.9}
+  .terms__links{margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--color-mist);font-size:.88rem}
+  .terms__links a{color:var(--color-tide);border-bottom:1px solid}
+</style>

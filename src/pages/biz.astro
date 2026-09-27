@@ -2,6 +2,10 @@
 import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
+import { SERVICE_PLANS, GROW_TERMS } from '../data/services';
+import { yen } from '../data/sponsorship';
+const buildPlans = SERVICE_PLANS.filter((plan) => plan.group === 'build');
+const growPlans = SERVICE_PLANS.filter((plan) => plan.group === 'grow');
 const services=[
   {n:'01',title:'情報を整える',body:'店舗・企業の基本情報を確認し、読者と検索サービスが理解しやすい形に整備します。'},
   {n:'02',title:'伝わる形をつくる',body:'取材、撮影、文章、Webページ制作を通じて、事業の価値が正確に伝わる状態をつくります。'},
@@ -41,7 +45,34 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業
   <section class="separation"><div class="bp-wrap"><p class="bp-kicker">TRANSPARENCY</p><h2>Editorial、Partner、PRを混ぜない。</h2><div class="types"><article><span>EDITORIAL</span><h3>編集記事</h3><p>掲載対価を受けず、編集部の判断で企画・取材・編集します。</p></article><article><span>PARTNER</span><h3>発信支援</h3><p>情報整備や制作、運用に対価をいただく支援サービスです。編集評価は販売しません。</p></article><article><span>PR</span><h3>広告・タイアップ</h3><p>広告主の依頼によるコンテンツです。読者が判別できるよう明確に表示します。</p></article></div><a href="/about/pr-policy/">PR・広告の方針を読む →</a></div></section>
   <section class="services bp-wrap bp-section"><p class="bp-kicker">WHAT WE DO</p><h2>今あるものを、伝わる形へ。</h2><ol>{services.map((service)=><li><span>{service.n}</span><div><h3>{service.title}</h3><p>{service.body}</p></div></li>)}</ol></section>
   <section class="scope"><div class="bp-wrap"><p class="bp-kicker">SCOPE</p><ul><li>取材・インタビュー</li><li>写真・文章制作</li><li>店舗・企業情報の整備</li><li>Webサイト制作・改善</li><li>SEO・AI検索への情報設計</li><li>SNS・LINEなどの運用支援</li></ul><p>費用と範囲は、現状と目的を確認したうえで事前に提示します。契約前に成果を保証する表現は行いません。</p></div></section>
-  {/* 範囲を絞った有料サービス。料金は未確定のため出さず、見積もり相談へつなぐ */}
+  {/* 料金の正本は src/data/services.ts。ここに数字を直接書かない */}
+  <section id="price" class="price"><div class="bp-wrap">
+    <p class="bp-kicker">PRICE</p>
+    <h2>料金の目安</h2>
+    <p class="price__lead">範囲を決めた固定価格です。料金はすべて税別です。現状と目的をうかがったうえで、範囲と期間を事前にお伝えし、合意いただいてから始めます。</p>
+    <h3 class="price__group">つくる（一括）</h3>
+    <div class="price__grid">{buildPlans.map((plan) => (
+      <article id={plan.id}>
+        <h4>{plan.name}</h4>
+        <p class="price__amount"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
+        <p class="price__summary">{plan.summary}</p>
+        <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
+        {plan.excludes && <p class="price__excludes">含まないもの：{plan.excludes.join('、')}</p>}
+      </article>
+    ))}</div>
+    <h3 class="price__group">育てる（月額）</h3>
+    <div class="price__grid">{growPlans.map((plan) => (
+      <article id={plan.id}>
+        <h4>{plan.name}</h4>
+        <p class="price__amount"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
+        <p class="price__summary">{plan.summary}</p>
+        <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
+      </article>
+    ))}</div>
+    <p class="price__note">{GROW_TERMS}集客数・売上・検索順位の保証はしません。この支援は編集記事の掲載や評価とは切り離しています（編集記事は掲載料をいただきません）。広告・協賛は <a href="/sponsor/">協賛のご案内</a> をご覧ください。</p>
+    <a class="price__cta" href="/contact/?subject=地域事業者の相談" data-biz-service="price">料金について相談する <span aria-hidden="true">→</span></a>
+  </div></section>
+  {/* 範囲を絞った有料サービス。料金は上の「料金の目安」（src/data/services.ts の setup） */}
   <section id="reservation-setup" class="setup"><div class="bp-wrap">
     <p class="bp-kicker">SERVICE</p>
     <h2>店舗情報・予約導線の整備</h2>
@@ -86,7 +117,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業
         <li><strong>確認・公開</strong><span>内容をご確認いただいてから公開します</span></li>
         <li><strong>公開後の修正</strong><span>公開後1回の修正まで含みます</span></li>
       </ol>
-      <p class="setup__note">費用と期間は、現状と目的を確認したうえで事前に提示します。決まった料金表は用意していないため、まずはご相談ください。実績のない成果を約束することはしません。また、この支援は編集記事の掲載や評価とは切り離しています（編集記事は掲載料をいただきません）。</p>
+      <p class="setup__note">料金は<a href="#setup">料金の目安</a>のとおりです（税別）。現状と目的を確認したうえで、範囲と期間を事前に提示します。実績のない成果を約束することはしません。また、この支援は編集記事の掲載や評価とは切り離しています（編集記事は掲載料をいただきません）。</p>
       <a class="setup__cta" href="/contact/?subject=地域事業者の相談" data-biz-service="reservation_setup">店舗情報・予約導線の相談をする <span aria-hidden="true">→</span></a>
     </div>
   </div></section>
@@ -126,6 +157,23 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業
   .setup__flow span{color:var(--color-soil);font-size:.86rem;line-height:1.8}
   .setup__note{max-width:var(--measure);margin-top:1.5rem;color:var(--color-soil);font-size:.82rem;line-height:1.9}
   .setup__cta{display:inline-flex;align-items:center;gap:.6rem;min-height:3.1rem;margin-top:1.75rem;padding:.75rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700}
+  .price{padding-block:clamp(4rem,9vw,7rem);border-top:1px solid var(--color-mist)}
+  .price h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .price__lead{max-width:var(--measure);margin-top:1.4rem;line-height:2;color:var(--color-soil)}
+  .price__group{margin-top:2.6rem;font:600 1.25rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .price__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.25rem;margin-top:1.1rem}
+  .price__grid article{display:flex;flex-direction:column;padding:1.3rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white)}
+  .price__grid h4{font:600 1.1rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .price__amount{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem;margin-top:.6rem}
+  .price__amount strong{font:600 1.7rem/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
+  .price__amount span{color:var(--color-soil);font-size:.84rem}
+  .price__summary{margin-top:.7rem;color:var(--color-soil);font-size:.88rem;line-height:1.85}
+  .price__grid ul{display:grid;gap:.4rem;margin-top:.8rem;padding-left:1.1rem;list-style:disc}
+  .price__grid li{color:var(--color-soil);font-size:.84rem;line-height:1.75}
+  .price__excludes{margin-top:auto;padding-top:.9rem;color:var(--color-soil);font-size:.78rem;line-height:1.7}
+  .price__note{max-width:var(--measure);margin-top:1.8rem;color:var(--color-soil);font-size:.84rem;line-height:1.9}
+  .price__note a{color:var(--color-tide);border-bottom:1px solid}
+  .price__cta{display:inline-flex;align-items:center;gap:.6rem;min-height:3.1rem;margin-top:1.5rem;padding:.75rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700}
   @media(max-width:750px){.types,.scope ul{grid-template-columns:1fr}.services li{grid-template-columns:3rem 1fr}}
   @media(max-width:360px){.biz-head h1{font-size:1.8rem;line-height:1.4}}
 </style>
