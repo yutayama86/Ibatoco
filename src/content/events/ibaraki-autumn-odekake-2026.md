@@ -92,6 +92,7 @@ sourceUrls:
     url: "https://www.hitachikaihin.jp/flower-plant/flower-info/kochia.html"
     accessedAt: 2026-09-02
 relatedArticleUrls:
+  - "/events/daigo-ringo-gari-2026/"
   - "/events/"
   - "/kouyou/"
   - "/odekake/"
