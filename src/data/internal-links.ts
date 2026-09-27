@@ -29,6 +29,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/oarai-kaijo-hanabi-2026/': '大洗海上花火大会2026（日程）',
   '/events/oarai-ankou-matsuri-2026/': '大洗あんこう祭2026（日程）',
   '/events/oarai-ankou-nabe-guide/': '大洗のあんこう鍋（食べられる時期・店と宿の探し方）',
+  '/events/ibaraki-shichigosan-2026/': '茨城の七五三2026（6社の祈祷時間・初穂料・予約）',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
   '/events/chikusei-hanabi-2026/': 'ちくせい花火大会2026（日程・会場）',
