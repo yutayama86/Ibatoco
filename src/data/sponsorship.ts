@@ -77,4 +77,24 @@ export const MONITOR_OFFER = {
   text: '先着3社は通常料金の半額です。事例として、社名と実績の数字を紹介させていただくことが条件です。',
 };
 
+/**
+ * 観光協会・商工会の会員割引（2026-09-27 決定）。イベント協賛枠だけが対象。
+ * 観光協会・商工会と連携して会員に案内してもらう入口。各団体の推薦を意味しない。
+ * 初回モニター（半額）とは併用しない（割引が重なって単価が下がりすぎないように）。
+ */
+export const MEMBER_DISCOUNT = {
+  label: '観光協会・商工会の会員割引',
+  planId: 'event-slot',
+  rate: 0.1,
+};
+
 export const yen = (value: number) => `${value.toLocaleString('ja-JP')}円`;
+
+/** 会員割引後のイベント協賛枠の料金（税別） */
+export const memberPrice = () => {
+  const plan = SPONSOR_PLANS.find((item) => item.id === MEMBER_DISCOUNT.planId);
+  return plan ? Math.round(plan.price * (1 - MEMBER_DISCOUNT.rate)) : 0;
+};
+
+export const memberDiscountText = () =>
+  `茨城県内の観光協会・商工会の会員の方は、イベント協賛枠を1割引き（${yen(memberPrice())}・税別）でご利用いただけます。申し込みの際に所属団体をお知らせください。初回モニター（半額）との併用はできません。`;

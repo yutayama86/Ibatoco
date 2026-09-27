@@ -14,7 +14,7 @@
 import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { SITE_CONFIG } from '../../data/site';
-import { SPONSOR_PLANS, MONITOR_OFFER, yen } from '../../data/sponsorship';
+import { SPONSOR_PLANS, MONITOR_OFFER, MEMBER_DISCOUNT, memberDiscountText, yen } from '../../data/sponsorship';
 import { SPONSOR_TEXT_MAX } from '../../data/sponsors';
 import { getEvents } from '../../lib/content';
 import { getAllFacets } from '../../lib/taxonomy';
@@ -56,6 +56,11 @@ const targets = (await getEvents())
       </div>
       <div class="field field--wide field--check">
         <label class="check"><input type="checkbox" name="monitor" value="希望する" /> {MONITOR_OFFER.label}を希望する（{MONITOR_OFFER.text}）</label>
+      </div>
+      <div class="field field--wide">
+        <label for="member">所属する観光協会・商工会 <small class="is-optional">任意</small></label>
+        <input id="member" name="member" type="text" placeholder="例：大洗観光協会" aria-describedby="member-help" />
+        <p class="help" id="member-help">{MEMBER_DISCOUNT.label}：{memberDiscountText()}</p>
       </div>
       <div class="field"><label for="company">事業者名・団体名 <small>必須</small></label><input id="company" name="company" type="text" required autocomplete="organization" /></div>
       <div class="field"><label for="name">ご担当者名 <small>必須</small></label><input id="name" name="name" type="text" required autocomplete="name" /></div>
