@@ -22,6 +22,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "shimotsuma-job-fair-2026": "/images/card/shimotsuma-job-fair-2026-7e804637.png",
   "shimotsuma-keisui-melon-ginza-2026": "/images/card/shimotsuma-keisui-melon-ginza-2026-7e804637.png",
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
+  "aquaworld-oarai-guide": "/images/card/aquaworld-oarai-guide-7e5f8ef8.png",
   "chikusei-hanabi-2026": "/images/card/chikusei-hanabi-2026-480f2a7d.png",
   "daigo-ringo-gari-2026": "/images/card/daigo-ringo-gari-2026-49bd2cf5.png",
   "fukasaku-noen-guide": "/images/card/fukasaku-noen-guide-553a2423.png",

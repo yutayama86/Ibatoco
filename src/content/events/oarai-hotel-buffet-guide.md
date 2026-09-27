@@ -67,6 +67,7 @@ sourceUrls:
     url: "https://www.oarai-hotel.co.jp/"
     accessedAt: 2026-09-07
 relatedArticleUrls:
+  - "/events/aquaworld-oarai-guide/"
   - "/events/ibaraki-bus-tour-spots/"
   - "/area/oarai/"
   - "/events/nakaminato-ichibazushi-guide/"

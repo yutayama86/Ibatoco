@@ -187,6 +187,7 @@ sourceUrls:
     url: "https://www.oarai-info.jp/news/postid_7074/"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/aquaworld-oarai-guide/"
   - "/events/oarai-ankou-matsuri-2026/"
   - "/events/oarai-hotel-buffet-guide/"
   - "/events/nakaminato-ichibazushi-guide/"
