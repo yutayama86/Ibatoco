@@ -100,6 +100,7 @@ sourceUrls:
     url: "https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/daigo-ringo-gari-2026/"
   - "/kouyou/"
   - "/area/daigo/"
 ---
