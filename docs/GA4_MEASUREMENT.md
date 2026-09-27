@@ -404,4 +404,6 @@ form_start 2 / **generate_lead 1**。イベント自体は届いている。
 
 協賛枠（PR）の表示とクリックは `sponsor_view` / `sponsor_click` で送る。
 主キーは `sponsor_id`。登録するカスタムディメンションと報告の取り方は `docs/SPONSORSHIP.md` の「4. 計測と報告」を正とする。
-`source_page` と `link_url` は既存の `outbound_booking_click` にも付いているが、2026-09-27時点でカスタムディメンション未登録のため、送り先別・送り元別の集計はまだ出せない。
+2026-09-27 に `sponsor_id`・`source_page`・`link_url` をカスタムディメンションとして登録した（`link_provider` は登録済みだった）。登録後のカスタムディメンションは23件。9/27 以降のデータから、送り先別・送り元別に集計できる。
+
+登録は一時の Apps Script プロジェクトから Analytics Admin API（v1beta）で行い、終わったらゴミ箱へ移した。本番の集計プロジェクト「イバトコ SEO自動集計」には触れていない。初回実行時の承認画面はポップアップで開き、Claude in Chrome のタブグループの外になるため、**承認のクリックはユーザーに頼む**必要がある。
