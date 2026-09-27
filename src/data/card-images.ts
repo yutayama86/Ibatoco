@@ -54,5 +54,6 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsuchiura-hanabi-2026-kaeri": "/images/card/tsuchiura-hanabi-2026-kaeri-7f388fe6.png",
   "tsuchiura-hanabi-2026-kaisai": "/images/card/tsuchiura-hanabi-2026-kaisai-7f388fe6.png",
   "tsuchiura-hanabi-2026": "/images/card/tsuchiura-hanabi-2026-7f388fe6.png",
-  "tsukuba-autumn-2026": "/images/card/tsukuba-autumn-2026-866134fe.png"
+  "tsukuba-autumn-2026": "/images/card/tsukuba-autumn-2026-866134fe.png",
+  "ushiku-daibutsu-guide": "/images/card/ushiku-daibutsu-guide-cef3c0f9.png"
 };
