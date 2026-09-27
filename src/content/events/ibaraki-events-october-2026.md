@@ -47,7 +47,7 @@ picks:
     area: "石岡市"
     forWhom: "夜のイルミネーションに出かけたい人。秋から冬にかけて長く楽しみたい人"
     detail: "いばらきフラワーパークの夜間イルミネーションが10月10日（土曜日）に始まります。期間は2027年1月24日（日曜日）まで。点灯は17時からで、最終入園は20時、閉園は20時30分です。料金は期間で分かれており、第1部（10月10日〜11月23日）が大人1,500円・小人500円、第2部（11月28日〜1月24日）が大人1,200円・小人400円。未就学児は無料、ペットは200円です。休園日は火曜日のほか、11月4日、11月25日〜27日、12月30日〜1月1日（11月3日と12月29日は営業）。第1部の開園は9時、第2部は12時からです。"
-    url: "https://www.flowerpark.or.jp/Illumination/"
+    url: "/events/ibaraki-flowerpark-illumination-2026/"
   - name: "国営ひたち海浜公園のコキア（10月15日頃に見頃の予想）"
     area: "ひたちなか市"
     forWhom: "みはらしの丘の紅葉を見たい人"
@@ -84,6 +84,7 @@ sourceUrls:
     url: "https://rockinstarcarnival.jp/"
     accessedAt: 2026-09-21
 relatedArticleUrls:
+  - "/events/ibaraki-flowerpark-illumination-2026/"
   - "/events/rockinstar-carnival-2026/"
   - "/events/"
   - "/kouyou/"

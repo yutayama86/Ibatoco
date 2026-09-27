@@ -61,6 +61,11 @@ picks:
     forWhom: "冬の味覚を食べに行きたい人"
     detail: "大洗観光協会によると、町内の飲食店や宿では、旬を迎える11月からあんこう料理が出されます。観光協会の一覧には、あんこう料理を出す飲食店26店と宿25軒が載っています。"
     url: "/events/oarai-ankou-nabe-guide/"
+  - name: "いばらきフラワーパークのイルミネーション"
+    area: "石岡市"
+    forWhom: "秋バラと夜のライトアップを見たい人"
+    detail: "Moonlight Rose Garden2026は10月10日〜2027年1月24日、点灯17:00です。11月23日までの第1部は秋バラとマリーゴールドのライトアップで、入園料は大人1,500円。11月28日からの第2部は12:00開園・大人1,200円です。11月24日〜27日は休園です。"
+    url: "/events/ibaraki-flowerpark-illumination-2026/"
 notes:
   - "11月の夜は冷えます。土浦の花火は屋外で数時間になるため、防寒具を必ず用意してください"
   - "あんこう祭は検索すると前年（令和7年）の告知が出てくることがあります。日付が違うため、年度を必ず確認してください"
@@ -106,10 +111,14 @@ sourceUrls:
   - label: "大洗観光協会｜特集「あんこう料理」"
     url: "https://www.oarai-info.jp/season/postid_2583/"
     accessedAt: 2026-09-27
+  - label: "いばらきフラワーパーク｜イルミネーション Moonlight Rose Garden2026"
+    url: "https://www.flowerpark.or.jp/Illumination/"
+    accessedAt: 2026-09-27
   - label: "大洗観光協会｜イベント情報（Night Park OARAI 2026・大洗秋まつりの開催日）"
     url: "https://www.oarai-info.jp/event/"
     accessedAt: 2026-09-10
 relatedArticleUrls:
+  - "/events/ibaraki-flowerpark-illumination-2026/"
   - "/events/tsuchiura-hanabi-2026-kaisai/"
   - "/events/ibaraki-shichigosan-2026/"
   - "/events/oarai-ankou-nabe-guide/"
