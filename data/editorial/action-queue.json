@@ -303,6 +303,56 @@
       ],
       "notes": "PR #36で実装。勝ちページ本文は観測窓を守って変更せず、公式短報4本と内部回遊用人気ページデータを更新。",
       "completedAt": "2026-09-23"
+    },
+    {
+      "id": "20260930-hananuki-closure-expire",
+      "title": "花貫渓谷の通行止め記述を期限で落とす",
+      "kind": "update",
+      "targetUrl": "/events/hananuki-gorge-autumn-2026/",
+      "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
+      "priority": "critical",
+      "status": "candidate",
+      "createdAt": "2026-09-27",
+      "dueDate": "2026-09-30",
+      "primarySourceUrls": [
+        "https://www.takahagi-kanko.jp/news/page000591.html"
+      ],
+      "notes": "9/28・29限定の通行止めを要点・見どころ・FAQ・出典に掲載した。9/30以降も残すと逆に誤情報になる。高萩市観光協会で復旧を確認し、記述を落とすか過去形にする。延長されていれば日付を更新する。"
+    },
+    {
+      "id": "20261001-tsukuba-fare-verify",
+      "title": "筑波山の改定後運賃が公式ページに反映されたか確認",
+      "kind": "update",
+      "targetUrl": "/events/tsukuba-autumn-2026/",
+      "targetFile": "src/content/events/tsukuba-autumn-2026.md",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-09-27",
+      "dueDate": "2026-10-01",
+      "primarySourceUrls": [
+        "https://mt-tsukuba.com/cablecar-fare/",
+        "https://mt-tsukuba.com/ropeway-fare/",
+        "https://mt-tsukuba.com/2325-2/"
+      ],
+      "notes": "ニュースリリースPDFの新旧対照表から改定後運賃を記事に入れた（大人 片道930円・往復1,860円、小児はケーブルカー470/940・ロープウェイ400/800）。10/1に公式の運賃ページが同額へ更新されたか照合する。差異があればPDFではなく運賃ページを正とする。往復セット割引乗車券の終了も反映を確認。"
+    },
+    {
+      "id": "20261005-autumn-official-recheck",
+      "title": "秋イベント4件の公式発表を再確認",
+      "kind": "update",
+      "targetUrl": "/kouyou/",
+      "targetFile": "data/editorial/event-registry.json",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-09-27",
+      "dueDate": "2026-10-05",
+      "primarySourceUrls": [
+        "https://www.oarai-info.jp/",
+        "https://www.tsuchiura-hanabi.jp/page/page000306.html",
+        "https://ohtsuribashi.ryujinkyo.jp/event.html",
+        "https://mt-tsukuba.com/information"
+      ],
+      "notes": "2026-09-27時点でいずれも未発表を確認済み。大洗あんこう祭の詳細（商工会サイトはアクセス不可、観光協会に告知なし）、土浦花火の交通規制図（7/21付で準備中のまま）、竜神峡紅葉まつりの会期、筑波山の秋の夜間運行日程。発表され次第、該当記事へ追記する。"
     }
   ]
 }
