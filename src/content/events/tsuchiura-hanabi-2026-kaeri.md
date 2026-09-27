@@ -141,6 +141,7 @@ sourceUrls:
     accessedAt: 2026-09-27
 relatedArticleUrls:
   - "/events/tsuchiura-hanabi-2026/"
+  - "/events/tsuchiura-hanabi-2026-kaisai/"
   - "/area/tsuchiura/"
   - "/hanabi/"
 ---
