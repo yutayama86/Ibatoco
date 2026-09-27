@@ -12,6 +12,7 @@ import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
+import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink, paidLinkFor } from '../../data/affiliates';
 
 export const getStaticPaths = (async () => (await getNews()).map((item) => ({
@@ -217,6 +218,7 @@ if (data.faq.length > 0) jsonLd.push({
         <section id="business"><p class="section-number">07 / FOR BUSINESSES</p><h2>地域事業者への示唆</h2><ul>{data.businessImplications.map((point) => <li>{point}</li>)}</ul></section>
         </>}
         {data.booking && <BookingGuide booking={data.booking} pageType="news" municipality={data.municipalities[0]} contentCategory={data.category} />}
+        <SponsorSlots path={`/news/${slug}/`} pageType="news" municipality={data.municipalities[0]} />
         {data.faq.length > 0 && <section id="faq"><p class="section-number">{pad(guideFaqNo)} / FAQ</p><h2>よくある質問</h2><dl class="news-faq">{data.faq.map((item) => <div><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>}
         <section id="sources"><p class="section-number">{pad(guideSourcesNo)} / SOURCES</p><h2>情報源</h2><ul class="source-list">{data.sourceUrls.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>{source.accessedAt && <small>確認日：{formatDate(source.accessedAt)}</small>}</li>)}</ul><p class="source-note">掲載内容は公開情報をもとに編集しています。制度や運用は変更される場合があるため、行動前に公式情報をご確認ください。</p></section>
         {/* 既存の分類から作った回遊先。該当が無ければ何も出ない */}

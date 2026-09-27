@@ -399,3 +399,9 @@ form_start 2 / **generate_lead 1**。イベント自体は届いている。
 事業者ごとの Action CTR = local_business_click / place page views を見て、無料掲載・Partner支援の価値証明に使う。
 
 2026-09-21時点では `business_id` と `link_kind` はGA4カスタムディメンションとして取得可能。事業者名は公開表示には使えるが、分析の名寄せは変更されにくい business_id を主キーにする。
+
+## Sponsorship（協賛枠）
+
+協賛枠（PR）の表示とクリックは `sponsor_view` / `sponsor_click` で送る。
+主キーは `sponsor_id`。登録するカスタムディメンションと報告の取り方は `docs/SPONSORSHIP.md` の「4. 計測と報告」を正とする。
+`source_page` と `link_url` は既存の `outbound_booking_click` にも付いているが、2026-09-27時点でカスタムディメンション未登録のため、送り先別・送り元別の集計はまだ出せない。

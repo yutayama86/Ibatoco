@@ -1,0 +1,115 @@
+---
+/**
+ * 協賛枠（PR）。登録は src/data/sponsors.ts、運用は docs/SPONSORSHIP.md。
+ *
+ * - 枠全体に「PR」と文言で示す。色だけに頼らない（PR・広告の方針）
+ * - 記事の本文・事実・並び順とは切り離す。記事の区分は Editorial のまま
+ * - 期間は日本時間の暦日で判定する。本番は push でしか再ビルドされないので、
+ *   ビルド時に終了済みのものを落とし、開始・終了の切り替えは画面側でも行う
+ * - 初期状態は hidden。JS が動かない環境では広告を出さない（読者側に倒す）
+ * - リンクは rel="sponsored noopener"。noreferrer を付けないのは、
+ *   協賛先が自分のアクセス解析でイバトコからの流入を確かめられるようにするため
+ */
+import { sponsorsForPage } from '../data/sponsors';
+import { dateOnlyFromInstant } from '../lib/date-only.js';
+
+interface Props {
+  path: string;
+  pageType: 'news' | 'events';
+  municipality?: string;
+}
+
+const { path, pageType, municipality } = Astro.props;
+const today = dateOnlyFromInstant(new Date()).toISOString().slice(0, 10);
+const slots = sponsorsForPage(path, today);
+---
+
+{slots.length > 0 && (
+  <aside class="sp" aria-label="協賛（広告）" data-sponsor-block data-page-type={pageType} data-municipality={municipality} hidden>
+    <p class="sp__label"><span class="sp__tag">PR</span>協賛（広告）｜この枠は広告です。記事の内容とは関係なく、掲載の順位や評価も変わりません。</p>
+    <ul class="sp__list">
+      {slots.map((slot, index) => (
+        <li class="sp__item" data-sponsor-id={slot.id} data-start={slot.start} data-end={slot.end} data-position={String(index + 1)} hidden>
+          {slot.image && (
+            <img src={slot.image.src} alt={slot.image.alt} width={slot.image.width} height={slot.image.height} loading="lazy" decoding="async" />
+          )}
+          <div class="sp__body">
+            <p class="sp__name">{slot.name}</p>
+            <p class="sp__text">{slot.text}</p>
+            <a class="sp__link" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>{slot.cta} <span aria-hidden="true">↗</span></a>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+
+<script>
+  import { commonParams, trackEvent } from '../lib/analytics-events';
+
+  /** 日本時間の今日（YYYY-MM-DD）。new Date('YYYY-MM-DD') の解釈には頼らない */
+  const todayJst = (() => {
+    const parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+    const pick = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
+    return `${pick('year')}-${pick('month')}-${pick('day')}`;
+  })();
+
+  for (const block of document.querySelectorAll<HTMLElement>('[data-sponsor-block]')) {
+    const pageType = block.dataset.pageType ?? '';
+    const municipality = block.dataset.municipality ?? '';
+    const live = [...block.querySelectorAll<HTMLElement>('[data-sponsor-id]')].filter((item) => {
+      const start = item.dataset.start ?? '';
+      const end = item.dataset.end ?? '';
+      return start <= todayJst && todayJst <= end;
+    });
+    if (live.length === 0) continue;
+    for (const item of live) item.hidden = false;
+    block.hidden = false;
+
+    for (const item of live) {
+      const base = {
+        ...commonParams({ page_type: pageType, municipality }),
+        sponsor_id: item.dataset.sponsorId ?? '',
+        slot_position: Number(item.dataset.position ?? 0),
+      };
+      let viewed = false;
+      const sendView = () => {
+        if (viewed) return;
+        viewed = true;
+        trackEvent('sponsor_view', base);
+      };
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            sendView();
+            observer.disconnect();
+          }
+        }, { threshold: 0.5 });
+        observer.observe(item);
+      } else {
+        sendView();
+      }
+      item.querySelector<HTMLAnchorElement>('[data-sponsor-link]')?.addEventListener('click', (event) => {
+        const link = event.currentTarget as HTMLAnchorElement;
+        trackEvent('sponsor_click', { ...base, link_url: link.getAttribute('href') ?? '' });
+      });
+    }
+  }
+</script>
+
+<style>
+  .sp{margin:2.5rem 0;padding:1.1rem 1.2rem 1.2rem;border:1px dashed var(--interior-line,var(--color-mist));border-radius:1rem;background:var(--color-white)}
+  .sp__label{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0;color:var(--color-soil);font-size:.78rem;line-height:1.7}
+  .sp__tag{display:inline-block;padding:.05rem .5rem;border:1px solid var(--color-ink);border-radius:.3rem;color:var(--color-ink);font-weight:700;font-size:.74rem;letter-spacing:.08em}
+  .sp__list{display:grid;gap:.8rem;margin:1rem 0 0;padding:0;list-style:none}
+  .sp__item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1rem;align-items:start;margin:0;padding:1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.75rem;background:var(--interior-sky-soft,#f7f4ec)}
+  .sp__item::before{content:none}
+  .sp__item[hidden]{display:none}
+  .sp__item img{width:7.5rem;height:5.6rem;object-fit:cover;border-radius:.5rem}
+  .sp__item:not(:has(img)){grid-template-columns:minmax(0,1fr)}
+  .sp__name{margin:0;color:var(--color-ink);font-weight:700;font-size:.98rem;line-height:1.5}
+  .sp__text{margin:.35rem 0 0;color:var(--color-soil);font-size:.86rem;line-height:1.8}
+  .sp__link{display:inline-block;margin-top:.55rem;color:var(--interior-blue,var(--color-tide));font-weight:700;font-size:.86rem;border-bottom:1px solid}
+  .sp__link:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
+  @media(max-width:520px){.sp{padding:1rem}.sp__item{grid-template-columns:minmax(0,1fr)}.sp__item img{width:100%;height:auto;aspect-ratio:4/3}}
+</style>
