@@ -118,6 +118,7 @@ sourceUrls:
     url: "https://www.oarai-info.jp/event/"
     accessedAt: 2026-09-10
 relatedArticleUrls:
+  - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/events/ibaraki-flowerpark-illumination-2026/"
   - "/events/tsuchiura-hanabi-2026-kaisai/"
   - "/events/ibaraki-shichigosan-2026/"
