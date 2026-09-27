@@ -75,6 +75,9 @@ const ALLOWED_EVENTS = new Set([
   'next_action_click',
   'growth_next_view',
   'growth_next_click',
+  // 協賛枠（PR）。sponsor_id で協賛先ごとに集計する（docs/SPONSORSHIP.md）
+  'sponsor_view',
+  'sponsor_click',
 ]);
 const srcFiles = [];
 (function walk(dir) {
@@ -132,6 +135,20 @@ if (!/const ctaHref = \(href: string\) => paidLinkFor\(href\)\?\.href \?\? href;
 }
 
 // ---- 広告表示と本文の食い違い ----
+// 記事全体を「広告なし」と言い切る書き方を止める。
+// 協賛枠（src/data/sponsors.ts）は記事を編集せずに後から載るため、
+// 「この記事のリンクはすべて…広告リンクは含みません」は、枠が載った瞬間に嘘になる。
+// 予約・確認先の欄のことだけを言う（「この案内のリンクは…」）。
+for (const dir of ['src/content/events', 'src/content/news']) {
+  if (!existsSync(dir)) continue;
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+    const src = readFileSync(join(dir, file), 'utf8');
+    if (/この記事(のリンク|には)[^"\n]*(広告|アフィリエイト)[^"\n]*(含みません|ありません|なし)/.test(src)) {
+      add('error', 'sponsor-disclosure', `${dir}/${file} が記事全体に広告が無いと書いています。協賛枠が載ると矛盾するため、「この案内のリンクは…」のように欄の中に限定してください`);
+    }
+  }
+}
+
 // 記事の booking.basis に「提携していません」と書いてあるのに、
 // その記事の booking.items に status: 'active' の提供元が入っていると、
 // 画面には「アフィリエイト広告を含みます」と「提携していません」が同時に出る。

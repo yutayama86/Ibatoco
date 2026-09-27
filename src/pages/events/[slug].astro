@@ -17,6 +17,7 @@ import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
+import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink } from '../../data/affiliates';
 import { getEvents } from '../../lib/content';
 import { MUNI_BY_SLUG } from '../../data/areas';
@@ -275,6 +276,7 @@ if (d.faq.length > 0) {
   )}
 
   {d.booking && <BookingGuide booking={d.booking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />}
+  <SponsorSlots path={`/events/${entry.id.split('/').pop()}/`} pageType="events" municipality={d.municipalities[0]} />
 
   <section id="sources" aria-labelledby="ev-src">
     <p class="section-number">{no('sources')} / SOURCES</p>
