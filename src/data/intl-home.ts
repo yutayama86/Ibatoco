@@ -45,6 +45,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'The blue flower hill, and exactly how to reach it by train and bus — with admission fees and season dates from the park’s official site.',
         cta: 'Read the guide',
       },
+      {
+        key: 'hitachi-seaside-park-nemophila',
+        title: 'Nemophila at Hitachi Seaside Park: When to Go in 2027',
+        text: 'Bloom season, flower-season admission, opening hours and closed days — and what the park has not announced for 2027 yet.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -77,6 +83,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '藍色的粉蝶花山丘，以及搭電車與巴士前往的實際走法。門票與季節期間皆引用公園官方資料。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'hitachi-seaside-park-nemophila',
+        title: '2027常陸海濱公園粉蝶花：什麼時候去最好',
+        text: '花期、花季門票、開園時間與休園日，以及公園尚未公布的2027年資訊。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -107,6 +119,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'hitachi-seaside-park-from-tokyo',
         title: '도쿄에서 히타치 해변공원 가는 법',
         text: '파란 꽃 언덕까지 열차와 버스로 가는 실제 경로. 입장료와 시즌 기간은 공원 공식 자료를 인용했습니다.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'hitachi-seaside-park-nemophila',
+        title: '2027 히타치 해변공원 네모필라, 언제 가면 좋을까',
+        text: '개화 시기, 꽃 시즌 입장료, 운영 시간과 휴원일, 그리고 공원이 아직 발표하지 않은 2027년 정보.',
         cta: '가이드 읽기',
       },
     ],

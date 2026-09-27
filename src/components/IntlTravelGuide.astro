@@ -68,6 +68,15 @@ const { guide } = Astro.props;
       <dl class="ig-faq">{guide.faq.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl>
     </section>
 
+    {guide.related && guide.related.items.length > 0 && (
+      <nav class="ig-related" aria-labelledby="ig-related-title">
+        <h2 id="ig-related-title">{guide.related.label}</h2>
+        <ul>{guide.related.items.map((r) => (
+          <li><a href={r.href}><strong>{r.title}</strong><span>{r.text}</span><span class="ig-related__arrow" aria-hidden="true">→</span></a></li>
+        ))}</ul>
+      </nav>
+    )}
+
     <aside class="ig-sources" aria-labelledby="ig-sources-title">
       <h2 id="ig-sources-title">{guide.sourcesLabel}</h2>
       <ul>{guide.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.label} <span aria-hidden="true">↗</span></a></li>)}</ul>
@@ -112,6 +121,16 @@ const { guide } = Astro.props;
   .ig-faq>div{padding:1.3rem 0;border-bottom:1px solid var(--color-mist)}
   .ig-faq dt{font-weight:700;color:var(--color-ink)}
   .ig-faq dd{margin:.5rem 0 0;color:var(--color-soil);line-height:1.9}
+  .ig-related h2{font:600 1.15rem var(--font-brand-display);color:var(--color-ink)}
+  .ig-related ul{display:grid;gap:.7rem;margin-top:1rem;padding:0;list-style:none}
+  .ig-related li::before{content:none}
+  .ig-related a{position:relative;display:grid;gap:.3rem;padding:1.1rem 2.6rem 1.1rem 1.2rem;background:var(--color-white);border:1px solid var(--color-mist);border-radius:.6rem;color:var(--color-ink);text-decoration:none;transition:border-color .16s ease,transform .16s ease}
+  .ig-related a:hover,.ig-related a:focus-visible{border-color:var(--color-tide);transform:translateY(-1px)}
+  .ig-related a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
+  .ig-related strong{font-size:.98rem;line-height:1.5}
+  .ig-related span{color:var(--color-soil);font-size:.84rem;line-height:1.7}
+  .ig-related .ig-related__arrow{position:absolute;right:1.1rem;top:50%;transform:translateY(-50%);color:var(--color-tide);font-size:1rem}
+  @media(prefers-reduced-motion:reduce){.ig-related a{transition:none}}
   .ig-sources{padding:1.6rem;background:var(--color-ink);color:var(--color-paper)}
   .ig-sources h2{font:600 1.05rem var(--font-brand-display);color:#fff}
   .ig-sources ul{margin-top:.9rem;list-style:none;padding:0;border-top:1px solid rgba(255,255,255,.2)}

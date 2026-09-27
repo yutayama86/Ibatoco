@@ -101,7 +101,7 @@ const { theme } = Astro.props;
             <p class="tg-card__area">{sp.areaSlug ? <a href={`/area/${sp.areaSlug}/`}>{sp.area}</a> : sp.area}</p>
             <h3>{sp.name}</h3>
             <p class="tg-card__desc">{sp.desc}</p>
-            {sp.detailUrl && <a class="tg-card__detail" href={sp.detailUrl}>2026年の詳しい情報を見る <span aria-hidden="true">→</span></a>}
+            {sp.detailUrl && <a class="tg-card__detail" href={sp.detailUrl}>{sp.detailLabel ?? '2026年の詳しい情報を見る'} <span aria-hidden="true">→</span></a>}
             {sp.mapQuery && <a class="tg-card__map" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sp.mapQuery)}`} target="_blank" rel="noopener">Google マップで見る <span aria-hidden="true">↗</span></a>}
           </div>
         </article>

@@ -74,6 +74,8 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/area/koga/': '古河市の地域情報',
   '/area/chikusei/': '筑西市の地域情報',
   '/hana/': '茨城の花（梅・桜・ネモフィラ）',
+  '/events/hitachi-seaside-nemophila-2027/': 'ひたち海浜公園のネモフィラ2027（見頃・入園料・開園時間）',
+  '/events/hitachi-seaside-kochia-carnival-2026/': 'コキアカーニバル2026（見頃・料金・駐車場）',
   '/news/hitachiota-kajual-fruit-farm-dx/': '常陸太田市KAJUALに見る地域観光DX（解説）',
   '/ko/': '한국어：茨城の旅行ガイド（韓国語版）',
   '/area/daigo/': '大子町の地域情報',

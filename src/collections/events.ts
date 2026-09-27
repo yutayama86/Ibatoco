@@ -124,6 +124,12 @@ export const events = defineCollection({
      */
     supersededBy: z.string().startsWith('/').optional(),
     /**
+     * 海外向け版（/en/・/zh-tw/・/ko/）がある記事だけ書く。
+     * src/data/i18n.ts の TRANSLATIONS のキーと一致させると、
+     * hreflang と言語切替が相互につながる。
+     */
+    translationKey: z.string().min(1).optional(),
+    /**
      * この記事が扱っている店舗・施設のID（src/data/businesses.ts）。
      * 本文へ自動で差し込むためのものではなく、
      * 「どの事業者に触れた記事か」を機械的に集めるために持つ。

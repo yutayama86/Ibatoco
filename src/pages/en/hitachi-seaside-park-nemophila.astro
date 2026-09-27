@@ -1,0 +1,22 @@
+---
+import BrandBase from '../../layouts/BrandBase.astro';
+import IntlTravelGuide from '../../components/IntlTravelGuide.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import { guideJsonLd } from '../../data/intl-guides';
+import { HITACHI_NEMOPHILA } from '../../data/intl-nemophila';
+
+const guide = HITACHI_NEMOPHILA.en;
+const jsonLd = guideJsonLd(guide, 'en', Astro.site);
+const crumbs: Crumb[] = [{ name: 'Home', href: '/en/' }, { name: guide.h1 }];
+---
+<BrandBase
+  title={`${guide.title} | IBATOCO`}
+  description={guide.description}
+  locale="en"
+  translationKey={guide.translationKey}
+  type="article"
+  jsonLd={jsonLd}
+>
+  <div class="bp-wrap" style="padding-top:1.5rem"><Breadcrumbs items={crumbs} /></div>
+  <IntlTravelGuide guide={guide} />
+</BrandBase>
