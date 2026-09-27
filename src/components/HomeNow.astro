@@ -1,0 +1,132 @@
+---
+/**
+ * TOPのヒーロー直下の帯「いまの茨城から探す」。
+ *
+ * なぜ置くか：TOPのエンゲージメント時間が10秒（GA4、6/29〜9/26）。
+ * 「いま何が起きているか」が7〜8画面目のニュース欄まで出てこず、
+ * 情報を探しに来た人がすぐ離れていた。最初の画面の続きに、行動できる入口を置く。
+ *
+ * - 検索窓 … /search/?q=（GA4の拡張計測がサイト内検索として記録する）
+ * - いま見頃・開催中 … src/lib/happenings.ts の期間もの。表示は日本時間で画面側が判定する
+ * - いま読まれている … data/editorial/popular-pages.json（直近7日の実測）。終了イベントは出さない
+ * - 行き先診断 … /shindan/
+ * TOPの必須構成（FV3枚・つくった理由・テーマ6・地図44・取材と編集3・事業者導線）には触れない。
+ */
+import popular from '../../data/editorial/popular-pages.json';
+import { getHappenings } from '../lib/happenings';
+import { getAllFacets } from '../lib/taxonomy';
+
+const facets = await getAllFacets();
+const facetByPath = new Map(facets.map((facet) => [facet.path, facet]));
+const ranking = popular.pages
+  .map((entry) => facetByPath.get(entry.path))
+  .filter((facet): facet is NonNullable<typeof facet> => Boolean(facet && !facet.noindex && facet.eventLifecycle !== 'ended'))
+  .slice(0, 5)
+  .map((facet) => ({ path: facet.path, title: facet.title.split('｜')[0] }));
+
+// 期間もの（季節の見頃・複数日の催し）。開始前のものも出力し、画面側で今日に合うものだけ見せる
+const seasonal = (await getHappenings(new Date(), 60))
+  .filter((item) => item.kind === 'season' || item.ongoing)
+  .slice(0, 8)
+  .map((item) => ({
+    title: item.title,
+    href: item.href,
+    place: item.place ?? '',
+    start: item.start.toISOString().slice(0, 10),
+    end: item.end.toISOString().slice(0, 10),
+  }));
+---
+
+<section class="home-now" aria-labelledby="home-now-title" data-module="home_now">
+  <div class="bp-wrap home-now__grid">
+    <div class="home-now__main">
+      <h2 id="home-now-title" class="home-now__title">いまの茨城から探す</h2>
+      <form class="home-now__search" action="/search/" method="get" role="search">
+        <label class="home-now__hidden" for="home-q">探したいことば</label>
+        <input id="home-q" name="q" type="search" placeholder="例：土浦花火、袋田の滝" autocomplete="off" enterkeyhint="search" />
+        <button type="submit">探す</button>
+      </form>
+
+      {seasonal.length > 0 && (
+        <div class="home-now__season" data-home-season hidden>
+          <h3>いま見頃・開催中</h3>
+          <ul>
+            {seasonal.map((item) => (
+              <li data-start={item.start} data-end={item.end} hidden>
+                <a href={item.href}>{item.title}{item.place && <small>{item.place}</small>}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <a class="home-now__shindan" href="/shindan/">
+        <span class="home-now__shindan-kicker">行き先診断</span>
+        <strong>3つ答えるだけで、行き先が決まる。</strong>
+        <span class="home-now__shindan-sub">いつ・何を・どのあたり <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+
+    {ranking.length > 0 && (
+      <div class="home-now__rank">
+        <h3>いま読まれている記事</h3>
+        <ol>
+          {ranking.map((item, index) => (
+            <li><a href={item.path}><span class="home-now__no">{String(index + 1).padStart(2, '0')}</span><span>{item.title}</span></a></li>
+          ))}
+        </ol>
+        <p class="home-now__source">直近7日に読まれた記事から。終わった催しは除いています。</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  // 日本時間の今日に開催中・見頃のものだけを見せる（最大4件）
+  const block = document.querySelector<HTMLElement>('[data-home-season]');
+  if (block) {
+    const parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+    const pick = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
+    const today = `${pick('year')}-${pick('month')}-${pick('day')}`;
+    const live = [...block.querySelectorAll<HTMLElement>('li[data-start]')]
+      .filter((item) => (item.dataset.start ?? '') <= today && today <= (item.dataset.end ?? ''))
+      .slice(0, 4);
+    live.forEach((item) => { item.hidden = false; });
+    block.hidden = live.length === 0;
+  }
+</script>
+
+<style>
+  .home-now{padding-block:clamp(1.6rem,3.5vw,2.6rem);background:var(--color-white);border-bottom:1px solid var(--color-mist)}
+  .home-now__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(1.4rem,4vw,3.2rem);align-items:start}
+  .home-now__title{font:600 clamp(1.25rem,2.4vw,1.6rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .home-now__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .home-now__search{display:flex;gap:.5rem;margin-top:.9rem}
+  .home-now__search input{flex:1;min-width:0;padding:.85rem 1.05rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font:inherit;font-size:1rem}
+  .home-now__search input:focus{outline:2px solid var(--color-tide);outline-offset:1px;border-color:var(--color-tide);background:var(--color-white)}
+  .home-now__search button{flex:none;padding:.8rem 1.25rem;border:0;border-radius:999px;background:var(--color-tide);color:#fff;font:700 .92rem var(--font-brand-body);cursor:pointer}
+  .home-now__search button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .home-now__season{margin-top:1.1rem}
+  .home-now h3{color:var(--color-tide);font:700 .78rem var(--font-brand-body);letter-spacing:.06em}
+  .home-now__season ul{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 0;padding:0;list-style:none}
+  .home-now__season li::before{content:none}
+  .home-now__season li[hidden]{display:none}
+  .home-now__season a{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.35rem;padding:.5rem .9rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font-size:.86rem;font-weight:700;line-height:1.5}
+  .home-now__season a:hover,.home-now__season a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
+  .home-now__season small{color:var(--color-soil);font-size:.74rem;font-weight:500}
+  .home-now__shindan{display:grid;gap:.25rem;margin-top:1.2rem;padding:1rem 1.2rem;border-radius:.9rem;background:var(--color-ink);color:#fff;text-decoration:none;transition:transform .16s ease}
+  .home-now__shindan:hover,.home-now__shindan:focus-visible{transform:translateY(-2px)}
+  .home-now__shindan:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .home-now__shindan-kicker{color:#bfd0d3;font:700 .74rem var(--font-brand-body);letter-spacing:.08em}
+  .home-now__shindan strong{font:600 1.08rem/1.5 var(--font-brand-display)}
+  .home-now__shindan-sub{color:#dfe7e8;font-size:.82rem}
+  .home-now__rank ol{display:grid;margin:.6rem 0 0;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
+  .home-now__rank li{margin:0;border-bottom:1px solid var(--color-mist)}
+  .home-now__rank li::before{content:none}
+  .home-now__rank a{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem;align-items:baseline;padding:.7rem 0;color:var(--color-ink);font-size:.9rem;font-weight:700;line-height:1.6;text-decoration:none}
+  .home-now__rank a:hover span:last-child,.home-now__rank a:focus-visible span:last-child{color:var(--color-tide);text-decoration:underline}
+  .home-now__no{color:var(--color-tide);font:700 .74rem var(--font-brand-meta)}
+  .home-now__source{margin-top:.6rem;color:var(--color-soil);font-size:.74rem;line-height:1.7}
+  @media(max-width:860px){.home-now__grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.home-now__shindan{transition:none}}
+</style>

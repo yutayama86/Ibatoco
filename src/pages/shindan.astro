@@ -1,0 +1,182 @@
+---
+/**
+ * 行き先診断（/shindan/）。「いつ・何を・どのあたり」の3問で、行き先と記事を出す。
+ *
+ * - 候補はイベント・テーマ・市町村（src/lib/site-index.ts）。ニュースは入れない
+ *   （開催日を持たないため、終わった話題を勧めてしまう）
+ * - 日付を持つイベントは、選んだ期間と重なるものだけ。終了したものは出さない
+ * - 判定は日本時間の暦日。ビルド後も日付の経過に追従する（ブラウザで計算）
+ * - 答えは URL に残るので、結果を人に送れる
+ * - 中身がブラウザで作られるページなので、検索エンジンには出さない（noindex）
+ */
+import BrandBase from '../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
+import { INTERESTS } from '../lib/site-index';
+import { REGIONS, REGION_ORDER } from '../data/areas';
+import '../styles/search.css';
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '行き先診断' }];
+const whenOptions = [
+  { value: 'weekend', label: '今週末' },
+  { value: 'month', label: 'これから1か月のうちに' },
+  { value: 'any', label: '時期は決めていない' },
+];
+const whatOptions = Object.entries(INTERESTS).map(([value, label]) => ({ value, label }));
+const whereOptions = [...REGION_ORDER.map((key) => ({ value: key, label: `${REGIONS[key].label}（${REGIONS[key].note.replace(/。$/, '')}）` })), { value: 'any', label: 'どこでも' }];
+const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntries(REGION_ORDER.map((key) => [key, REGIONS[key].label])) });
+---
+<BrandBase title="行き先診断｜イバトコ" description="いつ・何をしたい・どのあたり、の3問に答えるだけで、茨城の行き先と記事をご案内します。" noindex>
+  <section class="sd bp-wrap" data-shindan data-labels={labels}>
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">FIND YOUR IBARAKI</p>
+    <h1>3つ答えるだけで、<br />行き先が決まる。</h1>
+    <p class="sd-lead">公式の情報で日程を確かめた催しと、季節のテーマ、44市町村のページから選びます。</p>
+
+    <form class="sd-form" data-shindan-form>
+      <fieldset>
+        <legend><span>Q1</span>いつ行きますか？</legend>
+        <div class="sd-options">{whenOptions.map((option, index) => <label><input type="radio" name="when" value={option.value} checked={index === 0} /><span>{option.label}</span></label>)}</div>
+      </fieldset>
+      <fieldset>
+        <legend><span>Q2</span>何をしたいですか？</legend>
+        <div class="sd-options">{whatOptions.map((option, index) => <label><input type="radio" name="what" value={option.value} checked={index === 0} /><span>{option.label}</span></label>)}</div>
+      </fieldset>
+      <fieldset>
+        <legend><span>Q3</span>どのあたりに行きますか？</legend>
+        <div class="sd-options">{whereOptions.map((option, index) => <label><input type="radio" name="where" value={option.value} checked={index === whereOptions.length - 1} /><span>{option.label}</span></label>)}</div>
+      </fieldset>
+      <button type="submit">行き先を見る <span aria-hidden="true">→</span></button>
+    </form>
+
+    <div class="sd-result" data-shindan-result hidden>
+      <h2 tabindex="-1" data-shindan-heading>あなたへのおすすめ</h2>
+      <p class="sd-note" data-shindan-note></p>
+      <ol class="sr-list" data-shindan-list data-module="shindan_results"></ol>
+      <div data-shindan-areas hidden>
+        <h3>このあたりの街から探す</h3>
+        <ul class="sd-areas" data-shindan-area-list data-module="shindan_areas"></ul>
+      </div>
+      <p class="sd-more">ほかの探し方：<a href="/search/">ことばで探す</a> ／ <a href="/events/">イベントの一覧</a> ／ <a href="/area/">44市町村</a></p>
+    </div>
+  </section>
+</BrandBase>
+
+<style>
+  .sd{max-width:880px;padding-block:clamp(2.5rem,6vw,4.5rem)}
+  .sd h1{margin-top:.8rem;font:600 clamp(1.9rem,4.8vw,3rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
+  .sd-lead{margin-top:1rem;color:var(--color-soil);line-height:1.9}
+  .sd-form{display:grid;gap:1.6rem;margin-top:2rem}
+  .sd-form fieldset{margin:0;padding:0;border:0}
+  .sd-form legend{display:flex;align-items:center;gap:.6rem;font:600 1.15rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .sd-form legend span{display:inline-grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--color-tide);color:#fff;font:700 .78rem var(--font-brand-meta)}
+  .sd-options{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.8rem}
+  .sd-options label{position:relative}
+  .sd-options input{position:absolute;opacity:0;pointer-events:none}
+  .sd-options span{display:inline-flex;align-items:center;min-height:2.75rem;padding:.55rem 1rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-white);color:var(--color-ink);font-size:.9rem;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease}
+  .sd-options input:checked+span{border-color:var(--color-tide);background:var(--color-tide);color:#fff;font-weight:700}
+  .sd-options input:focus-visible+span{outline:2px solid var(--color-tide);outline-offset:2px}
+  .sd-form button{justify-self:start;display:inline-flex;align-items:center;gap:.8rem;min-height:3.2rem;padding:.75rem 1.6rem;border:0;border-radius:999px;background:var(--color-ink);color:#fff;font:700 1rem var(--font-brand-body);cursor:pointer}
+  .sd-form button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .sd-result{margin-top:2.6rem;padding-top:2rem;border-top:1px solid var(--color-mist)}
+  .sd-result h2{font:600 clamp(1.5rem,3.4vw,2.1rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .sd-result h2:focus{outline:none}
+  .sd-note{margin-top:.6rem;color:var(--color-soil);font-size:.88rem;line-height:1.8}
+  .sd-result h3{margin-top:2rem;font:600 1.1rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .sd-areas{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 0;padding:0;list-style:none}
+  .sd-areas li::before{content:none}
+  .sd-areas a{display:inline-block;padding:.5rem .95rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-white);color:var(--color-ink);font-size:.88rem}
+  .sd-areas a:hover,.sd-areas a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
+  .sd-more{margin-top:1.8rem;color:var(--color-soil);font-size:.88rem}
+  .sd-more a{color:var(--color-tide);border-bottom:1px solid}
+  @media(prefers-reduced-motion:reduce){.sd-options span{transition:none}}
+</style>
+
+<script>
+  import { addDays, escapeHtml, loadIndex, monthsBetween, overlaps, rowHtml, todayJst, weekendRange, type Row } from '../lib/search-client';
+  import { bindModuleTracking } from '../lib/module-tracking';
+
+  const root = document.querySelector<HTMLElement>('[data-shindan]');
+  const form = document.querySelector<HTMLFormElement>('[data-shindan-form]');
+  const result = document.querySelector<HTMLElement>('[data-shindan-result]');
+  const heading = document.querySelector<HTMLElement>('[data-shindan-heading]');
+  const note = document.querySelector<HTMLElement>('[data-shindan-note]');
+  const list = document.querySelector<HTMLElement>('[data-shindan-list]');
+  const areasBox = document.querySelector<HTMLElement>('[data-shindan-areas]');
+  const areaList = document.querySelector<HTMLElement>('[data-shindan-area-list]');
+  const labels = JSON.parse(root?.dataset.labels ?? '{}') as { interests: Record<string, string>; regions: Record<string, string> };
+
+  type Answer = { when: string; what: string; where: string };
+
+  function recommend(rows: Row[], answer: Answer, today: string): { picks: { row: Row; reason: string }[]; relaxed: boolean } {
+    const window = answer.when === 'weekend' ? weekendRange(today) : answer.when === 'month' ? { start: today, end: addDays(today, 30) } : null;
+    const run = (useWindow: boolean) => rows
+      .filter((row) => !row.x && (row.k === 'event' || row.k === 'theme'))
+      // 月ごとのまとめ記事は、その月が過ぎたら勧めない
+      .filter((row) => !row.ym || row.ym >= today.slice(0, 7))
+      .filter((row) => row.i.includes(answer.what))
+      .filter((row) => answer.where === 'any' || row.r.length === 0 || row.r.includes(answer.where))
+      .filter((row) => {
+        if (!useWindow || !window) return true;
+        if (row.s) return overlaps(row, window.start, window.end);
+        // 日付のないガイドは、見頃の月が期間に重なるものだけ（例：9月末に4月のネモフィラを出さない）
+        if (row.m && row.m.length > 0) return monthsBetween(window.start, window.end).some((month) => row.m!.includes(month));
+        return true;
+      })
+      .map((row) => {
+        const inWindow = Boolean(window && row.s && overlaps(row, window.start, window.end));
+        const inRegion = answer.where !== 'any' && row.r.includes(answer.where);
+        const score = (inWindow ? 4 : 0) + (inRegion ? 2 : 0) + (row.k === 'event' ? 2 : 1);
+        const reason = [
+          inWindow ? (answer.when === 'weekend' ? '今週末に開催' : 'これから1か月のうちに開催') : '',
+          inRegion ? `${labels.regions[answer.where]}の行き先` : '',
+          labels.interests[answer.what],
+        ].filter(Boolean).join('・');
+        return { row, reason, score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6);
+    const picks = run(true);
+    if (picks.length > 0 || !window) return { picks, relaxed: false };
+    return { picks: run(false), relaxed: true };
+  }
+
+  async function show(answer: Answer) {
+    if (!result || !list || !note || !heading) return;
+    const rows = await loadIndex();
+    const { picks, relaxed } = recommend(rows, answer, todayJst());
+    result.hidden = false;
+    note.textContent = picks.length === 0
+      ? '条件に合う行き先が見つかりませんでした。「どこでも」や別の目的でも試してください。'
+      : relaxed
+        ? '選んだ時期に開催が決まっている催しは見つからなかったので、時期を問わずに選びました。日程は各記事で確認してください。'
+        : '公式の情報で日程を確かめたものから選んでいます。出かける前に、各記事の確認先で最新の情報を見てください。';
+    list.innerHTML = picks.map((pick) => rowHtml(pick.row, pick.reason)).join('');
+    if (areasBox && areaList) {
+      const areas = answer.where === 'any' ? [] : rows.filter((row) => row.k === 'area' && row.r.includes(answer.where));
+      areaList.innerHTML = areas.map((row) => `<li><a href="${escapeHtml(row.u)}">${escapeHtml(row.p[0] ?? row.t)}</a></li>`).join('');
+      areasBox.hidden = areas.length === 0;
+    }
+    heading.focus();
+  }
+
+  if (root && form) {
+    bindModuleTracking('shindan', root);
+    const params = new URLSearchParams(location.search);
+    for (const name of ['when', 'what', 'where'] as const) {
+      const value = params.get(name);
+      const input = value ? form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${CSS.escape(value)}"]`) : null;
+      if (input) input.checked = true;
+    }
+    const read = (): Answer => {
+      const data = new FormData(form);
+      return { when: String(data.get('when')), what: String(data.get('what')), where: String(data.get('where')) };
+    };
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const answer = read();
+      history.replaceState(null, '', `?${new URLSearchParams(answer).toString()}`);
+      show(answer);
+    });
+    if (params.has('what')) show(read());
+  }
+</script>

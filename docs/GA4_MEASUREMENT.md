@@ -407,3 +407,19 @@ form_start 2 / **generate_lead 1**。イベント自体は届いている。
 2026-09-27 に `sponsor_id`・`source_page`・`link_url` をカスタムディメンションとして登録した（`link_provider` は登録済みだった）。登録後のカスタムディメンションは23件。9/27 以降のデータから、送り先別・送り元別に集計できる。
 
 登録は一時の Apps Script プロジェクトから Analytics Admin API（v1beta）で行い、終わったらゴミ箱へ移した。本番の集計プロジェクト「イバトコ SEO自動集計」には触れていない。初回実行時の承認画面はポップアップで開き、Claude in Chrome のタブグループの外になるため、**承認のクリックはユーザーに頼む**必要がある。
+
+## TOP・検索・行き先診断の到達とクリック（2026-09-27〜）
+
+`src/lib/module-tracking.ts` が、画面の「かたまり」（`data-module` を付けた要素）ごとに送る。
+
+| イベント | いつ | パラメータ |
+| --- | --- | --- |
+| `module_view` | かたまりが画面に3割以上入った（1ページ1回） | `cta_location`（かたまりの名前）、`cta_page_type`（home / search / shindan） |
+| `module_click` | かたまりの中のリンクを押した | 上と同じ ＋ `link_url` |
+
+`cta_location` と `cta_page_type` と `link_url` は登録済みのカスタムディメンションなので、追加の登録は要らない。
+
+TOPのかたまりの名前：`home_hero` → `home_now` → `home_this_week` → `home_origin` → `home_discover` → `home_area` → `home_news` → `home_process` → `home_partner`。
+**どこまで読まれたか**は、`module_view` の件数を上から順に並べると分かる（TOPの閲覧数に対する割合）。
+
+サイト内検索は URL の `q` を使うので、GA4 の拡張計測（`view_search_results`）が検索語を記録する。

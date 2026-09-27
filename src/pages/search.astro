@@ -1,0 +1,91 @@
+---
+/**
+ * サイト内検索（/search/?q=…）。
+ * - 索引は /search-index.json。記事・イベント・テーマ・44市町村を対象にする
+ * - URL の q を使うので、GA4 の拡張計測（サイト内検索）がそのまま記録する
+ * - 結果は内容の重複になるため、検索エンジンには出さない（noindex）
+ */
+import BrandBase from '../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
+import '../styles/search.css';
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'サイト内検索' }];
+const suggestions = ['土浦花火', 'あんこう祭', '紅葉', 'コキア', '袋田の滝', '水戸', '大洗', 'ネモフィラ'];
+---
+<BrandBase title="サイト内検索｜イバトコ" description="イバトコの記事・イベント・市町村のページを検索できます。" noindex>
+  <section class="search bp-wrap" data-search>
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">SEARCH</p>
+    <h1>茨城を、ことばで探す。</h1>
+    <form class="search-form" action="/search/" method="get" role="search">
+      <label class="visually-hidden" for="q">探したいことば</label>
+      <input id="q" name="q" type="search" placeholder="イベント名・場所・市町村名（例：土浦花火、袋田の滝）" autocomplete="off" enterkeyhint="search" />
+      <button type="submit">探す</button>
+    </form>
+    <p class="search-suggest">よく探されていることば：{suggestions.map((word) => <a href={`/search/?q=${encodeURIComponent(word)}`}>{word}</a>)}</p>
+    <p class="search-status" data-search-status role="status" aria-live="polite"></p>
+    <ol class="sr-list" data-search-results data-module="search_results"></ol>
+    <p class="search-more" data-search-more hidden>見つからないときは、<a href="/shindan/">行き先診断</a>で季節と目的から探すか、<a href="/area/">44市町村</a>から選んでください。</p>
+  </section>
+</BrandBase>
+
+<style>
+  .search{max-width:880px;padding-block:clamp(2.5rem,6vw,4.5rem)}
+  .search h1{margin-top:.8rem;font:600 clamp(1.9rem,4.5vw,2.8rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .search-form{display:flex;gap:.6rem;margin-top:1.6rem}
+  .search-form input{flex:1;min-width:0;padding:.95rem 1.1rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-white);color:var(--color-ink);font:inherit;font-size:1rem}
+  .search-form input:focus{outline:2px solid var(--color-tide);outline-offset:1px;border-color:var(--color-tide)}
+  .search-form button{flex:none;padding:.85rem 1.4rem;border:0;border-radius:999px;background:var(--color-tide);color:#fff;font:700 .95rem var(--font-brand-body);cursor:pointer}
+  .search-form button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .search-suggest{display:flex;flex-wrap:wrap;gap:.4rem .8rem;margin-top:1rem;color:var(--color-soil);font-size:.84rem}
+  .search-suggest a{color:var(--color-tide);border-bottom:1px solid}
+  .search-status{margin-top:1.6rem;color:var(--color-soil);font-size:.9rem}
+  .search-more{margin-top:1.4rem;color:var(--color-soil);font-size:.88rem;line-height:1.9}
+  .search-more a{color:var(--color-tide);border-bottom:1px solid}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+
+<script>
+  import { loadIndex, normalize, rowHtml, type Row } from '../lib/search-client';
+  import { bindModuleTracking } from '../lib/module-tracking';
+
+  const root = document.querySelector<HTMLElement>('[data-search]');
+  const input = document.querySelector<HTMLInputElement>('#q');
+  const status = document.querySelector<HTMLElement>('[data-search-status]');
+  const list = document.querySelector<HTMLElement>('[data-search-results]');
+  const more = document.querySelector<HTMLElement>('[data-search-more]');
+  const query = new URLSearchParams(location.search).get('q')?.trim() ?? '';
+  if (input) input.value = query;
+
+  const score = (row: Row, terms: string[]): number => {
+    const title = normalize(row.t);
+    const sub = normalize([row.p.join(' '), row.g.join(' '), (row.y ?? []).join(' ')].join(' '));
+    const desc = normalize(row.d);
+    let total = 0;
+    for (const term of terms) {
+      if (title.includes(term)) total += 3;
+      else if (sub.includes(term)) total += 2;
+      else if (desc.includes(term)) total += 1;
+      else return 0;
+    }
+    return total;
+  };
+
+  if (root && list && status) {
+    bindModuleTracking('search', root);
+    if (query) {
+      status.textContent = '探しています…';
+      loadIndex().then((rows) => {
+        const terms = normalize(query).split(' ').filter(Boolean);
+        const hits = rows
+          .map((row, order) => ({ row, order, score: score(row, terms) }))
+          .filter((item) => item.score > 0)
+          .sort((a, b) => Number(Boolean(a.row.x)) - Number(Boolean(b.row.x)) || b.score - a.score || a.order - b.order)
+          .slice(0, 30);
+        status.textContent = hits.length > 0 ? `「${query}」の結果：${hits.length}件` : `「${query}」に合うページは見つかりませんでした。`;
+        list.innerHTML = hits.map((item) => rowHtml(item.row)).join('');
+        if (more) more.hidden = hits.length > 3;
+      });
+    }
+  }
+</script>
