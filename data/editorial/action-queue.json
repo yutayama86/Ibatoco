@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-09-28",
   "actions": [
     {
       "id": "20260927-fukuroda-falls-autumn-2026",
@@ -356,6 +356,51 @@
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/tsuchiura-hanabi-2026.md"
+      ]
+    },
+    {
+      "id": "20261005-november-pages-recheck",
+      "title": "9/27公開の11月向けページの未発表事項を再確認",
+      "kind": "update",
+      "targetUrl": "/events/ibaraki-events-november-2026/",
+      "targetFile": "src/content/events/ibaraki-events-november-2026.md",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-09-28",
+      "dueDate": "2026-10-05",
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/faq.php?mode=detail&lc=0&c=1&code=3",
+        "https://komonsan.jp/",
+        "https://www.kasama-kankou.jp/page/dir000187.html",
+        "https://www.flowerpark.or.jp/time-price/",
+        "https://www.town.daigo.ibaraki.jp/page/page009036.html"
+      ],
+      "notes": "2026-09-27時点で未発表・不一致だった事項。(1)土浦花火の開催判断の発表日時（FAQは2025年の回答のまま）→ 出たら /events/tsuchiura-hanabi-2026-kaisai/ に追記。(2)常磐神社の2026年七五三特別祈祷の期間告知 → /events/ibaraki-shichigosan-2026/。(3)笠間の菊まつり2026（第119回）の会期 → 発表されたら専用ページを作り、七五三・11月まとめを更新。(4)いばらきフラワーパークの年末休園日（料金ページは1/1のみ、イルミページは12/30〜1/1）→ 公式の表記がそろったら /events/ibaraki-flowerpark-illumination-2026/ を直す。(5)道の駅奥久慈だいごWESTのオープニングイベント・交通規制（町のチラシPDFを未読）→ /news/michinoeki-okukuji-daigo-west-2026/ に追記。",
+      "additionalTargetFiles": [
+        "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
+        "src/content/events/ibaraki-shichigosan-2026.md",
+        "src/content/events/ibaraki-flowerpark-illumination-2026.md",
+        "src/content/news/michinoeki-okukuji-daigo-west-2026.md"
+      ]
+    },
+    {
+      "id": "20261107-tsuchiura-dayof-update",
+      "title": "土浦花火 当日の開催判断を反映（11/7）",
+      "kind": "update",
+      "targetUrl": "/events/tsuchiura-hanabi-2026-kaisai/",
+      "targetFile": "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
+      "priority": "critical",
+      "status": "candidate",
+      "createdAt": "2026-09-28",
+      "dueDate": "2026-11-07",
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/"
+      ],
+      "notes": "ユーザーが当日にClaudeを起動する予定。公式の開催・延期・中止の発表を確認し、延期・中止ページ、本体記事、帰り方、11月まとめの冒頭に反映する。発表前の推測は書かない。",
+      "additionalTargetFiles": [
+        "src/content/events/tsuchiura-hanabi-2026.md",
+        "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
+        "src/content/events/ibaraki-events-november-2026.md"
       ]
     }
   ]
