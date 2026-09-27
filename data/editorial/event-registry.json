@@ -423,6 +423,27 @@
       "notes": "県・下妻市公式で10月3・4日10時30分〜15時、IBARAKI senseで限定販売と確認。販売実績はunknown。"
     },
     {
+      "id": "ibaraki-flowerpark-illumination-2026",
+      "name": "Moonlight Rose Garden2026～月夜にひらく、まほうのとびら～",
+      "municipality": "ishioka",
+      "startDate": "2026-10-10",
+      "endDate": "2027-01-24",
+      "officialUrl": "https://www.flowerpark.or.jp/Illumination/",
+      "discoveredAt": "2026-09-27",
+      "verifiedAt": "2026-09-27",
+      "articleUrl": "/events/ibaraki-flowerpark-illumination-2026/",
+      "articleUpdatedAt": "2026-09-27",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "ibaraki-urban-greening-festival-2026",
       "name": "いばらき都市緑化フェスティバル",
       "municipality": "hitachinaka",
