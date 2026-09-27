@@ -5,7 +5,7 @@
     {
       "id": "20260928-growthnext-newsdesk-governance",
       "title": "GrowthNext 7日評価＋日次ニュース停止の正本整合",
-      "kind": "measurement-governance",
+      "kind": "measurement",
       "targetUrl": "/",
       "targetFile": "docs/prompts/IBATOCO_DAILY_GROWTH_DIRECTOR.md",
       "priority": "critical",
