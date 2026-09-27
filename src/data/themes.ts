@@ -10,7 +10,13 @@
  * 自前で撮ったものは表示先が無いので省略し、文字だけ出す。
  */
 export interface ThemeImage { src: string; alt: string; credit: string; creditUrl?: string; }
-export interface ThemeSpot { name: string; area: string; areaSlug?: string; desc: string; image?: ThemeImage; mapQuery?: string; detailUrl?: string; }
+export interface ThemeSpot {
+  name: string; area: string; areaSlug?: string; desc: string; image?: ThemeImage; mapQuery?: string;
+  /** このスポット単独の記事。あるときだけ導線を出す */
+  detailUrl?: string;
+  /** 導線の文言。既定は「2026年の詳しい情報を見る」。年が違う記事では必ず指定する */
+  detailLabel?: string;
+}
 export interface ThemeSection { kicker: string; title: string; body: string; }
 /**
  * 「いま、どうなっているか」を冒頭で出すための枠。
@@ -186,7 +192,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
     ],
     spotsHeading: '公園と庭園',
     spots: [
-      { name: '国営ひたち海浜公園', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: '「みはらしの丘」は、4月中旬から5月上旬に約530万本のネモフィラで青く染まり、10月中旬には約3万2千本のコキアが赤く紅葉します。同じ丘が季節で色を変えます。', mapQuery: '国営ひたち海浜公園' },
+      { name: '国営ひたち海浜公園', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: '「みはらしの丘」は、4月中旬から5月上旬に約530万本のネモフィラで青く染まり、10月中旬には約3万2千本のコキアが赤く紅葉します。同じ丘が季節で色を変えます。', mapQuery: '国営ひたち海浜公園', detailUrl: '/events/hitachi-seaside-nemophila-2027/', detailLabel: 'ネモフィラ2027の見頃・入園料を見る' },
       { name: '偕楽園', area: '水戸市', areaSlug: 'mito', desc: '天保13年(1842年)開園。金沢の兼六園、岡山の後楽園と並ぶ日本三名園のひとつです。梅まつりの時期には約100品種3,000本の梅が、早咲き・中咲き・遅咲きと順に咲きます。徳川斉昭自らが設計した好文亭が建ちます。', mapQuery: '偕楽園 水戸市' },
       { name: '千波公園（千波湖）', area: '水戸市', areaSlug: 'mito', desc: '偕楽園に隣接する、周囲約3キロメートルのひょうたん形の湖・千波湖を中心とした公園。桜並木の遊歩道やボート、ハクチョウ・コクチョウが楽しめます。' },
       { name: 'かみね公園', area: '日立市', areaSlug: 'hitachi', desc: '動物園・遊園地・展望台が高台に集まり、約1000本の桜が咲く「日本さくら名所100選」の一つ。2019年には夜景が日本夜景遺産に認定されました。', image: IMG_KAMINE, mapQuery: 'かみね公園 茨城県日立市' },
@@ -269,7 +275,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       { name: '偕楽園の梅', area: '水戸市', areaSlug: 'mito', desc: '例年2月中旬から3月。金沢の兼六園、岡山の後楽園と並ぶ日本三名園のひとつで、約100品種3,000本の梅が、早咲き・中咲き・遅咲きと順に咲きます。水戸の梅まつりの会場です。', mapQuery: '偕楽園 水戸市' },
       { name: '福岡堰の桜', area: 'つくばみらい市', areaSlug: 'tsukubamirai', desc: '例年4月。関東三大堰のひとつ、福岡堰の水辺に約1.8キロメートルの桜並木が続きます。', mapQuery: '福岡堰 つくばみらい市' },
       { name: '静峰ふるさと公園の八重桜', area: '那珂市', areaSlug: 'naka', desc: '例年4月下旬。約2,000本の八重桜が、ソメイヨシノより遅い時期に見頃を迎えます。「日本さくら名所100選」の一つで、県内の桜が終わったあとに花見を延ばせます。' },
-      { name: 'ひたち海浜公園のネモフィラ', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: '例年4月中旬から5月上旬。「みはらしの丘」を約530万本のネモフィラが青く染めます。秋には同じ丘が、約3万2千本のコキアで赤く紅葉します。', mapQuery: '国営ひたち海浜公園' },
+      { name: 'ひたち海浜公園のネモフィラ', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: '例年4月中旬から5月上旬。「みはらしの丘」を約530万本のネモフィラが青く染めます。秋には同じ丘が、約3万2千本のコキアで赤く紅葉します。', mapQuery: '国営ひたち海浜公園', detailUrl: '/events/hitachi-seaside-nemophila-2027/', detailLabel: 'ネモフィラ2027の見頃・入園料を見る' },
       { name: '笠間のつつじ', area: '笠間市', areaSlug: 'kasama', desc: '例年春。笠間つつじ公園では、市街を見下ろす高台の山肌をつつじが彩ります。' },
       { name: '雨引観音のあじさい', area: '桜川市', areaSlug: 'sakuragawa', desc: '例年6月10日から7月20日のあじさい祭。雨引山楽法寺の境内に100種5,000株のあじさいが咲き、水に浮かべる「水中華」でも知られます。' },
       { name: '水郷潮来のあやめ', area: '潮来市', areaSlug: 'itako', desc: '例年5月下旬から6月下旬の水郷潮来あやめまつり。前川の水郷潮来あやめ園に約500種100万株の花菖蒲が咲き、伝統の「嫁入り舟」も行われます。', mapQuery: '水郷潮来あやめ園' },

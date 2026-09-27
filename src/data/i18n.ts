@@ -54,6 +54,14 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/hitachi-seaside-park-from-tokyo/',
     ko: '/ko/hitachi-seaside-park-from-tokyo/',
   },
+  // 日本語版は年ごとの記事（/events/）、海外版は年を入れない常設URL。
+  // 翌年は ja の行だけ差し替える。
+  'hitachi-seaside-park-nemophila': {
+    ja: '/events/hitachi-seaside-nemophila-2027/',
+    en: '/en/hitachi-seaside-park-nemophila/',
+    'zh-tw': '/zh-tw/hitachi-seaside-park-nemophila/',
+    ko: '/ko/hitachi-seaside-park-nemophila/',
+  },
 };
 
 export interface Alternate {

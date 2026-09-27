@@ -49,6 +49,11 @@ export interface IntlGuide {
   authorLabel: string;
   author: string;
   disclaimer: string;
+  /**
+   * 同じ言語で次に読むガイド。サイト内の実在ページだけを書く。
+   * 海外からの読者はトップへ戻らないので、記事どうしを直接つなぐ。
+   */
+  related?: { label: string; items: { title: string; text: string; href: string }[] };
   /** 構造化データ用（実在する施設情報のみ） */
   place: { name: string; address: string; url: string };
 }
@@ -182,6 +187,12 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     authorLabel: 'Written by',
     author: 'IBATOCO Editorial Team',
     disclaimer: 'Fees, opening hours and transport schedules change. Always confirm on the official website before you travel.',
+    related: {
+      label: 'Read next',
+      items: [
+        { title: 'Nemophila at Hitachi Seaside Park: When to Go in 2027', text: 'Bloom season, flower-season admission, opening hours and closed days, and what has not been announced yet.', href: '/en/hitachi-seaside-park-nemophila/' },
+      ],
+    },
     place: { name: 'Hitachi Seaside Park', address: '605-4 Onuma, Mawatari, Hitachinaka, Ibaraki 312-0012, Japan', url: PARK_URL },
   },
 
@@ -294,6 +305,12 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     authorLabel: '撰文',
     author: 'IBATOCO 編輯部',
     disclaimer: '票價、開放時間與交通班次可能變動。出發前請務必確認官方網站。',
+    related: {
+      label: '接著閱讀',
+      items: [
+        { title: '2027常陸海濱公園粉蝶花：什麼時候去最好', text: '花期、花季門票、開園時間與休園日，以及2027年尚未公布的資訊。', href: '/zh-tw/hitachi-seaside-park-nemophila/' },
+      ],
+    },
     place: { name: '國營常陸海濱公園', address: '〒312-0012 茨城縣常陸那珂市馬渡字大沼605-4', url: PARK_URL },
   },
 
@@ -406,6 +423,12 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     authorLabel: '작성',
     author: 'IBATOCO 편집부',
     disclaimer: '요금과 운영 시간, 교통 시간표는 변경될 수 있습니다. 출발 전 공식 사이트에서 확인해 주세요.',
+    related: {
+      label: '이어서 읽기',
+      items: [
+        { title: '2027 히타치 해변공원 네모필라, 언제 가면 좋을까', text: '개화 시기, 꽃 시즌 입장료, 운영 시간과 휴원일, 아직 발표되지 않은 2027년 정보.', href: '/ko/hitachi-seaside-park-nemophila/' },
+      ],
+    },
     place: { name: '국영 히타치 해변공원', address: '〒312-0012 이바라키현 히타치나카시 마와타리 오누마 605-4', url: PARK_URL },
   },
 };
