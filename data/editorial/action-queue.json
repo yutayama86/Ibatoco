@@ -3,6 +3,27 @@
   "updatedAt": "2026-09-28",
   "actions": [
     {
+      "id": "20260928-growthnext-newsdesk-governance",
+      "title": "GrowthNext 7日評価＋日次ニュース停止の正本整合",
+      "kind": "measurement-governance",
+      "targetUrl": "/",
+      "targetFile": "docs/prompts/IBATOCO_DAILY_GROWTH_DIRECTOR.md",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-09-28",
+      "completedAt": "2026-09-28",
+      "primarySourceUrls": [],
+      "acceptanceCriteria": [
+        "News Deskの本数義務を日次完了条件から削除",
+        "本番ニュース監視と品質条件は維持",
+        "GrowthNextの953 view・43 clickを記録",
+        "文脈選定版は2026-10-04まで再改修しない",
+        "GA4/GSC管理値とpopular-pagesを最新化",
+        "npm run verify/CI成功"
+      ],
+      "notes": "2026-09-27のオーナー判断を正本へ反映。旧GrowthNextはCTR 4.51%でクリック基準を達成、Views/sessionは横ばい。"
+    },
+    {
       "id": "20260927-fukuroda-falls-autumn-2026",
       "title": "袋田の滝の紅葉2026 完成記事",
       "kind": "new-article",
