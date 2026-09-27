@@ -22,6 +22,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/ibaraki-ibarakick-2026/': 'iBARAKICK! 13社×14人で始まる人材戦略（解説）',
   '/events/': '茨城のイベント・おでかけ',
   '/events/tsuchiura-hanabi-2026/': '土浦全国花火競技大会2026（日程・駐車場・シャトルバス・有料席）',
+  '/events/tsuchiura-hanabi-2026-kaeri/': '土浦花火2026の帰り方（シャトルバス・土浦駅・つくば駅・車を比べる）',
   '/events/ibaraki-events-november-2026/': '茨城のイベント2026年11月（土浦花火・大洗あんこう祭）',
   '/events/ibaraki-events-october-2026/': '茨城のイベント2026年10月（ちくせい花火・Night Park OARAI）',
   '/events/oarai-kaijo-hanabi-2026/': '大洗海上花火大会2026（日程）',
