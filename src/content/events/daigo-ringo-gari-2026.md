@@ -116,6 +116,7 @@ sourceUrls:
     url: "https://www.daigo-kanko.jp/wp-content/uploads/2026/08/apple2026.pdf"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/news/michinoeki-okukuji-daigo-west-2026/"
   - "/events/fukuroda-falls-autumn-2026/"
   - "/events/ibaraki-autumn-odekake-2026/"
   - "/area/daigo/"
