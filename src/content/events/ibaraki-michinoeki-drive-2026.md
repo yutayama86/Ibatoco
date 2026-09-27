@@ -90,6 +90,7 @@ sourceUrls:
     url: "https://www.kanto-michinoeki.jp/map02.php?id_name=0"
     accessedAt: 2026-09-02
 relatedArticleUrls:
+  - "/news/michinoeki-okukuji-daigo-west-2026/"
   - "/michinoeki/"
   - "/odekake/"
   - "/events/"

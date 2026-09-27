@@ -15,6 +15,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-wage-support-seminar-chikusei-2026": "/images/card/ibaraki-wage-support-seminar-chikusei-2026-480f2a7d.png",
   "kashima-antlers-kofu-emperors-cup-2026-09-23": "/images/card/kashima-antlers-kofu-emperors-cup-2026-09-23-57697a75.png",
   "kashima-antlers-kofu-result-2026-09-23": "/images/card/kashima-antlers-kofu-result-2026-09-23-57697a75.png",
+  "michinoeki-okukuji-daigo-west-2026": "/images/card/michinoeki-okukuji-daigo-west-2026-49bd2cf5.png",
   "mito-hollyhock-kids-passport-urawa-2026": "/images/card/mito-hollyhock-kids-passport-urawa-2026-6c5eb34d.png",
   "mito-marathon-measurement-chip-2026": "/images/card/mito-marathon-measurement-chip-2026-6c5eb34d.png",
   "mitsukaido-rail-yard-event-2026": "/images/card/mitsukaido-rail-yard-event-2026-d1446ad4.png",
