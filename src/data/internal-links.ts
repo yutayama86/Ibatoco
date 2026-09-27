@@ -23,6 +23,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/': '茨城のイベント・おでかけ',
   '/events/tsuchiura-hanabi-2026/': '土浦全国花火競技大会2026（日程・駐車場・シャトルバス・有料席）',
   '/events/tsuchiura-hanabi-2026-kaeri/': '土浦花火2026の帰り方（シャトルバス・土浦駅・つくば駅・車を比べる）',
+  '/events/tsuchiura-hanabi-2026-kaisai/': '土浦花火2026は雨でも開催？（延期・中止・払い戻し）',
   '/events/ibaraki-events-november-2026/': '茨城のイベント2026年11月（土浦花火・大洗あんこう祭）',
   '/events/ibaraki-events-october-2026/': '茨城のイベント2026年10月（ちくせい花火・Night Park OARAI）',
   '/events/oarai-kaijo-hanabi-2026/': '大洗海上花火大会2026（日程）',
