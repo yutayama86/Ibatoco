@@ -2,6 +2,7 @@
 import BrandBase from '../layouts/BrandBase.astro';
 import HomeThemeNav from '../components/HomeThemeNav.astro';
 import ThisWeek from '../components/ThisWeek.astro';
+import HomeNow from '../components/HomeNow.astro';
 import HomeEditorialProcess from '../components/HomeEditorialProcess.astro';
 import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
 import NewsCard from '../components/NewsCard.astro';
@@ -50,7 +51,7 @@ const heroSlides = [
 ---
 
 <BrandBase title={pageTitle} description={pageDescription} jsonLd={homeJsonLd} translationKey="home">
-  <section class="home-hero">
+  <section class="home-hero" data-module="home_hero">
     <div class="hero-slides" aria-live="off">
       {heroSlides.map((slide, index) => (
         <figure class:list={['hero-slide', { 'is-active': index === 0 }]} data-hero-slide aria-hidden={index !== 0}>
@@ -98,7 +99,15 @@ const heroSlides = [
     </div>
   </section>
 
-  <section class="brand-origin">
+  {/*
+    ヒーローの直下に「いま」の入口を置く（2026-09-27）。TOPのエンゲージメント時間が10秒で、
+    行動できる情報が7〜8画面目まで出てこなかったため。必須構成には手を触れず、足すだけにしている。
+  */}
+  <HomeNow />
+  {/* 日付から入る枠。該当が無ければブロックごと出ない */}
+  <div data-module="home_this_week"><ThisWeek /></div>
+
+  <section class="brand-origin" data-module="home_origin">
     <div class="origin-sky" aria-hidden="true"></div>
     <div class="bp-wrap origin-grid">
       <div class="origin-index">
@@ -133,19 +142,16 @@ const heroSlides = [
     </div>
   </section>
 
-  {/* 日付から入る枠。該当が無ければブロックごと出ない（既存TOPの構成は変えない） */}
-  <ThisWeek />
-
-  <section class="discover" id="discover">
+  <section class="discover" id="discover" data-module="home_discover">
     <div class="bp-wrap discover-grid">
       <header class="discover-head"><div><p class="bp-kicker">DISCOVER BY INTEREST</p><h2 class="bp-section-title">茨城を、<br />六つの入口から。</h2></div><p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p></header>
       <HomeThemeNav />
     </div>
   </section>
 
-  <section class="area-home" id="area"><div class="bp-wrap"><HomeAreaExplorer /></div></section>
+  <section class="area-home" id="area" data-module="home_area"><div class="bp-wrap"><HomeAreaExplorer /></div></section>
 
-  <section class="home-news" aria-labelledby="home-news-title">
+  <section class="home-news" aria-labelledby="home-news-title" data-module="home_news">
     <div class="bp-wrap">
       <header class="home-news__head"><div><p class="bp-kicker">FROM THE EDITORIAL DESK</p><h2 id="home-news-title" class="bp-section-title">いま、茨城で<br />起きていること。</h2></div><p>出来事の先にある、暮らしと地域への影響まで。一次情報を確かめ、編集部の視点で読み解きます。</p></header>
       {latestNews.length > 0 ? <div class="home-news__grid">{latestNews.map((item) => <NewsCard item={item} compact />)}</div> : <div class="home-news__preparing"><p>いま、最初のニュースを確認・編集中です。</p><span>一次情報との照合を終えた解説から公開します。</span></div>}
@@ -153,9 +159,9 @@ const heroSlides = [
     </div>
   </section>
 
-  <section class="process-home"><div class="bp-wrap"><HomeEditorialProcess /></div></section>
+  <section class="process-home" data-module="home_process"><div class="bp-wrap"><HomeEditorialProcess /></div></section>
 
-  <section class="partner">
+  <section class="partner" data-module="home_partner">
     <span class="partner-watermark" aria-hidden="true">STORIES WANTED</span>
     <div class="bp-wrap partner-layout">
       <div class="partner-copy">
@@ -188,6 +194,10 @@ const heroSlides = [
 </BrandBase>
 
 <script>
+  import { bindModuleTracking } from '../lib/module-tracking';
+  // どのセクションまで読まれ、どこが押されたか（module_view / module_click）
+  bindModuleTracking('home');
+
   const hero = document.querySelector<HTMLElement>('.home-hero');
   if (hero) {
     const slides = [...hero.querySelectorAll<HTMLElement>('[data-hero-slide]')];
@@ -251,7 +261,7 @@ const heroSlides = [
   @media(max-width:960px){.partner-layout{grid-template-columns:minmax(0,.92fr) minmax(24rem,1.08fr);gap:3rem}.partner-storyboard{min-height:35rem}.partner-storyboard figure{left:1rem}}
   @media(max-width:880px){.partner-layout{grid-template-columns:1fr;grid-template-areas:"copy" "storyboard" "actions";grid-template-rows:auto;gap:2.2rem}.partner-storyboard{min-height:37rem}.partner-storyboard figure{left:2rem}.partner-actions{margin-top:.35rem}}
   @media(max-width:800px){.discover-head,.home-news__head{grid-template-columns:1fr}.origin-grid{grid-template-columns:1fr;padding-top:5.5rem;padding-bottom:13rem}.origin-index{display:none}.origin-scene{height:12rem}.home-hero{height:calc(100svh - var(--site-header-height));min-height:680px}.hero-inner{width:min(calc(100% - 2rem),92rem)}.hero-shade{background:linear-gradient(rgba(9,28,35,.08) 9%,rgba(9,28,35,.48) 44%,rgba(9,28,35,.92) 100%)}.home-news__preparing{display:grid}}
-  @media(max-width:560px){.home-hero{height:calc(100svh - var(--site-header-height));min-height:650px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{gap:.45rem;margin-top:1.3rem}.hero-cta{width:calc(50% - .23rem);height:auto;min-height:4.5rem;grid-template-columns:1rem 1fr .9rem;gap:.35rem;padding:.7rem .65rem}.cta-index{margin-top:.15rem;font-size:.6rem}.cta-label{font-size:.84rem;line-height:1.35;word-break:keep-all}.cta-label small{font-size:.68rem;line-height:1.4;letter-spacing:.02em;word-break:normal;text-wrap:balance}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.56rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.origin-sky::before{left:-15rem;width:27rem}.origin-sky::after{right:-12rem;width:22rem}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
+  @media(max-width:560px){.home-hero{height:calc(88svh - var(--site-header-height));min-height:590px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{gap:.45rem;margin-top:1.3rem}.hero-cta{width:calc(50% - .23rem);height:auto;min-height:4.5rem;grid-template-columns:1rem 1fr .9rem;gap:.35rem;padding:.7rem .65rem}.cta-index{margin-top:.15rem;font-size:.6rem}.cta-label{font-size:.84rem;line-height:1.35;word-break:keep-all}.cta-label small{font-size:.68rem;line-height:1.4;letter-spacing:.02em;word-break:normal;text-wrap:balance}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.56rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.origin-sky::before{left:-15rem;width:27rem}.origin-sky::after{right:-12rem;width:22rem}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
   @media(prefers-reduced-motion:reduce){.hero-slide,.hero-cta,.hero-cta::before,.cta-arrow{transition:none}}
   @media(max-width:360px){.hero-copy .bp-title{font-size:1.8rem;line-height:1.4}}
 </style>

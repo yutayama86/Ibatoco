@@ -78,6 +78,9 @@ const ALLOWED_EVENTS = new Set([
   // 協賛枠（PR）。sponsor_id で協賛先ごとに集計する（docs/SPONSORSHIP.md）
   'sponsor_view',
   'sponsor_click',
+  // TOP・検索・行き先診断のかたまりの到達とクリック（src/lib/module-tracking.ts）
+  'module_view',
+  'module_click',
 ]);
 const srcFiles = [];
 (function walk(dir) {
