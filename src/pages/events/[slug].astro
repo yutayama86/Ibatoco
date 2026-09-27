@@ -96,7 +96,7 @@ const sections = ([
   factRows.length > 0 && { id: 'facts', label: '開催情報', en: 'FACTS' },
   d.keyPoints.length > 0 && { id: 'points', label: '押さえておきたいこと', en: 'KEY POINTS' },
   d.highlights.length > 0 && { id: 'highlights', label: highlightLabel, en: 'DETAILS' },
-  d.picks.length > 0 && { id: 'picks', label: '候補', en: 'PICKS' },
+  d.picks.length > 0 && { id: 'picks', label: d.picksHeading ?? '候補', en: 'PICKS' },
   d.notes.length > 0 && { id: 'notes', label: '行く前に', en: 'BEFORE YOU GO' },
   d.faq.length > 0 && { id: 'faq', label: 'よくある質問', en: 'FAQ' },
   { id: 'sources', label: '情報源', en: 'SOURCES' },
@@ -241,7 +241,7 @@ if (d.faq.length > 0) {
   {d.picks.length > 0 && (
     <section id="picks" aria-labelledby="ev-picks">
       <p class="section-number">{no('picks')} / PICKS</p>
-      <h2 id="ev-picks" class="bp-section-title">候補</h2>
+      <h2 id="ev-picks" class="bp-section-title">{d.picksHeading ?? '候補'}</h2>
       <div class="ev-picks">{d.picks.map((p) => (
         <article>
           <p class="ev-picks__area">{p.area}</p>

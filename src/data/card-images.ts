@@ -42,6 +42,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "rockinstar-carnival-2026": "/images/card/rockinstar-carnival-2026-4e47820e.png",
   "ryujin-bridge-autumn-2026": "/images/card/ryujin-bridge-autumn-2026-0eca618d.png",
   "tonegawa-hanabi-2026": "/images/card/tonegawa-hanabi-2026-8a53b596.png",
+  "tsuchiura-hanabi-2026-kaeri": "/images/card/tsuchiura-hanabi-2026-kaeri-7f388fe6.png",
   "tsuchiura-hanabi-2026": "/images/card/tsuchiura-hanabi-2026-7f388fe6.png",
   "tsukuba-autumn-2026": "/images/card/tsukuba-autumn-2026-866134fe.png"
 };

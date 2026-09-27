@@ -163,6 +163,7 @@ sourceUrls:
     url: "https://www.ibarakiguide.jp/event.php?mode=detail&code=736"
     accessedAt: 2026-09-02
 relatedArticleUrls:
+  - "/events/tsuchiura-hanabi-2026-kaeri/"
   - "/hanabi/"
   - "/area/tsuchiura/"
   - "/events/ibaraki-events-november-2026/"

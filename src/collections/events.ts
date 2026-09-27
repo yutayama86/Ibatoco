@@ -92,6 +92,12 @@ export const events = defineCollection({
     highlights: z.array(z.object({ title: z.string().min(1), detail: z.string().min(1) })).default([]),
     /** 行く前の注意事項 */
     notes: z.array(z.string().min(1)).default([]),
+    /**
+     * picks の見出し。既定は「候補」。
+     * 候補を並べる記事ばかりではない（例：帰り方を比べる記事）ので、
+     * 中身に合う見出しを付けられるようにする。
+     */
+    picksHeading: z.string().min(1).optional(),
     /** まとめ記事の候補。羅列にしないため、誰向けかまで書かせる */
     picks: z.array(z.object({
       name: z.string().min(1),

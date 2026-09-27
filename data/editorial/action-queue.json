@@ -352,7 +352,11 @@
         "https://ohtsuribashi.ryujinkyo.jp/event.html",
         "https://mt-tsukuba.com/information"
       ],
-      "notes": "2026-09-27時点でいずれも未発表を確認済み。大洗あんこう祭の詳細（商工会サイトはアクセス不可、観光協会に告知なし）、土浦花火の交通規制図（7/21付で準備中のまま）、竜神峡紅葉まつりの会期、筑波山の秋の夜間運行日程。発表され次第、該当記事へ追記する。"
+      "notes": "2026-09-27時点でいずれも未発表を確認済み。大洗あんこう祭の詳細（商工会サイトはアクセス不可、観光協会に告知なし）、土浦花火の交通規制図（7/21付で準備中のまま）、竜神峡紅葉まつりの会期、筑波山の秋の夜間運行日程。発表され次第、該当記事へ追記する。 土浦花火の交通規制図（兼 お帰りマップ）が出たら、/events/tsuchiura-hanabi-2026-kaeri/ に観覧場所ごとの帰り道を追記し、本体記事の「準備中」表記も更新する。",
+      "additionalTargetFiles": [
+        "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
+        "src/content/events/tsuchiura-hanabi-2026.md"
+      ]
     }
   ]
 }
