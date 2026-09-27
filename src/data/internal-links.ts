@@ -39,6 +39,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/tsukuba-autumn-2026/': '筑波山の紅葉2026（見頃・夜間運行・駐車場）',
   '/events/ibaraki-autumn-odekake-2026/': '茨城の秋のおでかけ2026（9〜11月）',
   '/events/ibaraki-michinoeki-drive-2026/': '茨城の道の駅16駅を国道別に',
+  '/events/ibaraki-kenmin-no-hi-2026/': '茨城県民の日2026（11月13日）の無料・割引施設',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
   '/events/chikusei-hanabi-2026/': 'ちくせい花火大会2026（日程・会場）',

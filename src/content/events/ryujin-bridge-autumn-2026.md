@@ -98,6 +98,7 @@ sourceUrls:
     url: "https://ohtsuribashi.ryujinkyo.jp/event.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/kouyou/"
   - "/area/hitachiota/"
 ---
