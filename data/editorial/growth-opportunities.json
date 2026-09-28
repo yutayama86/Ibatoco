@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-28",
+  "updatedAt": "2026-09-29",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,21 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "oarai-ankou-venue-fact-consistency",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-09-29",
+      "evidence": {
+        "page": "/events/oarai-ankou-matsuri-2026/",
+        "recent7Views": 659,
+        "officialSource": "https://www.oarai-info.jp/news/postid_9910/",
+        "confirmed": "2026年11月14日・15日、大洗マリンタワー前広場",
+        "issue": "eventInfo/11月ハブは会場確定、summary/FAQ/notesは会場未確認と矛盾"
+      },
+      "opportunity": "11月最大流入ページの事実矛盾を解消し、日程・会場の即答性と信頼性を維持する。title・URL・本文構造は変更しない。",
+      "nextReview": "2026-10-05"
+    },
     {
       "id": "news-desk-daily-frequency",
       "lane": "product",
@@ -125,13 +140,13 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-27",
+      "evidenceDate": "2026-09-29",
       "evidence": {
-        "recent28Sessions": 4695,
-        "organicSearchSessionsRecent7": 1573,
-        "organicShareRecent7": 0.9114,
-        "recent7Views": 1959,
-        "previous7Views": 1892
+        "recent28Sessions": 5049,
+        "organicSearchSessionsRecent7": 1659,
+        "organicShareRecent7": 0.9095,
+        "recent7Views": 2153,
+        "previous7Views": 1849
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
