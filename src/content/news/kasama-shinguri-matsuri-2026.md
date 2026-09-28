@@ -167,6 +167,7 @@ sourceUrls:
     url: "https://www.city.kasama.lg.jp/sp/page/page015634.html"
     accessedAt: 2026-09-15
 relatedArticleUrls:
+  - "/events/kasama-inari-jinja-guide/"
   - "/area/kasama/"
   - "/events/ibaraki-events-october-2026/"
   - "/news/shin-ibaraki-meshi-2026/"
