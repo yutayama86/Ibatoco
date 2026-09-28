@@ -171,6 +171,7 @@ sourceUrls:
     url: "https://www.daiho.or.jp/contents4.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/kashima-jingu-guide/"
   - "/events/kasama-inari-jinja-guide/"
   - "/events/oarai-isosaki-jinja-guide/"
   - "/events/kairakuen-guide/"
