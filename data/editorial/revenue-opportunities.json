@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-09-29",
   "objective": "GA4 Views 100,000を収益へ変換し、確定売上・粗利・Revenue per 1,000 Viewsを継続的に上げる",
   "current": {
-    "period": "2026-08-29..2026-09-25",
-    "views": 5732,
-    "sessions": 4695,
-    "organicSearchSessions": 1573,
-    "outboundBookingClicks": 20,
-    "bookingGuideViews": 141,
-    "businessCtaViews": 226,
+    "period": "2026-08-31..2026-09-27",
+    "views": 6373,
+    "sessions": 5049,
+    "organicSearchSessions": 1659,
+    "outboundBookingClicks": 25,
+    "bookingGuideViews": 238,
+    "businessCtaViews": 228,
     "businessCtaClicks": 0,
     "generateLead": 0,
     "confirmedAffiliateConversions": 0,
@@ -23,12 +23,12 @@
     "generateLeadBreakdown": "missing",
     "confirmedPaidBusinessLead": "missing",
     "activeAffiliateClickShare": "missing",
-    "returningSessions": 356,
-    "returningViews": 557,
-    "returningSessionShare": 0.0953,
-    "returningViewShare": 0.1126,
+    "returningSessions": "missing",
+    "returningViews": "missing",
+    "returningSessionShare": "missing",
+    "returningViewShare": "missing",
     "ownedAudienceCapture": "not implemented",
-    "note": "akippaは2026-09-26時点でリポジトリの正式affiliate設定に登録済み。登録対象は水戸ホーリーホック関連のイベントページ。provider/partner_status別クリック、成果、売上は取得不能のためmissingであり、未確認の成果は計上しない。"
+    "note": "直近7日（2026-09-21..27）の予約クリック25件に対し、確定成果・売上は0。akippa等の正式登録済み導線だけを維持し、未確認成果を計上しない。"
   },
   "revenueLanes": [
     {

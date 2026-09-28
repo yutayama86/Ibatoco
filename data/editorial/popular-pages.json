@@ -1,48 +1,48 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T07:03:00+09:00",
+  "generatedAt": "2026-09-29T07:00:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-20",
-      "end": "2026-09-26"
+      "start": "2026-09-21",
+      "end": "2026-09-27"
     }
   },
   "baseline": {
-    "views": 2122,
-    "sessions": 1823,
-    "viewsPerSession": 1.164
+    "views": 2153,
+    "sessions": 1824,
+    "viewsPerSession": 1.1804
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。終了判定はeventsのeventInfo/eventLifecycle等の正本で確認できる場合だけ行い、newsのpubDateをイベント終了日として扱わない。",
   "pages": [
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 634
+      "views": 659
     },
     {
       "path": "/news/kasama-shinguri-matsuri-2026/",
-      "views": 527
+      "views": 516
     },
     {
       "path": "/news/ibaraki-passport-2026/",
-      "views": 143
+      "views": 82
     },
     {
       "path": "/news/mito-shinkin-stadium-parking/",
-      "views": 62
+      "views": 71
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 46
-    },
-    {
-      "path": "/news/ibaraki-underpass-kansui-33-2026/",
-      "views": 34
+      "views": 71
     },
     {
       "path": "/events/rockinstar-carnival-2026/",
+      "views": 48
+    },
+    {
+      "path": "/news/ibaraki-underpass-kansui-33-2026/",
       "views": 33
     },
     {
