@@ -110,6 +110,7 @@ sourceUrls:
     url: "https://www.nat.museum.ibk.ed.jp/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/jaxa-tsukuba-space-center-guide/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/events/kamine-zoo-guide/"
   - "/area/bando/"

@@ -119,6 +119,7 @@ sourceUrls:
     url: "https://www.city.tsukuba.lg.jp/tourism/tsukubasan/13717.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/jaxa-tsukuba-space-center-guide/"
   - "/kouyou/"
   - "/area/tsukuba/"
 ---
