@@ -124,6 +124,7 @@ sourceUrls:
     url: "https://www.hitachikaihin.jp/access/route-guide.html"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/nakaminato-osakana-ichiba-guide/"
   - "/events/hitachi-seaside-kochia-carnival-2026/"
   - "/events/hitachi-seaside-nemophila-2027/"
   - "/events/nakaminato-ichibazushi-guide/"

@@ -45,6 +45,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ushiku-daibutsu-guide/': '牛久大仏の拝観料・開園時間・行き方',
   '/events/kamine-zoo-guide/': '日立市かみね動物園の入園料・休園日・駐車場',
   '/events/ibaraki-nature-museum-guide/': 'ミュージアムパーク茨城県自然博物館の入館料・休館日・行き方',
+  '/events/nakaminato-osakana-ichiba-guide/': '那珂湊おさかな市場の駐車場と混雑の避け方',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
   '/events/chikusei-hanabi-2026/': 'ちくせい花火大会2026（日程・会場）',
