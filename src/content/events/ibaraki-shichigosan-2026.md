@@ -171,6 +171,7 @@ sourceUrls:
     url: "https://www.daiho.or.jp/contents4.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/oarai-isosaki-jinja-guide/"
   - "/events/kairakuen-guide/"
   - "/events/ibaraki-events-november-2026/"
   - "/events/tsukuba-autumn-2026/"
