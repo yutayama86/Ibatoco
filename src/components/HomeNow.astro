@@ -8,21 +8,53 @@
  *
  * - 検索窓 … /search/?q=（GA4の拡張計測がサイト内検索として記録する）
  * - いま見頃・開催中 … src/lib/happenings.ts の期間もの。表示は日本時間で画面側が判定する
- * - いま読まれている … data/editorial/popular-pages.json（直近7日の実測）。終了イベントは出さない
+ * - いま読まれている … data/editorial/popular-pages.json（直近7日の実測）。終了イベントは出さない。
+ *   同じ話題の記事（src/data/topics.ts）は1行にまとめ、閲覧数を合算して順位を決める
  * - 行き先診断 … /shindan/
  * TOPの必須構成（FV3枚・つくった理由・テーマ6・地図44・取材と編集3・事業者導線）には触れない。
  */
 import popular from '../../data/editorial/popular-pages.json';
 import { getHappenings } from '../lib/happenings';
 import { getAllFacets } from '../lib/taxonomy';
+import { TOPICS, topicOf } from '../data/topics';
 
 const facets = await getAllFacets();
 const facetByPath = new Map(facets.map((facet) => [facet.path, facet]));
-const ranking = popular.pages
-  .map((entry) => facetByPath.get(entry.path))
-  .filter((facet): facet is NonNullable<typeof facet> => Boolean(facet && !facet.noindex && facet.eventLifecycle !== 'ended'))
-  .slice(0, 5)
-  .map((facet) => ({ path: facet.path, title: facet.title.split('｜')[0] }));
+const linkable = (path: string) => {
+  const facet = facetByPath.get(path);
+  return Boolean(facet && !facet.noindex && facet.eventLifecycle !== 'ended');
+};
+for (const topic of TOPICS) {
+  for (const page of topic.pages) {
+    if (!facetByPath.has(page.path)) throw new Error(`topics.ts: ${page.path} の記事が見つかりません`);
+  }
+}
+
+// 同じ話題は1行にまとめる。順位は話題に属する記事の閲覧数の合計で決める
+interface RankItem { path: string; title: string; views: number; subs: { path: string; label: string }[] }
+const rows = new Map<string, RankItem>();
+for (const entry of popular.pages) {
+  if (!linkable(entry.path)) continue;
+  const topic = topicOf(entry.path);
+  const key = topic?.id ?? entry.path;
+  const row = rows.get(key);
+  if (row) {
+    row.views += entry.views;
+    continue;
+  }
+  if (topic) {
+    const hub = linkable(topic.hub) ? topic.hub : entry.path;
+    rows.set(key, {
+      path: hub,
+      title: hub === topic.hub ? topic.title : facetByPath.get(hub)!.title.split('｜')[0],
+      views: entry.views,
+      subs: topic.pages.filter((page) => page.path !== hub && linkable(page.path)),
+    });
+  } else {
+    rows.set(key, { path: entry.path, title: facetByPath.get(entry.path)!.title.split('｜')[0], views: entry.views, subs: [] });
+  }
+}
+const ranking = [...rows.values()].sort((a, b) => b.views - a.views).slice(0, 5);
 
 // 期間もの（季節の見頃・複数日の催し）。開始前のものも出力し、画面側で今日に合うものだけ見せる
 const seasonal = (await getHappenings(new Date(), 60))
@@ -72,10 +104,15 @@ const seasonal = (await getHappenings(new Date(), 60))
         <h3>いま読まれている記事</h3>
         <ol>
           {ranking.map((item, index) => (
-            <li><a href={item.path}><span class="home-now__no">{String(index + 1).padStart(2, '0')}</span><span>{item.title}</span></a></li>
+            <li>
+              <a href={item.path}><span class="home-now__no">{String(index + 1).padStart(2, '0')}</span><span>{item.title}</span></a>
+              {item.subs.length > 0 && (
+                <p class="home-now__subs">{item.subs.map((sub) => <a href={sub.path}>{sub.label}</a>)}</p>
+              )}
+            </li>
           ))}
         </ol>
-        <p class="home-now__source">直近7日に読まれた記事から。終わった催しは除いています。</p>
+        <p class="home-now__source">直近7日に読まれた記事から。同じ話題はまとめ、終わった催しは除いています。</p>
       </div>
     )}
   </div>
@@ -125,9 +162,12 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__rank ol{display:grid;margin:.6rem 0 0;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
   .home-now__rank li{margin:0;border-bottom:1px solid var(--color-mist)}
   .home-now__rank li::before{content:none}
-  .home-now__rank a{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem;align-items:baseline;padding:.7rem 0;color:var(--color-ink);font-size:.9rem;font-weight:700;line-height:1.6;text-decoration:none}
-  .home-now__rank a:hover span:last-child,.home-now__rank a:focus-visible span:last-child{color:var(--color-tide);text-decoration:underline}
+  .home-now__rank li > a{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem;align-items:baseline;padding:.7rem 0;color:var(--color-ink);font-size:.9rem;font-weight:700;line-height:1.6;text-decoration:none}
+  .home-now__rank li > a:hover span:last-child,.home-now__rank li > a:focus-visible span:last-child{color:var(--color-tide);text-decoration:underline}
   .home-now__no{color:var(--color-tide);font:700 .74rem var(--font-brand-meta)}
+  .home-now__subs{display:flex;flex-wrap:wrap;gap:.2rem .9rem;margin:-.35rem 0 0;padding:0 0 .7rem 2.5rem;font-size:.78rem;line-height:1.6}
+  .home-now__subs a{color:var(--color-tide);text-decoration:underline;text-underline-offset:.2em}
+  .home-now__subs a:hover,.home-now__subs a:focus-visible{color:var(--color-ink)}
   .home-now__source{margin-top:.6rem;color:var(--color-soil);font-size:.74rem;line-height:1.7}
   @media(max-width:860px){.home-now__grid{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){.home-now__shindan{transition:none}}

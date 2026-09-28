@@ -145,6 +145,7 @@ sourceUrls:
     url: "https://www.ibaraki-sports.or.jp/kasamatsu2/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9-2/"
     accessedAt: 2026-08-18
 relatedArticleUrls:
+  - "/news/mito-shinkin-stadium-parking/"
   - "/news/mito-hollyhock-home-opening-13226-regional-impact/"
   - "/news/mito-hollyhock-soccer-tourism-2026/"
   - "/area/naka/"
