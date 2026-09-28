@@ -104,6 +104,7 @@ sourceUrls:
     url: "https://www.aquaworld-oarai.com/guide/access-train/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/mentai-park-oarai-guide/"
   - "/events/ibaraki-shichigosan-2026/"
   - "/events/aquaworld-oarai-guide/"
   - "/events/oarai-ankou-nabe-guide/"
