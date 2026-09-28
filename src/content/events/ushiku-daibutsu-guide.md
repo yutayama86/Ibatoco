@@ -97,6 +97,7 @@ sourceUrls:
     url: "https://daibutu.net/daibutu.html"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/ami-premium-outlets-guide/"
   - "/area/ushiku/"
   - "/events/kairakuen-guide/"
   - "/events/aquaworld-oarai-guide/"
