@@ -67,6 +67,7 @@ sourceUrls:
     url: "https://www.ibarakiguide.jp/gourmet/ibaraki_osakanaichiba/01_nakaminatoosakana.html"
     accessedAt: 2026-09-07
 relatedArticleUrls:
+  - "/events/nakaminato-osakana-ichiba-guide/"
   - "/events/ibaraki-bus-tour-spots/"
   - "/area/hitachinaka/"
   - "/area/oarai/"
