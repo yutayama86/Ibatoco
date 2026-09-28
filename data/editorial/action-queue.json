@@ -1,7 +1,31 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-28",
+  "updatedAt": "2026-09-29",
   "actions": [
+    {
+      "id": "20260929-oarai-ankou-venue-fact-consistency",
+      "title": "大洗あんこう祭の会場情報矛盾修正＋Growth Control更新",
+      "kind": "fact-correction",
+      "targetUrl": "/events/oarai-ankou-matsuri-2026/",
+      "targetFile": "src/content/events/oarai-ankou-matsuri-2026.md",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-09-29",
+      "completedAt": "2026-09-29",
+      "primarySourceUrls": [
+        "https://www.oarai-info.jp/news/postid_9910/",
+        "https://www.oarai-info.jp/category/event/"
+      ],
+      "acceptanceCriteria": [
+        "11月14日・15日と大洗マリンタワー前広場を公式一次情報で再確認",
+        "summary/keyPoints/notes/FAQ/booking noteの会場未確認表現を解消",
+        "開催時間・駐車場・荒天対応は未発表のまま推測しない",
+        "title・slug・canonical・イベント日付・既存CTAを変更しない",
+        "Windsor.ai最新実測とGrowth/Revenue管理ファイルを更新",
+        "npm run verify/CI成功、本番200・title・canonical・主要表示を確認"
+      ],
+      "notes": "直近7日659 Viewsで11月重点最大。会場がeventInfoでは確定、summary/FAQでは未確認という矛盾を事実修正。観測窓の例外対象。"
+    },
     {
       "id": "20260928-growthnext-newsdesk-governance",
       "title": "GrowthNext 7日評価＋日次ニュース停止の正本整合",
