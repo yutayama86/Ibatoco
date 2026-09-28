@@ -102,6 +102,7 @@ sourceUrls:
     url: "https://www.city.hitachi.lg.jp/zoo/annai/1011137.html"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/ibaraki-nature-museum-guide/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/events/aquaworld-oarai-guide/"
   - "/area/hitachi/"
