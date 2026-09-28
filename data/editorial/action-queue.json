@@ -480,6 +480,22 @@
         "https://www.hitachikaihin.jp/news/park/"
       ],
       "notes": "9/29時点で終了済みのライトアップと入園無料日を未来形から終了済みへ更新。期間中の休園日、次の色づき、季節料金を一次情報と一致させた。URL・title・内部リンク・既存デザインは変更なし。"
+    },
+    {
+      "id": "20261024-ibaraki-airport-parking-hours",
+      "title": "茨城空港 10/25以降の駐車場時間と日中バスを反映",
+      "kind": "update",
+      "targetUrl": "/news/ibaraki-airport-winter-schedule-2026/",
+      "targetFile": "src/content/news/ibaraki-airport-winter-schedule-2026.md",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-09-28",
+      "dueDate": "2026-10-24",
+      "primarySourceUrls": [
+        "https://www.ibaraki-airport.net/",
+        "https://www.ibaraki-airport.net/facilities/parking/"
+      ],
+      "notes": "9/28時点で、10月25日以降の駐車場利用時間（現在5:30〜22:00）と日中のバスダイヤは「詳細が決まり次第お知らせ」。早朝・深夜バス（水戸駅5:25発、空港22:45発）は発表済み。発表されたら記事の要点・FAQ・考察の該当部分を更新する。"
     }
   ]
 }

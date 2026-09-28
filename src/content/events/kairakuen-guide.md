@@ -120,6 +120,7 @@ sourceUrls:
     url: "https://ibaraki-kairakuen.jp/news/detail?id=5827"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/ibaraki-modern-art-museum-guide/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/events/ibaraki-shichigosan-2026/"
   - "/area/mito/"
