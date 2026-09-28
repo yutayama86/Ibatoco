@@ -124,6 +124,7 @@ sourceUrls:
     url: "https://www.aquaworld-oarai.com/guide/access-train/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/kamine-zoo-guide/"
   - "/events/oarai-ankou-nabe-guide/"
   - "/events/oarai-hotel-buffet-guide/"
   - "/events/nakaminato-ichibazushi-guide/"
