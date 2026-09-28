@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-29T08:00:00+09:00",
   "actions": [
     {
       "id": "20260929-oarai-ankou-venue-fact-consistency",
@@ -462,6 +462,24 @@
         "https://www.pref.ibaraki.jp/bugai/koho/kenmin/kenminnohi/kenmin/discount.html"
       ],
       "notes": "9/28時点で県の一覧は令和7年度のまま（前年は2025/11/1更新）。民間取り組みの募集は10/28まで。令和8年度の一覧が出たら、無料・割引・イベントを施設名と条件（県内在住者限定など）のとおりに載せ替え、前年の実績の段落を縮める。10月下旬から毎日確認する。"
+    },
+    {
+      "id": "20260929-kouyou-freshness-fix",
+      "title": "紅葉ハブの終了済み無料日・ライトアップ表現を更新",
+      "kind": "update",
+      "targetUrl": "/kouyou/",
+      "targetFile": "src/data/themes.ts",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-09-29",
+      "completedAt": "2026-09-29T08:00:00+09:00",
+      "primarySourceUrls": [
+        "https://www.hitachikaihin.jp/guide/schedule.html",
+        "https://www.hitachikaihin.jp/guide/ticket.html",
+        "https://www.hitachikaihin.jp/flower-plant/flower/green-kochia.html",
+        "https://www.hitachikaihin.jp/news/park/"
+      ],
+      "notes": "9/29時点で終了済みのライトアップと入園無料日を未来形から終了済みへ更新。期間中の休園日、次の色づき、季節料金を一次情報と一致させた。URL・title・内部リンク・既存デザインは変更なし。"
     }
   ]
 }
