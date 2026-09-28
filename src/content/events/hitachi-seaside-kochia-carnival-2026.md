@@ -126,6 +126,7 @@ sourceUrls:
     url: "https://www.hitachikaihin.jp/access/route-guide.html"
     accessedAt: 2026-09-21
 relatedArticleUrls:
+  - "/events/hitachi-seaside-park-guide/"
   - "/kouyou/"
   - "/koen/"
   - "/area/hitachinaka/"
