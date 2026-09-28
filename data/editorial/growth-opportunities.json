@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-29T08:00:00+09:00",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -275,6 +275,19 @@
       },
       "opportunity": "文脈選定版が旧選定のCTR 4.51%を維持または上回り、PV/Sessionを改善するか検証する。",
       "nextReview": "2026-10-04"
+    },
+    {
+      "id": "kouyou-hub-freshness-20260929",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-09-29",
+      "evidence": {
+        "target": "/kouyou/",
+        "issue": "終了済みのコキアライトアップと入園無料日が未来形で残存",
+        "resolution": "終了済み表記、9/29休園、次の紅葉時期、季節料金へ更新"
+      },
+      "opportunity": "11月紅葉クラスターの入口を正確に保ち、個別4ページへの内部回遊を維持する。",
+      "nextReview": "2026-10-06"
     }
   ]
 }
