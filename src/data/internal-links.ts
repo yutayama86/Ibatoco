@@ -48,6 +48,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/nakaminato-osakana-ichiba-guide/': '那珂湊おさかな市場の駐車場と混雑の避け方',
   '/events/ami-premium-outlets-guide/': 'あみプレミアム・アウトレットのセール日程と営業時間・行き方',
   '/events/oarai-isosaki-jinja-guide/': '大洗磯前神社と神磯の鳥居（開門時間・駐車場・御朱印）',
+  '/events/kasama-inari-jinja-guide/': '笠間稲荷神社の駐車場と行き方',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
   '/events/chikusei-hanabi-2026/': 'ちくせい花火大会2026（日程・会場）',
