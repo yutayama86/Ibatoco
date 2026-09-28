@@ -101,6 +101,7 @@ sourceUrls:
     url: "https://ohtsuribashi.ryujinkyo.jp/guide.html"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/kamine-zoo-guide/"
   - "/events/kairakuen-guide/"
   - "/events/ibaraki-events-november-2026/"
   - "/events/ryujin-bridge-autumn-2026/"
