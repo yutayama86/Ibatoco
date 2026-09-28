@@ -62,7 +62,7 @@ const seasonal = (await getHappenings(new Date(), 60))
 
       <a class="home-now__shindan" href="/shindan/">
         <span class="home-now__shindan-kicker">行き先診断</span>
-        <strong>3つ答えるだけで、行き先が決まる。</strong>
+        <strong><span>3つ答えるだけで、</span><span>行き先が決まる。</span></strong>
         <span class="home-now__shindan-sub">いつ・何を・どのあたり <span aria-hidden="true">→</span></span>
       </a>
     </div>
@@ -102,9 +102,10 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__title{font:600 clamp(1.25rem,2.4vw,1.6rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .home-now__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .home-now__search{display:flex;gap:.5rem;margin-top:.9rem}
-  .home-now__search input{flex:1;min-width:0;padding:.85rem 1.05rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font:inherit;font-size:1rem}
+  .home-now__search input{flex:1;min-width:0;height:3rem;padding:0 .9rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font:inherit;font-size:1rem;line-height:1.2;letter-spacing:.02em;-webkit-appearance:none;appearance:none}
+  .home-now__search input::-webkit-search-decoration,.home-now__search input::-webkit-search-cancel-button{-webkit-appearance:none}
   .home-now__search input:focus{outline:2px solid var(--color-tide);outline-offset:1px;border-color:var(--color-tide);background:var(--color-white)}
-  .home-now__search button{flex:none;padding:.8rem 1.25rem;border:0;border-radius:999px;background:var(--color-tide);color:#fff;font:700 .92rem var(--font-brand-body);cursor:pointer}
+  .home-now__search button{flex:none;height:3rem;padding:0 1.2rem;border:0;line-height:1;border-radius:999px;background:var(--color-tide);color:#fff;font:700 .92rem var(--font-brand-body);cursor:pointer}
   .home-now__search button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   .home-now__season{margin-top:1.1rem}
   .home-now h3{color:var(--color-tide);font:700 .78rem var(--font-brand-body);letter-spacing:.06em}
@@ -119,6 +120,7 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__shindan:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   .home-now__shindan-kicker{color:#bfd0d3;font:700 .74rem var(--font-brand-body);letter-spacing:.08em}
   .home-now__shindan strong{font:600 1.08rem/1.5 var(--font-brand-display)}
+  .home-now__shindan strong span{display:inline-block}
   .home-now__shindan-sub{color:#dfe7e8;font-size:.82rem}
   .home-now__rank ol{display:grid;margin:.6rem 0 0;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
   .home-now__rank li{margin:0;border-bottom:1px solid var(--color-mist)}
