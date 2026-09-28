@@ -102,6 +102,7 @@ sourceUrls:
     url: "https://www.kasama-kankou.jp/section.php?code=442"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/ibaraki-ceramic-art-museum-guide/"
   - "/events/ibaraki-shichigosan-2026/"
   - "/news/kasama-shinguri-matsuri-2026/"
   - "/area/kasama/"
