@@ -46,6 +46,7 @@ sourceUrls:
     url: "https://www.ibarakiguide.jp/event.php?code=1417&mode=detail"
     accessedAt: 2026-09-22
 relatedArticleUrls:
+  - "/events/ami-premium-outlets-guide/"
   - "/area/ami/"
 event:
   name: "あみプレミアム・アウトレット Silver Week Sale"
