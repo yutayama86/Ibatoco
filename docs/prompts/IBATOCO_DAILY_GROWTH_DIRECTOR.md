@@ -46,7 +46,7 @@ PR、merge、Drive更新など未完了の工程は成功扱いにしない。
 自動実行可: 人気ページフィード更新、内部リンク/回遊、明白な計測修正、一次情報で確定した最小事実修正、軽微な技術SEO修正。
 要確認: URL変更/削除、価格、契約、広告、権利、計測ID、大規模IA/デザイン変更。
 
-毎日 `data/editorial/popular-pages.json` をGA4直近7日screen_page_views上位8ページで更新する。ホーム、404、noindex、終了済みで後継導線のないページは除外する。GrowthNextReadsの `growth_next_view` / `growth_next_click` と Views/session を7日・28日で検証する。
+毎日 `data/editorial/popular-pages.json` をGA4直近7日screen_page_views上位8ページで更新する。ホーム、404、noindex、終了済みで後継導線のないページは除外する。**終了判定は推測しない。** `events` は `eventInfo` / `eventLifecycle` と `src/lib/lifecycle.ts` の日本時間判定を正本にする。`news` は `pubDate` が公開日でありイベント終了日ではないため、`pubDate` を使って終了扱いしてはならない。news内で将来イベントを扱う場合、一次情報で開催終了日を確認できない限り「終了済み」フィルタを適用しない。人気ページ更新前に、除外対象がGA4上位ページなら元記事の開催日を一次情報またはfrontmatterで再確認する。GrowthNextReadsの `growth_next_view` / `growth_next_click` と Views/session を7日・28日で検証する。
 
 ## Master Strategy / 20レンズ
 
