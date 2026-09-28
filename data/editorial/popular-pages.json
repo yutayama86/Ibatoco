@@ -15,11 +15,15 @@
     "sessions": 1823,
     "viewsPerSession": 1.164
   },
-  "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。",
+  "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。終了判定はeventsのeventInfo/eventLifecycle等の正本で確認できる場合だけ行い、newsのpubDateをイベント終了日として扱わない。",
   "pages": [
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
       "views": 634
+    },
+    {
+      "path": "/news/kasama-shinguri-matsuri-2026/",
+      "views": 527
     },
     {
       "path": "/news/ibaraki-passport-2026/",
@@ -44,10 +48,6 @@
     {
       "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
       "views": 20
-    },
-    {
-      "path": "/events/hitachi-seaside-kochia-carnival-2026/",
-      "views": 13
     }
   ]
 }
