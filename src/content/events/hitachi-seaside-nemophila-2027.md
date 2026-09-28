@@ -115,6 +115,7 @@ sourceUrls:
     url: "https://www.hitachikaihin.jp/event/kochiacarnival2026/kochia.html"
     accessedAt: 2026-09-21
 relatedArticleUrls:
+  - "/events/hitachi-seaside-park-guide/"
   - "/hana/"
   - "/koen/"
   - "/area/hitachinaka/"

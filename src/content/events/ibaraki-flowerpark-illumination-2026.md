@@ -149,6 +149,7 @@ sourceUrls:
     url: "https://www.kasama-kankou.jp/page/page000681.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/events/hitachi-seaside-park-guide/"
   - "/events/ibaraki-events-october-2026/"
   - "/events/ibaraki-events-november-2026/"
   - "/events/hitachi-seaside-kochia-carnival-2026/"

@@ -30,6 +30,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "hananuki-gorge-autumn-2026": "/images/card/hananuki-gorge-autumn-2026-19f4a7d1.png",
   "hitachi-seaside-kochia-carnival-2026": "/images/card/hitachi-seaside-kochia-carnival-2026-4e47820e.png",
   "hitachi-seaside-nemophila-2027": "/images/card/hitachi-seaside-nemophila-2027-4e47820e.png",
+  "hitachi-seaside-park-guide": "/images/card/hitachi-seaside-park-guide-4e47820e.png",
   "ibaraki-autumn-odekake-2026": "/images/card/ibaraki-autumn-odekake-2026-36366c15.png",
   "ibaraki-bus-tour-spots": "/images/card/ibaraki-bus-tour-spots-fb191f6b.png",
   "ibaraki-events-november-2026": "/images/card/ibaraki-events-november-2026-3fc0a488.png",
