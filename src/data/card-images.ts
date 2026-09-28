@@ -47,6 +47,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kairakuen-guide": "/images/card/kairakuen-guide-6c5eb34d.png",
   "kamine-zoo-guide": "/images/card/kamine-zoo-guide-ae31d8b3.png",
   "kasama-inari-jinja-guide": "/images/card/kasama-inari-jinja-guide-0e48f13d.png",
+  "mentai-park-oarai-guide": "/images/card/mentai-park-oarai-guide-7e5f8ef8.png",
   "nakaminato-ichibazushi-guide": "/images/card/nakaminato-ichibazushi-guide-4e47820e.png",
   "nakaminato-osakana-ichiba-guide": "/images/card/nakaminato-osakana-ichiba-guide-4e47820e.png",
   "niko-and-base-mito-2026": "/images/card/niko-and-base-mito-2026-6c5eb34d.png",
