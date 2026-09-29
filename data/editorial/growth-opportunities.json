@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29T08:00:00+09:00",
+  "updatedAt": "2026-09-30",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,20 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "hananuki-closure-freshness-20260930",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-09-30",
+      "evidence": {
+        "target": "/events/hananuki-gorge-autumn-2026/",
+        "issue": "9月28・29日限定の通行止めが現在形で残る期限切れリスク",
+        "officialSource": "https://www.takahagi-kanko.jp/news/",
+        "resolution": "期間終了・告知ページ削除を確認。開通は断定せず最新公式情報確認へ更新"
+      },
+      "opportunity": "11月紅葉重点ページの事実鮮度を守り、誤案内による信頼毀損を防ぐ。",
+      "nextReview": "2026-10-05"
+    },
     {
       "id": "oarai-ankou-venue-fact-consistency",
       "lane": "seo",
@@ -140,13 +154,13 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-29",
+      "evidenceDate": "2026-09-30",
       "evidence": {
-        "recent28Sessions": 5049,
-        "organicSearchSessionsRecent7": 1659,
-        "organicShareRecent7": 0.9095,
-        "recent7Views": 2153,
-        "previous7Views": 1849
+        "recent28Sessions": 5244,
+        "organicSearchSessionsRecent7": 1670,
+        "organicShareRecent7": 0.9042,
+        "recent7Views": 2187,
+        "previous7Views": 1914
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
@@ -263,14 +277,14 @@
       "id": "growthnext-contextual-recirculation",
       "lane": "cro",
       "status": "experiment-running",
-      "evidenceDate": "2026-09-28",
+      "evidenceDate": "2026-09-30",
       "evidence": {
-        "oldSelectionPeriod": "2026-09-20..2026-09-26",
-        "views": 953,
-        "clicks": 43,
-        "ctr": 0.0451,
-        "viewsPerSession": 1.164,
-        "previousViewsPerSession": 1.1647,
+        "oldSelectionPeriod": "2026-09-22..2026-09-28",
+        "views": 1274,
+        "clicks": 57,
+        "ctr": 0.0447,
+        "viewsPerSession": 1.1841,
+        "previousViewsPerSession": 1.1475,
         "contextualSelectionDeployed": "2026-09-27"
       },
       "opportunity": "文脈選定版が旧選定のCTR 4.51%を維持または上回り、PV/Sessionを改善するか検証する。",

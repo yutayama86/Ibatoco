@@ -1,38 +1,39 @@
 {
   "schemaVersion": 2,
-  "asOf": "2026-09-27",
+  "asOf": "2026-09-28",
   "source": {
     "primary": "Windsor.ai direct connectors",
     "ga4": {
       "connector": "googleanalytics4",
       "accountId": "547804264",
       "name": "イバトコ",
-      "latestDate": "2026-09-27"
+      "latestDate": "2026-09-28"
     },
     "gsc": {
       "connector": "searchconsole",
       "accountId": "sc-domain:ibatoco.jp",
-      "latestDate": "2026-09-26"
+      "latestDate": "2026-09-27"
     },
     "fallbackSpreadsheet": {
       "title": "イバトコ SEO・流入データ",
       "id": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w"
     },
-    "checkedAt": "2026-09-29T07:00:00+09:00",
-    "lastConfirmedAt": "2026-09-29T07:18:00+09:00",
+    "checkedAt": "2026-09-30T07:00:00+09:00",
+    "lastConfirmedAt": "2026-09-30T07:25:00+09:00",
     "status": "direct-ok-with-latest-day-anomaly",
     "freshness": {
-      "basisDateAsiaTokyo": "2026-09-29",
-      "ga4LatestConfirmedDate": "2026-09-27",
-      "gscLatestConfirmedDate": "2026-09-26",
+      "basisDateAsiaTokyo": "2026-09-30",
+      "ga4LatestConfirmedDate": "2026-09-28",
+      "gscLatestConfirmedDate": "2026-09-27",
       "todayRefreshSucceeded": true
     },
     "warnings": [
-      "GA4 2026-09-27はViews 277・Sessions 223・engagedSessions 158・engagement_rate 0.7085へ正常化したため最新確定値に採用。",
-      "GA4 2026-09-28はViews 235・Sessions 229に対してengagedSessions 2・engagement_rate 0.0087の異常値だったため不採用。",
-      "Search Consoleは取得可能な最新日2026-09-26を基準に判断する。",
-      "GrowthNext 2026-09-21..27はview 1,127・click 50（CTR 4.44%）。Views/sessionは1.1804で前週1.1556から2.15%改善したが成功目安+5%未満のため、文脈選定版を2026-10-04まで再改修しない。",
-      "大洗あんこう祭ページで会場の確定状態が項目間で矛盾していたため、公式年間スケジュールを2026-09-29に再確認し事実整合性だけを修正。"
+      "GA4 2026-09-28はViews 274・Sessions 240・engagedSessions 163・engagement_rate 0.6792へ正常化したため最新確定値に採用。",
+      "GA4 2026-09-29はViews 242・Sessions 219に対してengagedSessions 1・engagement_rate 0.0046の異常値だったため不採用。",
+      "Search Consoleは取得可能な最新日2026-09-27を基準に判断する。",
+      "GrowthNext 2026-09-22..28はview 1,274・click 57（CTR 4.47%）。Views/sessionは1.1841で前週1.1475から3.19%改善したが成功目安+5%未満のため、2026-10-04まで再改修しない。",
+      "前日のTOPページ修正（PR #89）が本番反映済みで、重複する地域凡例が消えていることを実ブラウザで確認。",
+      "花貫渓谷の9月28・29日限定通行止め告知は期間終了し元ページも削除済み。開通は断定せず最新公式情報の確認を促す表現へ更新。"
     ]
   },
   "northStar": {
@@ -40,81 +41,81 @@
     "metricLabel": "GA4 Views (screen_page_views)",
     "windowDays": 28,
     "target": 100000,
-    "current": 6373,
-    "progress": 0.06373,
-    "gap": 93627,
-    "recent7Views": 2153,
-    "previous7Views": 1849,
-    "recent7VsPrevious7Pct": 16.44,
-    "recent7DailyAverage": 307.57,
-    "runRate28FromRecent7": 8612,
+    "current": 6607,
+    "progress": 0.06607,
+    "gap": 93393,
+    "recent7Views": 2187,
+    "previous7Views": 1914,
+    "recent7VsPrevious7Pct": 14.26,
+    "recent7DailyAverage": 312.43,
+    "runRate28FromRecent7": 8748,
     "requiredDailyAverage": 3571.43,
-    "requiredUpliftVsRecent7": 10.6113,
+    "requiredUpliftVsRecent7": 10.4319,
     "stabilityDays": 14,
     "status": "below-pace"
   },
   "windows": {
     "ga4": {
       "latestDay": {
-        "date": "2026-09-27",
-        "users": 197,
-        "sessions": 223,
-        "engagedSessions": 158,
-        "engagementRate": 0.7085,
-        "averageEngagementTimePerSession": 104.387,
+        "date": "2026-09-28",
+        "users": 218,
+        "sessions": 240,
+        "engagedSessions": 163,
+        "engagementRate": 0.6792,
+        "averageEngagementTimePerSession": 117.1186,
         "keyEvents": 0,
         "quality": "direct",
-        "views": 277
+        "views": 274
       },
       "recent7": {
-        "start": "2026-09-21",
-        "end": "2026-09-27",
-        "users": 1668,
-        "sessions": 1824,
-        "engagedSessions": 1248,
-        "engagementRate": 0.6842,
+        "start": "2026-09-22",
+        "end": "2026-09-28",
+        "users": 1669,
+        "sessions": 1847,
+        "engagedSessions": 1279,
+        "engagementRate": 0.6925,
         "averageEngagementTimePerSession": null,
         "keyEvents": 0,
-        "views": 2153,
-        "viewsPerSession": 1.1804
+        "views": 2187,
+        "viewsPerSession": 1.1841
       },
       "previous7": {
-        "start": "2026-09-14",
-        "end": "2026-09-20",
-        "users": 1456,
-        "sessions": 1600,
-        "engagedSessions": 948,
-        "engagementRate": 0.5925,
+        "start": "2026-09-15",
+        "end": "2026-09-21",
+        "users": 1488,
+        "sessions": 1668,
+        "engagedSessions": 993,
+        "engagementRate": 0.5953,
         "averageEngagementTimePerSession": null,
-        "keyEvents": 0,
-        "views": 1849,
-        "viewsPerSession": 1.1556
+        "keyEvents": 1,
+        "views": 1914,
+        "viewsPerSession": 1.1475
       },
       "recent28": {
-        "start": "2026-08-31",
-        "end": "2026-09-27",
-        "users": 4620,
-        "sessions": 5049,
-        "engagedSessions": 3177,
-        "engagementRate": 0.6292,
+        "start": "2026-09-01",
+        "end": "2026-09-28",
+        "users": 4793,
+        "sessions": 5244,
+        "engagedSessions": 3302,
+        "engagementRate": 0.6297,
         "averageEngagementTimePerSession": 40.2153,
         "keyEvents": 4,
-        "views": 6373,
-        "viewsPerSession": 1.2622
+        "views": 6607,
+        "viewsPerSession": 1.2599
       },
       "recent7VsPrevious7": {
-        "usersPct": 14.56,
-        "sessionsPct": 14,
-        "viewsPct": 16.44
+        "usersPct": 12.16,
+        "sessionsPct": 10.73,
+        "viewsPct": 14.26
       },
       "channelRecent7": [
         {
           "channel": "Organic Search",
-          "sessions": 1659
+          "sessions": 1670
         },
         {
           "channel": "Direct",
-          "sessions": 74
+          "sessions": 87
         },
         {
           "channel": "Referral",
@@ -122,7 +123,7 @@
         },
         {
           "channel": "AI Assistant",
-          "sessions": 17
+          "sessions": 20
         },
         {
           "channel": "Unassigned",
@@ -136,40 +137,41 @@
     },
     "gsc": {
       "latestDay": {
-        "date": "2026-09-26",
-        "clicks": 161,
-        "impressions": 3418,
-        "ctr": 0.0471,
-        "averagePosition": 6.6004,
+        "date": "2026-09-27",
+        "clicks": 101,
+        "impressions": 1676,
+        "ctr": 0.0603,
+        "averagePosition": 7.0119,
         "quality": "latest-available"
       },
       "recent7": {
-        "start": "2026-09-20",
-        "end": "2026-09-26",
-        "clicks": 968,
-        "impressions": 28238,
-        "ctr": 0.0343,
-        "averagePosition": 6.7999
+        "start": "2026-09-21",
+        "end": "2026-09-27",
+        "clicks": 945,
+        "impressions": 27413,
+        "ctr": 0.0345,
+        "averagePosition": 6.7762
       },
       "previous7": {
-        "start": "2026-09-13",
-        "end": "2026-09-19",
-        "clicks": 735,
-        "impressions": 23298,
-        "ctr": 0.0315,
-        "averagePosition": 7.7419
+        "start": "2026-09-14",
+        "end": "2026-09-20",
+        "clicks": 777,
+        "impressions": 24440,
+        "ctr": 0.0318,
+        "averagePosition": 7.6698
       },
       "recent28": {
-        "start": "2026-08-30",
-        "end": "2026-09-26",
-        "clicks": 2589,
-        "impressions": 73141,
-        "ctr": 0.0354,
-        "averagePosition": 7.604
+        "start": "2026-08-31",
+        "end": "2026-09-27",
+        "clicks": 2678,
+        "impressions": 74331,
+        "ctr": 0.036,
+        "averagePosition": 7.5609
       },
       "recent7VsPrevious7": {
-        "clicksPct": 31.7,
-        "impressionsPct": 21.2
+        "clicksPct": 21.62,
+        "impressionsPct": 12.16,
+        "ctrPct": 8.43
       }
     }
   },
@@ -177,27 +179,30 @@
     "available": true,
     "source": "Windsor.ai GA4 direct",
     "recent7": {
-      "start": "2026-09-21",
-      "end": "2026-09-27",
-      "business_cta_view": 228,
+      "start": "2026-09-22",
+      "end": "2026-09-28",
+      "business_cta_view": 248,
       "business_cta_click": 0,
-      "outbound_booking_click": 25,
-      "booking_guide_view": 238,
-      "growth_next_view": 1127,
-      "growth_next_click": 50,
+      "outbound_booking_click": 20,
+      "booking_guide_view": 282,
+      "growth_next_view": 1274,
+      "growth_next_click": 57,
       "contact_form_view": 2,
       "contact_form_start": 0,
       "form_start": 0,
-      "generate_lead": 0
+      "generate_lead": 0,
+      "next_action_click": 13,
+      "module_view": 27,
+      "module_click": 2
     },
     "previous7": {
-      "start": "2026-09-13",
-      "end": "2026-09-19",
-      "business_cta_view": 144,
+      "start": "2026-09-15",
+      "end": "2026-09-21",
+      "business_cta_view": 203,
       "business_cta_click": 0,
-      "outbound_booking_click": 7,
-      "booking_guide_view": 0,
-      "growth_next_view": 0,
+      "outbound_booking_click": 16,
+      "booking_guide_view": 3,
+      "growth_next_view": 19,
       "growth_next_click": 0,
       "contact_form_view": 4,
       "contact_form_start": 1,
@@ -205,24 +210,47 @@
       "generate_lead": 1
     },
     "recent28": {
-      "start": "2026-08-31",
-      "end": "2026-09-27",
-      "business_cta_view": 408,
+      "start": "2026-09-01",
+      "end": "2026-09-28",
+      "business_cta_view": 451,
       "business_cta_click": 0,
-      "outbound_booking_click": 34,
-      "booking_guide_view": 238,
-      "growth_next_view": 1127,
-      "growth_next_click": 50,
+      "outbound_booking_click": 36,
+      "booking_guide_view": 285,
+      "growth_next_view": 1293,
+      "growth_next_click": 57,
       "contact_form_view": 6,
       "contact_form_start": 1,
       "form_start": 4,
       "generate_lead": 4
     },
-    "interpretation": "GrowthNextはCTR 4.44%でクリック基準2%を維持し、Views/sessionも前週比2.15%改善。ただし成功目安+5%未満で、文脈選定版の純粋な観測期間も不足するため2026-10-04まで固定。booking clickは25件、確定成果・売上は0。"
+    "interpretation": "GrowthNextはCTR 4.47%でクリック基準2%を維持し、Views/sessionも前週比3.19%改善。ただし成功目安+5%未満のため2026-10-04まで固定。直近7日の予約クリックは20件、business CTA click・確定成果・売上は0。"
   },
   "ga4Discovery": {
-    "checkedAt": "2026-09-24T07:00:00+09:00",
+    "checkedAt": "2026-09-30T07:00:00+09:00",
     "findings": [
+      {
+        "signalType": "organic-concentration",
+        "period": "2026-09-22..2026-09-28",
+        "sessions": 1847,
+        "organicSearchSessions": 1670,
+        "organicShare": 0.9042,
+        "impact": "流入の90.42%がOrganic Search。大洗あんこう祭と笠間新栗まつりが主要LP。",
+        "recommendedAction": "11月大型季節ページを検索ピーク前に強化しつつ、PV/sessionと再訪を増やす。",
+        "deepDiveBlocked": false,
+        "missingDimensions": []
+      },
+      {
+        "signalType": "ai-assistant-growth",
+        "period": "2026-09-22..2026-09-28",
+        "sessions": 20,
+        "views": 61,
+        "impact": "AI Assistant流入は小規模だが61 Viewsを確認。",
+        "recommendedAction": "一次情報・日付・FAQを維持し、AI経由LPを継続観測する。",
+        "deepDiveBlocked": false,
+        "missingDimensions": [
+          "AI内クエリ"
+        ]
+      },
       {
         "signalType": "high-quality-referral-search",
         "sourceMedium": "service.smt.docomo.ne.jp / referral",
@@ -299,8 +327,41 @@
     ]
   },
   "gscDiscovery": {
-    "checkedAt": "2026-09-24T07:00:00+09:00",
+    "checkedAt": "2026-09-30T07:00:00+09:00",
     "findings": [
+      {
+        "signalType": "seasonal-winner",
+        "query": "あんこう祭り 2026",
+        "page": "/events/oarai-ankou-matsuri-2026/",
+        "period": "2026-09-02..2026-09-29",
+        "clicks": 280,
+        "impressions": 1820,
+        "ctr": 0.1538,
+        "position": 3.1577,
+        "recommendedAction": "11月最重要勝ちページとして事実更新と内部リンクだけを継続し、観測窓内の大改修は避ける。"
+      },
+      {
+        "signalType": "emerging-cannibalization",
+        "query": "あんこう祭 2026",
+        "page": "/events/ibaraki-events-november-2026/",
+        "period": "2026-09-02..2026-09-29",
+        "clicks": 0,
+        "impressions": 92,
+        "ctr": 0,
+        "position": 10.17,
+        "recommendedAction": "専用ページを主とし、11月ハブから明確にリンク。現時点ではtitle変更せず推移観測。"
+      },
+      {
+        "signalType": "zero-click-intent",
+        "query": "土浦花火大会 何発",
+        "page": "/events/tsuchiura-hanabi-2026/",
+        "period": "2026-09-02..2026-09-29",
+        "clicks": 0,
+        "impressions": 52,
+        "ctr": 0,
+        "position": 7.48,
+        "recommendedAction": "公式情報で確認済みの発数・時間を即答できる既存本文を維持し、14日観測後にtitle/descriptionを再評価。"
+      },
       {
         "signalType": "high-impression-zero-click-international",
         "query": "hitachi seaside park from tokyo",
@@ -384,35 +445,35 @@
     "recent7": [
       {
         "path": "/events/oarai-ankou-matsuri-2026/",
-        "views": 659
+        "views": 670
       },
       {
         "path": "/news/kasama-shinguri-matsuri-2026/",
-        "views": 516
-      },
-      {
-        "path": "/news/ibaraki-passport-2026/",
-        "views": 82
-      },
-      {
-        "path": "/news/kashima-antlers-kofu-emperors-cup-2026-09-23/",
-        "views": 78
+        "views": 496
       },
       {
         "path": "/news/mito-shinkin-stadium-parking/",
-        "views": 71
+        "views": 79
       },
       {
         "path": "/news/mito-hollyhock-new-stadium-access/",
-        "views": 71
+        "views": 77
       },
       {
         "path": "/events/rockinstar-carnival-2026/",
-        "views": 48
+        "views": 66
       },
       {
-        "path": "/news/ibaraki-underpass-kansui-33-2026/",
-        "views": 33
+        "path": "/news/ibaraki-passport-2026/",
+        "views": 57
+      },
+      {
+        "path": "/kouyou/",
+        "views": 34
+      },
+      {
+        "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
+        "views": 31
       }
     ],
     "recent28": [
@@ -467,14 +528,14 @@
         "2026-10-19"
       ],
       "checkpoint": {
-        "date": "2026-09-29",
-        "period": "2026-09-21..2026-09-27",
-        "moduleViews": 1127,
-        "moduleClicks": 50,
-        "ctr": 0.0444,
-        "viewsPerSession": 1.1804,
-        "previousViewsPerSession": 1.1556,
-        "decision": "click criterion passed; views/session +2.15% but below +5%; keep contextual selection unchanged through 2026-10-04"
+        "date": "2026-09-30",
+        "period": "2026-09-22..2026-09-28",
+        "moduleViews": 1274,
+        "moduleClicks": 57,
+        "ctr": 0.0447,
+        "viewsPerSession": 1.1841,
+        "previousViewsPerSession": 1.1475,
+        "decision": "click criterion passed; views/session +3.19% but below +5%; keep contextual selection unchanged through 2026-10-04"
       }
     }
   ]

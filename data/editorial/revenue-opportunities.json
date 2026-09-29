@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-30",
   "objective": "GA4 Views 100,000を収益へ変換し、確定売上・粗利・Revenue per 1,000 Viewsを継続的に上げる",
   "current": {
-    "period": "2026-08-31..2026-09-27",
-    "views": 6373,
-    "sessions": 5049,
-    "organicSearchSessions": 1659,
-    "outboundBookingClicks": 25,
-    "bookingGuideViews": 238,
-    "businessCtaViews": 228,
+    "period": "2026-09-01..2026-09-28",
+    "views": 6607,
+    "sessions": 5244,
+    "organicSearchSessions": 1670,
+    "outboundBookingClicks": 20,
+    "bookingGuideViews": 282,
+    "businessCtaViews": 248,
     "businessCtaClicks": 0,
     "generateLead": 0,
     "confirmedAffiliateConversions": 0,
@@ -28,7 +28,7 @@
     "returningSessionShare": "missing",
     "returningViewShare": "missing",
     "ownedAudienceCapture": "not implemented",
-    "note": "直近7日（2026-09-21..27）の予約クリック25件に対し、確定成果・売上は0。akippa等の正式登録済み導線だけを維持し、未確認成果を計上しない。"
+    "note": "直近7日（2026-09-22..28）の予約クリック20件に対し、確定成果・売上は0。business_cta_view 248に対してclick 0で、B2B転換が収益ボトルネック。未確認成果は計上しない。"
   },
   "revenueLanes": [
     {

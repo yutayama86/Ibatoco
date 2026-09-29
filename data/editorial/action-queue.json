@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29T08:00:00+09:00",
+  "updatedAt": "2026-09-30",
   "actions": [
     {
       "id": "20260929-oarai-ankou-venue-fact-consistency",
@@ -356,13 +356,14 @@
       "targetUrl": "/events/hananuki-gorge-autumn-2026/",
       "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
       "priority": "critical",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-27",
       "dueDate": "2026-09-30",
       "primarySourceUrls": [
         "https://www.takahagi-kanko.jp/news/page000591.html"
       ],
-      "notes": "9/28・29限定の通行止めを要点・見どころ・FAQ・出典に掲載した。9/30以降も残すと逆に誤情報になる。高萩市観光協会で復旧を確認し、記述を落とすか過去形にする。延長されていれば日付を更新する。"
+      "notes": "9/28・29限定の全面通行止め告知が終了し、元告知ページの削除を9/30に確認。開通とは断定せず、現在の通行可否は最新公式情報を確認する表現へ更新。",
+      "completedAt": "2026-09-30T07:30:00+09:00"
     },
     {
       "id": "20261001-tsukuba-fare-verify",
