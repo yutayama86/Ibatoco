@@ -496,6 +496,23 @@
         "https://www.ibaraki-airport.net/facilities/parking/"
       ],
       "notes": "9/28時点で、10月25日以降の駐車場利用時間（現在5:30〜22:00）と日中のバスダイヤは「詳細が決まり次第お知らせ」。早朝・深夜バス（水戸駅5:25発、空港22:45発）は発表済み。発表されたら記事の要点・FAQ・考察の該当部分を更新する。"
+    },
+    {
+      "id": "20261001-hitachinaka-rail-free-ticket",
+      "title": "ひたちなか海浜鉄道（湊線）の1日フリー切符ガイドを10月の料金で作る",
+      "kind": "new-article",
+      "targetUrl": "/events/hitachinaka-kaihin-railway-guide/",
+      "targetFile": "src/content/events/hitachinaka-kaihin-railway-guide.md",
+      "priority": "medium",
+      "status": "candidate",
+      "createdAt": "2026-09-29",
+      "dueDate": "2026-10-02",
+      "primarySourceUrls": [
+        "http://www.hitachinaka-rail.co.jp/",
+        "https://ticket.jorudan.co.jp/hitachinaka-rail/ja/",
+        "https://www.city.hitachinaka.lg.jp/kurashi/kotsu/1001712/1009851/1012968.html"
+      ],
+      "notes": "9/29時点で料金が切り替わる直前のため見送り。9月の割引販売は9月30日で終了（上限到達）、モバイル券は9月30日利用分まで。公式サイト内で通常料金の表記が1,000円（会社サイト）と1,100円（市の補助ページ）に分かれている。10月1日以降の料金を会社の公式で確かめてから、湊線1日フリー切符・海浜公園入園券付き（秋の季節料金期間を含む）・買える場所・阿字ヶ浦からのバスを書く。"
     }
   ]
 }
