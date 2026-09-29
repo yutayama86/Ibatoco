@@ -136,9 +136,10 @@ const seasonal = (await getHappenings(new Date(), 60))
 <style>
   .home-now{padding-block:clamp(1.6rem,3.5vw,2.6rem);background:var(--color-white);border-bottom:1px solid var(--color-mist)}
   .home-now__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(1.4rem,4vw,3.2rem);align-items:start}
+  .home-now__main,.home-now__rank{min-width:0;max-width:100%}
   .home-now__title{font:600 clamp(1.25rem,2.4vw,1.6rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .home-now__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .home-now__search{display:flex;gap:.5rem;margin-top:.9rem}
+  .home-now__search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem;width:100%;max-width:100%;margin-top:.9rem}
   .home-now__search input{flex:1;min-width:0;height:3rem;padding:0 .9rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font:inherit;font-size:1rem;line-height:1.2;letter-spacing:.02em;-webkit-appearance:none;appearance:none}
   .home-now__search input::-webkit-search-decoration,.home-now__search input::-webkit-search-cancel-button{-webkit-appearance:none}
   .home-now__search input:focus{outline:2px solid var(--color-tide);outline-offset:1px;border-color:var(--color-tide);background:var(--color-white)}
@@ -169,6 +170,7 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__subs a{color:var(--color-tide);text-decoration:underline;text-underline-offset:.2em}
   .home-now__subs a:hover,.home-now__subs a:focus-visible{color:var(--color-ink)}
   .home-now__source{margin-top:.6rem;color:var(--color-soil);font-size:.74rem;line-height:1.7}
-  @media(max-width:860px){.home-now__grid{grid-template-columns:1fr}}
+  @media(max-width:860px){.home-now__grid{grid-template-columns:minmax(0,1fr)}}
+  @media(max-width:480px){.home-now__search button{padding-inline:1rem}.home-now__rank li > a{grid-template-columns:1.75rem minmax(0,1fr);gap:.35rem}.home-now__rank li > a span:last-child{min-width:0;overflow-wrap:anywhere}}
   @media(prefers-reduced-motion:reduce){.home-now__shindan{transition:none}}
 </style>
