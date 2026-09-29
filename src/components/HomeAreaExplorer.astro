@@ -86,12 +86,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
           <span>気になる街を選ぶと、その街のページへ移動します。</span>
         </p>
       </header>
-      <div class="ax-panel-empty" data-panel-empty>
-        <p class="ax-legend-label">地域の色</p>
-        <ul class="ax-mini-legend" aria-label="5地域の凡例">
-          {REGION_ORDER.map((k) => <li><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</li>)}
-        </ul>
-      </div>
+      <div class="ax-panel-empty" data-panel-empty></div>
       <div class="ax-panel-body" data-panel-body hidden>
         <p class="ax-panel-region" data-panel-region></p>
         <h3 class="ax-panel-name" data-panel-name></h3>
@@ -180,13 +175,10 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-intro-copy { margin-top: .55rem; font-size: .9rem; line-height: 1.9; color: var(--color-soil); }
   .ax-intro-copy span { display: block; }
   .ax-panel--integrated .ax-panel-empty { padding-top: .2rem; }
-  .ax-legend-label { margin-top: 1.35rem; font: .68rem var(--font-brand-meta); letter-spacing: .08em; color: var(--color-soil); }
   .ax-panel-body { min-width: 0; }
   .ax-panel-kicker { font-family: var(--font-brand-meta); font-size: .72rem; letter-spacing: .14em; color: var(--color-tide); }
   .ax-panel-empty-title { margin-top: .5rem; font-family: var(--font-brand-display); font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--color-ink); }
   .ax-panel-hint { margin-top: .8rem; color: var(--color-soil); font-size: 0.92rem; line-height: 1.9; }
-  .ax-mini-legend { margin-top: .55rem; display: flex; flex-wrap: wrap; gap: .55rem 1rem; font-size: .78rem; color: var(--color-soil); }
-  .ax-mini-legend li { display: inline-flex; align-items: center; gap: .4rem; }
   .ax-panel-region { font-family: var(--font-brand-meta); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-tide); }
   .ax-panel-name { font-family: var(--font-brand-display); font-size: 1.5rem; color: var(--color-ink); margin: 0.2rem 0 0.3rem; }
   .ax-panel-catch { margin-top: .9rem; font-family: var(--font-brand-display); font-size: 1.08rem; font-weight: 600; line-height: 1.6; color: var(--color-ink); }

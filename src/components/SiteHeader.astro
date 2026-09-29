@@ -228,6 +228,10 @@ const sportsLinks: NavDropdownItem[] = [
       document.documentElement.classList.remove('menu-is-open');
     };
 
+    // Astroのクライアント遷移・BFCache復帰を含め、初期状態は必ず閉じる。
+    closeDesktop();
+    closeMobile();
+
     // 言語メニューとメガメニューは同時に開かない（相互排他）
     const langTrigger = header.querySelector<HTMLButtonElement>('[data-lang-trigger]');
     const langList = header.querySelector<HTMLElement>('[data-lang-list]');
