@@ -64,6 +64,8 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/nishiyama-goten-guide/': '西山御殿（西山荘）の入場料・時間・駐車場',
   '/events/ringring-road-guide/': 'りんりんロードのレンタサイクル・無料駐車場',
   '/events/ushiku-chateau-guide/': '牛久シャトーの駐車場・営業時間・レストラン',
+  '/events/amabiki-kannon-guide/': '雨引観音の駐車場・参拝時間・御朱印',
+  '/events/izura-rokkakudo-guide/': '五浦六角堂と天心記念五浦美術館の料金・駐車場',
   '/news/ibaraki-airport-winter-schedule-2026/': '茨城空港、10月25日から1日10往復に（解説）',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
