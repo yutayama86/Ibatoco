@@ -109,6 +109,7 @@ sourceUrls:
     url: "https://fanfun.jaxa.jp/visit/tsukuba/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/tsukuba-expo-center-guide/"
   - "/events/tsukuba-autumn-2026/"
   - "/events/ibaraki-nature-museum-guide/"
   - "/area/tsukuba/"

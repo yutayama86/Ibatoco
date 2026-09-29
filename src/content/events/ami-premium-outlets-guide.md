@@ -110,6 +110,7 @@ sourceUrls:
     url: "https://www.premiumoutlets.co.jp/ami/pet/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/yokaren-heiwa-kinenkan-guide/"
   - "/events/ushiku-daibutsu-guide/"
   - "/news/ami-premium-outlets-silver-week-sale-2026/"
   - "/area/ami/"
