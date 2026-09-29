@@ -63,6 +63,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "oarai-hotel-buffet-guide": "/images/card/oarai-hotel-buffet-guide-7e5f8ef8.png",
   "oarai-isosaki-jinja-guide": "/images/card/oarai-isosaki-jinja-guide-7e5f8ef8.png",
   "oarai-kaijo-hanabi-2026": "/images/card/oarai-kaijo-hanabi-2026-7e5f8ef8.png",
+  "oiwa-jinja-guide": "/images/card/oiwa-jinja-guide-ae31d8b3.png",
   "rockinstar-carnival-2026": "/images/card/rockinstar-carnival-2026-4e47820e.png",
   "ryujin-bridge-autumn-2026": "/images/card/ryujin-bridge-autumn-2026-0eca618d.png",
   "tonegawa-hanabi-2026": "/images/card/tonegawa-hanabi-2026-8a53b596.png",
