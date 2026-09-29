@@ -54,6 +54,8 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/jaxa-tsukuba-space-center-guide/': 'JAXA筑波宇宙センターの見学（ツアー・特別公開）',
   '/events/ibaraki-ceramic-art-museum-guide/': '茨城県陶芸美術館の観覧料・休館日・行き方',
   '/events/ibaraki-modern-art-museum-guide/': '茨城県近代美術館の観覧料・休館日・駐車場',
+  '/events/kodokan-mito-guide/': '弘道館の入館料・開館時間・駐車場',
+  '/events/hitachi-izumo-taisha-guide/': '常陸国出雲大社の駐車場・御朱印・参拝時間',
   '/news/ibaraki-airport-winter-schedule-2026/': '茨城空港、10月25日から1日10往復に（解説）',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
