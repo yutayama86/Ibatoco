@@ -20,6 +20,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "mito-hollyhock-kids-passport-urawa-2026": "/images/card/mito-hollyhock-kids-passport-urawa-2026-6c5eb34d.png",
   "mito-marathon-measurement-chip-2026": "/images/card/mito-marathon-measurement-chip-2026-6c5eb34d.png",
   "mitsukaido-rail-yard-event-2026": "/images/card/mitsukaido-rail-yard-event-2026-d1446ad4.png",
+  "oarai-umimachi-line-2026": "/images/card/oarai-umimachi-line-2026-7e5f8ef8.png",
   "shimotsuma-job-fair-2026": "/images/card/shimotsuma-job-fair-2026-7e804637.png",
   "shimotsuma-keisui-melon-ginza-2026": "/images/card/shimotsuma-keisui-melon-ginza-2026-7e804637.png",
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
