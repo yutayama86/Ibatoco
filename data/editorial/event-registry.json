@@ -633,6 +633,27 @@
       "notes": "大会公式で10月25日開催、計測チップはナンバーカード裏面、10月2日から発送開始を確認。来訪・消費の数値根拠は未取得のためunknown。"
     },
     {
+      "id": "mito-komon-marathon-2026",
+      "name": "第11回水戸黄門漫遊マラソン",
+      "municipality": "mito",
+      "startDate": "2026-10-25",
+      "endDate": "2026-10-25",
+      "officialUrl": "https://mitokomon-manyu-marathon.com/venue/index.html",
+      "discoveredAt": "2026-09-30",
+      "verifiedAt": "2026-09-30",
+      "articleUrl": "/events/mito-komon-marathon-2026/",
+      "articleUpdatedAt": "2026-09-30",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "mitsukaido-rail-yard-event-2026",
       "name": "水海道車両基地公開イベント2026",
       "municipality": "joso",
