@@ -84,6 +84,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/torinokosan-jinja-guide/': '鷲子山上神社の参拝時間・御朱印・駐車場',
   '/events/hanazono-gorge-guide/': '花園渓谷・花園神社の紅葉の見頃と駐車場',
   '/events/senbako-guide/': '千波湖の駐車場・周回コース・行き方',
+  '/events/the-hirosawa-city-guide/': 'ザ・ヒロサワ・シティ（ユメノバ）の料金・休み・行き方',
   '/news/ibaraki-airport-winter-schedule-2026/': '茨城空港、10月25日から1日10往復に（解説）',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',

@@ -84,6 +84,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ryujin-bridge-autumn-2026": "/images/card/ryujin-bridge-autumn-2026-0eca618d.png",
   "sakatsura-isosaki-jinja-guide": "/images/card/sakatsura-isosaki-jinja-guide-4e47820e.png",
   "senbako-guide": "/images/card/senbako-guide-6c5eb34d.png",
+  "the-hirosawa-city-guide": "/images/card/the-hirosawa-city-guide-480f2a7d.png",
   "tonegawa-hanabi-2026": "/images/card/tonegawa-hanabi-2026-8a53b596.png",
   "torinokosan-jinja-guide": "/images/card/torinokosan-jinja-guide-026aa449.png",
   "tsuchiura-curry-festival-2026": "/images/card/tsuchiura-curry-festival-2026-7f388fe6.png",
