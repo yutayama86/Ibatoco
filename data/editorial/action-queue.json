@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-01",
   "actions": [
     {
       "id": "20260929-oarai-ankou-venue-fact-consistency",
@@ -372,7 +372,7 @@
       "targetUrl": "/events/tsukuba-autumn-2026/",
       "targetFile": "src/content/events/tsukuba-autumn-2026.md",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-27",
       "dueDate": "2026-10-01",
       "primarySourceUrls": [
@@ -380,7 +380,11 @@
         "https://mt-tsukuba.com/ropeway-fare/",
         "https://mt-tsukuba.com/2325-2/"
       ],
-      "notes": "ニュースリリースPDFの新旧対照表から改定後運賃を記事に入れた（大人 片道930円・往復1,860円、小児はケーブルカー470/940・ロープウェイ400/800）。10/1に公式の運賃ページが同額へ更新されたか照合する。差異があればPDFではなく運賃ページを正とする。往復セット割引乗車券の終了も反映を確認。"
+      "notes": "2026-10-01確認完了。公式のケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。公式発表資料の改定額を維持し、両記事へ公式内不一致と購入前確認を明記。割引券は9/30利用終了を確認。セット券はページ間で表示が不一致のため販売可否を断定しない。",
+      "completedAt": "2026-10-01",
+      "additionalTargetFiles": [
+        "src/content/events/tsukuba-cablecar-ropeway-guide.md"
+      ]
     },
     {
       "id": "20261005-autumn-official-recheck",
@@ -544,7 +548,7 @@
         "https://mt-tsukuba.com/",
         "https://mt-tsukuba.com/cablecar-fare/"
       ],
-      "notes": "ケーブルカーは2026年9月25日から当面運休（9/30確認、ロープウェイは通常運行）。10/1から運賃改定。往復セット割引乗車券・連絡片道乗車券が10/1以降も残るかは公式に明記なし。運賃ページが改定後に更新されたら反映し、運休が解除されたら要点・FAQ・notesの4か所を直す。2027年2月予定の新車両導入工事の運休期間も発表されたら追記。"
+      "notes": "2026-10-01再確認：ケーブルカーは引き続き当面運休、ロープウェイは通常運行。ケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。10/2以降も運行再開とロープウェイ運賃ページ更新を確認し、公式表示が一致した時点で再反映する。"
     },
     {
       "id": "20261013-art-tower-mito-exhibition",
