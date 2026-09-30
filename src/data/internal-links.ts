@@ -78,6 +78,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/tsukuba-marathon-2026/': 'つくばマラソン2026の交通規制・バス運休',
   '/events/ibaride-guide/': 'こもれび森のイバライドの入園料・駐車場・休園日',
   '/events/mito-komon-marathon-2026/': '水戸黄門漫遊マラソン2026の交通規制・駐車場',
+  '/news/oarai-umimachi-line-2026/': '大洗の循環バスが10月1日から「うみまちライン」に（解説）',
   '/news/ibaraki-airport-winter-schedule-2026/': '茨城空港、10月25日から1日10往復に（解説）',
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
