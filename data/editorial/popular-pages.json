@@ -1,53 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T07:00:00+09:00",
+  "generatedAt": "2026-10-01T07:00:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-22",
-      "end": "2026-09-28"
+      "start": "2026-09-23",
+      "end": "2026-09-29"
     }
   },
   "baseline": {
-    "views": 2187,
-    "sessions": 1847,
-    "viewsPerSession": 1.1841
+    "views": 2255,
+    "sessions": 1879,
+    "viewsPerSession": 1.1995
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。終了判定はeventsのeventInfo/eventLifecycle等の正本で確認できる場合だけ行い、newsのpubDateをイベント終了日として扱わない。",
   "pages": [
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 670
-    },
-    {
-      "path": "/news/kasama-shinguri-matsuri-2026/",
-      "views": 496
-    },
-    {
-      "path": "/news/mito-shinkin-stadium-parking/",
-      "views": 79
+      "views": 678
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 77
-    },
-    {
-      "path": "/events/rockinstar-carnival-2026/",
-      "views": 66
+      "views": 91
     },
     {
       "path": "/news/ibaraki-passport-2026/",
-      "views": 57
+      "views": 72
     },
     {
-      "path": "/kouyou/",
-      "views": 34
+      "path": "/news/mito-shinkin-stadium-parking/",
+      "views": 71
     },
     {
       "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
-      "views": 31
+      "views": 36
+    },
+    {
+      "path": "/news/ibaraki-airport-sky-day-2026/",
+      "views": 34
+    },
+    {
+      "path": "/news/ibaraki-underpass-kansui-33-2026/",
+      "views": 17
+    },
+    {
+      "path": "/news/hitachi-no-kagayaki-tonkatsu-fair-2026/",
+      "views": 16
     }
   ]
 }
