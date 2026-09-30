@@ -57,5 +57,42 @@
       "channel concentration"
     ],
     "notes": "GA4 Viewsだけを増やすための不要なページ分割や自動リロードは禁止。検索意図適合、一次情報性、流入、回遊、送客・問い合わせを同時に確認する。"
+  },
+  "acquisitionOperatingModel": {
+    "effectiveDate": "2026-10-01",
+    "targetMonth": "2026-11",
+    "targetViews": 100000,
+    "mode": "portfolio-gap-closure",
+    "objective": "Maximize probability of reaching 100,000 GA4 Views in November by allocating effort to the largest confidence-adjusted incremental Views opportunities.",
+    "portfolioClusters": [
+      "autumn-leaves",
+      "oarai-ankou",
+      "tsuchiura-fireworks",
+      "november-major-demand",
+      "evergreen-utility",
+      "validated-other-channels"
+    ],
+    "requiredDailyFields": [
+      "portfolioExpectedViews",
+      "confidenceAdjustedExpectedViews",
+      "coverage",
+      "unfilledViews",
+      "paceStatus",
+      "growthBatchExpectedIncrementalViews"
+    ],
+    "paceGates": {
+      "onPaceCoverage": 1.2,
+      "atRiskCoverage": 1,
+      "offPaceBelow": 1
+    },
+    "growthQualification": [
+      "new-search-demand",
+      "ranking-or-ctr-uplift",
+      "recirculation-uplift",
+      "validated-channel-growth",
+      "high-intent-monetization"
+    ],
+    "maintenanceDoesNotCountAsGrowth": true,
+    "notes": "Maintenance remains mandatory for trust and correctness but cannot by itself satisfy the daily Growth Batch while executable growth work exists."
   }
 }
