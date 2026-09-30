@@ -4,6 +4,82 @@
 
 Claude Codeには戦略判断、調査、記事構成、本文執筆を丸投げしない。ChatGPT側で一次情報、SEO、完成原稿、内部リンク、CTA、構造化データ、変更禁止箇所、検証条件まで決め、実装だけを渡す。
 
+## 11月100,000 PV Acquisition OS（2026-10-01 オーナー判断）
+
+11月100,000 Viewsは「努力目標」ではなく、10月の編集・SEO・回遊・配信判断を拘束する獲得目標として扱う。ただしGoogle順位や外部需要は制御不能なので達成保証とは表現せず、**達成確率と期待Viewsを最大化し、未達ペースなら即座に資源配分を変える**。
+
+### 目的関数
+
+毎回、作業候補を探す前に次の順で判断する。
+
+1. 11月100,000 Viewsまでの残差を算出する
+2. 11月の需要をクラスター別・ページ別に分解し、各クラスターの期待Viewsを積み上げる
+3. 合計期待Viewsが100,000未満なら、既存ページの微修正より先に不足需要を探索する
+4. 各候補に `expectedIncrementalViews`、根拠（exact / observed / proxy / unknown）、期限、工数、確信度を持たせる
+5. `expectedIncrementalViews × confidence ÷ effort` を基本スコアとし、季節締切と既存観測窓を加味してGrowth Batchを選ぶ
+6. 実装後は「何をしたか」ではなく「期待Viewsを何件積み増したか」「100,000までのcoverageが何%になったか」で報告する
+
+期待Viewsを検索ボリュームのように偽装しない。実測GSC、GA4、確認済み外部検索需要、前年季節性、SERP proxyを区別し、根拠が弱い場合はconfidenceを下げる。
+
+### 11月PV Portfolio
+
+毎日、最低限次のクラスターを独立して管理する。
+
+- 紅葉：/kouyou/、袋田の滝、竜神大吊橋、花貫渓谷、筑波山、および独立検索意図が確認できる実用サブ需要
+- 大洗あんこう祭
+- 土浦全国花火競技大会
+- 11月大型イベント・県民の日・季節需要
+- Evergreen / Utilityの既存検索流入
+- その他の検証済み成長チャネル
+
+固定配分を先に置かない。毎日のGSC/GA4/市場需要から各クラスターの期待Viewsを更新し、**portfolioExpectedViews / 100,000** をcoverageとして出す。coverageが100%未満なら不足分を埋める需要探索を最優先する。100%以上でもconfidence-adjusted coverageが100%未満なら追加余力を作る。
+
+### GrowthとMaintenanceを分離する
+
+誤情報修正、期限切れ情報更新、CI復旧、データ同期、Drive記録、計測異常の補正、リンク切れ修正は重要だが、原則 `Maintenance Batch` とする。これらを実行しただけで「本日のGrowth Batch完了」としない。
+
+Growth Batchとして数えてよいのは、根拠付きで次のいずれかを狙う施策だけ。
+
+- 新しい検索需要の獲得
+- 既に露出する需要の順位・CTR改善
+- 大型LPからのPV/Session・文脈回遊改善
+- 検証済みのSNS / referral / AI / International等の追加流入
+- 高意図流入の予約・送客・収益化（Revenue Batchとして併記可）
+
+緊急Maintenanceが重い日でも、ユーザー操作なしで実行可能なGrowth Batchがある限りMaintenanceだけで終了しない。
+
+### Cluster Batch優先
+
+「1日1記事」ではなく「1戦略テーマ1batch」を基本とする。検索意図が独立しており需要根拠がある場合、ハブ、個別ページ、FAQ、内部リンク、比較、アクセス、駐車場、混雑、周辺行動など複数ページをまとめて完成させてよい。ただし同一意図のページ乱立は禁止。
+
+10月前半は11月季節需要のindex・評価期間確保を優先する。季節締切が近いクラスターは通常の28日観測窓より締切を優先できるが、進行中実験を理由なく上書きしない。
+
+### Pace Gate
+
+毎日、次を判定する。
+
+- `on-pace`: confidence-adjusted portfolio coverage >= 120%
+- `at-risk`: 100%〜119.9%
+- `off-pace`: 100%未満
+
+`off-pace` の日は、小規模ニュース、軽微UI、低需要施設ガイドをGrowth Batchに選ばない。市場ホワイトスペース探索、クラスター拡張、順位8〜20位の高表示ページ、大型ページのCTR/回遊改善を優先する。
+
+### 日次報告の最重要項目
+
+従来の作業報告に加え、冒頭で必ず以下を出す。
+
+- 11月目標: 100,000 Views
+- 現在のportfolio expected Views
+- confidence-adjusted expected Views
+- coverage %
+- 未充足Views
+- pace判定
+- 今日のGrowth Batchによる期待増分Views
+- Growth / Maintenance / Revenue の作業時間配分判定
+
+「PRを作った」「mergeした」「情報を修正した」は成果指標ではない。Growth成果は期待Viewsの積み増し、実測Views/GSC改善、または検証済み収益ファネル改善で評価する。
+
+
 ## North Star：GA4 月間表示回数10万
 
 唯一の一次目標は `data/editorial/growth-targets.json` を正本とする。現在の目標は **GA4のscreen_page_views（Views）をローリング28日で100,000**。ウェブではpage_viewを集計し、同一ユーザーの再閲覧も表示回数として数える。単発イベントのピークだけでなく14日連続で目標水準を維持できたら安定達成とみなす。
