@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-30",
+  "updatedAt": "2026-10-01",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,24 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "tsukuba-fare-official-inconsistency-20261001",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-10-01",
+      "evidence": {
+        "targets": [
+          "/events/tsukuba-autumn-2026/",
+          "/events/tsukuba-cablecar-ropeway-guide/"
+        ],
+        "officialRelease": "https://mt-tsukuba.com/2325-2/",
+        "cableFarePage": "updated",
+        "ropewayFarePage": "stale-at-check",
+        "operation": "cablecar-suspended-ropeway-operating"
+      },
+      "opportunity": "11月の筑波山需要で誤料金案内を防ぎ、公式内不一致を透明に説明して訪問判断の信頼性を守る。",
+      "nextReview": "2026-10-02"
+    },
     {
       "id": "hananuki-closure-freshness-20260930",
       "lane": "seo",
