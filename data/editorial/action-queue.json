@@ -560,6 +560,37 @@
         "https://www.arttowermito.or.jp/gallery/"
       ],
       "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。"
+    },
+    {
+      "id": "20261022-torinokosan-road-work",
+      "title": "鷲子山上神社ガイドの道路工事（10/21終了予定）の記載を更新",
+      "kind": "update",
+      "targetUrl": "/events/torinokosan-jinja-guide/",
+      "targetFile": "src/content/events/torinokosan-jinja-guide.md",
+      "priority": "medium",
+      "status": "candidate",
+      "createdAt": "2026-09-30",
+      "dueDate": "2026-10-22",
+      "primarySourceUrls": [
+        "https://www.torinokosan.com/news/"
+      ],
+      "notes": "令和8年8月24日〜10月21日（予定）、平日は茨城県側が全面通行止め・大型車は神社まで行けない。終了（または延長）の告知を確認して記載を直す。夜祭り（毎年11月第3土曜）の2026年の告知が出たら日付を追記。"
+    },
+    {
+      "id": "20261002-kamine-zoo-fee-check",
+      "title": "かみね動物園の入園料が日立市の10/1使用料改定の対象か確認",
+      "kind": "update",
+      "targetUrl": "/events/kamine-zoo-guide/",
+      "targetFile": "src/content/events/kamine-zoo-guide.md",
+      "priority": "low",
+      "status": "candidate",
+      "createdAt": "2026-09-30",
+      "dueDate": "2026-10-02",
+      "primarySourceUrls": [
+        "https://www.city.hitachi.lg.jp/shisei/seisaku_zaisei/1003330/1019787/1019789.html",
+        "https://www.city.hitachi.lg.jp/zoo/annai/1004042.html"
+      ],
+      "notes": "日立市は10/1に施設使用料の一部を改定（改定一覧はPDF）。9/30時点で動物園の料金ページは大人520円のまま。10/1以降に動物園の料金ページが変わっていないか確認する。"
     }
   ]
 }
