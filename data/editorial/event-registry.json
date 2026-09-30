@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-30",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -570,6 +570,27 @@
       "notes": "結城市公式で10月24日10時〜16時・25日10時〜15時、結城市役所北側駐車場・けやき公園周辺などで開催と確認。市公式が『結城市最大のお祭り』と案内。市役所駐車場は利用不可で工業団地内に臨時駐車場を開設予定、詳細は後日公開。検索需要・来訪・消費需要は根拠未取得のためunknown。"
     },
     {
+      "id": "kasama-kiku-matsuri-2026",
+      "name": "第119回 笠間の菊まつり",
+      "municipality": "kasama",
+      "startDate": "2026-10-24",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.kasama.or.jp/event/index.html",
+      "discoveredAt": "2026-09-29",
+      "verifiedAt": "2026-09-29",
+      "articleUrl": "/events/kasama-kiku-matsuri-2026/",
+      "articleUpdatedAt": "2026-09-29",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "hitachi-seaside-wind-music-carnival-2026",
       "name": "吹奏楽カーニバル",
       "municipality": "hitachinaka",
@@ -664,6 +685,48 @@
       "verifiedAt": "2026-09-20",
       "articleUrl": "/events/oarai-ankou-matsuri-2026/",
       "articleUpdatedAt": "2026-09-29",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tsuchiura-curry-festival-2026",
+      "name": "第23回土浦カレーフェスティバル",
+      "municipality": "tsuchiura",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html",
+      "discoveredAt": "2026-09-29",
+      "verifiedAt": "2026-09-29",
+      "articleUrl": "/events/tsuchiura-curry-festival-2026/",
+      "articleUpdatedAt": "2026-09-29",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tsukuba-marathon-2026",
+      "name": "第46回つくばマラソン",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-22",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://www.tsukuba-marathon.com/",
+      "discoveredAt": "2026-09-30",
+      "verifiedAt": "2026-09-30",
+      "articleUrl": "/events/tsukuba-marathon-2026/",
+      "articleUpdatedAt": "2026-09-30",
       "status": "published",
       "importance": "normal",
       "signals": {

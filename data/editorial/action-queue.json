@@ -514,6 +514,52 @@
         "https://www.city.hitachinaka.lg.jp/kurashi/kotsu/1001712/1009851/1012968.html"
       ],
       "notes": "9/29時点で料金が切り替わる直前のため見送り。9月の割引販売は9月30日で終了（上限到達）、モバイル券は9月30日利用分まで。公式サイト内で通常料金の表記が1,000円（会社サイト）と1,100円（市の補助ページ）に分かれている。10月1日以降の料金を会社の公式で確かめてから、湊線1日フリー切符・海浜公園入園券付き（秋の季節料金期間を含む）・買える場所・阿字ヶ浦からのバスを書く。"
+    },
+    {
+      "id": "20261114-tsuchiura-curry-festival-details",
+      "title": "土浦カレーフェスティバル2026の出店一覧・駐車場・入場料を反映",
+      "kind": "update",
+      "targetUrl": "/events/tsuchiura-curry-festival-2026/",
+      "targetFile": "src/content/events/tsuchiura-curry-festival-2026.md",
+      "priority": "medium",
+      "status": "candidate",
+      "createdAt": "2026-09-29",
+      "dueDate": "2026-11-14",
+      "primarySourceUrls": [
+        "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html"
+      ],
+      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。"
+    },
+    {
+      "id": "20261001-tsukuba-cablecar-resume",
+      "title": "筑波山ケーブルカーの運休・運賃改定後の扱いを反映",
+      "kind": "update",
+      "targetUrl": "/events/tsukuba-cablecar-ropeway-guide/",
+      "targetFile": "src/content/events/tsukuba-cablecar-ropeway-guide.md",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-09-30",
+      "dueDate": "2026-10-02",
+      "primarySourceUrls": [
+        "https://mt-tsukuba.com/",
+        "https://mt-tsukuba.com/cablecar-fare/"
+      ],
+      "notes": "ケーブルカーは2026年9月25日から当面運休（9/30確認、ロープウェイは通常運行）。10/1から運賃改定。往復セット割引乗車券・連絡片道乗車券が10/1以降も残るかは公式に明記なし。運賃ページが改定後に更新されたら反映し、運休が解除されたら要点・FAQ・notesの4か所を直す。2027年2月予定の新車両導入工事の運休期間も発表されたら追記。"
+    },
+    {
+      "id": "20261013-art-tower-mito-exhibition",
+      "title": "水戸芸術館ガイドの展覧会表記を更新（竹村京展が10/12で終了）",
+      "kind": "update",
+      "targetUrl": "/events/art-tower-mito-guide/",
+      "targetFile": "src/content/events/art-tower-mito-guide.md",
+      "priority": "medium",
+      "status": "candidate",
+      "createdAt": "2026-09-30",
+      "dueDate": "2026-10-13",
+      "primarySourceUrls": [
+        "https://www.arttowermito.or.jp/gallery/"
+      ],
+      "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。"
     }
   ]
 }
