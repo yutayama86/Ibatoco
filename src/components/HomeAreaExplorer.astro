@@ -100,14 +100,18 @@ const nodes = MUNICIPALITIES.map((m) => ({
         <div data-panel-content></div>
         <a class="ax-panel-read" data-panel-read href="#">この街を読む <span aria-hidden="true">→</span></a>
       </div>
-      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。地図と同じく各街のページへ直接移動する。 -->
-      <details class="ax-list" open>
-        <summary class="ax-list-toggle">市町村名から選ぶ <span aria-hidden="true">＋</span></summary>
-        <nav aria-label="地域と市町村の一覧">
+      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。5地域は常に表示し、地域ごとに開閉する。地図と同じく各街のページへ直接移動する。 -->
+      <div class="ax-list">
+        <p class="ax-list-head" id="ax-list-head">市町村名から選ぶ</p>
+        <nav aria-labelledby="ax-list-head">
           {/* 5地域はすべて閉じた状態で始める。県北だけ開いていると、その地域を勧めているように見えるため */}
           {REGION_ORDER.map((k) => (
             <details class="ax-region">
-              <summary><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</summary>
+              <summary>
+                <span class="ax-region-name"><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</span>
+                <span class="ax-region-count">{MUNICIPALITIES.filter((m) => m.region === k).length}市町村</span>
+                <span class="ax-region-icon" aria-hidden="true"></span>
+              </summary>
               <ul>
                 {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
                   <li>
@@ -118,7 +122,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
             </details>
           ))}
         </nav>
-      </details>
+      </div>
     </aside>
   </div>
 
@@ -199,13 +203,22 @@ const nodes = MUNICIPALITIES.map((m) => ({
 
   /* リスト（PCは左の列、スマホは地図の下） */
   .ax-list { margin-top: 1.4rem; display: block; }
-  .ax-list-toggle { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between;
-    border-block: 1px solid var(--color-mist); padding: 0.85rem 0; color: var(--color-ink); font-weight: 600; }
-  .ax-list-toggle::-webkit-details-marker { display: none; }
-  .ax-list-toggle span { color: var(--color-tide); font-size: 1.15rem; transition: transform .2s var(--ease); }
-  .ax-list[open] > .ax-list-toggle span { transform: rotate(45deg); }
-  .ax-list > nav { padding-top: 0.45rem; }
-  .ax-region summary { cursor: pointer; font-weight: 600; color: var(--color-ink); padding: 0.6em 0; display: flex; align-items: center; gap: 0.5em; }
+  .ax-list-head { border-bottom: 1px solid var(--color-mist); border-top: 1px solid var(--color-mist); padding: 0.85rem 0; color: var(--color-ink); font-weight: 600; }
+  .ax-list > nav { padding-top: 0; }
+  /* 5地域は常に表示。行ごとに区切り、右端の＋／−で開閉できることを示す */
+  .ax-region { border-bottom: 1px solid var(--color-mist); }
+  .ax-region > summary { cursor: pointer; list-style: none; font-weight: 600; color: var(--color-ink); padding: 0.75em 0.25em 0.75em 0; display: flex; align-items: center; gap: 0.75em; }
+  .ax-region > summary::-webkit-details-marker { display: none; }
+  .ax-region-name { display: inline-flex; align-items: center; gap: 0.5em; }
+  .ax-region-count { margin-left: auto; font-size: 0.78rem; font-weight: 400; color: var(--color-soil); }
+  .ax-region-icon { position: relative; width: 1.6rem; height: 1.6rem; flex: none; border: 1px solid var(--color-mist); border-radius: 999px; }
+  .ax-region-icon::before, .ax-region-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.62rem; height: 1.5px; background: var(--color-tide); transform: translate(-50%, -50%); transition: transform .2s var(--ease); }
+  .ax-region-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .ax-region[open] > summary .ax-region-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .ax-region > summary:hover .ax-region-icon { border-color: var(--color-tide); }
+  /* マウスで押したときに太い枠が出ないよう、フォーカスは控えめな背景で示す（キーボード操作でも見える） */
+  .ax-region > summary:focus { outline: none; }
+  .ax-region > summary:focus-visible { outline: none; background: color-mix(in srgb, var(--color-tide) 8%, transparent); box-shadow: inset 3px 0 0 var(--color-tide); }
   .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
   .ax-region-dot[data-region="kenpoku"] { background: #a7cddd; }
   .ax-region-dot[data-region="keno"] { background: #c6cdb0; }
@@ -228,7 +241,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
     .ax-label[data-label-slug="kasumigaura"], .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.2px; }
     .ax-panel { min-height: 0; }
   }
-  @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-list-toggle span { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-region-icon::before, .ax-region-icon::after { transition: none; } }
 </style>
 
 <script>
