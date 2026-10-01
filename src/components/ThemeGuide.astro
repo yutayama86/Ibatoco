@@ -6,6 +6,7 @@
  * 画像のないスポットは写真枠を灰色で埋めず text-forward で成立させる。
  */
 import type { Theme } from '../data/themes';
+import TocoCard from './TocoCard.astro';
 interface Props { theme: Theme; }
 const { theme } = Astro.props;
 ---
@@ -71,6 +72,20 @@ const { theme } = Astro.props;
         </table>
       </div>
       {theme.status.spotBoard.note && <p class="tg-board__note">{theme.status.spotBoard.note}</p>}
+    </section>
+  )}
+
+  {theme.slug === 'kouyou' && (
+    <section class="tg-november bp-wrap" aria-labelledby="tg-november-h">
+      <p class="bp-kicker">NOVEMBER PICKS</p>
+      <h2 id="tg-november-h">11月の紅葉、まずこの4か所。</h2>
+      <p class="tg-november__lead">見頃・駐車場・交通など、2026年の確認情報を個別ページで追っています。行き先を決めたら、詳細へ。</p>
+      <div class="tg-november__grid">
+        <TocoCard href="/events/fukuroda-falls-autumn-2026/" title="袋田の滝の紅葉2026" area="大子町" reasons={['滝×紅葉','駐車場情報']} tags={['紅葉','袋田の滝','奥久慈']} />
+        <TocoCard href="/events/ryujin-bridge-autumn-2026/" title="竜神大吊橋の紅葉2026" area="常陸太田市" reasons={['吊橋×紅葉','無料駐車場']} tags={['紅葉','竜神峡','バンジー']} />
+        <TocoCard href="/events/hananuki-gorge-autumn-2026/" title="花貫渓谷の紅葉2026" area="高萩市" reasons={['吊り橋×紅葉','11月候補']} tags={['紅葉','花貫渓谷','駐車場']} />
+        <TocoCard href="/events/tsukuba-autumn-2026/" title="筑波山の紅葉2026" area="つくば市" reasons={['山×紅葉','交通情報']} tags={['紅葉','筑波山','駐車場']} />
+      </div>
     </section>
   )}
 
@@ -141,6 +156,11 @@ const { theme } = Astro.props;
   .tg-lead{max-width:var(--measure);margin-top:1.5rem;color:var(--color-soil);line-height:2;font-size:clamp(.98rem,1.5vw,1.14rem)}
   .tg-hero{position:relative;margin:0}.tg-hero img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
   figure figcaption{position:absolute;right:.6rem;bottom:.5rem;padding:.15rem .4rem;background:rgba(13,39,50,.72);font-size:.65rem;color:#fff}figure figcaption a{color:inherit}
+  .tg-november{padding-block:clamp(2.5rem,5vw,4rem)}
+  .tg-november h2{margin-top:.55rem;font:600 clamp(1.5rem,3vw,2.2rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .tg-november__lead{max-width:var(--measure);margin-top:.65rem;color:var(--color-soil);line-height:1.8}
+  .tg-november__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1.4rem}
+  @media(max-width:680px){.tg-november__grid{grid-template-columns:1fr}}
   .tg-angle{padding-block:clamp(3rem,7vw,6rem)}.tg-angle__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,5vw,4rem)}
   .tg-angle__grid h2{margin-top:.6rem;font:600 clamp(1.4rem,2.6vw,2.1rem)/1.4 var(--font-brand-display);color:var(--color-ink)}.tg-angle__grid p:last-child{margin-top:1rem;color:var(--color-soil);line-height:1.95}
   .tg-spots{padding-block:clamp(1rem,3vw,2.5rem)}.tg-spots__head h2{margin-top:.6rem;font:600 clamp(1.7rem,3.4vw,2.8rem) var(--font-brand-display);color:var(--color-ink)}
