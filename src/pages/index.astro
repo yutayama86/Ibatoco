@@ -10,6 +10,14 @@ import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
 
 const latestNews = (await getIndexableNews()).slice(0, 3);
+const discoveryIntents = [
+  { label: '今週末', href: '#discover-now', note: '今日・明日・週末から' },
+  { label: '紅葉', href: '/kouyou/', note: '見頃とドライブ' },
+  { label: '子どもと', href: '/shindan/?who=family', note: '家族のおでかけ' },
+  { label: 'デート', href: '/shindan/?who=couple', note: 'ふたりで過ごす' },
+  { label: '雨の日', href: '/shindan/?weather=rain', note: '天気を気にせず' },
+  { label: 'エリア', href: '/area/', note: '44市町村から' },
+];
 
 // TOP修正指示書 §5：title に「茨城」を含める（ブランドタグライン「現地から、信頼を編む。」はフッター/Aboutで維持）。
 const pageTitle = 'イバトコ｜茨城を歩いてつくるローカルメディア';
@@ -102,7 +110,17 @@ const heroSlides = [
     ヒーローの直下に「いま」の入口を置く（2026-09-27）。TOPのエンゲージメント時間が10秒で、
     行動できる情報が7〜8画面目まで出てこなかったため。必須構成には手を触れず、足すだけにしている。
   */}
-  <HomeNow />
+  <section class="home-intent" aria-labelledby="home-intent-title" data-module="home_intent">
+    <div class="bp-wrap">
+      <p class="bp-kicker">FIND YOUR NEXT IBARAKI</p>
+      <h2 id="home-intent-title">今度の休み、どこ行こう？</h2>
+      <p class="home-intent__lead">場所の名前が決まっていなくても大丈夫。いまの気分から、次の茨城を見つける。</p>
+      <nav class="home-intent__grid" aria-label="気分と条件から探す">
+        {discoveryIntents.map((item) => <a href={item.href}><strong>{item.label}</strong><span>{item.note}</span><b aria-hidden="true">→</b></a>)}
+      </nav>
+    </div>
+  </section>
+  <div id="discover-now"><HomeNow /></div>
   {/* 日付から入る枠。該当が無ければブロックごと出ない */}
   <div data-module="home_this_week"><ThisWeek /></div>
 
@@ -263,4 +281,15 @@ const heroSlides = [
   @media(max-width:560px){.home-hero{height:calc(88svh - var(--site-header-height));min-height:590px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{gap:.45rem;margin-top:1.3rem}.hero-cta{width:calc(50% - .23rem);height:auto;min-height:4.5rem;grid-template-columns:1rem 1fr .9rem;gap:.35rem;padding:.7rem .65rem}.cta-index{margin-top:.15rem;font-size:.6rem}.cta-label{font-size:.84rem;line-height:1.35;word-break:keep-all}.cta-label small{font-size:.68rem;line-height:1.4;letter-spacing:.02em;word-break:keep-all;overflow-wrap:anywhere}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.56rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.origin-sky::before{left:-15rem;width:27rem}.origin-sky::after{right:-12rem;width:22rem}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
   @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide figcaption,.hero-cta,.hero-cta::before,.cta-arrow{transition:none}}
   @media(max-width:360px){.hero-copy .bp-title{font-size:1.8rem;line-height:1.4}}
+  .home-intent{padding-block:clamp(3rem,6vw,5rem);background:linear-gradient(145deg,var(--color-sky-soft),var(--color-white))}
+  .home-intent h2{margin-top:.55rem;font:600 clamp(1.8rem,3.5vw,2.8rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .home-intent__lead{margin-top:.65rem;color:var(--color-soil);line-height:1.8}
+  .home-intent__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:1.5rem}
+  .home-intent__grid a{display:grid;grid-template-columns:1fr auto;gap:.18rem .5rem;padding:1rem 1.05rem;border:1px solid var(--color-mist);border-radius:var(--discovery-radius-md,16px);background:rgba(255,255,255,.9);box-shadow:var(--discovery-shadow);color:var(--color-ink);text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+  .home-intent__grid a:hover,.home-intent__grid a:focus-visible{transform:translateY(-2px);border-color:var(--color-brand-blue)}
+  .home-intent__grid strong{font:600 1rem var(--font-brand-display)}
+  .home-intent__grid span{grid-column:1;color:var(--color-soil);font-size:.72rem}
+  .home-intent__grid b{grid-row:1/3;grid-column:2;align-self:center;color:var(--color-brand-blue)}
+  @media(max-width:720px){.home-intent__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:420px){.home-intent__grid{grid-template-columns:1fr}}
 </style>
