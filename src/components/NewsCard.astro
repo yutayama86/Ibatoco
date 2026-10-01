@@ -62,7 +62,7 @@ const imageAlt = item.data.ogImageAlt || '';
   .news-card__meta>span:first-child{flex:none}.news-card__sample{color:var(--color-signal)}
   h3{margin-top:.75rem;font:600 clamp(1.15rem,2vw,1.45rem)/1.55 var(--font-brand-display);color:var(--color-ink)}h3 a{text-decoration:none}h3 a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
   p{margin-top:.75rem;color:var(--color-soil);font-size:.84rem;line-height:1.8}.news-card__dates{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin-top:auto;padding-top:1.2rem;color:var(--color-soil);font-size:.68rem}
-  .compact{grid-template-columns:1fr;grid-template-rows:auto 1fr}.compact .news-card__image{aspect-ratio:16/9}.compact .news-card__body{padding:1rem}.compact h3{font-size:1rem}
+  .compact{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr}.compact .news-card__image{aspect-ratio:16/9}.compact .news-card__body{padding:1rem}.compact h3{font-size:1rem}
   .compact:not(.has-image){grid-template-rows:1fr}
   @media(prefers-reduced-motion:reduce){.news-card__image img{transition:none}}
 </style>
