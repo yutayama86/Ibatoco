@@ -24,6 +24,14 @@ const {
 
 const now = new Date();
 const board = await getWeekBoard(now);
+const activeItems = board.flatMap((group) => group.items).filter((item) => item.ongoing && item.active);
+const activeHref = new Set(activeItems.map((item) => item.href));
+const displayBoard = [
+  ...(activeItems.length ? [{ bucket: 'active' as const, label: '開催中', items: activeItems }] : []),
+  ...board
+    .map((group) => ({ ...group, items: group.items.filter((item) => !activeHref.has(item.href)) }))
+    .filter((group) => group.items.length > 0),
+];
 // 静的サイトでも日付の経過だけで自動表示・自動非表示できるよう、120日分を埋め込む。
 // 新しい公式発表の追加は通常の公開フロー、既知イベントの状態遷移はブラウザ側が担う。
 const candidates = await getHappenings(now, 120);
@@ -47,13 +55,13 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 ---
 
 {candidates.length > 0 && (
-  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType} hidden={board.length === 0}>
+  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType} hidden={displayBoard.length === 0}>
     <div class="bp-wrap">
       <h2 id="tw-title" class="tw__title">{heading}</h2>
       <p class="tw__lead">{lead}</p>
 
       <div class="tw__groups">
-        {board.map((group) => (
+        {displayBoard.map((group) => (
           <div class:list={['tw__group', `is-${group.bucket}`]}>
             <p class="tw__when">{group.label}</p>
             <ul class="tw__list">
@@ -102,12 +110,13 @@ const KIND_LABEL: Record<HappeningKind, string> = {
     season: '開催中',
   };
   const bucketLabel = {
+    active: '開催中',
     today: '今日',
     tomorrow: '明日',
     weekend: '今週末',
     thisWeek: 'この先1週間',
   } as const;
-  const bucketOrder = ['today', 'tomorrow', 'weekend', 'thisWeek'] as const;
+  const bucketOrder = ['active', 'today', 'tomorrow', 'weekend', 'thisWeek'] as const;
 
   const appendTextElement = (parent: Element, tag: string, text: string, className?: string) => {
     const element = document.createElement(tag);
@@ -130,7 +139,8 @@ const KIND_LABEL: Record<HappeningKind, string> = {
     for (const item of items) {
       const start = parseDateOnly(item.start);
       const end = parseDateOnly(item.end);
-      const bucket = happeningBucket(start, end, today);
+      const isActiveNow = item.ongoing && isHappeningActive(start, end, today);
+      const bucket = isActiveNow ? 'active' : happeningBucket(start, end, today);
       if (!bucket) continue;
       const current = grouped.get(bucket) ?? [];
       current.push({ item, start, end });
@@ -147,7 +157,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
       const list = document.createElement('ul');
       list.className = 'tw__list';
       for (const { item, start, end } of entries) {
-        const active = item.ongoing && isHappeningActive(start, end, today);
+        const isActiveNow = item.ongoing && isHappeningActive(start, end, today);
         const li = document.createElement('li');
         const link = document.createElement('a');
         link.href = item.href;
@@ -156,7 +166,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
         link.dataset.weekPlace = item.place ?? '';
         const meta = document.createElement('span');
         meta.className = 'tw__meta';
-        appendTextElement(meta, 'span', active ? '開催中' : kindLabel[item.kind], `tw__kind is-${active ? 'season' : item.kind}`);
+        appendTextElement(meta, 'span', isActiveNow ? '開催中' : kindLabel[item.kind], `tw__kind is-${isActiveNow ? 'season' : item.kind}`);
         appendTextElement(meta, 'time', happeningDateLabel(start, end, today, item.startTime));
         link.append(meta);
         appendTextElement(link, 'strong', item.title);
@@ -199,6 +209,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw__lead{margin-top:.65rem;max-width:var(--measure);color:var(--color-soil);font-size:.84rem;line-height:1.85}
   .tw__groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem}
   .tw__group{--tw-accent:#6f8da8;--tw-bg:#edf3f7;min-width:0;padding:1.1rem;border:1px solid rgba(76,105,136,.12);border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(76,105,136,.045)}
+  .tw__group.is-active{--tw-accent:#63755d;--tw-bg:#eef2e9}
   .tw__group.is-today{--tw-accent:#274f7a;--tw-bg:#e7f0f8}
   .tw__group.is-tomorrow{--tw-accent:#587a9b;--tw-bg:#edf3f8}
   .tw__group.is-weekend{--tw-accent:#3e78a7;--tw-bg:#e9f3fa}
