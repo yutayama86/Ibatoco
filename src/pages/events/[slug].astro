@@ -21,8 +21,6 @@ import { hasPaidLink } from '../../data/affiliates';
 import { getEvents } from '../../lib/content';
 import { MUNI_BY_SLUG } from '../../data/areas';
 import { lifecycleOf, LIFECYCLE_LABEL } from '../../lib/lifecycle';
-import { facetsOfEvent, getAllFacets } from '../../lib/taxonomy';
-import { findRelated } from '../../lib/related';
 
 export const getStaticPaths = (async () => {
   const events = await getEvents();
@@ -316,6 +314,21 @@ if (d.faq.length > 0) {
       </div>
     </nav>
   )}
+  <script>
+    import { commonParams, trackEvent } from '../../lib/analytics-events';
+    for (const block of document.querySelectorAll<HTMLElement>('[data-event-discovery]')) {
+      for (const link of block.querySelectorAll<HTMLAnchorElement>('a[data-discovery-kind]')) {
+        link.addEventListener('click', () => {
+          trackEvent('next_action_click', {
+            ...commonParams({ page_type: 'events' }),
+            destination_type: link.dataset.discoveryKind ?? '',
+            action_source: 'event_discovery_footer',
+            destination_url: link.getAttribute('href') ?? '',
+          });
+        });
+      }
+    }
+  </script>
 </BrandBase>
 
 <style>
