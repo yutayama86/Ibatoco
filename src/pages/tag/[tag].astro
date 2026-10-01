@@ -15,6 +15,7 @@ export const getStaticPaths = (async () => {
 const { tag } = Astro.props;
 const [articles, news] = await Promise.all([getArticlesByTag(tag), getNewsByTag(tag)]);
 const total = articles.length + news.length;
+const shouldIndex = total >= 3;
 // パンくずは現在地としてタグ名まで出す（表示と構造化データで同じ配列を使う）
 const crumbs: Crumb[] = [
   { name: 'ホーム', href: '/' },
@@ -26,14 +27,18 @@ const crumbs: Crumb[] = [
 <BrandBase
   title={`#${tag}の記事｜イバトコ`}
   description={`「${tag}」に関する茨城の記事とニュース解説をイバトコがまとめました。`}
-  noindex={true}
+  noindex={!shouldIndex}
   jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}
 >
   <section class="wrap tag-hero">
     <div data-reveal><Breadcrumbs items={crumbs} /></div>
     <p class="eyebrow" data-reveal>Tag</p>
     <h1 class="display tag-title" data-reveal>#{tag}</h1>
-    <p class="tag-lead muted" data-reveal>「{tag}」の記事・ニュース {total}件</p>
+    <p class="tag-lead muted" data-reveal>「{tag}」から、次に行きたい茨城を探す。記事・ニュース {total}件</p>
+    <nav class="tag-actions" aria-label="タグから次を探す">
+      <a href="/events/">今のおでかけを見る →</a>
+      <a href="/area/">エリアから広げる →</a>
+    </nav>
   </section>
 
   <section class="wrap section">
@@ -49,6 +54,9 @@ const crumbs: Crumb[] = [
   .crumbs a:hover { color: var(--color-tide); }
   .tag-title { font-size: var(--step-4); margin: 0.4rem 0; color: var(--ink); }
   .tag-lead { font-size: var(--step-0); }
+  .tag-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+  .tag-actions a{padding:.5rem .8rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-white);color:var(--color-ink);font-size:.8rem;font-weight:700}
+  .tag-actions a:hover,.tag-actions a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
   .section { padding-block: clamp(2rem, 5vw, 3.5rem); }
   .tag-group + .tag-group { margin-top: clamp(3rem, 7vw, 5rem); padding-top: clamp(2rem, 5vw, 3.5rem); border-top: 1px solid var(--color-mist); }
   .tag-group h2 { margin: .4rem 0 1.5rem; font: 600 clamp(1.5rem, 3vw, 2.2rem)/1.35 var(--font-brand-display); color: var(--color-ink); }
