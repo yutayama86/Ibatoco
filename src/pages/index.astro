@@ -8,7 +8,6 @@ import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
 import NewsCard from '../components/NewsCard.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
-import TocoCard from '../components/TocoCard.astro';
 
 const latestNews = (await getIndexableNews()).slice(0, 3);
 const discoveryIntents = [
@@ -121,11 +120,12 @@ const heroSlides = [
 
   <section class="home-intent" aria-labelledby="home-intent-title" data-module="home_intent">
     <div class="bp-wrap">
-      <p class="bp-kicker">FIND YOUR NEXT IBARAKI</p>
-      <h2 id="home-intent-title">今度の休み、どこ行こう？</h2>
-      <p class="home-intent__lead">場所の名前が決まっていなくても大丈夫。いまの気分から、次の茨城を見つける。</p>
+      <header class="home-intent__head">
+        <div><p class="bp-kicker">FIND YOUR NEXT IBARAKI</p><h2 id="home-intent-title">今度の休み、<br />どこ行こう？</h2></div>
+        <p class="home-intent__lead">場所の名前が決まっていなくても大丈夫。<br />気分と過ごし方から、次の茨城を見つける。</p>
+      </header>
       <nav class="home-intent__grid" aria-label="気分と条件から探す">
-        {discoveryIntents.map((item, index) => <a href={item.href}><i>{String(index + 1).padStart(2,'0')}</i><strong>{item.label}</strong><span>{item.note}</span><b aria-hidden="true">↗</b></a>)}
+        {discoveryIntents.map((item, index) => <a href={item.href}><i>{String(index + 1).padStart(2,'0')}</i><span><strong>{item.label}</strong><small>{item.note}</small></span><b aria-hidden="true">↗</b></a>)}
       </nav>
       <div class="home-tags" aria-label="気分のタグ">
         <span>気分でめぐる</span>
@@ -140,12 +140,12 @@ const heroSlides = [
         <div><h2 id="november-now-title">11月の茨城、ここから。</h2><p>大きな予定と旬を先に。日程・交通・見頃を確認して、行き先を決める。</p></div>
         <a href="/events/ibaraki-events-november-2026/">11月のイベントをまとめて見る →</a>
       </div>
-      <div class="november-now__grid">
-        <TocoCard href="/events/tsuchiura-hanabi-2026/" title="土浦全国花火競技大会2026" area="土浦市｜11月7日" reasons={['約20,000発','交通・駐車場']} tags={['土浦花火','花火大会','11月']} />
-        <TocoCard href="/events/oarai-ankou-matsuri-2026/" title="大洗あんこう祭2026" area="大洗町｜11月14・15日" reasons={['2日間開催','宿泊導線あり']} tags={['あんこう','祭り','大洗']} />
-        <TocoCard href="/kouyou/" title="茨城の紅葉2026" area="袋田・竜神・花貫・筑波山" reasons={['11月本番','見頃を確認']} tags={['紅葉','ドライブ','絶景']} />
-        <TocoCard href="/events/oarai-ankou-nabe-guide/" title="大洗のあんこう鍋" area="大洗町｜11月〜3月" reasons={['冬の旬','店・宿を探す']} tags={['あんこう鍋','海鮮','宿泊']} />
-      </div>
+      <ol class="november-now__list">
+        <li><a href="/events/tsuchiura-hanabi-2026/"><span class="november-now__no">01</span><span class="november-now__text"><small>土浦市｜11月7日</small><strong>土浦全国花火競技大会2026</strong><em>交通・駐車場まで確認する</em></span><b aria-hidden="true">↗</b></a></li>
+        <li><a href="/events/oarai-ankou-matsuri-2026/"><span class="november-now__no">02</span><span class="november-now__text"><small>大洗町｜11月14・15日</small><strong>大洗あんこう祭2026</strong><em>祭りと宿泊をまとめて見る</em></span><b aria-hidden="true">↗</b></a></li>
+        <li><a href="/kouyou/"><span class="november-now__no">03</span><span class="november-now__text"><small>袋田・竜神・花貫・筑波山</small><strong>茨城の紅葉2026</strong><em>11月の見頃から選ぶ</em></span><b aria-hidden="true">↗</b></a></li>
+        <li><a href="/events/oarai-ankou-nabe-guide/"><span class="november-now__no">04</span><span class="november-now__text"><small>大洗町｜11月〜3月</small><strong>大洗のあんこう鍋</strong><em>店・宿から探す</em></span><b aria-hidden="true">↗</b></a></li>
+      </ol>
     </div>
   </section>
   <div id="discover-now"><HomeNow /></div>
@@ -309,27 +309,31 @@ const heroSlides = [
   @media(max-width:560px){.home-hero{height:calc(88svh - var(--site-header-height));min-height:590px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{gap:.45rem;margin-top:1.3rem}.hero-cta{width:calc(50% - .23rem);height:auto;min-height:4.5rem;grid-template-columns:1rem 1fr .9rem;gap:.35rem;padding:.7rem .65rem}.cta-index{margin-top:.15rem;font-size:.6rem}.cta-label{font-size:.84rem;line-height:1.35;word-break:keep-all}.cta-label small{font-size:.68rem;line-height:1.4;letter-spacing:.02em;word-break:keep-all;overflow-wrap:anywhere}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.56rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.origin-sky::before{left:-15rem;width:27rem}.origin-sky::after{right:-12rem;width:22rem}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
   @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide figcaption,.hero-cta,.hero-cta::before,.cta-arrow{transition:none}}
   @media(max-width:360px){.hero-copy .bp-title{font-size:1.8rem;line-height:1.4}}
-  .editorial-note{position:relative;z-index:4;margin-top:-1px;padding-block:1.2rem;background:linear-gradient(90deg,#fff 0%,#f7f9fc 52%,#e7eef6 100%);color:var(--brand-navy);border-bottom:1px solid rgba(76,105,136,.13)}
-  .editorial-note__inner{display:grid;grid-template-columns:minmax(0,1.25fr) auto;gap:.25rem 2rem;align-items:center}
-  .editorial-note p{font-size:.82rem;line-height:1.7;color:#596b7e}.editorial-note p span{font-weight:800;letter-spacing:.06em;color:var(--brand-navy)}.editorial-note strong{grid-row:1/3;grid-column:2;font:600 clamp(1.05rem,2vw,1.4rem) var(--font-brand-display);white-space:nowrap;color:var(--brand-navy)}.editorial-note small{font-size:.72rem;color:#718397}
-  .november-now{padding-block:clamp(3rem,6vw,5rem);background:linear-gradient(180deg,var(--brand-cream),var(--color-white))}
-  .november-now__head{display:flex;align-items:end;justify-content:space-between;gap:1.5rem;margin-top:.55rem}
-  .november-now__head h2{font:600 clamp(1.8rem,3.5vw,2.8rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
-  .november-now__head p{margin-top:.55rem;color:var(--color-soil);line-height:1.8}
-  .november-now__head>a{flex:none;padding-bottom:.25rem;border-bottom:1px solid var(--color-brand-blue);color:var(--color-brand-blue);font-size:.82rem;font-weight:700}
-  .november-now__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:1.5rem}
-  @media(max-width:720px){.november-now__head{align-items:start;flex-direction:column}.november-now__grid{grid-template-columns:1fr}}
-  .home-intent{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6.5rem);background:#fbfcfe}.home-intent::after{content:'';position:absolute;right:-7rem;top:-5rem;width:34rem;height:18rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;opacity:.07;pointer-events:none}.home-intent>.bp-wrap{position:relative;z-index:1}
-  .home-intent h2{margin-top:.55rem;font:600 clamp(1.8rem,3.5vw,2.8rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
-  .home-intent__lead{margin-top:.65rem;color:var(--color-soil);line-height:1.8}
-  .home-intent__grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:.8rem;margin-top:1.7rem}
-  .home-intent__grid a{position:relative;grid-column:span 3;display:grid;grid-template-columns:auto 1fr auto;gap:.18rem .65rem;min-height:6.4rem;padding:1.1rem 1.15rem;border:1px solid rgba(36,104,201,.12);border-radius:24px;background:rgba(255,255,255,.9);box-shadow:0 12px 32px rgba(21,72,135,.07);color:var(--color-ink);text-decoration:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.home-intent__grid a:nth-child(-n+2){grid-column:span 6;min-height:8rem;padding:1.35rem 1.4rem;background:linear-gradient(145deg,#fff,#edf6ff)}
-  .home-intent__grid a:hover,.home-intent__grid a:focus-visible{transform:translateY(-4px);border-color:var(--brand-cobalt);box-shadow:0 22px 44px rgba(21,72,135,.14)}
-  .home-intent__grid i{grid-row:1/3;align-self:start;color:var(--color-brand-blue);font:700 .62rem var(--font-brand-meta);font-style:normal}.home-intent__grid strong{font:600 1.05rem var(--font-brand-display)}
-  .home-intent__grid span{grid-column:2;color:var(--color-soil);font-size:.72rem}
-  .home-intent__grid b{grid-row:1/3;grid-column:3;align-self:center;color:var(--color-brand-blue)}
-  .home-tags{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;margin-top:1.35rem}.home-tags>span{margin-right:.3rem;color:var(--color-soil);font-size:.72rem;font-weight:700}.home-tags a{padding:.42rem .78rem;border:1px solid rgba(36,104,201,.12);border-radius:999px;color:var(--brand-navy);font-size:.76rem;font-weight:700;transition:transform .16s ease,background .16s ease}.home-tags a:nth-of-type(3n+1){background:#d7ebff}.home-tags a:nth-of-type(3n+2){background:#e9f4ff}.home-tags a:nth-of-type(3n){background:#f4f9ff}.home-tags a:hover,.home-tags a:focus-visible{transform:translateY(-2px);background:#c7e2ff}
-  @media(max-width:720px){.editorial-note__inner{grid-template-columns:1fr}.editorial-note strong{grid-row:auto;grid-column:auto}.editorial-note small{display:none}}
-  @media(max-width:720px){.home-intent__grid a,.home-intent__grid a:nth-child(-n+2){grid-column:span 6}}
-  @media(max-width:420px){.home-intent__grid a,.home-intent__grid a:nth-child(-n+2){grid-column:1/-1}}
+  .editorial-note{position:relative;margin-top:-1px;padding-block:1.1rem;background:#fff;border-bottom:1px solid rgba(76,105,136,.12);color:var(--brand-navy)}
+  .editorial-note__inner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.5rem 2rem;align-items:baseline}
+  .editorial-note p{font-size:.8rem;line-height:1.7;color:#667687}.editorial-note p span{margin-right:.9rem;font:800 .66rem var(--font-brand-meta);letter-spacing:.14em;color:var(--brand-navy)}.editorial-note strong{font:600 clamp(.95rem,1.6vw,1.18rem) var(--font-brand-display);white-space:nowrap;color:var(--brand-navy)}.editorial-note small{grid-column:2;color:#7a8793;font-size:.68rem}
+
+  .home-intent{position:relative;padding-block:clamp(4.6rem,7vw,7rem);background:#fff}
+  .home-intent__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(17rem,.55fr);gap:clamp(2rem,8vw,8rem);align-items:end}
+  .home-intent h2{margin-top:.65rem;font:600 clamp(2.15rem,4.2vw,3.7rem)/1.28 var(--font-brand-display);color:var(--brand-navy)}
+  .home-intent__lead{padding-bottom:.35rem;color:var(--color-soil);font-size:.9rem;line-height:1.95}
+  .home-intent__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:2.4rem;border-top:1px solid rgba(76,105,136,.17)}
+  .home-intent__grid a{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;align-items:center;gap:.8rem;min-height:6.2rem;padding:1rem .15rem;border-bottom:1px solid rgba(76,105,136,.17);color:var(--brand-navy);text-decoration:none;transition:padding .2s ease,color .2s ease}
+  .home-intent__grid a:nth-child(odd){padding-right:clamp(1.2rem,3vw,2.2rem);border-right:1px solid rgba(76,105,136,.17)}
+  .home-intent__grid a:nth-child(even){padding-left:clamp(1.2rem,3vw,2.2rem)}
+  .home-intent__grid a:hover,.home-intent__grid a:focus-visible{padding-left:.8rem;color:var(--color-brand-blue)}
+  .home-intent__grid i{align-self:start;padding-top:.35rem;color:#8496a8;font:700 .6rem var(--font-brand-meta);font-style:normal;letter-spacing:.08em}
+  .home-intent__grid span{display:grid;gap:.25rem}.home-intent__grid strong{font:600 clamp(1.05rem,1.7vw,1.3rem) var(--font-brand-display)}.home-intent__grid small{color:var(--color-soil);font-size:.72rem}.home-intent__grid b{font-weight:400;color:#8799aa}
+  .home-tags{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem 1rem;margin-top:1.4rem}.home-tags>span{margin-right:.4rem;color:#7c8996;font-size:.68rem;font-weight:700}.home-tags a{padding:.15rem 0;border-bottom:1px solid rgba(76,105,136,.22);color:var(--brand-navy);font-size:.76rem;font-weight:700}.home-tags a:hover,.home-tags a:focus-visible{color:var(--color-brand-blue);border-color:currentColor}
+
+  .november-now{padding-block:clamp(4.5rem,7vw,6.5rem);background:#f6f8fa;border-block:1px solid rgba(76,105,136,.09)}
+  .november-now__head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:2rem;margin-top:.55rem}
+  .november-now__head h2{font:600 clamp(2rem,3.8vw,3.1rem)/1.28 var(--font-brand-display);color:var(--brand-navy)}
+  .november-now__head p{margin-top:.55rem;color:var(--color-soil);line-height:1.8}.november-now__head>a{padding-bottom:.3rem;border-bottom:1px solid var(--brand-navy);color:var(--brand-navy);font-size:.78rem;font-weight:700}
+  .november-now__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:2rem;border-top:1px solid rgba(76,105,136,.16);list-style:none;padding:0}
+  .november-now__list li{margin:0;border-bottom:1px solid rgba(76,105,136,.16)}.november-now__list li:nth-child(odd){border-right:1px solid rgba(76,105,136,.16)}
+  .november-now__list a{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.75rem;align-items:start;min-height:9.5rem;padding:1.35rem 1.2rem;color:var(--brand-navy);text-decoration:none;transition:background .2s ease}
+  .november-now__list a:hover,.november-now__list a:focus-visible{background:#fff}.november-now__no{padding-top:.1rem;color:#8395a6;font:700 .6rem var(--font-brand-meta);letter-spacing:.08em}.november-now__text{display:grid;gap:.32rem}.november-now__text small{color:#718292;font-size:.7rem}.november-now__text strong{font:600 clamp(1.05rem,1.7vw,1.3rem)/1.5 var(--font-brand-display)}.november-now__text em{font-style:normal;color:var(--color-soil);font-size:.72rem}.november-now__list b{font-weight:400;color:#8395a6}
+
+  @media(max-width:720px){.editorial-note__inner{grid-template-columns:1fr;gap:.35rem}.editorial-note strong{white-space:normal}.editorial-note small{grid-column:auto}.home-intent__head{grid-template-columns:1fr;gap:.8rem}.home-intent__grid{grid-template-columns:1fr}.home-intent__grid a:nth-child(odd),.home-intent__grid a:nth-child(even){padding-inline:.1rem;border-right:0}.november-now__head{grid-template-columns:1fr;align-items:start}.november-now__list{grid-template-columns:1fr}.november-now__list li:nth-child(odd){border-right:0}.november-now__list a{min-height:0}}
 </style>
