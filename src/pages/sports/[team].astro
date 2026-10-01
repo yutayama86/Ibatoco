@@ -85,7 +85,7 @@ const articles = [...tagged, ...legacy].filter((item) => {
 }).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
-const fmt = (d: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+const fmt = (d: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 /** 種類ごとに束ねる。分類が未設定の既存記事は「関連記事」へ寄せる。 */
 const byType = new Map<SportsContentType, typeof articles>();

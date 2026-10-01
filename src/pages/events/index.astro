@@ -19,10 +19,11 @@ import ThisWeek from '../../components/ThisWeek.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getIndexableEvents } from '../../lib/content';
 import { MUNI_BY_SLUG, REGIONS, REGION_ORDER } from '../../data/areas';
+import { dateOnlyFromCoercedDate, dateOnlyFromInstant } from '../../lib/date-only.js';
 
 const all = await getIndexableEvents();
-const now = new Date();
-const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+// 「今日」はビルド環境（UTC）ではなく日本時間の暦日で決める。日本の0〜9時にビルドすると前日扱いになるため
+const today = dateOnlyFromInstant(new Date(), 'Asia/Tokyo');
 
 const dateOf = (e: (typeof all)[number]) => e.data.eventInfo?.endDate ?? e.data.eventInfo?.startDate;
 const upcoming = all.filter((e) => { const d = dateOf(e); return !d || d >= today; });
@@ -32,7 +33,8 @@ const past = all.filter((e) => { const d = dateOf(e); return d && d < today; }).
 const byMonth = new Map<string, typeof all>();
 for (const e of upcoming) {
   const d = e.data.eventInfo?.startDate;
-  const key = d ? `${d.getFullYear()}年${d.getMonth() + 1}月` : 'いつでも';
+  const day = d ? dateOnlyFromCoercedDate(d) : undefined;
+  const key = day ? `${day.getUTCFullYear()}年${day.getUTCMonth() + 1}月` : 'いつでも';
   byMonth.set(key, [...(byMonth.get(key) ?? []), e]);
 }
 /** 月見出しへのジャンプ用ID。「2026年11月」→「m-2026-11」 */
@@ -82,7 +84,7 @@ const GENRES: { label: string; href: string; note: string }[] = [
 ];
 
 const path = (e: (typeof all)[number]) => `/events/${e.id.split('/').pop()}/`;
-const fmt = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' }).format(x);
+const fmt = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 /**
  * カードの札に出す市町村。全部並べると3市町村を超えたところで札が2行になり、
  * 同じ行のカードで見出しが最大31pxずれた。NewsCard と同じく3件までにする。
