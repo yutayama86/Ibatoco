@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -320,6 +320,23 @@
       },
       "opportunity": "11月紅葉クラスターの入口を正確に保ち、個別4ページへの内部回遊を維持する。",
       "nextReview": "2026-10-06"
+    },
+    {
+      "id": "hitachinaka-rail-park-access-20261002",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-10-02",
+      "evidence": {
+        "target": "/events/hitachinaka-kaihin-railway-guide/",
+        "demandType": "seasonal access plus evergreen transport utility",
+        "officialTrigger": "湊線1日フリー切符の9月割引終了と、海浜公園入園券付き切符の9月価格改定",
+        "expectedNovemberViews": 300,
+        "estimateBasis": "proxy: 直近7日の水戸スタジアム交通実用ページ約90 Viewsと、コキア・海浜公園の季節需要を基準に保守的に設定",
+        "confidence": 0.4,
+        "confidenceAdjustedExpectedViews": 120
+      },
+      "opportunity": "公共交通で海浜公園へ向かう料金・買い方・阿字ヶ浦駅からの移動意図を恒久URLで獲得し、海浜公園・コキア・那珂湊クラスターへ回遊させる。",
+      "nextReview": "2026-10-09"
     }
   ]
 }

@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "objective": "GA4 Views 100,000を収益へ変換し、確定売上・粗利・Revenue per 1,000 Viewsを継続的に上げる",
   "current": {
-    "period": "2026-09-23..2026-09-29",
-    "views": 2255,
-    "sessions": 1879,
-    "organicSearchSessions": 1701,
-    "outboundBookingClicks": 26,
-    "bookingGuideViews": 298,
-    "businessCtaViews": 261,
+    "period": "2026-09-24..2026-09-30",
+    "views": 2197,
+    "sessions": 1802,
+    "organicSearchSessions": 1613,
+    "outboundBookingClicks": 28,
+    "bookingGuideViews": 311,
+    "businessCtaViews": 266,
     "businessCtaClicks": 0,
     "generateLead": 0,
     "confirmedAffiliateConversions": 0,
@@ -23,12 +23,12 @@
     "generateLeadBreakdown": "missing",
     "confirmedPaidBusinessLead": "missing",
     "activeAffiliateClickShare": "missing",
-    "returningSessions": "missing",
-    "returningViews": "missing",
-    "returningSessionShare": "missing",
-    "returningViewShare": "missing",
+    "returningSessions": 519,
+    "returningViews": 670,
+    "returningSessionShare": 0.0976,
+    "returningViewShare": 0.0996,
     "ownedAudienceCapture": "not implemented",
-    "note": "直近7日の予約クリック26件に対し、確定成果・売上は0。business_cta_view 261に対してclick 0で、B2B転換が収益ボトルネック。未確認成果は計上しない。"
+    "note": "直近7日の予約クリック28件に対し、確定成果・売上は0。business_cta_view 266に対してclick 0で、B2B転換が収益ボトルネック。Returning比率はGA4 new/returningのnot setを除いて算出。未確認成果は計上しない。"
   },
   "revenueLanes": [
     {

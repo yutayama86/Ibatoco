@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "actions": [
     {
       "id": "20260929-oarai-ankou-venue-fact-consistency",
@@ -509,15 +509,31 @@
       "targetUrl": "/events/hitachinaka-kaihin-railway-guide/",
       "targetFile": "src/content/events/hitachinaka-kaihin-railway-guide.md",
       "priority": "medium",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-29",
       "dueDate": "2026-10-02",
+      "completedAt": "2026-10-02",
+      "specPath": "docs/editorial/specs/20261002-hitachinaka-kaihin-railway-guide.md",
       "primarySourceUrls": [
-        "http://www.hitachinaka-rail.co.jp/",
-        "https://ticket.jorudan.co.jp/hitachinaka-rail/ja/",
+        "https://www.hitachinaka-rail.co.jp/blog/2026/02/18/9633.html",
+        "https://www.hitachinaka-rail.co.jp/blog/2026/08/28/8724.html",
+        "https://www.hitachinaka-rail.co.jp/blog/2026/09/25/9039.html",
+        "https://www.hitachinaka-rail.co.jp/gain",
+        "https://www.hitachinaka-rail.co.jp/blog/2026/09/28/9065.html",
+        "https://www.hitachikaihin.jp/access/train-bus.html",
+        "https://www.hitachikaihin.jp/news/park/page001066.html",
         "https://www.city.hitachinaka.lg.jp/kurashi/kotsu/1001712/1009851/1012968.html"
       ],
-      "notes": "9/29時点で料金が切り替わる直前のため見送り。9月の割引販売は9月30日で終了（上限到達）、モバイル券は9月30日利用分まで。公式サイト内で通常料金の表記が1,000円（会社サイト）と1,100円（市の補助ページ）に分かれている。10月1日以降の料金を会社の公式で確かめてから、湊線1日フリー切符・海浜公園入園券付き（秋の季節料金期間を含む）・買える場所・阿字ヶ浦からのバスを書く。"
+      "acceptanceCriteria": [
+        "10月以降の湊線1日フリー切符を大人1,100円・小人550円として一次情報で確認",
+        "9月1日改定後の海浜公園入園券付き料金を通常期・季節料金期で分ける",
+        "9月割引が9月30日で終了したことを明記",
+        "勝田〜阿字ヶ浦、阿字ヶ浦〜海浜公園の移動を公式情報だけで案内",
+        "2026年10月のコキアシャトルと10月3日・4日の発着変更を明記",
+        "公式写真・ロゴを使わず、既存URL・TOP・既存記事を変更しない",
+        "npm run date:check・npm run verify・CI成功、本番200・title・canonical・主要表示を確認"
+      ],
+      "notes": "2026年10月2日に会社・公園・市の一次情報を再確認し、価格改定後の料金と9月割引終了を反映。新規恒久ガイドとして実装し、既存の観測窓中ページは変更していない。"
     },
     {
       "id": "20261114-tsuchiura-curry-festival-details",
