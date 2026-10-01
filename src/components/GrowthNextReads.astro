@@ -23,6 +23,7 @@ import popular from '../../data/editorial/popular-pages.json';
 import { getEvents, getNews } from '../lib/content';
 import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
+import TocoCard from './TocoCard.astro';
 
 interface Props {
   currentPath: string;
@@ -33,11 +34,14 @@ const { currentPath, pageType } = Astro.props;
 const [news, events, allFacets] = await Promise.all([getNews(), getEvents(), getAllFacets()]);
 
 const titleByPath = new Map<string, string>();
+const eventByPath = new Map<string, (typeof events)[number]>();
 for (const item of news) {
   titleByPath.set(`/news/${item.id.split('/').pop()}/`, item.data.title);
 }
 for (const item of events) {
-  titleByPath.set(`/events/${item.id.split('/').pop()}/`, item.data.title);
+  const path = `/events/${item.id.split('/').pop()}/`;
+  titleByPath.set(path, item.data.title);
+  eventByPath.set(path, item);
 }
 
 /** いま開いているページの分類。見つからなければ文脈での並べ替えはしない */
@@ -95,20 +99,28 @@ const hasItems = items.length > 0;
     <h2 id="growth-next-title">このあと、どこ行く？</h2>
     <p class="growth-next__lead">いま見ている場所・目的につながる、次の候補を3つだけ選びました。</p>
     <ol>
-      {items.map((item) => (
-        <li>
-          <a
-            href={item.path}
-            data-growth-next-link
-            data-rank={String(item.rank)}
-            data-target-path={item.path}
-          >
-            <span class="growth-next__rank">{String(item.rank).padStart(2, '0')}</span>
-            <span class="growth-next__title">{item.title}</span>
-            <span class="growth-next__arrow" aria-hidden="true">→</span>
-          </a>
-        </li>
-      ))}
+      {items.map((item) => {
+        const event = eventByPath.get(item.path);
+        const area = event?.data.eventInfo?.venue ?? event?.data.municipalities?.[0];
+        const reasons = event?.data.eventInfo
+          ? [event.data.eventInfo.fee === '無料' ? '無料' : '', event.data.eventInfo.parking ? '駐車場情報あり' : ''].filter(Boolean)
+          : [];
+        return (
+          <li data-growth-next-link data-rank={String(item.rank)} data-target-path={item.path}>
+            <TocoCard
+              href={item.path}
+              title={item.title}
+              area={area}
+              image={event?.data.ogImage}
+              imageAlt={event?.data.ogImageAlt}
+              reasons={reasons}
+              tags={event?.data.tags ?? []}
+              rank={item.rank}
+              targetPath={item.path}
+            />
+          </li>
+        );
+      })}
     </ol>
   </nav>
 )}
@@ -143,13 +155,15 @@ const hasItems = items.length > 0;
       sendView();
     }
 
-    for (const link of block.querySelectorAll<HTMLAnchorElement>('[data-growth-next-link]')) {
+    for (const item of block.querySelectorAll<HTMLElement>('[data-growth-next-link]')) {
+      const link = item.querySelector<HTMLAnchorElement>('a');
+      if (!link) continue;
       link.addEventListener('click', () => {
         trackEvent('growth_next_click', {
           ...commonParams({ page_type: pageType }),
           source_page: currentPath,
-          destination_url: link.dataset.targetPath ?? link.getAttribute('href') ?? '',
-          item_rank: Number(link.dataset.rank ?? 0),
+          destination_url: item.dataset.targetPath ?? link.getAttribute('href') ?? '',
+          item_rank: Number(item.dataset.rank ?? 0),
         });
       });
     }
@@ -164,11 +178,5 @@ const hasItems = items.length > 0;
   .growth-next ol{display:grid;gap:.55rem;margin:1rem 0 0;padding:0;list-style:none}
   .growth-next li{margin:0;padding:0}
   .growth-next li::before{content:none}
-  .growth-next a{display:grid;grid-template-columns:2.1rem minmax(0,1fr) auto;align-items:center;gap:.65rem;padding:.75rem .8rem;border:1px solid color-mix(in srgb,var(--color-mist) 80%,transparent);border-radius:.7rem;background:var(--color-white);color:var(--color-ink);text-decoration:none;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
-  .growth-next a:hover,.growth-next a:focus-visible{transform:translateY(-1px);border-color:var(--interior-blue,var(--color-tide));box-shadow:0 8px 22px rgba(25,55,88,.09)}
-  .growth-next a:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
-  .growth-next__rank{font:700 .68rem var(--font-brand-meta);letter-spacing:.08em;color:var(--interior-blue,var(--color-tide))}
-  .growth-next__title{font-size:.9rem;line-height:1.6;font-weight:700}
-  .growth-next__arrow{color:var(--interior-blue,var(--color-tide))}
-  @media(max-width:520px){.growth-next{padding:1rem}.growth-next a{grid-template-columns:1.7rem minmax(0,1fr) auto;padding:.7rem}.growth-next__title{font-size:.86rem}}
+  @media(max-width:520px){.growth-next{padding:1rem}}
 </style>
