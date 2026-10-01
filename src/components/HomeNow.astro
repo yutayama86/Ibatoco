@@ -72,11 +72,25 @@ const seasonal = (await getHappenings(new Date(), 60))
 <section class="home-now" aria-labelledby="home-now-title" data-module="home_now">
   <div class="bp-wrap home-now__grid">
     <div class="home-now__main">
+      <div class="home-now__illustration" aria-hidden="true">
+        <svg viewBox="0 0 360 180" role="presentation">
+          <path class="hn-line" d="M8 143C47 118 81 116 117 136C153 155 192 156 228 129C263 103 304 98 350 113" />
+          <path class="hn-line hn-line--soft" d="M9 158C54 139 91 138 128 153C167 169 211 169 249 145C286 122 316 121 351 132" />
+          <path class="hn-fill" d="M62 130L128 69L191 132Z" />
+          <path class="hn-fill hn-fill--2" d="M132 132L215 48L292 136Z" />
+          <path class="hn-water" d="M8 164C67 153 113 159 157 169C210 181 273 170 350 151V180H8Z" />
+          <circle class="hn-sun" cx="286" cy="42" r="18" />
+          <g class="hn-flower">
+            <circle cx="45" cy="83" r="4"/><circle cx="36" cy="91" r="4"/><circle cx="54" cy="92" r="4"/><circle cx="45" cy="101" r="4"/><circle cx="45" cy="92" r="2.4"/>
+          </g>
+        </svg>
+      </div>
+      <p class="home-now__label">探す</p>
       <h2 id="home-now-title" class="home-now__title">いまの茨城から探す</h2>
       <form class="home-now__search" action="/search/" method="get" role="search">
         <label class="home-now__hidden" for="home-q">探したいことば</label>
-        <input id="home-q" name="q" type="search" placeholder="例：土浦花火、袋田の滝" autocomplete="off" enterkeyhint="search" />
-        <button type="submit">探す</button>
+        <input id="home-q" name="q" type="search" placeholder="イベント・場所・市町村名で検索" autocomplete="off" enterkeyhint="search" />
+        <button type="submit" aria-label="検索する">検索</button>
       </form>
 
       {seasonal.length > 0 && (
@@ -101,11 +115,12 @@ const seasonal = (await getHappenings(new Date(), 60))
 
     {ranking.length > 0 && (
       <div class="home-now__rank">
+        <p class="home-now__label">人気の記事</p>
         <h3>よく読まれている記事</h3>
         <ol>
           {ranking.map((item, index) => (
             <li>
-              <a href={item.path}><span class="home-now__no">{String(index + 1).padStart(2, '0')}</span><span>{item.title}</span></a>
+              <a href={item.path}><span class="home-now__no">{String(index + 1)}</span><span class="home-now__rank-title">{item.title}</span><span class="home-now__rank-arrow" aria-hidden="true">→</span></a>
               {item.subs.length > 0 && (
                 <p class="home-now__subs">{item.subs.map((sub) => <a href={sub.path}>{sub.label}</a>)}</p>
               )}
@@ -134,43 +149,33 @@ const seasonal = (await getHappenings(new Date(), 60))
 </script>
 
 <style>
-  .home-now{position:relative;padding-block:clamp(4.8rem,7vw,6.8rem);background:#fff;border-bottom:1px solid rgba(76,105,136,.1)}
-  .home-now__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(2.5rem,7vw,7rem);align-items:start}
-  .home-now__main,.home-now__rank{min-width:0;max-width:100%}.home-now__rank{padding-left:clamp(1.5rem,4vw,3.5rem);border-left:1px solid rgba(76,105,136,.16)}
-  .home-now__title{font:600 clamp(1.8rem,3.3vw,2.7rem)/1.3 var(--font-brand-display);color:var(--brand-navy)}
+  .home-now{position:relative;padding-block:clamp(4.5rem,7vw,6.5rem);background:#fff;border-bottom:1px solid rgba(76,105,136,.1)}
+  .home-now__grid{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.86fr);gap:clamp(2.5rem,6vw,6rem);align-items:start}
+  .home-now__main,.home-now__rank{position:relative;min-width:0}
+  .home-now__main{overflow:hidden;padding:clamp(1.5rem,3vw,2.2rem);border:1px solid rgba(76,105,136,.13);border-radius:22px;background:linear-gradient(145deg,#fff 0%,#f8fafc 72%,#eef3f6 100%)}
+  .home-now__illustration{position:absolute;right:-1.2rem;top:-.6rem;width:min(42%,18rem);opacity:.72;pointer-events:none}
+  .home-now__illustration svg{width:100%;height:auto}.hn-line{fill:none;stroke:#7ca0c3;stroke-width:1.35}.hn-line--soft{stroke:#aebfcb}.hn-fill{fill:#dfe8ef}.hn-fill--2{fill:#c9d9e6}.hn-water{fill:#e8f0f6}.hn-sun{fill:#b7c4a9}.hn-flower{fill:#8fb0d0}
+  .home-now__label{position:relative;z-index:1;margin-bottom:.45rem;color:#6a8093;font-size:.7rem;font-weight:700;letter-spacing:.06em}
+  .home-now__title{position:relative;z-index:1;max-width:70%;font:600 clamp(1.8rem,3vw,2.55rem)/1.3 var(--font-brand-display);color:var(--brand-navy)}
   .home-now__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .home-now__search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0;width:100%;max-width:100%;margin-top:1.4rem;border-bottom:1px solid var(--brand-navy)}
-  .home-now__search input{flex:1;min-width:0;height:3.5rem;padding:0 .2rem;border:0;background:transparent;color:var(--color-ink);font:inherit;font-size:1rem;line-height:1.2;letter-spacing:.02em;-webkit-appearance:none;appearance:none}
-  .home-now__search input::-webkit-search-decoration,.home-now__search input::-webkit-search-cancel-button{-webkit-appearance:none}
-  .home-now__search input:focus{outline:0}
-  .home-now__search button{flex:none;height:3.5rem;padding:0 .4rem 0 1.2rem;border:0;background:transparent;color:var(--brand-navy);font:700 .82rem var(--font-brand-body);cursor:pointer}
-  .home-now__search button:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
-  .home-now__season{margin-top:1.1rem}
-  .home-now h3{color:var(--brand-navy);font:600 clamp(1.15rem,2vw,1.45rem) var(--font-brand-display);letter-spacing:.01em}
-  .home-now__season ul{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 0;padding:0;list-style:none}
-  .home-now__season li::before{content:none}
-  .home-now__season li[hidden]{display:none}
-  .home-now__season a{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.35rem;padding:.3rem 0;border-bottom:1px solid rgba(76,105,136,.2);color:var(--color-ink);font-size:.82rem;font-weight:700;line-height:1.5}
-  .home-now__season a:hover,.home-now__season a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
-  .home-now__season small{color:var(--color-soil);font-size:.74rem;font-weight:500}
-  .home-now__shindan{display:grid;grid-template-columns:auto 1fr auto;gap:.25rem 1rem;align-items:center;margin-top:1.8rem;padding:1rem 0;border-top:1px solid rgba(76,105,136,.16);border-bottom:1px solid rgba(76,105,136,.16);color:var(--brand-navy);text-decoration:none;transition:padding .16s ease}
-  .home-now__shindan:hover,.home-now__shindan:focus-visible{padding-left:.6rem}
-  .home-now__shindan:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
-  .home-now__shindan-kicker{grid-row:1/3;color:#7890a4;font:700 .68rem var(--font-brand-body);letter-spacing:.1em}
-  .home-now__shindan strong{font:600 1.05rem/1.5 var(--font-brand-display)}
-  .home-now__shindan strong span{display:inline-block}
-  .home-now__shindan-sub{color:var(--color-soil);font-size:.76rem}
-  .home-now__rank ol{display:grid;margin:1rem 0 0;padding:0;list-style:none;border-top:1px solid rgba(76,105,136,.16)}
-  .home-now__rank li{margin:0;border-bottom:1px solid rgba(76,105,136,.16)}
-  .home-now__rank li::before{content:none}
-  .home-now__rank li > a{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.5rem;align-items:baseline;padding:.7rem 0;color:var(--color-ink);font-size:.9rem;font-weight:700;line-height:1.6;text-decoration:none}
-  .home-now__rank li > a:hover span:last-child,.home-now__rank li > a:focus-visible span:last-child{color:var(--color-tide);text-decoration:underline}
-  .home-now__no{color:var(--color-tide);font:700 .74rem var(--font-brand-meta)}
-  .home-now__subs{display:flex;flex-wrap:wrap;gap:.2rem .9rem;margin:-.35rem 0 0;padding:0 0 .7rem 2.5rem;font-size:.78rem;line-height:1.6}
-  .home-now__subs a{color:var(--color-tide);text-decoration:underline;text-underline-offset:.2em}
-  .home-now__subs a:hover,.home-now__subs a:focus-visible{color:var(--color-ink)}
-  .home-now__source{margin-top:.6rem;color:var(--color-soil);font-size:.74rem;line-height:1.7}
-  @media(max-width:860px){.home-now__grid{grid-template-columns:minmax(0,1fr);gap:3rem}.home-now__rank{padding-left:0;padding-top:2rem;border-left:0;border-top:1px solid rgba(76,105,136,.16)}}
-  @media(max-width:480px){.home-now__search button{padding-inline:1rem}.home-now__rank li > a{grid-template-columns:1.75rem minmax(0,1fr);gap:.35rem}.home-now__rank li > a span:last-child{min-width:0;overflow-wrap:anywhere}}
-  @media(prefers-reduced-motion:reduce){.home-now__shindan{transition:none}}
+  .home-now__search{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem;width:100%;margin-top:1.55rem;padding:.35rem .4rem .35rem 1rem;border:1px solid rgba(76,105,136,.2);border-radius:14px;background:#fff;box-shadow:0 8px 22px rgba(76,105,136,.045)}
+  .home-now__search input{min-width:0;height:3rem;border:0;background:transparent;color:var(--color-ink);font:inherit;font-size:.95rem;-webkit-appearance:none;appearance:none}
+  .home-now__search input:focus{outline:0}.home-now__search button{height:3rem;padding:0 1.2rem;border:0;border-radius:10px;background:var(--brand-navy);color:#fff;font-size:.82rem;font-weight:700}
+  .home-now__search button:focus-visible{outline:2px solid var(--color-brand-blue);outline-offset:2px}
+  .home-now__season{position:relative;z-index:1;margin-top:1.3rem}.home-now h3{color:var(--brand-navy);font:600 clamp(1.12rem,1.8vw,1.4rem) var(--font-brand-display)}
+  .home-now__season ul{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0 0;padding:0}.home-now__season li::before{content:none}.home-now__season li[hidden]{display:none}
+  .home-now__season a{display:inline-flex;align-items:center;gap:.35rem;padding:.42rem .7rem;border-radius:999px;background:#eef4f8;color:var(--brand-navy);font-size:.78rem;font-weight:700}.home-now__season a::before{content:"";width:.42rem;height:.42rem;border-radius:50%;background:#789fbe}.home-now__season small{color:var(--color-soil);font-size:.7rem;font-weight:500}
+  .home-now__shindan{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr auto;gap:.2rem 1rem;align-items:center;margin-top:1.35rem;padding:1rem 0 0;border-top:1px solid rgba(76,105,136,.14);color:var(--brand-navy)}.home-now__shindan:hover strong,.home-now__shindan:focus-visible strong{text-decoration:underline;text-underline-offset:.2em}
+  .home-now__shindan-kicker{grid-row:1/3;color:#75899a;font-size:.68rem;font-weight:700}.home-now__shindan strong{font:600 1rem/1.5 var(--font-brand-display)}.home-now__shindan strong span{display:inline-block}.home-now__shindan-sub{color:var(--color-soil);font-size:.72rem}
+  .home-now__rank{padding-top:.25rem}.home-now__rank h3{font-size:clamp(1.55rem,2.5vw,2rem)}
+  .home-now__rank ol{display:grid;margin:1.2rem 0 0;padding:0;border-top:1px solid rgba(76,105,136,.15)}
+  .home-now__rank li{margin:0;border-bottom:1px solid rgba(76,105,136,.15)}.home-now__rank li::before{content:none}
+  .home-now__rank li>a{display:grid;grid-template-columns:2.25rem minmax(0,1fr) auto;gap:.65rem;align-items:center;min-height:4.1rem;padding:.55rem 0;color:var(--color-ink);text-decoration:none}
+  .home-now__rank li>a:hover .home-now__rank-title,.home-now__rank li>a:focus-visible .home-now__rank-title{color:var(--color-brand-blue)}
+  .home-now__no{display:grid;width:1.8rem;height:1.8rem;place-items:center;border-radius:50%;background:#eef3f6;color:#4d6b83;font:700 .72rem var(--font-brand-meta)}
+  .home-now__rank-title{font-size:.9rem;font-weight:700;line-height:1.55}.home-now__rank-arrow{color:#8ca0b1;font-size:.8rem}
+  .home-now__subs{display:flex;flex-wrap:wrap;gap:.2rem .8rem;margin:-.25rem 0 0;padding:0 0 .65rem 2.9rem;font-size:.74rem}.home-now__subs a{color:#557789;text-decoration:underline;text-underline-offset:.2em}
+  .home-now__source{margin-top:.8rem;color:#7a7268;font-size:.7rem;line-height:1.6}
+  @media(max-width:860px){.home-now__grid{grid-template-columns:1fr;gap:3rem}.home-now__main{padding:1.35rem}.home-now__rank{padding-top:0}.home-now__title{max-width:76%}}
+  @media(max-width:520px){.home-now__illustration{width:46%;opacity:.5}.home-now__title{max-width:72%;font-size:1.65rem}.home-now__search{padding-left:.8rem}.home-now__search input{font-size:.88rem}.home-now__search button{padding-inline:.9rem}.home-now__rank li>a{grid-template-columns:2rem minmax(0,1fr) auto}.home-now__rank-title{font-size:.86rem}.home-now__shindan{grid-template-columns:1fr auto}.home-now__shindan-kicker{grid-column:1/-1;grid-row:auto}}
 </style>
