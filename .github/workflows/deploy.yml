@@ -65,4 +65,4 @@ jobs:
       - name: Verify production
         shell: bash
         run: |
-          node scripts/wait-deploy.mjs https://ibatoco.jp/ 20 10
+          node scripts/wait-deploy.mjs /events/fukuroda-falls-autumn-2026/ "このあと、どこ行く？" --timeout 300
