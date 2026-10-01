@@ -72,8 +72,8 @@ const hasAnything = themes.length > 0 || nearby.length > 0 || Boolean(team);
 
 {hasAnything && (
   <nav class="nxt bp-wrap" aria-labelledby="nxt-title" data-next-steps data-page-type={pageType}>
-    <p class="nxt__kicker">NEXT</p>
-    <h2 id="nxt-title" class="nxt__title">ここから続けて読む</h2>
+    <p class="nxt__kicker">EXPLORE MORE</p>
+    <h2 id="nxt-title" class="nxt__title">もう少し、茨城をめぐる</h2>
 
     {team && (
       <div class="nxt__group">
@@ -86,7 +86,7 @@ const hasAnything = themes.length > 0 || nearby.length > 0 || Boolean(team);
 
     {themes.length > 0 && (
       <div class="nxt__group">
-        <p class="nxt__label">テーマで読む</p>
+        <p class="nxt__label">同じ気分なら</p>
         <ul class="nxt__list">
           {themes.map((theme) => (
             <li><a href={`/${theme.slug}/`} data-next-kind="theme">{theme.title}<span aria-hidden="true">→</span></a></li>
@@ -97,7 +97,7 @@ const hasAnything = themes.length > 0 || nearby.length > 0 || Boolean(team);
 
     {nearby.length > 0 && (
       <div class="nxt__group">
-        <p class="nxt__label">近くの街</p>
+        <p class="nxt__label">近くなら、ここも</p>
         <ul class="nxt__list">
           {nearby.map((m) => (
             <li><a href={`/area/${m.slug}/`} data-next-kind="nearby">{m.name}<span class="nxt__km">約{m.km}km</span><span aria-hidden="true">→</span></a></li>
