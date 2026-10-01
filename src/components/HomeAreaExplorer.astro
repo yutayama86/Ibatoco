@@ -100,26 +100,19 @@ const nodes = MUNICIPALITIES.map((m) => ({
         <div data-panel-content></div>
         <a class="ax-panel-read" data-panel-read href="#">この街を読む <span aria-hidden="true">→</span></a>
       </div>
-      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。5地域は常に表示し、地域ごとに開閉する。地図と同じく各街のページへ直接移動する。 -->
+      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。見出しの下に5地域と44市町村を常に表示する（開閉なし）。地図と同じく各街のページへ直接移動する。 -->
       <div class="ax-list">
-        <p class="ax-list-head" id="ax-list-head">市町村名から選ぶ</p>
+        <h3 class="ax-list-head" id="ax-list-head">市町村名から選ぶ</h3>
         <nav aria-labelledby="ax-list-head">
-          {/* 5地域はすべて閉じた状態で始める。県北だけ開いていると、その地域を勧めているように見えるため */}
           {REGION_ORDER.map((k) => (
-            <details class="ax-region">
-              <summary>
-                <span class="ax-region-name"><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</span>
-                <span class="ax-region-count">{MUNICIPALITIES.filter((m) => m.region === k).length}市町村</span>
-                <span class="ax-region-icon" aria-hidden="true"></span>
-              </summary>
-              <ul>
+            <div class="ax-region">
+              <p class="ax-region-name" id={`ax-region-${k}`}><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</p>
+              <ul aria-labelledby={`ax-region-${k}`}>
                 {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
-                  <li>
-                    <a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a>
-                  </li>
+                  <li><a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a></li>
                 ))}
               </ul>
-            </details>
+            </div>
           ))}
         </nav>
       </div>
@@ -202,32 +195,22 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-panel-read:hover, .ax-panel-read:focus-visible { background: var(--color-ink); color: var(--color-white); }
 
   /* リスト（PCは左の列、スマホは地図の下） */
-  .ax-list { margin-top: 1.4rem; display: block; }
-  .ax-list-head { border-bottom: 1px solid var(--color-mist); border-top: 1px solid var(--color-mist); padding: 0.85rem 0; color: var(--color-ink); font-weight: 600; }
-  .ax-list > nav { padding-top: 0; }
-  /* 5地域は常に表示。行ごとに区切り、右端の＋／−で開閉できることを示す */
-  .ax-region { border-bottom: 1px solid var(--color-mist); }
-  .ax-region > summary { cursor: pointer; list-style: none; font-weight: 600; color: var(--color-ink); padding: 0.75em 0.25em 0.75em 0; display: flex; align-items: center; gap: 0.75em; }
-  .ax-region > summary::-webkit-details-marker { display: none; }
-  .ax-region-name { display: inline-flex; align-items: center; gap: 0.5em; }
-  .ax-region-count { margin-left: auto; font-size: 0.78rem; font-weight: 400; color: var(--color-soil); }
-  .ax-region-icon { position: relative; width: 1.6rem; height: 1.6rem; flex: none; border: 1px solid var(--color-mist); border-radius: 999px; }
-  .ax-region-icon::before, .ax-region-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.62rem; height: 1.5px; background: var(--color-tide); transform: translate(-50%, -50%); transition: transform .2s var(--ease); }
-  .ax-region-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
-  .ax-region[open] > summary .ax-region-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
-  .ax-region > summary:hover .ax-region-icon { border-color: var(--color-tide); }
-  /* マウスで押したときに太い枠が出ないよう、フォーカスは控えめな背景で示す（キーボード操作でも見える） */
-  .ax-region > summary:focus { outline: none; }
-  .ax-region > summary:focus-visible { outline: none; background: color-mix(in srgb, var(--color-tide) 8%, transparent); box-shadow: inset 3px 0 0 var(--color-tide); }
-  .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .ax-list { margin-top: clamp(1.6rem,3vw,2.2rem); display: block; }
+  /* 「市町村名から選ぶ」は枠で囲まず、上の「気になる街を、ひとつ。」と同じ書体の小見出しにする */
+  .ax-panel .ax-list-head { margin: 0; padding-bottom: .7rem; border-bottom: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent);
+    font: 600 clamp(1.02rem,1.6vw,1.18rem)/1.5 var(--font-brand-display); letter-spacing: .02em; color: var(--color-ink); }
+  /* 5地域と44市町村は常に表示する。左に地域名、右に市町村名を折り返して並べる */
+  .ax-region { display: grid; grid-template-columns: 4.6rem minmax(0,1fr); gap: .2rem 1rem; align-items: baseline; padding: .7rem 0; border-bottom: 1px solid var(--color-mist); }
+  .ax-region-name { display: inline-flex; align-items: center; gap: .5em; font-weight: 600; font-size: .9rem; color: var(--color-ink); white-space: nowrap; }
+  .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
   .ax-region-dot[data-region="kenpoku"] { background: #a7cddd; }
   .ax-region-dot[data-region="keno"] { background: #c6cdb0; }
   .ax-region-dot[data-region="kennan"] { background: #b6cdb0; }
   .ax-region-dot[data-region="rokko"] { background: #82b3ce; }
   .ax-region-dot[data-region="kensei"] { background: #d8c58d; }
-  .ax-region ul { list-style: none; padding: 0 0 0.6rem; margin: 0; }
-  .ax-region li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.3rem 0; border-bottom: 1px solid var(--color-mist); }
-  .ax-list-btn { background: none; border: 0; font: inherit; color: var(--color-charcoal); cursor: pointer; padding: 0.3em 0; text-align: left; text-decoration: none; }
+  .ax-panel .ax-region ul { display: flex; flex-wrap: wrap; gap: .1rem 1.1rem; list-style: none; padding: 0; margin: 0; }
+  .ax-panel .ax-region .ax-list-btn { display: inline-block; padding: .3em 0; font-size: .9rem; color: var(--color-charcoal); text-decoration: none; }
+  .ax-panel .ax-region .ax-list-btn:hover, .ax-panel .ax-region .ax-list-btn:focus-visible { color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }
   .ax-list-btn[aria-pressed="true"] { color: var(--color-tide); font-weight: 700; }
   .ax-list-read { font-size: 0.8rem; color: var(--color-tide); text-decoration: none; }
 
@@ -241,7 +224,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
     .ax-label[data-label-slug="kasumigaura"], .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.2px; }
     .ax-panel { min-height: 0; }
   }
-  @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-region-icon::before, .ax-region-icon::after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .ax-shape { transition: none; } }
 </style>
 
 <script>
