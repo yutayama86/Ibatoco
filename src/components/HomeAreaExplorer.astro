@@ -133,11 +133,11 @@ const nodes = MUNICIPALITIES.map((m) => ({
   /* 5地域：原色分けを避けた、低彩度のブランド派生色 */
   .ax-shape { stroke: color-mix(in srgb, var(--color-paper) 88%, var(--color-ink)); stroke-width: .72; stroke-linejoin: round; vector-effect: non-scaling-stroke;
     transition: filter .2s var(--ease), stroke-width .2s; }
-  .ax-muni[data-region="kenpoku"] .ax-shape { fill: #a7cddd; }
-  .ax-muni[data-region="keno"]    .ax-shape { fill: #c6cdb0; }
-  .ax-muni[data-region="kennan"]  .ax-shape { fill: #b6cdb0; }
-  .ax-muni[data-region="rokko"]   .ax-shape { fill: #82b3ce; }
-  .ax-muni[data-region="kensei"]  .ax-shape { fill: #d8c58d; }
+  .ax-muni[data-region="kenpoku"] .ax-shape { fill: #8fc7ee; }
+  .ax-muni[data-region="keno"]    .ax-shape { fill: #b9d9f2; }
+  .ax-muni[data-region="kennan"]  .ax-shape { fill: #d1e8f8; }
+  .ax-muni[data-region="rokko"]   .ax-shape { fill: #69addd; }
+  .ax-muni[data-region="kensei"]  .ax-shape { fill: #9dcced; }
 
   /* hover は面の明度だけを変え、地図の境界線を乱さない。キーボードフォーカスのみ線でも示す。 */
   .ax-muni {
@@ -203,11 +203,11 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-region { display: grid; grid-template-columns: 4.6rem minmax(0,1fr); gap: .2rem 1rem; align-items: baseline; padding: .7rem 0; border-bottom: 1px solid var(--color-mist); }
   .ax-region-name { display: inline-flex; align-items: center; gap: .5em; font-weight: 600; font-size: .9rem; color: var(--color-ink); white-space: nowrap; }
   .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
-  .ax-region-dot[data-region="kenpoku"] { background: #a7cddd; }
-  .ax-region-dot[data-region="keno"] { background: #c6cdb0; }
-  .ax-region-dot[data-region="kennan"] { background: #b6cdb0; }
-  .ax-region-dot[data-region="rokko"] { background: #82b3ce; }
-  .ax-region-dot[data-region="kensei"] { background: #d8c58d; }
+  .ax-region-dot[data-region="kenpoku"] { background: #8fc7ee; }
+  .ax-region-dot[data-region="keno"] { background: #b9d9f2; }
+  .ax-region-dot[data-region="kennan"] { background: #d1e8f8; }
+  .ax-region-dot[data-region="rokko"] { background: #69addd; }
+  .ax-region-dot[data-region="kensei"] { background: #9dcced; }
   .ax-panel .ax-region ul { display: flex; flex-wrap: wrap; gap: .1rem 1.1rem; list-style: none; padding: 0; margin: 0; }
   .ax-panel .ax-region .ax-list-btn { display: inline-block; padding: .3em 0; font-size: .9rem; color: var(--color-charcoal); text-decoration: none; }
   .ax-panel .ax-region .ax-list-btn:hover, .ax-panel .ax-region .ax-list-btn:focus-visible { color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }

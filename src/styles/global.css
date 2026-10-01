@@ -97,11 +97,16 @@
   --discovery-shadow-hover: 0 16px 38px rgba(23, 43, 53, 0.11);
   --discovery-gap: clamp(0.75rem, 2vw, 1.15rem);
   /* IBATOCO Brand v2 — local magazine × discovery product */
-  --brand-cream: #fffaf0;
-  --brand-lemon: #f6e89d;
-  --brand-leaf: #dfe8bd;
-  --brand-pink: #f3d9d1;
-  --brand-blue-soft: #e6f2ff;
+  --brand-cream: #f6faff;
+  --brand-lemon: #dbeeff;
+  --brand-leaf: #e8f3ff;
+  --brand-pink: #eef5ff;
+  --brand-blue-soft: #e9f4ff;
+  --brand-sky: #cfe6ff;
+  --brand-ice: #f2f8ff;
+  --brand-cobalt: #2468c9;
+  --brand-cobalt-deep: #174c9a;
+  --brand-navy: #071744;
   --brand-ink: #102f3d;
   --brand-radius-card: 22px;
   --brand-radius-pill: 999px;
@@ -229,9 +234,9 @@ ul, ol { list-style: none; padding: 0; }
 ::selection { background: var(--color-brand-blue); color: #fff; }
 
 /* Brand v2: 共通の編集トーン。背景を明るくし、青・若草・レモンを小面積で使う。 */
-body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(31,99,191,.025) 1px,transparent 1px)}
+body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(31,99,191,.03) 1px,transparent 1px)}
 .bp-kicker,.eyebrow{color:var(--color-brand-blue)}
-.bp-kicker::before{content:"";display:inline-block;width:.5rem;height:.5rem;margin-right:.45rem;border-radius:50%;background:var(--brand-lemon);vertical-align:.08em}
+.bp-kicker::before{content:"";display:inline-block;width:.5rem;height:.5rem;margin-right:.45rem;border-radius:50%;background:var(--brand-sky);vertical-align:.08em}
 :focus-visible{outline-color:var(--color-brand-blue)}
 
 
