@@ -59,7 +59,14 @@ expect(
   '日本時間の今日',
 );
 
-const criticalFiles = ['src/lib/happenings.ts', 'src/lib/lifecycle.ts'];
+// 「今日」や開催日で表示を振り分けるファイル。ビルド環境（UTC・米国時間）で暦日がずれないよう、ローカル時刻の getter を禁止する
+const criticalFiles = [
+  'src/lib/happenings.ts',
+  'src/lib/lifecycle.ts',
+  'src/lib/sports.ts',
+  'src/pages/events/index.astro',
+  'src/pages/hanabi.astro',
+];
 const forbidden = [
   { pattern: /\.getFullYear\s*\(/, label: 'getFullYear()' },
   { pattern: /\.getMonth\s*\(/, label: 'getMonth()' },
