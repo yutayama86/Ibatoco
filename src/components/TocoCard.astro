@@ -30,7 +30,7 @@ const visibleTags = tags.filter(Boolean).slice(0, 3);
 </a>
 
 <style>
-  .toco-card{display:grid;grid-template-columns:minmax(7rem,34%) minmax(0,1fr);min-height:9rem;overflow:hidden;border:1px solid var(--color-line,var(--color-mist));border-radius:var(--discovery-radius-lg,20px);background:var(--color-white);box-shadow:var(--discovery-shadow);color:var(--color-ink);text-decoration:none;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+  .toco-card{display:grid;grid-template-columns:minmax(7rem,34%) minmax(0,1fr);min-height:9rem;overflow:hidden;border:1px solid var(--color-line,var(--color-mist));border-radius:var(--discovery-radius-lg,20px);background:linear-gradient(160deg,var(--color-white),var(--brand-cream,var(--color-white)));box-shadow:var(--brand-shadow-card,var(--discovery-shadow));color:var(--color-ink);text-decoration:none;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
   .toco-card:hover,.toco-card:focus-visible{transform:translateY(-2px);border-color:var(--color-brand-blue);box-shadow:var(--discovery-shadow-hover)}
   .toco-card:focus-visible{outline:2px solid var(--color-brand-blue);outline-offset:3px}
   .toco-card__media{position:relative;min-height:100%;overflow:hidden;background:linear-gradient(145deg,var(--color-sky-soft),var(--color-paper))}
