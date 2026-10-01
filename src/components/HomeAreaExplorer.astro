@@ -167,7 +167,9 @@ const nodes = MUNICIPALITIES.map((m) => ({
 
   /* パネル */
   .ax-panel { grid-area: panel; min-height: 260px; margin-top: clamp(1rem, 4vw, 3.25rem); padding: clamp(1.4rem, 3vw, 2rem) 0; border-block: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent); background: transparent; min-width: 0; }
-  .ax-panel--integrated { margin-top: 0; padding-top: 0; border-top: 0; }
+  /* TOPは街を選ぶと直接遷移するため、パネル本体は表示されない。凡例を外した後に下線だけが残って空の枠に見えないよう、外側の下線と余白を消す */
+  .ax-panel--integrated { margin-top: 0; padding-top: 0; padding-bottom: 0; border-top: 0; border-bottom: 0; min-height: 0; }
+  .ax-panel--integrated .ax-panel-empty:empty { display: none; }
   .ax-intro { padding-bottom: clamp(1.35rem,2.5vw,2rem); border-bottom: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent); }
   .ax-intro-kicker { font: 700 .74rem var(--font-brand-meta); letter-spacing: .08em; color: var(--color-tide); }
   .ax-intro h2 { margin-top: .7rem; font: 600 clamp(2rem,4.2vw,3.65rem)/1.24 var(--font-brand-display); letter-spacing: .01em; color: var(--color-ink); }
@@ -226,6 +228,8 @@ const nodes = MUNICIPALITIES.map((m) => ({
     .ax-label[data-label-slug="kasumigaura"], .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.2px; }
     .ax-panel { min-height: 0; }
     .ax-list { display: block; }
+    /* スマホは直下の「市町村名から選ぶ」に区切り線があるため、導入文の下線は付けない（線が二重に見えるのを防ぐ） */
+    .ax-intro { border-bottom: 0; padding-bottom: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-list-toggle span { transition: none; } }
 </style>
