@@ -14,7 +14,6 @@ import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
-import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
 import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink } from '../../data/affiliates';
@@ -68,6 +67,16 @@ const unknownLabels = info ? ([
 ] as [string, string | undefined][]).filter(([, v]) => !v).map(([k]) => k) : [];
 
 const towns = d.municipalities.map((s) => MUNI_BY_SLUG.get(s)).filter(Boolean);
+const verifiedAt = d.updatedDate ?? d.sourceUrls
+  .map((s) => s.accessedAt)
+  .filter((x): x is Date => Boolean(x))
+  .sort((a, b) => b.getTime() - a.getTime())[0] ?? d.pubDate;
+const decisionChips = info ? [
+  info.fee && { label: '料金', value: info.fee },
+  info.parking && { label: '駐車場', value: '情報あり' },
+  info.publicTransport && { label: '公共交通', value: '情報あり' },
+  info.weatherPolicy && { label: '雨天', value: '確認済み' },
+].filter(Boolean).slice(0, 4) as { label: string; value: string }[] : [];
 // 開催状況は保存せず毎ビルド計算する。保存すると開催後も upcoming のまま残る
 const lifecycle = lifecycleOf(entry);
 const lifecycleLabel = LIFECYCLE_LABEL[lifecycle];
@@ -187,6 +196,17 @@ if (d.faq.length > 0) {
       <time datetime={d.pubDate.toISOString()}>公開 {fmtDate(d.pubDate)}</time>
       {d.updatedDate && <> ／ <time datetime={d.updatedDate.toISOString()}>更新 {fmtDate(d.updatedDate)}</time></>}
     </p>
+    <aside class="ev-check" aria-label="この記事の確認状況">
+      <div class="ev-check__verified">
+        <span aria-hidden="true">✓</span>
+        <div><strong>公式情報を確認済み</strong><small>{fmtDate(verifiedAt)}時点</small></div>
+      </div>
+      {decisionChips.length > 0 && (
+        <dl class="ev-check__chips">
+          {decisionChips.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+        </dl>
+      )}
+    </aside>
   </header>
 
   <div class="ev-layout bp-wrap">
@@ -279,8 +299,6 @@ if (d.faq.length > 0) {
     ))}</ul>
     <p class="ev-caution">開催内容・日程・料金・交通は変更されることがあります。お出かけ前に必ず公式の最新情報をご確認ください。</p>
   </section>
-  {/* 既存の分類から作った回遊先。該当が無ければ何も出ない */}
-  <ArticleNextSteps municipalities={d.municipalities} pageType="events" />
   {/* 本文を読み終えた位置に、地域事業者向けの導線を1つだけ置く */}
   <BusinessCta pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />
     </div>
@@ -369,6 +387,16 @@ if (d.faq.length > 0) {
   .ad-disclosure{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:1rem;padding:.45rem .7rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.5rem;background:var(--interior-sky-soft,#eef6ff);color:var(--color-soil);font-size:.76rem;line-height:1.7;width:max-content;max-width:100%}
   .ad-disclosure__tag{font-weight:700;color:var(--color-ink)}
   .ev-meta{margin-top:1rem;color:var(--color-soil);font:.74rem var(--font-brand-meta)}
+  .ev-check{display:grid;gap:.8rem;margin-top:1.25rem;padding:1rem;border:1px solid var(--color-line,var(--color-mist));border-radius:var(--discovery-radius-md,16px);background:linear-gradient(145deg,var(--color-sky-soft),var(--color-white));box-shadow:var(--discovery-shadow)}
+  .ev-check__verified{display:flex;align-items:center;gap:.65rem}
+  .ev-check__verified>span{display:grid;place-items:center;width:1.65rem;height:1.65rem;border-radius:999px;background:var(--color-brand-blue);color:#fff;font-weight:800}
+  .ev-check__verified div{display:grid;gap:.08rem}
+  .ev-check__verified strong{font-size:.84rem;color:var(--color-ink)}
+  .ev-check__verified small{font-size:.7rem;color:var(--color-soil)}
+  .ev-check__chips{display:flex;flex-wrap:wrap;gap:.45rem;margin:0}
+  .ev-check__chips div{display:flex;gap:.35rem;padding:.38rem .58rem;border:1px solid color-mix(in srgb,var(--color-mist) 85%,transparent);border-radius:999px;background:rgba(255,255,255,.82);font-size:.7rem}
+  .ev-check__chips dt{color:var(--color-soil)}
+  .ev-check__chips dd{margin:0;font-weight:700;color:var(--color-ink)}
 
   .ev-facts{display:grid;gap:0;max-width:var(--ev-measure);margin:0;border-top:1px solid var(--color-mist)}
   .ev-facts div{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--color-mist)}
