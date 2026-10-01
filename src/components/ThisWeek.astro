@@ -193,15 +193,15 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 
 <!-- ブラウザで日付ごとに再生成するカードにも適用する。tw固有クラスだけなので他要素へ波及しない -->
 <style is:global>
-  .tw{padding-block:clamp(2.5rem,5vw,4rem);background:var(--color-white)}
+  .tw{padding-block:clamp(3rem,6vw,5rem);background:linear-gradient(180deg,var(--color-white),var(--brand-blue-soft))}
   .tw__title{margin-top:.6rem;font:600 clamp(1.6rem,3.2vw,2.4rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .tw__lead{margin-top:.8rem;max-width:var(--measure);color:var(--color-soil);font-size:.88rem;line-height:1.9}
   .tw__groups{display:grid;gap:1.75rem;margin-top:1.75rem}
   .tw__when{margin:0 0 .7rem;color:var(--color-tide);font:700 .8rem var(--font-brand-meta);letter-spacing:.08em}
   .tw__list{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
   .tw__list li{margin:0}
-  .tw__list a{display:grid;gap:.3rem;padding:.9rem 1rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white);color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
-  .tw__list a:hover,.tw__list a:focus-visible{border-color:var(--color-tide);box-shadow:0 10px 26px rgba(25,55,88,.1)}
+  .tw__list a{display:grid;gap:.3rem;padding:.9rem 1rem;border:1px solid var(--color-mist);border-radius:var(--brand-radius-card);background:rgba(255,255,255,.9);color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
+  .tw__list a:hover,.tw__list a:focus-visible{border-color:var(--color-tide);box-shadow:var(--brand-shadow-lift)}
   .tw__list a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
   .tw__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;color:var(--color-soil);font-size:.76rem}
   .tw__kind{padding:.1rem .5rem;border-radius:999px;font:700 .68rem var(--font-brand-meta);letter-spacing:.04em;background:var(--color-ink);color:#fff}
