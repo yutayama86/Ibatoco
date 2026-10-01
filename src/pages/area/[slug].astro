@@ -54,6 +54,7 @@ const eventDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long',
 // ニュース解説もこの街の記録に数える。数えないと、記事があるのに
 // 「まだありません」と出てしまう。
 const hasContent = articles.length + stores.length + areaNews.length + areaEvents.length > 0;
+const discoveryCount = areaEvents.length + areaBusinesses.length + relatedThemes.length;
 // 日立市＝出典・CCクレジット付きで作り込んだ旗艦ガイド（指示書 v1.0＋追補v1.1）。index。
 // 最終バッチ18市町村＝データ駆動の旅ガイド（text-forward）。「要確認」項目の人手検証まで noindex。
 // 残り25市町村は取材記事が付くまでミニマル表示（架空情報で埋めない）。
@@ -155,6 +156,13 @@ const jsonLd: Record<string, unknown>[] = [
 ---
 
 <BrandBase title={pageTitle} ogTitle={ogTitle} description={metaDescription} jsonLd={jsonLd} noindex={shouldNoindex}>
+  <nav class="area-discovery-bar bp-wrap" aria-label={`${municipality.name}の探し方`}>
+    <span><b>{municipality.name}</b>から次を探す</span>
+    {areaThisWeek.length > 0 && <a href="#area-this-week">今週</a>}
+    {areaEvents.length > 0 && <a href="#area-events">イベント</a>}
+    {relatedThemes.length > 0 && <a href="#area-themes">テーマ</a>}
+    <a href="/area/">ほかの街</a>
+  </nav>
   {isHitachi ? <HitachiAreaGuide /> : isDaigo ? <DaigoAreaGuide /> : hasGuide ? <AreaGuide slug={slug!} guide={guide!} /> : <article class="area-page">
     <header class="area-head bp-wrap">
       <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/area/">エリア</a><span>/</span><span>{region.label}</span></nav>
@@ -176,7 +184,7 @@ const jsonLd: Record<string, unknown>[] = [
 
   {/* ここから下は44市町村すべてで出す。ガイドの有無で分かれる三項の外に置く */}
     {areaThisWeek.length > 0 && (
-      <section class="area-week bp-wrap" aria-labelledby="area-week-h">
+      <section id="area-this-week" class="area-week bp-wrap" aria-labelledby="area-week-h">
         <p class="bp-kicker">THIS WEEK</p>
         <h2 id="area-week-h" class="bp-section-title">{municipality.name}で、今週できること</h2>
         <ul class="area-week__list">
@@ -211,7 +219,7 @@ const jsonLd: Record<string, unknown>[] = [
 
 
   {areaEvents.length > 0 && (
-    <section class="area-news area-events">
+    <section id="area-events" class="area-news area-events">
       <div class="bp-wrap">
         <p class="bp-kicker">EVENTS</p>
         <h2>{municipality.name}のイベント</h2>
@@ -245,7 +253,7 @@ const jsonLd: Record<string, unknown>[] = [
   </section>
 
   {(relatedThemes.length > 0 || areaMichinoeki.length > 0) && (
-    <section class="area-themes">
+    <section id="area-themes" class="area-themes">
       <div class="bp-wrap">
         <p class="bp-kicker">THEMES</p>
         <h2>{municipality.name}が出てくるテーマ</h2>
@@ -282,6 +290,11 @@ const jsonLd: Record<string, unknown>[] = [
 </script>
 
 <style>
+  .area-discovery-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:1rem;padding:.75rem .9rem;border:1px solid var(--color-mist);border-radius:var(--discovery-radius-md,16px);background:var(--color-white);box-shadow:var(--discovery-shadow)}
+  .area-discovery-bar>span{margin-right:auto;color:var(--color-soil);font-size:.78rem}.area-discovery-bar>span b{color:var(--color-ink)}
+  .area-discovery-bar a{padding:.38rem .65rem;border-radius:999px;background:var(--color-sky-soft);color:var(--color-ink);font-size:.74rem;font-weight:700}
+  .area-discovery-bar a:hover,.area-discovery-bar a:focus-visible{color:var(--color-brand-blue)}
+
   .area-week{padding-block:clamp(2rem,4vw,3rem)}
   .area-week__list{display:grid;gap:.6rem;margin-top:1.5rem;padding:0;list-style:none}
   .area-week__list li{margin:0}
