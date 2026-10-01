@@ -54,7 +54,6 @@ const eventDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long',
 // ニュース解説もこの街の記録に数える。数えないと、記事があるのに
 // 「まだありません」と出てしまう。
 const hasContent = articles.length + stores.length + areaNews.length + areaEvents.length > 0;
-const discoveryCount = areaEvents.length + areaBusinesses.length + relatedThemes.length;
 // 日立市＝出典・CCクレジット付きで作り込んだ旗艦ガイド（指示書 v1.0＋追補v1.1）。index。
 // 最終バッチ18市町村＝データ駆動の旅ガイド（text-forward）。「要確認」項目の人手検証まで noindex。
 // 残り25市町村は取材記事が付くまでミニマル表示（架空情報で埋めない）。
