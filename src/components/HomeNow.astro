@@ -136,9 +136,9 @@ const seasonal = (await getHappenings(new Date(), 60))
 </script>
 
 <style>
-  .home-now{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6rem);background:linear-gradient(145deg,var(--brand-navy),#0d3565 64%,#174f8e);border-block:0}.home-now::after{content:"IBATOCO";position:absolute;right:-.02em;bottom:-.22em;color:rgba(255,255,255,.035);font:700 clamp(7rem,18vw,18rem)/1 var(--font-brand-meta);letter-spacing:-.07em;pointer-events:none}
+  .home-now{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6rem);background:linear-gradient(180deg,#fbfcfe 0%,#f2f6fa 100%);border-block:1px solid rgba(76,105,136,.1)}.home-now::after{content:'';position:absolute;right:-6rem;bottom:-5rem;width:34rem;height:20rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;opacity:.06;pointer-events:none}
   .home-now__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(1.4rem,4vw,3.2rem);align-items:start}
-  .home-now__main,.home-now__rank{position:relative;z-index:1;min-width:0;max-width:100%;padding:clamp(1.3rem,3vw,2rem);border:1px solid rgba(255,255,255,.22);border-radius:28px;background:rgba(255,255,255,.97);box-shadow:0 24px 60px rgba(0,16,45,.2)}.home-now__kicker{margin:0 0 .45rem;color:var(--brand-cobalt);font:800 .62rem var(--font-brand-meta);letter-spacing:.2em}
+  .home-now__main,.home-now__rank{position:relative;z-index:1;min-width:0;max-width:100%}.home-now__main{padding-right:clamp(1rem,3vw,2.5rem)}.home-now__rank{padding:clamp(1.2rem,2.5vw,1.7rem);border:1px solid rgba(76,105,136,.14);border-radius:20px;background:rgba(255,255,255,.72);box-shadow:0 12px 30px rgba(76,105,136,.05)}.home-now__kicker{margin:0 0 .45rem;color:var(--brand-cobalt);font:800 .62rem var(--font-brand-meta);letter-spacing:.2em}
   .home-now__title{font:600 clamp(1.45rem,2.8vw,2rem)/1.35 var(--font-brand-display);color:var(--brand-navy)}
   .home-now__hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .home-now__search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem;width:100%;max-width:100%;margin-top:.9rem}
@@ -155,13 +155,13 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__season a{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:.35rem;padding:.5rem .9rem;border:1px solid var(--color-mist);border-radius:999px;background:var(--color-paper);color:var(--color-ink);font-size:.86rem;font-weight:700;line-height:1.5}
   .home-now__season a:hover,.home-now__season a:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
   .home-now__season small{color:var(--color-soil);font-size:.74rem;font-weight:500}
-  .home-now__shindan{display:grid;gap:.25rem;margin-top:1.2rem;padding:1rem 1.2rem;border-radius:var(--brand-radius-card);background:linear-gradient(145deg,var(--brand-cobalt-deep),var(--brand-cobalt));color:#fff;text-decoration:none;transition:transform .16s ease}
+  .home-now__shindan{display:grid;gap:.25rem;margin-top:1.2rem;padding:1rem 1.2rem;border-radius:var(--brand-radius-card);background:var(--brand-navy);color:#fff;text-decoration:none;transition:transform .16s ease}
   .home-now__shindan:hover,.home-now__shindan:focus-visible{transform:translateY(-2px)}
   .home-now__shindan:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
-  .home-now__shindan-kicker{color:#bfd0d3;font:700 .74rem var(--font-brand-body);letter-spacing:.08em}
+  .home-now__shindan-kicker{color:#dbe5f0;font:700 .74rem var(--font-brand-body);letter-spacing:.08em}
   .home-now__shindan strong{font:600 1.08rem/1.5 var(--font-brand-display)}
   .home-now__shindan strong span{display:inline-block}
-  .home-now__shindan-sub{color:#dfe7e8;font-size:.82rem}
+  .home-now__shindan-sub{color:#eef3f7;font-size:.82rem}
   .home-now__rank ol{display:grid;margin:.6rem 0 0;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
   .home-now__rank li{margin:0;border-bottom:1px solid var(--color-mist)}
   .home-now__rank li::before{content:none}

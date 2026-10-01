@@ -193,15 +193,15 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 
 <!-- ブラウザで日付ごとに再生成するカードにも適用する。tw固有クラスだけなので他要素へ波及しない -->
 <style is:global>
-  .tw{padding-block:clamp(4rem,7vw,6rem);background:linear-gradient(180deg,#fff 0%,#eef6ff 100%)}
+  .tw{padding-block:clamp(4rem,7vw,6rem);background:#fff}
   .tw__title{margin-top:.6rem;font:600 clamp(1.6rem,3.2vw,2.4rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .tw__lead{margin-top:.8rem;max-width:var(--measure);color:var(--color-soil);font-size:.88rem;line-height:1.9}
   .tw__groups{display:grid;gap:1rem;margin-top:2rem}
-  .tw__group{padding:1rem;border:1px solid rgba(36,104,201,.1);border-radius:26px;background:rgba(255,255,255,.88);box-shadow:0 14px 34px rgba(21,72,135,.06)}.tw__when{display:inline-flex;margin:0 0 .7rem;padding:.32rem .65rem;border-radius:999px;background:#d9ebff;color:var(--brand-cobalt-deep);font:800 .72rem var(--font-brand-meta);letter-spacing:.1em}
+  .tw__group{padding:0 0 1rem;border-bottom:1px solid rgba(76,105,136,.14);background:transparent}.tw__when{display:inline-flex;margin:0 0 .7rem;padding:.32rem .65rem;border-radius:999px;background:#e7edf4;color:var(--brand-navy);font:800 .72rem var(--font-brand-meta);letter-spacing:.1em}
   .tw__list{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
   .tw__list li{margin:0}
-  .tw__list a{display:grid;gap:.3rem;padding:.9rem 1rem;border:1px solid var(--color-mist);border-radius:18px;background:linear-gradient(145deg,#fff,#f5faff);color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
-  .tw__list a:hover,.tw__list a:focus-visible{border-color:var(--color-tide);box-shadow:var(--brand-shadow-lift)}
+  .tw__list a{display:grid;gap:.3rem;padding:.9rem 1rem;border:1px solid var(--color-mist);border-radius:14px;background:#f8fafc;color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
+  .tw__list a:hover,.tw__list a:focus-visible{border-color:var(--color-tide);box-shadow:0 10px 24px rgba(76,105,136,.08)}
   .tw__list a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
   .tw__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;color:var(--color-soil);font-size:.76rem}
   .tw__kind{padding:.1rem .5rem;border-radius:999px;font:700 .68rem var(--font-brand-meta);letter-spacing:.04em;background:var(--color-ink);color:#fff}

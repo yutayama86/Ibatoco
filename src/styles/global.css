@@ -97,16 +97,16 @@
   --discovery-shadow-hover: 0 16px 38px rgba(23, 43, 53, 0.11);
   --discovery-gap: clamp(0.75rem, 2vw, 1.15rem);
   /* IBATOCO Brand v2 — local magazine × discovery product */
-  --brand-cream: #f6faff;
-  --brand-lemon: #dbeeff;
-  --brand-leaf: #e8f3ff;
-  --brand-pink: #eef5ff;
-  --brand-blue-soft: #e9f4ff;
-  --brand-sky: #cfe6ff;
-  --brand-ice: #f2f8ff;
-  --brand-cobalt: #2468c9;
-  --brand-cobalt-deep: #174c9a;
-  --brand-navy: #071744;
+  --brand-cream: #fcfcfa;
+  --brand-lemon: #dbe5f0;
+  --brand-leaf: #b9bdb2;
+  --brand-pink: #e7edf4;
+  --brand-blue-soft: #dbe5f0;
+  --brand-sky: #99bbe1;
+  --brand-ice: #f5f8fb;
+  --brand-cobalt: #4c6988;
+  --brand-cobalt-deep: #284766;
+  --brand-navy: #090a37;
   --brand-ink: #102f3d;
   --brand-radius-card: 22px;
   --brand-radius-pill: 999px;
