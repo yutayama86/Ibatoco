@@ -75,7 +75,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
     </figure>
 
     <!-- 隣接パネル（選択中の市町村の概要） -->
-    <aside class="ax-panel ax-panel--integrated" aria-live="polite">
+    <aside class="ax-panel ax-panel--integrated">
       <header class="ax-intro">
         <p class="ax-intro-kicker">街から探す</p>
         <h2>44の街から、<br />茨城を読む。</h2>
@@ -100,28 +100,27 @@ const nodes = MUNICIPALITIES.map((m) => ({
         <div data-panel-content></div>
         <a class="ax-panel-read" data-panel-read href="#">この街を読む <span aria-hidden="true">→</span></a>
       </div>
+      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。地図と同じく各街のページへ直接移動する。 -->
+      <details class="ax-list" open>
+        <summary class="ax-list-toggle">市町村名から選ぶ <span aria-hidden="true">＋</span></summary>
+        <nav aria-label="地域と市町村の一覧">
+          {/* 5地域はすべて閉じた状態で始める。県北だけ開いていると、その地域を勧めているように見えるため */}
+          {REGION_ORDER.map((k) => (
+            <details class="ax-region">
+              <summary><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</summary>
+              <ul>
+                {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
+                  <li>
+                    <a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </nav>
+      </details>
     </aside>
   </div>
-
-  <!-- モバイル：地図の補助となる市町村リンク一覧。必要なときだけ開ける。 -->
-  <details class="ax-list" open>
-    <summary class="ax-list-toggle">市町村名から選ぶ <span aria-hidden="true">＋</span></summary>
-    <nav aria-label="地域と市町村の一覧">
-      {/* 5地域はすべて閉じた状態で始める。県北だけ開いていると、その地域を勧めているように見えるため */}
-      {REGION_ORDER.map((k) => (
-        <details class="ax-region">
-          <summary><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</summary>
-          <ul>
-            {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
-              <li>
-                <a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a>
-              </li>
-            ))}
-          </ul>
-        </details>
-      ))}
-    </nav>
-  </details>
 
   <script is:inline type="application/json" set:html={JSON.stringify(panelData)} data-ax-data></script>
 </section>
@@ -170,7 +169,8 @@ const nodes = MUNICIPALITIES.map((m) => ({
   /* TOPは街を選ぶと直接遷移するため、パネル本体は表示されない。凡例を外した後に下線だけが残って空の枠に見えないよう、外側の下線と余白を消す */
   .ax-panel--integrated { margin-top: 0; padding-top: 0; padding-bottom: 0; border-top: 0; border-bottom: 0; min-height: 0; }
   .ax-panel--integrated .ax-panel-empty:empty { display: none; }
-  .ax-intro { padding-bottom: clamp(1.35rem,2.5vw,2rem); border-bottom: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent); }
+  /* 区切り線は直下の「市町村名から選ぶ」の上線に任せる（線が二重に見えないように） */
+  .ax-intro { padding-bottom: 0; border-bottom: 0; }
   .ax-intro-kicker { font: 700 .74rem var(--font-brand-meta); letter-spacing: .08em; color: var(--color-tide); }
   .ax-intro h2 { margin-top: .7rem; font: 600 clamp(2rem,4.2vw,3.65rem)/1.24 var(--font-brand-display); letter-spacing: .01em; color: var(--color-ink); }
   .ax-intro h3 { margin-top: clamp(1.3rem,2.5vw,2rem); font: 600 clamp(1.15rem,2vw,1.45rem)/1.5 var(--font-brand-display); color: var(--color-ink); }
@@ -197,8 +197,8 @@ const nodes = MUNICIPALITIES.map((m) => ({
     border: 1px solid var(--color-ink); border-radius: var(--radius-xs); padding: 0.5em 1.1em; text-decoration: none; }
   .ax-panel-read:hover, .ax-panel-read:focus-visible { background: var(--color-ink); color: var(--color-white); }
 
-  /* リスト（モバイル＋SR等価） */
-  .ax-list { margin-top: 1.4rem; display: none; }
+  /* リスト（PCは左の列、スマホは地図の下） */
+  .ax-list { margin-top: 1.4rem; display: block; }
   .ax-list-toggle { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between;
     border-block: 1px solid var(--color-mist); padding: 0.85rem 0; color: var(--color-ink); font-weight: 600; }
   .ax-list-toggle::-webkit-details-marker { display: none; }
@@ -227,9 +227,6 @@ const nodes = MUNICIPALITIES.map((m) => ({
     .ax-label[data-label-slug="hitachinaka"], .ax-label[data-label-slug="tsukubamirai"], .ax-label[data-label-slug="tokai"] { font-size: 8px; }
     .ax-label[data-label-slug="kasumigaura"], .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.2px; }
     .ax-panel { min-height: 0; }
-    .ax-list { display: block; }
-    /* スマホは直下の「市町村名から選ぶ」に区切り線があるため、導入文の下線は付けない（線が二重に見えるのを防ぐ） */
-    .ax-intro { border-bottom: 0; padding-bottom: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-list-toggle span { transition: none; } }
 </style>
