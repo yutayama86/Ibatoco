@@ -20,6 +20,7 @@ import {
   SPORTS_MATCHES, type MatchDayPlan, type MatchGuide, type SportsMatch, type SportsSource,
 } from '../data/sports-schedule';
 import { getSportsNews } from './content';
+import { dateOnlyFromInstant, parseDateOnly } from './date-only.js';
 
 type Score = { own: number; opponent: number };
 
@@ -73,7 +74,7 @@ function fromSchedule(entry: SportsMatch): ResolvedMatch | null {
   if (entry.status === 'cancelled' || entry.status === 'postponed') return null;
   return {
     team: entry.team,
-    date: new Date(entry.date),
+    date: parseDateOnly(entry.date),
     opponent: entry.opponent,
     homeAway: entry.homeAway,
     id: entry.id,
@@ -177,8 +178,8 @@ export async function getTeamMatches(team: SportsTeamSlug): Promise<ResolvedMatc
   return [...byKey.values()].sort((a, b) => a.date.valueOf() - b.date.valueOf());
 }
 
-/** 基準日（ビルドした日）の0時。静的サイトなので、試合日を過ぎても再ビルドまで表示は変わらない */
-const startOfDay = (now: Date) => new Date(now.getFullYear(), now.getMonth(), now.getDate());
+/** 基準日（ビルドした日、日本時間）の暦日。静的サイトなので、試合日を過ぎても再ビルドまで表示は変わらない */
+const startOfDay = (now: Date) => dateOnlyFromInstant(now, 'Asia/Tokyo');
 
 /** 次の試合。当日の試合は、結果が入るまで「次の試合」に残す */
 export function pickNextMatch(matches: ResolvedMatch[], now = new Date()): ResolvedMatch | undefined {
