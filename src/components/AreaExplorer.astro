@@ -9,6 +9,7 @@
  *   同等リンク一覧／モバイルは地域タブ＋市町村リスト。
  */
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
+import { compactPath } from '../lib/svg-path';
 import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
 import { getAreaSummary } from '../lib/content';
 
@@ -57,7 +58,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
             aria-pressed="false"
             aria-label={`${n.name}（${REGIONS[n.region].label}）を選ぶ`}
           >
-            <path d={n.d} class="ax-shape" />
+            <path d={compactPath(n.d)} class="ax-shape" />
           </g>
         ))}
         {nodes.map((n) => (

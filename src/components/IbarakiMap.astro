@@ -1,5 +1,6 @@
 ---
 import { MUNICIPALITIES, MUNI_BY_SLUG, REGIONS, REGION_ORDER } from '../data/areas';
+import { compactPath } from '../lib/svg-path';
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 
 interface Props {
@@ -39,7 +40,7 @@ const lake = (() => {
     aria-label={decor ? undefined : '茨城県の市町村マップ。各市町村を選択できます。'}
     xmlns="http://www.w3.org/2000/svg" class="imap-svg">
     {decor ? (
-      nodes.map((n) => <path d={n.d} class="imap-decor" />)
+      nodes.map((n) => <path d={compactPath(n.d)} class="imap-decor" />)
     ) : (
       <>
         <defs>
@@ -57,7 +58,7 @@ const lake = (() => {
         {nodes.map((n) => (
           <a href={`/area/${n.slug}/`} class:list={["imap-m", { "is-active": n.active }]}
             style={`--_c:${REGIONS[n.region].mapColor}`} aria-label={n.name}>
-            <path d={n.d} class="imap-shape" />
+            <path d={compactPath(n.d)} class="imap-shape" />
           </a>
         ))}
         {/* ラベル（常に最前面のレイヤー・隣の塗りに隠れない） */}
