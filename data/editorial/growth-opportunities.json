@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-03",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,32 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "seo-ibaraki-passport-additional-application-20261003",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-10-03",
+      "evidence": {
+        "page": "/news/ibaraki-passport-2026/",
+        "recent7Views": 897,
+        "query": "茨城パスポート",
+        "queryRecent7Impressions": 307,
+        "queryRecent7Clicks": 5,
+        "queryRecent7Ctr": 0.0163,
+        "queryRecent7Position": 7.4072,
+        "issue": "主ページに申請受付終了と残っていたが、公式は10月3日から追加申請を開始",
+        "officialSources": [
+          "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html",
+          "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
+        ],
+        "expectedIncrementalViews14d": 90,
+        "confidence": 0.7,
+        "confidenceAdjustedViews": 63,
+        "estimateBasis": "直近7日897 Viewsを基準に14日間で5%の保全・上積みを置いた施策比較用推計。検索ボリュームではない。"
+      },
+      "opportunity": "既に大きな流入がある申請案内を追加募集の開始日に更新し、誤離脱を防ぎながら11月10日以降の追加交付需要を獲得する。",
+      "nextReview": "2026-10-10"
+    },
     {
       "id": "tsukuba-fare-official-inconsistency-20261001",
       "lane": "seo",
@@ -172,13 +198,13 @@
       "id": "seo-organic-dominance",
       "lane": "seo",
       "status": "active",
-      "evidenceDate": "2026-09-30",
+      "evidenceDate": "2026-10-01",
       "evidence": {
-        "recent28Sessions": 5244,
-        "organicSearchSessionsRecent7": 1670,
-        "organicShareRecent7": 0.9042,
-        "recent7Views": 2187,
-        "previous7Views": 1914
+        "recent28Sessions": 6375,
+        "organicSearchSessionsRecent7": 2358,
+        "organicShareRecent7": 0.9076,
+        "recent7Views": 3108,
+        "previous7Views": 1887
       },
       "opportunity": "流入の約85%がOrganic Search。GSC query×pageと外部需要データを結び、毎日キーワード投資先を決める。",
       "nextReview": "daily"
