@@ -7,17 +7,19 @@ TTFのまま丸ごと配信していて、どのページでも約11MBを読み�
 FCP 32秒・LCP 37秒（2026-10-03 計測）。見た目は変えずに、読み込む量だけを減らす。
 
 どう分けるか（Google Fonts と同じ考え方。unicode-range でブラウザが必要な分だけ取りにいく）：
-  - core  … サイトの原稿（src/ 配下）で実際に使っている文字 ＋ 英数字・記号・かな・全角記号
-            ほとんどのページはこれだけで足りる
+  - core   … 英数字・記号・かな ＋ サイトの多くのページに出る漢字（ビルド済みの全ページで数えた上位 TIER1 字）
+             ほとんどのページはこれだけで足りる（2026-10-03 の集計で、1ページの字の99%以上がここに入る）
+  - more-N … サイトの原稿で使っているそれ以外の字を、多く出る順に MORE_CHUNK 字ずつ分けたもの
   - rest-N … フォントに入っているそれ以外の文字を、コードポイント順に分けたもの
-            新しい記事で未使用の漢字が出ても、その字を含む分だけが追加で読み込まれる（字が欠けることはない）
-  rest を先、core を最後に宣言する。unicode-range が重なるとき、ブラウザは後に宣言した @font-face から探すため、
-  core にある字で rest が読み込まれることはない。
+             新しい記事で未使用の漢字が出ても、その字を含む分だけが追加で読み込まれる（字が欠けることはない）
+  rest を先、more、core を最後に宣言する。unicode-range が重なるとき、ブラウザは後に宣言した @font-face から探すため、
+  core・more にある字で rest が読み込まれることはない。
 
 字形・カーニング・palt などのOpenType機能はすべて残す（--layout-features='*'）。ヒンティングも残す。
 
 実行（フォントや原稿の文字が大きく変わったときだけ。生成物はリポジトリに入れる）：
   pip install fonttools brotli
+  npm run build          # 字の出現ページ数を dist/ で数えるため、先にビルドしておく
   python3 scripts/build-web-fonts.py
 出力：
   public/fonts/<family>-<slice>-<hash>.woff2
@@ -70,6 +72,24 @@ BASE_RANGES = [
 CORPUS_DIRS = ["src"]
 CORPUS_EXT = {".md", ".mdx", ".astro", ".ts", ".js", ".mjs", ".json", ".csv", ".css", ".html", ".svg", ".yaml", ".yml"}
 REST_CHUNK = 1500  # rest の1ファイルあたりの文字数の目安
+TIER1 = 1000  # core に入れる漢字などの数（多くのページに出る順）
+MORE_CHUNK = 300  # more の1ファイルあたりの文字数
+
+
+def page_frequency():
+    """ビルド済みの各ページ（dist/**/index.html）の本文に、その字が出るページ数。
+    ヘッダー・フッターのように全ページに出る字も、ページ単位で数えれば正しく上位に来る。"""
+    from collections import Counter
+    freq = Counter()
+    pages = [p for p in (ROOT / "dist").rglob("index.html")]
+    for path in pages:
+        html = path.read_text(encoding="utf-8", errors="ignore")
+        html = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>|<svg[\s\S]*?</svg>", "", html)
+        text = re.sub(r"<[^>]+>", " ", html)
+        freq.update({ord(c) for c in text})
+    if not pages:
+        print("dist/ がありません。先に npm run build を実行してください（字の頻度を数えられないため、原稿の字を codepoint 順に分けます）", file=sys.stderr)
+    return freq, pages
 
 
 def corpus_codepoints():
@@ -148,6 +168,10 @@ def make_subset(src, codepoints):
 def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     used = corpus_codepoints()
+    freq, pages = page_frequency()
+    base = set()
+    for lo, hi in BASE_RANGES:
+        base.update(range(lo, hi + 1))
     css = [
         "/* 自動生成（scripts/build-web-fonts.py）。手で編集しない。 */",
         "/* rest を先、core を最後に宣言する（unicode-range が重なると、後に宣言したものから探されるため）。 */",
@@ -158,11 +182,17 @@ def main():
     for spec in FONTS:
         font = TTFont(spec["src"])
         cmap = set(font.getBestCmap().keys())
-        core = cmap & used
-        rest = sorted(cmap - core)
+        used_in_font = cmap & used
+        # 多く出る順（同じならコードポイント順）。core に英数字・かなと上位 TIER1 字、残りを more に
+        ranked = sorted(used_in_font - base, key=lambda cp: (-freq.get(cp, 0), cp))
+        core = (cmap & base) | set(ranked[:TIER1])
+        more = ranked[TIER1:]
+        rest = sorted(cmap - used_in_font)
         slices = [(f"rest-{n + 1}", rest[i:i + REST_CHUNK]) for n, i in enumerate(range(0, len(rest), REST_CHUNK))]
+        more_slices = [(f"more-{n + 1}", sorted(more[i:i + MORE_CHUNK])) for n, i in enumerate(range(0, len(more), MORE_CHUNK))]
         faces = []
-        for name, cps in slices + [("core", sorted(core))]:
+        sizes = {}
+        for name, cps in slices + list(reversed(more_slices)) + [("core", sorted(core))]:
             data = make_subset(spec["src"], cps)
             digest = hashlib.sha256(data).hexdigest()[:8]
             filename = f"{spec['slug']}-{name}-{digest}.woff2"
@@ -170,10 +200,11 @@ def main():
             written.add(filename)
             # core は使う字だけを正確に列挙する。rest はフォントにある字の区間を、core と漢字の帯をまたいでつなげる
             # （CSSを小さくするため）。帯の中の core の字は、後に宣言した core が先に見つかるので rest は読み込まれない
-            if name == "core":
-                urange = to_ranges(cps)
+            if name.startswith("rest-"):
+                urange = rest_ranges(cps, cmap, used_in_font)
             else:
-                urange = rest_ranges(cps, cmap, core)
+                urange = to_ranges(cps)
+            sizes[name] = (set(cps), len(data))
             faces.append(
                 "@font-face {\n"
                 f"  font-family: \"{spec['family']}\";\n"
@@ -185,8 +216,19 @@ def main():
                 "}\n"
             )
             report.append(f"{filename}: {len(cps)}字 {len(data) / 1024:.0f}KB")
-        css.append(f"/* {spec['family']}（{spec['src'].name}、{len(cmap)}字）: core {len(core)}字 + rest {len(slices)}分割 */")
+        css.append(f"/* {spec['family']}（{spec['src'].name}、{len(cmap)}字）: core {len(core)}字 + more {len(more_slices)}分割 + rest {len(slices)}分割 */")
         css.extend(faces)
+        # 各ページで読み込まれる量の見積もり（そのページの字が1字でも入っているファイルを合計。書体の使い分けは考えない上限）
+        if pages:
+            totals = []
+            for path in pages:
+                html = path.read_text(encoding="utf-8", errors="ignore")
+                html = re.sub(r"<script[\s\S]*?</script>|<style[\s\S]*?</style>|<svg[\s\S]*?</svg>", "", html)
+                chars = {ord(c) for c in re.sub(r"<[^>]+>", " ", html)} & cmap
+                totals.append(sum(n for cps, n in sizes.values() if cps & chars))
+            totals.sort()
+            mid, p90 = totals[len(totals) // 2], totals[int(len(totals) * 0.9)]
+            report.append(f"  {spec['family']}: 1ページで読み込む量の見積もり 中央値 {mid / 1024:.0f}KB・上位10% {p90 / 1024:.0f}KB・最大 {totals[-1] / 1024:.0f}KB（{len(pages)}ページ）")
     for f in OUT_DIR.glob("ibatoco-*.woff2"):
         if f.name not in written:
             f.unlink()
