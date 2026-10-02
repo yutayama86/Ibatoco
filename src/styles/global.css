@@ -3,6 +3,12 @@
    和モダン・エディトリアル。紙の温度 × 藍墨 × 朱。
    ============================================================= */
 
+/*
+ * IBATOCO Mincho / Gothic は、使う文字ごとに分けた woff2 を unicode-range で読み込む
+ * （scripts/build-web-fonts.py が生成。以前は TTF 2本・約11MBを全ページで丸ごと読み込んでいた）。
+ */
+@import "./fonts.generated.css";
+
 :root {
   /* 共通ヘッダーと、追従ナビ／アンカーの位置をひとつの値で管理する。 */
   --site-header-height: 80px;
@@ -120,22 +126,6 @@
 
 @media (max-width: 560px) {
   :root { --site-header-height: 68px; }
-}
-
-@font-face {
-  font-family: "IBATOCO Mincho";
-  src: url("../assets/fonts/ShipporiMincho-Bold.ttf") format("truetype");
-  font-weight: 600 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBATOCO Gothic";
-  src: url("../assets/fonts/ZenKakuGothicNew-Medium.ttf") format("truetype");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
 }
 
 /* --- Reset ---------------------------------------------------- */
