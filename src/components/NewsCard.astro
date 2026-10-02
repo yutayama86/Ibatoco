@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { NEWS_CATEGORIES } from '../data/news';
 import { MUNI_BY_SLUG } from '../data/areas';
 import { formatDate } from '../lib/content';
-import { CARD_IMAGES } from '../data/card-images';
+import { listImageOf } from '../lib/card-image';
 
 interface Props {
   item: CollectionEntry<'news'>;
@@ -22,13 +22,10 @@ const municipalities = allMunicipalities.length > MUNI_SHOWN
   ? [...allMunicipalities.slice(0, MUNI_SHOWN), `ほか${allMunicipalities.length - MUNI_SHOWN}市町村`]
   : allMunicipalities;
 /**
- * 一覧カードを画像なしにしない。
- * 専用ビジュアル → カード用画像 → 自動生成OGP の順で使う。
- * 新着ニュースは CARD_IMAGES の生成が追いつかない場合があるため、
- * 最終フォールバックに /og/news/<slug>.png を使う。
+ * 一覧カードを画像なしにしない。選び方は src/lib/card-image.ts に一本化している
+ * （専用カード画像 → 記事のビジュアル → 自動生成OGP）。
  */
-const image = item.data.ogImage ?? CARD_IMAGES[slug as string] ?? `/og/news/${slug}.png`;
-const imageAlt = item.data.ogImageAlt || '';
+const { src: image, alt: imageAlt } = listImageOf(item);
 ---
 
 <article class:list={['news-card', { compact, 'has-image': Boolean(image) }]}>

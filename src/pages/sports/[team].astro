@@ -14,7 +14,7 @@
  * 公式ロゴ・選手写真は権利が確認できないため使わない。
  */
 import type { GetStaticPaths } from 'astro';
-import { CARD_IMAGES } from '../../data/card-images';
+import { listImageOf } from '../../lib/card-image';
 import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import SportsMatchBoard from '../../components/SportsMatchBoard.astro';
@@ -120,7 +120,7 @@ const typeLabelOf = (item: (typeof articles)[number]) => {
   return t ? SPORTS_CONTENT_TYPES[t].label : undefined;
 };
 const thumbOf = (item: (typeof articles)[number]) =>
-  item.data.ogImage ?? CARD_IMAGES[item.id.split('/').pop()!];
+  listImageOf(item).src;
 
 /** 上部の LATEST STORIES。種類の札を添えて3件まで */
 const stories = articles.slice(0, 3).map((item) => {

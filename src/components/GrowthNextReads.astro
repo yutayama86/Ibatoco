@@ -24,6 +24,8 @@ import { getEvents, getNews } from '../lib/content';
 import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
 import TocoCard from './TocoCard.astro';
+import { listImageOf } from '../lib/card-image';
+import { MUNI_BY_SLUG } from '../data/areas';
 
 interface Props {
   currentPath: string;
@@ -35,8 +37,11 @@ const [news, events, allFacets] = await Promise.all([getNews(), getEvents(), get
 
 const titleByPath = new Map<string, string>();
 const eventByPath = new Map<string, (typeof events)[number]>();
+const newsByPath = new Map<string, (typeof news)[number]>();
 for (const item of news) {
-  titleByPath.set(`/news/${item.id.split('/').pop()}/`, item.data.title);
+  const path = `/news/${item.id.split('/').pop()}/`;
+  titleByPath.set(path, item.data.title);
+  newsByPath.set(path, item);
 }
 for (const item of events) {
   const path = `/events/${item.id.split('/').pop()}/`;
@@ -101,7 +106,12 @@ const hasItems = items.length > 0;
     <ol>
       {items.map((item) => {
         const event = eventByPath.get(item.path);
-        const area = event?.data.eventInfo?.venue ?? event?.data.municipalities?.[0];
+        const entry = event ?? newsByPath.get(item.path);
+        // 市町村は slug（例 oarai）ではなく名前で出す
+        const firstTown = entry?.data.municipalities?.[0];
+        const area = event?.data.eventInfo?.venue ?? (firstTown ? MUNI_BY_SLUG.get(firstTown)?.name : undefined);
+        // ニュースでもカードの画像枠を空けない（src/lib/card-image.ts）
+        const image = entry ? listImageOf(entry) : undefined;
         const reasons = event?.data.eventInfo
           ? [event.data.eventInfo.fee === '無料' ? '無料' : '', event.data.eventInfo.parking ? '駐車場情報あり' : ''].filter(Boolean)
           : [];
@@ -111,8 +121,8 @@ const hasItems = items.length > 0;
               href={item.path}
               title={item.title}
               area={area}
-              image={event?.data.ogImage}
-              imageAlt={event?.data.ogImageAlt}
+              image={image?.src}
+              imageAlt={image?.alt}
               reasons={reasons}
               tags={event?.data.tags ?? []}
               rank={item.rank}

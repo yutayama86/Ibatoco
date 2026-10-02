@@ -13,7 +13,7 @@
  * （クロールされない・モバイルで重い）。
  */
 import BrandBase from '../../layouts/BrandBase.astro';
-import { CARD_IMAGES } from '../../data/card-images';
+import { listImageOf } from '../../lib/card-image';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import ThisWeek from '../../components/ThisWeek.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
@@ -175,7 +175,7 @@ const jsonLd = [
         <h2 class="bp-section-title">{month}</h2>
         <ul class="bp-cards">{items.map((e) => (
           <li><a href={path(e)}>
-            <img src={e.data.ogImage ?? CARD_IMAGES[e.id.split('/').pop()!]} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+            <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
             <span class="bp-card__meta">
               {/* ガイドの startDate は情報の基準日なので、開催日のように見せない */}
               {e.data.eventInfo?.startDate && lifecycleById.get(e.id) !== 'evergreen' && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
@@ -199,7 +199,7 @@ const jsonLd = [
       <p class="ev-note">来年の開催が発表されたら、同じ記事を更新します。</p>
       <ul class="bp-cards ev-past">{past.map((e) => (
         <li><a href={path(e)}>
-          <img src={e.data.ogImage ?? CARD_IMAGES[e.id.split('/').pop()!]} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+          <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
           <span class="bp-card__meta">
             {e.data.eventInfo?.startDate && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
             {townNames(e) && <b>{townNames(e)}</b>}
