@@ -1,5 +1,5 @@
 /**
- * 主要ページのレスポンシブUIスモークテスト（390 / 768 / 1440px）。
+ * 主要ページのレスポンシブUIスモークテスト（スマホ6幅 320〜430px・768・1440px）。
  *
  * ビルド済みの dist/ を、ネットワークに出さずにブラウザで開いて検査する。
  * ポートを開かず、Playwright の route で dist のファイルを返す（https://ibatoco.test/）。
@@ -28,10 +28,16 @@ import { inspectPage } from './ui-smoke-checks.mjs';
 
 const DIST = resolve('dist');
 const ORIGIN = 'https://ibatoco.test';
+// スマホ中心のサイトなので、スマホの主な幅をすべて見る（2026-10-03、320pxで100ページ超の崩れが見つかったため追加）
 const VIEWPORTS = [
-  { name: '390', width: 390, height: 844 },
-  { name: '768', width: 768, height: 1024 },
-  { name: '1440', width: 1440, height: 900 },
+  { name: '320', width: 320, height: 640 },   // 小型Android・初代iPhone SE
+  { name: '360', width: 360, height: 780 },   // Androidで最も多い幅
+  { name: '375', width: 375, height: 812 },   // iPhone SE・mini
+  { name: '390', width: 390, height: 844 },   // iPhone 12〜15
+  { name: '414', width: 414, height: 896 },   // iPhone Plus 系
+  { name: '430', width: 430, height: 932 },   // iPhone Pro Max 系
+  { name: '768', width: 768, height: 1024 },  // タブレット縦
+  { name: '1440', width: 1440, height: 900 }, // PC
 ];
 const inCI = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
 

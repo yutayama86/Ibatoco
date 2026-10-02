@@ -124,15 +124,15 @@ const KIND_LABEL: Record<string, string> = {
 </script>
 
 <style>
-  .bkg{display:grid;gap:.85rem;margin-top:clamp(2.25rem,4vw,3rem);padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:#fff}
+  .bkg{display:grid;grid-template-columns:minmax(0,1fr);gap:.85rem;margin-top:clamp(2.25rem,4vw,3rem);padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:#fff}
   .bkg__kicker{margin:0;color:var(--interior-blue,var(--color-tide));font:700 .68rem var(--font-brand-meta);letter-spacing:.14em}
   .bkg__title{margin:0;font:600 clamp(1.2rem,2.3vw,1.5rem)/1.45 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .bkg__intro{margin:0;color:var(--color-charcoal);font-size:.92rem;line-height:1.9}
   .bkg__ad{margin:0;padding:.5rem .7rem;border-radius:.5rem;background:var(--interior-sky-soft,#eef6ff);color:var(--color-soil);font-size:.76rem;line-height:1.7}
-  .bkg__list{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
+  .bkg__list{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem;margin:0;padding:0;list-style:none}
   .bkg__list li{margin:0;padding:0}
   .bkg__list li::before{content:none}
-  .bkg__item{display:grid;gap:.35rem;padding:.9rem 1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.85rem;background:var(--interior-sky-soft,var(--color-white));color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
+  .bkg__item{display:grid;grid-template-columns:minmax(0,1fr);gap:.35rem;padding:.9rem 1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.85rem;background:var(--interior-sky-soft,var(--color-white));color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
   .bkg__item:hover,.bkg__item:focus-visible{border-color:var(--interior-blue,var(--color-tide));box-shadow:0 10px 26px rgba(25,55,88,.1)}
   .bkg__item:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
   .bkg__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}

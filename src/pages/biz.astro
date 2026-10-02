@@ -174,7 +174,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業
   .price__note{max-width:var(--measure);margin-top:1.8rem;color:var(--color-soil);font-size:.84rem;line-height:1.9}
   .price__note a{color:var(--color-tide);border-bottom:1px solid}
   .price__cta{display:inline-flex;align-items:center;gap:.6rem;min-height:3.1rem;margin-top:1.5rem;padding:.75rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700}
-  @media(max-width:750px){.types,.scope ul{grid-template-columns:1fr}.services li{grid-template-columns:3rem 1fr}}
+  @media(max-width:750px){.types,.scope ul{grid-template-columns:minmax(0,1fr)}.services li{grid-template-columns:3rem 1fr}}
   @media(max-width:360px){.biz-head h1{font-size:1.8rem;line-height:1.4}}
 </style>
 <script>

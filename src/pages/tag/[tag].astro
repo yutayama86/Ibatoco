@@ -63,5 +63,5 @@ const crumbs: Crumb[] = [
   .tag-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem); }
   .empty { font-size: var(--step-1); padding-block: 2rem; }
   @media (max-width: 1000px) { .tag-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 640px) { .tag-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .tag-grid { grid-template-columns: minmax(0,1fr); } }
 </style>

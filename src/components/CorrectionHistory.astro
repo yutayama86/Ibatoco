@@ -41,5 +41,5 @@ const contactHref = `mailto:${SITE_CONFIG.contactEmail}?subject=${encodeURICompo
   .corrections__none { font-size: 0.85rem; color: var(--color-soil); }
   .corrections__report { margin-top: 0.8rem; font-size: 0.85rem; color: var(--color-soil); }
   .corrections__link { color: var(--color-tide); text-decoration: underline; text-underline-offset: 2px; }
-  @media (max-width: 480px) { .corrections__item { grid-template-columns: 1fr; gap: 0.1rem; } }
+  @media (max-width: 480px) { .corrections__item { grid-template-columns: minmax(0,1fr); gap: 0.1rem; } }
 </style>

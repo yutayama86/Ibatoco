@@ -161,7 +161,7 @@ const { theme } = Astro.props;
   .tg-november h2{margin-top:.55rem;font:600 clamp(1.5rem,3vw,2.2rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .tg-november__lead{max-width:var(--measure);margin-top:.65rem;color:var(--color-soil);line-height:1.8}
   .tg-november__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1.4rem}
-  @media(max-width:680px){.tg-november__grid{grid-template-columns:1fr}}
+  @media(max-width:680px){.tg-november__grid{grid-template-columns:minmax(0,1fr)}}
   .tg-angle{padding-block:clamp(3rem,7vw,6rem)}.tg-angle__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,5vw,4rem)}
   .tg-angle__grid h2{margin-top:.6rem;font:600 clamp(1.4rem,2.6vw,2.1rem)/1.4 var(--font-brand-display);color:var(--color-ink)}.tg-angle__grid p:last-child{margin-top:1rem;color:var(--color-soil);line-height:1.95}
   .tg-spots{padding-block:clamp(1rem,3vw,2.5rem)}.tg-spots__head h2{margin-top:.6rem;font:600 clamp(1.7rem,3.4vw,2.8rem) var(--font-brand-display);color:var(--color-ink)}
@@ -216,5 +216,5 @@ const { theme } = Astro.props;
   .tg-info__links{margin-top:1rem;border-top:1px solid rgba(255,255,255,.2)}.tg-info__links li a{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.2);color:var(--color-white);font-size:.82rem}
   .tg-related{padding-block:clamp(3rem,6vw,5rem);background:var(--color-white)}.tg-related h2{margin-top:.6rem;font:600 clamp(1.6rem,3.2vw,2.6rem) var(--font-brand-display);color:var(--color-ink)}.tg-related ul{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;margin-top:1.6rem}.tg-related a{color:var(--color-soil);border-bottom:1px solid var(--color-mist);padding-bottom:.2rem}.tg-related a:hover{color:var(--color-tide);border-color:var(--color-tide)}
   @media(max-width:960px){.tg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:680px){.tg-angle__grid,.tg-grid,.tg-practical dl{grid-template-columns:1fr}.tg-practical dl>div:nth-child(odd){border-right:0}.tg-info{grid-template-columns:1fr}}
+  @media(max-width:680px){.tg-angle__grid,.tg-grid,.tg-practical dl{grid-template-columns:minmax(0,1fr)}.tg-practical dl>div:nth-child(odd){border-right:0}.tg-info{grid-template-columns:minmax(0,1fr)}}
 </style>

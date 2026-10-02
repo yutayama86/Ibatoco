@@ -13,7 +13,7 @@
 
   body.interior-site .news-detail__layout,
   body.interior-site .story-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0,1fr);
   }
 
   body.interior-site .news-detail__toc,
@@ -118,7 +118,7 @@
   }
 
   body.interior-site.route-news .news-index__list .news-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0,1fr);
   }
 
   /* 「新着」の大きな1枚を廃止し全件を等しいカードにしたため、
@@ -127,7 +127,7 @@
 
   body.interior-site .category-grid > .bsc:first-child {
     grid-column: auto;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0,1fr);
     min-height: 0;
   }
 
@@ -167,7 +167,7 @@
   }
 
   body.interior-site .place-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0,1fr);
   }
 
   body.interior-site .place-list article {

@@ -385,12 +385,12 @@ if (d.faq.length > 0) {
   .ev-layout{display:grid;grid-template-columns:210px minmax(0,700px);justify-content:center;gap:clamp(2rem,6vw,5rem);padding-block:clamp(3.5rem,7vw,6rem)}
   .ev-toc{position:sticky;top:1rem;align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}
   .ev-toc>p{padding-bottom:.65rem;border-bottom:1px solid var(--color-mist);font-weight:700;color:var(--color-ink)}
-  .ev-toc ol{display:grid;gap:.5rem;margin-top:.75rem;padding-left:1.2rem;list-style:decimal}
+  .ev-toc ol{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;margin-top:.75rem;padding-left:1.2rem;list-style:decimal}
   .ev-toc a:hover{color:var(--color-tide)}
   .ev-body section{scroll-margin-top:1rem}
   .ev-body section+section{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--color-mist)}
   .ev-body h2{margin-top:.6rem}
-  @media(max-width:760px){.ev-layout{grid-template-columns:1fr}.ev-toc{position:static}}
+  @media(max-width:760px){.ev-layout{grid-template-columns:minmax(0,1fr)}.ev-toc{position:static}}
 
   .ev-head h1{margin-top:.8rem;font:600 clamp(1.9rem,4vw,3rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
   .ev-lead{margin-top:1.5rem;font-size:1.02rem;line-height:2.05;color:var(--color-soil)}
@@ -416,7 +416,7 @@ if (d.faq.length > 0) {
   .ev-official{margin-top:1.2rem;font-weight:700}
   .ev-official a{color:var(--interior-blue,#174f99)}
 
-  .ev-points{display:grid;gap:.85rem;max-width:var(--ev-measure);margin-top:1.5rem;padding:1.5rem 1.7rem;list-style:none;border-left:3px solid var(--color-tide);background:color-mix(in srgb,var(--color-mist) 45%,transparent);color:var(--color-ink);line-height:1.95}
+  .ev-points{display:grid;grid-template-columns:minmax(0,1fr);gap:.85rem;max-width:var(--ev-measure);margin-top:1.5rem;padding:1.5rem 1.7rem;list-style:none;border-left:3px solid var(--color-tide);background:color-mix(in srgb,var(--color-mist) 45%,transparent);color:var(--color-ink);line-height:1.95}
   .ev-points li{position:relative;padding-left:1.1rem}
   .ev-points li::before{content:'';position:absolute;left:0;top:.78em;width:.38rem;height:.38rem;border-radius:50%;background:var(--color-tide)}
   .ev-list{display:grid;gap:0;max-width:var(--ev-measure);margin:0}
