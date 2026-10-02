@@ -118,16 +118,20 @@ faq:
   - question: "県外在住でも申請できますか？"
     answer: "茨城県公式観光Xでは、茨城県民・県外在住者の双方に応募を呼びかけています。最新の申請条件は公式サイトの申請画面で確認してください。"
 sourceUrls:
-  - label: "観光いばらき公式X｜IBARAKI PASSPORT追加交付のお知らせ"
-    url: "https://x.com/kanko_ibaraki"
-    accessedAt: 2026-10-02
+  - label: "観光いばらき公式｜IBARAKI PASSPORT 追加交付開始（2026年10月2日）"
+    url: "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
+    accessedAt: 2026-10-03
   - label: "観光いばらき公式｜IBARAKI PASSPORT"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
-    accessedAt: 2026-10-02
+    accessedAt: 2026-10-03
   - label: "観光いばらき公式｜IBARAKI PASSPORTのお問い合わせ"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/page002241.html"
     accessedAt: 2026-10-02
+  - label: "観光いばらき公式X｜IBARAKI PASSPORT追加交付のお知らせ"
+    url: "https://x.com/kanko_ibaraki"
+    accessedAt: 2026-10-02
 relatedArticleUrls:
+  - "/news/ibaraki-passport-2026/"
   - "/news/shin-ibaraki-meshi-2026/"
   - "/area/mito/"
 ---
