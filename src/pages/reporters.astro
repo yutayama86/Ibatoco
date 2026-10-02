@@ -300,13 +300,13 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'ローカル
   .rp-final-sub{margin-top:2rem;color:rgba(255,255,255,.85);font-size:.9rem}.rp-final-sub a{color:#fff;border-bottom:1px solid rgba(255,255,255,.6)}
 
   @media(max-width:820px){
-    .rp-ways-grid,.rp-standard-grid,.rp-people-grid,.rp-promise dl{grid-template-columns:1fr}
-    .rp-who>div,.rp-people-empty,.rp-why>div{grid-template-columns:1fr}
+    .rp-ways-grid,.rp-standard-grid,.rp-people-grid,.rp-promise dl{grid-template-columns:minmax(0,1fr)}
+    .rp-who>div,.rp-people-empty,.rp-why>div{grid-template-columns:minmax(0,1fr)}
     .rp-steps-list{grid-template-columns:1fr 1fr}
     .rp-steps-list li:nth-child(2){border-right:0}
   }
   @media(max-width:520px){
-    .rp-steps-list{grid-template-columns:1fr}.rp-steps-list li{border-right:0;border-bottom:1px solid var(--color-mist)}
+    .rp-steps-list{grid-template-columns:minmax(0,1fr)}.rp-steps-list li{border-right:0;border-bottom:1px solid var(--color-mist)}
     .rp-cta-row{flex-direction:column;align-items:stretch}.btn-primary,.btn-ghost{text-align:center}
   }
 </style>

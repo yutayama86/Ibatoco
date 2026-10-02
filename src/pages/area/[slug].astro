@@ -325,7 +325,7 @@ const jsonLd: Record<string, unknown>[] = [
   /* ニュースは既存の NewsCard を、/news/ /tag/ と同じ組みで並べる */
   .area-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.2rem,2.4vw,1.8rem);margin-top:1.8rem}
   @media(max-width:1000px){.area-cards{grid-template-columns:1fr 1fr}}
-  @media(max-width:640px){.area-cards{grid-template-columns:1fr}}
+  @media(max-width:640px){.area-cards{grid-template-columns:minmax(0,1fr)}}
   .area-news__more a{color:var(--color-tide)}
   @media(prefers-reduced-motion:reduce){}
 
@@ -344,5 +344,5 @@ const jsonLd: Record<string, unknown>[] = [
   .neighbors{padding-block:clamp(4rem,8vw,6rem);background:var(--color-white)}/* 節の見出しはサイト共通の .bp-section-title と同じ大きさにする。
      以前は .neighbors だけ3.3rem（53px）、他が2.6rem（42px）、AreaGuide側が2.45rem（39px）と3種類あった */
   .neighbors h2{margin-top:.8rem;font:600 clamp(1.55rem,2.5vw,2.45rem) var(--font-brand-display);color:var(--color-ink)}.neighbors ul{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;margin-top:2rem}.neighbors a{color:var(--color-soil);border-bottom:1px solid var(--color-mist);padding-bottom:.2rem}.neighbors a:hover{color:var(--color-tide);border-color:var(--color-tide)}
-  @media(max-width:800px){.story-grid{grid-template-columns:1fr}.area-head h1{font-size:clamp(3.5rem,20vw,6rem)}}
+  @media(max-width:800px){.story-grid{grid-template-columns:minmax(0,1fr)}.area-head h1{font-size:clamp(3.5rem,20vw,6rem)}}
 </style>

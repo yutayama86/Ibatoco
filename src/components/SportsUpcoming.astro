@@ -48,7 +48,7 @@ const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { ...TZ, year: 'numeri
   .up__card b[data-ha="home"]{color:var(--interior-blue,#174f99)}
   .up__meta{display:flex;flex-wrap:wrap;gap:.2rem 1rem;margin:0;color:var(--color-soil);font-size:.78rem;line-height:1.7}
   @media(max-width:560px){
-    .up li{grid-template-columns:1fr;gap:.35rem}
+    .up li{grid-template-columns:minmax(0,1fr);gap:.35rem}
     .up__when{grid-auto-flow:column;justify-content:start;gap:.7rem}
   }
 </style>

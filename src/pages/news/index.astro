@@ -56,5 +56,5 @@ const categories = [...(await getNewsCategoryCounts()).entries()]
   .news-cats a{display:flex;align-items:center;gap:.6rem;min-height:44px;padding:.4rem 1rem;border:1px solid var(--color-mist);color:var(--color-ink);font-size:.86rem;font-weight:700}
   .news-cats a:hover{border-color:var(--interior-blue,#174f99);color:var(--interior-blue,#174f99)}
   .news-cats span{color:var(--color-soil);font:.72rem var(--font-brand-meta)}
-  @media(max-width:900px){.news-grid{grid-template-columns:1fr}}@media(max-width:600px){.news-index__head{padding-top:2rem}}
+  @media(max-width:900px){.news-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:600px){.news-index__head{padding-top:2rem}}
 </style>

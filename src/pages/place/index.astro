@@ -23,5 +23,5 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '場所を探
      下線リンクだった頃の display / color / border-bottom は特異度でそれに勝ち、
      文字が上端に張り付く・下辺だけ色が違う、という崩れを起こしていたので外した。 */
   .place-empty a{margin-top:2rem}
-  @media(max-width:800px){.place-list{grid-template-columns:1fr}}
+  @media(max-width:800px){.place-list{grid-template-columns:minmax(0,1fr)}}
 </style>

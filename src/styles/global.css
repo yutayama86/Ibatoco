@@ -207,10 +207,18 @@ body {
  * 長い本文に auto-phrase を掛けると、こんどは行末が大きく波打つ。
  * 散文には禁則（line-break:strict）だけを効かせる。
  * 未対応のブラウザでは既定に戻るだけで、副作用はない。
+ *
+ * overflow-wrap:break-word を併せる。auto-phrase だけだと、行に入りきらない長い文節
+ * （例「J:COMフィールド土浦（川口運動公園陸上競技場）」）を折れず、枠の外へはみ出して切れる。
+ * break-word は「その文節が行に入りきらないときだけ」途中で折る。要素の最小幅（min-content）は
+ * 変えないので、「料金」のような短い見出しが縮められて縦に割れることはない（anywhere だと割れた）。
+ * 最小幅で幅が決まる枠（grid の auto トラック等）が長い文節で押し広げられる問題は、
+ * 各部品で minmax(0,1fr) を指定して防ぐ（2026-10-03、320pxで全477ページを検査して修正）。
  */
 h1, h2, h3, h4, .bp-section-title, .bp-kicker, li, dt, figcaption, .btn-primary, .btn-ghost,
 .ag-catch {
   word-break: auto-phrase;
+  overflow-wrap: break-word;
 }
 p, dd, blockquote, td {
   line-break: strict;
