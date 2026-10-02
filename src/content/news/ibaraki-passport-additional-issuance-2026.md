@@ -56,7 +56,7 @@ guide:
           detail: "申請後は、受付完了メールが届いているか確認してください。初回申請時の公式案内では、受付完了メールが届いていない場合は申請未了とされています。"
       cta:
         label: "IBARAKI PASSPORT公式サイトを見る"
-        url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
+        href: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
     - id: "for-lost-applicants"
       heading: "初回抽選で落選した人は再申請不要"
       kicker: "IMPORTANT"
@@ -105,7 +105,7 @@ guide:
         - "44市町村すべてのスタンプを集めて茨城県観光誘客課で提示すると、先着100人に観光施設のペア無料・割引チケットを贈る企画も案内されています。"
   bottomCta:
     label: "IBARAKI PASSPORT公式サイトで詳細を確認"
-    url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
+    href: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
 faq:
   - question: "初回抽選で落選しました。もう一度申請する必要がありますか？"
     answer: "いいえ。2026年10月2日の茨城県公式観光Xの案内では、初回申請で落選した人は再申請なしで追加交付の対象になるとされています。"
