@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { emphasize, plain } from '../../lib/rich-text';
 import { shareImageOf } from '../../lib/card-image';
 import BrandBase from '../../layouts/BrandBase.astro';
 import NewsCard from '../../components/NewsCard.astro';
@@ -153,8 +154,8 @@ if (data.faq.length > 0) jsonLd.push({
   '@type': 'FAQPage',
   mainEntity: data.faq.map((item) => ({
     '@type': 'Question',
-    name: item.question,
-    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    name: plain(item.question),
+    acceptedAnswer: { '@type': 'Answer', text: plain(item.answer) },
   })),
 });
 ---
@@ -182,24 +183,24 @@ if (data.faq.length > 0) jsonLd.push({
         {/* 冒頭画像は本文カラムの先頭に置く（見出しと本文のあいだで浮かせない） */}
         {visualImagePath && <figure class="news-detail__hero"><img src={visualImagePath} alt={data.ogImageAlt} loading="eager" width="1200" height="630" />{data.imageCredit && <figcaption>写真：<a href={data.imageCreditUrl} target="_blank" rel="noopener noreferrer">{data.imageCredit}</a>{data.imageLicense && <> / <a href={data.imageLicenseUrl} target="_blank" rel="noopener noreferrer">{data.imageLicense}</a></>}</figcaption>}</figure>}
 
-        <section id="conclusion" class="news-conclusion"><p class="section-number">01 / CONCLUSION</p><h2>結論</h2><p>{data.conclusion}</p></section>
+        <section id="conclusion" class="news-conclusion"><p class="section-number">01 / CONCLUSION</p><h2>結論</h2><p set:html={emphasize(data.conclusion)} /></section>
         <GrowthNextReads currentPath={`/news/${slug}/`} pageType="news" />
         {guide ? <>
           {guide.sections.map((section, index) => <section id={section.id} class="guide-section">
             <p class="section-number">{pad(index + 2)}{section.kicker && ` / ${section.kicker}`}</p><h2>{section.heading}</h2>
-            {section.lead && <p class="guide-lead"><strong>{section.lead}</strong></p>}
-            {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-            {section.steps.length > 0 && <ol class="guide-steps">{section.steps.map((step) => <li class="guide-step"><strong>{step.title}</strong><span>{step.detail}</span></li>)}</ol>}
-            {section.items.length > 0 && <ul>{section.items.map((entry) => <li>{entry}</li>)}</ul>}
-            {section.details.length > 0 && <div class="guide-details">{section.details.map((detail) => <div><h3>{detail.title}</h3><dl>{detail.rows.map((row) => <><dt>{row.label}</dt><dd>{row.value}</dd></>)}</dl></div>)}</div>}
-            {section.notes.length > 0 && <ul class="guide-notes">{section.notes.map((note) => <li>{note}</li>)}</ul>}
+            {section.lead && <p class="guide-lead"><strong set:html={emphasize(section.lead)} /></p>}
+            {section.paragraphs.map((paragraph) => <p set:html={emphasize(paragraph)} />)}
+            {section.steps.length > 0 && <ol class="guide-steps">{section.steps.map((step) => <li class="guide-step"><strong>{step.title}</strong><span set:html={emphasize(step.detail)} /></li>)}</ol>}
+            {section.items.length > 0 && <ul>{section.items.map((entry) => <li set:html={emphasize(entry)} />)}</ul>}
+            {section.details.length > 0 && <div class="guide-details">{section.details.map((detail) => <div><h3>{detail.title}</h3><dl>{detail.rows.map((row) => <><dt>{row.label}</dt><dd set:html={emphasize(row.value)} /></>)}</dl></div>)}</div>}
+            {section.notes.length > 0 && <ul class="guide-notes">{section.notes.map((note) => <li set:html={emphasize(note)} />)}</ul>}
             {section.cta && <div class="guide-cta guide-cta--inline"><a href={ctaHref(section.cta.href)} {...linkAttrs(section.cta.href)}>{section.cta.label}<span aria-hidden="true">{isExternal(section.cta.href) ? '↗' : '→'}</span>{isExternal(section.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{section.cta.note && <p>{section.cta.note}</p>}</div>}
             {section.block === 'passport-stamp-spots' && <PassportStampIndex />}
           </section>)}
           {guide.bottomCta && <div class="guide-cta guide-cta--bottom"><a href={ctaHref(guide.bottomCta.href)} {...linkAttrs(guide.bottomCta.href)}>{guide.bottomCta.label}<span aria-hidden="true">{isExternal(guide.bottomCta.href) ? '↗' : '→'}</span>{isExternal(guide.bottomCta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.bottomCta.note && <p>{guide.bottomCta.note}</p>}</div>}
         </> : <>
-        <section id="points"><p class="section-number">02 / KEY POINTS</p><h2>この記事でわかること</h2><ul>{data.keyPoints.map((point) => <li>{point}</li>)}</ul></section>
-        <section id="what-happened"><p class="section-number">03 / WHAT HAPPENED</p><h2>何が起きた？</h2><p>{data.whatHappened}</p>
+        <section id="points"><p class="section-number">02 / KEY POINTS</p><h2>この記事でわかること</h2><ul>{data.keyPoints.map((point) => <li set:html={emphasize(point)} />)}</ul></section>
+        <section id="what-happened"><p class="section-number">03 / WHAT HAPPENED</p><h2>何が起きた？</h2><p set:html={emphasize(data.whatHappened)} />
           {data.referenceList && <div class="ref-list">
             <h3>{data.referenceList.heading}</h3>
             {data.referenceList.intro && <p class="ref-list__intro">{data.referenceList.intro}</p>}
@@ -207,7 +208,7 @@ if (data.faq.length > 0) jsonLd.push({
             {data.referenceList.note && <p class="ref-list__note">{data.referenceList.note}</p>}
           </div>}
         </section>
-        <section id="changes"><p class="section-number">04 / CHANGES</p><h2>{changesHeading}</h2><p>{data.whatChanges}</p>
+        <section id="changes"><p class="section-number">04 / CHANGES</p><h2>{changesHeading}</h2><p set:html={emphasize(data.whatChanges)} />
           {data.accessGuide && <div class="access-guide">
             <div><h3>場所とホーム利用開始時期</h3><dl><dt>場所</dt><dd>{data.accessGuide.location}</dd><dt>いつから</dt><dd>{data.accessGuide.homeUseStarts}</dd></dl></div>
             <div><h3>車・駐車場</h3><dl>{data.accessGuide.parking.map((item) => <><dt>{item.heading}</dt><dd>{item.detail}</dd></>)}</dl></div>
@@ -215,13 +216,13 @@ if (data.faq.length > 0) jsonLd.push({
             <div><h3>帰りの動線</h3><p>{data.accessGuide.returnTrip}</p></div>
           </div>}
         </section>
-        <section id="analysis"><p class="section-number">05 / EDITORIAL VIEW</p><h2>イバトコ編集部の解説</h2><p>{data.editorialAnalysis}</p></section>
-        <section id="impact"><p class="section-number">06 / LOCAL IMPACT</p><h2>地域への影響</h2><p>{data.regionalImpact}</p></section>
-        <section id="business"><p class="section-number">07 / FOR BUSINESSES</p><h2>地域事業者への示唆</h2><ul>{data.businessImplications.map((point) => <li>{point}</li>)}</ul></section>
+        <section id="analysis"><p class="section-number">05 / EDITORIAL VIEW</p><h2>イバトコ編集部の解説</h2><p set:html={emphasize(data.editorialAnalysis)} /></section>
+        <section id="impact"><p class="section-number">06 / LOCAL IMPACT</p><h2>地域への影響</h2><p set:html={emphasize(data.regionalImpact)} /></section>
+        <section id="business"><p class="section-number">07 / FOR BUSINESSES</p><h2>地域事業者への示唆</h2><ul>{data.businessImplications.map((point) => <li set:html={emphasize(point)} />)}</ul></section>
         </>}
         {data.booking && <BookingGuide booking={data.booking} pageType="news" municipality={data.municipalities[0]} contentCategory={data.category} />}
         <SponsorSlots path={`/news/${slug}/`} pageType="news" municipality={data.municipalities[0]} />
-        {data.faq.length > 0 && <section id="faq"><p class="section-number">{pad(guideFaqNo)} / FAQ</p><h2>よくある質問</h2><dl class="news-faq">{data.faq.map((item) => <div><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>}
+        {data.faq.length > 0 && <section id="faq"><p class="section-number">{pad(guideFaqNo)} / FAQ</p><h2>よくある質問</h2><dl class="news-faq">{data.faq.map((item) => <div><dt set:html={emphasize(item.question)} /><dd set:html={emphasize(item.answer)} /></div>)}</dl></section>}
         <section id="sources"><p class="section-number">{pad(guideSourcesNo)} / SOURCES</p><h2>情報源</h2><ul class="source-list">{data.sourceUrls.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>{source.accessedAt && <small>確認日：{formatDate(source.accessedAt)}</small>}</li>)}</ul><p class="source-note">掲載内容は公開情報をもとに編集しています。制度や運用は変更される場合があるため、行動前に公式情報をご確認ください。</p></section>
         {/* 既存の分類から作った回遊先。該当が無ければ何も出ない */}
         <ArticleNextSteps municipalities={data.municipalities} sportsTeam={data.sportsTeam} pageType="news" />
