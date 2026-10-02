@@ -42,7 +42,7 @@
 ## フォント（IBATOCO Mincho / IBATOCO Gothic）
 
 - 自己ホスト。`scripts/build-web-fonts.py` が `src/assets/fonts/` の TTF から、使う文字ごとに分けた woff2（`public/fonts/`）と `src/styles/fonts.generated.css`（unicode-range つきの @font-face）を作る。`global.css` が読み込む
-- core＝サイトの原稿で使っている文字＋英数字・記号・かな。ほとんどのページは core の2ファイル（明朝 約500KB＋ゴシック 約320KB）だけで表示できる。原稿に無い字が出たときだけ、その字を含む rest が追加で読み込まれる（字は欠けない）
+- core＝英数字・記号・かな＋サイトの多くのページに出る漢字1,000字（ビルド済みの全ページで数えた上位）。more＝原稿で使うそれ以外の字（多く出る順に300字ずつ）。rest＝フォントのそれ以外の字。ページは必要なファイルだけを読む（あんこう祭のページで 明朝 core 274KB＋more 70KB、ゴシック core 175KB＋more 46KB）。字が欠けることはない
 - 字形・palt などのOpenType機能・ヒンティングはそのまま残している（2026-10-03、本番の全TTFと文字幅が一致することを確認）
-- 作り直す：新しい漢字が増えて rest の読み込みが目立ってきたら `pip install fonttools brotli` → `python3 scripts/build-web-fonts.py`。出力は同じ入力なら毎回同じ（ファイル名のハッシュが変わらない）
+- 作り直す：新しい漢字が増えて more・rest の読み込みが目立ってきたら `pip install fonttools brotli` → `npm run build`（字の頻度を dist/ で数えるため）→ `python3 scripts/build-web-fonts.py`。出力は同じ入力なら毎回同じ（ファイル名のハッシュが変わらない）
 - OG画像の生成（astro-og-canvas）は `src/assets/fonts/` の TTF をそのまま使う。TTF は消さない
