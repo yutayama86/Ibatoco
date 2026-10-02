@@ -44,6 +44,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261003-news-ibaraki-passport-additional-application',
+    date: '2026-10-03',
+    url: '/news/ibaraki-passport-2026/',
+    kind: 'on-page',
+    change: '申請受付終了の案内を、10月3日開始の追加申請期間・対象者別の交付開始日・申請手順へ更新。追加交付短報と相互リンクし、OG画像も追加申請表示へ更新',
+    queries: ['茨城パスポート', '茨城パスポート 追加申請', '茨城パスポート 申請'],
+    commit: 'acf50cd',
+    note: '変更前直近7日は主ページ897 Views。主要クエリ「茨城パスポート」は307表示・5クリック・CTR 1.63%・平均7.4072位。事実訂正と10月3日の季節期限を優先した即時更新。7日・28日で評価する。',
+  },
+  {
     id: '20260924-en-hitachi-seaside-park-from-tokyo-title',
     date: '2026-09-24',
     url: '/en/hitachi-seaside-park-from-tokyo/',
