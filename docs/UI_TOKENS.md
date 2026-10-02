@@ -38,3 +38,11 @@
 1. 寄せる前後で `npm run test:ui`（390 / 768 / 1440px、CIでは `npm run verify` の中で自動）を通す
 2. 値を変えた幅の前後（例：640px→560px なら 560〜640px）をブラウザで目視する
 3. TOPの必須構成（AGENTS.md「現行TOPは固定版」）に関わる部品は、クリエイティブディレクターの確認を取ってから
+
+## フォント（IBATOCO Mincho / IBATOCO Gothic）
+
+- 自己ホスト。`scripts/build-web-fonts.py` が `src/assets/fonts/` の TTF から、使う文字ごとに分けた woff2（`public/fonts/`）と `src/styles/fonts.generated.css`（unicode-range つきの @font-face）を作る。`global.css` が読み込む
+- core＝サイトの原稿で使っている文字＋英数字・記号・かな。ほとんどのページは core の2ファイル（明朝 約500KB＋ゴシック 約320KB）だけで表示できる。原稿に無い字が出たときだけ、その字を含む rest が追加で読み込まれる（字は欠けない）
+- 字形・palt などのOpenType機能・ヒンティングはそのまま残している（2026-10-03、本番の全TTFと文字幅が一致することを確認）
+- 作り直す：新しい漢字が増えて rest の読み込みが目立ってきたら `pip install fonttools brotli` → `python3 scripts/build-web-fonts.py`。出力は同じ入力なら毎回同じ（ファイル名のハッシュが変わらない）
+- OG画像の生成（astro-og-canvas）は `src/assets/fonts/` の TTF をそのまま使う。TTF は消さない
