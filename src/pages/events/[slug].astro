@@ -20,6 +20,9 @@ import { hasPaidLink } from '../../data/affiliates';
 import { getEvents } from '../../lib/content';
 import { MUNI_BY_SLUG } from '../../data/areas';
 import { lifecycleLabelOf, lifecycleOf } from '../../lib/lifecycle';
+import { shareImageOf } from '../../lib/card-image';
+import { getAllFacets } from '../../lib/taxonomy';
+import { INTERNAL_LINK_LABELS } from '../../data/internal-links';
 
 export const getStaticPaths = (async () => {
   const events = await getEvents();
@@ -29,6 +32,12 @@ export const getStaticPaths = (async () => {
 const { entry } = Astro.props;
 const d = entry.data;
 const info = d.eventInfo;
+/**
+ * 編集部がつないだリンクは、行き先の名前で見せる。
+ * 以前は3枚とも「編集部がつないだ次の候補」と同じ文言で、どこへ行くのか分からなかった。
+ */
+const facetTitleByPath = new Map((await getAllFacets()).map((f) => [f.path, f.title.split('｜')[0]]));
+const pickLabel = (url: string) => INTERNAL_LINK_LABELS[url] ?? facetTitleByPath.get(url) ?? '編集部がつないだ次の候補';
 
 const fmtDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 
@@ -173,7 +182,7 @@ if (d.faq.length > 0) {
 <BrandBase
   title={`${d.title}｜イバトコ`}
   description={d.description}
-  image={d.ogImage}
+  image={shareImageOf(entry)}
   imageAlt={d.ogImageAlt}
   type="article"
   publishedAt={d.pubDate}
@@ -320,7 +329,7 @@ if (d.faq.length > 0) {
         {d.relatedArticleUrls.slice(0, 3).map((u) => (
           <a class="toco-link-card" href={u} data-discovery-kind="editorial">
             <span class="toco-link-card__eyebrow">IBATOCO PICK</span>
-            <strong>編集部がつないだ次の候補</strong>
+            <strong>{pickLabel(u)}</strong>
             <span>関連するおでかけ情報へ <b aria-hidden="true">→</b></span>
           </a>
         ))}

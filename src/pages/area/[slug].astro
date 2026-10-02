@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { CARD_IMAGES } from '../../data/card-images';
+import { listImageOf } from '../../lib/card-image';
 import BrandBase from '../../layouts/BrandBase.astro';
 import BrandStoryCard from '../../components/BrandStoryCard.astro';
 import NewsCard from '../../components/NewsCard.astro';
@@ -225,7 +225,7 @@ const jsonLd: Record<string, unknown>[] = [
         <p class="area-news__lead">これから開催されるものだけを出しています。日程・料金は変わることがあるため、必ず公式でご確認ください。</p>
         <ul class="bp-cards">{areaEvents.map((e) => (
           <li><a href={eventPath(e.id)}>
-            <img src={e.data.ogImage ?? CARD_IMAGES[e.id.split('/').pop()!]} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+            <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
             {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{eventDate(e.data.eventInfo.startDate)}</time></span>}
             <strong>{e.data.title}</strong>
           </a></li>

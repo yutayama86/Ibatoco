@@ -1,4 +1,6 @@
 ---
+import { listImageForPath } from '../lib/card-image';
+
 interface Props {
   href: string;
   title: string;
@@ -11,7 +13,14 @@ interface Props {
   analyticsAttr?: string;
   targetPath?: string;
 }
-const { href, title, area, image, imageAlt = '', reasons = [], tags = [], rank, targetPath } = Astro.props;
+const { href, title, area, reasons = [], tags = [], rank, targetPath } = Astro.props;
+/**
+ * 画像を渡されなかったカード（手で並べたおすすめ枠など）は、リンク先の記事から一覧用の画像を引く。
+ * 記事でないリンク先だけ、デザインの代替（IBATOCO の面）になる。
+ */
+const resolved = Astro.props.image ? null : await listImageForPath(href);
+const image = Astro.props.image ?? resolved?.src;
+const imageAlt = Astro.props.image ? (Astro.props.imageAlt ?? '') : (resolved?.alt ?? '');
 const visibleReasons = reasons.filter(Boolean).slice(0, 2);
 const visibleTags = tags.filter(Boolean).slice(0, 3);
 ---

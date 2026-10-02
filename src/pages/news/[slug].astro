@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { shareImageOf } from '../../lib/card-image';
 import BrandBase from '../../layouts/BrandBase.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import { CATEGORIES, SITE_CONFIG } from '../../data/site';
@@ -30,7 +31,8 @@ const canonical = new URL(`/news/${slug}/`, Astro.site ?? SITE_CONFIG.domain).hr
  * 落としていたが、記事について何も伝えないぶん、無いほうが読みやすい。
  */
 const visualImagePath = data.ogImage ?? null;
-const imagePath = data.ogImage && !data.ogImage.endsWith('.svg') ? data.ogImage : `/og/news/${slug}.png`;
+// SNS共有用（og:image）。SVG は使わず、無ければ自動生成OGP（src/lib/card-image.ts）
+const imagePath = shareImageOf(item);
 const absolute = (path: string) => new URL(path, Astro.site ?? SITE_CONFIG.domain).href;
 const municipalities = data.municipalities.map((value) => MUNI_BY_SLUG.get(value)).filter(Boolean);
 const municipalitySet = new Set(data.municipalities);
