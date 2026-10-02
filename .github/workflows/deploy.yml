@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: production-deploy
-  cancel-in-progress: true
+  # 条件不一致でskipされる後発workflow_runが、有効な本番Deployを巻き添えでcancelしないようにする\n  cancel-in-progress: false
 
 permissions:
   contents: read
