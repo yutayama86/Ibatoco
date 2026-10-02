@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { isWorthLinking, lifecycleOf } from './lifecycle';
 import { articleTeamSlugs } from '../data/sports';
 
 /** 公開記事を新しい順に。draft または未レビューは環境に関係なく除外。 */
@@ -35,7 +36,8 @@ export async function getRelatedNews(current: CollectionEntry<'news'>, limit = 3
   const municipalitySet = new Set(current.data.municipalities);
   const tagSet = new Set(current.data.tags);
   return (await getIndexableNews())
-    .filter((item) => item.id !== current.id)
+    // 終わった催しのニュースは関連記事に出さない（記事とURLは残す）
+    .filter((item) => item.id !== current.id && isWorthLinking(lifecycleOf(item)))
     .map((item) => ({
       item,
       score:

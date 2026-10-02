@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
-import { bookingSchema, businessIntentSchema, commercialPrioritySchema, eventLifecycleSchema, municipalitySlugs } from './foundations';
+import { bookingSchema, businessIntentSchema, commercialPrioritySchema, eventDateStatusSchema, eventLifecycleSchema, municipalitySlugs } from './foundations';
 
 /**
  * イベント・おでかけの実用記事（/events/）。
@@ -56,6 +56,8 @@ export const events = defineCollection({
       name: z.string().min(1),
       startDate: z.coerce.date(),
       endDate: z.coerce.date().optional(),
+      /** 日程の確度（src/lib/lifecycle.ts が 'unconfirmed' の判定に使う）。確定なら書かない */
+      dateStatus: eventDateStatusSchema.optional(),
       /** 開催時間。画面表示用の自由文。例「18:05〜19:50（開場は青ゲート14:00）」 */
       time: z.string().optional(),
       /**

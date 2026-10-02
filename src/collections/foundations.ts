@@ -78,7 +78,13 @@ export const commercialPrioritySchema = z.enum(['low', 'medium', 'high']);
  * src/lib/lifecycle.ts が eventInfo の日付から毎ビルド判定する。
  * この enum は、計算では表せない例外を人が上書きするときだけ使う。
  */
-export const eventLifecycleSchema = z.enum(['upcoming', 'today', 'ended', 'evergreen']);
+export const eventLifecycleSchema = z.enum(['upcoming', 'today', 'ongoing', 'ended', 'unconfirmed', 'evergreen']);
+
+/**
+ * 日程の確度。公式が日程を「予定」「未発表」としているときだけ 'tentative' にする。
+ * 書かなければ確定扱い。推測で tentative にも confirmed にもしない。
+ */
+export const eventDateStatusSchema = z.enum(['confirmed', 'tentative']);
 
 export const guideCta = z.object({
   label: z.string().min(1),

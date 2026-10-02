@@ -19,7 +19,7 @@ import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink } from '../../data/affiliates';
 import { getEvents } from '../../lib/content';
 import { MUNI_BY_SLUG } from '../../data/areas';
-import { lifecycleOf, LIFECYCLE_LABEL } from '../../lib/lifecycle';
+import { lifecycleLabelOf, lifecycleOf } from '../../lib/lifecycle';
 
 export const getStaticPaths = (async () => {
   const events = await getEvents();
@@ -79,7 +79,7 @@ const decisionChips = info ? [
 ].filter(Boolean).slice(0, 4) as { label: string; value: string }[] : [];
 // 開催状況は保存せず毎ビルド計算する。保存すると開催後も upcoming のまま残る
 const lifecycle = lifecycleOf(entry);
-const lifecycleLabel = LIFECYCLE_LABEL[lifecycle];
+const lifecycleLabel = lifecycleLabelOf(entry);
 /**
  * 関連記事はルールで選ぶ（src/lib/related.ts）。
  * 一致した軸が1つも無いものは出さない。終了したイベントも候補にしない。
@@ -352,7 +352,8 @@ if (d.faq.length > 0) {
 <style>
   .ev-status{display:inline-flex;align-items:center;margin:1rem 0 0;padding:.3rem .85rem;border-radius:999px;font:700 .8rem var(--font-brand-meta);letter-spacing:.04em}
   .ev-status.is-ended{background:var(--color-mist);color:var(--color-soil)}
-  .ev-status.is-today{background:var(--color-signal,#a63f32);color:#fff}
+  .ev-status.is-today,.ev-status.is-ongoing{background:var(--color-signal,#a63f32);color:#fff}
+  .ev-status.is-unconfirmed{background:color-mix(in srgb,var(--color-signal,#a63f32) 10%,#fff);color:var(--color-ink)}
   .ev-status__next{margin:.6rem 0 0;font-size:.88rem}
   .ev-status__next a{color:var(--interior-blue,var(--color-tide));border-bottom:1px solid currentColor}
 

@@ -63,7 +63,7 @@ function regionsOf(municipalities: string[]): RegionKey[] {
   return [...set];
 }
 
-export function facetsOfNews(entry: CollectionEntry<'news'>): ContentFacets {
+export function facetsOfNews(entry: CollectionEntry<'news'>, now?: Date): ContentFacets {
   const d = entry.data;
   const teams = [...(d.sportsTeam ? [d.sportsTeam] : []), ...(d.sportsTeams ?? [])];
   return {
@@ -80,6 +80,8 @@ export function facetsOfNews(entry: CollectionEntry<'news'>): ContentFacets {
     commercialPriority: d.commercialPriority,
     evergreen: d.evergreen,
     hasBooking: Boolean(d.booking),
+    // 催しの日付を持つニュースも、終わったらおすすめ先から外せるようにする（events と同じ判定）
+    eventLifecycle: lifecycleOf(entry, now),
     noindex: d.noindex,
     tags: [...d.tags],
   };
@@ -117,7 +119,7 @@ export async function getAllFacets(now?: Date): Promise<ContentFacets[]> {
     getCollection('events', ({ data }) => !data.draft && data.reviewed),
   ]);
   return [
-    ...news.map(facetsOfNews),
+    ...news.map((entry) => facetsOfNews(entry, now)),
     ...events.map((entry) => facetsOfEvent(entry, now)),
   ];
 }

@@ -1,5 +1,6 @@
 ---
 import BrandBase from '../layouts/BrandBase.astro';
+import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
 import HomeThemeNav from '../components/HomeThemeNav.astro';
 import ThisWeek from '../components/ThisWeek.astro';
 import HomeNow from '../components/HomeNow.astro';
@@ -9,7 +10,8 @@ import NewsCard from '../components/NewsCard.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
 
-const latestNews = (await getIndexableNews()).slice(0, 3);
+// 終わった催しのニュースはTOPに出さない（/news/ の一覧と記事URLには残る）
+const latestNews = (await getIndexableNews()).filter((item) => isWorthLinking(lifecycleOf(item))).slice(0, 3);
 const discoveryIntents = [
   { label: '今週末', href: '#discover-now', note: '今日・明日・週末から' },
   { label: '紅葉', href: '/kouyou/', note: '見頃とドライブ' },

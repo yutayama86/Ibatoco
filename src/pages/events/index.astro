@@ -19,20 +19,20 @@ import ThisWeek from '../../components/ThisWeek.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getIndexableEvents } from '../../lib/content';
 import { MUNI_BY_SLUG, REGIONS, REGION_ORDER } from '../../data/areas';
-import { dateOnlyFromCoercedDate, dateOnlyFromInstant } from '../../lib/date-only.js';
+import { dateOnlyFromCoercedDate } from '../../lib/date-only.js';
+import { lifecycleOf } from '../../lib/lifecycle';
 
 const all = await getIndexableEvents();
-// 「今日」はビルド環境（UTC）ではなく日本時間の暦日で決める。日本の0〜9時にビルドすると前日扱いになるため
-const today = dateOnlyFromInstant(new Date(), 'Asia/Tokyo');
+// 終了の判定は src/lib/lifecycle.ts に一本化する（日本時間の今日・中止・ガイドの基準日を同じ基準で扱う）。
+// ガイドや開業情報の startDate は情報の基準日なので、日付が過ぎても「終了」に入れない
+const lifecycleById = new Map(all.map((e) => [e.id, lifecycleOf(e)]));
+const upcoming = all.filter((e) => lifecycleById.get(e.id) !== 'ended');
+const past = all.filter((e) => lifecycleById.get(e.id) === 'ended').reverse();
 
-const dateOf = (e: (typeof all)[number]) => e.data.eventInfo?.endDate ?? e.data.eventInfo?.startDate;
-const upcoming = all.filter((e) => { const d = dateOf(e); return !d || d >= today; });
-const past = all.filter((e) => { const d = dateOf(e); return d && d < today; }).reverse();
-
-/** 月ごとにまとめる。月別の検索意図にそのまま応えるため */
+/** 月ごとにまとめる。月別の検索意図にそのまま応えるため。日付で終わらない記事は「いつでも」 */
 const byMonth = new Map<string, typeof all>();
 for (const e of upcoming) {
-  const d = e.data.eventInfo?.startDate;
+  const d = lifecycleById.get(e.id) === 'evergreen' ? undefined : e.data.eventInfo?.startDate;
   const day = d ? dateOnlyFromCoercedDate(d) : undefined;
   const key = day ? `${day.getUTCFullYear()}年${day.getUTCMonth() + 1}月` : 'いつでも';
   byMonth.set(key, [...(byMonth.get(key) ?? []), e]);
@@ -177,7 +177,8 @@ const jsonLd = [
           <li><a href={path(e)}>
             <img src={e.data.ogImage ?? CARD_IMAGES[e.id.split('/').pop()!]} alt="" loading="lazy" decoding="async" width="1200" height="630" />
             <span class="bp-card__meta">
-              {e.data.eventInfo?.startDate && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
+              {/* ガイドの startDate は情報の基準日なので、開催日のように見せない */}
+              {e.data.eventInfo?.startDate && lifecycleById.get(e.id) !== 'evergreen' && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
               {townNames(e) && <b>{townNames(e)}</b>}
             </span>
             <strong>{e.data.title}</strong>

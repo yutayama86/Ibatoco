@@ -17,6 +17,7 @@ import {
   happeningBucket,
   happeningDateLabel,
 } from '../src/lib/happening-schedule.js';
+import { lifecycleForDates } from '../src/lib/lifecycle-dates.js';
 
 const errors = [];
 const expect = (actual, expected, label) => {
@@ -60,9 +61,26 @@ expect(
 );
 
 // 「今日」や開催日で表示を振り分けるファイル。ビルド環境（UTC・米国時間）で暦日がずれないよう、ローカル時刻の getter を禁止する
+// 催しの状態（src/lib/lifecycle.ts と共通の判定）
+const d = parseDateOnly;
+expect(lifecycleForDates(d('2026-11-07'), undefined, d('2026-11-06')), 'upcoming', '単日：前日は開催前');
+expect(lifecycleForDates(d('2026-11-07'), undefined, d('2026-11-07')), 'today', '単日：当日は本日開催');
+expect(lifecycleForDates(d('2026-11-07'), undefined, d('2026-11-08')), 'ended', '単日：翌日は終了');
+expect(lifecycleForDates(kokiaStart, kokiaEnd, d('2026-09-18')), 'ongoing', '複数日：初日は開催中');
+expect(lifecycleForDates(kokiaStart, kokiaEnd, d('2026-11-03')), 'ongoing', '複数日：最終日も開催中');
+expect(lifecycleForDates(kokiaStart, kokiaEnd, d('2026-11-04')), 'ended', '複数日：最終日の翌日は終了');
+expect(lifecycleForDates(d('2026-11-14'), d('2026-11-15'), d('2026-10-02'), { tentative: true }), 'unconfirmed', '日程未確定は開催前でも未確定');
+expect(lifecycleForDates(d('2026-09-27'), undefined, d('2026-10-02'), { tentative: true }), 'ended', '仮の日程でも過ぎたら終了');
+expect(
+  lifecycleForDates(d('2026-11-07'), undefined, dateOnlyFromInstant(new Date('2026-11-06T15:30:00Z'), 'Asia/Tokyo')),
+  'today',
+  '日本時間の0時を過ぎたら当日（UTCでは前日）',
+);
+
 const criticalFiles = [
   'src/lib/happenings.ts',
   'src/lib/lifecycle.ts',
+  'src/lib/lifecycle-dates.js',
   'src/lib/sports.ts',
   'src/pages/events/index.astro',
   'src/pages/hanabi.astro',
