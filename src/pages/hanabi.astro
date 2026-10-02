@@ -10,16 +10,13 @@ import { CARD_IMAGES } from '../data/card-images';
 import type { Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 import { getIndexableEvents } from '../lib/content';
-import { dateOnlyFromInstant } from '../lib/date-only.js';
+import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
 
 // 今年の日程を書いた記事があるものを、常緑の一覧より前に出す。
 // このページ自体は「例年◯月」の常緑ページなので、日付が要る人を先に送る。
-// 「今日」は日本時間の暦日で決める（ビルド環境のタイムゾーンに依存させない）
-const todayH = dateOnlyFromInstant(new Date(), 'Asia/Tokyo');
-const hanabiEvents = (await getIndexableEvents()).filter((e) => {
-  const end = e.data.eventInfo?.endDate ?? e.data.eventInfo?.startDate;
-  return e.data.tags.includes('花火大会') && e.data.articleType === 'event' && (!end || end >= todayH);
-});
+// 終わった回・中止の回は出さない（判定は src/lib/lifecycle.ts に一本化）
+const hanabiEvents = (await getIndexableEvents()).filter((e) =>
+  e.data.tags.includes('花火大会') && e.data.articleType === 'event' && isWorthLinking(lifecycleOf(e)));
 const evPath = (id: string) => `/events/${id.split('/').pop()}/`;
 const evDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 

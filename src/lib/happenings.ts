@@ -27,7 +27,7 @@ import {
   happeningWeekendRange,
   isHappeningActive,
 } from './happening-schedule.js';
-import { startOfTodayJst } from './lifecycle';
+import { lifecycleOf, startOfTodayJst } from './lifecycle';
 
 export type HappeningKind = 'event' | 'sports' | 'season';
 export type WhenBucket = 'today' | 'tomorrow' | 'weekend' | 'thisWeek';
@@ -85,6 +85,9 @@ export async function getHappenings(now: Date = new Date(), horizonDays = 7): Pr
   for (const entry of events) {
     const info = entry.data.eventInfo;
     if (entry.data.articleType !== 'event' || !info?.startDate) continue;
+    // 中止・延期・日程未確定は「今日／今週末」に出さない（判定は lifecycle.ts と共通）
+    const lifecycle = lifecycleOf(entry, now);
+    if (lifecycle === 'ended' || lifecycle === 'unconfirmed') continue;
     const start = dateOnlyFromCoercedDate(info.startDate);
     const end = info.endDate ? dateOnlyFromCoercedDate(info.endDate) : start;
     if (end < today || start > horizon) continue;

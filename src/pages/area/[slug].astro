@@ -12,7 +12,7 @@ import { MUNICIPALITY_CONTENT } from '../../data/municipality-content';
 import { MUNICIPALITIES, MUNI_BY_SLUG, REGIONS, municipalitiesByRegion } from '../../data/areas';
 import { getPublishedArticles, getPublishedStores, getIndexableNews, getEventsByMunicipality } from '../../lib/content';
 import { themesForArea } from '../../data/themes';
-import { lifecycleOf } from '../../lib/lifecycle';
+import { isWorthLinking, lifecycleOf } from '../../lib/lifecycle';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import { getHappeningsForMunicipality } from '../../lib/happenings';
 import { businessesInMunicipality } from '../../data/businesses';
@@ -41,7 +41,7 @@ const areaEvents = (await getEventsByMunicipality(slug!))
     // 日付で落とすのは、開催日の決まっている催し（articleType: 'event'）だけ。
     // ガイドや開業情報の startDate は「情報の基準日」なので、
     // 同じ条件で落とすと、通年で使える記事が翌日から街のページに出なくなる。
-    return lifecycleOf(e) !== 'ended';
+    return isWorthLinking(lifecycleOf(e));
   })
   // その街に固有の記事を先に出す。県全体のまとめ記事は startDate を持たず
   // pubDate で並ぶため、そのままだと個別の催しを押し出して

@@ -16,6 +16,10 @@ reviewed: true
 noindex: false
 commercialPriority: low
 evergreen: false
+# 催しの日付。終わったあとにTOP・ランキング・関連記事から外すために使う（placeName が無いので構造化データは増えない）
+event:
+  name: "茨城空港 空の日イベント"
+  startDate: 2026-09-27
 conclusion: "茨城空港の「空の日」イベントは、2026年9月27日（日）に開催されます。ターミナルビルの催しは9時〜16時、エプロンでの展示などは主に11時30分〜15時です。イベント来場者は第3駐車場または空港公園航空広場横の臨時駐車場を利用してください。"
 keyPoints:
   - "開催日は2026年9月27日（日）"

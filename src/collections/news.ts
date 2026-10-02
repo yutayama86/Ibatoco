@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { NEWS_CATEGORY_KEYS } from '../data/news';
-import { bookingSchema, businessIntentSchema, commercialPrioritySchema, eventLifecycleSchema, guideCta, municipalitySlugs, sportsContentTypes, sportsTeamSlugs } from './foundations';
+import { bookingSchema, businessIntentSchema, commercialPrioritySchema, eventDateStatusSchema, eventLifecycleSchema, guideCta, municipalitySlugs, sportsContentTypes, sportsTeamSlugs } from './foundations';
 
 /**
  * 茨城ニュース解説（/news/）。
@@ -166,6 +166,8 @@ export const news = defineCollection({
       name: z.string(),
       startDate: z.coerce.date(),
       endDate: z.coerce.date().optional(),
+      /** 日程の確度（src/lib/lifecycle.ts）。確定なら書かない */
+      dateStatus: eventDateStatusSchema.optional(),
       url: z.url().optional(),
       placeName: z.string().optional(),
       address: z.string().optional(),
