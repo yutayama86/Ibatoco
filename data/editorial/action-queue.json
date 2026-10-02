@@ -1,7 +1,32 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-03",
   "actions": [
+    {
+      "id": "20261003-ibaraki-passport-additional-application",
+      "title": "茨城パスポート主ページを10月3日開始の追加申請へ更新",
+      "kind": "update",
+      "targetUrl": "/news/ibaraki-passport-2026/",
+      "targetFile": "src/content/news/ibaraki-passport-2026.md",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-03",
+      "completedAt": "2026-10-03",
+      "specPath": "docs/editorial/specs/20261003-ibaraki-passport-additional-application.md",
+      "primarySourceUrls": [
+        "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html",
+        "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
+      ],
+      "acceptanceCriteria": [
+        "追加申請期間10月3日10時〜10月16日18時を公式一次情報で表示",
+        "当初落選者は再申請不要、当選者は10月10日、落選者・追加申請者は11月10日から順次交付を明記",
+        "申請受付終了の古い表示を残さない",
+        "既存URL・canonical・デザイン・既存CTAを変更しない",
+        "主ページと追加交付短報を相互リンク",
+        "npm run verify/CI成功、本番200・title・canonical・主要表示・画像を確認"
+      ],
+      "notes": "直近7日897 Views、主要クエリ307表示・平均7.4072位。事実鮮度と季節期限の例外として即時更新。施策比較用の14日期待増分90 Views、confidence 0.7、調整後63 Views。本文実装コミット acf50cd。"
+    },
     {
       "id": "20260929-oarai-ankou-venue-fact-consistency",
       "title": "大洗あんこう祭の会場情報矛盾修正＋Growth Control更新",
