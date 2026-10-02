@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="茨城パスポート 2026。抽選結果は10月1日通知、交付は10月10日から。44市町村のスタンプを示すイバトコ作成の図版">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="茨城パスポート 2026。追加申請は10月3日から16日、追加交付は11月10日から。44市町村のスタンプを示すイバトコ作成の図版">
   <rect width="1200" height="630" fill="#f6f2e9"/>
   <rect x="28" y="28" width="1144" height="574" fill="none" stroke="#d9d0c0" stroke-width="1"/>
 
@@ -7,10 +7,10 @@
   <text x="80" y="228" font-family="'Shippori Mincho', serif" font-size="78" font-weight="700" fill="#172b35">茨城パスポート</text>
   <text x="84" y="300" font-family="'Source Sans 3', sans-serif" font-size="58" font-weight="700" letter-spacing="4" fill="#315c68">2026</text>
 
-  <rect x="80" y="338" width="236" height="56" fill="none" stroke="#315c68" stroke-width="2.5"/>
-  <text x="198" y="376" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="27" font-weight="700" fill="#315c68">抽選結果 10/1</text>
-  <rect x="334" y="338" width="276" height="56" fill="#a63f32"/>
-  <text x="472" y="376" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="27" font-weight="700" fill="#f6f2e9">交付 10/10から</text>
+  <rect x="80" y="338" width="284" height="56" fill="none" stroke="#315c68" stroke-width="2.5"/>
+  <text x="222" y="376" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="27" font-weight="700" fill="#315c68">追加申請 10/3〜16</text>
+  <rect x="382" y="338" width="300" height="56" fill="#a63f32"/>
+  <text x="532" y="376" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="27" font-weight="700" fill="#f6f2e9">追加交付 11/10から</text>
 
   <text x="80" y="466" font-family="'Shippori Mincho', serif" font-size="32" font-weight="700" fill="#172b35">受け取り方と交付窓口、44市町村のスタンプ</text>
 
@@ -32,6 +32,6 @@
 
   <line x1="80" y1="500" x2="300" y2="500" stroke="#a63f32" stroke-width="3"/>
 
-  <text x="80" y="540" font-family="'Source Sans 3', sans-serif" font-size="21" fill="#75695a">申請受付 2026年9月14日10時〜9月25日18時 ・ オンライン申請 ・ 応募多数は抽選</text>
+  <text x="80" y="540" font-family="'Source Sans 3', sans-serif" font-size="21" fill="#75695a">追加申請 2026年10月3日10時〜10月16日18時 ・ 初回落選者は再申請不要</text>
   <text x="80" y="576" font-family="'Source Sans 3', sans-serif" font-size="15" fill="#75695a">出典：観光いばらき・茨城県の公開情報（図版はイバトコ編集部作成。公式ロゴ・画像は使用していません）</text>
 </svg>
