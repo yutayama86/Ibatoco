@@ -15,3 +15,24 @@
 
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+# 一覧カード画像（scripts/build-og-backdrop.mjs がファイル名に内容のハッシュを入れる）は長期キャッシュ
+/images/card/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ハッシュの無い写真・図版・自動生成OGPは1日（同じ名前で差し替えても、翌日までに反映される）。
+# パターンを重ねると Cache-Control が連結されるため、フォルダごとに書く
+/images/area/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/theme/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/news/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/intl/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
