@@ -22,12 +22,12 @@ const municipalities = allMunicipalities.length > MUNI_SHOWN
   ? [...allMunicipalities.slice(0, MUNI_SHOWN), `ほか${allMunicipalities.length - MUNI_SHOWN}市町村`]
   : allMunicipalities;
 /**
- * 個別のOG画像を持たない記事でも、カードが絵なしにならないようにする。
- * ここで /og/news/<slug>.png（SNS用の自動生成画像）は使わない。
- * あれは見出しを焼き込んだ画像なので、カードに置くと画像の中の見出しと
- * 下のカード見出しで同じ文字が二度出る。文字の無い既定画像を使う。
+ * 一覧カードを画像なしにしない。
+ * 専用ビジュアル → カード用画像 → 自動生成OGP の順で使う。
+ * 新着ニュースは CARD_IMAGES の生成が追いつかない場合があるため、
+ * 最終フォールバックに /og/news/<slug>.png を使う。
  */
-const image = item.data.ogImage ?? CARD_IMAGES[slug as string];
+const image = item.data.ogImage ?? CARD_IMAGES[slug as string] ?? `/og/news/${slug}.png`;
 const imageAlt = item.data.ogImageAlt || '';
 ---
 
