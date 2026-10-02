@@ -233,12 +233,33 @@ if (data.faq.length > 0) jsonLd.push({
 
   {/* relatedArticleUrls も条件に含める。県全体の話題（municipalities が空）でも
       編集部が選んだ関連リンクが消えないようにする。 */}
-  {(relatedNews.length > 0 || relatedArticles.length > 0 || relatedPlaces.length > 0 || municipalities.length > 0 || data.relatedArticleUrls.length > 0) && <section class="news-related bp-wrap bp-section"><p class="bp-kicker">{pad(relatedNo)} / RELATED</p><h2 class="bp-section-title">関連情報</h2>
+  {(relatedNews.length > 0 || relatedArticles.length > 0 || relatedPlaces.length > 0 || municipalities.length > 0 || data.relatedArticleUrls.length > 0) && <section class="news-related bp-wrap bp-section" data-news-related><p class="bp-kicker">{pad(relatedNo)} / RELATED</p><h2 class="bp-section-title">関連情報</h2>
     {municipalities.length > 0 && <div class="municipality-links">{municipalities.map((value) => <a href={`/area/${value!.slug}/`}>{value!.name}を知る →</a>)}</div>}
     {relatedNews.length > 0 && <div class="news-related__grid">{relatedNews.map((related) => <NewsCard item={related} compact />)}</div>}
     {(relatedArticles.length > 0 || relatedPlaces.length > 0) && <div class="local-links">{relatedArticles.map((article) => <a href={`/${CATEGORIES[article.data.category].path}/${article.id.split('/').pop()}/`}><span>記事</span>{article.data.title}</a>)}{relatedPlaces.map((place) => <a href={`/place/${place.id}/`}><span>場所</span>{place.data.name}</a>)}</div>}
     {data.relatedArticleUrls.length > 0 && <nav class="editorial-links" aria-label="編集部が選んだ関連記事">{data.relatedArticleUrls.map((url) => <a href={url}>{INTERNAL_LINK_LABELS[url] ?? '関連情報'} →</a>)}</nav>}
   </section>}
+  <script>
+    import { commonParams, trackEvent } from '../../lib/analytics-events';
+    // 記事の最後の「関連情報」で、どの種類のリンクが押されるかを見る（docs/ARTICLE_ACTIONS.md）。
+    // イベント名は既存の next_action_click。新しいイベント名は作らない
+    for (const block of document.querySelectorAll<HTMLElement>('[data-news-related]')) {
+      for (const link of block.querySelectorAll<HTMLAnchorElement>('a[href^="/"]')) {
+        const kind = link.closest('.municipality-links') ? 'area'
+          : link.closest('.news-related__grid') ? 'news'
+          : link.closest('.local-links') ? 'local'
+          : link.closest('.editorial-links') ? 'editorial' : 'other';
+        link.addEventListener('click', () => {
+          trackEvent('next_action_click', {
+            ...commonParams({ page_type: 'news' }),
+            destination_type: kind,
+            action_source: 'news_related',
+            destination_url: link.getAttribute('href') ?? '',
+          });
+        });
+      }
+    }
+  </script>
 </BrandBase>
 
 <style>
