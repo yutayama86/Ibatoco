@@ -85,9 +85,9 @@ const CHECKED = '2026年8月13日';
 
 // ---- 帰属確認済みの画像 ----
 const IMG_OARAI: ThemeImage = { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg/1280px-Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg', alt: '大洗海岸から望む太平洋の日の出', credit: '写真：t.kunikuni / CC BY-SA 2.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg' };
-const IMG_FUKURODA: ThemeImage = { src: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Fukuroda%20Falls%2042.jpg?width=1280', alt: '大子町の袋田の滝', credit: '写真：Σ64 / CC BY 3.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Fukuroda_Falls_42.jpg' };
+const IMG_FUKURODA: ThemeImage = { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Fukuroda_Falls_42.jpg/1280px-Fukuroda_Falls_42.jpg', alt: '大子町の袋田の滝', credit: '写真：Σ64 / CC BY 3.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Fukuroda_Falls_42.jpg' };
 const IMG_NEMOPHILA: ThemeImage = { src: '/images/theme/nemophila-hitachi-seaside-park.jpg', alt: '国営ひたち海浜公園のみはらしの丘に咲くネモフィラ', credit: '写真：イバトコ編集部' };
-const IMG_TSUKUBA: ThemeImage = { src: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Mt.Tsukuba.jpg', alt: '筑波山', credit: '写真：RESPITE / パブリックドメイン', creditUrl: 'https://commons.wikimedia.org/wiki/File:Mt.Tsukuba.jpg' };
+const IMG_TSUKUBA: ThemeImage = { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mt.Tsukuba.jpg/1280px-Mt.Tsukuba.jpg', alt: '筑波山', credit: '写真：RESPITE / パブリックドメイン', creditUrl: 'https://commons.wikimedia.org/wiki/File:Mt.Tsukuba.jpg' };
 const IMG_HITACHI_STATION: ThemeImage = { src: '/images/area/hitachi/station.jpg', alt: '海に張り出した日立駅', credit: '写真：Σ64 / CC BY 4.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Hitachi_Station,_Ibaraki_01.jpg' };
 const IMG_KAMINE: ThemeImage = { src: '/images/area/hitachi/kamine-park.jpg', alt: '日立市かみね公園', credit: '写真：Σ64 / CC BY 4.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Kamine_Park,_Ibaraki_07.jpg' };
 const IMG_SAKURA: ThemeImage = { src: '/images/area/hitachi/sakura-festival.jpg', alt: '日立さくらまつりの平和通り', credit: '写真：Σ64 / CC BY 4.0', creditUrl: 'https://commons.wikimedia.org/wiki/File:Hitachi_Sakura_Festival,_Ibaraki_01.jpg' };

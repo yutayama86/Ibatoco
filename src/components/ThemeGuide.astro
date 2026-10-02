@@ -6,6 +6,7 @@
  * 画像のないスポットは写真枠を灰色で埋めず text-forward で成立させる。
  */
 import type { Theme } from '../data/themes';
+import { wikimediaImage } from '../lib/wikimedia-image';
 import TocoCard from './TocoCard.astro';
 interface Props { theme: Theme; }
 const { theme } = Astro.props;
@@ -21,7 +22,7 @@ const { theme } = Astro.props;
     </div>
     {theme.hero && (
       <figure class="tg-hero">
-        <img src={theme.hero.src} alt={theme.hero.alt} loading="eager" fetchpriority="high" width="1280" height="854" />
+        <img {...wikimediaImage(theme.hero.src)} sizes="100vw" alt={theme.hero.alt} loading="eager" fetchpriority="high" width="1280" height="854" />
         <figcaption>{theme.hero.creditUrl
           ? <a href={theme.hero.creditUrl} target="_blank" rel="license noopener">{theme.hero.credit}</a>
           : theme.hero.credit}</figcaption>
@@ -106,7 +107,7 @@ const { theme } = Astro.props;
         <article class:list={['tg-card', !sp.image && 'tg-card--noimg']}>
           {sp.image && (
             <figure class="tg-card__fig">
-              <img src={sp.image.src} alt={sp.image.alt} loading="lazy" decoding="async" width="1280" height="854" />
+              <img {...wikimediaImage(sp.image.src, [500, 960])} sizes="(max-width: 680px) 100vw, (max-width: 960px) 50vw, 33vw" alt={sp.image.alt} loading="lazy" decoding="async" width="1280" height="854" />
               <figcaption>{sp.image.creditUrl
                 ? <a href={sp.image.creditUrl} target="_blank" rel="license noopener">{sp.image.credit}</a>
                 : sp.image.credit}</figcaption>

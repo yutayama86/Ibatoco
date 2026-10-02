@@ -1,5 +1,6 @@
 ---
 import BrandBase from '../layouts/BrandBase.astro';
+import { wikimediaImage } from '../lib/wikimedia-image';
 import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
 import HomeThemeNav from '../components/HomeThemeNav.astro';
 import ThisWeek from '../components/ThisWeek.astro';
@@ -50,7 +51,7 @@ const heroSlides = [
     position: 'center 48%',
   },
   {
-    src: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Fukuroda%20Falls%2042.jpg?width=1280',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Fukuroda_Falls_42.jpg/1280px-Fukuroda_Falls_42.jpg',
     alt: '大子町の袋田の滝',
     caption: '冬、滝は凍る。',
     place: '茨城県・袋田の滝',
@@ -66,7 +67,8 @@ const heroSlides = [
       {heroSlides.map((slide, index) => (
         <figure class:list={['hero-slide', { 'is-active': index === 0 }]} data-hero-slide aria-hidden={index !== 0}>
           <img
-            src={slide.src}
+            {...wikimediaImage(slide.src)}
+            sizes="100vw"
             alt={slide.alt}
             fetchpriority={index === 0 ? 'high' : 'auto'}
             loading={index === 0 ? 'eager' : 'lazy'}
