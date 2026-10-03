@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03",
+  "updatedAt": "2026-10-04",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -320,19 +320,21 @@
     {
       "id": "growthnext-contextual-recirculation",
       "lane": "cro",
-      "status": "experiment-running",
-      "evidenceDate": "2026-09-30",
+      "status": "maintain-observation",
+      "evidenceDate": "2026-10-04",
       "evidence": {
-        "oldSelectionPeriod": "2026-09-22..2026-09-28",
-        "views": 1274,
-        "clicks": 57,
-        "ctr": 0.0447,
-        "viewsPerSession": 1.1841,
-        "previousViewsPerSession": 1.1475,
-        "contextualSelectionDeployed": "2026-09-27"
+        "evaluationPeriod": "2026-09-26..2026-10-02",
+        "views": 2369,
+        "clicks": 112,
+        "ctr": 0.0473,
+        "viewsPerSession": 1.1838,
+        "previousViewsPerSession": 1.137,
+        "viewsPerSessionLift": 0.0412,
+        "contextualSelectionDeployed": "2026-09-27",
+        "decision": "クリック基準2%は達成。PV/Sessionは悪化せず4.12%改善したが目標5%には未達のため、再改修せず28日観測を継続"
       },
-      "opportunity": "文脈選定版が旧選定のCTR 4.51%を維持または上回り、PV/Sessionを改善するか検証する。",
-      "nextReview": "2026-10-04"
+      "opportunity": "高いクリック率を維持しながら、日次更新する人気ページ推薦と11月重点ページの回遊が28日でPV/Sessionを押し上げるか確認する。",
+      "nextReview": "2026-10-25"
     },
     {
       "id": "kouyou-hub-freshness-20260929",

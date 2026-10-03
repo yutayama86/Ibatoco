@@ -1,7 +1,33 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03",
+  "updatedAt": "2026-10-04",
   "actions": [
+    {
+      "id": "20261004-growthnext-gate-popular-pages-refresh",
+      "title": "GrowthNext 7日評価と人気ページ推薦の最新化",
+      "kind": "measurement",
+      "targetUrl": "/",
+      "targetFile": "data/editorial/popular-pages.json",
+      "additionalTargetFiles": [
+        "data/editorial/performance-snapshot.json",
+        "data/editorial/growth-opportunities.json"
+      ],
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-04",
+      "completedAt": "2026-10-04",
+      "specPath": "docs/editorial/specs/20261004-growthnext-gate-popular-pages-refresh.md",
+      "primarySourceUrls": [],
+      "acceptanceCriteria": [
+        "Windsor.ai GA4の2026-09-26〜10-02実測で人気ページ上位8件を更新",
+        "終了済みで後継導線のない大洗海上花火と茨城空港空の日を推薦から除外",
+        "GrowthNext 7日ゲートをviews/clicks/CTR/Views per sessionで評価",
+        "クリック基準達成・Views per session悪化なしのためUIを再改修せず28日観測へ移行",
+        "既存URL・記事本文・TOPページ・カードCSSを変更しない",
+        "npm run verify/CI成功、本番データ反映と主要ページ表示を確認"
+      ],
+      "notes": "GrowthNext 2,369 view・112 click・CTR 4.73%。Views/sessionは前週比4.12%改善し悪化条件には該当しないが目標5%未達。人気推薦を最新実測と11月重点ページへ更新し、10/25まで観測継続。"
+    },
     {
       "id": "20261003-ibaraki-passport-additional-application",
       "title": "茨城パスポート主ページを10月3日開始の追加申請へ更新",
