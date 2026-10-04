@@ -224,6 +224,16 @@ p, dd, blockquote, td {
   line-break: strict;
 }
 
+/*
+ * 最後の行に1文字だけ残る改行（「…駐車場を見／る」「…ます／。」）を避ける。
+ * 320・360pxで、見出し・ボタン・本文あわせて約1,300か所に出ていた（2026-10-04、全477ページを検査）。
+ * pretty は最後の数行の折り位置だけを調整する。未対応のブラウザでは今までどおり折れるだけ。
+ * 見出しなどで balance を指定している箇所は、そちらが優先される。
+ */
+body {
+  text-wrap: pretty;
+}
+
 img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; cursor: pointer; }

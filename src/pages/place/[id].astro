@@ -44,7 +44,7 @@ const jsonLd = {
         {data.features.length > 0 && <section><p class="bp-kicker">FEATURES</p><ul class="features">{data.features.map((feature) => <li>{feature}</li>)}</ul></section>}
         {data.faq.length > 0 && <section><p class="bp-kicker">QUESTIONS</p><h2>訪れる前に</h2><dl class="faq">{data.faq.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl></section>}
       </div>
-      <aside><p class="facts-label">基本情報</p><PlaceFacts store={store} />{data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer" data-place-action="official">公式サイトを確認する ↗</a>}<p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p></aside>
+      <aside><p class="facts-label">基本情報</p><PlaceFacts store={store} />{data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer" data-place-action="official">公式サイトを確認する&nbsp;↗</a>}<p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p></aside>
     </div>
   </article>
 

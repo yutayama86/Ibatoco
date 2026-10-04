@@ -36,7 +36,7 @@ const slots = sponsorsForPage(path, today);
           <div class="sp__body">
             <p class="sp__name">{slot.name}</p>
             <p class="sp__text">{slot.text}</p>
-            <a class="sp__link" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>{slot.cta} <span aria-hidden="true">↗</span></a>
+            <a class="sp__link" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>{slot.cta}&nbsp;<span aria-hidden="true">↗</span></a>
           </div>
         </li>
       ))}

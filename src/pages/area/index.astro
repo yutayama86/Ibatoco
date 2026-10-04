@@ -20,4 +20,12 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'エリアか
     padding-block:clamp(3rem,7vw,6.5rem);
     background:color-mix(in srgb,var(--color-sand) 42%,var(--color-paper));
   }
+  /*
+   * 761〜1100pxの地図レイアウト（HomeAreaExplorer）は、2列の最小幅 320px＋400px を前提にしている。
+   * この一覧は左右の余白（bp-wrap）のぶん枠が狭く、768pxで地図が右へ32pxはみ出し、神栖市・北茨城市など
+   * 東端が切れていた（2026-10-04、本番でも確認）。このページだけ列の最小幅を外す。TOPの見た目は変えない。
+   */
+  @media (min-width:761px) and (max-width:1100px){
+    .area-index-main :global(.ax-grid){grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
+  }
 </style>

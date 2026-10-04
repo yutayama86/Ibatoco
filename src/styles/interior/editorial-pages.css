@@ -41,6 +41,16 @@ body.interior-site :is(.policy-title, .pv-title, .rsv-title, .nf-title, .tag-tit
   text-wrap: balance;
 }
 
+/*
+ * タグ名の見出し「#タグ」は、長いタグ（例「#イバラキパスポート」）がスマホで枠に入りきらず、
+ * 「#」だけの行や最後の1文字だけの行ができていた（2026-10-04、320・360pxで確認）。
+ * タグの長さ（--fit-len、src/lib/text-fit.ts）に合わせて1行に収まる大きさまで下げる。
+ * 下限は1.5rem（それより長いタグは文節で折り返す）。PCでは上の大きさのまま変わらない。
+ */
+body.interior-site .tag-title {
+  font-size: clamp(1.5rem, calc(100cqi / var(--fit-len, 1)), var(--interior-title-xl)) !important;
+}
+
 body.interior-site .prose {
   font-size: clamp(.98rem, .95rem + .2vw, 1.08rem);
   line-height: 2.08;

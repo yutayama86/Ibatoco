@@ -209,7 +209,7 @@ const jsonLd: Record<string, unknown>[] = [
                 {b.description && <p>{b.description}</p>}
                 {b.verifiedAt && <span class="area-biz__checked">{b.verifiedAt} 時点の公開情報で確認</span>}
               </div>
-              {b.officialUrl && <a href={b.officialUrl} target="_blank" rel="noopener noreferrer" data-business-id={b.id} data-business-name={b.name} data-business-category={b.category} data-business-municipality={b.municipality}>公式サイト ↗</a>}
+              {b.officialUrl && <a href={b.officialUrl} target="_blank" rel="noopener noreferrer" data-business-id={b.id} data-business-name={b.name} data-business-category={b.category} data-business-municipality={b.municipality}>公式サイト&nbsp;↗</a>}
             </li>
           ))}
         </ul>

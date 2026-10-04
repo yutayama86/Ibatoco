@@ -239,7 +239,7 @@ if (d.faq.length > 0) {
         </p>
       )}
       {info?.officialUrl && (
-        <p class="ev-official"><a href={info.officialUrl} target="_blank" rel="noopener noreferrer">{info.officialName ?? '公式サイト'}で最新情報を見る ↗</a></p>
+        <p class="ev-official"><a href={info.officialUrl} target="_blank" rel="noopener noreferrer">{info.officialName ?? '公式サイト'}で最新情報を見る&nbsp;↗</a></p>
       )}
     </section>
   )}
@@ -271,8 +271,8 @@ if (d.faq.length > 0) {
           <p class="ev-picks__area">{p.area}</p>
           <h3>{p.url
             ? (p.url.startsWith('/')
-                ? <a href={p.url}>{p.name} →</a>
-                : <a href={p.url} target="_blank" rel="noopener noreferrer">{p.name} ↗</a>)
+                ? <a href={p.url}>{p.name}&nbsp;→</a>
+                : <a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}&nbsp;↗</a>)
             : p.name}</h3>
           <p class="ev-picks__for">こんな人に：{p.forWhom}</p>
           <p>{p.detail}</p>
@@ -304,7 +304,7 @@ if (d.faq.length > 0) {
     <p class="section-number">{no('sources')} / SOURCES</p>
     <h2 id="ev-src" class="bp-section-title">情報源</h2>
     <ul class="ev-sources">{d.sourceUrls.map((s) => (
-      <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label} ↗</a>{s.accessedAt && <small>（{fmtDate(s.accessedAt)}確認）</small>}</li>
+      <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}&nbsp;↗</a>{s.accessedAt && <small>（{fmtDate(s.accessedAt)}確認）</small>}</li>
     ))}</ul>
     <p class="ev-caution">開催内容・日程・料金・交通は変更されることがあります。お出かけ前に必ず公式の最新情報をご確認ください。</p>
   </section>
@@ -434,7 +434,7 @@ if (d.faq.length > 0) {
   .ev-picks p:last-child{margin-top:.5rem;color:var(--color-soil);font-size:.86rem;line-height:1.85}
 
   .ev-sources{display:grid;gap:.7rem;max-width:var(--ev-measure);padding:0;list-style:none}
-  .ev-sources a{color:var(--interior-blue,#174f99);font-size:.9rem}
+  .ev-sources a{color:var(--interior-blue,#174f99);font-size:.9rem;text-wrap:balance}
   .ev-sources small{margin-left:.4rem;color:var(--color-soil);font-size:.74rem}
   .ev-caution{max-width:var(--ev-measure);margin-top:1.4rem;color:var(--color-soil);font-size:.82rem;line-height:1.9}
 

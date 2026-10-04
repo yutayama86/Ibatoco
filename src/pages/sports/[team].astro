@@ -25,6 +25,7 @@ import SportsUpcoming from '../../components/SportsUpcoming.astro';
 import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import BusinessCta from '../../components/BusinessCta.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
+import { fitLength } from '../../lib/text-fit';
 import {
   SPORTS_TEAMS, SPORTS_TEAM_BY_SLUG, SPORTS_CONTENT_TYPES,
   townSlugsOf, type SportsContentType,
@@ -197,7 +198,7 @@ const jsonLd = [
   <header class="tm-head bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">{team.sport}</p>
-    <h1>{team.name}</h1>
+    <h1 style={`--fit-len:${fitLength(team.name)}`}>{team.name}</h1>
     <p>{team.summary}</p>
     {team.slug === 'mito-hollyhock' && <p>ホーム観戦の前に、<a href="/news/mito-hollyhock-new-stadium-access/">水戸信用金庫スタジアムのアクセス・駐車場・最寄り駅</a>をご確認ください。</p>}
     {(team.league || team.venue) && (

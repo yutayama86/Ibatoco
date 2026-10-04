@@ -6,6 +6,7 @@ import NewsCard from '../../components/NewsCard.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getAllTags, getArticlesByTag, getNewsByTag, tagToSlug } from '../../lib/content';
+import { fitLength } from '../../lib/text-fit';
 
 export const getStaticPaths = (async () => {
   const tags = await getAllTags();
@@ -16,6 +17,8 @@ const { tag } = Astro.props;
 const [articles, news] = await Promise.all([getArticlesByTag(tag), getNewsByTag(tag)]);
 const total = articles.length + news.length;
 const shouldIndex = total >= 3;
+// 見出し「#タグ」を1行に収める大きさの目安（src/lib/text-fit.ts）
+const tagLen = fitLength(`#${tag}`);
 // パンくずは現在地としてタグ名まで出す（表示と構造化データで同じ配列を使う）
 const crumbs: Crumb[] = [
   { name: 'ホーム', href: '/' },
@@ -33,7 +36,7 @@ const crumbs: Crumb[] = [
   <section class="wrap tag-hero">
     <div data-reveal><Breadcrumbs items={crumbs} /></div>
     <p class="eyebrow" data-reveal>Tag</p>
-    <h1 class="display tag-title" data-reveal>#{tag}</h1>
+    <h1 class="display tag-title" data-reveal data-long={Number(tagLen) > 10.2 ? '' : undefined} style={`--fit-len:${tagLen}`}>#{tag}</h1>
     <p class="tag-lead muted" data-reveal>「{tag}」から、次に行きたい茨城を探す。記事・ニュース {total}件</p>
     <nav class="tag-actions" aria-label="タグから次を探す">
       <a href="/events/">今のおでかけを見る →</a>
@@ -53,6 +56,13 @@ const crumbs: Crumb[] = [
   .crumbs { display: flex; gap: 0.6rem; font-size: var(--step--1); color: var(--ink-mute); margin-bottom: 1.2rem; }
   .crumbs a:hover { color: var(--color-tide); }
   .tag-title { font-size: var(--step-4); margin: 0.4rem 0; color: var(--ink); }
+  /* 見出しの大きさをタグの長さに合わせるための基準（src/styles/interior/editorial-pages.css の .tag-title） */
+  .tag-hero { container-type: inline-size; }
+  /*
+   * 320pxで1行に入りきらない長いタグ（例「#つくば霞ヶ浦りんりんロード」）は、文節で折ると
+   * 「#」だけの行ができる。字単位で折り、行の長さは見出しの text-wrap:balance（editorial-pages.css）でそろえる。
+   */
+  .tag-title[data-long] { word-break: normal; }
   .tag-lead { font-size: var(--step-0); }
   .tag-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
   .tag-actions a{padding:.5rem .8rem;border:1px solid var(--color-mist);border-radius:999px;background:rgba(255,255,255,.86);color:var(--color-ink);font-size:.8rem;font-weight:700}
