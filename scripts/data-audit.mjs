@@ -162,8 +162,8 @@ if (!/booking_guide_view_a/.test(bookingGuideSrc) || !/booking_guide_view_b/.tes
 if (!/outbound_booking_click_a/.test(bookingGuideSrc) || !/outbound_booking_click_b/.test(bookingGuideSrc)) {
   add('error', 'booking-experiment', 'BookingGuide がA/B clickイベントを送っていません');
 }
-if (!/data-experiment-id/.test(bookingGuideSrc) || !/data-experiment-variant/.test(bookingGuideSrc)) {
-  add('error', 'booking-experiment', 'BookingGuide のexperiment識別属性が欠落しています');
+if (!/data-experiment-id/.test(bookingGuideSrc) || !/dataset\.experimentVariant/.test(bookingGuideSrc)) {
+  add('error', 'booking-experiment', 'BookingGuide のexperiment識別実装が欠落しています');
 }
 
 // ---- 広告表示と本文の食い違い ----
