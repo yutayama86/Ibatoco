@@ -70,6 +70,13 @@ function bookingItems(front) {
 
 const ga7 = new Map((performance.ga4TopPages?.recent7 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
 const ga28 = new Map((performance.ga4TopPages?.recent28 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
+const pageFunnel = new Map(
+  (performance.conversionDetail?.byPage ?? []).map((row) => [row.path, {
+    bookingGuideViews: Number(row.booking_guide_view ?? 0),
+    bookingClicks: Number(row.outbound_booking_click ?? 0),
+    monetizedClicks: Number(row.monetized_booking_click ?? 0),
+  }])
+);
 
 const rows = [];
 for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.startsWith('_'))) {
@@ -95,6 +102,13 @@ for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.sta
       providerStatus: provider?.status ?? 'none',
       views7: ga7.get(path) ?? 0,
       views28: ga28.get(path) ?? 0,
+      bookingGuideViews: pageFunnel.get(path)?.bookingGuideViews ?? 0,
+      bookingClicks: pageFunnel.get(path)?.bookingClicks ?? 0,
+      monetizedClicks: pageFunnel.get(path)?.monetizedClicks ?? 0,
+      nonMonetizedClicks: Math.max(
+        0,
+        (pageFunnel.get(path)?.bookingClicks ?? 0) - (pageFunnel.get(path)?.monetizedClicks ?? 0),
+      ),
     });
   }
 }
@@ -108,8 +122,29 @@ const rankedGaps = rows
   .sort((a, b) => {
     const aPriority = a.state === 'active-unmapped' ? 1000 : 0;
     const bPriority = b.state === 'active-unmapped' ? 1000 : 0;
-    return (bPriority + b.views7 * 10 + b.views28) - (aPriority + a.views7 * 10 + a.views28);
+    const aDemand = a.nonMonetizedClicks * 500 + a.bookingClicks * 50 + a.views7 * 10 + a.views28;
+    const bDemand = b.nonMonetizedClicks * 500 + b.bookingClicks * 50 + b.views7 * 10 + b.views28;
+    return (bPriority + bDemand) - (aPriority + aDemand);
   });
+
+const funnelRows = [...pageFunnel.entries()]
+  .map(([path, funnel]) => ({
+    path,
+    ...funnel,
+    nonMonetizedClicks: Math.max(0, funnel.bookingClicks - funnel.monetizedClicks),
+    monetizedShare: funnel.bookingClicks > 0 ? funnel.monetizedClicks / funnel.bookingClicks : null,
+  }))
+  .filter((row) => row.bookingClicks > 0)
+  .sort((a, b) =>
+    b.nonMonetizedClicks - a.nonMonetizedClicks
+    || b.bookingClicks - a.bookingClicks
+    || b.monetizedClicks - a.monetizedClicks
+  );
+
+const totalBookingClicks = funnelRows.reduce((sum, row) => sum + row.bookingClicks, 0);
+const totalMonetizedClicks = funnelRows.reduce((sum, row) => sum + row.monetizedClicks, 0);
+const totalNonMonetizedClicks = Math.max(0, totalBookingClicks - totalMonetizedClicks);
+const monetizedShare = totalBookingClicks > 0 ? totalMonetizedClicks / totalBookingClicks : null;
 
 const lines = [
   '# Monetization Link Audit',
@@ -119,6 +154,16 @@ const lines = [
   `- 提携済みだがURL未マッピング: **${counts['active-unmapped']}**`,
   `- 未提携リンク: **${counts['non-partner']}**`,
   `- 公式リンク: **${counts.official}**`,
+  `- 実測Booking click: **${totalBookingClicks}**`,
+  `- 実測Monetized click: **${totalMonetizedClicks}**`,
+  `- 実測未収益化click: **${totalNonMonetizedClicks}**`,
+  `- Monetized Click Share: **${monetizedShare == null ? '未取得' : `${(monetizedShare * 100).toFixed(2)}%`}**`,
+  '',
+  '## 未収益化クリック TOP',
+  '',
+  ...(funnelRows.length ? funnelRows.slice(0, 15).map((row, i) =>
+    `${i + 1}. **${row.path}**\n   - Booking click: ${row.bookingClicks} / Monetized: ${row.monetizedClicks} / Lost: ${row.nonMonetizedClicks}\n   - Share: ${row.monetizedShare == null ? 'n/a' : `${(row.monetizedShare * 100).toFixed(1)}%`}`
+  ) : ['- ページ別Revenue Funnelがありません。']),
   '',
   '## 最優先ギャップ',
   '',
@@ -132,6 +177,7 @@ const lines = [
   '- paid のクリック / 全 outbound_booking_click を Monetized Click Share とする。',
   '- active-unmapped は提携済み提供元だが、そのURLが成果リンク未登録。最優先で確認する。',
   '- non-partner は実クリック需要が確認できたものだけ提携候補化する。',
+  '- 静的なリンク数より、実測の未収益化クリック件数を優先する。',
   '',
 ];
 
