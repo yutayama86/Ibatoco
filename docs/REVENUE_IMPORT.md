@@ -46,3 +46,26 @@ node scripts/revenue-import.mjs --input=/path/to/file.csv --write-ledger
 
 A8.net / 楽天アフィリエイト等の実際のエクスポートCSVを一度確認できれば、そのヘッダーに対応するアダプターを追加します。
 未知の形式を推測で読み込むことはしません。
+
+
+## CSVの形式が未対応の場合
+
+生CSVの中身を表示せず、ヘッダー・件数・文字コードだけを確認できます。
+
+~~~bash
+npm run revenue:inspect
+~~~
+
+または:
+
+~~~bash
+node scripts/revenue-import-inspect.mjs --input=/path/to/file.csv
+~~~
+
+出力:
+- reports/editorial/revenue-import-inspect.md
+- reports/editorial/revenue-import-mapping-stub.json
+
+mapping stubにはCSVの列名だけが入り、注文ID・金額・顧客情報などの行データは入りません。
+
+A8.netは2026年の新管理画面でレポート体系が変更されており、楽天アフィリエイトはダウンロード項目を利用者側で選択できます。そのため、ASP名だけで固定列を仮定せず、実際のヘッダーを1度確認してから専用mappingを固定します。
