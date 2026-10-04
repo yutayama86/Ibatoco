@@ -63,9 +63,17 @@ const pageFunnels = new Map(
 );
 
 const revenueByPage = new Map();
+let totalConfirmedRevenue = 0;
+let unattributedConfirmedRevenue = 0;
 for (const entry of ledger.entries ?? []) {
-  if (!entry?.page || entry.status !== 'confirmed') continue;
+  if (entry.status !== 'confirmed') continue;
   const amount = Number(entry.revenueYen ?? 0);
+  if (!Number.isFinite(amount) || amount < 0) continue;
+  totalConfirmedRevenue += amount;
+  if (!entry?.page) {
+    unattributedConfirmedRevenue += amount;
+    continue;
+  }
   revenueByPage.set(entry.page, (revenueByPage.get(entry.page) ?? 0) + amount);
 }
 
@@ -138,7 +146,7 @@ pages.sort((a, b) => {
   return b.yieldScore - a.yieldScore || b.views28 - a.views28;
 });
 
-const totalRevenue = [...revenueByPage.values()].reduce((a, b) => a + b, 0);
+const totalRevenue = totalConfirmedRevenue;
 const totalViews28 = Number(performance.windows?.ga4?.recent28?.views ?? 0);
 const siteActualRpm = totalViews28 > 0 ? totalRevenue / totalViews28 * 1000 : 0;
 
@@ -147,6 +155,7 @@ const state = {
   generatedAt: new Date().toISOString(),
   asOf: performance.asOf ?? null,
   totalConfirmedRevenueYen: totalRevenue,
+  unattributedConfirmedRevenueYen: unattributedConfirmedRevenue,
   siteActualRpmYen: Number(siteActualRpm.toFixed(2)),
   hasPageFunnel: pageFunnels.size > 0,
   pages: top,
@@ -176,6 +185,7 @@ const lines = [
   `- 基準日: ${performance.asOf ?? 'unknown'}`,
   `- 確定売上合計: **¥${totalRevenue}**`,
   `- Site Actual RPM: **¥${siteActualRpm.toFixed(0)} / 1,000 Views**`,
+  `- ページ未帰属の確定売上: **¥${unattributedConfirmedRevenue}**`,
   `- ページ別ファネル: **${pageFunnels.size > 0 ? '利用可能' : '未取得'}**`,
   '',
   '## 伸ばすべきページ TOP15',
