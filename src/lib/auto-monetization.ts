@@ -1,5 +1,3 @@
-import type { Booking } from '../components/BookingGuide.astro';
-
 type BusinessIntent = {
   booking?: boolean;
   accommodation?: boolean;
@@ -9,13 +7,27 @@ type BusinessIntent = {
   businessLead?: boolean;
 };
 
+export interface AutoBooking {
+  heading: string;
+  intro?: string;
+  basis: string;
+  items: Array<{
+    label: string;
+    provider: string;
+    url: string;
+    note?: string;
+    kind?: 'official' | 'ota' | 'ticket' | 'transport';
+  }>;
+  note?: string;
+}
+
 interface AutoBookingInput {
   municipality?: string;
   businessIntent?: BusinessIntent;
   officialUrl?: string;
   officialName?: string;
   lifecycle?: string;
-  existingBooking?: Booking;
+  existingBooking?: AutoBooking;
 }
 
 const LODGING_BY_MUNICIPALITY: Record<string, {
@@ -56,7 +68,7 @@ const LODGING_BY_MUNICIPALITY: Record<string, {
  * - URLは affiliates.ts で既に承認済みの元URLのみ。新しい提携先やURLは推測しない
  * - 並び順は公式情報 → 楽天 → じゃらん。報酬で並べ替えない
  */
-export function autoBookingForEvent(input: AutoBookingInput): Booking | undefined {
+export function autoBookingForEvent(input: AutoBookingInput): AutoBooking | undefined {
   if (input.existingBooking) return input.existingBooking;
   if (!input.businessIntent?.accommodation) return undefined;
   if (input.lifecycle === 'ended') return undefined;
