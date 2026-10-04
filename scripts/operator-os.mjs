@@ -78,6 +78,9 @@ const growthCurrent = performance?.windows?.ga4?.recent28?.views ?? null;
 const growthTarget = performance?.northStar?.target ?? 100000;
 const growthRunRate = performance?.northStar?.runRate28FromRecent7 ?? null;
 const bookingClicks7 = performance?.conversionDetail?.recent7?.outbound_booking_click ?? null;
+const monetizedClicks7 = performance?.conversionDetail?.recent7?.monetized_booking_click ?? null;
+const monetizedClickShare = performance?.conversionDetail?.recent7?.monetized_click_share ?? null;
+const pageFunnelCheckedAt = performance?.conversionDetail?.byPageCheckedAt ?? null;
 
 const monetization = {
   totalLinks: firstNumber(reports.monetization, 'Bookingリンク総数'),
@@ -103,6 +106,10 @@ if ((monetization.activeUnmapped ?? 0) > 0) {
 }
 if ((bookingClicks7 ?? 0) > 0 && !(performance?.conversionDetail?.byPage?.length > 0)) {
   blockers.push('Bookingクリックはあるが conversionDetail.byPage が未取得。Windsor/GA4で pagePath × eventName を取得する');
+}
+if (pageFunnelCheckedAt) {
+  const pageFunnelAge = Math.floor((Date.now() - Date.parse(pageFunnelCheckedAt)) / 86400000);
+  if (pageFunnelAge > 2) blockers.push(`ページ別Revenue Funnelが${pageFunnelAge}日前。GA4から再取得する`);
 }
 if (performance?.source?.freshness?.todayRefreshSucceeded === false) {
   blockers.push('GA4/GSCの当日更新に失敗');
@@ -131,7 +138,7 @@ const autoSafe = [
 const state = {
   generatedAt: new Date().toISOString(),
   growth: { current28Views: growthCurrent, targetViews: growthTarget, runRate28: growthRunRate },
-  monetization: { ...monetization, bookingClicks7 },
+  monetization: { ...monetization, bookingClicks7, monetizedClicks7, monetizedClickShare },
   discovery: { entities: discoveryCount, coverageGaps },
   blockers,
   approvals,
@@ -157,6 +164,8 @@ const lines = [
   `- Discovery検索対象: **${discoveryCount ?? 'unknown'}件**`,
   `- Discovery薄領域: **${coverageGaps ?? 'unknown'}件**`,
   `- 直近7日Booking click: **${bookingClicks7 ?? 'unknown'}**`,
+  `- 直近7日Monetized click: **${monetizedClicks7 ?? 'unknown'}**`,
+  `- Monetized Click Share: **${monetizedClickShare == null ? 'unknown' : `${(monetizedClickShare * 100).toFixed(1)}%`}**`,
   `- 実収益化リンク: **${monetization.paidLinks ?? 'unknown'} / ${monetization.totalLinks ?? 'unknown'}**`,
   `- 提携済みURL未マッピング: **${monetization.activeUnmapped ?? 'unknown'}件**`,
   '',

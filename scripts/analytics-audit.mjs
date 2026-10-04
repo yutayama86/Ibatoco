@@ -31,6 +31,10 @@ requirePattern('src/lib/forms.ts', 'generate_lead instrumentation', /generate_le
 requirePattern('src/pages/news/\[slug\].astro', 'BusinessCta wired on news', /<BusinessCta\b/);
 requirePattern('src/pages/events/\[slug\].astro', 'BusinessCta wired on events', /<BusinessCta\b/);
 requirePattern('src/pages/sports/\[team\].astro', 'BusinessCta wired on sports', /<BusinessCta\b/);
+requirePattern('src/pages/discover/index.astro', 'discovery_search instrumentation', /discovery_search/);
+requirePattern('src/pages/discover/index.astro', 'discovery_result_click instrumentation', /discovery_result_click/);
+requirePattern('src/pages/submit.astro', 'self-service form view instrumentation', /contact_form_view/);
+requirePattern('src/pages/submit.astro', 'self-service form start instrumentation', /contact_form_start/);
 requirePattern('src/components/GrowthNextReads.astro', 'growth_next_view instrumentation', /growth_next_view/);
 requirePattern('src/components/GrowthNextReads.astro', 'growth_next_click instrumentation', /growth_next_click/);
 requirePattern('src/pages/news/[slug].astro', 'GrowthNextReads wired on news', /<GrowthNextReads\b/);
