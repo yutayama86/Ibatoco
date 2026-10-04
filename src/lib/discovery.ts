@@ -30,9 +30,8 @@ function toDiscovery(entry: CollectionEntry<'events'>): DiscoveryEntity {
     .filter((name): name is string => Boolean(name));
   const regionLabels = [...new Set(municipalities
     .map((slug) => MUNI_BY_SLUG.get(slug)?.region)
-    .filter(Boolean)
-    .map((region) => REGIONS[region!]?.label)
-    .filter((name): name is string => Boolean(name)))];
+    .filter((region): region is NonNullable<typeof region> => Boolean(region))
+    .map((region) => REGIONS[region].label))];
 
   const lifecycle = lifecycleOf(entry);
   const tags = [...new Set([
