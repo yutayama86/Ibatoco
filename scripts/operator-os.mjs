@@ -16,6 +16,7 @@ const requiredReports = [
   ['discoveryPriority', 'discovery-priorities.md'],
   ['discoveryCoverage', 'discovery-coverage.md'],
   ['editorial', 'daily-brief.md'],
+  ['partners', 'partner-opportunities.md'],
 ];
 
 for (const [, file] of requiredReports) {
@@ -88,6 +89,8 @@ const coverageGaps = firstNumber(reports.discoveryCoverage, '薄い組み合わ�
 const growthTop = extractTop(reports.discoveryPriority, '今日のTOP10', 5);
 const revenueTop = extractTop(reports.revenue, '今日の収益機会 TOP10', 5);
 const monetizationGaps = extractTop(reports.monetization, '最優先ギャップ', 5);
+const partnerTop = extractTop(reports.partners, '新規提携を検討する提供元', 5);
+const partnerCategoryTop = extractTop(reports.partners, '提携カテゴリの不足', 5);
 
 const blockers = [];
 if ((monetization.activeUnmapped ?? 0) > 0) {
@@ -127,6 +130,8 @@ const state = {
   growthTop,
   revenueTop,
   monetizationGaps,
+  partnerTop,
+  partnerCategoryTop,
 };
 
 const lines = [
@@ -165,6 +170,16 @@ if (revenueTop.length) {
   }
 } else {
   lines.push('- 候補なし');
+}
+
+lines.push('', '## 新規提携候補', '');
+if (partnerTop.length) {
+  for (const [index, item] of partnerTop.entries()) {
+    lines.push(`${index + 1}. **${item.label}**${item.score != null ? ` — Score ${item.score}` : ''}`);
+    for (const detail of item.detail) lines.push(`   - ${detail}`);
+  }
+} else {
+  lines.push('- 現時点で申請優先の提携先なし');
 }
 
 lines.push('', '## 人間承認が必要', '');
