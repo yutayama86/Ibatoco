@@ -8,10 +8,11 @@ const EVENTS_DIR = join(ROOT, 'src/content/events');
 const PERF = join(ROOT, 'data/editorial/performance-snapshot.json');
 const REVENUE = join(ROOT, 'data/editorial/revenue-opportunities.json');
 const AFFILIATES = join(ROOT, 'src/data/affiliates.ts');
+const AUTO_MONETIZATION = join(ROOT, 'src/lib/auto-monetization.ts');
 const REPORT = join(ROOT, 'reports/editorial/revenue-engine.md');
 const write = process.argv.includes('--write');
 
-for (const path of [EVENTS_DIR, PERF, REVENUE, AFFILIATES]) {
+for (const path of [EVENTS_DIR, PERF, REVENUE, AFFILIATES, AUTO_MONETIZATION]) {
   if (!existsSync(path)) {
     console.error(`Revenue Engine: required file missing: ${path}`);
     process.exit(1);
@@ -21,6 +22,10 @@ for (const path of [EVENTS_DIR, PERF, REVENUE, AFFILIATES]) {
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
 const revenue = JSON.parse(readFileSync(REVENUE, 'utf8'));
 const affiliatesSource = readFileSync(AFFILIATES, 'utf8');
+const autoMonetizationSource = readFileSync(AUTO_MONETIZATION, 'utf8');
+const autoLodgingMunicipalities = new Set(
+  [...autoMonetizationSource.matchAll(/^\s{2}([a-z0-9-]+):\s*\{/gm)].map((m) => m[1])
+);
 
 function frontmatter(raw) {
   return raw.match(/^---\s*\n([\s\S]*?)\n---/)?.[1] ?? '';
@@ -59,6 +64,10 @@ function listKinds(fm) {
   const b = block(fm, 'booking');
   return [...b.matchAll(/^\s{6}kind:\s*['"]?([^'"\n]+)['"]?$/gm)].map((m) => m[1].trim());
 }
+function municipalities(fm) {
+  const b = block(fm, 'municipalities');
+  return [...b.matchAll(/^\s{2}-\s+['"]?([^'"\n]+)['"]?$/gm)].map((m) => m[1].trim());
+}
 
 const providerStatuses = new Map();
 for (const m of affiliatesSource.matchAll(/^\s{2}['"]?([a-z0-9-]+)['"]?:\s*\{[\s\S]*?^\s{4}status:\s*'([^']+)'/gm)) {
@@ -92,6 +101,12 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
   const activeProviders = providers.filter((p) => providerStatuses.get(p) === 'active');
   const nonActiveProviders = providers.filter((p) => providerStatuses.get(p) !== 'active');
   const hasBooking = /^booking:\s*$/m.test(fm);
+  const municipalityList = municipalities(fm);
+  const hasAutoBooking = !hasBooking
+    && intents.accommodation === true
+    && municipalityList.some((m) => autoLodgingMunicipalities.has(m))
+    && /officialUrl:\s*['"]?https?:\/\//m.test(fm);
+  const effectiveHasBooking = hasBooking || hasAutoBooking;
   const commercialPriority = scalar(fm, 'commercialPriority');
   const title = scalar(fm, 'title') ?? slug;
   const keyword = scalar(fm, 'keyword') ?? '';
@@ -115,11 +130,12 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
 
   const trafficScore = views7 >= 500 ? 5 : views7 >= 100 ? 4 : views7 >= 30 ? 3 : views28 >= 100 ? 2 : views28 > 0 ? 1 : 0;
   const searchScore = gsc.impressions >= 1000 ? 5 : gsc.impressions >= 300 ? 4 : gsc.impressions >= 100 ? 3 : gsc.impressions >= 30 ? 2 : gsc.impressions > 0 ? 1 : 0;
-  const intentScore = Math.min(5, purchaseIntent + (hasBooking ? 2 : 0));
+  const intentScore = Math.min(5, purchaseIntent + (effectiveHasBooking ? 2 : 0));
   const monetizationGap =
+    hasAutoBooking ? 0 :
     hasBooking && activeProviders.length === 0 ? 5 :
     hasBooking && nonActiveProviders.length > activeProviders.length ? 3 :
-    purchaseIntent > 0 && !hasBooking ? 4 :
+    purchaseIntent > 0 && !effectiveHasBooking ? 4 :
     0;
 
   const score = trafficScore * 2 + searchScore + intentScore * 2 + commercialBase + monetizationGap * 2;
@@ -127,7 +143,7 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
   pages.push({
     path, title, keyword, searchIntent,
     intents, providers, activeProviders, nonActiveProviders, kinds,
-    hasBooking, commercialPriority,
+    hasBooking, hasAutoBooking, effectiveHasBooking, commercialPriority,
     views7, views28,
     gscImpressions: gsc.impressions,
     gscClicks: gsc.clicks,
@@ -141,8 +157,9 @@ pages.sort((a, b) => b.score - a.score || b.views7 - a.views7 || b.gscImpression
 const opportunities = pages.filter((p) => p.monetizationGap > 0 || p.score >= 14).slice(0, 20);
 
 function actionFor(p) {
-  if (p.intents.parking && !p.hasBooking) return '駐車場需要の公式導線を確認し、承認済み提携がある場合だけ予約導線を追加';
-  if (p.intents.accommodation && !p.hasBooking) return '宿泊需要の公式/比較導線を確認し、既存提携URLが使える場合だけBookingGuideを追加';
+  if (p.hasAutoBooking) return '既存提携先の宿泊導線を自動配置済み。Monetized Click Shareを観測';
+  if (p.intents.parking && !p.effectiveHasBooking) return '駐車場需要の公式導線を確認し、承認済み提携がある場合だけ予約導線を追加';
+  if (p.intents.accommodation && !p.effectiveHasBooking) return '宿泊需要の公式/比較導線を確認し、既存提携URLが使える場合だけBookingGuideを追加';
   if (p.hasBooking && p.activeProviders.length === 0) return 'クリック需要を計測しつつ、未提携提供元は提携候補として整理。承認前に広告化しない';
   if (p.hasBooking && p.nonActiveProviders.length > 0) return '未提携リンクのクリックをprovider別に確認し、需要が高い提供元だけ提携候補化';
   if (p.intents.food || p.intents.experience) return '現地消費意図が高い。予約・体験・店舗送客のうち計測可能な1導線だけテスト';
@@ -161,7 +178,7 @@ const lines = [
   '## 今日の収益機会 TOP10',
   '',
   ...opportunities.slice(0, 10).map((p, i) =>
-    `${i + 1}. **${p.title}** — Score ${p.score}\n   - URL: ${p.path}\n   - 直近7日Views: ${p.views7} / 28日Views: ${p.views28} / GSC表示: ${p.gscImpressions}\n   - 意図: ${Object.entries(p.intents).filter(([,v]) => v).map(([k]) => k).join(', ') || '未設定'}\n   - Booking: ${p.hasBooking ? 'あり' : 'なし'} / Active: ${p.activeProviders.join(', ') || 'なし'} / 未提携: ${p.nonActiveProviders.join(', ') || 'なし'}\n   - 次アクション: ${actionFor(p)}`
+    `${i + 1}. **${p.title}** — Score ${p.score}\n   - URL: ${p.path}\n   - 直近7日Views: ${p.views7} / 28日Views: ${p.views28} / GSC表示: ${p.gscImpressions}\n   - 意図: ${Object.entries(p.intents).filter(([,v]) => v).map(([k]) => k).join(', ') || '未設定'}\n   - Booking: ${p.hasBooking ? '手動' : p.hasAutoBooking ? '自動' : 'なし'} / Active: ${p.activeProviders.join(', ') || (p.hasAutoBooking ? '既存承認済み自動ルート' : 'なし')} / 未提携: ${p.nonActiveProviders.join(', ') || 'なし'}\n   - 次アクション: ${actionFor(p)}`
   ),
   '',
   '## 収益化ギャップ',
