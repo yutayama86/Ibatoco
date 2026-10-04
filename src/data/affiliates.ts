@@ -172,6 +172,20 @@ export function paidLinkFor(url: string): { provider: string; href: string } | n
   return null;
 }
 
+export type MonetizationState = 'paid' | 'active-unmapped' | 'non-partner' | 'official';
+
+/**
+ * URL単位の収益化状態。
+ * provider が active でも、そのURLのaffiliateLinksが未登録なら収益化済みではない。
+ * partner_statusだけでは Monetized Click Share を正確に出せないため分離する。
+ */
+export function monetizationState(id: string, url: string): MonetizationState {
+  if (id === 'official') return 'official';
+  const provider = LINK_PROVIDERS[id];
+  if (!provider || provider.status !== 'active') return 'non-partner';
+  return provider.affiliateLinks?.[url] ? 'paid' : 'active-unmapped';
+}
+
 /** GA4へ送る提携状態。集計時に「未提携のまま押されている」ことが分かるようにする */
 export function partnerStatus(id: string): AffiliateStatus {
   return LINK_PROVIDERS[id]?.status ?? 'none';

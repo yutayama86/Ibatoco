@@ -9,7 +9,7 @@
  *   noreferrer を付けない理由：参照元が消えると掲載サイトの照合ができず、成果が否認されうる
  * - クリックはGA4へ送る。提携していない状態で押されている数も見えるようにする
  */
-import { hasPaidLink, isPaidLink, outboundHref, partnerStatus, providerName } from '../data/affiliates';
+import { hasPaidLink, isPaidLink, monetizationState, outboundHref, partnerStatus, providerName } from '../data/affiliates';
 
 export interface BookingItem {
   label: string;
@@ -59,6 +59,8 @@ const KIND_LABEL: Record<string, string> = {
           data-provider={item.provider}
           data-kind={item.kind ?? 'official'}
           data-partner-status={partnerStatus(item.provider)}
+          data-monetization-state={monetizationState(item.provider, item.url)}
+          data-is-paid={isPaidLink(item.provider, item.url) ? '1' : '0'}
         >
           <span class="bkg__meta">
             <span class="bkg__kind">{KIND_LABEL[item.kind ?? 'official']}</span>
@@ -87,11 +89,15 @@ const KIND_LABEL: Record<string, string> = {
       if (viewed) return;
       viewed = true;
       const activeItems = links.filter((link) => link.dataset.partnerStatus === 'active').length;
+      const monetizedItems = links.filter((link) => link.dataset.isPaid === '1').length;
+      const activeUnmappedItems = links.filter((link) => link.dataset.monetizationState === 'active-unmapped').length;
       trackEvent('booking_guide_view', {
         ...commonParams({ page_type: pageType, municipality: block.dataset.municipality, content_category: block.dataset.contentCategory }),
         link_page_type: pageType,
         item_count: links.length,
         active_partner_items: activeItems,
+        monetized_items: monetizedItems,
+        active_unmapped_items: activeUnmappedItems,
       });
     };
 
@@ -115,6 +121,8 @@ const KIND_LABEL: Record<string, string> = {
           link_provider: link.dataset.provider ?? '',
           link_kind: link.dataset.kind ?? '',
           partner_status: link.dataset.partnerStatus ?? '',
+          monetization_state: link.dataset.monetizationState ?? '',
+          is_paid_link: link.dataset.isPaid === '1' ? 1 : 0,
           link_page_type: pageType,
           link_url: link.getAttribute('href') ?? '',
         });
