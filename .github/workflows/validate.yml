@@ -50,6 +50,9 @@ jobs:
       - name: Evaluate booking CTA experiment
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run experiment:booking:write
+      - name: Generate revenue yield report
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run revenue:yield:write
       - name: Generate autonomous operator brief
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run operator:daily
@@ -61,6 +64,8 @@ jobs:
           cat reports/editorial/partner-opportunities.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/booking-experiment.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
+          cat reports/editorial/revenue-yield.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/growth-target.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"

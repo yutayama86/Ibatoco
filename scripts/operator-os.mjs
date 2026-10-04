@@ -18,6 +18,7 @@ const requiredReports = [
   ['editorial', 'daily-brief.md'],
   ['partners', 'partner-opportunities.md'],
   ['bookingExperiment', 'booking-experiment.md'],
+  ['revenueYield', 'revenue-yield.md'],
 ];
 
 for (const [, file] of requiredReports) {
@@ -93,6 +94,8 @@ const monetizationGaps = extractTop(reports.monetization, '最優先ギャップ
 const partnerTop = extractTop(reports.partners, '新規提携を検討する提供元', 5);
 const partnerCategoryTop = extractTop(reports.partners, '提携カテゴリの不足', 5);
 const bookingExperimentDecision = (reports.bookingExperiment.match(/- 判定: \*\*(.*?)\*\*/)?.[1] ?? 'collect');
+const siteActualRpm = firstNumber(reports.revenueYield, 'Site Actual RPM');
+const yieldTop = extractTop(reports.revenueYield, '伸ばすべきページ TOP15', 5);
 
 const blockers = [];
 if ((monetization.activeUnmapped ?? 0) > 0) {
@@ -135,6 +138,8 @@ const state = {
   partnerTop,
   partnerCategoryTop,
   bookingExperimentDecision,
+  siteActualRpm,
+  yieldTop,
 };
 
 const lines = [
@@ -184,6 +189,17 @@ if (partnerTop.length) {
 } else {
   lines.push('- 現時点で申請優先の提携先なし');
 }
+
+lines.push('', '## Revenue Yield TOP5', '');
+if (yieldTop.length) {
+  for (const [index, item] of yieldTop.entries()) {
+    lines.push(`${index + 1}. **${item.label}**${item.score != null ? ` — Score ${item.score}` : ''}`);
+    for (const detail of item.detail) lines.push(`   - ${detail}`);
+  }
+} else {
+  lines.push('- 候補なし');
+}
+lines.push(`- Site Actual RPM: **¥${siteActualRpm ?? 0} / 1,000 Views**`);
 
 lines.push('', '## 実験', '');
 lines.push(`- Booking CTA: **${bookingExperimentDecision}**`);
