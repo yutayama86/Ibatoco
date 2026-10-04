@@ -34,3 +34,6 @@ db/seed-stores.sql
 
 # 編集OSの日次生成物（GitHub Actionsのartifactで保持）
 reports/editorial/
+
+# ASP生データ（注文ID等を含む可能性があるため絶対にGitへ入れない）
+data/revenue-imports/private/
