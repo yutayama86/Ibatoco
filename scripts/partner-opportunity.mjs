@@ -76,6 +76,13 @@ for (const f of performance.gscDiscovery?.findings ?? []) {
   gsc.set(f.page, row);
 }
 
+const pageFunnel = new Map(
+  (performance.conversionDetail?.byPage ?? []).map((row) => [row.path, {
+    bookingClicks: Number(row.outbound_booking_click ?? 0),
+    monetizedClicks: Number(row.monetized_booking_click ?? 0),
+  }])
+);
+
 const categoryMeta = {
   parking: { label: '駐車場', value: 4 },
   accommodation: { label: '宿泊', value: 5 },
@@ -100,7 +107,14 @@ for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.sta
   const views7 = ga7.get(path) ?? 0;
   const views28 = ga28.get(path) ?? 0;
 
-  pages.push({ path, title, intents, items, nonActive, active, views7, views28, impressions: g.impressions, clicks: g.clicks });
+  const funnel = pageFunnel.get(path) ?? { bookingClicks: 0, monetizedClicks: 0 };
+  pages.push({
+    path, title, intents, items, nonActive, active, views7, views28,
+    impressions: g.impressions, clicks: g.clicks,
+    bookingClicks: funnel.bookingClicks,
+    monetizedClicks: funnel.monetizedClicks,
+    nonMonetizedClicks: Math.max(0, funnel.bookingClicks - funnel.monetizedClicks),
+  });
 }
 
 const providerMap = new Map();
@@ -123,7 +137,13 @@ for (const page of pages) {
     row.views7 += page.views7;
     row.views28 += page.views28;
     row.impressions += page.impressions;
-    row.score += Math.min(8, page.views7 / 50) + Math.min(6, page.views28 / 200) + Math.min(5, page.impressions / 300);
+    row.bookingClicks = (row.bookingClicks ?? 0) + page.bookingClicks;
+    row.nonMonetizedClicks = (row.nonMonetizedClicks ?? 0) + page.nonMonetizedClicks;
+    row.score += page.nonMonetizedClicks * 5
+      + page.bookingClicks * 1.5
+      + Math.min(8, page.views7 / 50)
+      + Math.min(6, page.views28 / 200)
+      + Math.min(5, page.impressions / 300);
     providerMap.set(key, row);
   }
 }
@@ -159,7 +179,11 @@ for (const page of pages) {
     row.views7 += page.views7;
     row.views28 += page.views28;
     row.impressions += page.impressions;
+    row.bookingClicks = (row.bookingClicks ?? 0) + page.bookingClicks;
+    row.nonMonetizedClicks = (row.nonMonetizedClicks ?? 0) + page.nonMonetizedClicks;
     row.score += meta.value
+      + page.nonMonetizedClicks * 4
+      + page.bookingClicks
       + Math.min(8, page.views7 / 50)
       + Math.min(6, page.views28 / 200)
       + Math.min(5, page.impressions / 300);
@@ -209,6 +233,7 @@ const lines = [
   '- 既存提携で代替できる場合は新規提携しない。',
   '- 追加費用が必要なサービスは候補から除外する。',
   '- 実クリック需要または高いページ需要が確認できるものだけ申請候補にする。',
+  '- 申請優先度は未収益化クリックを最優先し、単なるPVの多さだけで決めない。',
   '- 契約条件・報酬条件・広告表示義務は人間確認後に進める。',
   '- 提携成立後は affiliates.ts に元URL→成果URLを登録し、Monetized Click Shareで効果検証する。',
   '',
