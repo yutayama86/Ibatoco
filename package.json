@@ -42,7 +42,9 @@
     "discovery:priority": "node scripts/discovery-priority.mjs",
     "discovery:priority:write": "node scripts/discovery-priority.mjs --write",
     "revenue:engine": "node scripts/revenue-engine.mjs",
-    "revenue:engine:write": "node scripts/revenue-engine.mjs --write"
+    "revenue:engine:write": "node scripts/revenue-engine.mjs --write",
+    "monetization:audit": "node scripts/monetization-audit.mjs",
+    "monetization:audit:write": "node scripts/monetization-audit.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
