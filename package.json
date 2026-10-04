@@ -40,7 +40,9 @@
     "discovery:coverage": "node scripts/discovery-coverage.mjs",
     "discovery:coverage:write": "node scripts/discovery-coverage.mjs --write",
     "discovery:priority": "node scripts/discovery-priority.mjs",
-    "discovery:priority:write": "node scripts/discovery-priority.mjs --write"
+    "discovery:priority:write": "node scripts/discovery-priority.mjs --write",
+    "revenue:engine": "node scripts/revenue-engine.mjs",
+    "revenue:engine:write": "node scripts/revenue-engine.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

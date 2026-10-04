@@ -38,10 +38,15 @@ jobs:
       - name: Generate Discovery growth priorities
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run discovery:priority:write
+      - name: Generate Revenue Engine report
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run revenue:engine:write
       - name: Add editorial brief to job summary
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           cat reports/editorial/growth-target.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
+          cat reports/editorial/revenue-engine.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/discovery-priorities.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
