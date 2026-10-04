@@ -133,7 +133,7 @@ const jsonLd = [
   const status = root?.querySelector<HTMLElement>('[data-discovery-status]');
   const cards = root ? [...root.querySelectorAll<HTMLElement>('[data-discovery-card]')] : [];
 
-  const normalize = (value: FormDataEntryValue | null) =>
+  const normalize = (value: FormDataEntryValue | string | null | undefined) =>
     String(value ?? '').trim().toLowerCase().normalize('NFKC');
 
   if (form && status && cards.length) {
