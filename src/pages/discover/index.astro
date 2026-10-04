@@ -164,6 +164,14 @@ const jsonLd = [
     String(value ?? '').trim().toLowerCase().normalize('NFKC');
 
   if (form && status && cards.length) {
+    let lastSearch = {
+      query_present: 0,
+      companion: 'any',
+      area: 'all',
+      theme: 'any',
+      exact_count: 0,
+      shown_count: Math.min(18, cards.length),
+    };
     const runSearch = () => {
       const data = new FormData(form);
       const q = normalize(data.get('q'));
@@ -208,20 +216,41 @@ const jsonLd = [
         status.textContent = `完全一致はありませんでした。近い候補を${chosen.length}件表示しています。`;
       }
 
-      trackEvent('discovery_search', {
-        ...commonParams({ page_type: 'discover', content_category: 'utility' }),
+      lastSearch = {
         query_present: q ? 1 : 0,
         companion: companion || 'any',
         area: area || 'all',
         theme: theme || 'any',
         exact_count: exact.length,
         shown_count: chosen.length,
+      };
+
+      trackEvent('discovery_search', {
+        ...commonParams({ page_type: 'discover', content_category: 'utility' }),
+        ...lastSearch,
       });
     };
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       runSearch();
+    });
+
+    root?.querySelector('[data-discovery-results]')?.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('[data-discovery-card] > a');
+      if (!link) return;
+      const card = link.closest<HTMLElement>('[data-discovery-card]');
+      if (!card) return;
+      const visibleCards = cards.filter((item) => !item.hidden);
+      const position = Math.max(1, visibleCards.indexOf(card) + 1);
+      trackEvent('discovery_result_click', {
+        ...commonParams({ page_type: 'discover', content_category: 'utility' }),
+        destination_url: link.getAttribute('href') ?? '',
+        result_position: position,
+        result_kind: card.dataset.kind ?? '',
+        result_area: card.dataset.area ?? '',
+        ...lastSearch,
+      });
     });
 
     for (const button of quickButtons) {
