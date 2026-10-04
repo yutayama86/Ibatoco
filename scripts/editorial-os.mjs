@@ -318,8 +318,6 @@ function newsDeskStatus(inventory) {
   const latest = publishedNews[0] ?? null;
   const daysSinceLatest = latest ? dateDiff(latest.pubDate, today) : null;
   const publishedToday = publishedNews.filter((item) => item.pubDate === today);
-  const dailyMinimum = 3;
-  const dailyMaximum = 5;
   return {
     checkedAt: today,
     latestPublishedAt: latest?.pubDate ?? null,
@@ -327,14 +325,7 @@ function newsDeskStatus(inventory) {
     latestUrl: latest?.url ?? null,
     daysSinceLatest,
     publishedToday: publishedToday.length,
-    dailyMinimum,
-    dailyMaximum,
-    remainingToMinimum: Math.max(0, dailyMinimum - publishedToday.length),
-    status: publishedToday.length < dailyMinimum
-      ? 'publication-required'
-      : publishedToday.length <= dailyMaximum
-        ? 'target-met'
-        : 'over-target',
+    status: publishedToday.length > 0 ? 'published-when-valuable' : 'no-quota',
     todayItems: publishedToday.map((item) => ({
       title: item.title,
       url: item.url,
@@ -376,10 +367,9 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
     '',
     `- 最新公開: ${newsDesk.latestPublishedAt ?? '公開記事なし'}${newsDesk.latestTitle ? `｜${newsDesk.latestTitle}` : ''}`,
     `- 経過: ${newsDesk.daysSinceLatest == null ? '不明' : `${newsDesk.daysSinceLatest}日`}`,
-    `- 本日公開: ${newsDesk.publishedToday}本 / 必須${newsDesk.dailyMinimum}本・標準${newsDesk.dailyMinimum}〜${newsDesk.dailyMaximum}本`,
-    `- 残り: ${newsDesk.remainingToMinimum}本`,
-    `- 判定: ${newsDesk.status === 'target-met' ? '達成' : newsDesk.status === 'over-target' ? '上限超過（量より質を再確認）' : '公開必須'}`,
-    '- 毎日、公式一次情報を根拠に最低3本、標準3〜5本を公開する。速報性が弱い日は、交通・行政・イベント・SPORTS・地域経済・季節実用情報の短報を使い、未確認情報や重複記事は作らない。',
+    `- 本日公開: ${newsDesk.publishedToday}本`,
+    `- 判定: ${newsDesk.status === 'published-when-valuable' ? '需要・実用価値があるものを公開' : '本数ノルマなし'}`,
+    '- ニュース本数はKPIにしない。11月大型季節需要、既存ページ改善、Discoveryカバレッジ、収益機会より期待値が高い場合だけ公開する。未確認情報や重複記事は作らない。',
     '',
     '### 本日の公開',
     '',
