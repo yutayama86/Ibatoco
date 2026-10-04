@@ -78,8 +78,20 @@ const growthCurrent = performance?.windows?.ga4?.recent28?.views ?? null;
 const growthTarget = performance?.northStar?.target ?? 100000;
 const growthRunRate = performance?.northStar?.runRate28FromRecent7 ?? null;
 const bookingClicks7 = performance?.conversionDetail?.recent7?.outbound_booking_click ?? null;
-const monetizedClicks7 = performance?.conversionDetail?.recent7?.monetized_booking_click ?? null;
-const monetizedClickShare = performance?.conversionDetail?.recent7?.monetized_click_share ?? null;
+const pageFunnelRows = performance?.conversionDetail?.byPage ?? [];
+const funnelBookingClicks = pageFunnelRows.reduce((sum, row) => sum + Number(row.outbound_booking_click ?? 0), 0);
+const funnelMonetizedClicks = pageFunnelRows.reduce((sum, row) => sum + Number(row.monetized_booking_click ?? 0), 0);
+const recent7MonetizedRaw = performance?.conversionDetail?.recent7?.monetized_booking_click;
+const recent7ShareRaw = performance?.conversionDetail?.recent7?.monetized_click_share;
+const monetizedClicks7 = Number.isFinite(Number(recent7MonetizedRaw))
+  ? Number(recent7MonetizedRaw)
+  : (funnelBookingClicks > 0 ? funnelMonetizedClicks : null);
+const monetizedClickShare = Number.isFinite(Number(recent7ShareRaw))
+  ? Number(recent7ShareRaw)
+  : (funnelBookingClicks > 0 ? funnelMonetizedClicks / funnelBookingClicks : null);
+const nonMonetizedClicks7 = monetizedClicks7 == null || bookingClicks7 == null
+  ? null
+  : Math.max(0, Number(bookingClicks7) - Number(monetizedClicks7));
 const pageFunnelCheckedAt = performance?.conversionDetail?.byPageCheckedAt ?? null;
 
 const monetization = {
@@ -103,6 +115,9 @@ const yieldTop = extractTop(reports.revenueYield, '伸ばすべきページ TOP1
 const blockers = [];
 if ((monetization.activeUnmapped ?? 0) > 0) {
   blockers.push(`提携済みなのに成果リンク未マッピングが${monetization.activeUnmapped}件`);
+}
+if ((nonMonetizedClicks7 ?? 0) >= 10 && (monetizedClickShare ?? 1) < 0.5) {
+  blockers.push(`未収益化Booking clickが${nonMonetizedClicks7}件。Monetized Click Share ${((monetizedClickShare ?? 0) * 100).toFixed(1)}%を改善する`);
 }
 if ((bookingClicks7 ?? 0) > 0 && !(performance?.conversionDetail?.byPage?.length > 0)) {
   blockers.push('Bookingクリックはあるが conversionDetail.byPage が未取得。Windsor/GA4で pagePath × eventName を取得する');
@@ -138,7 +153,7 @@ const autoSafe = [
 const state = {
   generatedAt: new Date().toISOString(),
   growth: { current28Views: growthCurrent, targetViews: growthTarget, runRate28: growthRunRate },
-  monetization: { ...monetization, bookingClicks7, monetizedClicks7, monetizedClickShare },
+  monetization: { ...monetization, bookingClicks7, monetizedClicks7, nonMonetizedClicks7, monetizedClickShare },
   discovery: { entities: discoveryCount, coverageGaps },
   blockers,
   approvals,
@@ -165,6 +180,7 @@ const lines = [
   `- Discovery薄領域: **${coverageGaps ?? 'unknown'}件**`,
   `- 直近7日Booking click: **${bookingClicks7 ?? 'unknown'}**`,
   `- 直近7日Monetized click: **${monetizedClicks7 ?? 'unknown'}**`,
+  `- 未収益化click: **${nonMonetizedClicks7 ?? 'unknown'}**`,
   `- Monetized Click Share: **${monetizedClickShare == null ? 'unknown' : `${(monetizedClickShare * 100).toFixed(1)}%`}**`,
   `- 実収益化リンク: **${monetization.paidLinks ?? 'unknown'} / ${monetization.totalLinks ?? 'unknown'}**`,
   `- 提携済みURL未マッピング: **${monetization.activeUnmapped ?? 'unknown'}件**`,
