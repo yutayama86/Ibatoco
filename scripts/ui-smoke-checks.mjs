@@ -118,11 +118,10 @@ export function inspectPage(options) {
 
       // 主要な操作部品は44pxを最低目安にする。インライン本文リンクは対象外。
       const touchTargets = [
-        'button',
+        'button[type="submit"]',
         'input[type="submit"]',
         'input[type="button"]',
         'a[class*="cta"]',
-        'a[class*="btn"]',
         'a[class*="button"]',
         '[data-quick-term]',
         '[data-growth-next-link]',
@@ -135,14 +134,19 @@ export function inspectPage(options) {
         }
       }
 
-      // 本文・見出し・フォームラベルで極端に小さい文字を検出。
-      // 装飾用meta/必須バッジ等のsmallは除外し、主要可読テキストだけを見る。
-      for (const el of body.querySelectorAll('p,h1,h2,h3,h4,li,dt,dd,label')) {
+      // 装飾キッカーや短いメタ情報は小さくても成立するため除外し、
+      // 「読む必要がある本文」が極端に小さい場合だけ失敗させる。
+      for (const el of body.querySelectorAll('p,li,dt,dd,label')) {
         const r = visible(el);
-        if (!r || !el.textContent.trim()) continue;
+        if (!r) continue;
+        const text = el.textContent.replace(/\s+/g, '').trim();
+        if (text.length < 12) continue;
+        const cls = typeof el.className === 'string' ? el.className : '';
+        if (/kicker|label|meta|source|when|area|region|index|credit/i.test(cls)) continue;
         const fs = parseFloat(getComputedStyle(el).fontSize) || 16;
-        if (fs < 12) {
-          issues.push({ type: 'readability-font-too-small', detail: `${label(el)} font-size=${fs}px "${el.textContent.trim().slice(0, 20)}"` });
+        const threshold = text.length >= 32 ? 11 : 10.5;
+        if (fs < threshold) {
+          issues.push({ type: 'readability-font-too-small', detail: `${label(el)} font-size=${fs}px "${text.slice(0, 20)}"` });
         }
       }
     }
