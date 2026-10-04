@@ -287,7 +287,8 @@ function articles() {
       const fm = body.match(/^---\n([\s\S]*?)\n---/);
       if (!fm) continue;
       if (/^draft:\s*true\s*$/m.test(fm[1])) continue;
-      if (/^ogImage:/m.test(fm[1])) continue; // 自作の画像がある記事は作らない
+      // 自作の画像（ogImage）がある記事も作る。文字入りの図版は、細い縦長の枠（次に読むのカード等）で
+      // 切り抜くと文字の断片しか見えないため、そこでは文字の無いこの地図カードを使う（src/lib/card-image.ts）
       /**
        * municipalities は2通りの書き方が混在している。両方読む。
        *   municipalities:            municipalities: ["mito", "oarai"]

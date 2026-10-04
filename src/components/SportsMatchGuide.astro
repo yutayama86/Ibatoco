@@ -31,7 +31,7 @@ const hostOf = (url: string) => {
         <ul>
           {section.items.map((item) => (
             <li>
-              {item.href ? <a class="mg__inner" href={item.href}>{item.text} →</a> : item.text}
+              {item.href ? <a class="mg__inner" href={item.href}>{item.text}&nbsp;→</a> : item.text}
               {item.sourceUrl && (
                 <a class="mg__src" href={item.sourceUrl} target="_blank" rel="noopener noreferrer" aria-label={`出典（${hostOf(item.sourceUrl)}）`}>出典</a>
               )}

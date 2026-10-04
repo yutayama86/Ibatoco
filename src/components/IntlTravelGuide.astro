@@ -79,7 +79,7 @@ const { guide } = Astro.props;
 
     <aside class="ig-sources" aria-labelledby="ig-sources-title">
       <h2 id="ig-sources-title">{guide.sourcesLabel}</h2>
-      <ul>{guide.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.label} <span aria-hidden="true">↗</span></a></li>)}</ul>
+      <ul>{guide.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener">{s.label}&nbsp;<span aria-hidden="true">↗</span></a></li>)}</ul>
       <p class="ig-disclaimer">{guide.disclaimer}</p>
     </aside>
   </div>

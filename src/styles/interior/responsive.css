@@ -94,6 +94,17 @@
     line-height: 1.27;
   }
 
+  /*
+   * チーム名（例「茨城アストロプラネッツ」）は1語なので、1行に入りきらないと語の途中で折れ、
+   * 最後の1文字だけの行ができていた（2026-10-04、360pxで確認）。名前の長さ（--fit-len、
+   * src/lib/text-fit.ts）に合わせて1行に収まる大きさまで下げる。
+   */
+  body.interior-site .tm-head { container-type: inline-size; }
+  body.interior-site .tm-head h1 {
+    /* foundation.css の見出し指定が !important のため、ここも !important で上書きする */
+    font-size: clamp(1.5rem, calc(100cqi / var(--fit-len, 1)), var(--interior-title-xl)) !important;
+  }
+
   body.interior-site :is(.news-detail__head, .story-head) {
     padding-block: 1.5rem 1.8rem;
   }

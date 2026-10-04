@@ -21,12 +21,18 @@ const { href, title, area, reasons = [], tags = [], rank, targetPath } = Astro.p
 const resolved = Astro.props.image ? null : await listImageForPath(href);
 const image = Astro.props.image ?? resolved?.src;
 const imageAlt = Astro.props.image ? (Astro.props.imageAlt ?? '') : (resolved?.alt ?? '');
+/**
+ * 文字の無い地図カード（scripts/build-og-backdrop.mjs）。1200×630 の中央に地図があるので、
+ * 細い枠で中央を切り抜くと地図の左右が欠ける（320px で確認）。地図全体が枠に収まる大きさで置き、
+ * 余った上下は画像と同じ地の色で埋める。
+ */
+const isMapCard = image?.startsWith('/images/card/') ?? false;
 const visibleReasons = reasons.filter(Boolean).slice(0, 2);
 const visibleTags = tags.filter(Boolean).slice(0, 3);
 ---
 
 <a class="toco-card" href={href} data-toco-card data-rank={rank ? String(rank) : undefined} data-target-path={targetPath ?? href}>
-  <div class="toco-card__media">
+  <div class:list={['toco-card__media', { 'toco-card__media--map': isMapCard }]}>
     {image ? <img src={image} alt={imageAlt} loading="lazy" decoding="async" /> : <div class="toco-card__fallback" aria-hidden="true">IBATOCO</div>}
     {visibleReasons.length > 0 && <div class="toco-card__reasons">{visibleReasons.map((r) => <span>{r}</span>)}</div>}
   </div>
@@ -45,14 +51,29 @@ const visibleTags = tags.filter(Boolean).slice(0, 3);
   .toco-card__media{position:relative;min-height:100%;overflow:hidden;background:linear-gradient(145deg,#e7edf4,#f8fafc)}
   .toco-card__media img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
   .toco-card:hover img{transform:scale(1.035)}
+  /*
+   * 地図カード：地図は画像の x 407〜793・y 69〜561（1200×630 中）。周りに1割ほど余白を見て、
+   * 枠の幅に地図の幅が、枠の高さに地図の高さが収まる小さいほうの倍率で置く（1200/433≈2.77、1200/531≈2.26）。
+   * 地の色 #f3eee4 は build-og-backdrop.mjs の CARD_BG と同じ。対応しないブラウザは従来どおり中央の切り抜き。
+   */
+  .toco-card__media--map{background:#f3eee4}
+  @supports (width:1cqw){
+    .toco-card__media--map{container-type:size}
+    .toco-card__media--map img{position:absolute;top:50%;left:50%;width:min(calc(100cqw * 2.77),calc(100cqh * 2.26));max-width:none;height:auto;object-fit:fill;translate:-50% -50%}
+  }
   .toco-card__fallback{display:grid;place-items:center;width:100%;height:100%;min-height:9rem;color:var(--color-brand-blue);font:700 .65rem var(--font-brand-meta);letter-spacing:.18em}
   .toco-card__reasons{position:absolute;top:.6rem;left:.6rem;display:flex;flex-wrap:wrap;gap:.3rem}
   .toco-card__reasons span{padding:.3rem .48rem;border-radius:999px;background:rgba(255,255,255,.93);box-shadow:0 2px 10px rgba(20,40,55,.08);font:700 .65rem var(--font-brand-meta);color:var(--color-ink)}
   .toco-card__body{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:.45rem;padding:1rem}
   .toco-card__area{margin:0;color:var(--color-brand-blue);font:700 .66rem var(--font-brand-meta);letter-spacing:.08em}
-  .toco-card h3{margin:0;font:600 1rem/1.55 var(--font-brand-display)}
+  .toco-card h3{margin:0;font:600 1rem/1.55 var(--font-brand-display);text-wrap:balance}
   .toco-card__tags{display:flex;flex-wrap:wrap;gap:.35rem;color:var(--color-soil);font-size:.7rem}
   .toco-card__cta{align-self:end;margin-top:auto;padding-top:.35rem;color:var(--color-soil);font-size:.78rem;font-weight:700}
   .toco-card__cta b{color:var(--color-brand-blue)}
   @media(max-width:520px){.toco-card{grid-template-columns:6.5rem minmax(0,1fr)}.toco-card__body{padding:.85rem}.toco-card h3{font-size:.92rem}.toco-card__reasons span:nth-child(n+2){display:none}}
+  /*
+   * 360px未満：横並びだと文字の欄が約130pxしかなく、長いタイトルが8行に折れて語の途中で切れていた
+   * （2026-10-04、320pxで確認）。画像を上の帯、文字を下にする。
+   */
+  @media(max-width:359px){.toco-card{grid-template-columns:minmax(0,1fr)}.toco-card__media{min-height:0;aspect-ratio:12/5}.toco-card__fallback{min-height:0}}
 </style>

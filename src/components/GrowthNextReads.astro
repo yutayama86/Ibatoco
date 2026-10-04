@@ -24,7 +24,7 @@ import { getEvents, getNews } from '../lib/content';
 import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
 import TocoCard from './TocoCard.astro';
-import { listImageOf } from '../lib/card-image';
+import { thumbImageOf } from '../lib/card-image';
 import { MUNI_BY_SLUG } from '../data/areas';
 
 interface Props {
@@ -110,8 +110,8 @@ const hasItems = items.length > 0;
         // 市町村は slug（例 oarai）ではなく名前で出す
         const firstTown = entry?.data.municipalities?.[0];
         const area = event?.data.eventInfo?.venue ?? (firstTown ? MUNI_BY_SLUG.get(firstTown)?.name : undefined);
-        // ニュースでもカードの画像枠を空けない（src/lib/card-image.ts）
-        const image = entry ? listImageOf(entry) : undefined;
+        // 細い縦長の枠なので、文字の無い地図カードを使う（src/lib/card-image.ts）
+        const image = entry ? thumbImageOf(entry) : undefined;
         const reasons = event?.data.eventInfo
           ? [event.data.eventInfo.fee === '無料' ? '無料' : '', event.data.eventInfo.parking ? '駐車場情報あり' : ''].filter(Boolean)
           : [];
