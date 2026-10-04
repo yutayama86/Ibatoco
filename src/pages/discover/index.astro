@@ -1,0 +1,210 @@
+---
+import BrandBase from '../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { getDiscoveryEntities } from '../../lib/discovery';
+import { listImageOf } from '../../lib/card-image';
+import { getCollection } from 'astro:content';
+
+const entities = await getDiscoveryEntities();
+const entries = await getCollection('events', ({ data }) => !data.draft && data.reviewed && !data.noindex);
+const entryById = new Map(entries.map((entry) => [entry.id, entry]));
+const featured = entities.slice(0, 18);
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '行きたいところ検索' }];
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '茨城で今日どこ行く？ 行きたいところ検索',
+    url: new URL('/discover/', Astro.site).href,
+    description: '気分、同行者、エリアから茨城のおでかけ候補を探せます。候補が少ないときは条件を自動で広げ、行き先がゼロにならないように案内します。',
+  },
+];
+---
+
+<BrandBase
+  title="茨城で今日どこ行く？｜行きたいところ検索｜イバトコ"
+  description="茨城のおでかけ先を、気分・同行者・エリアから検索。イベント、観光、雨の日、子連れ、デートなど、イバトコが公式情報を確認した記事から候補を提案します。"
+  jsonLd={jsonLd}
+>
+  <header class="discover-head bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">IBATOCO DISCOVERY</p>
+    <h1>今日、茨城で<br />どこ行く？</h1>
+    <p>場所の名前が決まっていなくても大丈夫。気分と条件から、イバトコにあるおでかけ候補を絞ります。</p>
+  </header>
+
+  <section class="discover-tool bp-wrap" aria-labelledby="discover-title" data-discovery-root>
+    <div class="discover-tool__intro">
+      <div>
+        <p class="discover-label">行きたいところ検索</p>
+        <h2 id="discover-title">いまの気分から探す</h2>
+      </div>
+      <p>完全一致が少ないときは、条件を少し広げた候補も表示します。検索結果をゼロのままにはしません。</p>
+    </div>
+
+    <form class="discover-form" data-discovery-form>
+      <label>
+        <span>どんな気分？</span>
+        <input type="search" name="q" placeholder="例：雨でも、癒されたい、海、温泉、花火" autocomplete="off" />
+      </label>
+      <label>
+        <span>誰と？</span>
+        <select name="with">
+          <option value="">指定なし</option>
+          <option value="子連れ">子ども・家族</option>
+          <option value="デート">恋人・デート</option>
+          <option value="ひとり">ひとり</option>
+          <option value="友人">友人</option>
+        </select>
+      </label>
+      <label>
+        <span>どの辺？</span>
+        <select name="area">
+          <option value="">茨城県全域</option>
+          <option value="県北">県北</option>
+          <option value="県央">県央</option>
+          <option value="県南">県南</option>
+          <option value="鹿行">鹿行</option>
+          <option value="県西">県西</option>
+        </select>
+      </label>
+      <label>
+        <span>何したい？</span>
+        <select name="theme">
+          <option value="">おまかせ</option>
+          <option value="イベント">イベント</option>
+          <option value="花火">花火</option>
+          <option value="紅葉">紅葉</option>
+          <option value="水族館">水族館</option>
+          <option value="公園">公園</option>
+          <option value="雨の日">雨の日</option>
+          <option value="温泉">温泉</option>
+          <option value="グルメ">グルメ</option>
+        </select>
+      </label>
+      <button type="submit">候補を見る</button>
+    </form>
+
+    <div class="discover-status" aria-live="polite" data-discovery-status>
+      条件を選ぶと、候補を絞り込みます。
+    </div>
+
+    <ul class="discover-results" data-discovery-results>
+      {featured.map((item) => {
+        const entry = entryById.get(item.id);
+        if (!entry) return null;
+        const image = listImageOf(entry);
+        return (
+          <li
+            data-discovery-card
+            data-search={item.searchText}
+            data-area={item.regionLabels.join(' ')}
+            data-tags={item.tags.join(' ')}
+            data-kind={item.kind}
+          >
+            <a href={item.href}>
+              <img src={image.src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+              <span class="discover-card__meta">
+                <b>{item.kind === 'event' ? 'EVENT' : 'GUIDE'}</b>
+                {item.municipalityNames[0] && <span>{item.municipalityNames[0]}</span>}
+              </span>
+              <strong>{item.title}</strong>
+              <p>{item.summary.slice(0, 96)}{item.summary.length > 96 ? '…' : ''}</p>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div class="discover-more">
+      <a href="/events/">イベントを日付から探す →</a>
+      <a href="/area/">44市町村から探す →</a>
+    </div>
+  </section>
+</BrandBase>
+
+<script>
+  import { commonParams, trackEvent } from '../../lib/analytics-events';
+
+  const root = document.querySelector<HTMLElement>('[data-discovery-root]');
+  const form = root?.querySelector<HTMLFormElement>('[data-discovery-form]');
+  const status = root?.querySelector<HTMLElement>('[data-discovery-status]');
+  const cards = root ? [...root.querySelectorAll<HTMLElement>('[data-discovery-card]')] : [];
+
+  const normalize = (value: FormDataEntryValue | string | null | undefined) =>
+    String(value ?? '').trim().toLowerCase().normalize('NFKC');
+
+  if (form && status && cards.length) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const q = normalize(data.get('q'));
+      const companion = normalize(data.get('with'));
+      const area = normalize(data.get('area'));
+      const theme = normalize(data.get('theme'));
+      const terms = [q, companion, theme].filter(Boolean);
+
+      const exact = cards.filter((card) => {
+        const haystack = normalize(`${card.dataset.search} ${card.dataset.tags}`);
+        const areaText = normalize(card.dataset.area);
+        return terms.every((term) => haystack.includes(term)) && (!area || areaText.includes(area));
+      });
+
+      const relaxed = exact.length >= 3 ? exact : cards.filter((card) => {
+        const haystack = normalize(`${card.dataset.search} ${card.dataset.tags}`);
+        const textHit = terms.length === 0 || terms.some((term) => haystack.includes(term));
+        const areaHit = !area || normalize(card.dataset.area).includes(area);
+        return textHit || areaHit;
+      });
+
+      const chosen = (exact.length ? exact : relaxed).slice(0, 12);
+      cards.forEach((card) => card.hidden = !chosen.includes(card));
+
+      if (exact.length >= 3) {
+        status.textContent = `条件に合う候補を${Math.min(exact.length, 12)}件表示しています。`;
+      } else if (exact.length > 0) {
+        status.textContent = `ぴったりの候補は${exact.length}件。近い条件の候補も含めて表示しています。`;
+      } else {
+        status.textContent = '完全一致はありませんでした。条件を少し広げて、近い候補を表示しています。';
+      }
+
+      trackEvent('discovery_search', {
+        ...commonParams({ page_type: 'discover', content_category: 'utility' }),
+        query_present: q ? 1 : 0,
+        companion: companion || 'any',
+        area: area || 'all',
+        theme: theme || 'any',
+        exact_count: exact.length,
+        shown_count: chosen.length,
+      });
+    });
+  }
+</script>
+
+<style>
+  .discover-head{padding-top:clamp(2rem,5vw,4.5rem);padding-bottom:2rem}
+  .discover-head h1{margin:.8rem 0 1rem;font:600 clamp(2.6rem,7vw,5.4rem)/1.08 var(--font-brand-display);letter-spacing:-.035em;color:var(--color-ink)}
+  .discover-head>p:last-child{max-width:42rem;color:var(--color-soil);line-height:1.9}
+  .discover-tool{padding-bottom:5rem}
+  .discover-tool__intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(16rem,30rem);gap:2rem;align-items:end;padding:1.5rem 0 1.25rem;border-top:1px solid var(--color-mist)}
+  .discover-label{margin:0 0 .4rem;color:var(--color-tide);font:700 .74rem var(--font-brand-meta);letter-spacing:.12em}
+  .discover-tool__intro h2{margin:0;font:600 clamp(1.8rem,4vw,3rem)/1.2 var(--font-brand-display)}
+  .discover-tool__intro>p{margin:0;color:var(--color-soil);line-height:1.8}
+  .discover-form{display:grid;grid-template-columns:2fr repeat(3,minmax(0,1fr)) auto;gap:.7rem;padding:1rem;border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white);box-shadow:0 16px 45px rgba(20,50,70,.08)}
+  .discover-form label{display:grid;gap:.35rem}.discover-form label span{font-size:.74rem;font-weight:700;color:var(--color-soil)}
+  .discover-form input,.discover-form select{width:100%;min-height:46px;padding:.7rem .8rem;border:1px solid var(--color-mist);border-radius:.65rem;background:#fff;color:var(--color-ink);font:inherit}
+  .discover-form button{align-self:end;min-height:46px;padding:.75rem 1.15rem;border:0;border-radius:.65rem;background:var(--color-ink);color:#fff;font-weight:700;cursor:pointer}
+  .discover-status{margin:1rem 0;color:var(--color-soil);font-size:.9rem}
+  .discover-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
+  .discover-results li[hidden]{display:none}
+  .discover-results a{display:block;height:100%;overflow:hidden;border:1px solid var(--color-mist);border-radius:1rem;background:#fff;color:inherit;text-decoration:none}
+  .discover-results img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--color-mist)}
+  .discover-card__meta{display:flex;gap:.6rem;align-items:center;padding:.9rem 1rem .2rem;color:var(--color-soil);font-size:.72rem}.discover-card__meta b{color:var(--color-tide);letter-spacing:.08em}
+  .discover-results strong{display:block;padding:.35rem 1rem 0;font:600 1.04rem/1.55 var(--font-brand-display)}
+  .discover-results p{margin:0;padding:.5rem 1rem 1.1rem;color:var(--color-soil);font-size:.82rem;line-height:1.75}
+  .discover-more{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.4rem}.discover-more a{color:var(--interior-blue,#174f99);font-weight:700}
+  @media (max-width:900px){.discover-tool__intro{grid-template-columns:1fr}.discover-form{grid-template-columns:1fr 1fr}.discover-form label:first-child{grid-column:1/-1}.discover-form button{grid-column:1/-1}.discover-results{grid-template-columns:1fr 1fr}}
+  @media (max-width:600px){.discover-form{grid-template-columns:1fr}.discover-form label:first-child,.discover-form button{grid-column:auto}.discover-results{grid-template-columns:1fr}.discover-head h1{font-size:clamp(2.35rem,14vw,3.8rem)}}
+</style>

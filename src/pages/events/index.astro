@@ -127,6 +127,15 @@ const jsonLd = [
     lead="日程を公式で確認できたイベント・試合・期間もののうち、これから来るものだけを出しています。終わったものは出しません。"
   />
 
+  <section class="bp-wrap ev-discovery-cta" data-module="events_discovery">
+    <div>
+      <p class="bp-kicker">IBATOCO DISCOVERY</p>
+      <h2>行き先が決まっていなくても、探せます。</h2>
+      <p>雨の日、子連れ、デート、海、花火。気分とエリアから候補を出します。完全一致が少ないときは、近い候補まで広げます。</p>
+    </div>
+    <a href="/discover/" data-discovery-link>今日どこ行く？を使う →</a>
+  </section>
+
   <nav class="bp-wrap bp-section ev-find" aria-labelledby="ev-find" data-events-find>
     <h2 id="ev-find" class="bp-section-title">探す</h2>
 
@@ -245,6 +254,11 @@ const jsonLd = [
   .ev-head>p:last-child{max-width:var(--measure);margin-top:1.4rem;line-height:2;color:var(--color-soil)}
 
 
+  .ev-discovery-cta{display:flex;justify-content:space-between;gap:2rem;align-items:end;margin-top:1.5rem;padding:1.4rem 1.5rem;border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white);box-shadow:0 14px 38px rgba(20,50,70,.06)}
+  .ev-discovery-cta h2{margin:.25rem 0 .5rem;font:600 clamp(1.35rem,3vw,2rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .ev-discovery-cta p{margin:0;max-width:44rem;color:var(--color-soil);line-height:1.8}
+  .ev-discovery-cta>a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:46px;padding:.75rem 1rem;border-radius:.65rem;background:var(--color-ink);color:#fff;font-weight:700;text-decoration:none}
+  @media(max-width:720px){.ev-discovery-cta{align-items:stretch;flex-direction:column}.ev-discovery-cta>a{justify-content:center}}
   .ev-note{margin-bottom:1rem;color:var(--color-soil);font-size:.86rem}
   .ev-empty{color:var(--color-soil);line-height:1.9}
   .ev-links{display:grid;gap:.7rem;padding:0;list-style:none}
