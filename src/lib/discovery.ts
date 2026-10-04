@@ -1,13 +1,14 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
 import { lifecycleOf, type EventLifecycle } from './lifecycle';
+import { getDiscoverySpots } from './discovery-spots';
 
 export type DiscoveryEntity = {
   id: string;
   href: string;
   title: string;
   summary: string;
-  kind: 'event' | 'guide';
+  kind: 'event' | 'guide' | 'spot';
   lifecycle: EventLifecycle;
   municipalities: string[];
   municipalityNames: string[];
@@ -69,13 +70,28 @@ function toDiscovery(entry: CollectionEntry<'events'>): DiscoveryEntity {
 
 export async function getDiscoveryEntities(): Promise<DiscoveryEntity[]> {
   const events = await getCollection('events', ({ data }) => !data.draft && data.reviewed && !data.noindex);
-  return events
+  const eventEntities = events
     .map(toDiscovery)
-    .filter((item) => item.lifecycle !== 'ended')
-    .sort((a, b) => {
-      const aEvent = a.kind === 'event' ? 0 : 1;
-      const bEvent = b.kind === 'event' ? 0 : 1;
-      if (aEvent !== bEvent) return aEvent - bEvent;
-      return (a.startDate ?? '9999-99-99').localeCompare(b.startDate ?? '9999-99-99');
-    });
+    .filter((item) => item.lifecycle !== 'ended');
+
+  const spotEntities: DiscoveryEntity[] = getDiscoverySpots().map((spot) => ({
+    id: spot.id,
+    href: spot.href,
+    title: spot.title,
+    summary: spot.summary,
+    kind: 'spot',
+    lifecycle: 'evergreen',
+    municipalities: [spot.municipality],
+    municipalityNames: [spot.municipalityName],
+    regionLabels: [spot.regionLabel],
+    tags: spot.tags,
+    searchText: spot.searchText,
+  }));
+
+  return [...eventEntities, ...spotEntities].sort((a, b) => {
+    const priority = (item: DiscoveryEntity) => item.kind === 'event' ? 0 : item.kind === 'guide' ? 1 : 2;
+    const diff = priority(a) - priority(b);
+    if (diff !== 0) return diff;
+    return (a.startDate ?? '9999-99-99').localeCompare(b.startDate ?? '9999-99-99') || a.title.localeCompare(b.title, 'ja');
+  });
 }

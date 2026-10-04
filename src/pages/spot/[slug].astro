@@ -1,0 +1,109 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BrandBase from '../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { getDiscoverySpot, getDiscoverySpots } from '../../lib/discovery-spots';
+
+export const getStaticPaths = (() =>
+  getDiscoverySpots().map((spot) => ({ params: { slug: spot.slug }, props: { spot } }))
+) satisfies GetStaticPaths;
+
+const { spot } = Astro.props as { spot: ReturnType<typeof getDiscoverySpot> extends infer T ? Exclude<T, undefined> : never };
+const nearby = getDiscoverySpots()
+  .filter((item) => item.municipality === spot.municipality && item.slug !== spot.slug)
+  .slice(0, 6);
+const crumbs: Crumb[] = [
+  { name: 'ホーム', href: '/' },
+  { name: '行きたいところ検索', href: '/discover/' },
+  { name: spot.municipalityName, href: `/area/${spot.municipality}/` },
+  { name: spot.title },
+];
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: spot.title,
+    description: spot.summary,
+    url: new URL(spot.href, Astro.site).href,
+    containedInPlace: {
+      '@type': 'AdministrativeArea',
+      name: `茨城県${spot.municipalityName}`,
+    },
+    ...(spot.address ? { address: spot.address } : {}),
+    ...(spot.officialUrl ? { sameAs: spot.officialUrl } : {}),
+  },
+];
+---
+
+<BrandBase
+  title={`${spot.title}｜${spot.municipalityName}のおでかけミニガイド｜イバトコ`}
+  description={spot.summary}
+  jsonLd={jsonLd}
+  noindex={true}
+>
+  <header class="spot-head bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">DISCOVERY MINI GUIDE</p>
+    <h1>{spot.title}</h1>
+    <p class="spot-head__area">{spot.regionLabel}・{spot.municipalityName}</p>
+    <p class="spot-head__lead">{spot.summary}</p>
+  </header>
+
+  <main class="spot-body bp-wrap">
+    <section class="spot-facts" aria-labelledby="spot-facts-title">
+      <div>
+        <p class="bp-kicker">BASIC INFO</p>
+        <h2 id="spot-facts-title">行く前に確認できること</h2>
+      </div>
+      <dl>
+        <div><dt>エリア</dt><dd><a href={`/area/${spot.municipality}/`}>{spot.municipalityName}</a></dd></div>
+        {spot.address && <div><dt>所在地</dt><dd>{spot.address}</dd></div>}
+        <div><dt>情報確認日</dt><dd>{spot.verifiedAt}</dd></div>
+        <div><dt>掲載根拠</dt><dd><a href={spot.sourceUrl} target="_blank" rel="noopener noreferrer">確認した一次情報 ↗</a></dd></div>
+      </dl>
+      {spot.officialUrl && (
+        <p class="spot-official"><a href={spot.officialUrl} target="_blank" rel="noopener noreferrer">公式サイトで最新情報を見る ↗</a></p>
+      )}
+    </section>
+
+    <section class="spot-note">
+      <p>このページは「行きたいところ検索」で候補を返すためのミニガイドです。営業時間・料金・休業日など変動しやすい情報は推測で埋めず、訪問前に公式情報をご確認ください。</p>
+    </section>
+
+    {nearby.length > 0 && (
+      <section class="spot-nearby">
+        <p class="bp-kicker">NEARBY</p>
+        <h2>{spot.municipalityName}で、ほかに見る</h2>
+        <ul>{nearby.map((item) => (
+          <li><a href={item.href}><strong>{item.title}</strong><span>{item.summary}</span></a></li>
+        ))}</ul>
+      </section>
+    )}
+
+    <p class="spot-back"><a href="/discover/">条件を変えて、行き先を探す →</a></p>
+  </main>
+</BrandBase>
+
+<style>
+  .spot-head{padding-block:clamp(2.5rem,6vw,5rem) clamp(2rem,5vw,3.5rem)}
+  .spot-head h1{margin:.9rem 0 .7rem;font:600 clamp(2.5rem,7vw,5rem)/1.15 var(--font-brand-display);color:var(--color-ink);letter-spacing:-.03em}
+  .spot-head__area{margin:0;color:var(--color-tide);font-size:.84rem;font-weight:700}
+  .spot-head__lead{max-width:46rem;margin:1.2rem 0 0;color:var(--color-soil);line-height:1.95}
+  .spot-body{display:grid;gap:2.2rem;padding-bottom:5rem}
+  .spot-facts{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:2rem;padding:1.6rem;border:1px solid var(--color-mist);border-radius:1rem;background:#fff}
+  .spot-facts h2{margin:.4rem 0 0;font:600 clamp(1.5rem,3vw,2.2rem)/1.35 var(--font-brand-display)}
+  .spot-facts dl{margin:0}.spot-facts dl>div{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--color-mist)}
+  .spot-facts dt{color:var(--color-soil);font-size:.8rem}.spot-facts dd{margin:0;color:var(--color-ink);line-height:1.7}
+  .spot-facts a,.spot-back a{color:var(--interior-blue,#174f99);font-weight:700}
+  .spot-official{grid-column:1/-1;margin:0}.spot-official a{display:inline-flex;min-height:44px;align-items:center;padding:.65rem .9rem;border-radius:.65rem;background:var(--color-ink);color:#fff;text-decoration:none}
+  .spot-note{max-width:46rem;padding:1rem 1.2rem;border-left:3px solid var(--color-tide);background:var(--color-white)}
+  .spot-note p{margin:0;color:var(--color-soil);line-height:1.9}
+  .spot-nearby h2{margin:.5rem 0 1rem;font:600 clamp(1.5rem,3vw,2.2rem)/1.35 var(--font-brand-display)}
+  .spot-nearby ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:0;padding:0;list-style:none}
+  .spot-nearby a{display:grid;gap:.45rem;height:100%;padding:1rem;border:1px solid var(--color-mist);border-radius:.85rem;background:#fff;color:inherit;text-decoration:none}
+  .spot-nearby strong{font:600 1rem/1.5 var(--font-brand-display)}.spot-nearby span{color:var(--color-soil);font-size:.8rem;line-height:1.7}
+  .spot-back{margin:0}
+  @media(max-width:760px){.spot-facts{grid-template-columns:1fr}.spot-nearby ul{grid-template-columns:1fr}.spot-facts dl>div{grid-template-columns:1fr;gap:.2rem}}
+</style>

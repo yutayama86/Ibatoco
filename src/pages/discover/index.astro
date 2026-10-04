@@ -117,8 +117,7 @@ const jsonLd = [
     <ul class="discover-results" data-discovery-results>
       {entities.map((item, index) => {
         const entry = entryById.get(item.id);
-        if (!entry) return null;
-        const image = listImageOf(entry);
+        const image = entry ? listImageOf(entry) : null;
         return (
           <li
             data-discovery-card
@@ -130,9 +129,11 @@ const jsonLd = [
             hidden={index >= initialLimit}
           >
             <a href={item.href}>
-              <img src={image.src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+              {image
+                ? <img src={image.src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
+                : <div class="discover-card__placeholder" aria-hidden="true"><span>{item.municipalityNames[0] ?? '茨城'}</span><b>{item.title}</b></div>}
               <span class="discover-card__meta">
-                <b>{item.kind === 'event' ? 'EVENT' : 'GUIDE'}</b>
+                <b>{item.kind === 'event' ? 'EVENT' : item.kind === 'guide' ? 'GUIDE' : 'SPOT'}</b>
                 {item.municipalityNames[0] && <span>{item.municipalityNames[0]}</span>}
               </span>
               <strong>{item.title}</strong>
@@ -257,7 +258,10 @@ const jsonLd = [
   .discover-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
   .discover-results li[hidden]{display:none}
   .discover-results a{display:block;height:100%;overflow:hidden;border:1px solid var(--color-mist);border-radius:1rem;background:#fff;color:inherit;text-decoration:none}
-  .discover-results img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--color-mist)}
+  .discover-results img,.discover-card__placeholder{width:100%;aspect-ratio:16/9;background:var(--color-mist)}
+  .discover-card__placeholder{display:flex;flex-direction:column;justify-content:flex-end;gap:.35rem;padding:1rem;background:linear-gradient(145deg,var(--brand-blue-soft,#edf6ff),var(--color-paper));color:var(--color-ink)}
+  .discover-card__placeholder span{font-size:.72rem;font-weight:700;color:var(--color-tide)}
+  .discover-card__placeholder b{font:600 clamp(1.05rem,2vw,1.35rem)/1.4 var(--font-brand-display)}
   .discover-card__meta{display:flex;gap:.6rem;align-items:center;padding:.9rem 1rem .2rem;color:var(--color-soil);font-size:.72rem}.discover-card__meta b{color:var(--color-tide);letter-spacing:.08em}
   .discover-results strong{display:block;padding:.35rem 1rem 0;font:600 1.04rem/1.55 var(--font-brand-display)}
   .discover-results p{margin:0;padding:.5rem 1rem 1.1rem;color:var(--color-soil);font-size:.82rem;line-height:1.75}
