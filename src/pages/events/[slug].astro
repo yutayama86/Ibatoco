@@ -23,6 +23,7 @@ import { lifecycleLabelOf, lifecycleOf } from '../../lib/lifecycle';
 import { shareImageOf } from '../../lib/card-image';
 import { getAllFacets } from '../../lib/taxonomy';
 import { INTERNAL_LINK_LABELS } from '../../data/internal-links';
+import { autoBookingForEvent } from '../../lib/auto-monetization';
 
 export const getStaticPaths = (async () => {
   const events = await getEvents();
@@ -89,6 +90,14 @@ const decisionChips = info ? [
 // 開催状況は保存せず毎ビルド計算する。保存すると開催後も upcoming のまま残る
 const lifecycle = lifecycleOf(entry);
 const lifecycleLabel = lifecycleLabelOf(entry);
+const effectiveBooking = autoBookingForEvent({
+  municipality: d.municipalities[0],
+  businessIntent: d.businessIntent,
+  officialUrl: info?.officialUrl,
+  officialName: info?.officialName,
+  lifecycle,
+  existingBooking: d.booking,
+});
 /**
  * 関連記事はルールで選ぶ（src/lib/related.ts）。
  * 一致した軸が1つも無いものは出さない。終了したイベントも候補にしない。
@@ -200,7 +209,7 @@ if (d.faq.length > 0) {
       <p class="ev-status__next"><a href={d.supersededBy}>最新の回の記事を見る →</a></p>
     )}
     <p class="ev-lead">{d.summary}</p>
-    {d.booking && hasPaidLink(d.booking.items) && <p class="ad-disclosure"><span class="ad-disclosure__tag">#アフィリエイト広告</span>この記事にはアフィリエイト広告を含みます。</p>}
+    {effectiveBooking && hasPaidLink(effectiveBooking.items) && <p class="ad-disclosure"><span class="ad-disclosure__tag">#アフィリエイト広告</span>この記事にはアフィリエイト広告を含みます。</p>}
     <p class="ev-meta">
       <time datetime={d.pubDate.toISOString()}>公開 {fmtDate(d.pubDate)}</time>
       {d.updatedDate && <> ／ <time datetime={d.updatedDate.toISOString()}>更新 {fmtDate(d.updatedDate)}</time></>}
@@ -297,7 +306,7 @@ if (d.faq.length > 0) {
     </section>
   )}
 
-  {d.booking && <BookingGuide booking={d.booking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />}
+  {effectiveBooking && <BookingGuide booking={effectiveBooking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />}
   <SponsorSlots path={`/events/${entry.id.split('/').pop()}/`} pageType="events" municipality={d.municipalities[0]} />
 
   <section id="sources" aria-labelledby="ev-src">
