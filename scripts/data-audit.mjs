@@ -138,6 +138,18 @@ if (!/const ctaHref = \(href: string\) => paidLinkFor\(href\)\?\.href \?\? href;
   add('error', 'affiliate-rel', 'ガイド記事の cta が広告リンクへ差し替わらなくなっています（ctaHref を確認）');
 }
 
+// ---- 収益化クリック計測の整合 ----
+const bookingGuideSrc = readFileSync('src/components/BookingGuide.astro', 'utf8');
+if (!/data-monetization-state=\{monetizationState\(item\.provider, item\.url\)\}/.test(bookingGuideSrc)) {
+  add('error', 'monetization-tracking', 'BookingGuide がURL単位の monetizationState をdata属性へ出していません');
+}
+if (!/is_paid_link:\s*link\.dataset\.isPaid === '1' \? 1 : 0/.test(bookingGuideSrc)) {
+  add('error', 'monetization-tracking', 'outbound_booking_click が is_paid_link を送っていません');
+}
+if (!/monetization_state:\s*link\.dataset\.monetizationState/.test(bookingGuideSrc)) {
+  add('error', 'monetization-tracking', 'outbound_booking_click が monetization_state を送っていません');
+}
+
 // ---- 広告表示と本文の食い違い ----
 // 記事全体を「広告なし」と言い切る書き方を止める。
 // 協賛枠（src/data/sponsors.ts）は記事を編集せずに後から載るため、
