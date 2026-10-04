@@ -36,7 +36,9 @@
     "editorial:daily": "node scripts/editorial-os.mjs daily",
     "editorial:inventory": "node scripts/editorial-os.mjs inventory",
     "audit:analytics": "node scripts/analytics-audit.mjs",
-    "growth:target": "node scripts/growth-target.mjs"
+    "growth:target": "node scripts/growth-target.mjs",
+    "discovery:coverage": "node scripts/discovery-coverage.mjs",
+    "discovery:coverage:write": "node scripts/discovery-coverage.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
