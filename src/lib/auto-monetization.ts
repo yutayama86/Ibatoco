@@ -30,30 +30,73 @@ interface AutoBookingInput {
   existingBooking?: AutoBooking;
 }
 
+type LodgingProvider = {
+  provider: 'rakuten-travel' | 'jalan';
+  url: string;
+  label: string;
+};
+
 const LODGING_BY_MUNICIPALITY: Record<string, {
   areaLabel: string;
-  rakuten: string;
-  jalan: string;
+  providers: LodgingProvider[];
 }> = {
   oarai: {
     areaLabel: '大洗・ひたちなか',
-    rakuten: 'https://travel.rakuten.co.jp/yado/ibaraki/oarai.html',
-    jalan: 'https://www.jalan.net/100000/LRG_101400/',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/oarai.html', label: '大洗・ひたちなか' },
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101400/', label: '大洗・ひたちなか' },
+    ],
   },
   hitachinaka: {
     areaLabel: '大洗・ひたちなか',
-    rakuten: 'https://travel.rakuten.co.jp/yado/ibaraki/oarai.html',
-    jalan: 'https://www.jalan.net/100000/LRG_101400/',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/oarai.html', label: '大洗・ひたちなか' },
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101400/', label: '大洗・ひたちなか' },
+    ],
   },
   mito: {
     areaLabel: '水戸',
-    rakuten: 'https://travel.rakuten.co.jp/yado/ibaraki/mito.html',
-    jalan: 'https://www.jalan.net/100000/LRG_100500/',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/mito.html', label: '水戸' },
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_100500/', label: '水戸' },
+    ],
   },
   tsuchiura: {
     areaLabel: '土浦周辺',
-    rakuten: 'https://travel.rakuten.co.jp/yado/ibaraki/tsukuba.html',
-    jalan: 'https://www.jalan.net/100000/LRG_101100/',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/tsukuba.html', label: 'つくば・土浦・取手' },
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101100/', label: '霞ヶ浦・土浦・鹿島・潮来' },
+    ],
+  },
+  tsukuba: {
+    areaLabel: 'つくば周辺',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/tsukuba.html', label: 'つくば・土浦・取手' },
+    ],
+  },
+  toride: {
+    areaLabel: '取手周辺',
+    providers: [
+      { provider: 'rakuten-travel', url: 'https://travel.rakuten.co.jp/yado/ibaraki/tsukuba.html', label: 'つくば・土浦・取手' },
+    ],
+  },
+  kasumigaura: {
+    areaLabel: '霞ヶ浦・土浦周辺',
+    providers: [
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101100/', label: '霞ヶ浦・土浦・鹿島・潮来' },
+    ],
+  },
+  kashima: {
+    areaLabel: '鹿島・潮来周辺',
+    providers: [
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101100/', label: '霞ヶ浦・土浦・鹿島・潮来' },
+    ],
+  },
+  itako: {
+    areaLabel: '鹿島・潮来周辺',
+    providers: [
+      { provider: 'jalan', url: 'https://www.jalan.net/100000/LRG_101100/', label: '霞ヶ浦・土浦・鹿島・潮来' },
+    ],
   },
 };
 
@@ -89,20 +132,13 @@ export function autoBookingForEvent(input: AutoBookingInput): AutoBooking | unde
         kind: 'official',
         note: '日程・会場・変更情報は、予約前に公式情報で確認してください。',
       },
-      {
-        label: `${lodging.areaLabel}の宿を探す（楽天トラベル）`,
-        provider: 'rakuten-travel',
-        url: lodging.rakuten,
-        kind: 'ota',
+      ...lodging.providers.map((item) => ({
+        label: `${item.label}の宿を探す（${item.provider === 'rakuten-travel' ? '楽天トラベル' : 'じゃらんnet'}）`,
+        provider: item.provider,
+        url: item.url,
+        kind: 'ota' as const,
         note: '空室と料金を比較できます。',
-      },
-      {
-        label: `${lodging.areaLabel}の宿を探す（じゃらんnet）`,
-        provider: 'jalan',
-        url: lodging.jalan,
-        kind: 'ota',
-        note: '別の予約サイトでも空室と料金を比較できます。',
-      },
+      })),
     ],
     note: 'イバトコは宿泊予約を受け付けていません。料金・空室・キャンセル規定は各予約サイトで確認してください。',
   };
