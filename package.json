@@ -38,7 +38,9 @@
     "audit:analytics": "node scripts/analytics-audit.mjs",
     "growth:target": "node scripts/growth-target.mjs",
     "discovery:coverage": "node scripts/discovery-coverage.mjs",
-    "discovery:coverage:write": "node scripts/discovery-coverage.mjs --write"
+    "discovery:coverage:write": "node scripts/discovery-coverage.mjs --write",
+    "discovery:priority": "node scripts/discovery-priority.mjs",
+    "discovery:priority:write": "node scripts/discovery-priority.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

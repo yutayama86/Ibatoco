@@ -35,10 +35,15 @@ jobs:
       - name: Generate Discovery coverage audit
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run discovery:coverage:write
+      - name: Generate Discovery growth priorities
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run discovery:priority:write
       - name: Add editorial brief to job summary
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           cat reports/editorial/growth-target.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
+          cat reports/editorial/discovery-priorities.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/discovery-coverage.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
