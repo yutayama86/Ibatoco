@@ -17,6 +17,7 @@ const requiredReports = [
   ['discoveryCoverage', 'discovery-coverage.md'],
   ['editorial', 'daily-brief.md'],
   ['partners', 'partner-opportunities.md'],
+  ['bookingExperiment', 'booking-experiment.md'],
 ];
 
 for (const [, file] of requiredReports) {
@@ -91,6 +92,7 @@ const revenueTop = extractTop(reports.revenue, '今日の収益機会 TOP10', 5)
 const monetizationGaps = extractTop(reports.monetization, '最優先ギャップ', 5);
 const partnerTop = extractTop(reports.partners, '新規提携を検討する提供元', 5);
 const partnerCategoryTop = extractTop(reports.partners, '提携カテゴリの不足', 5);
+const bookingExperimentDecision = (reports.bookingExperiment.match(/- 判定: \*\*(.*?)\*\*/)?.[1] ?? 'collect');
 
 const blockers = [];
 if ((monetization.activeUnmapped ?? 0) > 0) {
@@ -132,6 +134,7 @@ const state = {
   monetizationGaps,
   partnerTop,
   partnerCategoryTop,
+  bookingExperimentDecision,
 };
 
 const lines = [
@@ -181,6 +184,9 @@ if (partnerTop.length) {
 } else {
   lines.push('- 現時点で申請優先の提携先なし');
 }
+
+lines.push('', '## 実験', '');
+lines.push(`- Booking CTA: **${bookingExperimentDecision}**`);
 
 lines.push('', '## 人間承認が必要', '');
 for (const item of approvals) lines.push(`- ${item}`);
