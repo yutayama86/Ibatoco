@@ -65,7 +65,11 @@ for (const id of seen) {
 // 送ってよい名前を明示する。増やすときはここも直す（名前のゆらぎを防ぐ）
 const ALLOWED_EVENTS = new Set([
   'booking_guide_view',
+  'booking_guide_view_a',
+  'booking_guide_view_b',
   'outbound_booking_click',
+  'outbound_booking_click_a',
+  'outbound_booking_click_b',
   'business_cta_view',
   'business_cta_click',
   'contact_form_view',
@@ -148,6 +152,18 @@ if (!/is_paid_link:\s*link\.dataset\.isPaid === '1' \? 1 : 0/.test(bookingGuideS
 }
 if (!/monetization_state:\s*link\.dataset\.monetizationState/.test(bookingGuideSrc)) {
   add('error', 'monetization-tracking', 'outbound_booking_click が monetization_state を送っていません');
+}
+
+
+// ---- Booking CTA experiment ----
+if (!/booking_guide_view_a/.test(bookingGuideSrc) || !/booking_guide_view_b/.test(bookingGuideSrc)) {
+  add('error', 'booking-experiment', 'BookingGuide がA/B viewイベントを送っていません');
+}
+if (!/outbound_booking_click_a/.test(bookingGuideSrc) || !/outbound_booking_click_b/.test(bookingGuideSrc)) {
+  add('error', 'booking-experiment', 'BookingGuide がA/B clickイベントを送っていません');
+}
+if (!/data-experiment-id/.test(bookingGuideSrc) || !/data-experiment-variant/.test(bookingGuideSrc)) {
+  add('error', 'booking-experiment', 'BookingGuide のexperiment識別属性が欠落しています');
 }
 
 // ---- 広告表示と本文の食い違い ----
