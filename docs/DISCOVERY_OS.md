@@ -32,3 +32,18 @@
 ## 収益化原則
 優先順位は、送客成果報酬 > セルフサーブ有料掲載 > スポンサー > SaaS/API > ディスプレイ広告。
 受託制作・手作業SNS運用・個別コンサルを主収益にしない。
+
+
+## Autonomous Operator
+
+日次運用は追加費用ゼロで自動化する。
+
+1. `editorial:daily` — 台帳・鮮度・実装キュー
+2. `growth:target` — 10万PV進捗
+3. `discovery:coverage:write` — 検索の穴
+4. `discovery:priority:write` — 成長TOP10
+5. `revenue:engine:write` — 収益機会TOP10
+6. `monetization:audit:write` — URL単位の収益化漏れ
+7. `operator:daily` — 上記を統合し、成長TOP5・収益TOP5・ブロッカー・人間承認事項だけを出す
+
+記事本数はKPIにしない。追加費用が必要なSaaS/API、契約、課金、個人情報取得は自動実行しない。
