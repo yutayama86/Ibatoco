@@ -65,5 +65,6 @@ export const NAV = [
 // 事業者向け（階層4 制圧導線）
 export const BIZ_NAV = [
   { label: '地域事業者の方へ', href: '/biz/' },
+  { label: '情報を送る', href: '/submit/' },
   { label: 'お問い合わせ', href: '/contact/' },
 ] as const;

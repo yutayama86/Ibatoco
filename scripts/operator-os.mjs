@@ -101,6 +101,9 @@ const blockers = [];
 if ((monetization.activeUnmapped ?? 0) > 0) {
   blockers.push(`提携済みなのに成果リンク未マッピングが${monetization.activeUnmapped}件`);
 }
+if ((bookingClicks7 ?? 0) > 0 && !(performance?.conversionDetail?.byPage?.length > 0)) {
+  blockers.push('Bookingクリックはあるが conversionDetail.byPage が未取得。Windsor/GA4で pagePath × eventName を取得する');
+}
 if (performance?.source?.freshness?.todayRefreshSucceeded === false) {
   blockers.push('GA4/GSCの当日更新に失敗');
 }

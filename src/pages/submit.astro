@@ -1,0 +1,132 @@
+---
+import BrandBase from '../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../lib/seo';
+import { SITE_CONFIG } from '../data/site';
+import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
+
+const FORM_ENDPOINT = SITE_CONFIG.formEndpoint;
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '情報を送る' }];
+const municipalityGroups = REGION_ORDER.map((region) => ({
+  label: REGIONS[region].label,
+  towns: MUNICIPALITIES.filter((m) => m.region === region),
+}));
+---
+
+<BrandBase
+  title="イベント・店舗情報を送る｜イバトコ"
+  description="茨城県内のイベント情報、店舗・施設情報の新規掲載・修正依頼を、公式URLと一緒に送れます。掲載前にイバトコで一次情報を確認します。"
+  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}
+>
+  <header class="submit-head bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">SEND LOCAL INFO</p>
+    <h1>情報を、<br />そのまま送れます。</h1>
+    <p>イベント主催者・店舗・施設の方から、掲載候補や修正情報を受け付けています。送信内容をそのまま公開するのではなく、イバトコで一次情報を確認したうえで反映します。</p>
+  </header>
+
+  <main class="submit-main bp-wrap">
+    <section class="submit-policy" aria-labelledby="submit-policy-title">
+      <p class="bp-kicker">POLICY</p>
+      <h2 id="submit-policy-title">掲載料なしで、事実確認を先に。</h2>
+      <ul>
+        <li>情報提供だけで掲載順位や編集評価が上がることはありません。</li>
+        <li>開催日・営業時間・料金などは、公式サイトや主催者情報で確認できるものを優先します。</li>
+        <li>未確認情報、宣伝文のみ、第三者の権利を侵害する素材は掲載できません。</li>
+        <li>掲載・更新を保証するフォームではありません。</li>
+      </ul>
+    </section>
+
+    <section id="event" class="submit-block">
+      <div class="submit-block__intro">
+        <p class="bp-kicker">EVENT</p>
+        <h2>イベント情報を送る</h2>
+        <p>開催情報が決まったら、公式ページと一緒に送ってください。イベントDB・Discovery・関連ガイドの候補として確認します。</p>
+      </div>
+      <form id="event-submission" class="submit-form" method="POST" action={FORM_ENDPOINT || undefined} data-endpoint={FORM_ENDPOINT}>
+        <input type="hidden" name="_subject" value="【イバトコ】イベント情報提供" />
+        <input type="hidden" name="inquiry_type" value="イベント情報提供" />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" />
+        <div class="field"><label for="event-name">イベント名 <small>必須</small></label><input id="event-name" name="event_name" required /></div>
+        <div class="field"><label for="event-municipality">市町村 <small>必須</small></label><select id="event-municipality" name="municipality" required><option value="">選択してください</option>{municipalityGroups.map((group) => <optgroup label={group.label}>{group.towns.map((town) => <option value={town.slug}>{town.name}</option>)}</optgroup>)}</select></div>
+        <div class="field"><label for="event-start">開催日・開始日 <small>必須</small></label><input id="event-start" name="start_date" type="date" required /></div>
+        <div class="field"><label for="event-end">終了日 <small class="optional">任意</small></label><input id="event-end" name="end_date" type="date" /></div>
+        <div class="field field--wide"><label for="event-official">公式URL <small>必須</small></label><input id="event-official" name="official_url" type="url" required placeholder="https://" /></div>
+        <div class="field field--wide"><label for="event-summary">補足 <small class="optional">任意</small></label><textarea id="event-summary" name="message" rows="5" placeholder="会場、予約の有無、雨天時の扱いなど。公式ページに記載済みなら空欄でも構いません。"></textarea></div>
+        <div class="field"><label for="event-contact-name">ご担当者名 / 団体名 <small>必須</small></label><input id="event-contact-name" name="name" required autocomplete="organization" /></div>
+        <div class="field"><label for="event-email">メールアドレス <small>必須</small></label><input id="event-email" name="email" type="email" required autocomplete="email" /></div>
+        <div class="actions"><button type="submit">イベント情報を送る <span aria-hidden="true">→</span></button><p>送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p></div>
+        <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+      </form>
+    </section>
+
+    <section id="business" class="submit-block">
+      <div class="submit-block__intro">
+        <p class="bp-kicker">PLACE / BUSINESS</p>
+        <h2>店舗・施設情報を送る</h2>
+        <p>新規掲載候補、または既に掲載されている情報の修正を受け付けます。営業時間など変わりやすい情報は、公式URLで確認できる状態にしてください。</p>
+      </div>
+      <form id="business-submission" class="submit-form" method="POST" action={FORM_ENDPOINT || undefined} data-endpoint={FORM_ENDPOINT}>
+        <input type="hidden" name="_subject" value="【イバトコ】店舗・施設情報" />
+        <input type="hidden" name="inquiry_type" value="店舗・施設情報" />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" />
+        <div class="field"><label for="business-action">ご用件 <small>必須</small></label><select id="business-action" name="submission_action" required><option value="">選択してください</option><option value="new">新規掲載候補</option><option value="update">掲載情報の修正</option></select></div>
+        <div class="field"><label for="business-name">店舗・施設名 <small>必須</small></label><input id="business-name" name="business_name" required autocomplete="organization" /></div>
+        <div class="field"><label for="business-municipality">市町村 <small>必須</small></label><select id="business-municipality" name="municipality" required><option value="">選択してください</option>{municipalityGroups.map((group) => <optgroup label={group.label}>{group.towns.map((town) => <option value={town.slug}>{town.name}</option>)}</optgroup>)}</select></div>
+        <div class="field"><label for="business-category">カテゴリ <small>必須</small></label><select id="business-category" name="business_category" required><option value="">選択してください</option><option>飲食</option><option>宿泊・温泉</option><option>観光・体験</option><option>公園・自然</option><option>文化・施設</option><option>買い物</option><option>その他</option></select></div>
+        <div class="field field--wide"><label for="business-official">公式URL <small>必須</small></label><input id="business-official" name="official_url" type="url" required placeholder="https://" /></div>
+        <div class="field field--wide"><label for="business-page">修正対象のイバトコURL <small class="optional">修正時のみ</small></label><input id="business-page" name="ibatoco_url" type="url" placeholder="https://ibatoco.jp/..." /></div>
+        <div class="field field--wide"><label for="business-message">掲載・修正内容 <small>必須</small></label><textarea id="business-message" name="message" rows="6" required placeholder="新規掲載なら特徴や公式情報の場所、修正なら変更箇所をご記入ください。"></textarea></div>
+        <div class="field"><label for="business-contact-name">ご担当者名 <small>必須</small></label><input id="business-contact-name" name="name" required autocomplete="name" /></div>
+        <div class="field"><label for="business-email">メールアドレス <small>必須</small></label><input id="business-email" name="email" type="email" required autocomplete="email" /></div>
+        <div class="actions"><button type="submit">店舗・施設情報を送る <span aria-hidden="true">→</span></button><p>送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p></div>
+        <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+      </form>
+    </section>
+  </main>
+</BrandBase>
+
+<style>
+  .submit-head{padding-block:clamp(4rem,9vw,8rem) clamp(2.5rem,6vw,5rem);border-bottom:1px solid var(--color-mist)}
+  .submit-head h1{margin-top:1rem;font:600 clamp(2.5rem,7vw,5.5rem)/1.2 var(--font-brand-display);color:var(--color-ink)}
+  .submit-head>p:last-child{max-width:var(--measure);margin-top:1.5rem;color:var(--color-soil);line-height:2}
+  .submit-main{display:grid;gap:clamp(3.5rem,7vw,6rem);padding-block:clamp(3rem,7vw,6rem)}
+  .submit-policy{max-width:52rem;padding:1.5rem;border:1px solid var(--color-mist);border-radius:1rem;background:var(--color-white)}
+  .submit-policy h2,.submit-block h2{margin:.5rem 0 0;font:600 clamp(1.6rem,3vw,2.4rem)/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .submit-policy ul{display:grid;gap:.55rem;margin:1.25rem 0 0;padding-left:1.2rem}
+  .submit-policy li{color:var(--color-soil);line-height:1.85}
+  .submit-block{display:grid;grid-template-columns:minmax(14rem,.55fr) minmax(0,1.45fr);gap:clamp(2rem,5vw,5rem);align-items:start;padding-top:2rem;border-top:1px solid var(--color-mist)}
+  .submit-block__intro{position:sticky;top:6rem}
+  .submit-block__intro p:last-child{margin-top:1rem;color:var(--color-soil);line-height:1.9}
+  .submit-form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 1rem}
+  .field{display:grid;gap:.45rem}.field--wide{grid-column:1/-1}
+  label{display:flex;gap:.45rem;align-items:center;color:var(--color-ink);font-size:.78rem;font-weight:700}
+  label small{padding:.1rem .4rem;border-radius:999px;background:color-mix(in srgb,var(--color-tide) 10%,white);color:var(--color-tide);font-size:.6rem}
+  label small.optional{background:var(--color-paper);color:var(--color-soil)}
+  input,select,textarea{width:100%;padding:.9rem;border:1px solid var(--color-mist);border-radius:.65rem;background:#fff;color:var(--color-ink);font:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--color-tide);outline-offset:1px;border-color:var(--color-tide)}
+  textarea{resize:vertical}
+  .actions{grid-column:1/-1;display:flex;align-items:center;gap:1rem;margin-top:.3rem}.actions button{display:inline-flex;justify-content:space-between;gap:1.5rem;min-height:48px;padding:.75rem 1.1rem;border:0;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700;cursor:pointer}.actions p{color:var(--color-soil);font-size:.7rem;line-height:1.7}.actions a{border-bottom:1px solid}
+  .form-status{grid-column:1/-1}.honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  @media(max-width:800px){.submit-block{grid-template-columns:1fr}.submit-block__intro{position:static}.submit-form{grid-template-columns:1fr}.field{grid-column:1/-1}.actions{align-items:stretch;flex-direction:column}.actions button{width:100%}}
+</style>
+
+<script>
+  import { submitForm } from '../lib/forms';
+  import { trackEvent } from '../lib/analytics-events';
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('.submit-form')) {
+    const id = form.id;
+    trackEvent('contact_form_view', { form_id: id, form_subject: String(new FormData(form).get('inquiry_type') ?? '') });
+    form.addEventListener('focusin', () => {
+      trackEvent('contact_form_start', { form_id: id, form_subject: String(new FormData(form).get('inquiry_type') ?? '') });
+    }, { once: true });
+
+    submitForm(form, {
+      conversionId: id,
+      successText: id === 'event-submission'
+        ? 'イベント情報を受け付けました。一次情報を確認して掲載可否を判断します。'
+        : '店舗・施設情報を受け付けました。内容を確認して反映可否を判断します。',
+    });
+  }
+</script>

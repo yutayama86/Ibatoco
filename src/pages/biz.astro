@@ -26,7 +26,7 @@ const problems = [
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ' }];
 ---
 <BrandBase title="地域事業者の方へ｜イバトコ" description="店舗・企業の情報整理、取材、Web制作、発信運用を支援します。広告と編集記事の区分も明示します。" jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <header class="biz-head bp-wrap"><Breadcrumbs items={crumbs} /><p class="bp-kicker">FOR LOCAL BUSINESSES</p><h1>載せるだけでは、<br />終わらせない。</h1><p>情報を載せただけでは、店や会社の良さは十分に伝わりません。イバトコは、有料支援を編集記事に見せず、情報整理・取材・制作・運用を必要な範囲で支えます。</p><a href="/contact/?subject=地域事業者の相談">相談内容を送る →</a><p class="biz-head__sponsor">協賛・広告をご検討の方は <a href="/sponsor/">協賛のご案内（メニューと料金）</a> をご覧ください。</p></header>
+  <header class="biz-head bp-wrap"><Breadcrumbs items={crumbs} /><p class="bp-kicker">FOR LOCAL BUSINESSES</p><h1>載せるだけでは、<br />終わらせない。</h1><p>情報を載せただけでは、店や会社の良さは十分に伝わりません。イバトコは、有料支援を編集記事に見せず、情報整理・取材・制作・運用を必要な範囲で支えます。</p><a href="/contact/?subject=地域事業者の相談">相談内容を送る →</a><p class="biz-head__selfservice">掲載候補・営業時間などの修正だけなら、<a href="/submit/#business">情報送信フォーム</a>から無料で送れます。</p><p class="biz-head__sponsor">協賛・広告をご検討の方は <a href="/sponsor/">協賛のご案内（メニューと料金）</a> をご覧ください。</p></header>
   <section class="problems bp-wrap bp-section" aria-labelledby="biz-problems">
     <p class="bp-kicker">WHERE TO START</p>
     <h2 id="biz-problems">こんなところで、止まっていませんか</h2>
@@ -135,7 +135,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業
   .problems__cta:hover,.problems__cta:focus-visible{background:var(--color-ink)}
 
   .biz-head{padding-block:clamp(5rem,11vw,10rem);border-bottom:1px solid var(--color-mist)}.biz-head h1{margin-top:1rem;font:600 clamp(2.7rem,7vw,6rem)/1.2 var(--font-brand-display);color:var(--color-ink)}.biz-head>p:not(.bp-kicker){max-width:var(--measure);margin-top:2rem;line-height:2;color:var(--color-soil)}.biz-head>a,.separation .bp-wrap>a,.biz-cta>a{display:inline-block;margin-top:2rem;color:var(--color-tide);border-bottom:1px solid}
-  .biz-head .biz-head__sponsor{margin-top:1.4rem;color:var(--color-soil);font-size:.9rem;line-height:1.9}.biz-head__sponsor a{color:var(--color-tide);border-bottom:1px solid}
+  .biz-head .biz-head__selfservice,.biz-head .biz-head__sponsor{margin-top:1.2rem;color:var(--color-soil);font-size:.9rem;line-height:1.9}.biz-head__selfservice a,.biz-head__sponsor a{color:var(--color-tide);border-bottom:1px solid}
   .separation{padding-block:clamp(4rem,9vw,7rem);background:var(--color-white)}.separation h2,.services>h2,.biz-cta h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
   /* 「聞かせてください。」（9字）が1行に入る大きさまで下げる。360pxで「聞かせてくださ／い。」と割れていた（2026-10-04） */
   .biz-cta{container-type:inline-size}.biz-cta h2{font-size:min(clamp(2rem,5vw,4rem),calc(100cqi / 9.6))}/* 750pxで1列に落としていたが、768pxでは3列のまま1枚224px＝日本語で約10字になっていた。幅で畳む */

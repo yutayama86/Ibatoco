@@ -145,3 +145,24 @@ CREATE TABLE IF NOT EXISTS analytics_events (
   ts         TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_events_entity ON analytics_events(entity, entity_id);
+
+
+-- 店舗・施設・イベント主催者からの情報提供。公開前に必ず確認する。
+-- /submit/ は現在Formspree受付だが、将来D1へ切り替えても同じ承認フローを維持する。
+CREATE TABLE IF NOT EXISTS content_submissions (
+  id             TEXT PRIMARY KEY,
+  submission_type TEXT NOT NULL CHECK (submission_type IN ('event','business')),
+  submitter_name TEXT,
+  submitter_email TEXT,
+  municipality  TEXT,
+  official_url  TEXT,
+  payload       TEXT NOT NULL,        -- JSON。フォームの構造化データ
+  status        TEXT NOT NULL DEFAULT 'pending'
+                   CHECK (status IN ('pending','verified','published','rejected')),
+  verified_at   TEXT,
+  published_url TEXT,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_content_submissions_status ON content_submissions(status);
+CREATE INDEX IF NOT EXISTS idx_content_submissions_type ON content_submissions(submission_type);

@@ -128,3 +128,73 @@ paid business leadは `generate_lead` の件数ではなく、Google Drive `B2B_
 ## Local Business Action Revenue Proof
 
 `/place/` が公開されたら、事業者ページの価値をPVではなく `local_business_click` の official / map / tel / reservation で示す。Action CTRが出れば、無料掲載から情報整備・予約導線・Web/SNS/SEO支援へ提案する根拠になる。
+
+
+## Page-level Revenue Funnel（必須）
+
+Revenue Yield Engine のページ別判断を自動化するため、日次GA4取得ではサイト合計だけでなく **pagePath × eventName** を取得する。
+
+対象イベント:
+- `booking_guide_view`
+- `outbound_booking_click`
+- `booking_guide_view_a` / `booking_guide_view_b`
+- `outbound_booking_click_a` / `outbound_booking_click_b`
+
+BookingGuide側は既に `page_path` と `source_page` を送っている。Windsor.ai / GA4で取得できる標準のページパスを優先し、カスタムディメンション未登録を理由に止めない。
+
+取得結果は `data/editorial/performance-snapshot.json` の `conversionDetail.byPage` に保存する。
+
+例:
+
+~~~json
+{
+  "conversionDetail": {
+    "byPage": [
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "booking_guide_view": 120,
+        "outbound_booking_click": 18,
+        "monetized_booking_click": 12,
+        "booking_guide_view_a": 58,
+        "booking_guide_view_b": 62,
+        "outbound_booking_click_a": 7,
+        "outbound_booking_click_b": 11
+      }
+    ]
+  }
+}
+~~~
+
+ルール:
+- ページ別値が取得できない場合は `missing` とし、サイト合計をページへ按分しない。
+- `monetized_booking_click` は `is_paid_link=1` が取得できる場合のみ使う。取得不能なら0ではなく未取得として扱う。
+- ページ別ファネルが取れたら、Revenue Yield Engineは Actual RPM → Monetized Click / 1,000PV → Intent Proxy の順で判断する。
+- 収益化施策の横展開は、単純なPV上位ではなくページ別Yield上位を優先する。
+
+## Self-service Supply
+
+`/submit/` を店舗・施設・イベント主催者からの構造化された情報入口として扱う。
+
+- `event-submission`: イベント情報提供
+- `business-submission`: 店舗・施設の新規掲載候補 / 修正
+
+両方とも既存Formspreeを使い、追加費用は発生させない。送信内容は自動公開せず、一次情報確認を通す。
+
+GA4では `contact_form_view` / `contact_form_start` / `generate_lead` を `form_id` で分解する。投稿件数ではなく、採用率・更新反映率・運営工数削減を評価する。
+
+将来D1へ移行する場合も、投稿 → pending → verified → published / rejected の承認フローを維持し、店舗側からの入力だけで公開状態にしない。
+
+
+## Experiment Promotion
+
+`booking-experiment.mjs` が `a-candidate` または `b-candidate` を出した場合、日次OSは次を確認する。
+
+1. 各variant 200 views以上
+2. 各variant 8 clicks以上
+3. 相対改善率10%以上
+4. |z-score| 1.96以上
+5. 計測異常・イベント開催直前など明白な交絡がない
+
+条件を満たす場合、低リスクのCTA実験として `src/data/experiments.ts` の `winner` を勝者へ設定するPRを作成し、CI成功後にmergeできる。公式リンクの順位・内容は変更しない。
+
+`winner` が設定された後は全ユーザーへ同じvariantを表示できる。結果が不安定、母数不足、交絡ありの場合は `winner: null` のまま継続する。
