@@ -47,7 +47,9 @@
     "monetization:audit:write": "node scripts/monetization-audit.mjs --write",
     "operator:daily": "node scripts/operator-os.mjs --write",
     "partner:opportunity": "node scripts/partner-opportunity.mjs",
-    "partner:opportunity:write": "node scripts/partner-opportunity.mjs --write"
+    "partner:opportunity:write": "node scripts/partner-opportunity.mjs --write",
+    "experiment:booking": "node scripts/booking-experiment.mjs",
+    "experiment:booking:write": "node scripts/booking-experiment.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
