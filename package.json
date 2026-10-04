@@ -51,7 +51,9 @@
     "experiment:booking": "node scripts/booking-experiment.mjs",
     "experiment:booking:write": "node scripts/booking-experiment.mjs --write",
     "revenue:yield": "node scripts/revenue-yield.mjs",
-    "revenue:yield:write": "node scripts/revenue-yield.mjs --write"
+    "revenue:yield:write": "node scripts/revenue-yield.mjs --write",
+    "revenue:import": "node scripts/revenue-import.mjs --write-ledger",
+    "revenue:import:check": "node scripts/revenue-import.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

@@ -47,3 +47,13 @@
 7. `operator:daily` — 上記を統合し、成長TOP5・収益TOP5・ブロッカー・人間承認事項だけを出す
 
 記事本数はKPIにしない。追加費用が必要なSaaS/API、契約、課金、個人情報取得は自動実行しない。
+
+
+## Revenue Import
+
+- ASPの生CSVはGitHubへ保存しない。
+- `data/revenue-imports/private/` はGit管理対象外。
+- 確定成果だけを `revenue-ledger.json` へ取り込み、provider + transactionId で重複排除する。
+- pageが特定できない成果はサイト全体RPMには含めるが、ページRPMへ推測配賦しない。
+- 実際のA8.net / 楽天アフィリエイトCSVを確認できた場合のみ専用アダプターを追加する。
+- 未知形式を推測で解釈しない。
