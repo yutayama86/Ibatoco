@@ -172,4 +172,11 @@ relatedArticleUrls:
   - "/events/ibaraki-events-october-2026/"
   - "/news/shin-ibaraki-meshi-2026/"
   - "/news/ibaraki-passport-2026/"
+event:
+  name: "第20回かさま新栗まつり"
+  startDate: 2026-10-02
+  endDate: 2026-10-04
+  url: "https://www.city.kasama.lg.jp/page/page017358.html"
+  placeName: "笠間芸術の森公園 イベント広場"
+  address: "茨城県笠間市笠間2345"
 ---

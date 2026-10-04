@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-03",
   "source": {
     "primary": "Windsor.ai direct connectors",
     "ga4": {
       "connector": "googleanalytics4",
       "accountId": "547804264",
       "name": "イバトコ",
-      "latestDate": "2026-10-02"
+      "latestDate": "2026-10-03"
     },
     "gsc": {
       "connector": "searchconsole",
@@ -18,21 +18,21 @@
       "title": "イバトコ SEO・流入データ",
       "id": "1Uh5uQkI-_4P0cSRHu14mu9pePoTt__lSzxw7jTcH89w"
     },
-    "checkedAt": "2026-10-04T07:00:00+09:00",
-    "lastConfirmedAt": "2026-10-04T07:25:00+09:00",
+    "checkedAt": "2026-10-05T07:00:00+09:00",
+    "lastConfirmedAt": "2026-10-05T07:32:00+09:00",
     "status": "direct-ok-with-latest-day-anomaly",
     "freshness": {
-      "basisDateAsiaTokyo": "2026-10-04",
-      "ga4LatestConfirmedDate": "2026-10-02",
+      "basisDateAsiaTokyo": "2026-10-05",
+      "ga4LatestConfirmedDate": "2026-10-03",
       "gscLatestConfirmedDate": "2026-09-29",
       "todayRefreshSucceeded": true
     },
     "warnings": [
-      "GA4 2026-10-02はViews 1,189・Sessions 1,040・engagedSessions 729・engagement_rate 0.7010で最新確定値に採用。",
-      "GA4 2026-10-03はViews 841・Sessions 844に対してengagedSessions 6・engagement_rate 0.0071の不完全値だったため不採用。",
+      "GA4 2026-10-03はViews 990・Sessions 886・engagedSessions 594・engagement_rate 0.6704で再取得時に整合し、最新確定値へ採用。",
+      "GA4 2026-10-04はViews 593・Sessions 573に対してengagedSessions 6・engagement_rate 0.0105の不完全値だったため不採用。",
       "Search Consoleは取得可能な最新日2026-09-29を基準に判断する。",
-      "GrowthNext 2026-09-26..10-02はview 2,369・click 112（CTR 4.73%）。Views/sessionは1.1838で前週1.1370から4.12%改善。クリック基準は達成、PV/Session目標5%は未達のため再改修せず28日観測へ移行。",
-      "IBARAKI PASSPORT総合案内は直近7日1,267 Views。10月3日開始の追加申請を反映した状態で観測を継続。"
+      "GrowthNext 2026-09-27..10-03はview 2,703・click 115（CTR 4.25%）。UIは再改修せず10月25日の28日ゲートまで観測を継続。",
+      "終了済みのかさま新栗まつりとrockin'star Carnivalが人気推薦データに残っていたため、日付正本と推薦在庫を同時に修正。"
     ]
   },
   "northStar": {
@@ -40,27 +40,27 @@
     "metricLabel": "GA4 Views (screen_page_views)",
     "windowDays": 28,
     "target": 100000,
-    "current": 8996,
-    "progress": 0.08996,
-    "gap": 91004,
-    "recent7Views": 3935,
-    "previous7Views": 1959,
-    "recent7VsPrevious7Pct": 100.87,
-    "recent7DailyAverage": 562.14,
-    "runRate28FromRecent7": 15740,
+    "current": 9882,
+    "progress": 0.09882,
+    "gap": 90118,
+    "recent7Views": 4511,
+    "previous7Views": 2122,
+    "recent7VsPrevious7Pct": 112.58,
+    "recent7DailyAverage": 644.43,
+    "runRate28FromRecent7": 18044,
     "requiredDailyAverage": 3571.43,
-    "requiredUpliftVsRecent7": 5.353,
+    "requiredUpliftVsRecent7": 4.542,
     "stabilityDays": 14,
     "status": "below-pace"
   },
   "acquisitionControl": {
     "targetMonth": "2026-11",
-    "portfolioExpectedViews": 15740,
-    "confidenceAdjustedExpectedViews": 15740,
-    "coverage": 0.1574,
-    "unfilledViews": 84260,
+    "portfolioExpectedViews": 18044,
+    "confidenceAdjustedExpectedViews": 18044,
+    "coverage": 0.18044,
+    "unfilledViews": 81956,
     "paceStatus": "off-pace",
-    "basis": "2026-09-26..2026-10-02のGA4 Viewsを28日換算した観測下限。季節上振れや未観測需要は加算していない。",
+    "basis": "2026-09-27..2026-10-03のGA4 Viewsを28日換算した観測下限。季節上振れや未観測需要は加算していない。",
     "clusterObservedFloorViews": {
       "autumnLeaves": 64,
       "oaraiAnkou": 676,
@@ -72,86 +72,86 @@
     "growthBatchExpectedIncrementalViews": 0,
     "growthBatchConfidence": 0,
     "growthBatchConfidenceAdjustedViews": 0,
-    "growthBatchEstimateBasis": "人気ページ推薦のデータ更新とGrowthNext評価は回遊保全施策。因果分離できる期待増分は未推定のため0計上。"
+    "growthBatchEstimateBasis": "終了イベント2件を推薦先から除外し、日付正本による自動寿命管理を接続する回遊保全施策。送り先別クリックが未取得のため因果分離できる期待増分は0計上。"
   },
   "windows": {
     "ga4": {
       "latestDay": {
-        "date": "2026-10-02",
-        "users": 929,
-        "sessions": 1040,
-        "engagedSessions": 729,
-        "engagementRate": 0.701,
-        "averageEngagementTimePerSession": 40.276,
+        "date": "2026-10-03",
+        "users": 787,
+        "sessions": 886,
+        "engagedSessions": 594,
+        "engagementRate": 0.6704,
+        "averageEngagementTimePerSession": 43.0587,
         "keyEvents": 0,
         "quality": "direct",
-        "views": 1189
+        "views": 990
       },
       "recent7": {
-        "start": "2026-09-26",
-        "end": "2026-10-02",
-        "users": 2898,
-        "sessions": 3324,
-        "engagedSessions": 2382,
-        "engagementRate": 0.7166,
-        "averageEngagementTimePerSession": 42.6005,
+        "start": "2026-09-27",
+        "end": "2026-10-03",
+        "users": 3386,
+        "sessions": 3889,
+        "engagedSessions": 2765,
+        "engagementRate": 0.711,
+        "averageEngagementTimePerSession": 42.9123,
         "keyEvents": 0,
-        "views": 3935,
-        "viewsPerSession": 1.1838
+        "views": 4511,
+        "viewsPerSession": 1.1599
       },
       "previous7": {
-        "start": "2026-09-19",
-        "end": "2026-09-25",
-        "users": 1559,
-        "sessions": 1723,
-        "engagedSessions": 1134,
-        "engagementRate": 0.6582,
-        "averageEngagementTimePerSession": 39.4457,
+        "start": "2026-09-20",
+        "end": "2026-09-26",
+        "users": 1647,
+        "sessions": 1823,
+        "engagedSessions": 1219,
+        "engagementRate": 0.6687,
+        "averageEngagementTimePerSession": 40.4185,
         "keyEvents": 0,
-        "views": 1959,
-        "viewsPerSession": 1.137
+        "views": 2122,
+        "viewsPerSession": 1.164
       },
       "recent28": {
-        "start": "2026-09-05",
-        "end": "2026-10-02",
-        "users": 6596,
-        "sessions": 7247,
-        "engagedSessions": 4914,
-        "engagementRate": 0.6781,
-        "averageEngagementTimePerSession": 41.0269,
+        "start": "2026-09-06",
+        "end": "2026-10-03",
+        "users": 7279,
+        "sessions": 8007,
+        "engagedSessions": 5437,
+        "engagementRate": 0.679,
+        "averageEngagementTimePerSession": 41.6657,
         "keyEvents": 1,
-        "views": 8996,
-        "viewsPerSession": 1.2413
+        "views": 9882,
+        "viewsPerSession": 1.2342
       },
       "recent7VsPrevious7": {
-        "usersPct": 85.89,
-        "sessionsPct": 92.92,
-        "viewsPct": 100.87
+        "usersPct": 105.59,
+        "sessionsPct": 113.33,
+        "viewsPct": 112.58
       },
       "channelRecent7": [
         {
           "channel": "Organic Search",
-          "sessions": 3027
+          "sessions": 3536
         },
         {
           "channel": "Direct",
-          "sessions": 128
+          "sessions": 138
         },
         {
           "channel": "Referral",
-          "sessions": 114
+          "sessions": 119
         },
         {
           "channel": "AI Assistant",
-          "sessions": 27
+          "sessions": 29
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 12
         },
         {
           "channel": "Unassigned",
           "sessions": 12
-        },
-        {
-          "channel": "Organic Social",
-          "sessions": 10
         }
       ]
     },
@@ -199,22 +199,22 @@
     "available": true,
     "source": "Windsor.ai GA4 direct",
     "recent7": {
-      "start": "2026-09-26",
-      "end": "2026-10-02",
-      "business_cta_view": 372,
+      "start": "2026-09-27",
+      "end": "2026-10-03",
+      "business_cta_view": 426,
       "business_cta_click": 1,
-      "outbound_booking_click": 49,
-      "booking_guide_view": 379,
-      "growth_next_view": 2369,
-      "growth_next_click": 112,
-      "contact_form_view": 8,
+      "outbound_booking_click": 45,
+      "booking_guide_view": 397,
+      "growth_next_view": 2703,
+      "growth_next_click": 115,
+      "contact_form_view": 7,
       "contact_form_start": 1,
       "form_start": 4,
       "form_submit": 4,
       "generate_lead": 0,
-      "monetized_booking_click": 9,
-      "non_monetized_booking_click": 40,
-      "monetized_click_share": 0.1837
+      "monetized_booking_click": "missing",
+      "non_monetized_booking_click": "missing",
+      "monetized_click_share": "missing"
     },
     "previous7": {
       "start": "2026-09-19",
@@ -245,7 +245,7 @@
       "form_submit": 4,
       "generate_lead": 1
     },
-    "interpretation": "GrowthNextはCTR 4.73%でクリック基準2%を達成。Views/sessionは前週比4.12%改善したが目標5%にはわずかに届かないため、UIを再改修せず28日観測へ移行する。直近7日の予約クリックは49件、そのうち実際の成果リンククリックは9件（Monetized Click Share 18.37%）。business CTA clickは1件、確定成果・売上は0。",
+    "interpretation": "GrowthNextはCTR 4.25%でクリック基準2%を継続達成。UIを再改修せず10月25日の28日ゲートまで観測する。直近7日の予約クリックは45件、business CTA clickは1件、確定成果・売上は0。成果リンク別内訳は当日取得範囲ではmissingとして推測しない。",
     "byPagePeriod": {
       "start": "2026-09-26",
       "end": "2026-10-02"

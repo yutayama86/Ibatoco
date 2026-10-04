@@ -1,53 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-04T07:00:00+09:00",
+  "generatedAt": "2026-10-05T07:00:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-26",
-      "end": "2026-10-02"
+      "start": "2026-09-27",
+      "end": "2026-10-03"
     }
   },
   "baseline": {
-    "views": 3935,
-    "sessions": 3324,
-    "viewsPerSession": 1.1838
+    "views": 4511,
+    "sessions": 3889,
+    "viewsPerSession": 1.1599
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。終了判定はeventsのeventInfo/eventLifecycle等の正本で確認できる場合だけ行い、newsのpubDateをイベント終了日として扱わない。",
   "pages": [
     {
       "path": "/news/ibaraki-passport-2026/",
-      "views": 1267
-    },
-    {
-      "path": "/news/kasama-shinguri-matsuri-2026/",
-      "views": 707
+      "views": 1346
     },
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 676
-    },
-    {
-      "path": "/events/rockinstar-carnival-2026/",
-      "views": 134
+      "views": 677
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 97
+      "views": 94
     },
     {
       "path": "/events/tsuchiura-curry-festival-2026/",
-      "views": 37
+      "views": 53
     },
     {
       "path": "/news/mito-shinkin-stadium-parking/",
+      "views": 44
+    },
+    {
+      "path": "/news/gs-yuasa-ibaraki-new-building-2026/",
       "views": 33
     },
     {
-      "path": "/events/kasama-kiku-matsuri-2026/",
-      "views": 32
+      "path": "/events/tsukuba-cablecar-ropeway-guide/",
+      "views": 28
+    },
+    {
+      "path": "/news/mito-shinkin-stadium-parking/",
+      "views": 25
     }
   ]
 }
