@@ -44,9 +44,14 @@ jobs:
       - name: Generate monetization link audit
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: npm run monetization:audit:write
+      - name: Generate autonomous operator brief
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: npm run operator:daily
       - name: Add editorial brief to job summary
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
+          cat reports/editorial/operator-brief.md >> "$GITHUB_STEP_SUMMARY"
+          printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/growth-target.md >> "$GITHUB_STEP_SUMMARY"
           printf '\n\n' >> "$GITHUB_STEP_SUMMARY"
           cat reports/editorial/monetization-audit.md >> "$GITHUB_STEP_SUMMARY"
