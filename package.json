@@ -44,7 +44,8 @@
     "revenue:engine": "node scripts/revenue-engine.mjs",
     "revenue:engine:write": "node scripts/revenue-engine.mjs --write",
     "monetization:audit": "node scripts/monetization-audit.mjs",
-    "monetization:audit:write": "node scripts/monetization-audit.mjs --write"
+    "monetization:audit:write": "node scripts/monetization-audit.mjs --write",
+    "operator:daily": "node scripts/operator-os.mjs --write"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
