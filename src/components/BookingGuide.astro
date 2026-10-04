@@ -10,6 +10,7 @@
  * - クリックはGA4へ送る。提携していない状態で押されている数も見えるようにする
  */
 import { hasPaidLink, isPaidLink, monetizationState, outboundHref, partnerStatus, providerName } from '../data/affiliates';
+import { BOOKING_CTA_EXPERIMENT } from '../data/experiments';
 
 export interface BookingItem {
   label: string;
@@ -43,7 +44,16 @@ const KIND_LABEL: Record<string, string> = {
 };
 ---
 
-<aside class="bkg" aria-labelledby="bkg-title" data-booking-guide data-page-type={pageType} data-municipality={municipality ?? ''} data-content-category={contentCategory ?? ''}>
+<aside
+  class="bkg"
+  aria-labelledby="bkg-title"
+  data-booking-guide
+  data-page-type={pageType}
+  data-municipality={municipality ?? ''}
+  data-content-category={contentCategory ?? ''}
+  data-experiment-id={showAdNotice && BOOKING_CTA_EXPERIMENT.enabled ? BOOKING_CTA_EXPERIMENT.id : ''}
+  data-experiment-enabled={showAdNotice && BOOKING_CTA_EXPERIMENT.enabled ? '1' : '0'}
+>
   <p class="bkg__kicker">RESERVE &amp; CHECK</p>
   <p id="bkg-title" class="bkg__title">{booking.heading}</p>
   {booking.intro && <p class="bkg__intro">{booking.intro}</p>}
@@ -69,6 +79,11 @@ const KIND_LABEL: Record<string, string> = {
           </span>
           <strong>{item.label}<span aria-hidden="true">↗</span></strong>
           {item.note && <span class="bkg__note">{item.note}</span>}
+          {isPaidLink(item.provider, item.url) && (
+            <span class="bkg__experiment-cta" data-experiment-paid-cta aria-hidden="true">
+              {BOOKING_CTA_EXPERIMENT.variants.b.paidCta}<span>→</span>
+            </span>
+          )}
         </a>
       </li>
     ))}
@@ -83,6 +98,30 @@ const KIND_LABEL: Record<string, string> = {
   for (const block of document.querySelectorAll<HTMLElement>('[data-booking-guide]')) {
     const pageType = block.dataset.pageType ?? '';
     const links = Array.from(block.querySelectorAll<HTMLAnchorElement>('a[data-provider]'));
+    const experimentEnabled = block.dataset.experimentEnabled === '1';
+    const experimentId = block.dataset.experimentId ?? '';
+    let experimentVariant: 'a' | 'b' = 'a';
+
+    if (experimentEnabled && experimentId) {
+      const storageKey = `ibatoco_exp_${experimentId}`;
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored === 'a' || stored === 'b') {
+          experimentVariant = stored;
+        } else {
+          const random = typeof crypto !== 'undefined' && 'getRandomValues' in crypto
+            ? crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296
+            : Math.random();
+          experimentVariant = random < 0.5 ? 'a' : 'b';
+          localStorage.setItem(storageKey, experimentVariant);
+        }
+      } catch {
+        experimentVariant = Math.random() < 0.5 ? 'a' : 'b';
+      }
+      block.dataset.experimentVariant = experimentVariant;
+      block.classList.toggle('is-experiment-b', experimentVariant === 'b');
+    }
+
     let viewed = false;
 
     const sendView = () => {
@@ -91,14 +130,20 @@ const KIND_LABEL: Record<string, string> = {
       const activeItems = links.filter((link) => link.dataset.partnerStatus === 'active').length;
       const monetizedItems = links.filter((link) => link.dataset.isPaid === '1').length;
       const activeUnmappedItems = links.filter((link) => link.dataset.monetizationState === 'active-unmapped').length;
-      trackEvent('booking_guide_view', {
+      const viewParams = {
         ...commonParams({ page_type: pageType, municipality: block.dataset.municipality, content_category: block.dataset.contentCategory }),
         link_page_type: pageType,
         item_count: links.length,
         active_partner_items: activeItems,
         monetized_items: monetizedItems,
         active_unmapped_items: activeUnmappedItems,
-      });
+        experiment_id: experimentEnabled ? experimentId : undefined,
+        experiment_variant: experimentEnabled ? experimentVariant : undefined,
+      };
+      trackEvent('booking_guide_view', viewParams);
+      if (experimentEnabled && monetizedItems > 0) {
+        trackEvent(experimentVariant === 'a' ? 'booking_guide_view_a' : 'booking_guide_view_b', viewParams);
+      }
     };
 
     if ('IntersectionObserver' in window) {
@@ -115,7 +160,7 @@ const KIND_LABEL: Record<string, string> = {
 
     for (const link of links) {
       link.addEventListener('click', () => {
-        trackEvent('outbound_booking_click', {
+        const clickParams = {
           // 既存パラメータは変えない。共通の軸（source_page など）だけ足す
           ...commonParams({ page_type: pageType, municipality: block.dataset.municipality, content_category: block.dataset.contentCategory }),
           link_provider: link.dataset.provider ?? '',
@@ -125,7 +170,13 @@ const KIND_LABEL: Record<string, string> = {
           is_paid_link: link.dataset.isPaid === '1' ? 1 : 0,
           link_page_type: pageType,
           link_url: link.getAttribute('href') ?? '',
-        });
+          experiment_id: experimentEnabled ? experimentId : undefined,
+          experiment_variant: experimentEnabled ? experimentVariant : undefined,
+        };
+        trackEvent('outbound_booking_click', clickParams);
+        if (experimentEnabled && link.dataset.isPaid === '1') {
+          trackEvent(experimentVariant === 'a' ? 'outbound_booking_click_a' : 'outbound_booking_click_b', clickParams);
+        }
       });
     }
   }
@@ -149,6 +200,8 @@ const KIND_LABEL: Record<string, string> = {
   .bkg__pr{padding:.1rem .45rem;border-radius:999px;border:1px solid var(--color-signal);color:var(--color-signal);font:700 .62rem var(--font-brand-meta)}
   .bkg__item strong{display:flex;align-items:baseline;gap:.4rem;font-size:.96rem;line-height:1.6;word-break:normal;line-break:strict;text-wrap:balance}
   .bkg__note{color:var(--color-soil);font-size:.8rem;line-height:1.8}
+  .bkg__experiment-cta{display:none;align-items:center;gap:.35rem;width:max-content;margin-top:.2rem;padding:.32rem .58rem;border-radius:999px;background:var(--color-ink);color:#fff;font:700 .7rem var(--font-brand-meta);letter-spacing:.02em}
+  .bkg.is-experiment-b .bkg__experiment-cta{display:inline-flex}
   .bkg__basis,.bkg__foot{margin:0;color:var(--color-soil);font-size:.78rem;line-height:1.85}
   .bkg__basis strong{color:var(--color-ink)}
 </style>
