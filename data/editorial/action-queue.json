@@ -1,7 +1,37 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-10-05",
   "actions": [
+    {
+      "id": "20261005-event-lifecycle-recommendation-handoff",
+      "title": "終了イベントの自動寿命管理と11月回遊への切替",
+      "kind": "internal-link",
+      "targetUrl": "/news/kasama-shinguri-matsuri-2026/",
+      "targetFile": "src/content/news/kasama-shinguri-matsuri-2026.md",
+      "additionalTargetFiles": [
+        "data/editorial/popular-pages.json",
+        "data/editorial/performance-snapshot.json",
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/revenue-opportunities.json"
+      ],
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-05",
+      "completedAt": "2026-10-05",
+      "specPath": "docs/editorial/specs/20261005-event-lifecycle-recommendation-handoff.md",
+      "primarySourceUrls": [
+        "https://www.city.kasama.lg.jp/page/page017358.html",
+        "https://rockinstarcarnival.jp/"
+      ],
+      "acceptanceCriteria": [
+        "かさま新栗まつりの記事に公式日程2026-10-02〜10-04をevent正本として追加",
+        "終了済みのかさま新栗まつりとrockin'star Carnivalを人気推薦在庫から除外",
+        "直近7日GA4実測2026-09-27〜10-03で人気推薦8件を更新",
+        "既存URL・title・本文・TOPデザイン・カードCSSを変更しない",
+        "npm run verifyとCIが成功し、本番で終了2件が推薦先に出ないことを確認"
+      ],
+      "notes": "終了済み2ページは直近7日合計1,315 Views。GrowthNext CTR 4.25%の回遊先に残すと読者行動を止めるため、記事削除やURL変更をせず、保存日付から自動除外できる状態へ修正。"
+    },
     {
       "id": "20261004-growthnext-gate-popular-pages-refresh",
       "title": "GrowthNext 7日評価と人気ページ推薦の最新化",
@@ -446,14 +476,14 @@
       "priority": "high",
       "status": "candidate",
       "createdAt": "2026-09-27",
-      "dueDate": "2026-10-05",
+      "dueDate": "2026-10-06",
       "primarySourceUrls": [
         "https://www.oarai-info.jp/",
         "https://www.tsuchiura-hanabi.jp/page/page000306.html",
         "https://ohtsuribashi.ryujinkyo.jp/event.html",
         "https://mt-tsukuba.com/information"
       ],
-      "notes": "2026-09-27時点でいずれも未発表を確認済み。大洗あんこう祭の詳細（商工会サイトはアクセス不可、観光協会に告知なし）、土浦花火の交通規制図（7/21付で準備中のまま）、竜神峡紅葉まつりの会期、筑波山の秋の夜間運行日程。発表され次第、該当記事へ追記する。 土浦花火の交通規制図（兼 お帰りマップ）が出たら、/events/tsuchiura-hanabi-2026-kaeri/ に観覧場所ごとの帰り道を追記し、本体記事の「準備中」表記も更新する。",
+      "notes": "2026-10-05再確認。大洗あんこう祭の詳細時刻・駐車場、土浦花火の2026交通規制図、竜神峡紅葉まつりの2026会期、筑波山秋の夜間運行日は新規公式発表を確認できず、記事は推測更新しない。発表され次第、該当記事へ追記する。土浦花火の交通規制図（兼 お帰りマップ）が出たら、/events/tsuchiura-hanabi-2026-kaeri/ に観覧場所ごとの帰り道を追記し、本体記事の「準備中」表記も更新する。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/tsuchiura-hanabi-2026.md"
@@ -468,7 +498,7 @@
       "priority": "high",
       "status": "candidate",
       "createdAt": "2026-09-28",
-      "dueDate": "2026-10-05",
+      "dueDate": "2026-10-06",
       "primarySourceUrls": [
         "https://www.tsuchiura-hanabi.jp/faq.php?mode=detail&lc=0&c=1&code=3",
         "https://komonsan.jp/",
@@ -476,7 +506,7 @@
         "https://www.flowerpark.or.jp/time-price/",
         "https://www.town.daigo.ibaraki.jp/page/page009036.html"
       ],
-      "notes": "2026-09-27時点で未発表・不一致だった事項。(1)土浦花火の開催判断の発表日時（FAQは2025年の回答のまま）→ 出たら /events/tsuchiura-hanabi-2026-kaisai/ に追記。(2)常磐神社の2026年七五三特別祈祷の期間告知 → /events/ibaraki-shichigosan-2026/。(3)笠間の菊まつり2026（第119回）の会期 → 発表されたら専用ページを作り、七五三・11月まとめを更新。(4)いばらきフラワーパークの年末休園日（料金ページは1/1のみ、イルミページは12/30〜1/1）→ 公式の表記がそろったら /events/ibaraki-flowerpark-illumination-2026/ を直す。(5)道の駅奥久慈だいごWESTのオープニングイベント・交通規制（町のチラシPDFを未読）→ /news/michinoeki-okukuji-daigo-west-2026/ に追記。",
+      "notes": "2026-10-05再確認。土浦花火の開催判断時刻、常磐神社の2026七五三特別祈祷、笠間菊まつり第119回の会期、フラワーパーク年末休園表記の統一、道の駅奥久慈だいごWEST追加交通情報について新たに記事へ反映できる一次情報を確認できず、推測更新しない。公式発表後に各対象ページへ即日反映する。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
         "src/content/events/ibaraki-shichigosan-2026.md",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-10-05",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -25,6 +25,35 @@
     ]
   },
   "opportunities": [
+    {
+      "id": "event-lifecycle-recommendation-handoff-20261005",
+      "lane": "cro",
+      "status": "implemented",
+      "evidenceDate": "2026-10-05",
+      "evidence": {
+        "evaluationPeriod": "2026-09-27..2026-10-03",
+        "endedPages": [
+          {
+            "path": "/news/kasama-shinguri-matsuri-2026/",
+            "endDate": "2026-10-04",
+            "recent7Views": 1115
+          },
+          {
+            "path": "/events/rockinstar-carnival-2026/",
+            "endDate": "2026-10-03",
+            "recent7Views": 200
+          }
+        ],
+        "combinedRecent7Views": 1315,
+        "growthNextCtr": 0.0425,
+        "issue": "かさま新栗まつり記事に機械判定用の日付正本がなく、終了後も人気推薦の候補として残った。rockin'star Carnivalも保存済み人気データに残存。",
+        "resolution": "かさま新栗まつりへevent日付を追加し、終了済み2ページをpopular-pagesから除外。推薦在庫を直近7日実測の開催中・恒久ページへ更新。",
+        "expectedIncrementalViews28d": "unknown",
+        "estimateBasis": "送り先別クリックを取得していないため推測しない。終了ページへの誤送客を止める回遊保全施策として扱う。"
+      },
+      "opportunity": "終了イベントへ流れる推薦クリックを止め、11月の大洗・笠間菊・筑波山交通など行動可能なページへ回遊を切り替える。",
+      "nextReview": "2026-10-12"
+    },
     {
       "id": "seo-ibaraki-passport-additional-application-20261003",
       "lane": "seo",
@@ -321,17 +350,17 @@
       "id": "growthnext-contextual-recirculation",
       "lane": "cro",
       "status": "maintain-observation",
-      "evidenceDate": "2026-10-04",
+      "evidenceDate": "2026-10-05",
       "evidence": {
-        "evaluationPeriod": "2026-09-26..2026-10-02",
-        "views": 2369,
-        "clicks": 112,
-        "ctr": 0.0473,
-        "viewsPerSession": 1.1838,
-        "previousViewsPerSession": 1.137,
-        "viewsPerSessionLift": 0.0412,
+        "evaluationPeriod": "2026-09-27..2026-10-03",
+        "views": 2703,
+        "clicks": 115,
+        "ctr": 0.0425,
+        "viewsPerSession": 1.1599,
+        "previousViewsPerSession": 1.164,
+        "viewsPerSessionLift": -0.0035,
         "contextualSelectionDeployed": "2026-09-27",
-        "decision": "クリック基準2%は達成。PV/Sessionは悪化せず4.12%改善したが目標5%には未達のため、再改修せず28日観測を継続"
+        "decision": "クリック基準2%は継続達成。PV/Sessionは前週比-0.35%で小幅変動のため失敗判定せず、終了ページ混入をデータ修正して28日観測を継続"
       },
       "opportunity": "高いクリック率を維持しながら、日次更新する人気ページ推薦と11月重点ページの回遊が28日でPV/Sessionを押し上げるか確認する。",
       "nextReview": "2026-10-25"
