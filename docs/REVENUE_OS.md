@@ -183,3 +183,18 @@ BookingGuide側は既に `page_path` と `source_page` を送っている。Wind
 GA4では `contact_form_view` / `contact_form_start` / `generate_lead` を `form_id` で分解する。投稿件数ではなく、採用率・更新反映率・運営工数削減を評価する。
 
 将来D1へ移行する場合も、投稿 → pending → verified → published / rejected の承認フローを維持し、店舗側からの入力だけで公開状態にしない。
+
+
+## Experiment Promotion
+
+`booking-experiment.mjs` が `a-candidate` または `b-candidate` を出した場合、日次OSは次を確認する。
+
+1. 各variant 200 views以上
+2. 各variant 8 clicks以上
+3. 相対改善率10%以上
+4. |z-score| 1.96以上
+5. 計測異常・イベント開催直前など明白な交絡がない
+
+条件を満たす場合、低リスクのCTA実験として `src/data/experiments.ts` の `winner` を勝者へ設定するPRを作成し、CI成功後にmergeできる。公式リンクの順位・内容は変更しない。
+
+`winner` が設定された後は全ユーザーへ同じvariantを表示できる。結果が不安定、母数不足、交絡ありの場合は `winner: null` のまま継続する。
