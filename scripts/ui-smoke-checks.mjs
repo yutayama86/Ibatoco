@@ -103,7 +103,55 @@ export function inspectPage(options) {
       }
     }
 
-    // 5) img の src 欠損
+
+    // 5) モバイル視認性・操作性。WCAGの厳密な適合判定ではなく、崩れと実用性のガードレール。
+    if (W <= 430) {
+      // iOS Safari はフォーム入力が16px未満だとフォーカス時に自動ズームする。
+      for (const el of body.querySelectorAll('input:not([type="hidden"]),select,textarea')) {
+        const r = visible(el);
+        if (!r) continue;
+        const fs = parseFloat(getComputedStyle(el).fontSize) || 16;
+        if (fs < 16) {
+          issues.push({ type: 'mobile-form-font-too-small', detail: `${label(el)} font-size=${fs}px（16px未満）` });
+        }
+      }
+
+      // 主要な操作部品は44pxを最低目安にする。インライン本文リンクは対象外。
+      const touchTargets = [
+        'button[type="submit"]',
+        'input[type="submit"]',
+        'input[type="button"]',
+        'a[class*="cta"]',
+        'a[class*="button"]',
+        '[data-quick-term]',
+        '[data-growth-next-link]',
+      ].join(',');
+      for (const el of body.querySelectorAll(touchTargets)) {
+        const r = visible(el);
+        if (!r || inScroller(el)) continue;
+        if (r.height < 44 || r.width < 44) {
+          issues.push({ type: 'touch-target-too-small', detail: `${label(el)} ${Math.round(r.width)}x${Math.round(r.height)}px（44px未満）` });
+        }
+      }
+
+      // 装飾キッカーや短いメタ情報は小さくても成立するため除外し、
+      // 「読む必要がある本文」が極端に小さい場合だけ失敗させる。
+      for (const el of body.querySelectorAll('p,li,dt,dd,label')) {
+        const r = visible(el);
+        if (!r) continue;
+        const text = el.textContent.replace(/\s+/g, '').trim();
+        if (text.length < 12) continue;
+        const cls = typeof el.className === 'string' ? el.className : '';
+        if (/kicker|label|meta|source|when|area|region|index|credit/i.test(cls)) continue;
+        const fs = parseFloat(getComputedStyle(el).fontSize) || 16;
+        const threshold = text.length >= 32 ? 11 : 10.5;
+        if (fs < threshold) {
+          issues.push({ type: 'readability-font-too-small', detail: `${label(el)} font-size=${fs}px "${text.slice(0, 20)}"` });
+        }
+      }
+    }
+
+    // 6) img の src 欠損
     const imgs = [];
     for (const img of document.querySelectorAll('img')) {
       const src = img.getAttribute('src');
@@ -119,7 +167,7 @@ export function inspectPage(options) {
       for (const part of source.getAttribute('srcset').split(',')) imgs.push(part.trim().split(/\s+/)[0]);
     }
 
-    // 6) 主要CTAの欠損
+    // 7) 主要CTAの欠損
     const counts = {};
     for (const [selector] of options.required) counts[selector] = document.querySelectorAll(selector).length;
 

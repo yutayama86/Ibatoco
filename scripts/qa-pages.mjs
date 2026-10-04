@@ -70,6 +70,30 @@ export function qaPages(root = process.cwd()) {
       required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['#sources a[href^="http"]', 1]],
     })),
     {
+      name: 'イベント一覧',
+      path: '/events/',
+      canonical: '/events/',
+      required: [['h1', 1], ['[data-module="events_discovery"] a[href="/discover/"]', 1], ['a[href="/submit/#event"]', 1]],
+    },
+    {
+      name: 'Discovery',
+      path: '/discover/',
+      canonical: '/discover/',
+      required: [['h1', 1], ['[data-discovery-form]', 1], ['[data-discovery-card]', 3]],
+    },
+    {
+      name: '事業者向け',
+      path: '/biz/',
+      canonical: '/biz/',
+      required: [['h1', 1], ['a[href="/submit/#business"]', 1], ['a[href^="/contact/"]', 1]],
+    },
+    {
+      name: '情報送信',
+      path: '/submit/',
+      canonical: '/submit/',
+      required: [['h1', 1], ['#event-submission', 1], ['#business-submission', 1], ['button[type="submit"]', 2]],
+    },
+    {
       name: '検索',
       path: '/search/?q=%E8%8A%B1%E7%81%AB',
       canonical: '/search/',

@@ -34,6 +34,8 @@ const VIEWPORTS = [
   { name: '360', width: 360, height: 780 },   // Androidで最も多い幅
   { name: '375', width: 375, height: 812 },   // iPhone SE・mini
   { name: '390', width: 390, height: 844 },   // iPhone 12〜15
+  { name: '402', width: 402, height: 874 },   // iPhone Pro系の現行幅
+  { name: '412', width: 412, height: 915 },   // Android主要幅
   { name: '414', width: 414, height: 896 },   // iPhone Plus 系
   { name: '430', width: 430, height: 932 },   // iPhone Pro Max 系
   { name: '768', width: 768, height: 1024 },  // タブレット縦
