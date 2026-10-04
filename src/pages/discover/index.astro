@@ -9,7 +9,19 @@ import { getCollection } from 'astro:content';
 const entities = await getDiscoveryEntities();
 const entries = await getCollection('events', ({ data }) => !data.draft && data.reviewed && !data.noindex);
 const entryById = new Map(entries.map((entry) => [entry.id, entry]));
-const featured = entities.slice(0, 18);
+const initialLimit = 18;
+const quickCandidates = [
+  { label: '雨の日', term: '雨の日' },
+  { label: '子連れ', term: '子連れ' },
+  { label: 'デート', term: 'デート' },
+  { label: '紅葉', term: '紅葉' },
+  { label: '花火', term: '花火' },
+  { label: '公園', term: '公園' },
+  { label: '水族館', term: '水族館' },
+].map((item) => ({
+  ...item,
+  count: entities.filter((entity) => entity.searchText.includes(item.term.toLowerCase())).length,
+})).filter((item) => item.count > 0);
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '行きたいところ検索' }];
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
@@ -87,12 +99,23 @@ const jsonLd = [
       <button type="submit">候補を見る</button>
     </form>
 
+    {quickCandidates.length > 0 && (
+      <div class="discover-quick" aria-label="人気の条件">
+        <span>すぐ探す</span>
+        {quickCandidates.map((item) => (
+          <button type="button" data-quick-term={item.term}>
+            {item.label}<small>{item.count}</small>
+          </button>
+        ))}
+      </div>
+    )}
+
     <div class="discover-status" aria-live="polite" data-discovery-status>
-      条件を選ぶと、候補を絞り込みます。
+      現在、{entities.length}件の候補から探せます。まずはおすすめ{Math.min(initialLimit, entities.length)}件を表示しています。
     </div>
 
     <ul class="discover-results" data-discovery-results>
-      {featured.map((item) => {
+      {entities.map((item, index) => {
         const entry = entryById.get(item.id);
         if (!entry) return null;
         const image = listImageOf(entry);
@@ -103,6 +126,8 @@ const jsonLd = [
             data-area={item.regionLabels.join(' ')}
             data-tags={item.tags.join(' ')}
             data-kind={item.kind}
+            data-rank={index}
+            hidden={index >= initialLimit}
           >
             <a href={item.href}>
               <img src={image.src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
@@ -132,13 +157,13 @@ const jsonLd = [
   const form = root?.querySelector<HTMLFormElement>('[data-discovery-form]');
   const status = root?.querySelector<HTMLElement>('[data-discovery-status]');
   const cards = root ? [...root.querySelectorAll<HTMLElement>('[data-discovery-card]')] : [];
+  const quickButtons = root ? [...root.querySelectorAll<HTMLButtonElement>('[data-quick-term]')] : [];
 
   const normalize = (value: FormDataEntryValue | string | null | undefined) =>
     String(value ?? '').trim().toLowerCase().normalize('NFKC');
 
   if (form && status && cards.length) {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
+    const runSearch = () => {
       const data = new FormData(form);
       const q = normalize(data.get('q'));
       const companion = normalize(data.get('with'));
@@ -152,22 +177,34 @@ const jsonLd = [
         return terms.every((term) => haystack.includes(term)) && (!area || areaText.includes(area));
       });
 
-      const relaxed = exact.length >= 3 ? exact : cards.filter((card) => {
-        const haystack = normalize(`${card.dataset.search} ${card.dataset.tags}`);
-        const textHit = terms.length === 0 || terms.some((term) => haystack.includes(term));
-        const areaHit = !area || normalize(card.dataset.area).includes(area);
-        return textHit || areaHit;
-      });
+      const scored = cards
+        .map((card) => {
+          const haystack = normalize(`${card.dataset.search} ${card.dataset.tags}`);
+          const areaText = normalize(card.dataset.area);
+          let score = 0;
+          for (const term of terms) if (haystack.includes(term)) score += 3;
+          if (area && areaText.includes(area)) score += 2;
+          if (!area && terms.length === 0) score += 1;
+          score -= Number(card.dataset.rank ?? 0) / 1000;
+          return { card, score };
+        })
+        .sort((a, b) => b.score - a.score);
 
-      const chosen = (exact.length ? exact : relaxed).slice(0, 12);
+      const relaxed = scored.filter((item) => item.score > 0).map((item) => item.card);
+      const chosen = (exact.length >= 3 ? exact : [...exact, ...relaxed.filter((card) => !exact.includes(card))]).slice(0, 12);
+
+      if (chosen.length === 0) {
+        chosen.push(...cards.slice(0, 12));
+      }
+
       cards.forEach((card) => card.hidden = !chosen.includes(card));
 
       if (exact.length >= 3) {
         status.textContent = `条件に合う候補を${Math.min(exact.length, 12)}件表示しています。`;
       } else if (exact.length > 0) {
-        status.textContent = `ぴったりの候補は${exact.length}件。近い条件の候補も含めて表示しています。`;
+        status.textContent = `ぴったりの候補は${exact.length}件。近い条件の候補も含めて${chosen.length}件表示しています。`;
       } else {
-        status.textContent = '完全一致はありませんでした。条件を少し広げて、近い候補を表示しています。';
+        status.textContent = `完全一致はありませんでした。近い候補を${chosen.length}件表示しています。`;
       }
 
       trackEvent('discovery_search', {
@@ -179,7 +216,21 @@ const jsonLd = [
         exact_count: exact.length,
         shown_count: chosen.length,
       });
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      runSearch();
     });
+
+    for (const button of quickButtons) {
+      button.addEventListener('click', () => {
+        const input = form.querySelector<HTMLInputElement>('input[name="q"]');
+        if (!input) return;
+        input.value = button.dataset.quickTerm ?? '';
+        runSearch();
+      });
+    }
   }
 </script>
 
@@ -196,6 +247,12 @@ const jsonLd = [
   .discover-form label{display:grid;gap:.35rem}.discover-form label span{font-size:.74rem;font-weight:700;color:var(--color-soil)}
   .discover-form input,.discover-form select{width:100%;min-height:46px;padding:.7rem .8rem;border:1px solid var(--color-mist);border-radius:.65rem;background:#fff;color:var(--color-ink);font:inherit}
   .discover-form button{align-self:end;min-height:46px;padding:.75rem 1.15rem;border:0;border-radius:.65rem;background:var(--color-ink);color:#fff;font-weight:700;cursor:pointer}
+  .discover-quick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:1rem}
+  .discover-quick>span{margin-right:.25rem;color:var(--color-soil);font-size:.78rem;font-weight:700}
+  .discover-quick button{display:inline-flex;align-items:center;gap:.35rem;min-height:40px;padding:.5rem .75rem;border:1px solid var(--color-mist);border-radius:999px;background:#fff;color:var(--color-ink);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+  .discover-quick button:hover,.discover-quick button:focus-visible{border-color:var(--color-tide);color:var(--color-tide)}
+  .discover-quick button:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
+  .discover-quick small{color:var(--color-soil);font-size:.68rem}
   .discover-status{margin:1rem 0;color:var(--color-soil);font-size:.9rem}
   .discover-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
   .discover-results li[hidden]{display:none}
