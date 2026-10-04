@@ -211,7 +211,10 @@
       "contact_form_start": 1,
       "form_start": 4,
       "form_submit": 4,
-      "generate_lead": 0
+      "generate_lead": 0,
+      "monetized_booking_click": 9,
+      "non_monetized_booking_click": 40,
+      "monetized_click_share": 0.1837
     },
     "previous7": {
       "start": "2026-09-19",
@@ -242,7 +245,7 @@
       "form_submit": 4,
       "generate_lead": 1
     },
-    "interpretation": "GrowthNextはCTR 4.73%でクリック基準2%を達成。Views/sessionは前週比4.12%改善したが目標5%にはわずかに届かないため、UIを再改修せず28日観測へ移行する。直近7日の予約クリックは49件、business CTA clickは1件、確定成果・売上は0。",
+    "interpretation": "GrowthNextはCTR 4.73%でクリック基準2%を達成。Views/sessionは前週比4.12%改善したが目標5%にはわずかに届かないため、UIを再改修せず28日観測へ移行する。直近7日の予約クリックは49件、そのうち実際の成果リンククリックは9件（Monetized Click Share 18.37%）。business CTA clickは1件、確定成果・売上は0。",
     "byPagePeriod": {
       "start": "2026-09-26",
       "end": "2026-10-02"
