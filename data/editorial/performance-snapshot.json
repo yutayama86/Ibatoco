@@ -252,16 +252,16 @@
     },
     "interpretation": "直近7日のBooking clickは45件。公式/主催者リンク34件、未提携候補7件、active partner click 4件。その4件はすべて実成果URLで、Commercial Monetized Click Shareは100%。公式クリックを収益損失として扱わない。",
     "byPagePeriod": {
-      "start": "2026-09-26",
-      "end": "2026-10-02"
+      "start": "2026-09-27",
+      "end": "2026-10-03"
     },
-    "byPageSource": "Windsor.ai GA4 direct: page_path × event_name; monetized_booking_click identified from known affiliate redirect domains",
+    "byPageSource": "Windsor.ai GA4 direct: page_path × event_name; paid click identified from known affiliate redirect domains",
     "byPage": [
       {
         "path": "/events/oarai-ankou-matsuri-2026/",
-        "booking_guide_view": 242,
-        "outbound_booking_click": 19,
-        "monetized_booking_click": 8,
+        "booking_guide_view": 234,
+        "outbound_booking_click": 14,
+        "monetized_booking_click": 3,
         "booking_guide_view_a": 0,
         "booking_guide_view_b": 0,
         "outbound_booking_click_a": 0,
@@ -269,7 +269,7 @@
       },
       {
         "path": "/events/rockinstar-carnival-2026/",
-        "booking_guide_view": 43,
+        "booking_guide_view": 57,
         "outbound_booking_click": 9,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -288,20 +288,20 @@
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/oarai-ankou-nabe-guide/",
-        "booking_guide_view": 5,
+        "path": "/events/kasama-kiku-matsuri-2026/",
+        "booking_guide_view": 6,
         "outbound_booking_click": 3,
-        "monetized_booking_click": 1,
+        "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
         "booking_guide_view_b": 0,
         "outbound_booking_click_a": 0,
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/kasama-kiku-matsuri-2026/",
-        "booking_guide_view": 4,
+        "path": "/events/oarai-ankou-nabe-guide/",
+        "booking_guide_view": 5,
         "outbound_booking_click": 3,
-        "monetized_booking_click": 0,
+        "monetized_booking_click": 1,
         "booking_guide_view_a": 0,
         "booking_guide_view_b": 0,
         "outbound_booking_click_a": 0,
@@ -320,6 +320,16 @@
       {
         "path": "/events/kasama-geijutsu-no-mori-guide/",
         "booking_guide_view": 8,
+        "outbound_booking_click": 1,
+        "monetized_booking_click": 0,
+        "booking_guide_view_a": 0,
+        "booking_guide_view_b": 0,
+        "outbound_booking_click_a": 0,
+        "outbound_booking_click_b": 0
+      },
+      {
+        "path": "/events/ibaraki-kenmin-no-hi-2026/",
+        "booking_guide_view": 5,
         "outbound_booking_click": 1,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -349,17 +359,7 @@
       },
       {
         "path": "/events/hitachi-seaside-kochia-carnival-2026/",
-        "booking_guide_view": 3,
-        "outbound_booking_click": 1,
-        "monetized_booking_click": 0,
-        "booking_guide_view_a": 0,
-        "booking_guide_view_b": 0,
-        "outbound_booking_click_a": 0,
-        "outbound_booking_click_b": 0
-      },
-      {
-        "path": "/events/ami-premium-outlets-guide/",
-        "booking_guide_view": 1,
+        "booking_guide_view": 2,
         "outbound_booking_click": 1,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -369,6 +369,16 @@
       },
       {
         "path": "/events/hitachi-seaside-nemophila-2027/",
+        "booking_guide_view": 2,
+        "outbound_booking_click": 1,
+        "monetized_booking_click": 0,
+        "booking_guide_view_a": 0,
+        "booking_guide_view_b": 0,
+        "outbound_booking_click_a": 0,
+        "outbound_booking_click_b": 0
+      },
+      {
+        "path": "/events/ami-premium-outlets-guide/",
         "booking_guide_view": 1,
         "outbound_booking_click": 1,
         "monetized_booking_click": 0,
@@ -419,7 +429,7 @@
       },
       {
         "path": "/news/hoshiimo-shake-fair-2026/",
-        "booking_guide_view": 5,
+        "booking_guide_view": 6,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -429,7 +439,7 @@
       },
       {
         "path": "/events/hananuki-gorge-autumn-2026/",
-        "booking_guide_view": 4,
+        "booking_guide_view": 5,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -438,7 +448,17 @@
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/ibaraki-kenmin-no-hi-2026/",
+        "path": "/events/tsuchiura-hanabi-2026/",
+        "booking_guide_view": 3,
+        "outbound_booking_click": 0,
+        "monetized_booking_click": 0,
+        "booking_guide_view_a": 0,
+        "booking_guide_view_b": 0,
+        "outbound_booking_click_a": 0,
+        "outbound_booking_click_b": 0
+      },
+      {
+        "path": "/events/mito-komon-marathon-2026/",
         "booking_guide_view": 3,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
@@ -458,8 +478,8 @@
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/tsuchiura-hanabi-2026/",
-        "booking_guide_view": 2,
+        "path": "/events/ushiku-chateau-guide/",
+        "booking_guide_view": 3,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
         "booking_guide_view_a": 0,
@@ -478,7 +498,7 @@
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/ushiku-chateau-guide/",
+        "path": "/events/oiwa-jinja-guide/",
         "booking_guide_view": 2,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
@@ -508,16 +528,6 @@
         "outbound_booking_click_b": 0
       },
       {
-        "path": "/events/mito-komon-marathon-2026/",
-        "booking_guide_view": 1,
-        "outbound_booking_click": 0,
-        "monetized_booking_click": 0,
-        "booking_guide_view_a": 0,
-        "booking_guide_view_b": 0,
-        "outbound_booking_click_a": 0,
-        "outbound_booking_click_b": 0
-      },
-      {
         "path": "/events/ringring-road-guide/",
         "booking_guide_view": 1,
         "outbound_booking_click": 0,
@@ -529,16 +539,6 @@
       },
       {
         "path": "/events/ibaraki-flowerpark-illumination-2026/",
-        "booking_guide_view": 1,
-        "outbound_booking_click": 0,
-        "monetized_booking_click": 0,
-        "booking_guide_view_a": 0,
-        "booking_guide_view_b": 0,
-        "outbound_booking_click_a": 0,
-        "outbound_booking_click_b": 0
-      },
-      {
-        "path": "/events/oiwa-jinja-guide/",
         "booking_guide_view": 1,
         "outbound_booking_click": 0,
         "monetized_booking_click": 0,
@@ -636,9 +636,19 @@
         "booking_guide_view_b": 0,
         "outbound_booking_click_a": 0,
         "outbound_booking_click_b": 0
+      },
+      {
+        "path": "/events/hitachinaka-kaihin-railway-guide/",
+        "booking_guide_view": 1,
+        "outbound_booking_click": 0,
+        "monetized_booking_click": 0,
+        "booking_guide_view_a": 0,
+        "booking_guide_view_b": 0,
+        "outbound_booking_click_a": 0,
+        "outbound_booking_click_b": 0
       }
     ],
-    "byPageCheckedAt": "2026-10-04T23:00:00+09:00",
+    "byPageCheckedAt": "2026-10-05T12:42:00+09:00",
     "byProviderPagePeriod": {
       "start": "2026-09-27",
       "end": "2026-10-03"
