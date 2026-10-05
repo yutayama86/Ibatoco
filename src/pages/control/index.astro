@@ -13,7 +13,8 @@ const ga28 = performance.windows.ga4.recent28;
 const gsc28 = performance.windows.gsc.recent28;
 const conv = performance.conversionDetail.recent7;
 
-const confirmedRevenue = (ledger.entries ?? [])
+const ledgerEntries = (ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>;
+const confirmedRevenue = ledgerEntries
   .filter((entry) => entry.status === 'confirmed')
   .reduce((sum, entry) => sum + Number(entry.revenueYen ?? 0), 0);
 const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
