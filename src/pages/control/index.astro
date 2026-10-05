@@ -4,14 +4,21 @@ import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 
 const fmt = new Intl.NumberFormat('ja-JP');
-const pct = (v: number | null | undefined, digits = 1) => v == null ? '—' : `${(v * 100).toFixed(digits)}%`;
-const yen = (v: number | null | undefined) => v == null ? '—' : `¥${fmt.format(Math.round(v))}`;
+const pct = (v: number | null | undefined, digits = 1) => v == null || !Number.isFinite(Number(v)) ? '—' : `${(Number(v) * 100).toFixed(digits)}%`;
+const yen = (v: number | null | undefined) => v == null || !Number.isFinite(Number(v)) ? '—' : `¥${fmt.format(Math.round(Number(v)))}`;
+const signed = (v: number | null | undefined, suffix = '%') => v == null || !Number.isFinite(Number(v)) ? '—' : `${Number(v) >= 0 ? '+' : ''}${Number(v).toFixed(1)}${suffix}`;
 
 const north = performance.northStar;
 const ga7 = performance.windows.ga4.recent7;
 const ga28 = performance.windows.ga4.recent28;
+const gaCompare = performance.windows.ga4.recent7VsPrevious7;
+const gsc7 = performance.windows.gsc.recent7;
 const gsc28 = performance.windows.gsc.recent28;
-const conv = performance.conversionDetail.recent7;
+const gscCompare = performance.windows.gsc.recent7VsPrevious7;
+const conv = performance.conversionDetail.recent7 as Record<string, number | string>;
+const prevConv = performance.conversionDetail.previous7 as Record<string, number | string>;
+const freshness = performance.source?.freshness;
+const acquisition = performance.acquisitionControl;
 
 const ledgerEntries = (ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>;
 const confirmedRevenue = ledgerEntries
@@ -19,11 +26,13 @@ const confirmedRevenue = ledgerEntries
   .reduce((sum, entry) => sum + Number(entry.revenueYen ?? 0), 0);
 const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 
-const topPages = performance.ga4TopPages?.recent7 ?? [];
-const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 6);
+const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
+const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
 const warnings = performance.source?.warnings ?? [];
+const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
+const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
-const providerRows = performance.conversionDetail.byProviderPage ?? [];
+const providerRows = (performance.conversionDetail.byProviderPage ?? []) as Array<any>;
 const providerSummary = new Map<string, { provider: string; clicks: number; paid: number; candidate: number; official: number }>();
 for (const row of providerRows) {
   const provider = String(row.link_provider ?? 'unknown');
@@ -37,89 +46,180 @@ for (const row of providerRows) {
 }
 const providerTable = [...providerSummary.values()].sort((a,b) => b.clicks - a.clicks);
 
-const freshness = performance.source?.freshness;
-const paceBad = north.status !== 'on-pace' && north.status !== 'ahead';
-const blockers = [
-  ...(paceBad ? [`10万PV目標に対して28日換算 ${fmt.format(north.runRate28FromRecent7)} Views。必要日次平均 ${fmt.format(Math.round(north.requiredDailyAverage))}。`] : []),
-  ...(Number(conv.active_unmapped_booking_click ?? 0) > 0 ? [`Active Partnerの未収益化clickが${conv.active_unmapped_booking_click}件。`] : []),
-  ...(Number(conv.non_partner_candidate_click ?? 0) > 0 ? [`未提携候補clickが${conv.non_partner_candidate_click}件。Partner Opportunityで提携要否を確認。`] : []),
-  ...(confirmedRevenue === 0 ? ['確定売上はまだ0円。ASP確定成果をledgerへ接続するとActual RPMが有効化されます。'] : []),
-];
+const byPage = (performance.conversionDetail.byPage ?? []) as Array<any>;
+const bookingPages = [...byPage]
+  .filter((r)=>Number(r.outbound_booking_click ?? 0) > 0)
+  .sort((a,b)=>Number(b.outbound_booking_click ?? 0)-Number(a.outbound_booking_click ?? 0))
+  .slice(0,8);
 
-const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC: ${freshness?.gscLatestConfirmedDate ?? '—'}`;
+const growthCtr = Number(conv.growth_next_view ?? 0) > 0 ? Number(conv.growth_next_click ?? 0) / Number(conv.growth_next_view ?? 0) : 0;
+const bookingCtr = Number(conv.booking_guide_view ?? 0) > 0 ? Number(conv.outbound_booking_click ?? 0) / Number(conv.booking_guide_view ?? 0) : 0;
+const businessCtr = Number(conv.business_cta_view ?? 0) > 0 ? Number(conv.business_cta_click ?? 0) / Number(conv.business_cta_view ?? 0) : 0;
+const formStartRate = Number(conv.contact_form_view ?? 0) > 0 ? Number(conv.contact_form_start ?? 0) / Number(conv.contact_form_view ?? 0) : 0;
+
+const wins = [
+  gaCompare.viewsPct > 50 ? `7日Viewsが前週比${signed(gaCompare.viewsPct)}。流入は明確に加速。` : null,
+  Number(conv.active_unmapped_booking_click ?? 0) === 0 && Number(conv.active_partner_click ?? 0) > 0 ? `提携済みクリックの収益化漏れ0件。Commercial Share ${pct(Number(conv.monetized_click_share ?? 0))}。` : null,
+  growthCtr >= 0.04 ? `GrowthNext CTR ${pct(growthCtr)}。回遊導線は機能している。` : null,
+  gscCompare.impressionsPct > 10 ? `GSC表示回数が前週比${signed(gscCompare.impressionsPct)}。検索面の露出が拡大。` : null,
+].filter(Boolean) as string[];
+
+const issues = [
+  north.status === 'below-pace' ? `11月10万PVに対して28日換算${fmt.format(north.runRate28FromRecent7)}。あと約${fmt.format(north.gap)} Viewsの差。` : null,
+  gscCompare.ctrPct < -5 ? `GSC CTRが前週比${signed(gscCompare.ctrPct)}。表示増に対してクリック効率が低下。` : null,
+  confirmedRevenue === 0 ? '確定売上が未接続。Actual RPMはまだ0円。' : null,
+  Number(conv.non_partner_candidate_click ?? 0) > 0 ? `未提携候補クリックが${fmt.format(Number(conv.non_partner_candidate_click))}件。提携価値の判定余地あり。` : null,
+  businessCtr < 0.01 && Number(conv.business_cta_view ?? 0) >= 100 ? `事業者CTA CTRが${pct(businessCtr)}。B2B導線は弱い。` : null,
+].filter(Boolean) as string[];
+
+const actions = [
+  {
+    priority:'P1',
+    title:'11月需要へ流入を集中',
+    detail:`現在の28日換算は${fmt.format(north.runRate28FromRecent7)}。紅葉・あんこう・土浦花火など11月需要クラスターを最優先。`,
+    tone:'danger'
+  },
+  {
+    priority:'P1',
+    title:'GSC高表示・低CTRページを改善',
+    detail:`表示回数は前週比${signed(gscCompare.impressionsPct)}、CTRは${signed(gscCompare.ctrPct)}。タイトル/ディスクリプション改善が効きやすい局面。`,
+    tone:'warn'
+  },
+  {
+    priority:'P2',
+    title:'未提携7クリックを提携候補として精査',
+    detail:'終了済みイベントを除外し、現在も需要が続く提供元だけ提携候補化。',
+    tone:'info'
+  },
+  {
+    priority:'P2',
+    title:'確定成果データをRevenue Ledgerへ接続',
+    detail:'A8/楽天の確定成果が入るとActual RPMとページ別利益判断が有効化。',
+    tone:'info'
+  },
+].filter((a)=> !(a.title.includes('未提携') && Number(conv.non_partner_candidate_click ?? 0)===0));
+
+const pacePct = Math.min(1, north.runRate28FromRecent7 / north.target);
+const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
 ---
 
 <ControlBase>
   <main class="control">
     <header class="control__head">
       <div>
-        <p class="eyebrow">OWNER ONLY</p>
+        <p class="eyebrow">OWNER ONLY · PRIVATE</p>
         <h1>Ibatoco Control Center</h1>
-        <p class="sub">事業・集客・収益・運営を1画面で確認。GA4計測対象外。</p>
+        <p class="sub">「数字を見る」ではなく、「何が勝っていて、何を直し、次に何をするか」を判断するための経営画面。</p>
       </div>
       <div class="freshness">
-        <span>DATA</span>
+        <span>DATA FRESHNESS</span>
         <strong>{generatedLabel}</strong>
         <small>snapshot {performance.asOf}</small>
       </div>
     </header>
 
+    <section class="decision-grid">
+      <article class="decision-card decision-card--good">
+        <div class="section-title"><span>WINNING</span><h2>勝っていること</h2></div>
+        <ul>{wins.length ? wins.map((w)=><li>{w}</li>) : <li>明確な勝ちシグナルはまだ不足。</li>}</ul>
+      </article>
+      <article class="decision-card decision-card--warn">
+        <div class="section-title"><span>IMPROVE</span><h2>改善ポイント</h2></div>
+        <ul>{issues.length ? issues.map((w)=><li>{w}</li>) : <li>重大な改善ポイントなし。</li>}</ul>
+      </article>
+      <article class="decision-card decision-card--action">
+        <div class="section-title"><span>NEXT ACTION</span><h2>今やること</h2></div>
+        <ol>{actions.slice(0,3).map((a)=><li><b>{a.priority}</b><span>{a.title}</span></li>)}</ol>
+      </article>
+    </section>
+
+    <section class="north-card">
+      <div class="north-card__main">
+        <span>11月 100,000 Views</span>
+        <strong>{fmt.format(north.current)}</strong>
+        <small>現状28日実績</small>
+      </div>
+      <div class="north-card__pace">
+        <div><span>進捗</span><b>{pct(north.progress)}</b></div>
+        <div><span>28日換算</span><b>{fmt.format(north.runRate28FromRecent7)}</b></div>
+        <div><span>必要日次</span><b>{fmt.format(Math.round(north.requiredDailyAverage))}</b></div>
+      </div>
+      <div class="goalbar"><i style={`width:${Math.max(2,Math.min(100,pacePct*100))}%`}></i></div>
+      <p>現状ペースは目標の <b>{pct(pacePct)}</b>。必要な上振れは現在の日次平均に対して約 <b>{north.requiredUpliftVsRecent7.toFixed(1)}倍</b>。</p>
+    </section>
+
     <section class="metric-grid" aria-label="経営サマリー">
-      <article class="metric metric--hero">
-        <span>28日 Views</span>
-        <strong>{fmt.format(ga28.views)}</strong>
-        <small>目標 {fmt.format(north.target)} / 進捗 {pct(north.progress)}</small>
-        <div class="bar"><i style={`width:${Math.min(100, north.progress * 100)}%`}></i></div>
-      </article>
-      <article class="metric">
-        <span>7日 Views</span>
-        <strong>{fmt.format(ga7.views)}</strong>
-        <small>前週比 {performance.windows.ga4.recent7VsPrevious7.viewsPct > 0 ? '+' : ''}{performance.windows.ga4.recent7VsPrevious7.viewsPct.toFixed(1)}%</small>
-      </article>
-      <article class="metric">
-        <span>GSC 28日 Clicks</span>
-        <strong>{fmt.format(gsc28.clicks)}</strong>
-        <small>{fmt.format(gsc28.impressions)} imp / CTR {pct(gsc28.ctr)}</small>
-      </article>
-      <article class="metric">
-        <span>Paid Clicks / 7日</span>
-        <strong>{fmt.format(Number(conv.paid_booking_click ?? 0))}</strong>
-        <small>Commercial Share {pct(Number(conv.monetized_click_share ?? 0))}</small>
-      </article>
-      <article class="metric">
-        <span>確定売上</span>
-        <strong>{yen(confirmedRevenue)}</strong>
-        <small>Site RPM {yen(siteRpm)} / 1,000 Views</small>
-      </article>
-      <article class="metric">
-        <span>未提携候補 Clicks</span>
-        <strong>{fmt.format(Number(conv.non_partner_candidate_click ?? 0))}</strong>
-        <small>Active未収益化 {fmt.format(Number(conv.active_unmapped_booking_click ?? 0))}</small>
-      </article>
+      <article class="metric"><span>7日 Views</span><strong>{fmt.format(ga7.views)}</strong><small class:list={['delta',gaCompare.viewsPct>=0?'up':'down']}>{signed(gaCompare.viewsPct)} vs 前週</small></article>
+      <article class="metric"><span>GSC 7日 Clicks</span><strong>{fmt.format(gsc7.clicks)}</strong><small class:list={['delta',gscCompare.clicksPct>=0?'up':'down']}>{signed(gscCompare.clicksPct)} vs 前週</small></article>
+      <article class="metric"><span>GrowthNext CTR</span><strong>{pct(growthCtr)}</strong><small>{fmt.format(Number(conv.growth_next_click ?? 0))} clicks / {fmt.format(Number(conv.growth_next_view ?? 0))} views</small></article>
+      <article class="metric"><span>Booking CTR</span><strong>{pct(bookingCtr)}</strong><small>{fmt.format(Number(conv.outbound_booking_click ?? 0))} / {fmt.format(Number(conv.booking_guide_view ?? 0))}</small></article>
+      <article class="metric"><span>Commercial Share</span><strong>{pct(Number(conv.monetized_click_share ?? 0))}</strong><small>Paid {fmt.format(Number(conv.paid_booking_click ?? 0))} / Active {fmt.format(Number(conv.active_partner_click ?? 0))}</small></article>
+      <article class="metric"><span>確定売上</span><strong>{yen(confirmedRevenue)}</strong><small>Site RPM {yen(siteRpm)}</small></article>
+    </section>
+
+    <section class="action-panel">
+      <div class="panel__head"><div><span>ACTION QUEUE</span><h2>優先アクション</h2></div><small>上から順に実行</small></div>
+      <div class="action-cards">
+        {actions.map((a,index)=>(
+          <article class:list={['action-card',`action-card--${a.tone}`]}>
+            <div class="action-card__rank">{String(index+1).padStart(2,'0')}</div>
+            <div><p><b>{a.priority}</b> {a.title}</p><small>{a.detail}</small></div>
+          </article>
+        ))}
+      </div>
     </section>
 
     <section class="two-col">
       <article class="panel">
-        <div class="panel__head">
-          <div><span>TRAFFIC</span><h2>勝ちページ</h2></div>
-          <small>直近7日</small>
-        </div>
+        <div class="panel__head"><div><span>TRAFFIC</span><h2>勝ちページ</h2></div><small>直近7日</small></div>
         <ol class="rank-list">
-          {topPages.map((item, index) => (
-            <li>
-              <span class="rank">{String(index + 1).padStart(2,'0')}</span>
-              <a href={item.path} target="_blank" rel="noreferrer">{item.path}</a>
-              <strong>{fmt.format(item.views)}</strong>
-            </li>
+          {topPages.slice(0,8).map((item,index)=>(
+            <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(item.views)}</strong></li>
           ))}
         </ol>
       </article>
 
       <article class="panel">
-        <div class="panel__head">
-          <div><span>REVENUE</span><h2>Booking Funnel</h2></div>
-          <small>{conv.start} → {conv.end}</small>
+        <div class="panel__head"><div><span>BOOKING</span><h2>成果が出ているページ</h2></div><small>実クリック</small></div>
+        <ol class="rank-list">
+          {bookingPages.map((item,index)=>(
+            <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(Number(item.outbound_booking_click??0))}</strong></li>
+          ))}
+        </ol>
+      </article>
+    </section>
+
+    <section class="two-col">
+      <article class="panel">
+        <div class="panel__head"><div><span>SEARCH</span><h2>検索の伸びしろ</h2></div><small>GSC</small></div>
+        <div class="signal-list">
+          {gscSignals.map((item)=>(
+            <div class="signal">
+              <div><b>{item.query ?? item.signalType}</b><small>{item.impressions != null ? `${fmt.format(item.impressions)} imp` : item.period}</small></div>
+              <p>{item.recommendedAction}</p>
+              {item.page && <a href={item.page} target="_blank" rel="noreferrer">{item.page}</a>}
+            </div>
+          ))}
         </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel__head"><div><span>CHANNELS</span><h2>流入構成</h2></div><small>直近7日 sessions</small></div>
+        <div class="channels">
+          {channelRows.map((row)=>(
+            <div class="channel">
+              <div><span>{row.channel}</span><b>{fmt.format(row.sessions)}</b></div>
+              <div class="mini-bar"><i style={`width:${channelTotal?Math.max(1,row.sessions/channelTotal*100):0}%`}></i></div>
+              <small>{channelTotal?pct(row.sessions/channelTotal):'—'}</small>
+            </div>
+          ))}
+        </div>
+      </article>
+    </section>
+
+    <section class="two-col">
+      <article class="panel">
+        <div class="panel__head"><div><span>REVENUE</span><h2>Booking Funnel</h2></div><small>{String(conv.start??'')} → {String(conv.end??'')}</small></div>
         <div class="funnel">
           <div><span>Guide View</span><strong>{fmt.format(Number(conv.booking_guide_view ?? 0))}</strong></div>
           <div><span>Booking Click</span><strong>{fmt.format(Number(conv.outbound_booking_click ?? 0))}</strong></div>
@@ -128,46 +228,23 @@ const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC
         </div>
         <p class="note">{performance.conversionDetail.interpretation}</p>
       </article>
+
+      <article class="panel">
+        <div class="panel__head"><div><span>B2B</span><h2>事業者導線</h2></div><small>直近7日</small></div>
+        <div class="b2b-grid">
+          <div><span>CTA View</span><b>{fmt.format(Number(conv.business_cta_view ?? 0))}</b></div>
+          <div><span>CTA CTR</span><b>{pct(businessCtr)}</b></div>
+          <div><span>Form View</span><b>{fmt.format(Number(conv.contact_form_view ?? 0))}</b></div>
+          <div><span>Start Rate</span><b>{pct(formStartRate)}</b></div>
+        </div>
+        <p class="note">B2Bはまだ母数・クリックとも弱い。ここはPV成長後に掲載/スポンサー商品へ接続する余地が大きい。</p>
+      </article>
     </section>
 
     <section class="two-col">
-      <article class="panel">
-        <div class="panel__head"><div><span>SEO</span><h2>検索機会</h2></div><small>GSC</small></div>
-        <div class="signal-list">
-          {gscSignals.map((item) => (
-            <div class="signal">
-              <div>
-                <b>{item.query ?? item.signalType}</b>
-                <a href={item.page} target="_blank" rel="noreferrer">{item.page}</a>
-              </div>
-              <p>{item.recommendedAction}</p>
-              <small>{item.impressions != null ? `${fmt.format(item.impressions)} imp` : item.period}</small>
-            </div>
-          ))}
-        </div>
-      </article>
-
       <article class="panel">
         <div class="panel__head"><div><span>PARTNERS</span><h2>クリック内訳</h2></div><small>GA4実測</small></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Provider</th><th>Click</th><th>Paid</th><th>Candidate</th></tr></thead>
-            <tbody>
-              {providerTable.map((row) => (
-                <tr><td>{row.provider}</td><td>{row.clicks}</td><td>{row.paid}</td><td>{row.candidate}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </article>
-    </section>
-
-    <section class="two-col">
-      <article class="panel panel--alert">
-        <div class="panel__head"><div><span>ACTION</span><h2>今見るべきこと</h2></div></div>
-        {blockers.length ? (
-          <ul class="action-list">{blockers.map((item) => <li>{item}</li>)}</ul>
-        ) : <p class="ok">重大ブロッカーなし。</p>}
+        <div class="table-wrap"><table><thead><tr><th>Provider</th><th>Click</th><th>Paid</th><th>Candidate</th></tr></thead><tbody>{providerTable.map((row)=><tr><td>{row.provider}</td><td>{row.clicks}</td><td>{row.paid}</td><td>{row.candidate}</td></tr>)}</tbody></table></div>
       </article>
 
       <article class="panel">
@@ -175,10 +252,10 @@ const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC
         <dl class="health">
           <div><dt>GA4 latest</dt><dd>{freshness?.ga4LatestConfirmedDate ?? '—'}</dd></div>
           <div><dt>GSC latest</dt><dd>{freshness?.gscLatestConfirmedDate ?? '—'}</dd></div>
-          <div><dt>Refresh</dt><dd>{freshness?.todayRefreshSucceeded ? 'OK' : 'CHECK'}</dd></div>
+          <div><dt>Refresh</dt><dd class={freshness?.todayRefreshSucceeded?'good':'bad'}>{freshness?.todayRefreshSucceeded?'OK':'CHECK'}</dd></div>
           <div><dt>Source</dt><dd>{performance.source?.primary ?? '—'}</dd></div>
         </dl>
-        {warnings.length > 0 && <details><summary>Warnings / notes ({warnings.length})</summary><ul>{warnings.map((w) => <li>{w}</li>)}</ul></details>}
+        {warnings.length>0 && <details><summary>Warnings / notes ({warnings.length})</summary><ul>{warnings.map((w)=><li>{w}</li>)}</ul></details>}
       </article>
     </section>
 
@@ -190,28 +267,32 @@ const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC
 </ControlBase>
 
 <style>
-  .control{width:min(calc(100% - 2rem),1180px);margin:auto;padding:2rem 0 4rem}
+  .control{width:min(calc(100% - 2rem),1220px);margin:auto;padding:2rem 0 4rem}
   .control__head{display:flex;justify-content:space-between;gap:2rem;align-items:flex-end;padding:1rem 0 2rem;border-bottom:1px solid var(--line)}
-  .eyebrow,.panel__head span{margin:0;color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.14em}
-  h1{margin:.35rem 0 0;font-size:clamp(2rem,5vw,4.4rem);line-height:1;letter-spacing:-.045em}
-  .sub{max-width:42rem;margin:.85rem 0 0;color:var(--muted);font-size:.88rem}
-  .freshness{display:grid;gap:.2rem;text-align:right}.freshness span{color:var(--muted);font-size:.65rem}.freshness strong{font-size:.8rem}.freshness small{color:var(--muted);font-size:.68rem}
-  .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:1rem}
-  .metric{display:grid;gap:.45rem;min-height:145px;padding:1.1rem;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
-  .metric span{color:var(--muted);font-size:.74rem;font-weight:700}.metric strong{font-size:clamp(1.7rem,4vw,2.8rem);letter-spacing:-.04em}.metric small{color:var(--muted);font-size:.72rem;line-height:1.5}
-  .metric--hero{grid-column:span 2;background:linear-gradient(135deg,var(--panel-2),var(--panel))}
-  .bar{height:7px;margin-top:auto;border-radius:999px;background:#23304a;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:inherit}
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem}
-  .panel{min-width:0;padding:1.1rem;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
-  .panel__head{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:1rem}.panel__head h2{margin:.25rem 0 0;font-size:1.15rem}.panel__head small{color:var(--muted);font-size:.68rem}
-  .rank-list{display:grid;gap:.25rem;margin:0;padding:0;list-style:none}.rank-list li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.7rem 0;border-top:1px solid var(--line)}.rank-list li:first-child{border-top:0}.rank{color:var(--muted);font-size:.65rem}.rank-list a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none;font-size:.78rem}.rank-list strong{font-size:.78rem}
-  .funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}.funnel div{display:grid;gap:.35rem;padding:.8rem;border-radius:10px;background:var(--panel-2)}.funnel span{color:var(--muted);font-size:.66rem}.funnel strong{font-size:1.35rem}.note{margin:1rem 0 0;color:var(--muted);font-size:.75rem;line-height:1.65}
-  .signal-list{display:grid;gap:.6rem}.signal{padding:.8rem;border-radius:10px;background:var(--panel-2)}.signal div{display:flex;justify-content:space-between;gap:1rem}.signal b{font-size:.8rem}.signal a{max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent);font-size:.68rem;text-decoration:none}.signal p{margin:.55rem 0;color:var(--muted);font-size:.73rem;line-height:1.6}.signal small{color:var(--muted);font-size:.64rem}
-  .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.73rem}th,td{padding:.65rem .5rem;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:.64rem}
-  .panel--alert{border-color:#4b3c28}.action-list{display:grid;gap:.7rem;margin:0;padding-left:1.1rem}.action-list li{color:var(--warn);font-size:.8rem;line-height:1.6}.ok{color:var(--good)}
-  .health{display:grid;gap:.2rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.72rem}.health dd{margin:0;font-size:.74rem;text-align:right}
-  details{margin-top:1rem;color:var(--muted);font-size:.72rem}details ul{display:grid;gap:.5rem;padding-left:1.2rem;line-height:1.55}
-  .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.67rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
-  @media(max-width:800px){.control{width:min(calc(100% - 1rem),1180px);padding-top:1rem}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.metric-grid{grid-template-columns:1fr 1fr}.metric--hero{grid-column:1/-1}.two-col{grid-template-columns:1fr}.funnel{grid-template-columns:1fr 1fr}}
-  @media(max-width:480px){.metric-grid{grid-template-columns:1fr}.metric--hero{grid-column:auto}.metric{min-height:125px}.funnel{grid-template-columns:1fr 1fr}.control__foot{flex-direction:column}}
+  .eyebrow,.section-title span,.panel__head span{margin:0;color:var(--accent);font-size:.68rem;font-weight:800;letter-spacing:.14em}
+  h1{margin:.4rem 0 0;font-size:clamp(2.2rem,5vw,4.8rem);line-height:1;letter-spacing:-.05em}
+  .sub{max-width:48rem;margin:.9rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.7}
+  .freshness{display:grid;gap:.2rem;text-align:right}.freshness span{color:var(--muted);font-size:.62rem}.freshness strong{font-size:.8rem}.freshness small{color:var(--muted);font-size:.66rem}
+  .decision-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-top:1rem}
+  .decision-card{min-height:220px;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .decision-card--good{border-color:#24513b}.decision-card--warn{border-color:#5a4528}.decision-card--action{border-color:#294c72}
+  .section-title h2{margin:.35rem 0 0;font-size:1.15rem}.decision-card ul,.decision-card ol{display:grid;gap:.8rem;margin:1rem 0 0;padding-left:1.15rem}.decision-card li{font-size:.8rem;line-height:1.65}.decision-card--good li{color:#b9ebcf}.decision-card--warn li{color:#f0d9aa}.decision-card--action ol{list-style:none;padding:0}.decision-card--action li{display:grid;grid-template-columns:2rem 1fr;gap:.5rem}.decision-card--action b{color:var(--accent)}
+  .north-card{margin-top:.8rem;padding:1.2rem;border:1px solid #315074;border-radius:16px;background:linear-gradient(135deg,#16263e,var(--panel))}
+  .north-card__main{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap}.north-card__main span{color:var(--muted);font-size:.75rem}.north-card__main strong{font-size:clamp(2.5rem,6vw,5rem);letter-spacing:-.06em}.north-card__main small{color:var(--muted)}
+  .north-card__pace{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:1rem}.north-card__pace div{display:flex;justify-content:space-between;padding:.7rem;border-radius:10px;background:#0f1929}.north-card__pace span{color:var(--muted);font-size:.68rem}.north-card__pace b{font-size:.78rem}.goalbar{height:8px;margin-top:1rem;background:#22324a;border-radius:99px;overflow:hidden}.goalbar i{display:block;height:100%;background:var(--accent)}.north-card p{margin:.8rem 0 0;color:var(--muted);font-size:.75rem;line-height:1.6}
+  .metric-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.6rem;margin-top:.8rem}.metric{display:grid;gap:.45rem;min-height:125px;padding:1rem;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.metric span{color:var(--muted);font-size:.68rem;font-weight:700}.metric strong{font-size:1.65rem;letter-spacing:-.04em}.metric small{color:var(--muted);font-size:.67rem;line-height:1.4}.delta.up{color:var(--good)}.delta.down{color:var(--bad)}
+  .action-panel,.panel{margin-top:.8rem;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .panel__head{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;margin-bottom:1rem}.panel__head h2{margin:.25rem 0 0;font-size:1.2rem}.panel__head small{color:var(--muted);font-size:.66rem}
+  .action-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}.action-card{display:grid;grid-template-columns:2.3rem 1fr;gap:.8rem;padding:.9rem;border-radius:12px;background:var(--panel-2);border:1px solid transparent}.action-card__rank{color:var(--muted);font-size:.72rem}.action-card p{margin:0;font-size:.82rem}.action-card p b{margin-right:.35rem;color:var(--accent)}.action-card small{display:block;margin-top:.35rem;color:var(--muted);font-size:.7rem;line-height:1.55}.action-card--danger{border-color:#58313a}.action-card--warn{border-color:#5a4528}.action-card--info{border-color:#294c72}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.rank-list{display:grid;gap:.15rem;margin:0;padding:0;list-style:none}.rank-list li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.65rem 0;border-top:1px solid var(--line)}.rank-list li:first-child{border-top:0}.rank{color:var(--muted);font-size:.64rem}.rank-list a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none;font-size:.76rem}.rank-list strong{font-size:.76rem}
+  .signal-list{display:grid;gap:.55rem}.signal{padding:.8rem;border-radius:10px;background:var(--panel-2)}.signal>div{display:flex;justify-content:space-between;gap:1rem}.signal b{font-size:.78rem}.signal p{margin:.45rem 0;color:var(--muted);font-size:.71rem;line-height:1.55}.signal a{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent);font-size:.65rem;text-decoration:none}.signal small{color:var(--muted);font-size:.63rem}
+  .channels{display:grid;gap:.75rem}.channel>div:first-child{display:flex;justify-content:space-between;font-size:.75rem}.channel small{display:block;margin-top:.2rem;color:var(--muted);font-size:.62rem}.mini-bar{height:6px;margin-top:.35rem;background:#22304a;border-radius:99px;overflow:hidden}.mini-bar i{display:block;height:100%;background:var(--accent)}
+  .funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}.funnel div,.b2b-grid div{display:grid;gap:.3rem;padding:.8rem;border-radius:10px;background:var(--panel-2)}.funnel span,.b2b-grid span{color:var(--muted);font-size:.65rem}.funnel strong,.b2b-grid b{font-size:1.25rem}.note{margin:.9rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.6}.b2b-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{padding:.65rem .45rem;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:.62rem}
+  .health{display:grid;gap:.15rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.7rem}.health dd{margin:0;font-size:.72rem;text-align:right}.good{color:var(--good)}.bad{color:var(--bad)}
+  details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}
+  .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.66rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
+  @media(max-width:1000px){.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:800px){.control{width:min(calc(100% - 1rem),1220px);padding-top:1rem}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.two-col{grid-template-columns:1fr}.action-cards{grid-template-columns:1fr}.north-card__pace{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.funnel{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
 </style>
