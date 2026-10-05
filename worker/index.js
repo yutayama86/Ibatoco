@@ -204,7 +204,7 @@ export default {
 
       if (isLogout) {
         return redirect('/control/login', {
-          'Set-Cookie': `${CONTROL_COOKIE}=; Path=/control; Max-Age=0; Secure; HttpOnly; SameSite=Strict`,
+          'Set-Cookie': `${CONTROL_COOKIE}=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict`,
         });
       }
 
@@ -265,7 +265,7 @@ export default {
 
           const session = await makeSession(env.CONTROL_SESSION_SECRET);
           return redirect('/control/', {
-            'Set-Cookie': `${CONTROL_COOKIE}=${session}; Path=/control; Max-Age=${CONTROL_SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict`,
+            'Set-Cookie': `${CONTROL_COOKIE}=${session}; Path=/; Max-Age=${CONTROL_SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict`,
           });
         }
 
