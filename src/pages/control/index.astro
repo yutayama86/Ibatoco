@@ -126,6 +126,43 @@ const riskNotes = [
   gscCompare.ctrPct < -5 ? '検索表示は増えている一方、CTRが落ちている。タイトル改善の効果余地が大きい。' : null,
 ].filter(Boolean) as string[];
 
+const conservative28 = Math.round((performance.windows.ga4.previous7.views / 7) * 28);
+const current28 = Math.round((ga7.views / 7) * 28);
+const targetDailyGap = Math.max(0, Math.round(north.requiredDailyAverage - north.recent7DailyAverage));
+const searchOpportunity = gscCompare.impressionsPct > 0 && gscCompare.ctrPct < 0;
+const dataAgeGa4 = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.ga4LatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
+const dataAgeGsc = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.gscLatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
+
+const scenarioRows = [
+  { label:'弱気', value:conservative28, note:'前週ペースが続いた場合' },
+  { label:'現状', value:current28, note:'直近7日ペースが続いた場合' },
+  { label:'目標', value:north.target, note:`必要日次 ${fmt.format(Math.round(north.requiredDailyAverage))} PV` },
+];
+
+const operatingStatus = [
+  { label:'集客', state: gaCompare.viewsPct >= 20 ? '好調' : gaCompare.viewsPct >= 0 ? '維持' : '要改善', good:gaCompare.viewsPct >= 0 },
+  { label:'検索露出', state: gscCompare.impressionsPct >= 10 ? '好調' : gscCompare.impressionsPct >= 0 ? '維持' : '要改善', good:gscCompare.impressionsPct >= 0 },
+  { label:'検索CTR', state: gscCompare.ctrPct >= 0 ? '好調' : '要改善', good:gscCompare.ctrPct >= 0 },
+  { label:'収益導線', state: Number(conv.active_unmapped_booking_click ?? 0) === 0 ? '正常' : '要修正', good:Number(conv.active_unmapped_booking_click ?? 0) === 0 },
+  { label:'売上計測', state: confirmedRevenue > 0 ? '稼働中' : '未接続', good:confirmedRevenue > 0 },
+  { label:'データ鮮度', state: dataAgeGa4 <= 2 && dataAgeGsc <= 7 ? '正常' : '要確認', good:dataAgeGa4 <= 2 && dataAgeGsc <= 7 },
+];
+
+const focusPages = [
+  ...topPages.slice(0,3).map((p:any)=>({ path:p.path, reason:`アクセス上位・${fmt.format(p.views)} PV/7日`, score:Number(p.views) })),
+  ...gscSignals.filter((x:any)=>x.page).slice(0,3).map((x:any)=>({ path:x.page, reason:`検索改善候補・${fmt.format(Number(x.impressions ?? 0))}表示`, score:Number(x.impressions ?? 0) }))
+]
+  .filter((item:any,index:number,arr:any[])=>arr.findIndex((x:any)=>x.path===item.path)===index)
+  .sort((a:any,b:any)=>b.score-a.score)
+  .slice(0,5);
+
+const doNotDo = [
+  north.status === 'below-pace' ? 'PV目標と関係が薄い新機能を増やさない' : null,
+  confirmedRevenue === 0 ? '推定CVやクリックを売上として扱わない' : null,
+  organicShare >= 0.85 ? 'SEO一本足のまま長期固定しない' : null,
+  '手作業が比例して増える運用を新しく始めない',
+].filter(Boolean) as string[];
+
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
 ---
 
@@ -184,6 +221,54 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         <div>{riskNotes.map((note)=><span>{note}</span>)}</div>
       </section>
     )}
+
+    <section class="quantum-grid" aria-label="経営判断サマリー">
+      <article class="quantum-card">
+        <div class="panel__head"><div><span>着地予測</span><h2>このままだとどこまで行くか</h2></div></div>
+        <div class="scenario-list">
+          {scenarioRows.map((row)=>(
+            <div class="scenario">
+              <div><b>{row.label}</b><span>{row.note}</span></div>
+              <strong>{fmt.format(row.value)} <small>PV</small></strong>
+              <div class="scenario-bar"><i style={`width:${Math.min(100,row.value/north.target*100)}%`}></i></div>
+            </div>
+          ))}
+        </div>
+        <p class="quantum-note">目標との差を埋めるには、現在の日次平均から <b>+{fmt.format(targetDailyGap)} PV/日</b> が必要。</p>
+      </article>
+
+      <article class="quantum-card">
+        <div class="panel__head"><div><span>運営状態</span><h2>いま正常か、詰まっているか</h2></div></div>
+        <div class="status-grid">
+          {operatingStatus.map((item)=>(
+            <div class:list={['status-pill',item.good?'is-good':'is-bad']}>
+              <span>{item.label}</span><b>{item.state}</b>
+            </div>
+          ))}
+        </div>
+        {searchOpportunity && <p class="quantum-note">検索表示は増加、CTRは低下。<b>今はSEO順位よりスニペット改善の期待値が高い</b>。</p>}
+      </article>
+    </section>
+
+    <section class="two-col">
+      <article class="panel panel--focus">
+        <div class="panel__head"><div><span>重点ページ</span><h2>今日触るならここ</h2></div><small>実測ベース</small></div>
+        <div class="focus-list">
+          {focusPages.map((item,index)=>(
+            <a class="focus-item" href={item.path} target="_blank" rel="noreferrer">
+              <span>{String(index+1).padStart(2,'0')}</span>
+              <div><b>{item.path}</b><small>{item.reason}</small></div>
+              <i>↗</i>
+            </a>
+          ))}
+        </div>
+      </article>
+
+      <article class="panel panel--dont">
+        <div class="panel__head"><div><span>やらないこと</span><h2>今は手を出さない</h2></div><small>集中を守る</small></div>
+        <ul class="dont-list">{doNotDo.map((item)=><li>{item}</li>)}</ul>
+      </article>
+    </section>
 
     <section class="decision-grid" id="today">
       <article class="decision-card decision-card--good">
@@ -304,7 +389,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
           <div><span>フォーム表示</span><b>{fmt.format(Number(conv.contact_form_view ?? 0))}</b></div>
           <div><span>入力開始率</span><b>{pct(formStartRate)}</b></div>
         </div>
-        <p class="note">事業者向けはまだ母数・クリックとも弱い。ここはPV成長後に掲載/スポンサー商品へ接続する余地が大きい。</p>
+        <p class="note">事業者向けはまだ母数・クリックとも弱い。現時点では営業工数を増やさず、PVと一次情報の蓄積を優先。問い合わせが自然発生する状態を作ってから掲載・スポンサー商品へ接続する。</p>
       </article>
     </section>
 
@@ -342,6 +427,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   .freshness{display:grid;gap:.2rem;text-align:right}.freshness span{color:var(--muted);font-size:.62rem}.freshness strong{font-size:.8rem}.freshness small{color:var(--muted);font-size:.66rem}
   .quick-nav{position:sticky;top:0;z-index:20;display:flex;gap:.45rem;overflow:auto;margin:0 -.2rem;padding:.75rem .2rem;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.quick-nav a{flex:0 0 auto;padding:.55rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:.72rem;text-decoration:none}.quick-nav a:hover{border-color:var(--accent)}
   .executive{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.8fr);gap:.8rem;margin-top:1rem}.executive__main,.weekly-box{padding:1.2rem;border:1px solid var(--line);border-radius:18px;background:var(--panel)}.executive__main{background:linear-gradient(135deg,#17263e 0%,#111a2b 62%)}.executive__label{margin:0;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.08em}.executive__main h2{max-width:54rem;margin:.6rem 0 0;font-size:clamp(1.2rem,2.8vw,2rem);line-height:1.5;letter-spacing:-.02em}.executive__chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.executive__chips span{padding:.55rem .7rem;border:1px solid #2a3b58;border-radius:999px;background:#0e1828;color:var(--muted);font-size:.72rem}.executive__chips b{color:var(--text)}.weekly-box>p{margin:0 0 .8rem;color:var(--muted);font-size:.72rem;font-weight:800}.weekly-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.weekly-item{display:grid;gap:.2rem;padding:.7rem;border-radius:10px;background:var(--panel-2)}.weekly-item span{color:var(--muted);font-size:.64rem}.weekly-item strong{font-size:1.15rem}.weekly-item small{font-size:.62rem;color:var(--muted)}.weekly-item.good strong{color:var(--good)}.weekly-item.bad strong{color:var(--bad)}.risk-strip{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:flex-start;margin-top:.8rem;padding:.8rem 1rem;border:1px solid #5a4528;border-radius:12px;background:#17150f}.risk-strip>b{color:var(--warn);font-size:.72rem;white-space:nowrap}.risk-strip>div{display:flex;gap:.6rem;flex-wrap:wrap}.risk-strip span{color:#e9d7af;font-size:.72rem;line-height:1.5}
+  .quantum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem}.quantum-card{padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.scenario-list{display:grid;gap:.75rem}.scenario{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.3rem .8rem;align-items:end}.scenario>div:first-child{display:grid;gap:.15rem}.scenario b{font-size:.78rem}.scenario span{color:var(--muted);font-size:.66rem}.scenario strong{font-size:1.05rem}.scenario strong small{color:var(--muted);font-size:.62rem}.scenario-bar{grid-column:1/-1;height:6px;border-radius:999px;background:#22304a;overflow:hidden}.scenario-bar i{display:block;height:100%;background:var(--accent)}.quantum-note{margin:.9rem 0 0;padding:.75rem;border-radius:10px;background:#0f1929;color:var(--muted);font-size:.72rem;line-height:1.6}.quantum-note b{color:var(--text)}.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.status-pill{display:flex;justify-content:space-between;gap:.6rem;padding:.7rem;border-radius:10px;background:var(--panel-2);font-size:.72rem}.status-pill span{color:var(--muted)}.status-pill.is-good b{color:var(--good)}.status-pill.is-bad b{color:var(--bad)}.panel--focus{border-color:#294c72}.panel--dont{border-color:#493a2a}.focus-list{display:grid;gap:.35rem}.focus-item{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.7rem;border-radius:10px;text-decoration:none;background:var(--panel-2)}.focus-item>span{color:var(--muted);font-size:.62rem}.focus-item div{min-width:0;display:grid;gap:.2rem}.focus-item b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem}.focus-item small{color:var(--muted);font-size:.65rem}.focus-item i{color:var(--accent);font-style:normal}.dont-list{display:grid;gap:.7rem;margin:0;padding-left:1.1rem}.dont-list li{color:#e8d6b5;font-size:.78rem;line-height:1.6}
   .decision-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-top:1rem}
   .decision-card{min-height:220px;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
   .decision-card--good{border-color:#24513b}.decision-card--warn{border-color:#5a4528}.decision-card--action{border-color:#294c72}
@@ -361,7 +447,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   .health{display:grid;gap:.15rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.7rem}.health dd{margin:0;font-size:.72rem;text-align:right}.good{color:var(--good)}.bad{color:var(--bad)}
   details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}
   .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.66rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
-  @media(max-width:1000px){.executive{grid-template-columns:1fr}.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:1000px){.executive{grid-template-columns:1fr}.quantum-grid{grid-template-columns:1fr}.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:800px){.control{width:min(calc(100% - 1rem),1220px);padding-top:1rem}.risk-strip{grid-template-columns:1fr}.weekly-grid{grid-template-columns:1fr 1fr}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.two-col{grid-template-columns:1fr}.action-cards{grid-template-columns:1fr}.north-card__pace{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.funnel{grid-template-columns:1fr 1fr}}
-  @media(max-width:480px){.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
+  @media(max-width:480px){.status-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
 </style>
