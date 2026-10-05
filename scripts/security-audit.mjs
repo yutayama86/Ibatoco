@@ -74,6 +74,7 @@ if (!/CONTROL_SESSION_SECONDS\s*=\s*60\s*\*\s*60\s*\*\s*4/.test(worker)) add('wo
 if (!worker.includes('Path=/; Max-Age=${CONTROL_SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict')) add('worker-security-missing: valid __Host cookie Path=/');
 if (worker.includes('Path=/control;')) add('worker-security-invalid: __Host cookie cannot use Path=/control');
 if (!/status:\s*503/.test(worker)) add('worker-security-missing: fail-closed 503');
+if (!worker.includes("style-src 'self' 'unsafe-inline'")) add('worker-security-missing: same-origin control stylesheet allowance');
 
 if (findings.length) {
   console.error(`Security audit failed: ${findings.length} finding(s)`);
