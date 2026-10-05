@@ -48,8 +48,8 @@ export default {
     // Control Centerは専用Secret必須。Secret未設定を「公開」にフォールバックしない。
     if (isControl) {
       const password = env.CONTROL_PASSWORD;
-      if (!password) {
-        return new Response('Control Center is locked because CONTROL_PASSWORD is not configured.', {
+      if (!password || password.length < 12) {
+        return new Response('Control Center is locked because CONTROL_PASSWORD is missing or too short.', {
           status: 503,
           headers: protectedHeaders({
             'Content-Type': 'text/plain; charset=utf-8',
