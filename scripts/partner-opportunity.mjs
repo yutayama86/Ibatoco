@@ -82,6 +82,13 @@ const pageFunnel = new Map(
     monetizedClicks: Number(row.monetized_booking_click ?? 0),
   }])
 );
+const actualCandidateClicks = new Map();
+for (const row of performance.conversionDetail?.byProviderPage ?? []) {
+  if (row.classification !== 'non-partner-candidate') continue;
+  const key = `${row.path}::${row.link_provider}`;
+  actualCandidateClicks.set(key, (actualCandidateClicks.get(key) ?? 0) + Number(row.event_count ?? 0));
+}
+const basisDate = performance.asOf ?? new Date().toISOString().slice(0, 10);
 
 const categoryMeta = {
   parking: { label: '駐車場', value: 4 },
@@ -100,6 +107,8 @@ for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.sta
   const path = `/events/${basename(file, '.md')}/`;
   const title = scalar(front, 'title') ?? path;
   const intents = nestedBools(front, 'businessIntent');
+  const endDate = scalar(front, 'endDate');
+  const isEnded = Boolean(endDate && endDate < basisDate);
   const items = bookingItems(front);
   const nonActive = items.filter((item) => !['official', ''].includes(item.provider) && providerStatus.get(item.provider) !== 'active');
   const active = items.filter((item) => providerStatus.get(item.provider) === 'active');
@@ -113,12 +122,13 @@ for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.sta
     impressions: g.impressions, clicks: g.clicks,
     bookingClicks: funnel.bookingClicks,
     monetizedClicks: funnel.monetizedClicks,
-    nonMonetizedClicks: Math.max(0, funnel.bookingClicks - funnel.monetizedClicks),
+    isEnded,
   });
 }
 
 const providerMap = new Map();
 for (const page of pages) {
+  if (page.isEnded) continue;
   for (const item of page.nonActive) {
     const key = item.provider;
     const row = providerMap.get(key) ?? {
@@ -134,13 +144,13 @@ for (const page of pages) {
     row.pages.add(page.path);
     row.labels.add(item.label);
     row.urls.add(item.url);
+    const candidateClicks = actualCandidateClicks.get(`${page.path}::${item.provider}`) ?? 0;
     row.views7 += page.views7;
     row.views28 += page.views28;
     row.impressions += page.impressions;
     row.bookingClicks = (row.bookingClicks ?? 0) + page.bookingClicks;
-    row.nonMonetizedClicks = (row.nonMonetizedClicks ?? 0) + page.nonMonetizedClicks;
-    row.score += page.nonMonetizedClicks * 5
-      + page.bookingClicks * 1.5
+    row.candidateClicks = (row.candidateClicks ?? 0) + candidateClicks;
+    row.score += candidateClicks * 8
       + Math.min(8, page.views7 / 50)
       + Math.min(6, page.views28 / 200)
       + Math.min(5, page.impressions / 300);
@@ -160,6 +170,7 @@ const providerOpportunities = [...providerMap.values()]
 
 const categoryMap = new Map();
 for (const page of pages) {
+  if (page.isEnded) continue;
   for (const [key, meta] of Object.entries(categoryMeta)) {
     if (!page.intents[key]) continue;
     const hasActiveRelevant = page.active.length > 0;
@@ -176,14 +187,17 @@ for (const page of pages) {
       score: 0,
     };
     row.pages.add(page.path);
+    const candidateClicks = page.nonActive.reduce(
+      (sum, item) => sum + (actualCandidateClicks.get(`${page.path}::${item.provider}`) ?? 0),
+      0,
+    );
     row.views7 += page.views7;
     row.views28 += page.views28;
     row.impressions += page.impressions;
     row.bookingClicks = (row.bookingClicks ?? 0) + page.bookingClicks;
-    row.nonMonetizedClicks = (row.nonMonetizedClicks ?? 0) + page.nonMonetizedClicks;
+    row.candidateClicks = (row.candidateClicks ?? 0) + candidateClicks;
     row.score += meta.value
-      + page.nonMonetizedClicks * 4
-      + page.bookingClicks
+      + candidateClicks * 6
       + Math.min(8, page.views7 / 50)
       + Math.min(6, page.views28 / 200)
       + Math.min(5, page.impressions / 300);
@@ -233,7 +247,8 @@ const lines = [
   '- 既存提携で代替できる場合は新規提携しない。',
   '- 追加費用が必要なサービスは候補から除外する。',
   '- 実クリック需要または高いページ需要が確認できるものだけ申請候補にする。',
-  '- 申請優先度は未収益化クリックを最優先し、単なるPVの多さだけで決めない。',
+  '- 申請優先度は実測の未提携候補クリックを最優先し、単なるPVの多さだけで決めない。',
+  '- 終了済みイベントの過去クリックは、新規提携の申請優先度に使わない。',
   '- 契約条件・報酬条件・広告表示義務は人間確認後に進める。',
   '- 提携成立後は affiliates.ts に元URL→成果URLを登録し、Monetized Click Shareで効果検証する。',
   '',

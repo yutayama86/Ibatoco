@@ -198,3 +198,22 @@ GA4では `contact_form_view` / `contact_form_start` / `generate_lead` を `form
 条件を満たす場合、低リスクのCTA実験として `src/data/experiments.ts` の `winner` を勝者へ設定するPRを作成し、CI成功後にmergeできる。公式リンクの順位・内容は変更しない。
 
 `winner` が設定された後は全ユーザーへ同じvariantを表示できる。結果が不安定、母数不足、交絡ありの場合は `winner: null` のまま継続する。
+
+
+## Commercial Monetization Share
+
+BookingGuide のクリックは、公式情報と広告・予約導線を混在させるため、全 `outbound_booking_click` を収益化率の分母にしない。
+
+分類:
+- `official`: 公式サイト・主催者の一次情報。収益損失ではない。
+- `paid`: 実際の成果URLへ遷移したクリック。
+- `active-unmapped`: 提携済みproviderだが、そのURLが成果URLへ変換されていないクリック。最優先修正。
+- `non-partner-candidate`: 未提携providerへのクリック。新規提携の需要シグナルとして別管理。
+
+KPI:
+
+`Commercial Monetized Click Share = paid / (paid + active-unmapped)`
+
+公式クリックは分母から除外する。未提携候補も既存提携の実装漏れではないため、このKPIの分母には含めない。
+
+未提携候補はPartner Opportunity Engineで別途評価し、終了済みイベントの過去クリックは申請優先度に使わない。

@@ -77,6 +77,23 @@ const pageFunnel = new Map(
     monetizedClicks: Number(row.monetized_booking_click ?? 0),
   }])
 );
+const providerClickRows = performance.conversionDetail?.byProviderPage ?? [];
+const paidClickCount = providerClickRows
+  .filter((row) => row.classification === 'paid')
+  .reduce((sum, row) => sum + Number(row.event_count ?? 0), 0);
+const activeUnmappedClickCount = providerClickRows
+  .filter((row) => row.classification === 'active-unmapped')
+  .reduce((sum, row) => sum + Number(row.event_count ?? 0), 0);
+const officialClickCount = providerClickRows
+  .filter((row) => row.classification === 'official')
+  .reduce((sum, row) => sum + Number(row.event_count ?? 0), 0);
+const nonPartnerCandidateClickCount = providerClickRows
+  .filter((row) => row.classification === 'non-partner-candidate')
+  .reduce((sum, row) => sum + Number(row.event_count ?? 0), 0);
+const activePartnerClickCount = paidClickCount + activeUnmappedClickCount;
+const commercialMonetizedShare = activePartnerClickCount > 0
+  ? paidClickCount / activePartnerClickCount
+  : null;
 
 const rows = [];
 for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.startsWith('_'))) {
@@ -142,9 +159,8 @@ const funnelRows = [...pageFunnel.entries()]
   );
 
 const totalBookingClicks = funnelRows.reduce((sum, row) => sum + row.bookingClicks, 0);
-const totalMonetizedClicks = funnelRows.reduce((sum, row) => sum + row.monetizedClicks, 0);
-const totalNonMonetizedClicks = Math.max(0, totalBookingClicks - totalMonetizedClicks);
-const monetizedShare = totalBookingClicks > 0 ? totalMonetizedClicks / totalBookingClicks : null;
+const totalMonetizedClicks = paidClickCount || funnelRows.reduce((sum, row) => sum + row.monetizedClicks, 0);
+const totalNonMonetizedClicks = activeUnmappedClickCount;
 
 const lines = [
   '# Monetization Link Audit',
@@ -155,15 +171,38 @@ const lines = [
   `- 未提携リンク: **${counts['non-partner']}**`,
   `- 公式リンク: **${counts.official}**`,
   `- 実測Booking click: **${totalBookingClicks}**`,
-  `- 実測Monetized click: **${totalMonetizedClicks}**`,
-  `- 実測未収益化click: **${totalNonMonetizedClicks}**`,
-  `- Monetized Click Share: **${monetizedShare == null ? '未取得' : `${(monetizedShare * 100).toFixed(2)}%`}**`,
+  `- 公式/主催者click: **${officialClickCount}**`,
+  `- 未提携候補click: **${nonPartnerCandidateClickCount}**`,
+  `- Active Partner click: **${activePartnerClickCount}**`,
+  `- 実測Paid click: **${paidClickCount}**`,
+  `- Activeだが未収益化click: **${activeUnmappedClickCount}**`,
+  `- Commercial Monetized Click Share: **${commercialMonetizedShare == null ? '未取得' : `${(commercialMonetizedShare * 100).toFixed(2)}%`}**`,
   '',
-  '## 未収益化クリック TOP',
+  '## Active Partner 未収益化クリック TOP',
   '',
-  ...(funnelRows.length ? funnelRows.slice(0, 15).map((row, i) =>
-    `${i + 1}. **${row.path}**\n   - Booking click: ${row.bookingClicks} / Monetized: ${row.monetizedClicks} / Lost: ${row.nonMonetizedClicks}\n   - Share: ${row.monetizedShare == null ? 'n/a' : `${(row.monetizedShare * 100).toFixed(1)}%`}`
-  ) : ['- ページ別Revenue Funnelがありません。']),
+  ...(() => {
+    const losses = providerClickRows
+      .filter((row) => row.classification === 'active-unmapped')
+      .sort((a, b) => Number(b.event_count ?? 0) - Number(a.event_count ?? 0));
+    return losses.length
+      ? losses.slice(0, 15).map((row, i) =>
+        `${i + 1}. **${row.path}**\n   - provider: ${row.link_provider} / clicks: ${row.event_count}\n   - URL: ${row.link_url}`
+      )
+      : ['- Active Partnerの未収益化クリックはありません。'];
+  })(),
+  '',
+  '## 未提携候補クリック',
+  '',
+  ...(() => {
+    const candidates = providerClickRows
+      .filter((row) => row.classification === 'non-partner-candidate')
+      .sort((a, b) => Number(b.event_count ?? 0) - Number(a.event_count ?? 0));
+    return candidates.length
+      ? candidates.slice(0, 15).map((row, i) =>
+        `${i + 1}. **${row.path}**\n   - provider: ${row.link_provider} / clicks: ${row.event_count}`
+      )
+      : ['- 未提携候補クリックはありません。'];
+  })(),
   '',
   '## 最優先ギャップ',
   '',
@@ -174,10 +213,10 @@ const lines = [
   '## 計測',
   '',
   '- outbound_booking_click は is_paid_link と monetization_state を送る。',
-  '- paid のクリック / 全 outbound_booking_click を Monetized Click Share とする。',
+  '- Commercial Monetized Click Share = paid / (paid + active-unmapped)。公式クリックは分母に入れない。',
   '- active-unmapped は提携済み提供元だが、そのURLが成果リンク未登録。最優先で確認する。',
-  '- non-partner は実クリック需要が確認できたものだけ提携候補化する。',
-  '- 静的なリンク数より、実測の未収益化クリック件数を優先する。',
+  '- non-partner-candidate は損失ではなく、新規提携の検討材料として別管理する。',
+  '- official / 主催者リンクは読者価値のある正常行動で、収益損失として扱わない。',
   '',
 ];
 
