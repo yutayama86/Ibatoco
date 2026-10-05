@@ -74,3 +74,18 @@ It does not expose ASP raw CSVs, customer data, passwords, or Cloudflare secrets
 - `npm run audit:security` scans for private keys, common token formats, literal Control secrets, and auth/security regressions.
 - Control login failures use the same response regardless of whether password or TOTP was wrong.
 - Control pages cannot be framed and cannot request camera, microphone, geolocation, payment, or USB APIs.
+
+
+## Unified Growth OS との関係
+
+Control Center は表示専用の管理画面ではなく、統合Growth OSの**可視化レイヤー**です。
+
+- このChatGPTスレッド: オーナー司令塔
+- `/control/`: 判断・可視化
+- 毎朝7時の統合Growth OS: 自動実行
+- `data/editorial/action-queue.json`: 実行状態の正本
+- `docs/IBATOCO_UNIFIED_GROWTH_OS.md`: 運用ルールの正本
+
+Control CenterのP1/P2は判断候補です。毎朝7時OSが、実測・一次情報・観測窓・リスクを再評価し、自動実行可能なものだけ action queue の `ready` / `in-progress` に移して実装します。
+
+Control Centerには「朝7時OSの実行キュー」を表示し、現在の待機案件、直近完了、次回実行時刻を確認できるようにします。
