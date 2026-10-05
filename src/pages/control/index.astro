@@ -184,7 +184,7 @@ const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC
 
     <footer class="control__foot">
       <span>IBATOCO PRIVATE CONTROL</span>
-      <a href="/" target="_blank" rel="noreferrer">公開サイトを開く ↗</a>
+      <span class="foot-actions"><a href="/" target="_blank" rel="noreferrer">公開サイトを開く ↗</a><a href="/control/logout">ログアウト</a></span>
     </footer>
   </main>
 </ControlBase>
@@ -211,7 +211,7 @@ const generatedLabel = `GA4: ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC
   .panel--alert{border-color:#4b3c28}.action-list{display:grid;gap:.7rem;margin:0;padding-left:1.1rem}.action-list li{color:var(--warn);font-size:.8rem;line-height:1.6}.ok{color:var(--good)}
   .health{display:grid;gap:.2rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.72rem}.health dd{margin:0;font-size:.74rem;text-align:right}
   details{margin-top:1rem;color:var(--muted);font-size:.72rem}details ul{display:grid;gap:.5rem;padding-left:1.2rem;line-height:1.55}
-  .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.67rem}.control__foot a{text-decoration:none;color:var(--accent)}
+  .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.67rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
   @media(max-width:800px){.control{width:min(calc(100% - 1rem),1180px);padding-top:1rem}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.metric-grid{grid-template-columns:1fr 1fr}.metric--hero{grid-column:1/-1}.two-col{grid-template-columns:1fr}.funnel{grid-template-columns:1fr 1fr}}
   @media(max-width:480px){.metric-grid{grid-template-columns:1fr}.metric--hero{grid-column:auto}.metric{min-height:125px}.funnel{grid-template-columns:1fr 1fr}.control__foot{flex-direction:column}}
 </style>
