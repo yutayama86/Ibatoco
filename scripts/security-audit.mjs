@@ -69,7 +69,7 @@ for (const required of [
   if (!worker.includes(required)) add(`worker-security-missing: ${required}`);
 }
 
-if (!/password\.length\s*>=\s*20/.test(worker)) add('worker-security-missing: minimum 20-char password');
+if (!/(?:CONTROL_PASSWORD|password)\.length\s*>=\s*20/.test(worker)) add('worker-security-missing: minimum 20-char password');
 if (!/CONTROL_SESSION_SECONDS\s*=\s*60\s*\*\s*60\s*\*\s*4/.test(worker)) add('worker-security-missing: 4-hour session');
 if (!/status:\s*503/.test(worker)) add('worker-security-missing: fail-closed 503');
 
