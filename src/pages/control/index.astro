@@ -163,6 +163,70 @@ const doNotDo = [
   '手作業が比例して増える運用を新しく始めない',
 ].filter(Boolean) as string[];
 
+const topViewsMax = Math.max(1, ...topPages.map((p)=>Number(p.views ?? 0)));
+const gscPageMap = new Map<string, { impressions:number; clicks:number }>();
+for (const row of (performance.gscDiscovery?.findings ?? []) as Array<any>) {
+  if (!row.page) continue;
+  const current = gscPageMap.get(row.page) ?? { impressions:0, clicks:0 };
+  current.impressions += Number(row.impressions ?? 0);
+  current.clicks += Number(row.clicks ?? 0);
+  gscPageMap.set(row.page, current);
+}
+const bookingMap = new Map<string, number>(byPage.map((row)=>[row.path, Number(row.outbound_booking_click ?? 0)]));
+const maxGscImp = Math.max(1, ...[...gscPageMap.values()].map((v)=>v.impressions));
+const maxBooking = Math.max(1, ...[...bookingMap.values()]);
+
+const pageCandidates = new Map<string, { path:string; views:number; impressions:number; bookingClicks:number }>();
+for (const row of topPages) {
+  pageCandidates.set(row.path, {
+    path:row.path,
+    views:Number(row.views ?? 0),
+    impressions:gscPageMap.get(row.path)?.impressions ?? 0,
+    bookingClicks:bookingMap.get(row.path) ?? 0,
+  });
+}
+for (const [path,g] of gscPageMap) {
+  const current = pageCandidates.get(path) ?? { path, views:0, impressions:0, bookingClicks:bookingMap.get(path) ?? 0 };
+  current.impressions = g.impressions;
+  pageCandidates.set(path,current);
+}
+const pageOpportunity = [...pageCandidates.values()]
+  .map((row)=>({
+    ...row,
+    score: Math.round(
+      (row.views / topViewsMax) * 50
+      + (row.impressions / maxGscImp) * 35
+      + (row.bookingClicks / maxBooking) * 15
+    ),
+    reason: [
+      row.views > 0 ? `${fmt.format(row.views)} PV/7日` : null,
+      row.impressions > 0 ? `${fmt.format(row.impressions)} 検索表示` : null,
+      row.bookingClicks > 0 ? `${fmt.format(row.bookingClicks)} 予約クリック` : null,
+    ].filter(Boolean).join('・')
+  }))
+  .sort((a,b)=>b.score-a.score)
+  .slice(0,6);
+
+const confidenceRows = [
+  { label:'集客判断', level:dataAgeGa4 <= 2 ? '高' : dataAgeGa4 <= 4 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
+  { label:'SEO判断', level:dataAgeGsc <= 4 ? '高' : dataAgeGsc <= 7 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
+  { label:'収益判断', level:confirmedRevenue > 0 ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:confirmedRevenue > 0 ? '確定売上あり' : '確定売上未接続' },
+  { label:'提携判断', level:Number(conv.non_partner_candidate_click ?? 0) > 0 ? '中' : '高', note:`未提携候補 ${fmt.format(Number(conv.non_partner_candidate_click ?? 0))} click` },
+];
+
+const clusterLabelMap: Record<string,string> = {
+  autumnLeaves:'紅葉',
+  oaraiAnkou:'大洗あんこう',
+  tsuchiuraFireworks:'土浦花火',
+  novemberMajorDemand:'11月大型需要',
+  ibarakiPassport:'茨城パスポート',
+  otherEvergreenAndChannels:'その他・常設流入',
+};
+const clusterRows = Object.entries(acquisition.clusterObservedFloorViews ?? {})
+  .map(([key,value])=>({ key, label:clusterLabelMap[key] ?? key, value:Number(value ?? 0) }))
+  .sort((a,b)=>b.value-a.value);
+const clusterTotal = Math.max(1, clusterRows.reduce((sum,row)=>sum+row.value,0));
+
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
 ---
 
@@ -248,6 +312,55 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         </div>
         {searchOpportunity && <p class="quantum-note">検索表示は増加、CTRは低下。<b>今はSEO順位よりスニペット改善の期待値が高い</b>。</p>}
       </article>
+    </section>
+
+    <section class="two-col">
+      <article class="panel">
+        <div class="panel__head"><div><span>ページ別・伸びしろ</span><h2>どこを改善すると効きやすいか</h2></div><small>相対スコア</small></div>
+        <div class="opportunity-list">
+          {pageOpportunity.map((item,index)=>(
+            <a class="opportunity-item" href={item.path} target="_blank" rel="noreferrer">
+              <span class="opportunity-rank">{String(index+1).padStart(2,'0')}</span>
+              <div class="opportunity-copy">
+                <b>{item.path}</b>
+                <small>{item.reason || '実測シグナル不足'}</small>
+              </div>
+              <div class="opportunity-score"><strong>{item.score}</strong><small>/100</small></div>
+            </a>
+          ))}
+        </div>
+        <p class="note">売上予測ではなく、直近PV・検索表示・予約クリックを合成した<strong>相対的な改善優先度</strong>。</p>
+      </article>
+
+      <article class="panel">
+        <div class="panel__head"><div><span>判断の信頼度</span><h2>どこまで信じてよいか</h2></div><small>データ鮮度ベース</small></div>
+        <div class="confidence-list">
+          {confidenceRows.map((row)=>(
+            <div class="confidence-row">
+              <span>{row.label}</span>
+              <div>
+                <b class:list={['confidence-level',row.level==='高'?'high':row.level==='中'?'mid':'low']}>{row.level}</b>
+                <small>{row.note}</small>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="note">確定売上が入るまでは、金額よりクリック導線の良し悪しを優先して判断。</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel__head"><div><span>10万PVギャップ</span><h2>今どの需要が土台になっているか</h2></div><small>観測下限</small></div>
+      <div class="cluster-list">
+        {clusterRows.map((row)=>(
+          <div class="cluster-row">
+            <div><span>{row.label}</span><b>{fmt.format(row.value)} PV</b></div>
+            <div class="cluster-bar"><i style={`width:${Math.max(1,row.value/clusterTotal*100)}%`}></i></div>
+            <small>{pct(row.value/clusterTotal)}</small>
+          </div>
+        ))}
+      </div>
+      <p class="note">予測値ではなく、現在観測できている流入の下限。どの需要群に依存しているかを見るための内訳。</p>
     </section>
 
     <section class="two-col">
@@ -447,7 +560,34 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   .health{display:grid;gap:.15rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.7rem}.health dd{margin:0;font-size:.72rem;text-align:right}.good{color:var(--good)}.bad{color:var(--bad)}
   details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}
   .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.66rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
-  @media(max-width:1000px){.executive{grid-template-columns:1fr}.quantum-grid{grid-template-columns:1fr}.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:1000px){.cluster-list{grid-template-columns:1fr 1fr}.executive{grid-template-columns:1fr}.quantum-grid{grid-template-columns:1fr}.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:800px){.control{width:min(calc(100% - 1rem),1220px);padding-top:1rem}.risk-strip{grid-template-columns:1fr}.weekly-grid{grid-template-columns:1fr 1fr}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.two-col{grid-template-columns:1fr}.action-cards{grid-template-columns:1fr}.north-card__pace{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.funnel{grid-template-columns:1fr 1fr}}
-  @media(max-width:480px){.status-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
+  @media(max-width:480px){.cluster-list{grid-template-columns:1fr}.status-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
+
+  .opportunity-list{display:grid;gap:.35rem}
+  .opportunity-item{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.7rem;align-items:center;padding:.75rem;border-radius:10px;background:var(--panel-2);text-decoration:none}
+  .opportunity-rank{color:var(--muted);font-size:.62rem}
+  .opportunity-copy{min-width:0;display:grid;gap:.2rem}
+  .opportunity-copy b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem}
+  .opportunity-copy small{color:var(--muted);font-size:.65rem}
+  .opportunity-score{display:flex;align-items:baseline;gap:.15rem}
+  .opportunity-score strong{font-size:1.05rem;color:var(--accent)}
+  .opportunity-score small{color:var(--muted);font-size:.58rem}
+  .confidence-list{display:grid;gap:.35rem}
+  .confidence-row{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.75rem;border-radius:10px;background:var(--panel-2)}
+  .confidence-row>span{font-size:.74rem}
+  .confidence-row>div{display:grid;justify-items:end;gap:.15rem}
+  .confidence-level{font-size:.75rem}
+  .confidence-level.high{color:var(--good)}
+  .confidence-level.mid{color:var(--warn)}
+  .confidence-level.low{color:var(--bad)}
+  .confidence-row small{color:var(--muted);font-size:.62rem}
+  .cluster-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+  .cluster-row{display:grid;gap:.35rem}
+  .cluster-row>div:first-child{display:flex;justify-content:space-between;gap:.5rem;font-size:.72rem}
+  .cluster-row span{color:var(--muted)}
+  .cluster-bar{height:7px;border-radius:999px;background:#22304a;overflow:hidden}
+  .cluster-bar i{display:block;height:100%;background:var(--accent)}
+  .cluster-row small{color:var(--muted);font-size:.62rem}
+
 </style>
