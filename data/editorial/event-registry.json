@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-04",
+  "updatedAt": "2026-10-05",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -444,6 +444,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "makabe-jusanya-matsuri-2026",
+      "name": "まかべ街灯り十三夜祭",
+      "municipality": "sakuragawa",
+      "startDate": "2026-10-10",
+      "endDate": null,
+      "officialUrl": "https://www.kankou-sakuragawa.jp/page/page000830.html",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-05",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "桜川市観光協会公式で、令和8年10月10日（土）、小雨決行・荒天延期、歩行者天国14:00〜19:00、灯りの点灯16:00〜19:00、会場は真壁伝承館・神武天皇遥拝殿周辺を確認。主催はまかべ街灯り十三夜祭実行委員会（観光いばらきに記載）。直前の催しのため、記事化するなら週末前の判断が必要。"
+    },
+    {
       "id": "ibaraki-urban-greening-festival-2026",
       "name": "いばらき都市緑化フェスティバル",
       "municipality": "hitachinaka",
@@ -528,6 +549,48 @@
       "notes": "クラブ公式で10月17日16時開始、K's kids passport会員1人につき同伴保護者1人をゴール裏ホーム自由席へ無料招待と確認。需要シグナルは根拠未取得のためunknown。"
     },
     {
+      "id": "mito-autumn-festa-2026",
+      "name": "MITO AUTUMN FESTA 2026",
+      "municipality": "mito",
+      "startDate": "2026-10-23",
+      "endDate": "2026-10-25",
+      "officialUrl": null,
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらきで、10月23日（金）〜25日（日）、会場は水戸駅南口ペデストリアンデッキ、観覧無料・雨天中止、主催は水戸活性化イベント実行委員会を確認。主催者の告知はX・LINEのみで、一次情報ページは未確認。"
+    },
+    {
+      "id": "namegata-sunset-festa-2026",
+      "name": "サンセットフェスタIN天王崎2026（行方湖上花火）",
+      "municipality": "namegata",
+      "startDate": "2026-10-24",
+      "endDate": null,
+      "officialUrl": "https://www.nameshoko.com/sunset2026/",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-05",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "主催者公式（行方市商工会）で、10月24日（土）※荒天時25日（日）、19:00打ち上げ開始、2部構成（第1部約30分→点検・休憩20分→第2部約25分）、会場は行方市天王崎公園、専用駐車場8か所・うち5か所からシャトルバス、17:00から交通規制を確認。茨城県観光物産協会（観光いばらき）にも同内容。イバトコには記事・まとめ掲載とも無し。"
+    },
+    {
       "id": "hitachi-seaside-volunteer-festival-2026",
       "name": "ボランティアまつり",
       "municipality": "hitachinaka",
@@ -589,6 +652,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "satomi-kakashi-matsuri-2026",
+      "name": "第39回 里美かかし祭",
+      "municipality": "hitachiota",
+      "startDate": "2026-10-24",
+      "endDate": "2026-11-21",
+      "officialUrl": null,
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらきで、令和8年10月24日（土）〜11月21日（土）、会場は里美ふれあい館イベント広場、問い合わせはさとみ祭り実行委員会を確認。リンク先の常陸太田市観光物産協会のページは前回（第38回、10月25日〜11月22日）の内容のままで、2026年の日程は一次情報で未確認。"
     },
     {
       "id": "hitachi-seaside-wind-music-carnival-2026",
@@ -654,6 +738,90 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "nakaminato-kaijo-hanabi-2026",
+      "name": "第37回那珂湊海上花火大会",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-31",
+      "endDate": null,
+      "officialUrl": "https://www.hcci.jp/minato/",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-05",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "主催者公式（那珂湊海上花火大会実行委員会／ひたちなか商工会議所那珂湊支所内）で、令和8年10月31日（土）18:00〜（開会式17:45〜）、荒天等の順延日11月1日（日）、会場は那珂湊漁港（ひたちなか市和田町）、一般駐車場なし・公共交通機関の利用を案内、後援ひたちなか市・ひたちなか商工会議所を確認。打ち上げ数（約800発）と終了時刻（19:00）は花火情報サイトのみで、公式には記載なし。2026-10-05、オーナーの共有したSNS投稿をきっかけに発見。イバトコには記事・まとめ掲載とも無し。"
+    },
+    {
+      "id": "itako-hanabi-2026",
+      "name": "第48回水郷潮来花火大会",
+      "municipality": "itako",
+      "startDate": "2026-10-31",
+      "endDate": null,
+      "officialUrl": "https://www.city.itako.lg.jp/kankou/kankou-info/page009024.html",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-05",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "潮来市公式で、令和8年10月31日（土）開会・花火打上18:30〜、会場は北利根川特設会場（水郷北斎公園）、当日13:00に開催判断、荒天時は11月1日（日）に延期・両日不可なら中止、主催は水郷潮来花火大会実行委員会（共催：潮来市・水郷潮来観光協会・潮来市商工会）を確認。有料桟敷席あり（今年は優良席以外が自由席。料金・販売場所は公式の表を確認すること）。イバトコには記事・まとめ掲載とも無し。"
+    },
+    {
+      "id": "ibaraki-machi-matsuri-hanabi-2026",
+      "name": "いばらきまつり フィナーレ花火（茨城町）",
+      "municipality": "ibaraki-machi",
+      "startDate": "2026-11-01",
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらき（https://www.ibarakiguide.jp/ のイベント情報）で、11月1日、会場は総合福祉センターゆうゆう館駐車場（茨城町小堤1037-1）、打ち上げ予定数約200発を確認。主催者・茨城町の公式ページは未確認。記事化する場合は茨城町の一次情報で日程・時刻を確認すること。"
+    },
+    {
+      "id": "shimotsuma-kiku-matsuri-2026",
+      "name": "下妻市菊まつり",
+      "municipality": "shimotsuma",
+      "startDate": "2026-11-01",
+      "endDate": "2026-11-25",
+      "officialUrl": "https://www.daiho.or.jp/",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらきで、11月1日（日）〜11月25日（水）、会場は大宝八幡宮（下妻市大宝667）、主催は下妻市菊花会（後援：下妻市・下妻市観光協会）を確認。2026-10-05時点で大宝八幡宮の公式サイトには2026年の告知が未掲載。"
+    },
+    {
       "id": "mitsukaido-rail-yard-event-2026",
       "name": "水海道車両基地公開イベント2026",
       "municipality": "joso",
@@ -717,6 +885,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "daigo-hanabi-2026",
+      "name": "大子町花火大会（松沼橋 防災道の駅完成記念大会・仮称）",
+      "municipality": "daigo",
+      "startDate": "2026-11-21",
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらき・花火情報サイトで11月21日（土）、久慈川・押川合流点中州、18:00〜18:30（予定）の掲載を確認。名称は仮称で、詳細（打ち上げ数等）は未発表。大子町・大子町観光協会の一次情報が出てから確認すること。"
+    },
+    {
       "id": "tsuchiura-curry-festival-2026",
       "name": "第23回土浦カレーフェスティバル",
       "municipality": "tsuchiura",
@@ -757,6 +946,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "kawachi-christmas-illumination-2026",
+      "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
+      "municipality": "kawachi",
+      "startDate": "2026-12-19",
+      "endDate": null,
+      "officialUrl": "https://kawachi-illumination.lanitech.jp/",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
     }
   ]
 }
