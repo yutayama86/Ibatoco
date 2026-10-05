@@ -219,7 +219,10 @@ export default {
 
         if (request.method === 'POST') {
           const origin = request.headers.get('Origin');
-          if (origin !== 'https://ibatoco.jp') {
+          const referer = request.headers.get('Referer') || '';
+          const originOk = origin === 'https://ibatoco.jp'
+            || (!origin && referer.startsWith('https://ibatoco.jp/control/'));
+          if (!originOk) {
             return new Response('Invalid origin.', {
               status: 403,
               headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
