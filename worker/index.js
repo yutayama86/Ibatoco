@@ -220,8 +220,11 @@ export default {
         if (request.method === 'POST') {
           const origin = request.headers.get('Origin');
           const referer = request.headers.get('Referer') || '';
+          const fetchSite = (request.headers.get('Sec-Fetch-Site') || '').toLowerCase();
           const originOk = origin === 'https://ibatoco.jp'
-            || (!origin && referer.startsWith('https://ibatoco.jp/control/'));
+            || ((!origin || origin === 'null')
+              && (fetchSite === 'same-origin' || fetchSite === 'same-site')
+              && (!referer || referer.startsWith('https://ibatoco.jp/control/')));
           if (!originOk) {
             return new Response('Invalid origin.', {
               status: 403,
