@@ -218,6 +218,22 @@ export default {
         }
 
         if (request.method === 'POST') {
+          const origin = request.headers.get('Origin');
+          if (origin !== 'https://ibatoco.jp') {
+            return new Response('Invalid origin.', {
+              status: 403,
+              headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
+            });
+          }
+
+          const contentLength = Number(request.headers.get('Content-Length') || '0');
+          if (Number.isFinite(contentLength) && contentLength > 8192) {
+            return new Response('Request too large.', {
+              status: 413,
+              headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
+            });
+          }
+
           const contentType = request.headers.get('Content-Type') || '';
           if (!contentType.toLowerCase().startsWith('application/x-www-form-urlencoded')
               && !contentType.toLowerCase().startsWith('multipart/form-data')) {
