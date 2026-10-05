@@ -71,6 +71,8 @@ for (const required of [
 
 if (!/(?:CONTROL_PASSWORD|password)\.length\s*>=\s*20/.test(worker)) add('worker-security-missing: minimum 20-char password');
 if (!/CONTROL_SESSION_SECONDS\s*=\s*60\s*\*\s*60\s*\*\s*4/.test(worker)) add('worker-security-missing: 4-hour session');
+if (!worker.includes('Path=/; Max-Age=${CONTROL_SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict')) add('worker-security-missing: valid __Host cookie Path=/');
+if (worker.includes('Path=/control;')) add('worker-security-invalid: __Host cookie cannot use Path=/control');
 if (!/status:\s*503/.test(worker)) add('worker-security-missing: fail-closed 503');
 
 if (findings.length) {
