@@ -29,10 +29,10 @@ const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
 const warnings = performance.source?.warnings ?? [];
-const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;訪問:number}>;
-const channelTotal = channelRows.reduce((s,r)=>s+Number(r.訪問??0),0);
+const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
+const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
-const providerRows = (performance.conversionDetail.by提供元Page ?? []) as Array<any>;
+const providerRows = (performance.conversionDetail.byProviderPage ?? []) as Array<any>;
 const providerSummary = new Map<string, { provider: string; clicks: number; paid: number; candidate: number; official: number }>();
 for (const row of providerRows) {
   const provider = String(row.link_provider ?? 'unknown');
@@ -275,9 +275,9 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         <div class="channels">
           {channelRows.map((row)=>(
             <div class="channel">
-              <div><span>{row.channel}</span><b>{fmt.format(row.訪問)}</b></div>
-              <div class="mini-bar"><i style={`width:${channelTotal?Math.max(1,row.訪問/channelTotal*100):0}%`}></i></div>
-              <small>{channelTotal?pct(row.訪問/channelTotal):'—'}</small>
+              <div><span>{row.channel}</span><b>{fmt.format(row.sessions)}</b></div>
+              <div class="mini-bar"><i style={`width:${channelTotal?Math.max(1,row.sessions/channelTotal*100):0}%`}></i></div>
+              <small>{channelTotal?pct(row.sessions/channelTotal):'—'}</small>
             </div>
           ))}
         </div>
