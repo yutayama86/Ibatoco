@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-06",
   "policy": {
     "objective": "GA4 Views月間100,000への期待増分を最大化する",
     "lanes": [
@@ -376,7 +376,7 @@
         "resolution": "終了済み表記、9/29休園、次の紅葉時期、季節料金へ更新"
       },
       "opportunity": "11月紅葉クラスターの入口を正確に保ち、個別4ページへの内部回遊を維持する。",
-      "nextReview": "2026-10-06"
+      "nextReview": "2026-10-13"
     },
     {
       "id": "hitachinaka-rail-park-access-20261002",
@@ -394,6 +394,25 @@
       },
       "opportunity": "公共交通で海浜公園へ向かう料金・買い方・阿字ヶ浦駅からの移動意図を恒久URLで獲得し、海浜公園・コキア・那珂湊クラスターへ回遊させる。",
       "nextReview": "2026-10-09"
+    },
+    {
+      "id": "tsuchiura-bike-bicycle-access-20261006",
+      "lane": "seo",
+      "status": "implemented",
+      "evidenceDate": "2026-10-06",
+      "evidence": {
+        "target": "/events/tsuchiura-hanabi-2026/",
+        "gscPeriod": "2026-09-06..2026-10-03",
+        "clicks": 2,
+        "impressions": 344,
+        "ctr": 0.0058,
+        "averagePosition": 7.41,
+        "officialTrigger": "2026-10-02に大会公式がバイク・自転車の臨時駐車場なしと利用先を公開",
+        "expectedNovemberViews": "unknown",
+        "estimateBasis": "バイク・自転車意図の独立した検索母数を取得できず、推測しない"
+      },
+      "opportunity": "11月の大型季節ページで新規交通意図を取り込み、期限切れ申込CTAを解消して検索結果からの信頼と行動価値を維持する。",
+      "nextReview": "2026-10-13"
     }
   ]
 }

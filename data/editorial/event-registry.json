@@ -850,18 +850,18 @@
       "endDate": null,
       "officialUrl": "https://www.tsuchiura-hanabi.jp/",
       "discoveredAt": "2026-09-02",
-      "verifiedAt": "2026-09-20",
+      "verifiedAt": "2026-10-06",
       "articleUrl": "/events/tsuchiura-hanabi-2026/",
-      "articleUpdatedAt": "2026-09-27",
+      "articleUpdatedAt": "2026-10-06",
       "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
         "visitorDraw": "unknown",
         "localSpend": "medium",
-        "logisticsDemand": "unknown"
+        "logisticsDemand": "high"
       },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+      "notes": "2026-10-06確認。大会公式が10月2日付でバイク・自転車の臨時駐車場なしと利用先を公開。交通規制図は引き続き準備中。検索需要はGSCでページ単位のみ確認でき、二輪意図の独立需要はunknown。"
     },
     {
       "id": "oarai-ankou-matsuri-2026",
