@@ -1,7 +1,43 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-05",
+  "updatedAt": "2026-10-06",
   "actions": [
+    {
+      "id": "20261006-tsuchiura-bike-bicycle-access",
+      "title": "土浦花火のバイク・自転車案内と申込終了状態を更新",
+      "kind": "update",
+      "targetUrl": "/events/tsuchiura-hanabi-2026/",
+      "targetFile": "src/content/events/tsuchiura-hanabi-2026.md",
+      "additionalTargetFiles": [
+        "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
+        "data/editorial/performance-snapshot.json",
+        "data/editorial/popular-pages.json",
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/revenue-opportunities.json",
+        "src/data/card-images.ts",
+        "public/images/card/"
+      ],
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-06",
+      "completedAt": "2026-10-06",
+      "specPath": "docs/editorial/specs/20261006-tsuchiura-bike-bicycle-access.md",
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/page/page000323.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000322.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000306.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000313.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000305.html"
+      ],
+      "acceptanceCriteria": [
+        "両記事でバイク・自転車の臨時駐車場なしと公式利用先を反映",
+        "個別リセールを受付中とする文言とCTAを解消",
+        "交通規制図は2026-10-06時点の準備中表記を維持し前年図を流用しない",
+        "既存URL・title・H1・TOP・カードCSSを変更しない",
+        "npm run verify・CI成功、本番200・canonical・FAQ・公式CTAを確認"
+      ],
+      "notes": "11月最重要ページの公式更新。GSC直近28日344表示・平均7.41位・CTR0.58%で、公式発表直後の交通意図を拾いつつ誤情報を解消。検索需要の独立計測がないため期待増分は推測せず0計上。"
+    },
     {
       "id": "20261005-event-lifecycle-recommendation-handoff",
       "title": "終了イベントの自動寿命管理と11月回遊への切替",
@@ -476,14 +512,14 @@
       "priority": "high",
       "status": "candidate",
       "createdAt": "2026-09-27",
-      "dueDate": "2026-10-06",
+      "dueDate": "2026-10-07",
       "primarySourceUrls": [
         "https://www.oarai-info.jp/",
         "https://www.tsuchiura-hanabi.jp/page/page000306.html",
         "https://ohtsuribashi.ryujinkyo.jp/event.html",
         "https://mt-tsukuba.com/information"
       ],
-      "notes": "2026-10-05再確認。大洗あんこう祭の詳細時刻・駐車場、土浦花火の2026交通規制図、竜神峡紅葉まつりの2026会期、筑波山秋の夜間運行日は新規公式発表を確認できず、記事は推測更新しない。発表され次第、該当記事へ追記する。土浦花火の交通規制図（兼 お帰りマップ）が出たら、/events/tsuchiura-hanabi-2026-kaeri/ に観覧場所ごとの帰り道を追記し、本体記事の「準備中」表記も更新する。",
+      "notes": "2026-10-06再確認。土浦花火は10月2日付でバイク・自転車の案内を新規公開したため、総合・帰り方ガイドへ反映。交通規制図は引き続き準備中。大洗あんこう祭の詳細時刻・駐車場、竜神峡紅葉まつりの2026会期、筑波山秋の夜間運行日は新規公式発表を確認できず、推測更新しない。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/tsuchiura-hanabi-2026.md"
@@ -498,7 +534,7 @@
       "priority": "high",
       "status": "candidate",
       "createdAt": "2026-09-28",
-      "dueDate": "2026-10-06",
+      "dueDate": "2026-10-07",
       "primarySourceUrls": [
         "https://www.tsuchiura-hanabi.jp/faq.php?mode=detail&lc=0&c=1&code=3",
         "https://komonsan.jp/",
@@ -506,7 +542,7 @@
         "https://www.flowerpark.or.jp/time-price/",
         "https://www.town.daigo.ibaraki.jp/page/page009036.html"
       ],
-      "notes": "2026-10-05再確認。土浦花火の開催判断時刻、常磐神社の2026七五三特別祈祷、笠間菊まつり第119回の会期、フラワーパーク年末休園表記の統一、道の駅奥久慈だいごWEST追加交通情報について新たに記事へ反映できる一次情報を確認できず、推測更新しない。公式発表後に各対象ページへ即日反映する。",
+      "notes": "2026-10-06再確認。土浦花火の開催判断時刻は変更なし。常磐神社七五三は受付時間8〜16時・祈祷料7,000円以上・オンライン/FAXは2日前までを公式で確認し既存記載と整合。フラワーパークのイルミネーション日程・休園日も既存記載と整合。道の駅奥久慈だいごWESTは10月5日付で施設・交通PDFが更新されたため、11月PV期待値と観測窓を比較して次回実装候補に残す。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
         "src/content/events/ibaraki-shichigosan-2026.md",
