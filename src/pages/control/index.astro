@@ -2,6 +2,7 @@
 import ControlBase from '../../layouts/ControlBase.astro';
 import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
+import actionQueue from '../../../data/editorial/action-queue.json';
 
 const fmt = new Intl.NumberFormat('ja-JP');
 const pct = (v: number | null | undefined, digits = 1) => v == null || !Number.isFinite(Number(v)) ? '—' : `${(Number(v) * 100).toFixed(digits)}%`;
@@ -227,6 +228,21 @@ const clusterRows = Object.entries(acquisition.clusterObservedFloorViews ?? {})
   .sort((a,b)=>b.value-a.value);
 const clusterTotal = Math.max(1, clusterRows.reduce((sum,row)=>sum+row.value,0));
 
+const queueActions = (actionQueue.actions ?? []) as Array<any>;
+const activeQueue = queueActions
+  .filter((item)=>item.status === 'ready' || item.status === 'in-progress')
+  .sort((a,b)=>{
+    const rank: Record<string,number> = { critical:0, high:1, medium:2, low:3 };
+    return (rank[a.priority] ?? 9) - (rank[b.priority] ?? 9);
+  })
+  .slice(0,5);
+const recentDone = queueActions
+  .filter((item)=>item.status === 'done')
+  .sort((a,b)=>String(b.completedAt ?? b.createdAt ?? '').localeCompare(String(a.completedAt ?? a.createdAt ?? '')))
+  .slice(0,3);
+const autoRunState = activeQueue.length > 0
+  ? `${activeQueue.length}件が自動実行キュー待ち`
+  : '現在の実行待ちは0件。次回7時に再評価';
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
 ---
 
@@ -246,6 +262,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
     </header>
 
     <nav class="quick-nav" aria-label="ダッシュボード内メニュー">
+      <a href="#auto">自動運転</a>
       <a href="#today">今日やること</a>
       <a href="#goal">10万PV進捗</a>
       <a href="#traffic">集客</a>
@@ -381,6 +398,39 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         <div class="panel__head"><div><span>やらないこと</span><h2>今は手を出さない</h2></div><small>集中を守る</small></div>
         <ul class="dont-list">{doNotDo.map((item)=><li>{item}</li>)}</ul>
       </article>
+    </section>
+
+    <section class="panel auto-panel" id="auto">
+      <div class="panel__head">
+        <div><span>自動運転</span><h2>朝7時OSの実行キュー</h2></div>
+        <small>{actionQueue.updatedAt ?? '—'} 更新</small>
+      </div>
+      <div class="auto-summary">
+        <div><span>状態</span><strong>{autoRunState}</strong></div>
+        <div><span>次回</span><strong>毎朝 7:00</strong></div>
+        <div><span>完了条件</span><strong>本番確認まで</strong></div>
+      </div>
+      {activeQueue.length > 0 ? (
+        <div class="queue-list">
+          {activeQueue.map((item,index)=>(
+            <article class="queue-item">
+              <span>{String(index+1).padStart(2,'0')}</span>
+              <div>
+                <b>{item.title}</b>
+                <small>{item.priority?.toUpperCase()} · {item.status} · {item.targetUrl ?? '対象URLなし'}</small>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="queue-empty">いま待機中の案件はありません。Control CenterのP1/P2・GA4/GSC・イベント台帳を朝7時に再評価し、実行可能な施策だけキューへ入れます。</p>
+      )}
+      {recentDone.length > 0 && (
+        <details class="recent-done">
+          <summary>直近の自動実行完了 {recentDone.length}件</summary>
+          <ul>{recentDone.map((item)=><li><b>{item.title}</b><span>{item.completedAt ?? '—'}</span></li>)}</ul>
+        </details>
+      )}
     </section>
 
     <section class="decision-grid" id="today">
@@ -541,6 +591,8 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   .quick-nav{position:sticky;top:0;z-index:20;display:flex;gap:.45rem;overflow:auto;margin:0 -.2rem;padding:.75rem .2rem;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.quick-nav a{flex:0 0 auto;padding:.55rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:.72rem;text-decoration:none}.quick-nav a:hover{border-color:var(--accent)}
   .executive{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.8fr);gap:.8rem;margin-top:1rem}.executive__main,.weekly-box{padding:1.2rem;border:1px solid var(--line);border-radius:18px;background:var(--panel)}.executive__main{background:linear-gradient(135deg,#17263e 0%,#111a2b 62%)}.executive__label{margin:0;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.08em}.executive__main h2{max-width:54rem;margin:.6rem 0 0;font-size:clamp(1.2rem,2.8vw,2rem);line-height:1.5;letter-spacing:-.02em}.executive__chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.executive__chips span{padding:.55rem .7rem;border:1px solid #2a3b58;border-radius:999px;background:#0e1828;color:var(--muted);font-size:.72rem}.executive__chips b{color:var(--text)}.weekly-box>p{margin:0 0 .8rem;color:var(--muted);font-size:.72rem;font-weight:800}.weekly-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.weekly-item{display:grid;gap:.2rem;padding:.7rem;border-radius:10px;background:var(--panel-2)}.weekly-item span{color:var(--muted);font-size:.64rem}.weekly-item strong{font-size:1.15rem}.weekly-item small{font-size:.62rem;color:var(--muted)}.weekly-item.good strong{color:var(--good)}.weekly-item.bad strong{color:var(--bad)}.risk-strip{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:flex-start;margin-top:.8rem;padding:.8rem 1rem;border:1px solid #5a4528;border-radius:12px;background:#17150f}.risk-strip>b{color:var(--warn);font-size:.72rem;white-space:nowrap}.risk-strip>div{display:flex;gap:.6rem;flex-wrap:wrap}.risk-strip span{color:#e9d7af;font-size:.72rem;line-height:1.5}
   .quantum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem}.quantum-card{padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.scenario-list{display:grid;gap:.75rem}.scenario{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.3rem .8rem;align-items:end}.scenario>div:first-child{display:grid;gap:.15rem}.scenario b{font-size:.78rem}.scenario span{color:var(--muted);font-size:.66rem}.scenario strong{font-size:1.05rem}.scenario strong small{color:var(--muted);font-size:.62rem}.scenario-bar{grid-column:1/-1;height:6px;border-radius:999px;background:#22304a;overflow:hidden}.scenario-bar i{display:block;height:100%;background:var(--accent)}.quantum-note{margin:.9rem 0 0;padding:.75rem;border-radius:10px;background:#0f1929;color:var(--muted);font-size:.72rem;line-height:1.6}.quantum-note b{color:var(--text)}.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.status-pill{display:flex;justify-content:space-between;gap:.6rem;padding:.7rem;border-radius:10px;background:var(--panel-2);font-size:.72rem}.status-pill span{color:var(--muted)}.status-pill.is-good b{color:var(--good)}.status-pill.is-bad b{color:var(--bad)}.panel--focus{border-color:#294c72}.panel--dont{border-color:#493a2a}.focus-list{display:grid;gap:.35rem}.focus-item{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.7rem;border-radius:10px;text-decoration:none;background:var(--panel-2)}.focus-item>span{color:var(--muted);font-size:.62rem}.focus-item div{min-width:0;display:grid;gap:.2rem}.focus-item b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem}.focus-item small{color:var(--muted);font-size:.65rem}.focus-item i{color:var(--accent);font-style:normal}.dont-list{display:grid;gap:.7rem;margin:0;padding-left:1.1rem}.dont-list li{color:#e8d6b5;font-size:.78rem;line-height:1.6}
+  .auto-panel{border-color:#315074;background:linear-gradient(135deg,#111c2f,var(--panel))}
+  .auto-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}.auto-summary>div{display:grid;gap:.3rem;padding:.8rem;border-radius:10px;background:var(--panel-2)}.auto-summary span{color:var(--muted);font-size:.64rem}.auto-summary strong{font-size:.82rem}.queue-list{display:grid;gap:.4rem;margin-top:.8rem}.queue-item{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:.6rem;padding:.75rem;border:1px solid var(--line);border-radius:10px;background:#0f1929}.queue-item>span{color:var(--accent);font-size:.64rem}.queue-item div{display:grid;gap:.2rem}.queue-item b{font-size:.78rem}.queue-item small{color:var(--muted);font-size:.65rem}.queue-empty{margin:.8rem 0 0;color:var(--muted);font-size:.74rem;line-height:1.6}.recent-done{margin-top:.8rem}.recent-done ul{display:grid;gap:.45rem}.recent-done li{display:flex;justify-content:space-between;gap:1rem}.recent-done li span{color:var(--muted)}
   .decision-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-top:1rem}
   .decision-card{min-height:220px;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
   .decision-card--good{border-color:#24513b}.decision-card--warn{border-color:#5a4528}.decision-card--action{border-color:#294c72}
@@ -561,7 +613,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}
   .control__foot{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1rem 0;color:var(--muted);font-size:.66rem}.control__foot a{text-decoration:none;color:var(--accent)}.foot-actions{display:flex;gap:1rem}
   @media(max-width:1000px){.cluster-list{grid-template-columns:1fr 1fr}.executive{grid-template-columns:1fr}.quantum-grid{grid-template-columns:1fr}.decision-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:800px){.control{width:min(calc(100% - 1rem),1220px);padding-top:1rem}.risk-strip{grid-template-columns:1fr}.weekly-grid{grid-template-columns:1fr 1fr}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.two-col{grid-template-columns:1fr}.action-cards{grid-template-columns:1fr}.north-card__pace{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.funnel{grid-template-columns:1fr 1fr}}
+  @media(max-width:800px){.auto-summary{grid-template-columns:1fr}.control{width:min(calc(100% - 1rem),1220px);padding-top:1rem}.risk-strip{grid-template-columns:1fr}.weekly-grid{grid-template-columns:1fr 1fr}.control__head{align-items:flex-start;flex-direction:column}.freshness{text-align:left}.two-col{grid-template-columns:1fr}.action-cards{grid-template-columns:1fr}.north-card__pace{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.funnel{grid-template-columns:1fr 1fr}}
   @media(max-width:480px){.cluster-list{grid-template-columns:1fr}.status-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}.metric{min-height:auto}.control__foot{flex-direction:column}.decision-card{min-height:auto}}
 
   .opportunity-list{display:grid;gap:.35rem}
