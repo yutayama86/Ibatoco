@@ -4,12 +4,15 @@ import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getDiscoverySpot, getDiscoverySpots } from '../../lib/discovery-spots';
+import { fitLength } from '../../lib/text-fit';
 
 export const getStaticPaths = (() =>
   getDiscoverySpots().map((spot) => ({ params: { slug: spot.slug }, props: { spot } }))
 ) satisfies GetStaticPaths;
 
 const { spot } = Astro.props as { spot: ReturnType<typeof getDiscoverySpot> extends infer T ? Exclude<T, undefined> : never };
+// 見出しを1行に収める大きさの目安（src/lib/text-fit.ts）
+const titleLen = fitLength(spot.title);
 const nearby = getDiscoverySpots()
   .filter((item) => item.municipality === spot.municipality && item.slug !== spot.slug)
   .slice(0, 6);
@@ -46,7 +49,7 @@ const jsonLd = [
   <header class="spot-head bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">DISCOVERY MINI GUIDE</p>
-    <h1>{spot.title}</h1>
+    <h1 style={`--fit-len:${titleLen}`} data-long={Number(titleLen) > 11.2 ? '' : undefined}>{spot.title}</h1>
     <p class="spot-head__area">{spot.regionLabel}・{spot.municipalityName}</p>
     <p class="spot-head__lead">{spot.summary}</p>
   </header>
@@ -89,6 +92,14 @@ const jsonLd = [
 <style>
   .spot-head{padding-block:clamp(2.5rem,6vw,5rem) clamp(2rem,5vw,3.5rem)}
   .spot-head h1{margin:.9rem 0 .7rem;font:600 clamp(2.5rem,7vw,5rem)/1.15 var(--font-brand-display);color:var(--color-ink);letter-spacing:-.03em}
+  /*
+   * 施設名は1語が長く（例「アクアワールド茨城県大洗水族館」）、スマホでは1行に入りきらず「…水族／館」と
+   * 最後の1文字だけ次の行に落ちていた（2026-10-05、320・360pxで8件）。名前の長さ（src/lib/text-fit.ts）に合わせて
+   * 1行に収まる大きさまで下げる。下限でも入らない長い名前は字単位で折り、行の長さをそろえる。通常の大きさが上限（PCで短い名前は今までどおり）。
+   */
+  .spot-head{container-type:inline-size}
+  .spot-head h1{font-size:clamp(1.6rem,calc(100cqi / var(--fit-len,1)),clamp(2.5rem,7vw,5rem));text-wrap:balance}
+  .spot-head h1[data-long]{word-break:normal;line-break:strict}
   .spot-head__area{margin:0;color:var(--color-tide);font-size:.84rem;font-weight:700}
   .spot-head__lead{max-width:46rem;margin:1.2rem 0 0;color:var(--color-soil);line-height:1.95}
   .spot-body{display:grid;gap:2.2rem;padding-bottom:5rem}
