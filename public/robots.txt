@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /preview/
+Disallow: /control/
 # SEO運用データ（計測用。検索結果に出す必要がない）
 Disallow: /seo-changes.json
 

@@ -153,6 +153,30 @@ for (const file of pages) {
   }
 }
 
+// Private Control Center: 検索除外・認証・計測除外を退行させない。
+const controlHtmlPath = join(DIST, 'control', 'index.html');
+if (!existsSync(controlHtmlPath)) {
+  add('error', 'control-center', '/control/ がビルドされていません');
+} else {
+  const controlHtml = readFileSync(controlHtmlPath, 'utf8');
+  if (!/name="robots"[^>]+content="[^"]*noindex[^"]*nofollow/i.test(controlHtml)) {
+    add('error', 'control-center', '/control/ に noindex,nofollow がありません');
+  }
+  if (/googletagmanager\.com|gtag\(/i.test(controlHtml)) {
+    add('error', 'control-center', '/control/ にGA計測コードが含まれています');
+  }
+}
+
+const workerPath = 'worker/index.js';
+if (!existsSync(workerPath)) {
+  add('error', 'control-center', 'worker/index.js がありません');
+} else {
+  const worker = readFileSync(workerPath, 'utf8');
+  for (const required of ['CONTROL_PASSWORD', "url.pathname === '/control'", 'status: 503', 'X-Robots-Tag', 'Cache-Control']) {
+    if (!worker.includes(required)) add('error', 'control-center', `WorkerのControl保護要件が欠落: ${required}`);
+  }
+}
+
 // 重複 title / description
 for (const [value, urls] of titles) {
   if (urls.length > 1) add('error', 'duplicate-title', `title が ${urls.length} ページで重複: 「${value.slice(0, 50)}」 → ${urls.slice(0, 4).join(' , ')}`);
@@ -165,6 +189,11 @@ for (const urls of descriptions.values()) {
 const sitemapPath = join(DIST, 'sitemap-index.xml');
 const sitemapAlt = join(DIST, 'sitemap.xml');
 if (!existsSync(sitemapPath) && !existsSync(sitemapAlt)) add('error', 'sitemap', 'sitemap が出力されていません');
+for (const sitemap of [sitemapPath, sitemapAlt]) {
+  if (existsSync(sitemap) && /https:\/\/ibatoco\.jp\/control\/?</.test(readFileSync(sitemap, 'utf8'))) {
+    add('error', 'control-center', 'sitemap に /control/ が含まれています');
+  }
+}
 const newsSitemapPath = join(DIST, 'news-sitemap.xml');
 if (!existsSync(newsSitemapPath)) add('error', 'news-sitemap', 'news-sitemap.xml が出力されていません');
 const robotsPath = join(DIST, 'robots.txt');
@@ -174,6 +203,7 @@ else {
   if (!/Sitemap:/i.test(robots)) add('warn', 'robots', 'robots.txt に Sitemap の記載がありません');
   if (!robots.includes('/news-sitemap.xml')) add('warn', 'robots', 'robots.txt に News sitemap の記載がありません');
   if (/^\s*Disallow:\s*\/\s*$/m.test(robots)) add('error', 'robots', 'robots.txt がサイト全体を拒否しています');
+  if (!/^Disallow:\s*\/control\/$/m.test(robots)) add('error', 'control-center', 'robots.txt が /control/ を拒否していません');
 }
 
 // 重いアセット
