@@ -212,9 +212,14 @@
       "form_start": 4,
       "form_submit": 4,
       "generate_lead": 0,
-      "monetized_booking_click": "missing",
-      "non_monetized_booking_click": "missing",
-      "monetized_click_share": "missing"
+      "monetized_booking_click": 4,
+      "non_monetized_booking_click": 0,
+      "monetized_click_share": 1,
+      "paid_booking_click": 4,
+      "active_unmapped_booking_click": 0,
+      "official_booking_click": 34,
+      "non_partner_candidate_click": 7,
+      "active_partner_click": 4
     },
     "previous7": {
       "start": "2026-09-19",
@@ -245,7 +250,7 @@
       "form_submit": 4,
       "generate_lead": 1
     },
-    "interpretation": "GrowthNextはCTR 4.25%でクリック基準2%を継続達成。UIを再改修せず10月25日の28日ゲートまで観測する。直近7日の予約クリックは45件、business CTA clickは1件、確定成果・売上は0。成果リンク別内訳は当日取得範囲ではmissingとして推測しない。",
+    "interpretation": "直近7日のBooking clickは45件。公式/主催者リンク34件、未提携候補7件、active partner click 4件。その4件はすべて実成果URLで、Commercial Monetized Click Shareは100%。公式クリックを収益損失として扱わない。",
     "byPagePeriod": {
       "start": "2026-09-26",
       "end": "2026-10-02"
@@ -633,7 +638,198 @@
         "outbound_booking_click_b": 0
       }
     ],
-    "byPageCheckedAt": "2026-10-04T23:00:00+09:00"
+    "byPageCheckedAt": "2026-10-04T23:00:00+09:00",
+    "byProviderPagePeriod": {
+      "start": "2026-09-27",
+      "end": "2026-10-03"
+    },
+    "byProviderPageSource": "Windsor.ai GA4 direct: page_path × link_url × link_provider × partner_status",
+    "byProviderPage": [
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "link_url": "https://www.oarai-info.jp/spot_cat/cat01/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 11,
+        "classification": "official"
+      },
+      {
+        "path": "/news/mito-hollyhock-new-stadium-access/",
+        "link_url": "https://www.mito-hollyhock.net/match/stadium/mito/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 4,
+        "classification": "official"
+      },
+      {
+        "path": "/events/rockinstar-carnival-2026/",
+        "link_url": "https://rockinstarcarnival.jp/",
+        "link_provider": "rockinstar-official",
+        "partner_status": "none",
+        "event_count": 2,
+        "classification": "official"
+      },
+      {
+        "path": "/events/oarai-ankou-nabe-guide/",
+        "link_url": "https://www.oarai-info.jp/spot_tag/hotel01/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/rockinstar-carnival-2026/",
+        "link_url": "https://rockinstarcarnival.jp/2026/ticket/ippan/",
+        "link_provider": "rockinstar-ticket",
+        "partner_status": "none",
+        "event_count": 7,
+        "classification": "non-partner-candidate"
+      },
+      {
+        "path": "/events/oarai-ankou-nabe-guide/",
+        "link_url": "https://px.a8.net/svt/ejp?a8mat=4BCCJM+CULTTE+14CS+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2",
+        "link_provider": "jalan",
+        "partner_status": "active",
+        "event_count": 1,
+        "classification": "paid"
+      },
+      {
+        "path": "/events/hitachi-seaside-nemophila-2027/",
+        "link_url": "https://www.hitachikaihin.jp/flower-plant/flower/nemophila.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/ami-premium-outlets-guide/",
+        "link_url": "https://www.premiumoutlets.co.jp/schedule/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/tsukuba-cablecar-ropeway-guide/",
+        "link_url": "https://mt-tsukuba.com/information/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/hitachi-seaside-kochia-carnival-2026/",
+        "link_url": "https://www.hitachikaihin.jp/event/kochiacarnival2026/page001034.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "link_url": "https://hb.afl.rakuten.co.jp/hgc/579937d6.d51864df.579937d7.bf4673dd/?pc=https%3A%2F%2Ftravel.rakute",
+        "link_provider": "rakuten-travel",
+        "partner_status": "active",
+        "event_count": 2,
+        "classification": "paid"
+      },
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "link_url": "https://px.a8.net/svt/ejp?a8mat=4BCCJM+CULTTE+14CS+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.jalan.net%2",
+        "link_provider": "jalan",
+        "partner_status": "active",
+        "event_count": 1,
+        "classification": "paid"
+      },
+      {
+        "path": "/events/jaxa-tsukuba-space-center-guide/",
+        "link_url": "https://visit-tsukuba.jaxa.jp/reservation.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/jaxa-tsukuba-space-center-guide/",
+        "link_url": "https://visit-tsukuba.jaxa.jp/tour.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/kasama-kiku-matsuri-2026/",
+        "link_url": "https://www.city.kasama.lg.jp/page/page017076.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/kasama-kiku-matsuri-2026/",
+        "link_url": "https://www.kasama.or.jp/access/index.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 2,
+        "classification": "official"
+      },
+      {
+        "path": "/events/michinoeki-joso-guide/",
+        "link_url": "https://www.michinoeki-joso.com/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/oarai-ankou-nabe-guide/",
+        "link_url": "https://www.oarai-info.jp/spot_tag/restaurant01/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/nishiyama-goten-guide/",
+        "link_url": "https://www.tokugawa.gr.jp/seizanso-2/information/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/amabiki-kannon-guide/",
+        "link_url": "http://www.amabiki.or.jp/prayer/receive/",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/ushiku-daibutsu-guide/",
+        "link_url": "https://daibutu.net/koutu.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/kasama-geijutsu-no-mori-guide/",
+        "link_url": "https://www.city.kasama.lg.jp/page/page000122.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      },
+      {
+        "path": "/events/ibaraki-kenmin-no-hi-2026/",
+        "link_url": "https://www.pref.ibaraki.jp/bugai/koho/kenmin/kenminnohi/kenmin/discount.html",
+        "link_provider": "official",
+        "partner_status": "none",
+        "event_count": 1,
+        "classification": "official"
+      }
+    ]
   },
   "ga4Discovery": {
     "checkedAt": "2026-10-04T07:00:00+09:00",
