@@ -5,10 +5,9 @@ Owner-only dashboard at `/control/`.
 ## Security contract
 
 - Public navigation must not link to `/control/`.
-- Control Center requires **password + TOTP (authenticator app)**.
+- Control Center requires **a password** (owner decision 2026-10-07: the authenticator-app code (TOTP) was removed; the dashboard stays private).
 - Required Cloudflare secrets:
   - `CONTROL_PASSWORD` (20+ chars)
-  - `CONTROL_TOTP_SECRET` (Base32)
   - `CONTROL_SESSION_SECRET` (32+ chars)
 - If any secret is missing or weak, the Worker returns **503**. It never falls back to public access.
 - Successful login creates a **4-hour** signed session cookie with `Secure; HttpOnly; SameSite=Strict`.
@@ -32,11 +31,10 @@ From a machine authenticated to the production Cloudflare account:
 
 ~~~bash
 npx wrangler secret put CONTROL_PASSWORD
-npx wrangler secret put CONTROL_TOTP_SECRET
 npx wrangler secret put CONTROL_SESSION_SECRET
 ~~~
 
-Use a unique 20+ character password. `CONTROL_TOTP_SECRET` is the Base32 secret registered in the owner's authenticator app. `CONTROL_SESSION_SECRET` should be a separate random value of at least 32 characters.
+Use a unique 20+ character password. `CONTROL_SESSION_SECRET` should be a separate random value of at least 32 characters. The old `CONTROL_TOTP_SECRET` is no longer read by the Worker and can be deleted (`npx wrangler secret delete CONTROL_TOTP_SECRET`).
 
 Then deploy:
 
@@ -44,7 +42,7 @@ Then deploy:
 npm run deploy
 ~~~
 
-Until **all three** secrets are valid, `/control/` intentionally returns **503**.
+Until **both** secrets are valid, `/control/` intentionally returns **503**.
 
 ## Data shown
 
@@ -72,7 +70,7 @@ It does not expose ASP raw CSVs, customer data, passwords, or Cloudflare secrets
 - Weekly Dependabot updates for npm and GitHub Actions.
 - CodeQL scans JavaScript/TypeScript on PR, main pushes, and weekly schedule.
 - `npm run audit:security` scans for private keys, common token formats, literal Control secrets, and auth/security regressions.
-- Control login failures use the same response regardless of whether password or TOTP was wrong.
+- A failed login returns the same response without saying what was wrong.
 - Control pages cannot be framed and cannot request camera, microphone, geolocation, payment, or USB APIs.
 
 

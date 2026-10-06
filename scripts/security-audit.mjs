@@ -39,7 +39,8 @@ function inspect(rel, full){
     if (p.re.test(text)) add(`${p.name}: ${rel}`);
   }
 
-  if (/\bCONTROL_PASSWORD\b/.test(text) && rel !== 'worker/index.js' && rel !== 'docs/CONTROL_CENTER.md' && !rel.endsWith('security-audit.mjs') && !rel.endsWith('tech-audit.mjs')) {
+  // scripts/control-auth.test.mjs は認証の振る舞いテスト。値はテスト内で乱数から作る（直書きは上の secretPatterns で検出される）
+  if (/\bCONTROL_PASSWORD\b/.test(text) && rel !== 'worker/index.js' && rel !== 'docs/CONTROL_CENTER.md' && rel !== 'scripts/control-auth.test.mjs' && !rel.endsWith('security-audit.mjs') && !rel.endsWith('tech-audit.mjs')) {
     // Secret name references outside the sanctioned implementation are suspicious.
     if (/password\s*[:=]/i.test(text)) add(`control-secret-reference: ${rel}`);
   }
@@ -54,13 +55,13 @@ for (const forbidden of ['.env','.env.production','.env.local']) {
 const worker = readFileSync(join(ROOT,'worker/index.js'),'utf8');
 for (const required of [
   'CONTROL_PASSWORD',
-  'CONTROL_TOTP_SECRET',
   'CONTROL_SESSION_SECRET',
   'SameSite=Strict',
   'HttpOnly',
   'Secure',
   'CONTROL_SESSION_SECONDS',
-  'verifyTotp',
+  // パスワードのみ（2026-10-07 オーナー判断）。定数時間で照合し、セッションを検証する
+  'secureCompare(password, env.CONTROL_PASSWORD)',
   'validSession',
   'X-Content-Type-Options',
   'Permissions-Policy',
@@ -82,4 +83,4 @@ if (findings.length) {
   process.exit(1);
 }
 
-console.log('Security audit: secrets・2FA・session・security headers に問題なし');
+console.log('Security audit: secrets・パスワード認証・session・security headers に問題なし');
