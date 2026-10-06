@@ -26,6 +26,13 @@ Growth Engine そのものを目的にせず、PV Gap を縮める施策を選�
 - **想定（運用上の仮定）**：季節の需要期間・需要の立ち上がり日数・検索順位別CTRの目安（`growth-engine.json`）。記事には出さない。GSC の実測が貯まったら更新する
 - 無い値は `null`（表では「—」）。推測で埋めない。推定を含む値には必ず根拠（basis）と確度（confidence）を付ける
 
+### 実測の整合チェック（src/lib/snapshot-quality.mjs）
+
+エンジンに渡す前に、矛盾する実測を計算から外し、理由を Alerts に「データ不整合」として出す（値を推測で直すことはしない）。
+
+- ページ別GSC（`pageMetrics[].gsc`）の28日の表示回数が、同じページの検索語1つの表示回数（`gscDiscovery`、期間が28日の中）より少ない → そのページのGSC値を null にし、検索語別の所見で代わりに判定する。ページ全体が検索語1つより少ないことはあり得ないので、取得漏れ（URLの表記ゆれ・取得行数の上限など）とみなす
+- 表示回数0のページの CTR・順位は計算できないので null（0% と書かない）
+
 ## 1. 100k Gap Controller
 
 | 項目 | 式 |
@@ -108,13 +115,17 @@ PR で変わった記事（`src/content/{events,news}/*.md`）とページ（`sr
 
 - 観測期限は base（main）側の変更履歴で計算する（PR 自身が追加した記録では止まらない）
 - 変更の種類は差分から判定：title・description・ogImage・ogImageAlt・keyword だけ → metadata、relatedArticleUrls だけ → internal-link、それ以外 → body（updatedDate だけの変更は数えない）
-- 例外は PR 本文に1行で宣言する（理由も必須）：
+- 例外は PR 本文か、PR の最新コミットのメッセージに1行で宣言する（理由も必須）。CI は起動した時点の本文を読むため、本文を書き足したときは空コミットを push してやり直す：
 
 ```
 observation-exception: fact — 公式発表で開催時刻が変わったため
 ```
 
 種類は `fact`（事実の誤り・訂正）/ `measurement`（計測の不具合）/ `seasonal-official`（季節イベントの公式発表・期限変更の反映）。
+
+```bash
+git commit --allow-empty -m "observation-exception: fact — 終了した試合の時制を訂正（オーナー承認）"
+```
 - テンプレート・共通部品（`src/pages/{events,news}/[slug].astro`・`src/components`・`src/layouts`・`src/styles`）の変更は止めず、影響しうる観測中ページの数を警告する
 - 手元で試す：`node scripts/observation-guard.mjs --base origin/main --body-file <PR本文>`
 

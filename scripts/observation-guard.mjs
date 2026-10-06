@@ -11,14 +11,16 @@
  *   それ以外（本文・要点・FAQ など）→ body
  *   updatedDate だけの変更は数えない
  *
- * 例外（観測中でも変えてよい）は、PR 本文に1行で宣言する：
+ * 例外（観測中でも変えてよい）は、PR 本文か PR の最新コミットのメッセージに1行で宣言する：
  *   observation-exception: fact — 公式発表で日付が変わったため
  *   種類：fact（事実の誤り・訂正）/ measurement（計測の不具合）/ seasonal-official（季節イベントの公式発表・期限変更の反映）
+ *   CI は起動した時点の PR 本文を読む。本文を書き足しただけでは「再実行」に反映されないので、
+ *   宣言を足したら新しいコミット（空コミットでよい：git commit --allow-empty -m "observation-exception: fact — 理由"）を push する
  *
  * テンプレート・共通部品（src/pages/{events,news}/[slug]・src/components・src/layouts・src/styles）の変更は、観測中のページ数を警告として出す（止めない）。
  *
  * 実行：npm run verify の中で自動（pull_request のときだけ動く）
- * 手元で試す：node scripts/observation-guard.mjs --base <ref> [--body-file <PR本文のファイル>]
+ * 手元で試す：node scripts/observation-guard.mjs --base <ref> [--head <ref>] [--body-file <PR本文のファイル>]
  */
 import { execFileSync } from 'node:child_process';
 import { appendFileSync, existsSync, readFileSync } from 'node:fs';
@@ -42,9 +44,11 @@ function finish(message) {
 // ---- base（main）と PR 本文 ----
 let baseSha = argValue('--base');
 let body = argValue('--body-file') ? readFileSync(argValue('--body-file'), 'utf8') : '';
+let headSha = argValue('--head');
 if (!baseSha && process.env.GITHUB_EVENT_NAME === 'pull_request' && process.env.GITHUB_EVENT_PATH && existsSync(process.env.GITHUB_EVENT_PATH)) {
   const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
   baseSha = event.pull_request?.base?.sha ?? null;
+  headSha = event.pull_request?.head?.sha ?? null;
   body = event.pull_request?.body ?? '';
 }
 if (!baseSha) finish('PR の検査ではないため飛ばしました');
@@ -58,6 +62,16 @@ try {
     git('fetch', '--no-tags', '--depth=1', 'origin', baseSha);
   } catch (error) {
     finish(`base（${String(baseSha).slice(0, 8)}）を取得できないため飛ばしました：${String(error.message).split('\n')[0]}`);
+  }
+}
+
+// PR の最新コミットのメッセージも宣言として読む（本文の書き足しは再実行に反映されないため）
+if (headSha) {
+  try {
+    try { git('cat-file', '-e', `${headSha}^{commit}`); } catch { git('fetch', '--no-tags', '--depth=1', 'origin', headSha); }
+    body = `${body}\n${git('log', '-1', '--format=%B', headSha)}`;
+  } catch {
+    // 取得できなくても、本文の宣言だけで判定を続ける
   }
 }
 
@@ -131,7 +145,7 @@ const lines = ['### 観測窓ガード（Observation Window）', ''];
 if (violations.length) {
   lines.push('観測期間中のページを変更しています。期限まで待つか、例外に当たる場合は PR 本文に宣言してください。', '');
   for (const v of violations) lines.push(`- ${v.path}（${v.type}：${v.keys.join('・')}）は ${v.until} まで観測中（${v.lastChange} の ${v.lastType} 変更）`);
-  lines.push('', '例外の宣言（PR 本文に1行）：`observation-exception: fact — 理由` / `measurement` / `seasonal-official`');
+  lines.push('', '例外の宣言（PR 本文か最新コミットのメッセージに1行）：`observation-exception: fact — 理由` / `measurement` / `seasonal-official`', '本文を書き足したときは、新しいコミット（空コミットでよい）を push して CI をやり直す');
 }
 for (const a of allowed) lines.push(`- 例外として許可：${a.path}（${a.type}）— ${a.by.type}：${a.by.reason}`);
 for (const w of templateWarnings.slice(0, 10)) lines.push(`- 注意：${w}`);
@@ -143,7 +157,7 @@ if (process.env.GITHUB_STEP_SUMMARY) {
 console.log(summary);
 if (declared.length && !exception) console.log('観測窓ガード：例外の宣言が読み取れません（種類は fact / measurement / seasonal-official、理由も書く）');
 if (violations.length) {
-  for (const v of violations) if (inCI) console.error(`::error title=観測窓ガード::${v.path} は ${v.until} まで観測中（${v.type} の変更）。例外なら PR 本文に observation-exception: fact — 理由`);
+  for (const v of violations) if (inCI) console.error(`::error title=観測窓ガード::${v.path} は ${v.until} まで観測中（${v.type} の変更）。例外なら、空コミット git commit --allow-empty -m "observation-exception: fact — 理由" を push`);
   console.error(`観測窓ガード：観測中のページへの変更 ${violations.length} 件`);
   process.exit(1);
 }

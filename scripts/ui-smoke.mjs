@@ -255,7 +255,7 @@ if (PRODUCTION) {
   const statusOf = async (path, redirect = 'follow') => {
     try {
       const res = await fetch(`${ORIGIN}${path}`, { method: 'GET', redirect, headers: { 'user-agent': 'IbatocoProductionQA/1.0' } });
-      return { status: res.status, location: res.headers.get('location') ?? '', robots: res.headers.get('x-robots-tag') ?? '' };
+      return { status: res.status, location: res.headers.get('location') ?? '', robots: res.headers.get('x-robots-tag') ?? '', cache: res.headers.get('cache-control') ?? '' };
     } catch (error) {
       return { status: 0, error: String(error.message).split('\n')[0] };
     }
@@ -275,15 +275,25 @@ if (PRODUCTION) {
   await checkAll(new Set([...internalLinks].filter((p) => !p.startsWith('/control'))), '内部リンク');
   await checkAll(pageImages, '画像');
 
+  // /control/ は2つの設計のどちらかであること（どちらでもない＝公開されているのに検索除外・キャッシュ禁止が無い、を失敗にする）
+  //   ログイン必須：未ログインはログイン画面へ転送、ログイン画面は noindex
+  //   公開（読み取り専用）：200 で X-Robots-Tag に noindex、Cache-Control に no-store
   const control = await statusOf('/control/', 'manual');
-  if (![302, 303, 307].includes(control.status) || !/\/control\/login$/.test(control.location)) {
-    failures.push(`/control/: ログイン画面への転送になっていません（HTTP ${control.status} ${control.location}）`);
-  }
-  const login = await statusOf('/control/login', 'manual');
-  if (login.status !== 200 || !/noindex/.test(login.robots)) {
-    failures.push(`/control/login: HTTP ${login.status}、X-Robots-Tag「${login.robots}」（200 と noindex が必要）`);
+  if ([302, 303, 307].includes(control.status) && /\/control\/login$/.test(control.location)) {
+    const login = await statusOf('/control/login', 'manual');
+    if (login.status !== 200 || !/noindex/.test(login.robots)) {
+      failures.push(`/control/login: HTTP ${login.status}、X-Robots-Tag「${login.robots}」（200 と noindex が必要）`);
+    } else {
+      notes.push('/control/：ログイン必須（未ログインはログイン画面へ転送、ログイン画面は noindex）');
+    }
+  } else if (control.status === 200) {
+    if (!/noindex/.test(control.robots) || !/no-store/.test(control.cache)) {
+      failures.push(`/control/: 公開されているが X-Robots-Tag「${control.robots}」Cache-Control「${control.cache}」（noindex と no-store が必要）`);
+    } else {
+      notes.push('/control/：読み取り専用で公開（X-Robots-Tag noindex・Cache-Control no-store）');
+    }
   } else {
-    notes.push('/control/：未ログインはログイン画面へ転送、ログイン画面は noindex');
+    failures.push(`/control/: HTTP ${control.status} ${control.location}（ログイン画面への転送か、noindex 付きの 200 が必要）`);
   }
 }
 
