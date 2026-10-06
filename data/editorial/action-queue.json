@@ -1,7 +1,30 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-07",
   "actions": [
+    {
+      "id": "20261007-growth-engine-measurement-calibration",
+      "title": "Growth EngineのpageMetrics再取得・CTR実測校正・終了イベント鮮度修正",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "additionalTargetFiles": [
+        "data/editorial/growth-engine.json",
+        "src/content/news/kashima-newcastle-jets-acle-guide-2026-09-15.md",
+        "src/content/news/mito-hollyhock-yokohama-away-guide-2026-09-19.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "completedAt": "2026-10-07T07:40:00+09:00",
+      "confidence": "high",
+      "effort": "M",
+      "deadline": "2026-10-07",
+      "page": "/control/",
+      "source": "Windsor.ai GA4 547804264 / GSC sc-domain:ibatoco.jp",
+      "reason": "P1の計測整合と誤情報修正。11月追加Viewsへの直接因果を再現可能に見積もれないため expectedPvImpact は設定しない。page/pagepathの正規化で高表示ページの欠損を解消し、今後のGrowth Batch順位付けを正す。"
+    },
     {
       "id": "20261006-tsuchiura-bike-bicycle-access",
       "title": "土浦花火のバイク・自転車案内と申込終了状態を更新",
@@ -523,7 +546,13 @@
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/tsuchiura-hanabi-2026.md"
-      ]
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-07",
+      "page": "/kouyou/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261005-november-pages-recheck",
@@ -548,7 +577,13 @@
         "src/content/events/ibaraki-shichigosan-2026.md",
         "src/content/events/ibaraki-flowerpark-illumination-2026.md",
         "src/content/news/michinoeki-okukuji-daigo-west-2026.md"
-      ]
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-07",
+      "page": "/events/ibaraki-events-november-2026/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261107-tsuchiura-dayof-update",
@@ -568,7 +603,13 @@
         "src/content/events/tsuchiura-hanabi-2026.md",
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/ibaraki-events-november-2026.md"
-      ]
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-11-07",
+      "page": "/events/tsuchiura-hanabi-2026-kaisai/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261101-kenmin-no-hi-list",
@@ -583,7 +624,13 @@
       "primarySourceUrls": [
         "https://www.pref.ibaraki.jp/bugai/koho/kenmin/kenminnohi/kenmin/discount.html"
       ],
-      "notes": "9/28時点で県の一覧は令和7年度のまま（前年は2025/11/1更新）。民間取り組みの募集は10/28まで。令和8年度の一覧が出たら、無料・割引・イベントを施設名と条件（県内在住者限定など）のとおりに載せ替え、前年の実績の段落を縮める。10月下旬から毎日確認する。"
+      "notes": "9/28時点で県の一覧は令和7年度のまま（前年は2025/11/1更新）。民間取り組みの募集は10/28まで。令和8年度の一覧が出たら、無料・割引・イベントを施設名と条件（県内在住者限定など）のとおりに載せ替え、前年の実績の段落を縮める。10月下旬から毎日確認する。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-11-01",
+      "page": "/events/ibaraki-kenmin-no-hi-2026/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20260929-kouyou-freshness-fix",
@@ -617,7 +664,13 @@
         "https://www.ibaraki-airport.net/",
         "https://www.ibaraki-airport.net/facilities/parking/"
       ],
-      "notes": "9/28時点で、10月25日以降の駐車場利用時間（現在5:30〜22:00）と日中のバスダイヤは「詳細が決まり次第お知らせ」。早朝・深夜バス（水戸駅5:25発、空港22:45発）は発表済み。発表されたら記事の要点・FAQ・考察の該当部分を更新する。"
+      "notes": "9/28時点で、10月25日以降の駐車場利用時間（現在5:30〜22:00）と日中のバスダイヤは「詳細が決まり次第お知らせ」。早朝・深夜バス（水戸駅5:25発、空港22:45発）は発表済み。発表されたら記事の要点・FAQ・考察の該当部分を更新する。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-24",
+      "page": "/news/ibaraki-airport-winter-schedule-2026/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261001-hitachinaka-rail-free-ticket",
@@ -665,7 +718,13 @@
       "primarySourceUrls": [
         "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html"
       ],
-      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。"
+      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-11-14",
+      "page": "/events/tsuchiura-curry-festival-2026/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261001-tsukuba-cablecar-resume",
@@ -681,7 +740,13 @@
         "https://mt-tsukuba.com/",
         "https://mt-tsukuba.com/cablecar-fare/"
       ],
-      "notes": "2026-10-01再確認：ケーブルカーは引き続き当面運休、ロープウェイは通常運行。ケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。10/2以降も運行再開とロープウェイ運賃ページ更新を確認し、公式表示が一致した時点で再反映する。 2026-10-01夕方：ロープウェイ運賃ページも大人片道930円・往復1,860円・小児400円/800円に更新され、公式内の表示が一致。記事の「表示が一致していない」記述を解消。ケーブルカーは引き続き運転休止中（9/24のお知らせ以降、再開の発表なし）。運転再開の発表を待つ。"
+      "notes": "2026-10-01再確認：ケーブルカーは引き続き当面運休、ロープウェイは通常運行。ケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。10/2以降も運行再開とロープウェイ運賃ページ更新を確認し、公式表示が一致した時点で再反映する。 2026-10-01夕方：ロープウェイ運賃ページも大人片道930円・往復1,860円・小児400円/800円に更新され、公式内の表示が一致。記事の「表示が一致していない」記述を解消。ケーブルカーは引き続き運転休止中（9/24のお知らせ以降、再開の発表なし）。運転再開の発表を待つ。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-02",
+      "page": "/events/tsukuba-cablecar-ropeway-guide/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261013-art-tower-mito-exhibition",
@@ -696,7 +761,13 @@
       "primarySourceUrls": [
         "https://www.arttowermito.or.jp/gallery/"
       ],
-      "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。"
+      "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-13",
+      "page": "/events/art-tower-mito-guide/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261022-torinokosan-road-work",
@@ -711,7 +782,13 @@
       "primarySourceUrls": [
         "https://www.torinokosan.com/news/"
       ],
-      "notes": "令和8年8月24日〜10月21日（予定）、平日は茨城県側が全面通行止め・大型車は神社まで行けない。終了（または延長）の告知を確認して記載を直す。夜祭り（毎年11月第3土曜）の2026年の告知が出たら日付を追記。"
+      "notes": "令和8年8月24日〜10月21日（予定）、平日は茨城県側が全面通行止め・大型車は神社まで行けない。終了（または延長）の告知を確認して記載を直す。夜祭り（毎年11月第3土曜）の2026年の告知が出たら日付を追記。",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-22",
+      "page": "/events/torinokosan-jinja-guide/",
+      "source": "公式発表",
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
     },
     {
       "id": "20261002-kamine-zoo-fee-check",
