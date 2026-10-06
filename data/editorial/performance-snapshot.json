@@ -846,5 +846,618 @@
         "decision": "click criterion passed; views/session is down 2.41% week over week. Do not redesign before the 28-day gate on 2026-10-25."
       }
     }
+  ],
+  "pageMetrics": [
+    {
+      "path": "/events/fukuroda-falls-autumn-2026/",
+      "views7": 5,
+      "viewsPrev7": 5,
+      "views28": 10,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/ryujin-bridge-autumn-2026/",
+      "views7": 5,
+      "viewsPrev7": 4,
+      "views28": 9,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/hananuki-gorge-autumn-2026/",
+      "views7": 13,
+      "viewsPrev7": 3,
+      "views28": 16,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/tsukuba-autumn-2026/",
+      "views7": 7,
+      "viewsPrev7": 4,
+      "views28": 11,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/tsuchiura-hanabi-2026/",
+      "views7": 16,
+      "viewsPrev7": 9,
+      "views28": 30,
+      "gsc": {
+        "impressions28": 344,
+        "clicks28": 2,
+        "ctr28": 0.0058,
+        "position28": 7.4128,
+        "impressionsPrev28": 100
+      }
+    },
+    {
+      "path": "/events/oarai-ankou-matsuri-2026/",
+      "views7": 722,
+      "viewsPrev7": 646,
+      "views28": 2317,
+      "gsc": {
+        "impressions28": 8906,
+        "clicks28": 1293,
+        "ctr28": 0.1452,
+        "position28": 3.5638,
+        "impressionsPrev28": 377
+      }
+    },
+    {
+      "path": "/events/oarai-ankou-nabe-guide/",
+      "views7": 27,
+      "viewsPrev7": 0,
+      "views28": 27,
+      "gsc": {
+        "impressions28": 107,
+        "clicks28": 2,
+        "ctr28": 0.0187,
+        "position28": 6.0841,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/ibaraki-events-november-2026/",
+      "views7": 4,
+      "viewsPrev7": 4,
+      "views28": 15,
+      "gsc": {
+        "impressions28": 200,
+        "clicks28": 2,
+        "ctr28": 0.01,
+        "position28": 8.14,
+        "impressionsPrev28": 105
+      }
+    },
+    {
+      "path": "/news/ibaraki-passport-2026/",
+      "views7": 1410,
+      "viewsPrev7": 96,
+      "views28": 2102,
+      "gsc": {
+        "impressions28": 2,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": 1,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/kasama-shinguri-matsuri-2026/",
+      "views7": 1316,
+      "viewsPrev7": 506,
+      "views28": 2002,
+      "gsc": {
+        "impressions28": 1,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": 1,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/rockinstar-carnival-2026/",
+      "views7": 197,
+      "viewsPrev7": 50,
+      "views28": 247,
+      "gsc": {
+        "impressions28": 3842,
+        "clicks28": 127,
+        "ctr28": 0.0331,
+        "position28": 6.2501,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/mito-hollyhock-new-stadium-access/",
+      "views7": 90,
+      "viewsPrev7": 61,
+      "views28": 291,
+      "gsc": {
+        "impressions28": 6285,
+        "clicks28": 131,
+        "ctr28": 0.0208,
+        "position28": 8.39,
+        "impressionsPrev28": 4952
+      }
+    },
+    {
+      "path": "/",
+      "views7": 80,
+      "viewsPrev7": 80,
+      "views28": 387,
+      "gsc": {
+        "impressions28": 29,
+        "clicks28": 6,
+        "ctr28": 0.2069,
+        "position28": 7.069,
+        "impressionsPrev28": 20
+      }
+    },
+    {
+      "path": "/events/tsuchiura-curry-festival-2026/",
+      "views7": 68,
+      "viewsPrev7": 0,
+      "views28": 68,
+      "gsc": {
+        "impressions28": 199,
+        "clicks28": 34,
+        "ctr28": 0.1709,
+        "position28": 2.9497,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/ibaraki-passport-additional-issuance-2026/",
+      "views7": 62,
+      "viewsPrev7": 0,
+      "views28": 62,
+      "gsc": {
+        "impressions28": 136,
+        "clicks28": 13,
+        "ctr28": 0.0956,
+        "position28": 4.5662,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/kasama-kiku-matsuri-2026/",
+      "views7": 46,
+      "viewsPrev7": 0,
+      "views28": 46,
+      "gsc": {
+        "impressions28": 365,
+        "clicks28": 13,
+        "ctr28": 0.0356,
+        "position28": 6.0247,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/tsukuba-cablecar-ropeway-guide/",
+      "views7": 36,
+      "viewsPrev7": 0,
+      "views28": 36,
+      "gsc": {
+        "impressions28": 728,
+        "clicks28": 23,
+        "ctr28": 0.0316,
+        "position28": 7.0522,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
+      "views7": 35,
+      "viewsPrev7": 20,
+      "views28": 141,
+      "gsc": {
+        "impressions28": 127,
+        "clicks28": 3,
+        "ctr28": 0.0236,
+        "position28": 7.8661,
+        "impressionsPrev28": 481
+      }
+    },
+    {
+      "path": "/news/mito-shinkin-stadium-parking/",
+      "views7": 34,
+      "viewsPrev7": 71,
+      "views28": 105,
+      "gsc": {
+        "impressions28": 715,
+        "clicks28": 52,
+        "ctr28": 0.0727,
+        "position28": 7.9566,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/kasama-geijutsu-no-mori-guide/",
+      "views7": 27,
+      "viewsPrev7": 0,
+      "views28": 27,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/mito-komon-marathon-2026/",
+      "views7": 26,
+      "viewsPrev7": 0,
+      "views28": 26,
+      "gsc": {
+        "impressions28": 147,
+        "clicks28": 15,
+        "ctr28": 0.102,
+        "position28": 4.9048,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/ibaraki-kenmin-no-hi-2026/",
+      "views7": 21,
+      "viewsPrev7": 0,
+      "views28": 21,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/daigo-ringo-gari-2026/",
+      "views7": 20,
+      "viewsPrev7": 0,
+      "views28": 20,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/kouyou/",
+      "views7": 20,
+      "viewsPrev7": 11,
+      "views28": 31,
+      "gsc": {
+        "impressions28": 201,
+        "clicks28": 7,
+        "ctr28": 0.0348,
+        "position28": 7.5721,
+        "impressionsPrev28": 15
+      }
+    },
+    {
+      "path": "/events/jaxa-tsukuba-space-center-guide/",
+      "views7": 19,
+      "viewsPrev7": 0,
+      "views28": 19,
+      "gsc": {
+        "impressions28": 264,
+        "clicks28": 5,
+        "ctr28": 0.0189,
+        "position28": 8.2841,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/kasama-inari-jinja-guide/",
+      "views7": 19,
+      "viewsPrev7": 0,
+      "views28": 19,
+      "gsc": {
+        "impressions28": 0,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": null,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/kashima-antlers-kofu-emperors-cup-2026-09-23/",
+      "views7": 1,
+      "viewsPrev7": 73,
+      "views28": 74,
+      "gsc": {
+        "impressions28": 8593,
+        "clicks28": 63,
+        "ctr28": 0.0073,
+        "position28": 6.6694,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/tonegawa-hanabi-2026/",
+      "views7": 0,
+      "viewsPrev7": 6,
+      "views28": 93,
+      "gsc": {
+        "impressions28": 2778,
+        "clicks28": 47,
+        "ctr28": 0.0169,
+        "position28": 7.9831,
+        "impressionsPrev28": 145
+      }
+    },
+    {
+      "path": "/events/joso-kinugawa-hanabi-2026/",
+      "views7": 0,
+      "viewsPrev7": 0,
+      "views28": 109,
+      "gsc": {
+        "impressions28": 1995,
+        "clicks28": 84,
+        "ctr28": 0.0421,
+        "position28": 5.9368,
+        "impressionsPrev28": 112
+      }
+    },
+    {
+      "path": "/news/kashima-newcastle-jets-acle-guide-2026-09-15/",
+      "views7": 0,
+      "viewsPrev7": 0,
+      "views28": 34,
+      "gsc": {
+        "impressions28": 1971,
+        "clicks28": 18,
+        "ctr28": 0.0091,
+        "position28": 8.552,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/sports/mito-hollyhock/",
+      "views7": 12,
+      "viewsPrev7": 0,
+      "views28": 23,
+      "gsc": {
+        "impressions28": 1835,
+        "clicks28": 13,
+        "ctr28": 0.0071,
+        "position28": 7.455,
+        "impressionsPrev28": 127
+      }
+    },
+    {
+      "path": "/events/ibaraki-events-september-2026/",
+      "views7": 0,
+      "viewsPrev7": 1,
+      "views28": 27,
+      "gsc": {
+        "impressions28": 1363,
+        "clicks28": 18,
+        "ctr28": 0.0132,
+        "position28": 8.2164,
+        "impressionsPrev28": 150
+      }
+    },
+    {
+      "path": "/news/ibaraki-underpass-kansui-33-2026/",
+      "views7": 6,
+      "viewsPrev7": 34,
+      "views28": 144,
+      "gsc": {
+        "impressions28": 1165,
+        "clicks28": 64,
+        "ctr28": 0.0549,
+        "position28": 6.2652,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/en/hitachi-seaside-park-from-tokyo/",
+      "views7": 4,
+      "viewsPrev7": 4,
+      "views28": 13,
+      "gsc": {
+        "impressions28": 1054,
+        "clicks28": 5,
+        "ctr28": 0.0047,
+        "position28": 9.1091,
+        "impressionsPrev28": 242
+      }
+    },
+    {
+      "path": "/sports/kashima-antlers/",
+      "views7": 2,
+      "viewsPrev7": 0,
+      "views28": 5,
+      "gsc": {
+        "impressions28": 965,
+        "clicks28": 1,
+        "ctr28": 0.001,
+        "position28": 11.5047,
+        "impressionsPrev28": 70
+      }
+    },
+    {
+      "path": "/events/oarai-kaijo-hanabi-2026/",
+      "views7": 11,
+      "viewsPrev7": 136,
+      "views28": 165,
+      "gsc": {
+        "impressions28": 751,
+        "clicks28": 10,
+        "ctr28": 0.0133,
+        "position28": 7.2823,
+        "impressionsPrev28": 55
+      }
+    },
+    {
+      "path": "/news/ibaraki-airport-sky-day-2026/",
+      "views7": 6,
+      "viewsPrev7": 29,
+      "views28": 35,
+      "gsc": {
+        "impressions28": 722,
+        "clicks28": 26,
+        "ctr28": 0.036,
+        "position28": 6.7465,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/ibaraki-kasen-hanran-kiken-2026/",
+      "views7": 2,
+      "viewsPrev7": 18,
+      "views28": 41,
+      "gsc": {
+        "impressions28": 431,
+        "clicks28": 26,
+        "ctr28": 0.0603,
+        "position28": 7.9258,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/chikusei-shinycolors-collab-2026/",
+      "views7": 9,
+      "viewsPrev7": 5,
+      "views28": 19,
+      "gsc": {
+        "impressions28": 427,
+        "clicks28": 14,
+        "ctr28": 0.0328,
+        "position28": 6.2482,
+        "impressionsPrev28": 191
+      }
+    },
+    {
+      "path": "/events/hitachi-seaside-kochia-carnival-2026/",
+      "views7": 17,
+      "viewsPrev7": 15,
+      "views28": 32,
+      "gsc": {
+        "impressions28": 416,
+        "clicks28": 10,
+        "ctr28": 0.024,
+        "position28": 6.0168,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/area/ushiku/",
+      "views7": 7,
+      "viewsPrev7": 12,
+      "views28": 29,
+      "gsc": {
+        "impressions28": 415,
+        "clicks28": 14,
+        "ctr28": 0.0337,
+        "position28": 8.8795,
+        "impressionsPrev28": 217
+      }
+    },
+    {
+      "path": "/events/oarai-hotel-buffet-guide/",
+      "views7": 9,
+      "viewsPrev7": 8,
+      "views28": 29,
+      "gsc": {
+        "impressions28": 412,
+        "clicks28": 10,
+        "ctr28": 0.0243,
+        "position28": 9.3956,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/area/moriya/",
+      "views7": 2,
+      "viewsPrev7": 0,
+      "views28": 2,
+      "gsc": {
+        "impressions28": 407,
+        "clicks28": 0,
+        "ctr28": 0,
+        "position28": 12.8747,
+        "impressionsPrev28": 122
+      }
+    },
+    {
+      "path": "/news/hitachi-seaside-health-sports-festival-2026/",
+      "views7": 1,
+      "viewsPrev7": 12,
+      "views28": 13,
+      "gsc": {
+        "impressions28": 394,
+        "clicks28": 9,
+        "ctr28": 0.0228,
+        "position28": 7.3528,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/ibaraki-bus-tour-spots/",
+      "views7": 0,
+      "viewsPrev7": 3,
+      "views28": 95,
+      "gsc": {
+        "impressions28": 379,
+        "clicks28": 50,
+        "ctr28": 0.1319,
+        "position28": 4.3219,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/news/kashima-antlers-kofu-result-2026-09-23/",
+      "views7": 1,
+      "viewsPrev7": 1,
+      "views28": 2,
+      "gsc": {
+        "impressions28": 330,
+        "clicks28": 1,
+        "ctr28": 0.003,
+        "position28": 8.903,
+        "impressionsPrev28": 0
+      }
+    },
+    {
+      "path": "/events/ushiku-daibutsu-guide/",
+      "views7": 10,
+      "viewsPrev7": 0,
+      "views28": 10,
+      "gsc": {
+        "impressions28": 311,
+        "clicks28": 3,
+        "ctr28": 0.0096,
+        "position28": 8.135,
+        "impressionsPrev28": 0
+      }
+    }
   ]
 }
