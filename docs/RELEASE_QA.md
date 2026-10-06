@@ -9,7 +9,7 @@
 
 | 段階 | コマンド | 止まる条件 |
 |---|---|---|
-| PR・main の CI（Validate site） | `npm run verify` | ビルド・型・SEO監査・単体テスト・年度チェック・UI検査のどれかが失敗 |
+| PR・main の CI（Validate site） | `npm run verify` | ビルド・型・SEO監査・観測窓ガード（PRのみ）・単体テスト・年度チェック・UI検査のどれかが失敗 |
 | 本番デプロイ（Deploy production） | `npm run deploy` の最後で `node scripts/ui-smoke.mjs --production` | 本番の版がデプロイしたコミットと違う、または本番の表示に問題 |
 | 随時の点検 | `npm run qa:prod -- --any-commit` | — |
 
