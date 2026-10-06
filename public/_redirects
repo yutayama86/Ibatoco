@@ -1,2 +1,5 @@
 /news/mito-hollyhock-parking-access-sample/ /news/mito-hollyhock-new-stadium-access/ 301
 /agency/ /biz/ 301
+
+/control/login /control/ 302
+/control/logout /control/ 302
