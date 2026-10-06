@@ -153,7 +153,7 @@ for (const file of pages) {
   }
 }
 
-// Private Control Center: 検索除外・認証・計測除外を退行させない。
+// Read-only Control Center: 検索除外・キャッシュ禁止・計測除外を退行させない。
 const controlHtmlPath = join(DIST, 'control', 'index.html');
 if (!existsSync(controlHtmlPath)) {
   add('error', 'control-center', '/control/ がビルドされていません');
@@ -172,8 +172,11 @@ if (!existsSync(workerPath)) {
   add('error', 'control-center', 'worker/index.js がありません');
 } else {
   const worker = readFileSync(workerPath, 'utf8');
-  for (const required of ['CONTROL_PASSWORD', "url.pathname === '/control'", 'status: 503', 'X-Robots-Tag', 'Cache-Control']) {
-    if (!worker.includes(required)) add('error', 'control-center', `WorkerのControl保護要件が欠落: ${required}`);
+  for (const required of ["url.pathname === '/control'", 'X-Robots-Tag', "'Cache-Control': 'private, no-store, max-age=0'"]) {
+    if (!worker.includes(required)) add('error', 'control-center', `WorkerのControl公開保護要件が欠落: ${required}`);
+  }
+  if (!worker.includes("if (isLogin || isLogout) return redirect('/control/');")) {
+    add('error', 'control-center', '旧認証ルートが /control/ へリダイレクトされていません');
   }
 }
 
