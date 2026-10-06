@@ -2,7 +2,7 @@
 title: "店主が「先生」になる街。ひたちなかのまちゼミに見る、地域のお店の新しい価値"
 description: "ひたちなか市で10月1日から31日まで「ひたちなかDEまちゼミ」が開かれます。店主が講師になる少人数講座で、講座中の販売はしません。値引きではない顧客接点の意味を、イバトコ編集部が考えます。"
 pubDate: 2026-08-27
-updatedDate: 2026-08-27
+updatedDate: 2026-10-06
 author: "イバトコ編集部"
 category: "economy"
 tags: ["ひたちなか市", "まちゼミ", "地域商業", "商店街", "商工会議所", "店主"]
@@ -53,7 +53,7 @@ sourceUrls:
   - label: "ひたちなか市｜「ひたちなかDEまちゼミ」開催（2026年8月26日更新）"
     url: "https://www.city.hitachinaka.lg.jp/business/shogyo/1017115/1015741.html"
     accessedAt: 2026-08-27
-  - label: "日本商工会議所｜9月1〜30日に「ひたちなかDEまちゼミ」（ひたちなか商工会議所・2025年8月13日）"
+  - label: "日本商工会議所｜9月1〜30日に「ひたちなかDEまちゼミ」（2025年の開催・ひたちなか商工会議所、2025年8月13日）"
     url: "https://www.jcci.or.jp/news/news/2025/0813173305.html"
     accessedAt: 2026-08-27
 relatedArticleUrls:
