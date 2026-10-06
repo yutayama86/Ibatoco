@@ -23,6 +23,7 @@ import { join, relative } from 'node:path';
 import { runGrowthEngine, todayJst } from '../src/lib/growth-engine.mjs';
 import { loadContentPages } from './lib/content-pages.mjs';
 import { auditFreshness } from './freshness-guard.mjs';
+import { parseSeoChanges } from './lib/seo-changes.mjs';
 
 const ROOT = process.cwd();
 const WRITE = process.argv.includes('--write');
@@ -34,21 +35,6 @@ const config = readJson('data/editorial/growth-engine.json');
 const actions = readJson('data/editorial/action-queue.json').actions ?? [];
 const registry = readJson('data/editorial/event-registry.json');
 const pages = loadContentPages(ROOT);
-
-/** src/data/seo-changes.ts（editorial-os.mjs と同じ読み方。experimentType があれば拾う） */
-function parseSeoChanges() {
-  const src = readFileSync(join(ROOT, 'src/data/seo-changes.ts'), 'utf8');
-  const out = [];
-  for (const block of src.split(/\n\s{2}\{\n/).slice(1)) {
-    const field = (key) => block.match(new RegExp(`\\n?\\s*${key}:\\s*'([^']*)'`))?.[1] ?? null;
-    const id = field('id');
-    const date = field('date');
-    const url = field('url');
-    if (!id || !date || !url) continue;
-    out.push({ id, date, url, kind: field('kind'), change: field('change'), experimentType: field('experimentType') });
-  }
-  return out;
-}
 
 /**
  * サイト内リンク網（dist から）。ヘッダー・フッター・ナビの共通リンクを除いた「文脈リンク」だけを数える。
@@ -111,7 +97,7 @@ const result = runGrowthEngine({
   snapshot,
   config,
   pages,
-  changes: parseSeoChanges(),
+  changes: parseSeoChanges(readFileSync(join(ROOT, 'src/data/seo-changes.ts'), 'utf8')),
   actions,
   registry,
   inbound: internalLinkGraph(),

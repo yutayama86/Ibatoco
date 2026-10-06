@@ -102,6 +102,22 @@ npm run growth:check -- /events/oarai-ankou-matsuri-2026/ --type metadata
 
 観測中で控えるべきときは終了コード 2。事実・計測の修正と、季節イベントの公式発表・期限変更の反映は例外として常に可。
 
+### CI で止める（scripts/observation-guard.mjs、npm run verify・pull_request のときだけ）
+
+PR で変わった記事（`src/content/{events,news}/*.md`）とページ（`src/pages/**.astro`）のうち、観測中のページを変えていれば **CI を失敗させる**。
+
+- 観測期限は base（main）側の変更履歴で計算する（PR 自身が追加した記録では止まらない）
+- 変更の種類は差分から判定：title・description・ogImage・ogImageAlt・keyword だけ → metadata、relatedArticleUrls だけ → internal-link、それ以外 → body（updatedDate だけの変更は数えない）
+- 例外は PR 本文に1行で宣言する（理由も必須）：
+
+```
+observation-exception: fact — 公式発表で開催時刻が変わったため
+```
+
+種類は `fact`（事実の誤り・訂正）/ `measurement`（計測の不具合）/ `seasonal-official`（季節イベントの公式発表・期限変更の反映）。
+- テンプレート・共通部品（`src/pages/{events,news}/[slug].astro`・`src/components`・`src/layouts`・`src/styles`）の変更は止めず、影響しうる観測中ページの数を警告する
+- 手元で試す：`node scripts/observation-guard.mjs --base origin/main --body-file <PR本文>`
+
 ## 6. Freshness / Expiry Guard と年度誤認防止
 
 `npm run audit:freshness`（`npm run verify` では `--strict`）。自動で削除・書き換えはしない。
