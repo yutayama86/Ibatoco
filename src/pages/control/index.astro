@@ -1,5 +1,6 @@
 ---
 import ControlBase from '../../layouts/ControlBase.astro';
+import GrowthControl from '../../components/control/GrowthControl.astro';
 import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import actionQueue from '../../../data/editorial/action-queue.json';
@@ -261,7 +262,10 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
       </div>
     </header>
 
+    <GrowthControl />
+
     <nav class="quick-nav" aria-label="ダッシュボード内メニュー">
+      <a href="#growth">11月目標</a>
       <a href="#auto">自動運転</a>
       <a href="#today">今日やること</a>
       <a href="#goal">10万PV進捗</a>
