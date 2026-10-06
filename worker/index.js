@@ -5,11 +5,8 @@
  * - SITE_PASSWORD: when set, protects the whole site with Basic Auth.
  *
  * Private Control Center:
- * - CONTROL_PASSWORD: required, 20+ chars
- * - CONTROL_TOTP_SECRET: required, Base32 TOTP secret
- * - CONTROL_SESSION_SECRET: required, 32+ chars, signs short-lived session cookies
- *
- * Missing/weak Control secrets never fall back to public access.
+ * - Read-only and directly accessible. Search indexing/caching are blocked at the edge.
+ * - Never expose secrets, credentials, PII, or mutation endpoints from /control/.
  */
 
 const CONTROL_COOKIE = '__Host-ibatoco_control';
@@ -195,90 +192,9 @@ export default {
     const isLogout = url.pathname === '/control/logout';
 
     if (isControl) {
-      if (!controlSecretsReady(env)) {
-        return new Response('Control Center is locked because security secrets are missing or weak.', {
-          status: 503,
-          headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
-        });
-      }
-
-      if (isLogout) {
-        return redirect('/control/login', {
-          'Set-Cookie': `${CONTROL_COOKIE}=; Path=/; Max-Age=0; Secure; HttpOnly; SameSite=Strict`,
-        });
-      }
-
-      if (isLogin) {
-        if (request.method === 'GET' || request.method === 'HEAD') {
-          if (await validSession(request, env.CONTROL_SESSION_SECRET)) return redirect('/control/');
-          return new Response(loginHtml(false), {
-            status: 200,
-            headers: protectedHeaders({ 'Content-Type': 'text/html; charset=utf-8' }),
-          });
-        }
-
-        if (request.method === 'POST') {
-          const origin = request.headers.get('Origin');
-          const referer = request.headers.get('Referer') || '';
-          const fetchSite = (request.headers.get('Sec-Fetch-Site') || '').toLowerCase();
-          const originOk = origin === 'https://ibatoco.jp'
-            || ((!origin || origin === 'null')
-              && (fetchSite === 'same-origin' || fetchSite === 'same-site')
-              && (!referer || referer.startsWith('https://ibatoco.jp/control/')));
-          if (!originOk) {
-            return new Response('Invalid origin.', {
-              status: 403,
-              headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
-            });
-          }
-
-          const contentLength = Number(request.headers.get('Content-Length') || '0');
-          if (Number.isFinite(contentLength) && contentLength > 8192) {
-            return new Response('Request too large.', {
-              status: 413,
-              headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
-            });
-          }
-
-          const contentType = request.headers.get('Content-Type') || '';
-          if (!contentType.toLowerCase().startsWith('application/x-www-form-urlencoded')
-              && !contentType.toLowerCase().startsWith('multipart/form-data')) {
-            return new Response('Unsupported request.', {
-              status: 415,
-              headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
-            });
-          }
-
-          const form = await request.formData();
-          const password = String(form.get('password') ?? '');
-          const code = String(form.get('totp') ?? '');
-          const passwordOk = secureCompare(password, env.CONTROL_PASSWORD);
-          const totpOk = await verifyTotp(env.CONTROL_TOTP_SECRET, code);
-
-          if (!(passwordOk && totpOk)) {
-            // Deliberately identical response for bad password and bad TOTP.
-            return new Response(loginHtml(true), {
-              status: 401,
-              headers: protectedHeaders({ 'Content-Type': 'text/html; charset=utf-8' }),
-            });
-          }
-
-          const session = await makeSession(env.CONTROL_SESSION_SECRET);
-          return redirect('/control/', {
-            'Set-Cookie': `${CONTROL_COOKIE}=${session}; Path=/; Max-Age=${CONTROL_SESSION_SECONDS}; Secure; HttpOnly; SameSite=Strict`,
-          });
-        }
-
-        return new Response('Method not allowed.', {
-          status: 405,
-          headers: protectedHeaders({
-            'Allow': 'GET, HEAD, POST',
-            'Content-Type': 'text/plain; charset=utf-8',
-          }),
-        });
-      }
-
-      if (!(await validSession(request, env.CONTROL_SESSION_SECRET))) return redirect('/control/login');
+      // Control Center is intentionally read-only/public for now.
+      // Keep it out of search indexes and prevent caching; never expose secrets or PII here.
+      if (isLogin || isLogout) return redirect('/control/');
 
       const response = await env.ASSETS.fetch(request);
       const headers = new Headers(response.headers);
