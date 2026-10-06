@@ -1,11 +1,14 @@
 /**
  * 自動QA（scripts/ui-smoke.mjs）と本番確認（scripts/verify-production.mjs）が共通で見るページ。
  *
- * - TOP・ニュース一覧・最新ニュース・重点イベント・検索・市町村ページ
+ * - 主要テンプレートを最低1ページずつ：TOP・ニュース一覧・最新ニュース・重点イベント・イベント一覧・テーマ（紅葉）・
+ *   SPORTS・市町村・Discovery・事業者向け・情報送信・検索・Control Center
  * - required … そのページに無いと困るもの（主要CTA・本文の柱）。[CSSセレクタ, 最低件数, 'js'?]
  *   'js' はブラウザでJSが描くもの（検索結果など）。本番HTMLの確認では数えず、UIスモークテストだけで見る
+ * - 一般ページは共通の骨格（SITE_FRAME：ヘッダー・ナビ・本文・フッター）も必須にする
+ * - localOnly … 本番ではログインが必要なページ（/control/）。ビルド出力でだけ表示を検査し、本番は認証の転送だけを確かめる
  *
- * 重点イベントは11月の山（土浦花火・あんこう祭）。入れ替えるときはここだけ直す。
+ * 重点イベントは11月の山（土浦花火・あんこう祭）と紅葉の代表（袋田の滝）。入れ替えるときはここだけ直す。
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -14,6 +17,14 @@ export const KEY_EVENT_PATHS = [
   '/events/tsuchiura-hanabi-2026/',
   '/events/oarai-ankou-matsuri-2026/',
 ];
+
+/** 季節の重点ページ（紅葉）。イベント記事だが #facts を持たない型なので別に定義する */
+export const SEASONAL_GUIDE_PATHS = [
+  '/events/fukuroda-falls-autumn-2026/',
+];
+
+/** 一般ページの骨格。ヘッダー・ナビ・本文・フッターが欠けたら表示崩れとして扱う（本番HTMLでは data 属性だけ数える） */
+const SITE_FRAME = [['[data-site-header]', 1], ['nav', 1, 'js'], ['main', 1, 'js'], ['footer', 1, 'js']];
 
 /** 公開中のニュースで、いちばん新しいもの（pubDate → updatedDate → ファイル名の順） */
 export function latestNewsPath(root = process.cwd()) {
@@ -32,10 +43,10 @@ export function latestNewsPath(root = process.cwd()) {
   return `/news/${rows[0].slug}/`;
 }
 
-/** @returns {{ path: string, name: string, required: ([string, number] | [string, number, 'js'])[], waitFor?: string, canonical: string }[]} */
+/** @returns {{ path: string, name: string, required: ([string, number] | [string, number, 'js'])[], waitFor?: string, canonical: string, localOnly?: boolean }[]} */
 export function qaPages(root = process.cwd()) {
   const latest = latestNewsPath(root);
-  return [
+  const pages = [
     {
       name: 'TOP',
       path: '/',
@@ -67,8 +78,26 @@ export function qaPages(root = process.cwd()) {
       name: `重点イベント ${path}`,
       path,
       canonical: path,
-      required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['#sources a[href^="http"]', 1]],
+      required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['[data-booking-guide]', 1], ['#sources a[href^="http"]', 1]],
     })),
+    ...SEASONAL_GUIDE_PATHS.map((path) => ({
+      name: `季節の重点 ${path}`,
+      path,
+      canonical: path,
+      required: [['h1', 1], ['[data-growth-next] a[href^="/"]', 1], ['[data-booking-guide]', 1], ['#sources a[href^="http"]', 1]],
+    })),
+    {
+      name: 'テーマ（紅葉）',
+      path: '/kouyou/',
+      canonical: '/kouyou/',
+      required: [['h1', 1], ['a[href^="/events/"]', 1]],
+    },
+    {
+      name: 'SPORTS',
+      path: '/sports/',
+      canonical: '/sports/',
+      required: [['h1', 1], ['a[href^="/sports/"]', 2]],
+    },
     {
       name: 'イベント一覧',
       path: '/events/',
@@ -105,6 +134,22 @@ export function qaPages(root = process.cwd()) {
       path: '/area/mito/',
       canonical: '/area/mito/',
       required: [['h1', 1], ['a[href^="/events/"]', 1]],
+    },
+    {
+      name: '市町村（土浦市）',
+      path: '/area/tsuchiura/',
+      canonical: '/area/tsuchiura/',
+      required: [['h1', 1], ['a[href^="/events/"]', 1]],
+    },
+  ];
+  return [
+    ...pages.map((page) => ({ ...page, required: [...SITE_FRAME, ...page.required] })),
+    {
+      name: 'Control Center',
+      path: '/control/',
+      canonical: '/control/',
+      localOnly: true,
+      required: [['main', 1, 'js'], ['h1', 1]],
     },
   ];
 }

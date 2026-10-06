@@ -135,7 +135,9 @@ function countInHtml(html, selector) {
 
 const failures = [];
 const notes = [];
-for (const target of qaPages()) {
+// /control/ など本番ではログインが必要なページは、認証の転送を scripts/ui-smoke.mjs --production で確かめる
+const productionPages = qaPages().filter((page) => !page.localOnly);
+for (const target of productionPages) {
   const where = `${target.name}（${target.path}）`;
   const res = await get(withBust(target.path));
   if (res.status !== 200) {
@@ -184,4 +186,4 @@ if (failures.length > 0) {
   }
   process.exit(1);
 }
-console.log(`本番確認通過：${qaPages().length} ページ（HTTP・title・canonical・h1・主要DOM・画像・og:image）と検索の索引`);
+console.log(`本番確認通過：${productionPages.length} ページ（HTTP・title・canonical・h1・主要DOM・画像・og:image）と検索の索引`);
