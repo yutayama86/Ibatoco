@@ -1,0 +1,196 @@
+---
+/**
+ * Control Center 最上部の Growth Control（運営者向け・非公開）。
+ * 11月100,000 Views に対する着地予測・Gap・状態、速度、重点ページ、今日の施策、警告、収益導線を1か所に出す。
+ * 計算は src/lib/growth-engine.mjs（日次レポート npm run growth:target と同じ式）。docs/GROWTH_ENGINE.md
+ * ビルド時に計算する（デプロイのたびに更新）。サイト内リンク網（dist が必要）を使う項目は日次レポートだけで出す。
+ */
+import performance from '../../../data/editorial/performance-snapshot.json';
+import config from '../../../data/editorial/growth-engine.json';
+import actionQueue from '../../../data/editorial/action-queue.json';
+import registry from '../../../data/editorial/event-registry.json';
+import ledger from '../../../data/editorial/revenue-ledger.json';
+import { SEO_CHANGES } from '../../data/seo-changes';
+import { runGrowthEngine, todayJst } from '../../lib/growth-engine.mjs';
+import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
+import { auditFreshness } from '../../../scripts/freshness-guard.mjs';
+
+const today = todayJst();
+const pages = loadContentPages();
+const result = runGrowthEngine({
+  snapshot: performance,
+  config,
+  pages,
+  changes: SEO_CHANGES,
+  actions: (actionQueue.actions ?? []) as any[],
+  registry,
+  inbound: null,
+  freshness: auditFreshness({ pages, today }),
+  today,
+});
+const g = result.gap;
+const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
+const signed = (n: number | null | undefined) => (n == null ? '—' : `${n > 0 ? '+' : ''}${Number(n).toLocaleString('ja-JP')}`);
+const pct = (v: number | null | undefined) => (v == null ? '—' : `${(Number(v) * 100).toFixed(1)}%`);
+const statusClass = { 'ON TRACK': 'is-good', 'AT RISK': 'is-warn', 'OFF TRACK': 'is-bad', 'NO DATA': 'is-muted' }[g.status as string] ?? 'is-muted';
+const priority = result.forecasts.slice(0, 12);
+
+const conv = (performance.conversionDetail?.recent7 ?? {}) as Record<string, number | string>;
+const n = (key: string) => (Number.isFinite(Number(conv[key])) ? Number(conv[key]) : null);
+const confirmedRevenue = ((ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>)
+  .filter((e) => e.status === 'confirmed')
+  .reduce((sum, e) => sum + Number(e.revenueYen ?? 0), 0);
+const views28 = Number(performance.windows?.ga4?.recent28?.views ?? 0);
+const revenueRows = [
+  { label: 'Booking Guide 表示', value: fmt(n('booking_guide_view')), note: '7日' },
+  { label: '予約クリック', value: fmt(n('outbound_booking_click')), note: '7日' },
+  { label: '収益化クリック', value: fmt(n('paid_booking_click') ?? n('monetized_booking_click')), note: '7日' },
+  { label: '確定売上', value: `¥${fmt(confirmedRevenue)}`, note: 'Revenue Ledger' },
+  { label: 'RPM', value: views28 > 0 ? `¥${(confirmedRevenue / views28 * 1000).toFixed(1)}` : '—', note: '確定売上 ÷ 28日Views × 1,000' },
+  { label: '事業者CTA', value: `${fmt(n('business_cta_click'))} / ${fmt(n('business_cta_view'))}`, note: 'クリック / 表示・7日' },
+  { label: 'リード', value: fmt((n('generate_lead') ?? 0) + (n('form_submit') ?? 0)), note: 'generate_lead + form_submit・7日' },
+];
+const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
+---
+
+<section id="growth" class="gc" aria-labelledby="gc-title">
+  <div class="gc-target">
+    <div class="gc-target__head">
+      <p class="gc-eyebrow">NOVEMBER TARGET</p>
+      <h2 id="gc-title">11月 {fmt(g.target)} PV</h2>
+      <p class:list={['gc-status', statusClass]}>{g.status}</p>
+    </div>
+    <dl class="gc-kpis">
+      <div><dt>着地予測</dt><dd>{fmt(g.forecast)}<small>PV</small></dd></div>
+      <div><dt>Gap</dt><dd class:list={[{ 'is-bad': (g.gap ?? 0) < 0 }]}>{signed(g.gap)}<small>PV</small></dd></div>
+      <div><dt>必要な1日平均</dt><dd>{fmt(g.targetDailyAverage)}<small>PV</small></dd></div>
+      <div><dt>現在の1日平均</dt><dd>{fmt(g.currentDailyAverage)}<small>PV</small></dd><dd class="gc-kpis__note">目標まで {g.requiredMultiplier ?? '—'} 倍</dd></div>
+    </dl>
+    <p class="gc-note">予測の根拠：{g.forecastBasis}。11月まであと{g.daysToMonth}日。GA4 {g.dataAsOf ?? '—'} 時点・{today} 計算。</p>
+  </div>
+
+  <div class="gc-grid">
+    <article class="gc-card">
+      <h3>Growth Velocity</h3>
+      <dl class="gc-velocity">
+        <div><dt>直近7日</dt><dd>{fmt(g.velocity.last7)}</dd></div>
+        <div><dt>前の7日</dt><dd>{fmt(g.velocity.previous7)}</dd></div>
+        <div><dt>前週比</dt><dd>{g.velocity.wowPct == null ? '—' : `${g.velocity.wowPct > 0 ? '+' : ''}${g.velocity.wowPct}%`}</dd></div>
+        <div><dt>1日平均</dt><dd>{fmt(g.velocity.dailyAverage)}</dd></div>
+        <div><dt>必要な1日平均</dt><dd>{fmt(g.velocity.requiredDailyAverage)}</dd></div>
+      </dl>
+    </article>
+
+    <article class="gc-card">
+      <h3>Today's Growth Batch</h3>
+      {result.batch.length > 0 ? (
+        <ol class="gc-batch">
+          {result.batch.map((b) => (
+            <li>
+              <p class="gc-batch__title">{b.title}</p>
+              <p class="gc-batch__meta">期待 {b.expectedPv == null ? '未推定' : `+${fmt(b.expectedPv)} PV`}・確度 {b.confidence ?? '—'}{b.reason ? `・${b.reason}` : ''}</p>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="gc-empty">実行候補なし。施策キューに期待PV・確度・工数を付けると順位付けされます。</p>
+      )}
+    </article>
+  </div>
+
+  <article class="gc-card">
+    <h3>Alerts</h3>
+    <ul class="gc-alerts">
+      {result.alerts.map((a) => (
+        <li class:list={[`is-${a.level}`]}><span class="gc-chip">{levelLabel[a.level] ?? a.level}・{a.kind}</span><span class="gc-alert__text">{a.message}</span></li>
+      ))}
+    </ul>
+  </article>
+
+  <article class="gc-card">
+    <h3>Priority Pages</h3>
+    <div class="gc-scroll" data-xscroll tabindex="0" aria-label="重点ページの表（横にスクロールできます）">
+      <table class="gc-table">
+        <thead>
+          <tr><th scope="col">ページ</th><th scope="col">7日Views</th><th scope="col">表示</th><th scope="col">CTR</th><th scope="col">順位</th><th scope="col">11月予測</th><th scope="col">伸びしろ</th><th scope="col">状態</th><th scope="col">次の一手</th></tr>
+        </thead>
+        <tbody>
+          {priority.map((f) => (
+            <tr>
+              <th scope="row">{f.label}{!f.focus && <small>検出</small>}</th>
+              <td>{fmt(f.views7)}</td>
+              <td>{fmt(f.impressions)}</td>
+              <td>{pct(f.ctr)}</td>
+              <td>{f.position == null ? '—' : f.position.toFixed(1)}</td>
+              <td>{fmt(f.forecast)}</td>
+              <td>{f.upside == null ? '—' : `+${fmt(f.upside)}`}</td>
+              <td><span class:list={['gc-pill', `is-${f.status.toLowerCase().replace(/\s+/g, '-')}`]}>{f.status}</span></td>
+              <td class="gc-action">{f.action}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="gc-note">伸びしろは推定（GSCの表示回数のまま目標順位の一般的なCTRに近づいた場合）。「—」は実測が未取得。ページ別データ（pageMetrics）が入ると確度が上がります。</p>
+  </article>
+
+  <article class="gc-card">
+    <h3>Revenue</h3>
+    <dl class="gc-revenue">
+      {revenueRows.map((r) => <div><dt>{r.label}</dt><dd>{r.value}</dd><dd class="gc-revenue__note">{r.note}</dd></div>)}
+    </dl>
+  </article>
+</section>
+
+<style>
+  .gc{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:1.5rem 0 2rem}
+  .gc-target,.gc-card{min-width:0;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .gc-target{background:linear-gradient(160deg,var(--panel-2),var(--panel))}
+  .gc-target__head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem}
+  .gc-eyebrow{flex:1 0 100%;margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
+  .gc-target h2{margin:0;font-size:clamp(1.4rem,4vw,2rem)}
+  .gc-status{margin:0;padding:.3rem .75rem;border-radius:999px;font-size:.85rem;font-weight:800;letter-spacing:.06em}
+  .gc-status.is-good{background:color-mix(in srgb,var(--good) 20%,transparent);color:var(--good)}
+  .gc-status.is-warn{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+  .gc-status.is-bad{background:color-mix(in srgb,var(--bad) 20%,transparent);color:var(--bad)}
+  .gc-status.is-muted{background:var(--panel-2);color:var(--muted)}
+  .gc-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:.75rem;margin:1rem 0 .4rem}
+  .gc-kpis div,.gc-velocity div,.gc-revenue div{min-width:0;padding:.7rem .8rem;border-radius:12px;background:var(--panel-2)}
+  .gc-kpis dt,.gc-velocity dt,.gc-revenue dt{color:var(--muted);font-size:.8rem}
+  .gc-kpis dd{margin:.2rem 0 0;font-size:clamp(1.3rem,4.5vw,1.7rem);font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .gc-kpis dd small{margin-left:.25rem;color:var(--muted);font-size:.75rem;font-weight:600}
+  .gc-kpis dd.is-bad{color:var(--bad)}
+  .gc-kpis .gc-kpis__note{margin:.15rem 0 0;color:var(--muted);font-size:.78rem;font-weight:600}
+  .gc-note,.gc-empty{margin:.6rem 0 0;color:var(--muted);font-size:.8rem;line-height:1.7}
+  .gc-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
+  @media(min-width:900px){.gc-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)}}
+  .gc-card h3{margin:0 0 .7rem;font-size:1rem}
+  .gc-velocity{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,7.5rem),1fr));gap:.6rem;margin:0}
+  .gc-velocity dd,.gc-revenue dd{margin:.15rem 0 0;font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums}
+  .gc-batch{display:grid;gap:.7rem;margin:0;padding-left:1.3rem}
+  .gc-batch__title{margin:0;font-weight:700;line-height:1.6;overflow-wrap:anywhere}
+  .gc-batch__meta{margin:.2rem 0 0;color:var(--muted);font-size:.8rem;line-height:1.6;overflow-wrap:anywhere}
+  .gc-alerts{display:grid;gap:.5rem;margin:0;padding:0;list-style:none}
+  .gc-alerts li{display:grid;grid-template-columns:minmax(0,1fr);gap:.25rem;padding:.6rem .75rem;border-left:3px solid var(--line);border-radius:8px;background:var(--panel-2)}
+  .gc-alerts li.is-critical{border-left-color:var(--bad)}
+  .gc-alerts li.is-warning{border-left-color:var(--warn)}
+  .gc-alerts li.is-info{border-left-color:var(--accent)}
+  .gc-chip{color:var(--muted);font-size:.75rem;font-weight:700}
+  .gc-alert__text{font-size:.85rem;line-height:1.6;overflow-wrap:anywhere}
+  .gc-scroll{overflow-x:auto;overscroll-behavior-x:contain;border:1px solid var(--line);border-radius:12px}
+  .gc-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .gc-table{width:100%;min-width:56rem;border-collapse:collapse;font-size:.82rem;font-variant-numeric:tabular-nums}
+  .gc-table th,.gc-table td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
+  .gc-table thead th{color:var(--muted);font-weight:700;background:var(--panel-2)}
+  .gc-table tbody th{text-align:left;white-space:normal;min-width:11rem;font-weight:700}
+  .gc-table tbody th small{display:block;color:var(--muted);font-weight:500}
+  .gc-table .gc-action{min-width:16rem;text-align:left;white-space:normal;color:var(--muted)}
+  .gc-pill{display:inline-block;padding:.15rem .5rem;border-radius:999px;background:var(--panel-2);font-size:.75rem;font-weight:700}
+  .gc-pill.is-act-now{color:var(--warn)}
+  .gc-pill.is-observing{color:var(--accent)}
+  .gc-pill.is-ended{color:var(--muted)}
+  .gc-pill.is-opportunity{color:var(--good)}
+  .gc-pill.is-no-data{color:var(--bad)}
+  .gc-revenue{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:.6rem;margin:0}
+  .gc-revenue .gc-revenue__note{margin:.15rem 0 0;color:var(--muted);font-size:.75rem;font-weight:500}
+</style>

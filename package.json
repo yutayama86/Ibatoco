@@ -9,7 +9,7 @@
     "build": "astro build",
     "check": "npm run date:check && node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && astro check && astro build",
     "audit:site": "node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && npm run build && node scripts/quality-audit.mjs",
-    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/security-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && node scripts/analytics-audit.mjs && npm run editorial:check && node scripts/ui-smoke.mjs",
+    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/security-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && node scripts/analytics-audit.mjs && npm run editorial:check && node --test scripts/growth-engine.test.mjs && node scripts/freshness-guard.mjs --strict && node scripts/ui-smoke.mjs",
     "verify:article": "node scripts/verify-article.mjs",
     "test:ui": "node scripts/ui-smoke.mjs",
     "test:responsive": "node scripts/ui-smoke.mjs",
@@ -39,7 +39,10 @@
     "editorial:daily": "node scripts/editorial-os.mjs daily",
     "editorial:inventory": "node scripts/editorial-os.mjs inventory",
     "audit:analytics": "node scripts/analytics-audit.mjs",
-    "growth:target": "node scripts/growth-target.mjs",
+    "growth:target": "node scripts/growth-engine.mjs --write",
+    "growth:check": "node scripts/growth-engine.mjs --check",
+    "test:growth": "node --test scripts/growth-engine.test.mjs",
+    "audit:freshness": "node scripts/freshness-guard.mjs",
     "discovery:coverage": "node scripts/discovery-coverage.mjs",
     "discovery:coverage:write": "node scripts/discovery-coverage.mjs --write",
     "discovery:priority": "node scripts/discovery-priority.mjs",
@@ -71,6 +74,7 @@
     "topojson-client": "^3.1.0",
     "topojson-server": "^3.0.1",
     "topojson-simplify": "^3.0.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.0"
   }
 }

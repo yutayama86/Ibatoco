@@ -50,6 +50,8 @@ PVだけを増やして収益・資産性・信頼性を壊す施策は禁止。
 
 ## Control Centerと実行キューの関係
 
+数値の計算（11月の着地予測・Gap・ページ別予測・SEO機会・季節の締切・観測窓・施策の優先度・期限切れ/年度チェック）は Growth Engine（`docs/GROWTH_ENGINE.md`）を正本とし、Control Center と日次レポート（`npm run growth:target`）が同じ式を使う。変更前の観測窓の確認は `npm run growth:check -- <path> --type <種類>`。
+
 Control Centerの表示は3種類に分ける。
 
 - **判断**: 勝ち筋、改善点、リスク、着地予測
