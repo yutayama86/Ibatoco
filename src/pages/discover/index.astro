@@ -288,6 +288,8 @@ const jsonLd = [
   .discover-results li[hidden]{display:none}
   .discover-results a{display:block;height:100%;overflow:hidden;border:1px solid var(--color-mist);border-radius:1rem;background:#fff;color:inherit;text-decoration:none}
   .discover-results img,.discover-card__placeholder{width:100%;aspect-ratio:16/9;background:var(--color-mist)}
+  /* 画像は1200×630。16:9の枠に引き伸ばさず、中央を切り抜く（2026-10-06、枠に合わせて横7%つぶれていた） */
+  .discover-results img{object-fit:cover}
   .discover-card__placeholder{display:flex;flex-direction:column;justify-content:flex-end;gap:.35rem;padding:1rem;background:linear-gradient(145deg,var(--brand-blue-soft,#edf6ff),var(--color-paper));color:var(--color-ink)}
   .discover-card__placeholder span{font-size:.72rem;font-weight:700;color:var(--color-tide)}
   .discover-card__placeholder b{font:600 clamp(1.05rem,2vw,1.35rem)/1.4 var(--font-brand-display)}
