@@ -134,3 +134,28 @@ test('Freshness：期限切れの導線・期限を過ぎた受付・年度違�
   assert.ok(!has('/events/c-2026/', 'stale-deadline')); // 「でした」は過去の文脈
   assert.ok(has('/events/d-2026/', 'ended-live-wording'));
 });
+
+test('データ品質：ページ別GSCが検索語1つより少なければ外す。表示0のCTR・順位は null', async () => {
+  const { auditSnapshot } = await import('../src/lib/snapshot-quality.mjs');
+  const snapshot = {
+    source: { freshness: { gscLatestConfirmedDate: '2026-10-03' } },
+    gscDiscovery: { findings: [
+      { page: '/a/', query: 'a', impressions: 307, period: '2026-09-23..2026-09-29' },
+      { page: '/b/', query: 'b', impressions: 300, period: '2026-08-01..2026-08-07' }, // 28日より前の所見は比べない
+    ] },
+    pageMetrics: [
+      { path: '/a/', gsc: { impressions28: 2, clicks28: 0, ctr28: 0, position28: 1 } },
+      { path: '/b/', gsc: { impressions28: 50, clicks28: 1, ctr28: 0.02, position28: 9 } },
+      { path: '/c/', gsc: { impressions28: 0, clicks28: 0, ctr28: 0, position28: 12 } },
+    ],
+  };
+  const { snapshot: out, issues } = auditSnapshot(snapshot);
+  const row = (p) => out.pageMetrics.find((r) => r.path === p);
+  assert.equal(row('/a/').gsc.impressions28, null);
+  assert.equal(row('/a/').gscExcluded, true);
+  assert.equal(row('/b/').gsc.impressions28, 50);
+  assert.equal(row('/c/').gsc.ctr28, null);
+  assert.equal(row('/c/').gsc.position28, null);
+  assert.equal(issues.length, 1);
+  assert.equal(issues[0].path, '/a/');
+});

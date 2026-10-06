@@ -12,13 +12,16 @@ import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { runGrowthEngine, todayJst } from '../../lib/growth-engine.mjs';
+import { auditSnapshot } from '../../lib/snapshot-quality.mjs';
 import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
 import { auditFreshness } from '../../../scripts/freshness-guard.mjs';
 
 const today = todayJst();
 const pages = loadContentPages();
+// 実測の整合チェック（矛盾する値は計算から外し、理由を Alerts に出す）
+const quality = auditSnapshot(performance);
 const result = runGrowthEngine({
-  snapshot: performance,
+  snapshot: quality.snapshot,
   config,
   pages,
   changes: SEO_CHANGES,
@@ -28,6 +31,9 @@ const result = runGrowthEngine({
   freshness: auditFreshness({ pages, today }),
   today,
 });
+const alertOrder: Record<string, number> = { critical: 0, warning: 1, info: 2 };
+const alerts = [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...result.alerts]
+  .sort((a, b) => (alertOrder[a.level] ?? 9) - (alertOrder[b.level] ?? 9));
 const g = result.gap;
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const signed = (n: number | null | undefined) => (n == null ? '—' : `${n > 0 ? '+' : ''}${Number(n).toLocaleString('ja-JP')}`);
@@ -101,7 +107,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   <article class="gc-card">
     <h3>Alerts</h3>
     <ul class="gc-alerts">
-      {result.alerts.map((a) => (
+      {alerts.map((a) => (
         <li class:list={[`is-${a.level}`]}><span class="gc-chip">{levelLabel[a.level] ?? a.level}・{a.kind}</span><span class="gc-alert__text">{a.message}</span></li>
       ))}
     </ul>

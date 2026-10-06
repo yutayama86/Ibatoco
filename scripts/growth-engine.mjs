@@ -21,6 +21,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { runGrowthEngine, todayJst } from '../src/lib/growth-engine.mjs';
+import { auditSnapshot } from '../src/lib/snapshot-quality.mjs';
 import { loadContentPages } from './lib/content-pages.mjs';
 import { auditFreshness } from './freshness-guard.mjs';
 import { parseSeoChanges } from './lib/seo-changes.mjs';
@@ -30,7 +31,9 @@ const WRITE = process.argv.includes('--write');
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), 'utf8'));
 const today = process.env.GROWTH_TODAY ?? todayJst();
 
-const snapshot = readJson('data/editorial/performance-snapshot.json');
+// 実測の整合チェックを通してから使う（矛盾する値は計算から外し、理由を Alerts に出す。src/lib/snapshot-quality.mjs）
+const quality = auditSnapshot(readJson('data/editorial/performance-snapshot.json'));
+const snapshot = quality.snapshot;
 const config = readJson('data/editorial/growth-engine.json');
 const actions = readJson('data/editorial/action-queue.json').actions ?? [];
 const registry = readJson('data/editorial/event-registry.json');
@@ -105,6 +108,10 @@ const result = runGrowthEngine({
   today,
 });
 result.freshness = freshness;
+result.dataQuality = quality.issues;
+const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
+result.alerts = [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...result.alerts]
+  .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]);
 
 // ---- 観測窓の確認（--check） ----
 const checkIndex = process.argv.indexOf('--check');
