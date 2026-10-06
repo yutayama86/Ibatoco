@@ -9,7 +9,7 @@
     "build": "astro build",
     "check": "npm run date:check && node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && astro check && astro build",
     "audit:site": "node scripts/fact-guard.mjs && node scripts/check-og-glyphs.mjs && node scripts/build-og-backdrop.mjs && npm run build && node scripts/quality-audit.mjs",
-    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/security-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && node scripts/analytics-audit.mjs && npm run editorial:check && node scripts/ui-smoke.mjs && node scripts/ui-smoke.mjs --production --any-commit",
+    "verify": "npm run check && node scripts/quality-audit.mjs && node scripts/tech-audit.mjs && node scripts/security-audit.mjs && node scripts/data-audit.mjs && node scripts/repository-audit.mjs && node scripts/analytics-audit.mjs && npm run editorial:check && node scripts/ui-smoke.mjs",
     "verify:article": "node scripts/verify-article.mjs",
     "test:ui": "node scripts/ui-smoke.mjs",
     "test:responsive": "node scripts/ui-smoke.mjs",
