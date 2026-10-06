@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06",
-  "about": "Growth Engine（src/lib/growth-engine.mjs）の設定。数値の実測は performance-snapshot.json。ここの日数・CTR目安は実測ではなく運用上の想定で、GSCの実測が貯まったら更新する（docs/GROWTH_ENGINE.md）。",
+  "updatedAt": "2026-10-07",
+  "about": "Growth Engine（src/lib/growth-engine.mjs）の設定。数値の実測は performance-snapshot.json。CTR曲線はGSC実測500表示以上の順位を校正し、季節日数は同一カテゴリ2件以上の開催済み実測が揃うまで既存値を維持する（docs/GROWTH_ENGINE.md）。",
   "target": {
     "month": "2026-11",
     "views": 100000,
@@ -43,7 +43,7 @@
     "summer": { "start": "07-20", "end": "08-31", "basis": "夏休みの想定" }
   },
   "seasonalRules": {
-    "about": "開催日（季節ガイドは需要期間の開始日）からの逆算。demandLeadDays=検索需要が立ち上がる日数、indexLeadDays=公開・更新から検索で評価されるまでの猶予、peakDays=ピーク、aftermathDays=終了後に検索が残る日数。すべて運用上の想定",
+    "about": "開催日（季節ガイドは需要期間の開始日）からの逆算。2026-10-07時点では同一カテゴリの開催済みGSC日別実測が2件以上揃わないため既存値を維持。紅葉は11月実測まで変更しない。",
     "hanabi": { "demandLeadDays": 42, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 2 },
     "kouyou": { "demandLeadDays": 28, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
     "ankou": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
@@ -88,18 +88,19 @@
     "internalLinkMinSources": 5
   },
   "ctrCurve": {
-    "about": "検索順位別のCTRの一般的な目安（推定）。イバトコの実測（平均7位前後でCTR約3.9%）と大きくずれない値。サイトのGSC実測が貯まったら置き換える",
+    "about": "2026-07-07..2026-10-04のGSCページ×検索語実測。平均順位を整数丸めし、impressions>=500の順位（2〜12位）だけCTR=clicks/impressionsで置換。500未満の順位は既存値を維持。",
     "1": 0.28,
-    "2": 0.16,
-    "3": 0.11,
-    "4": 0.08,
-    "5": 0.06,
-    "6": 0.05,
-    "7": 0.04,
-    "8": 0.03,
-    "9": 0.025,
-    "10": 0.02,
-    "11": 0.015,
+    "2": 0.172794,
+    "3": 0.160594,
+    "4": 0.05524,
+    "5": 0.032071,
+    "6": 0.019968,
+    "7": 0.012602,
+    "8": 0.017288,
+    "9": 0.015741,
+    "10": 0.012286,
+    "11": 0.012566,
+    "12": 0.003417,
     "15": 0.01,
     "20": 0.006
   }

@@ -1,7 +1,30 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-06",
+  "updatedAt": "2026-10-07",
   "actions": [
+    {
+      "id": "20261007-growth-engine-measurement-calibration",
+      "title": "Growth EngineのpageMetrics再取得・CTR実測校正・終了イベント鮮度修正",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "additionalTargetFiles": [
+        "data/editorial/growth-engine.json",
+        "src/content/news/kashima-newcastle-jets-acle-guide-2026-09-15.md",
+        "src/content/news/mito-hollyhock-yokohama-away-guide-2026-09-19.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "completedAt": "2026-10-07T07:40:00+09:00",
+      "confidence": "high",
+      "effort": "M",
+      "deadline": "2026-10-07",
+      "page": "/control/",
+      "source": "Windsor.ai GA4 547804264 / GSC sc-domain:ibatoco.jp",
+      "reason": "P1の計測整合と誤情報修正。11月追加Viewsへの直接因果を再現可能に見積もれないため expectedPvImpact は設定しない。page/pagepathの正規化で高表示ページの欠損を解消し、今後のGrowth Batch順位付けを正す。"
+    },
     {
       "id": "20261006-tsuchiura-bike-bicycle-access",
       "title": "土浦花火のバイク・自転車案内と申込終了状態を更新",
