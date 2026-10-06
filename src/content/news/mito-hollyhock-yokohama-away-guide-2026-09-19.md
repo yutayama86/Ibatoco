@@ -156,6 +156,9 @@ sourceUrls:
 relatedArticleUrls:
   - "/sports/mito-hollyhock/"
   - "/news/mito-hollyhock-soccer-tourism-2026/"
+event:
+  name: "横浜F・マリノス対水戸ホーリーホック"
+  startDate: 2026-09-19
 ---
 
 本文はfrontmatterの構造化フィールドへ移送済みです。
