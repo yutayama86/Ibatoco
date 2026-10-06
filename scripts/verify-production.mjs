@@ -157,7 +157,8 @@ for (const target of productionPages) {
   if (h1 !== 1) failures.push(`${where}: h1 が ${h1} 個`);
 
   for (const [selector, min, mode] of target.required) {
-    if (mode === 'js') { notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
+    // 骨格（nav・main・footer）はブラウザでだけ数える。全ページ同じなので注記は出さない
+    if (mode === 'js') { if (!['nav', 'main', 'footer'].includes(selector)) notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
     const count = countInHtml(html, selector);
     if (count === null) { notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
     if (count < min) failures.push(`${where}: 主要要素の欠損 — ${selector} が ${count} 件（${min} 件以上必要）`);
