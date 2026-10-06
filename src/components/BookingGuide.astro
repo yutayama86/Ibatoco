@@ -18,6 +18,8 @@ export interface BookingItem {
   url: string;
   note?: string;
   kind?: 'official' | 'ota' | 'ticket' | 'transport';
+  /** 日本時間でこの日まで有効。翌日からクリック不可の終了表示へ切り替える */
+  expiresAt?: string;
 }
 export interface Booking {
   heading: string;
@@ -72,6 +74,7 @@ const KIND_LABEL: Record<string, string> = {
           data-partner-status={partnerStatus(item.provider)}
           data-monetization-state={monetizationState(item.provider, item.url)}
           data-is-paid={isPaidLink(item.provider, item.url) ? '1' : '0'}
+          data-expires-at={item.expiresAt ?? ''}
         >
           <span class="bkg__meta">
             <span class="bkg__kind">{KIND_LABEL[item.kind ?? 'official']}</span>
@@ -99,6 +102,27 @@ const KIND_LABEL: Record<string, string> = {
   for (const block of document.querySelectorAll<HTMLElement>('[data-booking-guide]')) {
     const pageType = block.dataset.pageType ?? '';
     const links = Array.from(block.querySelectorAll<HTMLAnchorElement>('a[data-provider]'));
+    // 期限付きの受付・販売CTAは、静的ページが再デプロイされなくても日本時間の翌日から自動停止する。
+    // 終了済み導線を「申込可能」に見せないことを、運用担当者の手作業に依存させない。
+    const todayJst = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).format(new Date());
+    for (const link of links) {
+      const expiresAt = link.dataset.expiresAt;
+      if (!expiresAt || todayJst <= expiresAt) continue;
+      link.dataset.expired = '1';
+      link.setAttribute('aria-disabled', 'true');
+      link.removeAttribute('href');
+      link.removeAttribute('target');
+      const strong = link.querySelector('strong');
+      if (strong && !strong.querySelector('[data-expired-label]')) {
+        const ended = document.createElement('span');
+        ended.dataset.expiredLabel = '1';
+        ended.className = 'bkg__expired';
+        ended.textContent = '受付終了';
+        strong.append(ended);
+      }
+    }
     const experimentEnabled = block.dataset.experimentEnabled === '1';
     const experimentId = block.dataset.experimentId ?? '';
     let experimentVariant: 'a' | 'b' = 'a';
@@ -165,6 +189,7 @@ const KIND_LABEL: Record<string, string> = {
     }
 
     for (const link of links) {
+      if (link.dataset.expired === '1') continue;
       link.addEventListener('click', () => {
         const clickParams = {
           // 既存パラメータは変えない。共通の軸（source_page など）だけ足す
@@ -200,6 +225,9 @@ const KIND_LABEL: Record<string, string> = {
   .bkg__item{display:grid;grid-template-columns:minmax(0,1fr);gap:.35rem;padding:.9rem 1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.85rem;background:var(--interior-sky-soft,var(--color-white));color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
   .bkg__item:hover,.bkg__item:focus-visible{border-color:var(--interior-blue,var(--color-tide));box-shadow:0 10px 26px rgba(25,55,88,.1)}
   .bkg__item:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
+  .bkg__item[data-expired="1"]{cursor:default;opacity:.68;background:var(--color-mist);box-shadow:none}
+  .bkg__item[data-expired="1"]:hover{border-color:var(--interior-line,var(--color-mist));box-shadow:none}
+  .bkg__expired{margin-left:auto;padding:.12rem .45rem;border-radius:999px;background:var(--color-soil);color:#fff;font:700 .62rem var(--font-brand-meta);white-space:nowrap}
   .bkg__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
   .bkg__kind{padding:.1rem .45rem;border-radius:999px;background:var(--color-ink);color:#fff;font:700 .62rem var(--font-brand-meta);letter-spacing:.06em}
   .bkg__provider{color:var(--color-soil);font:700 .72rem var(--font-brand-meta)}

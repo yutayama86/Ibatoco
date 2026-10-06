@@ -36,6 +36,8 @@ export const bookingSchema = z.object({
     url: z.url(),
     note: z.string().min(1).optional(),
     kind: z.enum(['official', 'ota', 'ticket', 'transport']).default('official'),
+    /** 受付・販売の最終有効日（日本時間）。翌日からCTAを自動で終了表示へ切り替える */
+    expiresAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   })).min(2),
   note: z.string().min(1).optional(),
 });
