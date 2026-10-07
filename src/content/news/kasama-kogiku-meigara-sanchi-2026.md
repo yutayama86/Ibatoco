@@ -59,6 +59,7 @@ sourceUrls:
     url: "https://www.pref.ibaraki.jp/nourinsuisan/nannourin/shinko/nougyou/engei/meigara/ryuugasaki_ushikku-kogiku.html"
     accessedAt: 2026-08-28
 relatedArticleUrls:
+  - "/events/kasama-kiku-matsuri-2026/"
   - "/news/ibaraki-natto-nihonichi-project-2026/"
   - "/news/hitachinaka-machizemi-2026/"
   - "/area/kasama/"

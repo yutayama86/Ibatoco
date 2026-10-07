@@ -98,6 +98,7 @@ sourceUrls:
     url: "https://www.tougei.museum.ibk.ed.jp/viewer/info.html?idSubTop=0&id=5"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/kasama-kiku-matsuri-2026/"
   - "/events/kasama-inari-jinja-guide/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/area/kasama/"
