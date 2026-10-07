@@ -89,3 +89,5 @@ Control CenterのP1/P2は判断候補です。毎朝7時OSが、実測・一次�
 Control Centerには「朝7時OSの実行キュー」を表示し、現在の待機案件、直近完了、次回実行時刻を確認できるようにします。
 
 最上部の Growth 区画（`src/components/control/GrowthControl.astro`）は、日次レポート（`npm run growth:target`）と同じ `src/lib/growth-os.mjs` で計算します。NOVEMBER TARGET・Growth Velocity・Today's Growth Batch・Alerts・PV at Risk・Demand Radar・Next Winners・30/60/90 Day Pipeline・Priority Pages・Revenue Funnel・Annual Learning。式と表示の意味は `docs/GROWTH_ENGINE.md`。
+
+最下部の Index Health カード（`src/components/control/IndexHealthCard.astro`）は、sitemap.xml の URL 数・公開記事の欠落・noindex 混入・重複・canonical 不整合・最終チェック日時を出す。値はビルド時に `scripts/index-health.mjs --write` が書き込む（`docs/RELEASE_QA.md` の Index Health）。正常なら緑、問題があれば件数を赤で出す。

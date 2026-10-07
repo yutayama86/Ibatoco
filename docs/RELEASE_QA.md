@@ -39,3 +39,22 @@
 ## 鮮度・年度（scripts/freshness-guard.mjs）
 
 `docs/GROWTH_ENGINE.md` の 6. を参照。URL の年と開催年の不一致は CI を失敗させる。期限切れの表現などは警告として日次レポートと Control Center に出す。
+
+## Index Health（scripts/index-health.mjs）
+
+`npm run build` の最後に実行（`npm run verify` と本番デプロイの両方を通る）。単独では `npm run audit:index`。`dist/sitemap.xml` と、ビルド結果の HTML・記事の frontmatter を突き合わせる。**ネットワークには触れない**（本番に配信されるのは dist そのもの。外部HTTPの一時エラーで CI が揺れない）。
+
+CI を止めるもの：
+
+| 種類 | 内容 |
+|---|---|
+| 重複 | sitemap に同じ URL（末尾スラッシュ違いを含む） |
+| 存在しない URL | sitemap の URL に対応する HTML が dist に無い／サイト外の URL／リダイレクト用ページ |
+| noindex 混入 | sitemap の URL が `noindex` |
+| draft 混入 | `draft: true` または未レビュー（`reviewed` が true でない）の記事が sitemap にある |
+| canonical 不整合 | sitemap の URL の canonical が自分自身でない、または canonical が無い |
+| 公開記事の欠落 | events・news・articles で `draft: false`・`reviewed: true`・`noindex: false`・canonical が自分自身なのに sitemap に無い |
+
+参考（止めない）：記事以外で、noindex でも canonical 違いでもないのに sitemap に無いページ（タグ一覧など）。意図した除外かを確かめる。`/control/`・`/preview/`・`/og/`・`/search/` などは対象外。
+
+結果は `/control/` の Index Health カード（ビルド時点の値を `dist/control/index.html` に書き込む）、CI のログと Job Summary に出る。テストは `scripts/index-health.test.mjs`。
