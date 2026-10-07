@@ -16,7 +16,7 @@ export const getStaticPaths = (async () => {
 const { tag } = Astro.props;
 const [articles, news] = await Promise.all([getArticlesByTag(tag), getNewsByTag(tag)]);
 const total = articles.length + news.length;
-// タグ一覧は検索に出さない（オーナー判断 2026-10-08）。記事の寄せ集めで薄くなりやすく、記事ページ・テーマページと検索で競合するため。
+// タグ一覧は検索に出さない（オーナー判断 2026-10-07）。記事の寄せ集めで薄くなりやすく、記事ページ・テーマページと検索で競合するため。
 // リンクはたどってもらう（noindex, follow）。sitemap にも載せない（scripts/index-health.mjs で検査）
 // 見出し「#タグ」を1行に収める大きさの目安（src/lib/text-fit.ts）
 const tagLen = fitLength(`#${tag}`);

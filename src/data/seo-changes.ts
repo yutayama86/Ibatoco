@@ -44,6 +44,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261007-tag',
+    date: '2026-10-07',
+    url: '/tag/',
+    kind: 'technical',
+    change: 'タグ一覧の全ページを noindex, follow に（記事3本以上なら検索に出す条件を廃止）',
+    queries: [],
+    commit: '8d72490',
+    note: 'これまで検索対象だった21ページ（例：#水戸ホーリーホック、#茨城パスポート、#水戸市）が外れる。オーナー判断 2026-10-07。記事ページ・テーマページとの競合と薄さを避けるため',
+  },
+  {
+    id: '20261007-sponsor',
+    date: '2026-10-07',
+    url: '/sponsor/',
+    kind: 'technical',
+    change: 'sitemap に /sponsor/ と /sponsor/terms/ を追加（noindex でなく canonical も自分自身だったが未収録）',
+    queries: [],
+    commit: '8d72490',
+    note: 'Index Health の参考で検出。オーナー判断 2026-10-07',
+  },
+  {
+    id: '20261007-discover',
+    date: '2026-10-07',
+    url: '/discover/',
+    kind: 'technical',
+    change: 'sitemap に /discover/ を追加（noindex でなく canonical も自分自身だったが未収録）',
+    queries: [],
+    commit: '8d72490',
+    note: 'Index Health の参考で検出。オーナー判断 2026-10-07',
+  },
+  {
     id: '20261007-events-kasama-kiku-matsuri-2026',
     date: '2026-10-07',
     url: '/events/kasama-kiku-matsuri-2026/',

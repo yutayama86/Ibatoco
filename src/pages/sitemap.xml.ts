@@ -84,7 +84,7 @@ export const GET: APIRoute = async () => {
   entries.push({ path: '/hanabi/' });
   entries.push({ path: '/michinoeki/' });
   entries.push({ path: '/odekake/' });
-  // 協賛の案内と規約、地域の店・スポットを探すページ（オーナー判断 2026-10-08）。タグ一覧は noindex なので載せない
+  // 協賛の案内と規約、地域の店・スポットを探すページ（オーナー判断 2026-10-07）。タグ一覧は noindex なので載せない
   entries.push({ path: '/sponsor/' });
   entries.push({ path: '/sponsor/terms/' });
   entries.push({ path: '/discover/' });
