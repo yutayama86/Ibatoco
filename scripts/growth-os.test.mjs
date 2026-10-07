@@ -5,7 +5,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { demandPipeline, demandRadar, effortOf, nextWinners, pvRelay, relayBatch } from '../src/lib/demand-radar.mjs';
+import { demandPipeline, demandRadar, effortOf, nextWinners, pvRelay, queryClusters, relayBatch } from '../src/lib/demand-radar.mjs';
 import { addDays, daysBetween } from '../src/lib/growth-engine.mjs';
 import { revenueFunnel } from '../src/lib/revenue-funnel.mjs';
 import { aggregateLearning, syncLearningRecords } from '../src/lib/seasonal-learning.mjs';
@@ -209,9 +209,33 @@ test('Demand Radar（検索語）：前7日比で上昇を判定し、4〜20位�
   const relay = pvRelay({ snapshot, pages, seasons: new Map(), engineConfig, config, radar, today: TODAY });
   assert.ok(relay.items.every((i) => i.replacements.every((r) => r.kind !== 'query')));
   assert.ok(demandPipeline({ pages, seasons: new Map(), radar, snapshot, today: TODAY }).every((i) => i.kind !== 'query'));
-  const { batch } = relayBatch({ engineBatch: [], winners: [], relay, seasons: new Map(), queries: radar.filter((s) => s.kind === 'query') });
-  assert.equal(batch[0].source, 'demand-radar:rising-query');
-  assert.equal(batch[0].expectedPv, q.upside);
+  const clusters = queryClusters({ snapshot, pages, seasons: new Map(), engineConfig, config, today: TODAY });
+  const { batch } = relayBatch({ engineBatch: [], winners: [], relay, seasons: new Map(), clusters });
+  assert.equal(batch[0].source, 'demand-radar:query-cluster');
+  assert.equal(batch[0].path, '/stadium/');
+});
+
+test('Query Clusters：表記ゆれを「ページ × 検索意図」でまとめ、順位は表示で重み付け。打ち手を順位帯で分ける', () => {
+  const pages = pagesOf([{ path: '/kasama/', title: '第20回かさま新栗まつり2026｜体験' }, { path: '/cable/', title: '筑波山ロープウェイの料金' }]);
+  const snapshot = site(1000, [], { gscQueries: [
+    { query: '笠間栗まつり2026', page: '/kasama/', impressions7: 100, impressionsPrev7: 50, impressions28: 200, impressionsPrev28: 0, position28: 6, ctr28: 0.02 },
+    { query: '新栗まつり 2026', page: '/kasama/', impressions7: 50, impressionsPrev7: 50, impressions28: 100, impressionsPrev28: 0, position28: 9, ctr28: 0.05 },
+    { query: '筑波山 ロープウェイ 料金', page: '/cable/', impressions7: 84, impressionsPrev7: 0, impressions28: 84, impressionsPrev28: 0, position28: 7.6, ctr28: 0 },
+    { query: '筑波山ケーブルカー 料金', page: '/cable/', impressions7: 94, impressionsPrev7: 0, impressions28: 94, impressionsPrev28: 0, position28: 6.7, ctr28: 0.032 },
+    { query: '茨城バスポート', page: '/cable/', impressions7: 5, impressionsPrev7: 0, impressions28: 5, impressionsPrev28: 0, position28: 6, ctr28: 0 },
+  ] });
+  const clusters = queryClusters({ snapshot, pages, seasons: new Map(), engineConfig, config, today: TODAY });
+  const kasama = clusters.find((c) => c.page === '/kasama/');
+  assert.equal(kasama.intent, '総合');
+  assert.equal(kasama.queryCount, 2);
+  assert.equal(kasama.impressions7, 150);
+  assert.equal(kasama.position, 7); // (6×200 + 9×100) ÷ 300
+  assert.equal(kasama.ctr, 0.03); // (0.02×200 + 0.05×100) ÷ 300
+  const fare = clusters.find((c) => c.page === '/cable/' && c.intent === '料金');
+  assert.equal(fare.queryCount, 2);
+  assert.equal(fare.isNew, true);
+  assert.equal(fare.play, 'improve');
+  assert.equal(clusters.find((c) => c.topQueries.includes('茨城バスポート')).intent, '総合'); // 「バス」を含むだけではアクセスにしない
 });
 
 test('PV Relay：申請締切などの節目は終わりとして扱わず、止まった場合の上限だけを別に出す。参考値は上位2ページ除外', () => {

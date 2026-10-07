@@ -819,6 +819,135 @@
         "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html"
       ],
       "notes": "ChatGPT Growth Director 返却（2026-10-07）の P3。Claude Code が受け皿（gscQueries・positionPrev28・ctrPrev28 の読み取り、multiple の除外、milestones、Annual Learning の項目）を実装し、Annual Learning に実測5件を投入。gscQueries と前28日の値そのものは Windsor から取得する ChatGPT の日次処理で performance-snapshot.json に入れる（Claude Code の環境からは Windsor に接続できない）。docs/GROWTH_ENGINE.md の 8・9・12。"
+    },
+    {
+      "id": "20261007-tsuchiura-hanabi-hatsusu",
+      "title": "土浦花火：title・descriptionを「何発」に答える形へ",
+      "kind": "seo",
+      "targetUrl": "/events/tsuchiura-hanabi-2026/",
+      "targetFile": "src/content/events/tsuchiura-hanabi-2026.md",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "specPath": "docs/editorial/specs/20261007-november-batch-gsc-queries.md",
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/page/page000010.html"
+      ],
+      "acceptanceCriteria": [
+        "titleとdescriptionのみ変更",
+        "seo-changesに記録",
+        "npm run verify成功"
+      ],
+      "expectedPvImpact": 16,
+      "confidence": "medium",
+      "effort": "S",
+      "deadline": "2026-10-31",
+      "page": "/events/tsuchiura-hanabi-2026/",
+      "source": "gscQueries（発数クラスタ 28日98表示・8.1位・CTR 1.0%）",
+      "reason": "現状の表示のまま3位相当のCTR目安に届いた場合（推定）。11月7日に向けた季節の増加は実測が無く含めない"
+    },
+    {
+      "id": "20261007-tsukuba-ropeway-fare",
+      "title": "筑波山：titleをロープウェイ先頭にし、ケーブルカーの当面運休を明記",
+      "kind": "seo",
+      "targetUrl": "/events/tsukuba-cablecar-ropeway-guide/",
+      "targetFile": "src/content/events/tsukuba-cablecar-ropeway-guide.md",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "specPath": "docs/editorial/specs/20261007-november-batch-gsc-queries.md",
+      "primarySourceUrls": [
+        "https://mt-tsukuba.com/information/"
+      ],
+      "acceptanceCriteria": [
+        "titleとdescriptionのみ変更",
+        "運休は公式で当日確認",
+        "seo-changesに記録"
+      ],
+      "expectedPvImpact": 52,
+      "confidence": "medium",
+      "effort": "S",
+      "deadline": "2026-10-21",
+      "page": "/events/tsukuba-cablecar-ropeway-guide/",
+      "source": "gscQueries（料金クラスタ 7日352表示・7.3位・CTR 2.3%）",
+      "reason": "現状の表示のまま3位相当のCTR目安に届いた場合（推定）。再開が告知されたらtitleを即日直す"
+    },
+    {
+      "id": "20261007-kasama-kiku-relay-links",
+      "title": "笠間の菊まつりへ関連5ページから内部リンク（新栗まつりの PV Relay 先）",
+      "kind": "internal-link",
+      "targetUrl": "/events/kasama-kiku-matsuri-2026/",
+      "targetFile": "src/content/events/kasama-inari-jinja-guide.md",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "specPath": "docs/editorial/specs/20261007-november-batch-gsc-queries.md",
+      "primarySourceUrls": [
+        "https://www.kasama-kanko.jp/"
+      ],
+      "acceptanceCriteria": [
+        "観測期間外のページからだけリンク",
+        "seo-changesに記録"
+      ],
+      "expectedPvImpact": 34,
+      "confidence": "low",
+      "effort": "S",
+      "deadline": "2026-10-24",
+      "page": "/events/kasama-kiku-matsuri-2026/",
+      "source": "gscQueries（総合クラスタ 7日204表示・新規・7.4位・CTR 0.5%）",
+      "reason": "現状の表示のまま3位相当のCTR目安に届いた場合（推定）。内部リンクの順位への効果は実測待ち"
+    },
+    {
+      "id": "20261014-stadium-access-parking-cluster",
+      "title": "水戸信金スタジアム：アクセス・駐車場の検索意図を補強（観測明け）。駐車場記事2本の役割分担を確認",
+      "kind": "seo",
+      "targetUrl": "/news/mito-hollyhock-new-stadium-access/",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-14",
+      "expectedPvImpact": 312,
+      "confidence": "medium",
+      "effort": "M",
+      "deadline": "2026-10-14",
+      "page": "/news/mito-hollyhock-new-stadium-access/",
+      "source": "gscQueries（アクセス 28日1,950表示・7.4位、駐車場 1,633表示・10.9位）",
+      "reason": "アクセスクラスタの伸びしろ（推定）。駐車場クラスタ +250 は /news/mito-shinkin-stadium-parking/ と競合しているため、統合（URL変更）はオーナー承認。10月14日まで観測中"
+    },
+    {
+      "id": "20261014-shinguri-to-kiku-relay",
+      "title": "新栗まつり記事から笠間の菊まつりへ導線（観測明け）",
+      "kind": "internal-link",
+      "targetUrl": "/events/kasama-kiku-matsuri-2026/",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-14",
+      "confidence": "medium",
+      "effort": "S",
+      "deadline": "2026-10-14",
+      "page": "/news/kasama-shinguri-matsuri-2026/",
+      "source": "PV Relay（新栗まつり 直近7日1,337 Views・10月4日終了）",
+      "reason": "終了後も残る流入を同じ笠間市の次の山へ渡す。代替効果の大きさは実測が無く expectedPvImpact は設定しない"
+    },
+    {
+      "id": "20261013-match-viewing-queries",
+      "title": "「観戦 場所 A 対 B」検索への対応方針（試合ごとの観戦・視聴情報）",
+      "kind": "sports",
+      "targetUrl": "/sports/mito-hollyhock/",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-13",
+      "confidence": "low",
+      "effort": "M",
+      "deadline": "2026-10-13",
+      "page": "/sports/mito-hollyhock/",
+      "source": "gscQueries（観戦系14語 28日10,483表示・6〜7位・CTR 0.6%。鹿島×甲府 8,300、福島ユナイテッド×水戸 1,553）",
+      "reason": "表示は大きいが6〜7位でもCTR 0.6%と低い。検索意図（会場か放送・配信か）とスニペットの不一致を仮説として、試合情報は公式一次情報で ChatGPT が作成。期待PVは仮説検証まで設定しない"
     }
   ]
 }

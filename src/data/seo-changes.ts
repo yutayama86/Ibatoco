@@ -44,6 +44,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261007-events-kasama-kiku-matsuri-2026',
+    date: '2026-10-07',
+    url: '/events/kasama-kiku-matsuri-2026/',
+    kind: 'internal-link',
+    change: '笠間稲荷神社・笠間の小菊・10月イベント・茨城県陶芸美術館・秋のおでかけの5ページから関連リンク',
+    queries: ['笠間菊まつり 2026', '笠間 菊まつり 2026', '菊まつり 2026'],
+    commit: '5c04da7',
+    note: '新栗まつり（10月4日終了）の PV Relay 先。変更前7日（GSC 09-28..10-04）は213表示・平均7.3位。新栗まつり記事は10月13日まで観測中のため、そこからの導線は10月14日以降',
+  },
+  {
+    id: '20261007-events-tsukuba-cablecar-ropeway-guide',
+    date: '2026-10-07',
+    url: '/events/tsukuba-cablecar-ropeway-guide/',
+    kind: 'on-page',
+    change: 'titleとdescriptionのみ変更：ロープウェイを先頭にし、ケーブルカーの当面運休を明記',
+    queries: ['筑波山 ロープウェイ 料金', '筑波山ロープウェイ 料金', '筑波山ケーブルカー 料金'],
+    commit: '5c04da7',
+    note: '変更前（GSC 2026-09-28..10-04）は料金系 7日 337表示・平均7.2位。ロープウェイ料金系はCTR 0%。運休は筑波観光鉄道のお知らせ（9月25日以降当面運休、ロープウェイは通常運行）を10月7日に確認。再開が告知されたらtitleを即日直す（事実の更新）',
+  },
+  {
+    id: '20261007-events-tsuchiura-hanabi-2026',
+    date: '2026-10-07',
+    url: '/events/tsuchiura-hanabi-2026/',
+    kind: 'on-page',
+    change: 'titleとdescriptionのみ変更：titleに打ち上げ数（約2万発）、descriptionを「何発」に答える形へ',
+    queries: ['土浦花火大会 何発', '土浦花火 何発', '土浦全国花火競技大会 何発'],
+    commit: '5c04da7',
+    note: '変更前28日（GSC 2026-09-07..10-04）は「何発」系 約95表示・平均7.5位・CTR 0%。打ち上げ数は観光いばらき（茨城県観光物産協会）の記載で、大会公式の概要には無い（本文FAQと同じ帰属）。H1・URLは変更なし。14日で評価',
+  },
+  {
     id: '20261003-news-ibaraki-passport-additional-application',
     date: '2026-10-03',
     url: '/news/ibaraki-passport-2026/',
