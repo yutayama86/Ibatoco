@@ -12,51 +12,220 @@
     "atRisk": 0.8
   },
   "focusPages": [
-    { "path": "/events/fukuroda-falls-autumn-2026/", "label": "袋田の滝の紅葉", "cluster": "autumnLeaves" },
-    { "path": "/events/ryujin-bridge-autumn-2026/", "label": "竜神大吊橋の紅葉", "cluster": "autumnLeaves" },
-    { "path": "/events/hananuki-gorge-autumn-2026/", "label": "花貫渓谷の紅葉", "cluster": "autumnLeaves" },
-    { "path": "/events/tsukuba-autumn-2026/", "label": "筑波山の紅葉", "cluster": "autumnLeaves" },
-    { "path": "/events/tsuchiura-hanabi-2026/", "label": "土浦全国花火競技大会", "cluster": "tsuchiuraFireworks" },
-    { "path": "/events/oarai-ankou-matsuri-2026/", "label": "大洗あんこう祭", "cluster": "oaraiAnkou" },
-    { "path": "/events/oarai-ankou-nabe-guide/", "label": "大洗あんこう鍋", "cluster": "oaraiAnkou" },
-    { "path": "/events/ibaraki-events-november-2026/", "label": "11月イベントまとめ", "cluster": "novemberMajorDemand" }
+    {
+      "path": "/events/fukuroda-falls-autumn-2026/",
+      "label": "袋田の滝の紅葉",
+      "cluster": "autumnLeaves"
+    },
+    {
+      "path": "/events/ryujin-bridge-autumn-2026/",
+      "label": "竜神大吊橋の紅葉",
+      "cluster": "autumnLeaves"
+    },
+    {
+      "path": "/events/hananuki-gorge-autumn-2026/",
+      "label": "花貫渓谷の紅葉",
+      "cluster": "autumnLeaves"
+    },
+    {
+      "path": "/events/tsukuba-autumn-2026/",
+      "label": "筑波山の紅葉",
+      "cluster": "autumnLeaves"
+    },
+    {
+      "path": "/events/tsuchiura-hanabi-2026/",
+      "label": "土浦全国花火競技大会",
+      "cluster": "tsuchiuraFireworks"
+    },
+    {
+      "path": "/events/oarai-ankou-matsuri-2026/",
+      "label": "大洗あんこう祭",
+      "cluster": "oaraiAnkou"
+    },
+    {
+      "path": "/events/oarai-ankou-nabe-guide/",
+      "label": "大洗あんこう鍋",
+      "cluster": "oaraiAnkou"
+    },
+    {
+      "path": "/events/ibaraki-events-november-2026/",
+      "label": "11月イベントまとめ",
+      "cluster": "novemberMajorDemand"
+    }
   ],
   "seasonCategories": [
-    { "key": "hanabi", "match": ["花火", "hanabi"] },
-    { "key": "kouyou", "match": ["紅葉", "kouyou"] },
-    { "key": "ankou", "match": ["あんこう", "ankou"] },
-    { "key": "kochia", "match": ["コキア", "kochia"] },
-    { "key": "ume", "match": ["梅まつり", "梅", "ume"] },
-    { "key": "newyear", "match": ["初日の出", "初詣", "年末年始", "hatsuhinode", "hatsumode"] },
-    { "key": "gw", "match": ["ゴールデンウィーク", "GW"] },
-    { "key": "summer", "match": ["夏休み"] },
-    { "key": "matsuri", "match": ["まつり", "祭り", "祭", "matsuri"] }
+    {
+      "key": "hanabi",
+      "match": [
+        "花火",
+        "hanabi"
+      ]
+    },
+    {
+      "key": "kouyou",
+      "match": [
+        "紅葉",
+        "kouyou"
+      ]
+    },
+    {
+      "key": "ankou",
+      "match": [
+        "あんこう",
+        "ankou"
+      ]
+    },
+    {
+      "key": "kochia",
+      "match": [
+        "コキア",
+        "kochia"
+      ]
+    },
+    {
+      "key": "ume",
+      "match": [
+        "梅まつり",
+        "梅",
+        "ume"
+      ]
+    },
+    {
+      "key": "newyear",
+      "match": [
+        "初日の出",
+        "初詣",
+        "年末年始",
+        "hatsuhinode",
+        "hatsumode"
+      ]
+    },
+    {
+      "key": "gw",
+      "match": [
+        "ゴールデンウィーク",
+        "GW"
+      ]
+    },
+    {
+      "key": "summer",
+      "match": [
+        "夏休み"
+      ]
+    },
+    {
+      "key": "matsuri",
+      "match": [
+        "まつり",
+        "祭り",
+        "祭",
+        "matsuri"
+      ]
+    }
   ],
   "seasonWindows": {
     "about": "開催日を持たない季節ガイドの、検索需要の期間（MM-DD）。運用上の想定であり、見頃の事実ではない（記事には出さない）",
-    "kouyou": { "start": "11-01", "end": "11-30", "basis": "茨城の紅葉ガイドの見頃需要の中心期間の想定（11月）" },
-    "ankou": { "start": "11-01", "end": "02-28", "basis": "あんこう鍋の旬の需要期間の想定" },
-    "kochia": { "start": "09-15", "end": "10-20", "basis": "コキアの紅葉の需要期間の想定" },
-    "ume": { "start": "02-10", "end": "03-20", "basis": "梅まつりの需要期間の想定" },
-    "newyear": { "start": "12-31", "end": "01-03", "basis": "年末年始の需要期間の想定" },
-    "gw": { "start": "04-29", "end": "05-05", "basis": "ゴールデンウィークの想定" },
-    "summer": { "start": "07-20", "end": "08-31", "basis": "夏休みの想定" }
+    "kouyou": {
+      "start": "11-01",
+      "end": "11-30",
+      "basis": "茨城の紅葉ガイドの見頃需要の中心期間の想定（11月）"
+    },
+    "ankou": {
+      "start": "11-01",
+      "end": "02-28",
+      "basis": "あんこう鍋の旬の需要期間の想定"
+    },
+    "kochia": {
+      "start": "09-15",
+      "end": "10-20",
+      "basis": "コキアの紅葉の需要期間の想定"
+    },
+    "ume": {
+      "start": "02-10",
+      "end": "03-20",
+      "basis": "梅まつりの需要期間の想定"
+    },
+    "newyear": {
+      "start": "12-31",
+      "end": "01-03",
+      "basis": "年末年始の需要期間の想定"
+    },
+    "gw": {
+      "start": "04-29",
+      "end": "05-05",
+      "basis": "ゴールデンウィークの想定"
+    },
+    "summer": {
+      "start": "07-20",
+      "end": "08-31",
+      "basis": "夏休みの想定"
+    }
   },
   "seasonalRules": {
     "about": "開催日（季節ガイドは需要期間の開始日）からの逆算。2026-10-07時点では同一カテゴリの開催済みGSC日別実測が2件以上揃わないため既存値を維持。紅葉は11月実測まで変更しない。",
-    "hanabi": { "demandLeadDays": 42, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 2 },
-    "kouyou": { "demandLeadDays": 28, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
-    "ankou": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
-    "kochia": { "demandLeadDays": 21, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
-    "ume": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
-    "newyear": { "demandLeadDays": 21, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 2 },
-    "gw": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 1 },
-    "summer": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 },
-    "matsuri": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 2 },
-    "default": { "demandLeadDays": 30, "indexLeadDays": 14, "peakDays": 7, "aftermathDays": 3 }
+    "hanabi": {
+      "demandLeadDays": 42,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 2
+    },
+    "kouyou": {
+      "demandLeadDays": 28,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    },
+    "ankou": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    },
+    "kochia": {
+      "demandLeadDays": 21,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    },
+    "ume": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    },
+    "newyear": {
+      "demandLeadDays": 21,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 2
+    },
+    "gw": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 1
+    },
+    "summer": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    },
+    "matsuri": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 2
+    },
+    "default": {
+      "demandLeadDays": 30,
+      "indexLeadDays": 14,
+      "peakDays": 7,
+      "aftermathDays": 3
+    }
   },
   "phaseUrgency": {
-    "prepare": 1.0,
+    "prepare": 1,
     "index-window": 1.6,
     "demand-rising": 1.4,
     "peak": 1.3,
@@ -79,7 +248,10 @@
   },
   "seo": {
     "minImpressions28": 100,
-    "strikingDistance": [8, 20],
+    "strikingDistance": [
+      8,
+      20
+    ],
     "lowCtrMaxPosition": 7,
     "lowCtrRatio": 0.6,
     "risingDemandPct": 50,
@@ -88,7 +260,6 @@
     "internalLinkMinSources": 5
   },
   "ctrCurve": {
-    "about": "2026-07-07..2026-10-04のGSCページ×検索語実測。平均順位を整数丸めし、impressions>=500の順位（2〜12位）だけCTR=clicks/impressionsで置換。500未満の順位は既存値を維持。",
     "1": 0.28,
     "2": 0.172794,
     "3": 0.160594,
@@ -102,6 +273,7 @@
     "11": 0.012566,
     "12": 0.003417,
     "15": 0.01,
-    "20": 0.006
+    "20": 0.006,
+    "about": "2026-07-07..2026-10-04のGSCページ×検索語実測。平均順位を整数丸めし、impressions>=500の順位だけCTR=clicks/impressionsで置換。500未満の順位は既存値を維持。"
   }
 }

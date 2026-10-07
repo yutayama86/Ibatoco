@@ -44,8 +44,18 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
-    id: '20261007-tag',
-    date: '2026-10-07',
+    id: '20261008-news-chikusei-shinycolors-collab-2026',
+    date: '2026-10-08',
+    url: '/news/chikusei-shinycolors-collab-2026/',
+    kind: 'on-page',
+    change: 'titleとdescriptionのみ変更：筑西市×シャニマス、コラボ2026、10月10日開始、スタンプラリー、花火を検索結果で明示',
+    queries: ['筑西 シャニマス', 'シャニマス 筑西市', 'シャニマス 茨城', 'シャニマス 花火'],
+    commit: 'daily-growth-20261008',
+    note: '変更前28日（GSC 2026-09-07..10-04）は対象ページ458表示・14クリック・CTR 3.06%・平均6.29位。関連クエリ合計158表示。本文・URLは変更せず、14日で評価する。',
+  },
+  {
+    id: '20261008-tag',
+    date: '2026-10-08',
     url: '/tag/',
     kind: 'technical',
     change: 'タグ一覧の全ページを noindex, follow に（記事3本以上なら検索に出す条件を廃止）',
@@ -54,8 +64,8 @@ export const SEO_CHANGES: SeoChange[] = [
     note: 'これまで検索対象だった21ページ（例：#水戸ホーリーホック、#茨城パスポート、#水戸市）が外れる。オーナー判断 2026-10-07。記事ページ・テーマページとの競合と薄さを避けるため',
   },
   {
-    id: '20261007-sponsor',
-    date: '2026-10-07',
+    id: '20261008-sponsor',
+    date: '2026-10-08',
     url: '/sponsor/',
     kind: 'technical',
     change: 'sitemap に /sponsor/ と /sponsor/terms/ を追加（noindex でなく canonical も自分自身だったが未収録）',
@@ -64,8 +74,8 @@ export const SEO_CHANGES: SeoChange[] = [
     note: 'Index Health の参考で検出。オーナー判断 2026-10-07',
   },
   {
-    id: '20261007-discover',
-    date: '2026-10-07',
+    id: '20261008-discover',
+    date: '2026-10-08',
     url: '/discover/',
     kind: 'technical',
     change: 'sitemap に /discover/ を追加（noindex でなく canonical も自分自身だったが未収録）',
