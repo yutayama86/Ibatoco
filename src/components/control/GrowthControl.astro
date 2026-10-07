@@ -7,55 +7,55 @@
  */
 import performance from '../../../data/editorial/performance-snapshot.json';
 import config from '../../../data/editorial/growth-engine.json';
+import radarConfig from '../../../data/editorial/demand-radar.json';
 import actionQueue from '../../../data/editorial/action-queue.json';
 import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
+import asp from '../../../data/editorial/asp-results.json';
+import learning from '../../../data/editorial/seasonal-learning.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
-import { runGrowthEngine, todayJst } from '../../lib/growth-engine.mjs';
-import { auditSnapshot } from '../../lib/snapshot-quality.mjs';
+import { todayJst } from '../../lib/growth-engine.mjs';
+import { runGrowthOS } from '../../lib/growth-os.mjs';
 import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
 import { auditFreshness } from '../../../scripts/freshness-guard.mjs';
 
 const today = todayJst();
 const pages = loadContentPages();
-// 実測の整合チェック（矛盾する値は計算から外し、理由を Alerts に出す）
-const quality = auditSnapshot(performance);
-const result = runGrowthEngine({
-  snapshot: quality.snapshot,
-  config,
+// 日次レポート（npm run growth:target）と同じ計算（src/lib/growth-os.mjs）。実測の整合チェックも中で通す
+const result = runGrowthOS({
+  snapshot: performance,
+  engineConfig: config,
+  radarConfig,
   pages,
   changes: SEO_CHANGES,
   actions: (actionQueue.actions ?? []) as any[],
   registry,
   inbound: null,
   freshness: auditFreshness({ pages, today }),
+  ledger,
+  asp,
+  learningRecords: (learning.records ?? []) as any[],
   today,
 });
-const alertOrder: Record<string, number> = { critical: 0, warning: 1, info: 2 };
-const alerts = [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...result.alerts]
-  .sort((a, b) => (alertOrder[a.level] ?? 9) - (alertOrder[b.level] ?? 9));
+const alerts = result.alerts;
 const g = result.gap;
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const signed = (n: number | null | undefined) => (n == null ? '—' : `${n > 0 ? '+' : ''}${Number(n).toLocaleString('ja-JP')}`);
 const pct = (v: number | null | undefined) => (v == null ? '—' : `${(Number(v) * 100).toFixed(1)}%`);
 const statusClass = { 'ON TRACK': 'is-good', 'AT RISK': 'is-warn', 'OFF TRACK': 'is-bad', 'NO DATA': 'is-muted' }[g.status as string] ?? 'is-muted';
 const priority = result.forecasts.slice(0, 12);
-
-const conv = (performance.conversionDetail?.recent7 ?? {}) as Record<string, number | string>;
-const n = (key: string) => (Number.isFinite(Number(conv[key])) ? Number(conv[key]) : null);
-const confirmedRevenue = ((ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>)
-  .filter((e) => e.status === 'confirmed')
-  .reduce((sum, e) => sum + Number(e.revenueYen ?? 0), 0);
-const views28 = Number(performance.windows?.ga4?.recent28?.views ?? 0);
-const revenueRows = [
-  { label: 'Booking Guide 表示', value: fmt(n('booking_guide_view')), note: '7日' },
-  { label: '予約クリック', value: fmt(n('outbound_booking_click')), note: '7日' },
-  { label: '収益化クリック', value: fmt(n('paid_booking_click') ?? n('monetized_booking_click')), note: '7日' },
-  { label: '確定売上', value: `¥${fmt(confirmedRevenue)}`, note: 'Revenue Ledger' },
-  { label: 'RPM', value: views28 > 0 ? `¥${(confirmedRevenue / views28 * 1000).toFixed(1)}` : '—', note: '確定売上 ÷ 28日Views × 1,000' },
-  { label: '事業者CTA', value: `${fmt(n('business_cta_click'))} / ${fmt(n('business_cta_view'))}`, note: 'クリック / 表示・7日' },
-  { label: 'リード', value: fmt((n('generate_lead') ?? 0) + (n('form_submit') ?? 0)), note: 'generate_lead + form_submit・7日' },
-];
+const relay = result.pvRelay;
+const rising = result.demandRadar
+  .filter((r: any) => r.kind === 'page' && r.components.timing !== 0 && (r.viewsVelocityPct ?? r.impressionsVelocityPct ?? 0) > 0)
+  .sort((a: any, b: any) => Math.max(b.viewsVelocityPct ?? 0, b.impressionsVelocityPct ?? 0) - Math.max(a.viewsVelocityPct ?? 0, a.impressionsVelocityPct ?? 0))
+  .slice(0, 6);
+const velocityText = (v: number | null | undefined, isNew = false) => (v == null ? (isNew ? '新規' : '—') : `${v > 0 ? '+' : ''}${v}%`);
+const buckets = [
+  { key: '0-30', label: '0〜30日' },
+  { key: '31-60', label: '31〜60日' },
+  { key: '61-90', label: '61〜90日' },
+].map((b) => ({ ...b, items: result.pipeline.filter((p: any) => p.bucket === b.key).slice(0, 8) }));
+const funnel = result.revenueFunnel;
 const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
 ---
 
@@ -94,12 +94,12 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
           {result.batch.map((b) => (
             <li>
               <p class="gc-batch__title">{b.title}</p>
-              <p class="gc-batch__meta">期待 {b.expectedPv == null ? '未推定' : `+${fmt(b.expectedPv)} PV`}・確度 {b.confidence ?? '—'}{b.reason ? `・${b.reason}` : ''}</p>
+              <p class="gc-batch__meta">期待 +{fmt(b.expectedPv)} PV・確度 {b.confidence ?? '—'}・工数 {b.effortHours}h・緊急度 {b.urgency}{b.replacesAtRisk ? '・失うPVの代替' : ''}{b.reason ? `・${b.reason}` : ''}</p>
             </li>
           ))}
         </ol>
       ) : (
-        <p class="gc-empty">実行候補なし。施策キューに期待PV・確度・工数を付けると順位付けされます。</p>
+        <p class="gc-empty">期待PVを推定できる施策なし（推測で埋めない）。</p>
       )}
     </article>
   </div>
@@ -111,6 +111,67 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
         <li class:list={[`is-${a.level}`]}><span class="gc-chip">{levelLabel[a.level] ?? a.level}・{a.kind}</span><span class="gc-alert__text">{a.message}</span></li>
       ))}
     </ul>
+  </article>
+
+  <article class="gc-card">
+    <h3>PV at Risk</h3>
+    <p class="gc-note gc-note--lead">今後7日 <b>{fmt(relay.lostViewsForecast[7])}</b>・14日 {fmt(relay.lostViewsForecast[14])}・30日 {fmt(relay.lostViewsForecast[30])} PV を失う可能性（forecast。直近7日 {fmt(relay.siteViews7)}）</p>
+    <div class="gc-scroll" data-xscroll tabindex="0" aria-label="主要流入ページの表（横にスクロールできます）">
+      <table class="gc-table">
+        <thead>
+          <tr><th scope="col">主要流入ページ</th><th scope="col">7日Views</th><th scope="col">全体比</th><th scope="col">終わり</th><th scope="col">状態</th><th scope="col">失う可能性 7日/30日</th><th scope="col">代替候補（7日Views・仕込み）</th></tr>
+        </thead>
+        <tbody>
+          {relay.items.map((i: any) => (
+            <tr>
+              <th scope="row">{i.label}</th>
+              <td>{fmt(i.views7)}</td>
+              <td>{i.shareOfSite == null ? '—' : `${Math.round(i.shareOfSite * 100)}%`}</td>
+              <td>{i.endDate ?? '不明'}</td>
+              <td><span class:list={['gc-pill', `is-${i.status.toLowerCase().replace(/\s+/g, '-')}`]}>{i.status}</span></td>
+              <td>{fmt(i.lostViewsForecast[7])} / {fmt(i.lostViewsForecast[30])}</td>
+              <td class="gc-action">{i.replacements.map((r: any) => `${r.label.slice(0, 20)}（${fmt(r.views7)}・${r.deadlinePassed ? '至急' : r.next ? `${r.next.label} ${r.next.date}` : '—'}）`).join('、') || '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="gc-note">失う可能性は、終わり（開催終了・期限）の後に流入が止まる想定の forecast。終わりの日付が無い主要ページは「不明」。</p>
+  </article>
+
+  <div class="gc-grid">
+    <article class="gc-card">
+      <h3>Demand Radar</h3>
+      <ul class="gc-list">
+        {rising.map((r: any) => (
+          <li><p class="gc-list__title">{r.label}</p><p class="gc-list__meta">7日 {fmt(r.views7)}（{velocityText(r.viewsVelocityPct, r.isNew)}）・表示28日 {fmt(r.impressions28)}（{velocityText(r.impressionsVelocityPct, r.impressionsPrev28 === 0)}）・Score {r.score ?? '—'}</p></li>
+        ))}
+      </ul>
+      <p class="gc-note">需要の増加速度が高い順。検索語別の推移（gscQueries）は未取得。</p>
+    </article>
+
+    <article class="gc-card">
+      <h3>Next Winners</h3>
+      <ul class="gc-list">
+        {result.nextWinners.map((w: any) => (
+          <li><p class="gc-list__title">{w.label}</p><p class="gc-list__meta">伸びしろ {w.upside == null ? '—' : `+${fmt(w.upside)}`}（推定）・速度 {velocityText(w.viewsVelocityPct)}・{w.observing ? `観測中〜${w.observing}` : w.action}</p></li>
+        ))}
+      </ul>
+    </article>
+  </div>
+
+  <article class="gc-card">
+    <h3>30/60/90 Day Pipeline</h3>
+    <div class="gc-pipeline">
+      {buckets.map((b) => (
+        <section aria-label={b.label}>
+          <h4>{b.label}</h4>
+          <ul class="gc-list">
+            {b.items.map((p: any) => <li><p class="gc-list__title">{p.date} {p.label}{!p.path && <small>（ページなし）</small>}</p><p class="gc-list__meta">{p.action}</p></li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
   </article>
 
   <article class="gc-card">
@@ -140,12 +201,24 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
     <p class="gc-note">伸びしろは推定（GSCの表示回数のまま目標順位の一般的なCTRに近づいた場合）。「—」は実測が未取得。ページ別データ（pageMetrics）が入ると確度が上がります。</p>
   </article>
 
-  <article class="gc-card">
-    <h3>Revenue</h3>
-    <dl class="gc-revenue">
-      {revenueRows.map((r) => <div><dt>{r.label}</dt><dd>{r.value}</dd><dd class="gc-revenue__note">{r.note}</dd></div>)}
-    </dl>
-  </article>
+  <div class="gc-grid">
+    <article class="gc-card">
+      <h3>Revenue Funnel</h3>
+      <ol class="gc-funnel">
+        {funnel.stages.map((st: any) => <li><span>{st.label}</span><b>{st.value == null ? '未取得' : fmt(st.value)}</b><small>{st.period ?? '—'}</small></li>)}
+      </ol>
+      <p class="gc-note">Revenue / 1,000 Views ¥{funnel.metrics.revenuePer1000Views ?? '—'}・Affiliate CTR {pct(funnel.metrics.affiliateCtr)}・発生CVR／EPC は期間がそろうまで計算しない。クリックは成果として扱わない。</p>
+      {funnel.diagnosis.map((d: any) => <p class="gc-warn">{d.message}</p>)}
+    </article>
+
+    <article class="gc-card">
+      <h3>Annual Learning</h3>
+      <p class="gc-note gc-note--lead">台帳 {result.annualLearning.records} 件・実測あり {result.annualLearning.measured} 件（2027年の公開・更新時期に使う）</p>
+      <dl class="gc-revenue">
+        {result.annualLearning.categories.map((c: any) => <div><dt>{c.label}</dt><dd>{c.status === 'learned' ? `平均 ${c.leadDaysAvg} 日前` : 'データ不足'}</dd><dd class="gc-revenue__note">{c.records} 件・実測 {c.leadDaysSamples} 件</dd></div>)}
+      </dl>
+    </article>
+  </div>
 </section>
 
 <style>
@@ -189,7 +262,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   .gc-table th,.gc-table td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:right;vertical-align:top;white-space:nowrap}
   .gc-table thead th{color:var(--muted);font-weight:700;background:var(--panel-2)}
   .gc-table tbody th{text-align:left;white-space:normal;min-width:11rem;font-weight:700}
-  .gc-table tbody th small{display:block;color:var(--muted);font-weight:500}
+  .gc-table tbody th small{display:block;color:var(--muted);font-size:.75rem;font-weight:500}
   .gc-table .gc-action{min-width:16rem;text-align:left;white-space:normal;color:var(--muted)}
   .gc-pill{display:inline-block;padding:.15rem .5rem;border-radius:999px;background:var(--panel-2);font-size:.75rem;font-weight:700}
   .gc-pill.is-act-now{color:var(--warn)}
@@ -199,4 +272,22 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   .gc-pill.is-no-data{color:var(--bad)}
   .gc-revenue{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:.6rem;margin:0}
   .gc-revenue .gc-revenue__note{margin:.15rem 0 0;color:var(--muted);font-size:.75rem;font-weight:500}
+  .gc-note--lead{margin:0 0 .7rem;color:var(--text)}
+  .gc-list{display:grid;gap:.55rem;margin:0;padding:0;list-style:none}
+  .gc-list li{min-width:0;padding:.55rem .7rem;border-radius:8px;background:var(--panel-2)}
+  .gc-list__title{margin:0;font-size:.85rem;font-weight:700;line-height:1.55;overflow-wrap:anywhere}
+  .gc-list__title small{color:var(--muted);font-size:.75rem;font-weight:500}
+  .gc-list__meta{margin:.2rem 0 0;color:var(--muted);font-size:.78rem;line-height:1.6;overflow-wrap:anywhere}
+  .gc-pipeline{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
+  @media(min-width:900px){.gc-pipeline{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .gc-pipeline h4{margin:0 0 .5rem;font-size:.85rem;color:var(--accent)}
+  .gc-funnel{display:grid;gap:.4rem;margin:0;padding:0;list-style:none;counter-reset:none}
+  .gc-funnel li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.1rem .6rem;padding:.5rem .7rem;border-radius:8px;background:var(--panel-2)}
+  .gc-funnel span{font-size:.82rem;overflow-wrap:anywhere}
+  .gc-funnel b{font-variant-numeric:tabular-nums}
+  .gc-funnel small{grid-column:1/-1;color:var(--muted);font-size:.75rem}
+  .gc-warn{margin:.6rem 0 0;padding:.55rem .7rem;border-left:3px solid var(--warn);border-radius:8px;background:var(--panel-2);font-size:.82rem;line-height:1.6}
+  .gc-pill.is-ended,.gc-pill.is-end-unknown{color:var(--bad)}
+  .gc-pill.is-ending{color:var(--warn)}
+  .gc-pill.is-active{color:var(--good)}
 </style>

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-07",
+  "about": "Demand Radar / PV Relay / 30・60・90日 Pipeline / Annual Learning の設定（src/lib/demand-radar.mjs・src/lib/seasonal-learning.mjs）。重み・しきい値・季節の期間は実測ではなく優先順位付けの目安。実測は performance-snapshot.json と seasonal-learning.json。docs/GROWTH_ENGINE.md の 8〜11.",
+  "demandScore": {
+    "about": "Demand Score = 実測できた要素だけの加重平均（0〜100）。実測できない要素（競合など）は分母からも外し、coverage として示す。需要の増加速度を最も重く見る",
+    "weights": {
+      "velocity": 3,
+      "size": 2,
+      "positionOpportunity": 2,
+      "ctrGap": 1,
+      "timing": 2,
+      "commercialIntent": 1,
+      "effort": 1,
+      "competition": 1
+    },
+    "newPageMinViews7": 50
+  },
+  "pvRelay": {
+    "about": "主要流入ページ＝直近7日Viewsの上位。終了後の流入は止まる想定で、失う可能性のあるViewsを forecast として出す（実測ではない）。2026年の実測で減衰を学習したら置き換える",
+    "topPages": 10,
+    "minShareOfSite": 0.02,
+    "measuredDropPct": 30,
+    "dependencyShare": 0.25,
+    "horizons": [7, 14, 30]
+  },
+  "commercialIntentWords": ["駐車場", "ホテル", "宿泊", "宿", "予約", "飲食店", "店", "あんこう鍋", "アクセス", "交通規制", "周辺", "チケット", "料金", "シャトル"],
+  "upcomingSeasons": {
+    "about": "Growth Engine の seasonWindows に無い、年をまたぐ先の季節需要（MM-DD）。30/60/90日 Pipeline で仕込みの対象にする。期間は運用上の想定",
+    "newyear": { "label": "年末年始・初日の出", "start": "12-28", "end": "01-03", "match": ["初日の出", "年末年始", "大晦日", "hatsuhinode"] },
+    "hatsumode": { "label": "初詣", "start": "01-01", "end": "01-10", "match": ["初詣", "hatsumode"] },
+    "illumination": { "label": "イルミネーション", "start": "11-20", "end": "12-25", "match": ["イルミネーション", "illumination"] },
+    "ume": { "label": "梅まつり", "start": "02-10", "end": "03-20", "match": ["梅まつり", "偕楽園の梅", "ume"] },
+    "sakura": { "label": "桜", "start": "03-25", "end": "04-15", "match": ["桜まつり", "さくらまつり", "花見", "お花見", "sakura"] }
+  },
+  "learningCategories": {
+    "about": "Annual Learning のカテゴリ。記事のタグ・キーワード・slug で判定（上から順）。「桜」単独は桜川市と取り違えるため使わない",
+    "order": ["hanabi", "kouyou", "ankou", "gourmet", "ume", "sakura", "gw", "kaisuiyoku", "natsumatsuri", "sports", "newyear", "hatsumode", "matsuri"],
+    "hanabi": { "label": "花火", "match": ["花火", "hanabi"] },
+    "kouyou": { "label": "紅葉", "match": ["紅葉", "kouyou"] },
+    "ankou": { "label": "あんこう", "match": ["あんこう", "ankou"] },
+    "gourmet": { "label": "グルメイベント", "match": ["グルメイベント", "カレーフェス", "フードフェス", "グルメ"] },
+    "ume": { "label": "梅", "match": ["梅まつり", "ume"] },
+    "sakura": { "label": "桜", "match": ["桜まつり", "さくらまつり", "花見", "sakura"] },
+    "gw": { "label": "GW", "match": ["ゴールデンウィーク", "GW"] },
+    "kaisuiyoku": { "label": "海水浴", "match": ["海水浴", "海開き"] },
+    "natsumatsuri": { "label": "夏祭り", "match": ["夏祭り", "黄門まつり", "祇園"] },
+    "sports": { "label": "スポーツ", "match": ["鹿島アントラーズ", "水戸ホーリーホック", "茨城ロボッツ", "アストロプラネッツ", "マラソン", "サッカー", "野球"] },
+    "newyear": { "label": "年末年始", "match": ["初日の出", "年末年始", "大晦日"] },
+    "hatsumode": { "label": "初詣", "match": ["初詣"] },
+    "matsuri": { "label": "祭り", "match": ["まつり", "祭り", "祭"] }
+  },
+  "learningMinSamples": 2
+}

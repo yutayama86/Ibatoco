@@ -87,3 +87,5 @@ Control Center は表示専用の管理画面ではなく、統合Growth OSの**
 Control CenterのP1/P2は判断候補です。毎朝7時OSが、実測・一次情報・観測窓・リスクを再評価し、自動実行可能なものだけ action queue の `ready` / `in-progress` に移して実装します。
 
 Control Centerには「朝7時OSの実行キュー」を表示し、現在の待機案件、直近完了、次回実行時刻を確認できるようにします。
+
+最上部の Growth 区画（`src/components/control/GrowthControl.astro`）は、日次レポート（`npm run growth:target`）と同じ `src/lib/growth-os.mjs` で計算します。NOVEMBER TARGET・Growth Velocity・Today's Growth Batch・Alerts・PV at Risk・Demand Radar・Next Winners・30/60/90 Day Pipeline・Priority Pages・Revenue Funnel・Annual Learning。式と表示の意味は `docs/GROWTH_ENGINE.md`。

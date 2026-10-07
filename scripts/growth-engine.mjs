@@ -20,8 +20,8 @@
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { runGrowthEngine, todayJst } from '../src/lib/growth-engine.mjs';
-import { auditSnapshot } from '../src/lib/snapshot-quality.mjs';
+import { todayJst } from '../src/lib/growth-engine.mjs';
+import { runGrowthOS } from '../src/lib/growth-os.mjs';
 import { loadContentPages } from './lib/content-pages.mjs';
 import { auditFreshness } from './freshness-guard.mjs';
 import { parseSeoChanges } from './lib/seo-changes.mjs';
@@ -31,9 +31,8 @@ const WRITE = process.argv.includes('--write');
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), 'utf8'));
 const today = process.env.GROWTH_TODAY ?? todayJst();
 
-// 実測の整合チェックを通してから使う（矛盾する値は計算から外し、理由を Alerts に出す。src/lib/snapshot-quality.mjs）
-const quality = auditSnapshot(readJson('data/editorial/performance-snapshot.json'));
-const snapshot = quality.snapshot;
+// 実測（整合チェックは runGrowthOS の中で通す。src/lib/snapshot-quality.mjs）
+const snapshot = readJson('data/editorial/performance-snapshot.json');
 const config = readJson('data/editorial/growth-engine.json');
 const actions = readJson('data/editorial/action-queue.json').actions ?? [];
 const registry = readJson('data/editorial/event-registry.json');
@@ -96,22 +95,25 @@ function internalLinkGraph() {
 }
 
 const freshness = auditFreshness({ pages, today });
-const result = runGrowthEngine({
+// 実測の整合チェック → Growth Engine → Demand Radar / PV Relay / Pipeline → Batch → Revenue Funnel → Annual Learning（src/lib/growth-os.mjs）
+const learningRecords = readJson('data/editorial/seasonal-learning.json').records ?? [];
+const result = runGrowthOS({
   snapshot,
-  config,
+  engineConfig: config,
+  radarConfig: readJson('data/editorial/demand-radar.json'),
   pages,
   changes: parseSeoChanges(readFileSync(join(ROOT, 'src/data/seo-changes.ts'), 'utf8')),
   actions,
   registry,
   inbound: internalLinkGraph(),
   freshness,
+  ledger: readJson('data/editorial/revenue-ledger.json'),
+  asp: readJson('data/editorial/asp-results.json'),
+  learningRecords,
   today,
 });
-result.freshness = freshness;
-result.dataQuality = quality.issues;
-const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
-result.alerts = [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...result.alerts]
-  .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]);
+const { demandRadar: radar, pvRelay: relay, pipeline, nextWinners: winners, revenueFunnel: funnel } = result;
+const annual = result.annualLearning.categories;
 
 // ---- 観測窓の確認（--check） ----
 const checkIndex = process.argv.indexOf('--check');
@@ -150,11 +152,45 @@ const lines = [
   `- 11月まで あと ${g.daysToMonth} 日。ローリング28日 ${fmt(g.rolling28.views)} / ${fmt(g.rolling28.target)}`,
   `- Growth Velocity：直近7日 ${fmt(g.velocity.last7)}・前週 ${fmt(g.velocity.previous7)}・前週比 ${g.velocity.wowPct == null ? '—' : `${g.velocity.wowPct > 0 ? '+' : ''}${g.velocity.wowPct}%`}・1日平均 ${fmt(g.velocity.dailyAverage)} → 必要 ${fmt(g.velocity.requiredDailyAverage)}`,
   '',
-  '## Today\'s Growth Batch（今日もっとも Gap を縮める施策）',
+  '## ④⑤ PV at Risk（今後失う可能性のある Views と代替候補）',
+  '',
+  `今後7日 ${fmt(relay.lostViewsForecast[7])}・14日 ${fmt(relay.lostViewsForecast[14])}・30日 ${fmt(relay.lostViewsForecast[30])} PV（forecast。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}）`,
+  '',
+  '| 主要流入ページ | 7日Views | 全体比 | 終わり | 状態 | 失う可能性（7日/30日） | 代替候補（現在の7日Views・仕込み期限） |',
+  '|---|---|---|---|---|---|---|',
+  ...relay.items.map((i) => `| ${i.label.slice(0, 40)} | ${fmt(i.views7)} | ${i.shareOfSite == null ? '—' : `${Math.round(i.shareOfSite * 100)}%`} | ${i.endDate ?? '不明'} | ${i.status} | ${fmt(i.lostViewsForecast[7])} / ${fmt(i.lostViewsForecast[30])} | ${i.replacements.map((r) => `${r.label.slice(0, 18)}（${fmt(r.views7)}・${r.deadlinePassed ? '至急' : r.next ? `${r.next.label} ${r.next.date}` : '—'}）`).join('、') || '—'} |`),
+  '',
+  '## ⑥ Demand Radar（需要の増加速度が高い順）',
+  '',
+  ...radar.filter((r) => r.kind === 'page' && r.components.timing !== 0 && (r.viewsVelocityPct ?? r.impressionsVelocityPct ?? 0) > 0).sort((a, b) => Math.max(b.viewsVelocityPct ?? 0, b.impressionsVelocityPct ?? 0) - Math.max(a.viewsVelocityPct ?? 0, a.impressionsVelocityPct ?? 0)).slice(0, 8)
+    .map((r) => `- ${r.label.slice(0, 40)}：7日Views ${fmt(r.views7)}（前週比 ${r.viewsVelocityPct == null ? (r.isNew ? '新規' : '—') : `${r.viewsVelocityPct > 0 ? '+' : ''}${r.viewsVelocityPct}%`}）・表示28日 ${fmt(r.impressions28)}（前期間比 ${r.impressionsVelocityPct == null ? (r.impressionsPrev28 === 0 ? '新規' : '—') : `${r.impressionsVelocityPct}%`}）・${r.position == null ? '—' : `${r.position.toFixed(1)}位`}・Demand Score ${r.score ?? '—'}（coverage ${r.coverage}）`),
+  '- 検索語別の 7日/前7日/28日/前28日（gscQueries）は未取得。取得されれば検索語単位の急上昇も出す',
+  '',
+  '## ⑧ Next Winners（次に育てる既存ページ）',
+  '',
+  ...(winners.length ? winners.map((w) => `- ${w.label.slice(0, 40)}：伸びしろ ${w.upside == null ? '—' : `+${fmt(w.upside)}`}（推定）・速度 ${w.viewsVelocityPct ?? '—'}%・${w.observing ? `観測中〜${w.observing}` : w.action}`) : ['- なし']),
+  '',
+  '## ⑦⑨ 30/60/90日 Pipeline（仕込み）',
+  '',
+  ...['0-30', '31-60', '61-90'].flatMap((b) => [`### ${b}日`, ...pipeline.filter((p) => p.bucket === b).slice(0, 12).map((p) => `- ${p.date} ${p.label.slice(0, 40)}${p.path ? '' : '（ページなし）'}：${p.action}`), '']),
+  '## ⑩ Revenue Funnel（クリックは成果として扱わない）',
+  '',
+  ...funnel.stages.map((st) => `- ${st.label}：${st.value == null ? '未取得' : fmt(st.value)}（${st.period ?? '—'}・${st.source}）`),
+  `- Revenue / 1,000 Views：${funnel.metrics.revenuePer1000Views ?? '—'} 円（${funnel.metrics.revenuePer1000ViewsBasis}）・Affiliate CTR ${pct(funnel.metrics.affiliateCtr)}・発生CVR ${funnel.metrics.occurredCvr ?? '—'}・承認率 ${funnel.metrics.approvalRate ?? '—'}・EPC ${funnel.metrics.epc ?? '—'}`,
+  `- ${funnel.metrics.note}`,
+  ...funnel.diagnosis.flatMap((d) => [`- ⚠ ${d.message}`, ...d.pages.map((p) => `  - ${p.path}（${p.provider}・${fmt(p.clicks)} click）`)]),
+  '',
+  '## ⑪ Annual Learning（2027年に使う季節実測）',
+  '',
+  `台帳 ${learningRecords.length} 件・実測あり ${learningRecords.filter((r) => r.measuredAt).length} 件（data/editorial/seasonal-learning.json）`,
+  ...annual.map((c) => `- ${c.label}：${c.records} 件・需要立ち上がりの実測 ${c.leadDaysSamples} 件 → ${c.status}${c.leadDaysAvg != null ? `（平均 ${c.leadDaysAvg} 日前）` : ''}`),
+  '',
+  '## ⑫ Today\'s Growth Batch（期待PV × 確度 ÷ 工数 × 緊急度。緊急度に需要の速度・失うPVの代替を反映）',
   '',
   ...(result.batch.length
-    ? result.batch.map((b, i) => `${i + 1}. ${b.title}（期待 ${b.expectedPv == null ? '未推定' : `+${fmt(b.expectedPv)} PV`}・確度 ${b.confidence ?? '—'}）— ${b.reason || b.source}`)
-    : ['- 実行候補なし（期待PV・確度・工数を持つ施策がまだ無い。action-queue に expectedPvImpact / confidence / effort を付けると順位付けされる）']),
+    ? result.batch.map((b, i) => `${i + 1}. ${b.title}（期待 +${fmt(b.expectedPv)} PV・確度 ${b.confidence ?? '—'}・工数 ${b.effortHours}h・緊急度 ${b.urgency}${b.replacesAtRisk ? '・失うPVの代替' : ''}）— ${b.reason || b.source}`)
+    : ['- 期待PVを推定できる施策が無い']),
+  ...(result.batchCandidatesWithoutEstimate.length ? ['', `期待PVを推定できない候補（順位付けしない）：${result.batchCandidatesWithoutEstimate.slice(0, 5).map((c) => c.title.slice(0, 30)).join('／')}`] : []),
   '',
   '## Alerts',
   '',

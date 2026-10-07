@@ -1,6 +1,6 @@
 # Ibatoco Unified Growth OS
 
-最終更新: 2026-10-06
+最終更新: 2026-10-07
 
 ## 目的
 
@@ -48,14 +48,30 @@
 
 PVだけを増やして収益・資産性・信頼性を壊す施策は禁止。
 
+## 先回りの原則（2026-10-07 オーナー判断）
+
+11月100,000 Viewsを最優先KPIとしつつ、単月だけを目的にせず「今年の実測を蓄積し、2027年以降の検索需要を先読みできるメディア」をつくる。記事本数はKPIにしない。
+
+笠間新栗まつりの終了後、流入の落ち込みにオーナーがGA4で先に気づいた。今後は「流入が落ちてから気づく」状態を禁止し、Growth OS 側が次を先に判断する。
+
+- 今の勝ちページがいつ失速するか、何PV失う可能性があるか（**PV at Risk**）
+- そのPVをどの次の山へ渡すか（**PV Relay**：新栗 → コキア → 土浦花火 → 紅葉 → 大洗あんこう → 12月 → 年末年始 → 初詣 → 梅 → 桜）
+- 次に検索需要が上がるテーマ（**Demand Radar**。大きさより増加速度を重く見る）
+- 何日前までに仕込むか（**30/60/90日 Pipeline**。10月時点で1月需要まで、11月に入ったら1〜2月まで）
+- 既存記事の改善と新規記事のどちらが期待値が高いか（期待追加PV ÷ 工数）
+- 2026年の季節実測を2027年の公開・更新時期に使う（**Annual Learning**。同カテゴリ2件以上の実測がそろうまで推測で変えない）
+- 収益は PV → CTA表示 → CTAクリック → ASP送客 → 発生成果 → 確定成果 → Revenue に分け、クリックを成果として扱わない（**Revenue Funnel**。A8 は「クリックあり・成果0」）
+
+計算と表示の正本は `docs/GROWTH_ENGINE.md` の 8〜12.。日次の見方は `docs/prompts/IBATOCO_DAILY_GROWTH_DIRECTOR.md` の「Demand Radar / PV Relay」（12項目）。実測できない値は null、予測は forecast として扱い、実測として保存しない。
+
 ## Control Centerと実行キューの関係
 
 数値の計算（11月の着地予測・Gap・ページ別予測・SEO機会・季節の締切・観測窓・施策の優先度・期限切れ/年度チェック）は Growth Engine（`docs/GROWTH_ENGINE.md`）を正本とし、Control Center と日次レポート（`npm run growth:target`）が同じ式を使う。変更前の観測窓の確認は `npm run growth:check -- <path> --type <種類>`。
 
 Control Centerの表示は3種類に分ける。
 
-- **判断**: 勝ち筋、改善点、リスク、着地予測
-- **候補**: 重点ページ、SEO機会、収益機会
+- **判断**: 勝ち筋、改善点、リスク、着地予測、PV at Risk、Demand Radar、Next Winners
+- **候補**: 重点ページ、SEO機会、収益機会、30/60/90日 Pipeline、Revenue Funnel、Annual Learning
 - **実行状態**: `data/editorial/action-queue.json` の ready / in-progress / done
 
 Control CenterのP1/P2は、そのまま自動実装を意味しない。

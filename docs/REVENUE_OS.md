@@ -217,3 +217,26 @@ KPI:
 公式クリックは分母から除外する。未提携候補も既存提携の実装漏れではないため、このKPIの分母には含めない。
 
 未提携候補はPartner Opportunity Engineで別途評価し、終了済みイベントの過去クリックは申請優先度に使わない。
+
+
+## Growth OS の Revenue Funnel（2026-10-07 オーナー判断）
+
+`src/lib/revenue-funnel.mjs`（`/control/` と `npm run growth:target` に表示）。収益を次の7段に分け、どこで止まっているかを見る。
+
+| 段 | 値の出どころ | 期間 |
+|---|---|---|
+| PV | GA4 Views | 直近7日 |
+| CTA表示 | GA4 `booking_guide_view` | 直近7日 |
+| CTAクリック | GA4 `outbound_booking_click`（公式リンクを含む） | 直近7日 |
+| ASPへの送客クリック | GA4 `paid_booking_click`（提携リンクのみ） | 直近7日 |
+| 発生成果 | `data/editorial/asp-results.json`（ASP管理画面で確認した値） | 報告時点の累計 |
+| 確定成果 | `data/editorial/revenue-ledger.json`（確定のみ） | 累計 |
+| Revenue | 同上 | 累計 |
+
+- **クリックを成果・売上として扱わない**。取得できない値は 0 ではなく null（画面では「未取得」）
+- 指標：Revenue / 1,000 Views（確定売上 ÷ 直近28日Views × 1,000）、Affiliate CTR（ASP送客 ÷ CTA表示）、承認率（確定 ÷ 発生）。**発生CVR・EPC は、クリックと成果の期間がそろうまで計算しない**（7日のクリック ÷ 累計の成果で割らない）
+- 現状（2026-10-07 オーナー報告）：**A8 はクリックあり・成果0**。`asp-results.json` に `occurred: 0`・`status: clicks-without-conversions` として記録
+- 成果0が続くときは「CTAを増やす」だけで対応しない。送客ページ × 提供元の一覧で、**検索意図 × 商材のミスマッチ**を先に疑う（例：アクセス・駐車場を調べる読者に宿泊予約を出していないか）
+- 高商用意図のページ（駐車場・ホテル・宿泊・予約・飲食店・あんこう鍋の店・アクセス・交通規制・周辺観光）は収益化候補として評価する。ただし読者の検索意図に合う場合だけ置き、SEO・UX を損なう CTA の乱設はしない
+- `asp-results.json` は管理画面の集計（成果0も含む）、`docs/records/affiliate-results.csv` は成果1件ごとの記録、`revenue-ledger.json` は確定売上の正本。ASP新規申請・契約は引き続きオーナー承認
+

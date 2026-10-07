@@ -6,7 +6,8 @@
  *
  * 見るもの
  *   - ページ別GSC（pageMetrics[].gsc）の28日の表示回数が、同じページの検索語1つの表示回数（gscDiscovery、期間が28日の中）より少ない
- *     → ページ全体が検索語1つより少ないことはあり得ないので、ページ別GSCの取得漏れ（URLの表記ゆれ・取得行数の上限など）とみなし、そのページのGSC値を null にする
+ *     → ページ全体が検索語の表示より少ないことはあり得ない。どちらが正しいか判定できないので、そのページのGSC値と、
+ *       矛盾した検索語の所見の両方を計算から外す（矛盾しない小さい所見は残す）
  *   - 表示回数0のページの CTR・順位は計算できないので null にする（0% と書かない）
  */
 import { daysBetween, addDays } from './growth-engine.mjs';
@@ -34,6 +35,7 @@ export function auditSnapshot(snapshot) {
     if (!current || impressions > current.impressions) maxQuery.set(f.page, { impressions, query: f.query, period: f.period });
   }
 
+  const conflicting = new Map(); // path → ページ別の表示回数（これより大きい所見は外す）
   const pageMetrics = snapshot.pageMetrics.map((row) => {
     const gsc = row.gsc ? { ...row.gsc } : null;
     if (!gsc) return row;
@@ -44,8 +46,9 @@ export function auditSnapshot(snapshot) {
         level: 'warning',
         kind: 'データ不整合',
         path: row.path,
-        message: `${row.path} のページ別GSC表示（28日 ${impressions}）が、検索語「${query.query}」だけの表示（${query.impressions}・${query.period}）より少ない。ページ別GSCを取得し直すまで計算から外す`,
+        message: `${row.path} のページ別GSC表示（28日 ${impressions}）が、検索語「${query.query}」の表示（${query.impressions}・${query.period}）より少ない。どちらが正しいか判定できないため、取得し直すまで両方を計算から外す`,
       });
+      conflicting.set(row.path, impressions);
       return { ...row, gsc: { impressions28: null, clicks28: null, ctr28: null, position28: null, impressionsPrev28: null }, gscExcluded: true };
     }
     if (impressions === 0) {
@@ -54,5 +57,7 @@ export function auditSnapshot(snapshot) {
     }
     return { ...row, gsc };
   });
-  return { snapshot: { ...snapshot, pageMetrics }, issues };
+  const findings = (snapshot?.gscDiscovery?.findings ?? []).filter((f) => !(conflicting.has(f.page) && num(f.impressions) > conflicting.get(f.page)));
+  const gscDiscovery = snapshot.gscDiscovery ? { ...snapshot.gscDiscovery, findings } : snapshot.gscDiscovery;
+  return { snapshot: { ...snapshot, pageMetrics, gscDiscovery }, issues };
 }
