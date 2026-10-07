@@ -25,7 +25,9 @@ const SITE = 'https://ibatoco.jp';
 // sitemap の対象外にしているもの（検索に出さない管理・確認用・機械向け）
 const EXCLUDED_PREFIXES = ['/control/', '/preview/', '/og/', '/reserve/', '/submit/', '/search/', '/404'];
 
-const decode = (value) => value.replaceAll('&amp;', '&').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&quot;', '"').replaceAll('&#39;', "'");
+// 実体参照を1回だけ戻す（&amp;lt; を < まで戻さない）
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+const decode = (value) => value.replace(/&(amp|lt|gt|quot|#39);/g, (_, name) => ENTITIES[name]);
 const attr = (tag, name) => tag.match(new RegExp(`\\s${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'))?.[2] ?? null;
 const normalize = (href) => {
   try {
