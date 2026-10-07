@@ -39,7 +39,7 @@
       "targetUrl": "/today/",
       "targetFile": "src/pages/today/index.astro",
       "priority": "high",
-      "status": "candidate",
+      "status": "in-progress",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-16",
       "confidence": "medium",
@@ -49,11 +49,13 @@
       "reason": "イベント、紅葉、スポーツ、温泉/食事、予約可否等を1画面で選べる導線を小さく試す。初期は位置情報・AIレコメンド・自社予約を実装せず、既存データだけで価値を検証する。",
       "acceptanceCriteria": [
         "既存データから当日・直近日程の候補を自動抽出し、手入力の二重管理を増やさない",
-        "開催終了・期限切れを自動除外する",
-        "CTAは公式または承認済み提携先のみ",
-        "TOPや既存記事のデザインを壊さず独立ページとして検証する",
-        "PVだけでなく候補クリック率・予約導線クリック率を計測する"
-      ]
+        "開催終了・期限切れを既存happenings/lifecycleロジックで自動除外する",
+        "候補クリックをnext_action_clickで計測する",
+        "宿泊・予約は各記事の既存BookingGuideへ委譲し、自社予約・決済は実装しない",
+        "Phase 4以降（LINE/クーポン/CRM）は実装しない",
+        "npm run verifyとCIが成功する"
+      ],
+      "notes": "Phase 1実装: /today/ を追加。既存ThisWeek/happeningsを再利用し、開催中・今日・明日・今週末・この先1週間を日付で自動切替。終了済みは既存ロジックで除外。LINE/クーポン/自社予約/CRMは未実装。"
     },
     {
       "id": "20261008-localos-place-schema",
