@@ -159,6 +159,16 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
           </ul>
         ) : <p class="gc-empty">上昇中の検索語なし。</p>
       ) : <p class="gc-empty">検索語別の推移（gscQueries）は未取得。performance-snapshot に入ると表示される。</p>}
+      {result.gscQueriesAvailable && (
+        <>
+          <h4 class="gc-subhead">Query Clusters（ページ × 検索意図）</h4>
+          <ul class="gc-list">
+            {result.searchSignals.rising.slice(0, 6).map((c: any) => (
+              <li><p class="gc-list__title">{c.cluster}</p><p class="gc-list__meta">表示7日 {fmt(c.impressions7)}（{velocityText(c.growthPct, c.isNew)}）・{c.position ?? '—'}位・CTR {pct(c.ctr)}・{c.queryCount}語・{c.observing ? `観測中〜${c.observing}` : c.action}</p></li>
+            ))}
+          </ul>
+        </>
+      )}
     </article>
 
     <article class="gc-card">
@@ -170,6 +180,22 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
       </ul>
     </article>
   </div>
+
+  <article class="gc-card">
+    <h3>100k Gap Map</h3>
+    <p class="gc-note gc-note--lead">着地予測 {fmt(result.gapMap.siteForecast)}・伸びしろ +{fmt(result.gapMap.upsideTotal)} → {fmt(result.gapMap.withUpside)}。残り <b>{fmt(result.gapMap.remainingGap)}</b> は根拠のある推定でまだ説明できない（新しい需要の発見が必要）</p>
+    <div class="gc-scroll" data-xscroll tabindex="0" aria-label="テーマ別の11月見込みの表（横にスクロールできます）">
+      <table class="gc-table">
+        <thead><tr><th scope="col">テーマ</th><th scope="col">ページ</th><th scope="col">11月見込み</th><th scope="col">伸びしろ</th><th scope="col">主なページ</th></tr></thead>
+        <tbody>
+          {result.gapMap.themes.slice(0, 10).map((t: any) => (
+            <tr><th scope="row">{t.theme}</th><td>{t.pages}</td><td>{fmt(t.forecast)}{t.caution ? '※' : ''}</td><td>+{fmt(t.upside)}</td><td class="gc-action">{t.top.map((p: any) => `${p.label.slice(0, 16)}（${fmt(p.forecast)}）`).join('、')}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="gc-note">ページ別の11月見込みと伸びしろはどちらも推定（根拠は Growth Engine）。※は11月より前に終わる・節目の後に減る可能性のあるページを含む。</p>
+  </article>
 
   <article class="gc-card">
     <h3>30/60/90 Day Pipeline</h3>

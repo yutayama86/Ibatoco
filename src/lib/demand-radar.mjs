@@ -238,6 +238,100 @@ export function demandRadar({ snapshot, pages, seasons, engineConfig, config, ob
 }
 
 // ---------------------------------------------------------------------------
+// Query Clusters（検索語を「ページ × 検索意図」でまとめる）と検索の変化
+// ---------------------------------------------------------------------------
+
+/** 検索語の意図（demand-radar.json の queryIntents）。当てはまるものを全部つなぐ。無ければ「総合」 */
+export function intentOf(query, intents) {
+  const text = String(query ?? '').toLowerCase();
+  const hits = (intents?.order ?? []).filter((key) => (intents[key] ?? []).some((w) => text.includes(String(w).toLowerCase())));
+  return hits.length ? hits.join('+') : '総合';
+}
+
+/**
+ * 表記ゆれ（年号の有無・空白・「祭り／まつり」など）を、同じページに着地する同じ意図としてまとめる。元の gscQueries は変えない。
+ * CTR はクリック（CTR × 表示の合計）÷ 表示、順位は表示回数で重み付けした平均。
+ * 打ち手：4〜10位は既存ページの改善、11〜20位はセクション追加・内部リンク、20位より下は新規記事を比較、3位以内は CTR・回遊
+ */
+export function queryClusters({ snapshot, pages, seasons, engineConfig, config, observation = [], today }) {
+  const qc = config.queryRadar ?? {};
+  const observing = new Map(observation.filter((o) => o.status === 'observing').map((o) => [o.path, o]));
+  const top3Ctr = expectedCtr(3, engineConfig.ctrCurve);
+  const groups = new Map();
+  for (const q of snapshot?.gscQueries ?? []) {
+    if (!q?.query || !q.page) continue;
+    const intent = intentOf(q.query, config.queryIntents);
+    const key = `${q.page}|${intent}`;
+    const g = groups.get(key) ?? { page: q.page, intent, queries: [], impressions7: 0, impressionsPrev7: 0, impressions28: 0, impressionsPrev28: 0, clicks28: 0, positionWeight: 0, positionImpressions: 0 };
+    const imp28 = num(q.impressions28) ?? 0;
+    g.queries.push(q);
+    g.impressions7 += num(q.impressions7) ?? 0;
+    g.impressionsPrev7 += num(q.impressionsPrev7) ?? 0;
+    g.impressions28 += imp28;
+    g.impressionsPrev28 += num(q.impressionsPrev28) ?? 0;
+    if (num(q.ctr28) != null) g.clicks28 += num(q.ctr28) * imp28;
+    if (num(q.position28) != null && imp28 > 0) { g.positionWeight += num(q.position28) * imp28; g.positionImpressions += imp28; }
+    groups.set(key, g);
+  }
+  return [...groups.values()].map((g) => {
+    const page = pages.get(g.page) ?? null;
+    const season = seasons.get(g.page) ?? null;
+    const position = g.positionImpressions ? Number((g.positionWeight / g.positionImpressions).toFixed(1)) : null;
+    const ctr = g.impressions28 ? Number((g.clicks28 / g.impressions28).toFixed(4)) : null;
+    const growthPct = pct(g.impressions7, g.impressionsPrev7);
+    const isNew = g.impressionsPrev7 === 0 && g.impressions7 >= (qc.minImpressions7 ?? 20);
+    const rising = g.impressions7 >= (qc.minImpressions7 ?? 20) && (isNew || (growthPct != null && growthPct >= (qc.risingPct ?? 30)));
+    const goal = position != null ? expectedCtr(position, engineConfig.ctrCurve) : null;
+    const strikingDistance = position != null && position > 3 && position <= 20 && g.impressions28 >= (qc.clusterMinImpressions28 ?? 50);
+    const lowCtr = goal != null && ctr != null && g.impressions28 >= 100 && ctr < goal * (qc.lowCtrRatio ?? 0.5);
+    const upside = position != null && position > 3 && position <= 20 && ctr != null && top3Ctr != null
+      ? Math.max(0, Math.round((g.impressions28 / 28) * 30 * (top3Ctr - ctr))) : null;
+    const timing = timingScore({ startDate: page?.startDate ?? season?.startDate, endDate: page?.endDate ?? season?.endDate, phase: season?.phase }, today);
+    const ended = timing === 0;
+    const watch = observing.get(g.page);
+    const play = position == null ? null : position <= 3 ? 'ctr' : position <= 10 ? 'improve' : position <= 20 ? 'section' : 'new-article';
+    const playLabel = { ctr: '上位。title の CTR と回遊・CTA', improve: '既存ページの改善（title・description・冒頭の回答・FAQ）', section: '既存ページへのセクション追加と内部リンク（検索意図の不足を補う）', 'new-article': '20位より下。新規記事・既存ページ・内部リンクを期待追加PV ÷ 工数で比べる' }[play] ?? '—';
+    return {
+      cluster: `${page?.title ? page.title.split('｜')[0] : g.page} × ${g.intent}`,
+      page: g.page,
+      pageLabel: page?.title ?? g.page,
+      intent: g.intent,
+      queryCount: g.queries.length,
+      topQueries: [...g.queries].sort((a, b) => (num(b.impressions7) ?? 0) - (num(a.impressions7) ?? 0) || (num(b.impressions28) ?? 0) - (num(a.impressions28) ?? 0)).slice(0, 4).map((q) => q.query),
+      impressions7: g.impressions7, impressionsPrev7: g.impressionsPrev7, impressionsDelta7: g.impressions7 - g.impressionsPrev7, growthPct,
+      impressions28: g.impressions28, impressionsPrev28: g.impressionsPrev28,
+      position, ctr, expectedCtr: goal,
+      isNew, rising, strikingDistance, lowCtr, upside,
+      ended, observing: watch ? watch.observeUntil : null,
+      play,
+      action: ended ? '需要は終了。PV Relay で次の山へ流入を渡す' : watch ? `観測中（〜${watch.observeUntil}）。観測後に：${playLabel}` : playLabel,
+    };
+  });
+}
+
+/** ページ別の検索の変化（前28日の順位・CTR が performance-snapshot にあるページだけ。無ければ判定しない） */
+export function searchTrends({ snapshot, pages, config }) {
+  const qc = config.queryRadar ?? {};
+  const rows = [];
+  for (const r of snapshot?.pageMetrics ?? []) {
+    const position = num(r.gsc?.position28);
+    const positionPrev = num(r.gsc?.positionPrev28);
+    const ctr = num(r.gsc?.ctr28);
+    const ctrPrev = num(r.gsc?.ctrPrev28);
+    const imp = num(r.gsc?.impressions28);
+    if (imp == null || imp < (qc.clusterMinImpressions28 ?? 50)) continue;
+    const positionChange = position != null && positionPrev != null ? Number((positionPrev - position).toFixed(1)) : null; // 正なら上昇
+    const ctrChangePct = pct(ctr, ctrPrev);
+    const kind = positionChange != null && positionChange >= (qc.positionChange ?? 3) ? 'position-up'
+      : positionChange != null && positionChange <= -(qc.positionChange ?? 3) ? 'position-down'
+        : ctrChangePct != null && ctrChangePct <= -(qc.ctrDropPct ?? 30) ? 'ctr-down' : null;
+    if (!kind) continue;
+    rows.push({ path: r.path, label: pages.get(r.path)?.title ?? r.path, kind, position, positionPrev, positionChange, ctr, ctrPrev, ctrChangePct, impressions28: imp, impressionsPrev28: num(r.gsc?.impressionsPrev28) });
+  }
+  return rows.sort((a, b) => b.impressions28 - a.impressions28);
+}
+
+// ---------------------------------------------------------------------------
 // PV Relay / PV at Risk
 // ---------------------------------------------------------------------------
 
@@ -246,7 +340,8 @@ export function demandRadar({ snapshot, pages, seasons, engineConfig, config, ob
  * 終わった後は流入がほぼ止まる想定（2026年の実測で減衰を学習したら置き換える）。
  * 終わりの日付が記事に無い主要ページは「終了日データなし」として警告する（失速を予測できないため）。
  */
-export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar, today }) {
+export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar, forecasts = [], today }) {
+  const forecastOf = new Map(forecasts.map((f) => [f.path, f]));
   const site7 = num(snapshot?.windows?.ga4?.recent7?.views);
   const dataAsOf = snapshot?.source?.freshness?.ga4LatestConfirmedDate ?? snapshot?.asOf ?? today;
   const rows = [...(snapshot?.pageMetrics ?? [])]
@@ -303,6 +398,9 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
         // 仕込み期限：これからの次の節目。公開・更新の締切を過ぎていれば「至急」
         next: (s.path && seasons.get(s.path)?.nextMilestone) ?? (isDate(s.startDate) ? { label: '開催', date: s.startDate } : null),
         deadlinePassed: Boolean(s.path && (() => { const d = seasons.get(s.path)?.milestones.find((m) => m.key === 'publishDeadline')?.date; return d && daysBetween(d, today) > 0; })()),
+        // 代替先の11月の見込み（Growth Engine のページ予測。根拠は forecastBasis。無ければ null）
+        expectedViewsNovember: s.path ? forecastOf.get(s.path)?.forecast ?? null : null,
+        expectedBasis: s.path ? forecastOf.get(s.path)?.forecastBasis ?? null : null,
       }));
     return {
       path: r.path,
@@ -435,7 +533,7 @@ export function nextWinners({ radar, forecasts, limit = 5 }) {
  * 緊急度 = 締切・季節の段階（Growth Engine）× 需要の速度（前週比+100%以上 1.5、+30%以上 1.2）× 失うPVの代替（1.3）
  * 期待PVが推定できない候補は順位付けせず、candidatesWithoutEstimate に残す（推測で埋めない）
  */
-export function relayBatch({ engineBatch, winners, relay, seasons, queries = [], limit = 3 }) {
+export function relayBatch({ engineBatch, winners, relay, seasons, clusters = [], limit = 3 }) {
   const replacementPaths = new Set(relay.items.flatMap((i) => i.replacements.map((r) => r.path)).filter(Boolean));
   const confidenceOf = (c) => (typeof c === 'number' ? c : CONFIDENCE[c] ?? 0.25);
   const candidates = [];
@@ -454,10 +552,10 @@ export function relayBatch({ engineBatch, winners, relay, seasons, queries = [],
     if (w.observing) continue;
     push({ title: `${w.label}：${w.action}`, path: w.path, expectedPv: w.upside, confidence: w.confidenceOfUpside ?? w.confidence, effort: effortOf(w.action), velocityPct: w.viewsVelocityPct == null && w.impressionsVelocityPct == null ? null : Math.max(w.viewsVelocityPct ?? -Infinity, w.impressionsVelocityPct ?? -Infinity), source: 'demand-radar:next-winner', reason: w.upsideBasis });
   }
-  // 上昇中の検索語（gscQueries の実測）：4〜20位で、伸びしろ（forecast）があり、観測中・終了でないもの
-  for (const q of queries) {
-    if (!q.rising || q.observing || q.components?.timing === 0 || !(q.upside > 0)) continue;
-    push({ title: `${q.label}（${q.position}位・表示7日 ${q.impressions7}）：${q.action}`, path: q.path, expectedPv: q.upside, confidence: 'medium', effort: effortOf(q.action), velocityPct: q.impressions7VelocityPct, source: 'demand-radar:rising-query', reason: '今の28日の表示のまま3位相当のCTR目安に届いた場合（推定）' });
+  // 検索語のまとまり（gscQueries の実測）：上昇中か4〜20位で、伸びしろ（forecast）があり、観測中・終了でないもの
+  for (const c of clusters) {
+    if (!(c.rising || c.strikingDistance) || c.observing || c.ended || !(c.upside > 0)) continue;
+    push({ title: `${c.cluster}（${c.position}位・表示7日 ${c.impressions7}・「${c.topQueries[0]}」ほか${c.queryCount}語）：${c.action}`, path: c.page, expectedPv: c.upside, confidence: c.impressions28 >= 100 ? 'medium' : 'low', effort: c.play === 'improve' ? 'S' : c.play === 'section' ? 'M' : 'L', velocityPct: c.growthPct ?? (c.isNew ? 100 : null), source: 'demand-radar:query-cluster', reason: '検索語のまとまりの28日の表示のまま、3位相当のCTR目安に届いた場合（推定）' });
   }
   const seen = new Set();
   const ranked = candidates.sort((a, b) => b.score - a.score).filter((c) => (c.path ? (seen.has(c.path) ? false : (seen.add(c.path), true)) : true));
