@@ -16,7 +16,8 @@ export const getStaticPaths = (async () => {
 const { tag } = Astro.props;
 const [articles, news] = await Promise.all([getArticlesByTag(tag), getNewsByTag(tag)]);
 const total = articles.length + news.length;
-const shouldIndex = total >= 3;
+// タグ一覧は検索に出さない（オーナー判断 2026-10-07）。記事の寄せ集めで薄くなりやすく、記事ページ・テーマページと検索で競合するため。
+// リンクはたどってもらう（noindex, follow）。sitemap にも載せない（scripts/index-health.mjs で検査）
 // 見出し「#タグ」を1行に収める大きさの目安（src/lib/text-fit.ts）
 const tagLen = fitLength(`#${tag}`);
 // パンくずは現在地としてタグ名まで出す（表示と構造化データで同じ配列を使う）
@@ -30,7 +31,7 @@ const crumbs: Crumb[] = [
 <BrandBase
   title={`#${tag}の記事｜イバトコ`}
   description={`「${tag}」に関する茨城の記事とニュース解説をイバトコがまとめました。`}
-  noindex={!shouldIndex}
+  noindex
   jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}
 >
   <section class="wrap tag-hero">
