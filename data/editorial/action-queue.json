@@ -3,6 +3,82 @@
   "updatedAt": "2026-10-08",
   "actions": [
     {
+      "id": "20261008-bookable-ibatoco-mvp",
+      "title": "「予約できるイバトコ」MVP：高商用意図ページ3〜5本で送客計測を統一",
+      "kind": "revenue",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/revenue-opportunities.json",
+      "additionalTargetFiles": [
+        "data/editorial/performance-snapshot.json",
+        "src/lib/revenue-funnel.mjs",
+        "data/editorial/revenue-mvp.json"
+      ],
+      "priority": "critical",
+      "status": "in-progress",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-12",
+      "confidence": "high",
+      "effort": "M",
+      "deadline": "2026-10-12",
+      "page": "/control/",
+      "source": "Revenue Funnel実測：直近7日 outboundBookingClicks 47、activeAffiliateBookingClicks 4、確定成果0。観光DXの方向性を踏まえ、既存提携先で最小検証する。",
+      "reason": "新規予約システムは作らず、既存流入のうち予約・宿泊・駐車場・体験意図が強い3〜5ページだけで、CTA表示→クリック→paid送客→成果を同一ファネルで計測する。成功基準は商業CTA CTR 3%以上（仮説）。1%未満ならCTA追加ではなく検索意図×商材の不一致を疑う。",
+      "acceptanceCriteria": [
+        "対象は高商用意図かつ既存流入が確認できる3〜5ページに限定する",
+        "公式情報を優先し、提携リンクは文脈一致した箇所だけに置く",
+        "GA4でbooking_guide_view/outbound_booking_click/paid_booking_clickを計測できる",
+        "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
+        "未確認の成果・売上を実績扱いしない"
+      ],
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。"
+    },
+    {
+      "id": "20261008-today-ibaraki-mvp",
+      "title": "「今日の茨城」/today/ 意思決定UIのMVP仕様化",
+      "kind": "technical",
+      "targetUrl": "/today/",
+      "targetFile": "src/pages/today/index.astro",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-16",
+      "confidence": "medium",
+      "effort": "M",
+      "deadline": "2026-10-16",
+      "source": "既存のイベント台帳・ThisWeek・季節/スポーツ記事資産。新規大量記事ではなく既存情報を『今日行ける』意思決定UIに再構成する。",
+      "reason": "イベント、紅葉、スポーツ、温泉/食事、予約可否等を1画面で選べる導線を小さく試す。初期は位置情報・AIレコメンド・自社予約を実装せず、既存データだけで価値を検証する。",
+      "acceptanceCriteria": [
+        "既存データから当日・直近日程の候補を自動抽出し、手入力の二重管理を増やさない",
+        "開催終了・期限切れを自動除外する",
+        "CTAは公式または承認済み提携先のみ",
+        "TOPや既存記事のデザインを壊さず独立ページとして検証する",
+        "PVだけでなく候補クリック率・予約導線クリック率を計測する"
+      ]
+    },
+    {
+      "id": "20261008-localos-place-schema",
+      "title": "LocalOS接続前提の店舗・施設データスキーマを正本化",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/localos-place-schema.json",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-14",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-14",
+      "source": "イバトコを需要獲得、LocalOSを予約/CRM・店舗データ層として分離する長期設計。",
+      "reason": "LocalOS本体を先に作らず、イバトコで蓄積する店舗・施設情報を将来再利用できる共通スキーマにする。店舗ID・所在地・営業時間・予約URL・LINE・Google Maps・料金・駐車場・クーポン・送客計測を標準化する。",
+      "acceptanceCriteria": [
+        "店舗/施設IDが記事URLから独立して一意に管理できる",
+        "公式URL・予約URL・LINE・Google Maps・営業時間・料金・駐車場・予約可否を保持できる",
+        "送客クリック等の計測キーを保持できるが、個人情報は保存しない",
+        "将来LocalOSへ移行しても破壊的変更を避けられるversioned schemaにする",
+        "未確認情報はnullで保持し推測で埋めない"
+      ]
+    },
+    {
       "id": "20261008-chikusei-shinycolors-snippet",
       "title": "筑西市×シャニマス記事の検索意図整合（title・description）",
       "kind": "seo",

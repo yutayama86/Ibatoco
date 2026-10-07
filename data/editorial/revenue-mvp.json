@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-08",
+  "id": "bookable-ibatoco-mvp-20261008",
+  "status": "running",
+  "objective": "既存検索流入を、公式情報を損なわず予約・宿泊等の送客へ変換できるかを最小検証する",
+  "observationDays": 7,
+  "successHypothesis": {
+    "commercialCtaCtrMin": 0.03,
+    "reviewIfBelow": 0.01,
+    "note": "CTRだけで勝敗を決めず、paid送客・発生成果・確定売上まで分離して確認する。サンプルが小さいページは結論を出さない。"
+  },
+  "targetPages": [
+    {
+      "path": "/events/oarai-ankou-matsuri-2026/",
+      "role": "primary",
+      "reason": "直近7日 773 Views、Booking Guide 256表示、12クリック、paid送客3。既に行動需要が最大。",
+      "baseline": {
+        "views7": 773,
+        "bookingGuideViews7": 256,
+        "outboundClicks7": 12,
+        "paidClicks7": 3,
+        "ctaCtr": 0.046875
+      }
+    },
+    {
+      "path": "/events/oarai-ankou-nabe-guide/",
+      "role": "secondary",
+      "reason": "宿泊・飲食の商用意図が強く、paid送客実績あり。サンプルは小さいため観測優先。",
+      "baseline": {
+        "views7": 37,
+        "bookingGuideViews7": 5,
+        "outboundClicks7": 3,
+        "paidClicks7": 1,
+        "ctaCtr": 0.6
+      }
+    },
+    {
+      "path": "/events/tsuchiura-hanabi-2026/",
+      "role": "growth-candidate",
+      "reason": "11月大型需要。宿泊・駐車場意図を持つが直近はBooking Guide 3表示・0クリック。今はCTA改変せず流入増と同時に観測。",
+      "baseline": {
+        "views7": 22,
+        "bookingGuideViews7": 3,
+        "outboundClicks7": 0,
+        "paidClicks7": 0,
+        "ctaCtr": 0
+      }
+    }
+  ],
+  "rules": [
+    "観測開始後7日間は、事実訂正を除き対象ページのCTA構造・並び順を変更しない",
+    "公式リンクを先に表示し、提携報酬で順位を変えない",
+    "CTR 1%未満でもサンプル不足なら即改修しない",
+    "paid clickは成果ではない。ASP発生・確定売上を別管理する",
+    "成果0の場合はCTA増量より検索意図と商材の一致を先に点検する"
+  ]
+}
