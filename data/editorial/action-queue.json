@@ -10,10 +10,11 @@
       "targetFile": "data/editorial/revenue-opportunities.json",
       "additionalTargetFiles": [
         "data/editorial/performance-snapshot.json",
-        "src/lib/revenue-funnel.mjs"
+        "src/lib/revenue-funnel.mjs",
+        "data/editorial/revenue-mvp.json"
       ],
       "priority": "critical",
-      "status": "candidate",
+      "status": "in-progress",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-12",
       "confidence": "high",
@@ -28,7 +29,8 @@
         "GA4でbooking_guide_view/outbound_booking_click/paid_booking_clickを計測できる",
         "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
         "未確認の成果・売上を実績扱いしない"
-      ]
+      ],
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。"
     },
     {
       "id": "20261008-today-ibaraki-mvp",
