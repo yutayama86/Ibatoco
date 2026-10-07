@@ -30,7 +30,11 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const relay = pvRelay({ snapshot, pages, seasons, engineConfig, config: radarConfig, radar, today });
   const pipeline = demandPipeline({ pages, seasons, radar, snapshot, today });
   const winners = nextWinners({ radar, forecasts: result.forecasts });
-  const relayed = relayBatch({ engineBatch: result.batch, winners, relay, seasons });
+  const queries = radar.filter((s) => s.kind === 'query');
+  const risingQueries = queries.filter((q) => q.rising && q.components.timing !== 0)
+    .sort((a, b) => (b.impressions7VelocityPct ?? (b.isNew ? Infinity : 0)) - (a.impressions7VelocityPct ?? (a.isNew ? Infinity : 0)))
+    .slice(0, radarConfig.queryRadar?.top ?? 10);
+  const relayed = relayBatch({ engineBatch: result.batch, winners, relay, seasons, queries });
   const funnel = revenueFunnel({ snapshot, ledger, asp, pages, commercialWords: radarConfig.commercialIntentWords });
   const annual = aggregateLearning(learningRecords, radarConfig);
   return {
@@ -41,6 +45,8 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     pvRelay: relay,
     pipeline,
     nextWinners: winners,
+    risingQueries,
+    gscQueriesAvailable: Array.isArray(snapshot?.gscQueries),
     engineBatch: result.batch,
     batch: relayed.batch,
     batchCandidatesWithoutEstimate: relayed.candidatesWithoutEstimate,

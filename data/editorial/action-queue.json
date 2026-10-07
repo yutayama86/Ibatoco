@@ -805,6 +805,20 @@
         "https://www.city.hitachi.lg.jp/zoo/annai/1004042.html"
       ],
       "notes": "日立市は10/1に施設使用料の一部を改定（改定一覧はPDF）。9/30時点で動物園の料金ページは大人520円のまま。10/1以降に動物園の料金ページが変わっていないか確認する。 2026-10-01夕方に再確認：動物園の料金ページ（令和8年4月4日更新）は大人520円・こども100円のまま、改定の記載なし。記事の金額は公式どおりなので変更不要。"
+    },
+    {
+      "id": "20261007-gsc-queries-demand-radar",
+      "title": "Growth OS：検索語別 Demand Radar・前28日の順位/CTR・multiple 集計行の除外・パスポートの節目・Annual Learning 実測5件",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-07",
+      "dueDate": "2026-10-07",
+      "primarySourceUrls": [
+        "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html"
+      ],
+      "notes": "ChatGPT Growth Director 返却（2026-10-07）の P3。Claude Code が受け皿（gscQueries・positionPrev28・ctrPrev28 の読み取り、multiple の除外、milestones、Annual Learning の項目）を実装し、Annual Learning に実測5件を投入。gscQueries と前28日の値そのものは Windsor から取得する ChatGPT の日次処理で performance-snapshot.json に入れる（Claude Code の環境からは Windsor に接続できない）。docs/GROWTH_ENGINE.md の 8・9・12。"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Growth Engine（11月100,000 Views）
 
-最終更新：2026-10-07（8〜12. Demand Radar / PV Relay / Pipeline / Revenue Funnel / Annual Learning を追加）
+最終更新：2026-10-07（8〜12. Demand Radar / PV Relay / Pipeline / Revenue Funnel / Annual Learning を追加。検索語別 Demand Radar・節目（milestones）・multiple の除外を追加）
 
 2026年11月の月間 GA4 Views 100,000 の達成確率を上げるための計算の正本。
 「計測 → 予測 → Gap → 機会 → 優先順位」を毎日同じ式で出し、判断を人の勘に頼らない。
@@ -37,6 +37,8 @@ Growth Engine そのものを目的にせず、PV Gap を縮める施策を選�
 
 - ページ別GSC（`pageMetrics[].gsc`）の28日の表示回数が、同じページの検索語1つの表示回数（`gscDiscovery`、期間が28日の中）より少ない → そのページのGSC値を null にし、検索語別の所見で代わりに判定する。ページ全体が検索語1つより少ないことはあり得ないので、取得漏れ（URLの表記ゆれ・取得行数の上限など）とみなす
 - 表示回数0のページの CTR・順位は計算できないので null（0% と書かない）
+- query が `multiple` など検索語ではない集計行（ページ合算・複数ページの照合の記録）は、検索語の所見・`gscQueries` から外す。2026-10-07 に Windsor の直接取得で、`multiple` という検索語は実在しないと確認した（58,792 はパスポート 24,583 と新栗まつり 34,209 の2ページ合算だった）
+- `gscQueries` の1語の28日表示が、同じページのページ別28日表示より大きい場合も不整合として外す。検索語の合計がページ合計より少ないのは匿名化のため正常
 
 ## 1. 100k Gap Controller
 
@@ -192,7 +194,12 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 | competition | 1 | 競合の実測が無いので null |
 
 **実測できない要素は null にし、分母からも外す**（0点にしない）。使えた重みの割合を `coverage`、それに応じた `confidence`（0.7以上 high / 0.4以上 medium / それ未満 low）を付ける。
-検索語別の推移（直近7日・前7日・直近28日・前28日）は `gscQueries`（下の「performance-snapshot への追加」）が入ったら使う。今は未取得。
+**検索語別**（`performance-snapshot.json` の `gscQueries`）：検索語 × ページごとに同じ物差しで並べ、次を「上昇中」とする（`demand-radar.json` の `queryRadar`）。
+
+- 直近7日の表示が `minImpressions7`（20）以上で、前7日から `risingPct`（+30%）以上、または前7日0からの立ち上がり
+- 伸びしろ（forecast）＝ 28日の表示 ÷ 28 × 30 ×（3位相当のCTR目安 − 今のCTR）。4〜20位だけ。表示回数は今のまま、と仮定した追加クリック
+- 終了したページ・観測中のページは Batch に入れない（観測中は「観測後に」と表示）
+- 検索語は PV Relay の代替候補・Pipeline には入れない（ページ単位で扱う）
 
 ## 9. PV Relay / PV at Risk と流入急減の事前警戒
 
@@ -201,7 +208,7 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 | 項目 | 中身 |
 |---|---|
 | 終わり | 記事の終了日（無ければ開始日、季節の期間の終わり） |
-| 状態 | `ACTIVE` / `ENDING`（14日以内）/ `ENDED` / `END UNKNOWN`（終わりの日付データが無い） |
+| 状態 | `ACTIVE` / `ENDING`（14日以内）/ `ENDED` / `MILESTONE`（終わりではない節目がある）/ `END UNKNOWN`（終わりの日付データが無い） |
 | 失う可能性（forecast） | 直近7日の1日平均が「終わり＋余韻（seasonalRules.aftermathDays）」の後に止まる想定で、今後7・14・30日に失う Views |
 | 代替候補 | これから需要期に入る（timing 0.6 以上の）ページ・候補。同じ市町村を優先。現在の7日Views と次の仕込みの節目、公開・更新の締切を過ぎていれば「至急」 |
 
@@ -218,7 +225,11 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 | 順位下落 / CTR悪化 | 前期間の値（`positionPrev28`・`ctrPrev28`）があるときだけ。順位が3以上下落、CTRが -30% 以下 |
 | 依存度 | 上位1ページが直近7日の25%以上 |
 
-終わりの日付が無い主要ページ（例：申請期限のある制度の記事）は、記事に `event` か `expiresAt` を入れると予測できるようになる。
+**節目（milestones）**：申請締切・交付開始など、催しの終わりではない日付は、記事に `event` として入れない（入れると締切後に「終了しました」が付き、おすすめから外れる）。`demand-radar.json` の `milestones` に、ページごとに公式一次情報で確認した日付・出典・効果（`demand-may-drop` / `demand-may-rise`）を入れる。状態は `MILESTONE` になり、失う可能性の合計には入れず、「次の節目の後に止まった場合の上限」（forecast）を別に出す。例：茨城パスポート（追加申請の締切 10/16・追加交付の開始 11/10）。
+
+催しの記事で終わりの日付が無いときは、記事の `event` に公式の開催日を入れる。
+
+**参考値**：上位2ページを除いた直近7日 ÷ 7 × 30日（`baselineExcludingTop2`）を表示する。季節需要の変化を含まないので、11月 forecast の正本には使わない。
 
 ## 10. 30/60/90日 Pipeline・Next Winners・Today's Growth Batch
 
@@ -231,6 +242,7 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 工数 = 新規記事 L（8時間）、本文・FAQ・事実更新・内部リンク M（3時間）、title・description だけ S（1時間）
 ```
 
+候補は3種類：Growth Engine の施策・伸びしろ、Next Winners、上昇中の検索語（`gscQueries`。期待PV＝検索語の伸びしろ、確度 medium）。同じページは最もスコアの高い1件だけ残す。
 期待PVを推定できない候補は順位を付けない（推測で埋めない）。既存ページが7位前後で表示が急増しているなら、新規記事より既存ページの改善が先に来る（期待追加PV ÷ 工数）。
 
 ## 11. Revenue Funnel
@@ -248,10 +260,13 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 | 区分 | 項目 | 誰が入れるか |
 |---|---|---|
 | 構造 | path・title・category・year・eventStart・eventEnd・publishedAt・updatedAt | `npm run learning:sync -- --write` が記事から同期 |
-| 実測 | demandStartDate（需要の立ち上がり日）・impressionsPeakDate・viewsPeakDate・peakImpressions・peakViews・ctr・position・leadDays（立ち上がり→開催の日数）・decayDays（終了後の減衰）・internalLinkEffect・ctaClicks・conversionsOccurred・conversionsConfirmed・revenueYen・measuredAt・measurementSource | ChatGPT の日次処理が GA4/GSC の実測で埋める（推測しない・null のまま可） |
+| 実測 | demandStartDate（需要の立ち上がり日）・impressionsPeakDate・viewsPeakDate・peakImpressions・peakViews・ctr・position・leadDays（立ち上がり→開催の日数）・decayDays（終了後の減衰）・internalLinkEffect・ctaClicks・conversionsOccurred・conversionsConfirmed・revenueYen・impressionsTotal・clicksTotal・measurementPeriod（合計の期間）・measuredAt・measurementSource | ChatGPT の日次処理が GA4/GSC の実測で埋める（推測しない・null のまま可） |
 
 - 同期は実測の項目を上書きしない。記事が無くなった行も `archived: true` で残す
 - カテゴリ（花火・紅葉・あんこう・グルメイベント・梅・桜・GW・海水浴・夏祭り・スポーツ・年末年始・初詣・祭り）ごとに、**実測が2件以上**そろったときだけ平均を出す。足りなければ「データ不足」
+  - 需要の立ち上がり（demandStartDate → 開催日の日数）
+  - 検索表示・Views のピークが開催の何日前か（impressionsPeakDate・viewsPeakDate と開催日の差）
+- 2026-10-07 時点：実測5件（新栗まつり・rockin'star・常総きぬ川花火・利根川大花火・大洗海上花火）。花火は「検索表示のピークは開催の平均0.8日前」（4件）。需要の立ち上がり日は未実測
 - `growth-engine.json` の `seasonalRules` は自動で書き換えない。学習結果を見て、人が置き換える
 
 ## performance-snapshot への追加（ChatGPT の日次処理が入れる）
@@ -274,9 +289,10 @@ Demand Score（0〜100、優先順位の目安＝推定）：
 Demand Radar・事前警戒の確度を上げるため、次も入れられると良い（無ければ null として扱う）。
 
 ```jsonc
-// pageMetrics[].gsc に前期間の順位・CTR（順位下落・CTR悪化の警戒に使う）
+// pageMetrics[].gsc に前期間（前28日）の順位・CTR（順位下落・CTR悪化の警戒に使う）
+// position = Σ(順位 × 表示) ÷ Σ表示、CTR = Σクリック ÷ Σ表示（小数。0.034 = 3.4%）。表示0なら null（0で埋めない）
 "gsc": { "positionPrev28": 0, "ctrPrev28": 0 },
-// 検索語別の推移（Demand Radar の速度）
+// 検索語別の推移（Demand Radar の速度）。検索語 × ページに集約。ctr28 は小数。query が "multiple" などの集計行は入れない
 "gscQueries": [
   { "query": "土浦花火 駐車場", "page": "/events/tsuchiura-hanabi-2026/",
     "impressions7": 0, "impressionsPrev7": 0, "impressions28": 0, "impressionsPrev28": 0, "position28": 0, "ctr28": 0 }

@@ -34,6 +34,7 @@ const today = process.env.GROWTH_TODAY ?? todayJst();
 // 実測（整合チェックは runGrowthOS の中で通す。src/lib/snapshot-quality.mjs）
 const snapshot = readJson('data/editorial/performance-snapshot.json');
 const config = readJson('data/editorial/growth-engine.json');
+const radarConfig = readJson('data/editorial/demand-radar.json');
 const actions = readJson('data/editorial/action-queue.json').actions ?? [];
 const registry = readJson('data/editorial/event-registry.json');
 const pages = loadContentPages(ROOT);
@@ -100,7 +101,7 @@ const learningRecords = readJson('data/editorial/seasonal-learning.json').record
 const result = runGrowthOS({
   snapshot,
   engineConfig: config,
-  radarConfig: readJson('data/editorial/demand-radar.json'),
+  radarConfig,
   pages,
   changes: parseSeoChanges(readFileSync(join(ROOT, 'src/data/seo-changes.ts'), 'utf8')),
   actions,
@@ -134,6 +135,9 @@ if (checkIndex > -1) {
 const fmt = (n) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const signed = (n) => (n == null ? '—' : `${n > 0 ? '+' : ''}${Number(n).toLocaleString('ja-JP')}`);
 const pct = (v) => (v == null ? '—' : `${(v * 100).toFixed(1)}%`);
+// PV at Risk の「終わり」と「失う可能性」。節目（申請締切など）は終わりではないので、止まった場合の上限として別に書く
+const endText = (i) => i.endDate ?? (i.nextMilestone ? `節目 ${i.nextMilestone.date} ${i.nextMilestone.label}` : '不明');
+const lostText = (i) => (i.lostViewsIfDrops ? `上限 ${fmt(i.lostViewsIfDrops[7])} / ${fmt(i.lostViewsIfDrops[30])}（節目の後に止まった場合）` : `${fmt(i.lostViewsForecast[7])} / ${fmt(i.lostViewsForecast[30])}`);
 const g = result.gap;
 const lines = [
   `# 100k Growth Controller｜${today}（GA4 ${g.dataAsOf ?? '—'}）`,
@@ -155,16 +159,22 @@ const lines = [
   '## ④⑤ PV at Risk（今後失う可能性のある Views と代替候補）',
   '',
   `今後7日 ${fmt(relay.lostViewsForecast[7])}・14日 ${fmt(relay.lostViewsForecast[14])}・30日 ${fmt(relay.lostViewsForecast[30])} PV（forecast。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}）`,
+  ...(relay.baselineExcludingTop2 ? ['', `- ${relay.baselineExcludingTop2.label}：直近7日 ${fmt(relay.baselineExcludingTop2.views7)} → 30日 ${fmt(relay.baselineExcludingTop2.monthly30)}`] : []),
   '',
   '| 主要流入ページ | 7日Views | 全体比 | 終わり | 状態 | 失う可能性（7日/30日） | 代替候補（現在の7日Views・仕込み期限） |',
   '|---|---|---|---|---|---|---|',
-  ...relay.items.map((i) => `| ${i.label.slice(0, 40)} | ${fmt(i.views7)} | ${i.shareOfSite == null ? '—' : `${Math.round(i.shareOfSite * 100)}%`} | ${i.endDate ?? '不明'} | ${i.status} | ${fmt(i.lostViewsForecast[7])} / ${fmt(i.lostViewsForecast[30])} | ${i.replacements.map((r) => `${r.label.slice(0, 18)}（${fmt(r.views7)}・${r.deadlinePassed ? '至急' : r.next ? `${r.next.label} ${r.next.date}` : '—'}）`).join('、') || '—'} |`),
+  ...relay.items.map((i) => `| ${i.label.slice(0, 40)} | ${fmt(i.views7)} | ${i.shareOfSite == null ? '—' : `${Math.round(i.shareOfSite * 100)}%`} | ${endText(i)} | ${i.status} | ${lostText(i)} | ${i.replacements.map((r) => `${r.label.slice(0, 18)}（${fmt(r.views7)}・${r.deadlinePassed ? '至急' : r.next ? `${r.next.label} ${r.next.date}` : '—'}）`).join('、') || '—'} |`),
   '',
   '## ⑥ Demand Radar（需要の増加速度が高い順）',
   '',
   ...radar.filter((r) => r.kind === 'page' && r.components.timing !== 0 && (r.viewsVelocityPct ?? r.impressionsVelocityPct ?? 0) > 0).sort((a, b) => Math.max(b.viewsVelocityPct ?? 0, b.impressionsVelocityPct ?? 0) - Math.max(a.viewsVelocityPct ?? 0, a.impressionsVelocityPct ?? 0)).slice(0, 8)
     .map((r) => `- ${r.label.slice(0, 40)}：7日Views ${fmt(r.views7)}（前週比 ${r.viewsVelocityPct == null ? (r.isNew ? '新規' : '—') : `${r.viewsVelocityPct > 0 ? '+' : ''}${r.viewsVelocityPct}%`}）・表示28日 ${fmt(r.impressions28)}（前期間比 ${r.impressionsVelocityPct == null ? (r.impressionsPrev28 === 0 ? '新規' : '—') : `${r.impressionsVelocityPct}%`}）・${r.position == null ? '—' : `${r.position.toFixed(1)}位`}・Demand Score ${r.score ?? '—'}（coverage ${r.coverage}）`),
-  '- 検索語別の 7日/前7日/28日/前28日（gscQueries）は未取得。取得されれば検索語単位の急上昇も出す',
+  '',
+  '### 上昇中の検索語（gscQueries・直近7日の表示が前7日より伸びている順）',
+  '',
+  ...(!result.gscQueriesAvailable ? ['- 検索語別の 7日/前7日/28日/前28日（gscQueries）は未取得。performance-snapshot に入ると検索語単位の急上昇を出す']
+    : result.risingQueries.length ? result.risingQueries.map((q) => `- ${q.label} → ${q.pageLabel.slice(0, 30)}：表示7日 ${fmt(q.impressions7)}（前7日 ${fmt(q.impressionsPrev7)}・${q.impressions7VelocityPct == null ? '新規' : `${q.impressions7VelocityPct > 0 ? '+' : ''}${q.impressions7VelocityPct}%`}）・28日 ${fmt(q.impressions28)}・${q.position == null ? '—' : `${q.position.toFixed(1)}位`}・伸びしろ ${q.upside == null ? '—' : `+${fmt(q.upside)}（推定）`}・${q.observing ? `観測中〜${q.observing}` : q.action}`)
+      : ['- 上昇中の検索語なし（しきい値：表示7日 ' + (radarConfig.queryRadar?.minImpressions7 ?? 20) + ' 以上・前7日比 +' + (radarConfig.queryRadar?.risingPct ?? 30) + '% 以上）']),
   '',
   '## ⑧ Next Winners（次に育てる既存ページ）',
   '',
@@ -183,7 +193,8 @@ const lines = [
   '## ⑪ Annual Learning（2027年に使う季節実測）',
   '',
   `台帳 ${learningRecords.length} 件・実測あり ${learningRecords.filter((r) => r.measuredAt).length} 件（data/editorial/seasonal-learning.json）`,
-  ...annual.map((c) => `- ${c.label}：${c.records} 件・需要立ち上がりの実測 ${c.leadDaysSamples} 件 → ${c.status}${c.leadDaysAvg != null ? `（平均 ${c.leadDaysAvg} 日前）` : ''}`),
+  ...annual.map((c) => `- ${c.label}：${c.records} 件・実測 ${c.measured} 件・需要の立ち上がり ${c.leadDaysAvg != null ? `平均 ${c.leadDaysAvg} 日前` : `データ不足（${c.leadDaysSamples} 件）`}・検索表示のピーク ${c.impressionsPeakLeadAvg != null ? `開催の平均 ${c.impressionsPeakLeadAvg} 日前（${c.impressionsPeakSamples} 件）` : `データ不足（${c.impressionsPeakSamples} 件）`}`),
+  '- 学習は同カテゴリ2件以上の実測から。seasonalRules（growth-engine.json）は自動で変えない',
   '',
   '## ⑫ Today\'s Growth Batch（期待PV × 確度 ÷ 工数 × 緊急度。緊急度に需要の速度・失うPVの代替を反映）',
   '',

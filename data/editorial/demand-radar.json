@@ -24,6 +24,23 @@
     "dependencyShare": 0.25,
     "horizons": [7, 14, 30]
   },
+  "queryRadar": {
+    "about": "検索語別（performance-snapshot の gscQueries）の需要の速さ。直近7日の表示が前7日から risingPct% 以上増え、かつ minImpressions7 以上の検索語を「上昇中」とする。伸びしろは、今の表示回数のまま3位相当のCTR目安に届いた場合の追加クリック（forecast）",
+    "minImpressions7": 20,
+    "risingPct": 30,
+    "top": 10
+  },
+  "milestones": {
+    "about": "記事のイベント終了日ではない節目（申請締切・交付開始など）。PV Relay はこれを終わりとして扱わず、次の節目として表示する。日付は公式一次情報で確認したものだけ",
+    "/news/ibaraki-passport-2026/": [
+      { "key": "applicationDeadline", "label": "追加申請の締切", "date": "2026-10-16", "effect": "demand-may-drop", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" },
+      { "key": "additionalDistributionStart", "label": "追加交付の開始（県庁・東京渉外局）", "date": "2026-11-10", "effect": "demand-may-rise", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" }
+    ],
+    "/news/ibaraki-passport-additional-issuance-2026/": [
+      { "key": "applicationDeadline", "label": "追加申請の締切", "date": "2026-10-16", "effect": "demand-may-drop", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" },
+      { "key": "additionalDistributionStart", "label": "追加交付の開始（県庁・東京渉外局）", "date": "2026-11-10", "effect": "demand-may-rise", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" }
+    ]
+  },
   "commercialIntentWords": ["駐車場", "ホテル", "宿泊", "宿", "予約", "飲食店", "店", "あんこう鍋", "アクセス", "交通規制", "周辺", "チケット", "料金", "シャトル"],
   "upcomingSeasons": {
     "about": "Growth Engine の seasonWindows に無い、年をまたぐ先の季節需要（MM-DD）。30/60/90日 Pipeline で仕込みの対象にする。期間は運用上の想定",
