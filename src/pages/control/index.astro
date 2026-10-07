@@ -1,6 +1,7 @@
 ---
 import ControlBase from '../../layouts/ControlBase.astro';
 import GrowthControl from '../../components/control/GrowthControl.astro';
+import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
 import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import actionQueue from '../../../data/editorial/action-queue.json';
@@ -274,6 +275,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
       <a href="#revenue">収益</a>
       <a href="#business">事業者</a>
       <a href="#health">データ</a>
+      <a href="#index-health">インデックス</a>
     </nav>
 
     <section class="executive">
@@ -577,6 +579,8 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         {warnings.length>0 && <details><summary>Warnings / notes ({warnings.length})</summary><ul>{warnings.map((w)=><li>{w}</li>)}</ul></details>}
       </article>
     </section>
+
+    <IndexHealthCard />
 
     <footer class="control__foot">
       <span>イバトコ 管理ダッシュボード</span>
