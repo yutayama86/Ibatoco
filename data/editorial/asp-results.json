@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "about": "ASP（アフィリエイト）の発生・確定成果の報告。クリックは記録しない（クリックは GA4 の paid_booking_click）。確定売上の正本は revenue-ledger.json。取得できない値は null。src/lib/revenue-funnel.mjs が読む",
+  "asOf": "2026-10-07",
+  "providers": [
+    {
+      "key": "a8",
+      "name": "A8.net",
+      "occurred": 0,
+      "confirmed": 0,
+      "revenueYen": 0,
+      "asOf": "2026-10-07",
+      "source": "オーナー報告（A8管理画面：クリックあり・成果0）",
+      "status": "clicks-without-conversions"
+    }
+  ]
+}
