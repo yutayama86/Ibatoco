@@ -44,6 +44,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261008-news-chikusei-shinycolors-collab-2026',
+    date: '2026-10-08',
+    url: '/news/chikusei-shinycolors-collab-2026/',
+    kind: 'on-page',
+    change: 'titleとdescriptionのみ変更：筑西市×シャニマス、コラボ2026、10月10日開始、スタンプラリー、花火を検索結果で明示',
+    queries: ['筑西 シャニマス', 'シャニマス 筑西市', 'シャニマス 茨城', 'シャニマス 花火'],
+    commit: 'daily-growth-20261008',
+    note: '変更前28日（GSC 2026-09-07..10-04）は対象ページ458表示・14クリック・CTR 3.06%・平均6.29位。関連クエリ合計158表示。本文・URLは変更せず、14日で評価する。',
+  },
+  {
     id: '20261007-events-kasama-kiku-matsuri-2026',
     date: '2026-10-07',
     url: '/events/kasama-kiku-matsuri-2026/',
