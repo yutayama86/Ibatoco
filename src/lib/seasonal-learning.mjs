@@ -15,6 +15,7 @@ const isDate = (value) => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.tes
 export const MEASURED_FIELDS = [
   'demandStartDate', 'impressionsPeakDate', 'viewsPeakDate', 'peakImpressions', 'peakViews', 'ctr', 'position',
   'leadDays', 'decayDays', 'internalLinkEffect', 'ctaClicks', 'conversionsOccurred', 'conversionsConfirmed', 'revenueYen',
+  'impressionsTotal', 'clicksTotal', 'measurementPeriod',
   'measuredAt', 'measurementSource',
 ];
 
@@ -64,6 +65,12 @@ export function aggregateLearning(records, config) {
       .map((r) => r.leadDays ?? (isDate(r.demandStartDate) && isDate(r.eventStart) ? daysBetween(r.demandStartDate, r.eventStart) : null))
       .filter((v) => v != null && Number.isFinite(v));
     const decay = rows.map((r) => r.decayDays).filter((v) => v != null && Number.isFinite(Number(v))).map(Number);
+    // 検索表示・Views のピークが開催日の何日前か（実測の日付どうしの差。正なら開催前）
+    const peakLead = (key) => rows
+      .map((r) => (isDate(r[key]) && isDate(r.eventStart) ? daysBetween(r[key], r.eventStart) : null))
+      .filter((v) => v != null);
+    const impPeak = peakLead('impressionsPeakDate');
+    const viewsPeak = peakLead('viewsPeakDate');
     const measured = rows.filter((r) => r.measuredAt).length;
     const avg = (list) => (list.length >= min ? Number((list.reduce((s, v) => s + v, 0) / list.length).toFixed(1)) : null);
     result.push({
@@ -75,6 +82,10 @@ export function aggregateLearning(records, config) {
       leadDaysAvg: avg(lead),
       decayDaysSamples: decay.length,
       decayDaysAvg: avg(decay),
+      impressionsPeakSamples: impPeak.length,
+      impressionsPeakLeadAvg: avg(impPeak),
+      viewsPeakSamples: viewsPeak.length,
+      viewsPeakLeadAvg: avg(viewsPeak),
       status: lead.length >= min ? 'learned' : 'データ不足',
     });
   }

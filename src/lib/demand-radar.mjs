@@ -141,6 +141,68 @@ export function demandRadar({ snapshot, pages, seasons, engineConfig, config, ob
     });
   }
 
+  // 検索語別（gscQueries）：直近7日と前7日、28日と前28日の表示で速度を見る。ページが同じでも検索語ごとに別のシグナル
+  const qc = config.queryRadar ?? {};
+  const top3Ctr = expectedCtr(3, engineConfig.ctrCurve);
+  for (const q of snapshot?.gscQueries ?? []) {
+    if (!q?.query || !q.page) continue;
+    const page = pages.get(q.page) ?? null;
+    const season = seasons.get(q.page) ?? null;
+    const imp7 = num(q.impressions7);
+    const impPrev7 = num(q.impressionsPrev7);
+    const imp28 = num(q.impressions28);
+    const impPrev28 = num(q.impressionsPrev28);
+    const position = num(q.position28);
+    const ctr = num(q.ctr28);
+    const vel7 = pct(imp7, impPrev7);
+    const vel28 = pct(imp28, impPrev28);
+    const isNew = impPrev7 === 0 && imp7 != null && imp7 >= (qc.minImpressions7 ?? 20);
+    const vel = [vel7, vel28].filter((v) => v != null);
+    const velocity = vel.length ? clamp(Math.log2(1 + Math.max(0, Math.max(...vel) / 100)) / 3) : isNew ? 1 : null;
+    const goal = position != null ? expectedCtr(position, engineConfig.ctrCurve) : null;
+    const timing = timingScore({ startDate: page?.startDate ?? season?.startDate, endDate: page?.endDate ?? season?.endDate, phase: season?.phase }, today);
+    const components = {
+      velocity,
+      size: imp28 == null ? null : clamp(Math.log10(1 + imp28) / 5),
+      positionOpportunity: position == null ? null : position >= 8 && position <= 20 ? 1 : position >= 4 ? 0.7 : position < 4 ? 0.2 : 0.3,
+      ctrGap: goal != null && ctr != null && goal > 0 ? clamp((goal - ctr) / goal) : null,
+      timing,
+      commercialIntent: hasCommercialIntent(`${q.query} ${hay(page)}`, config) ? 1 : 0,
+      effort: 1,
+      competition: null,
+    };
+    // 伸びしろ（forecast）：今の28日の表示（30日換算）のまま、3位相当のCTR目安に届いた場合の追加クリック。4〜20位だけ
+    const upside = position != null && position > 3 && position <= 20 && imp28 != null && ctr != null && top3Ctr != null
+      ? Math.max(0, Math.round((imp28 / 28) * 30 * (top3Ctr - ctr))) : null;
+    const rising = imp7 != null && imp7 >= (qc.minImpressions7 ?? 20) && (isNew || (vel7 != null && vel7 >= (qc.risingPct ?? 30)));
+    const ended = timing === 0;
+    const watch = observing.get(q.page);
+    signals.push({
+      kind: 'query',
+      query: q.query,
+      path: q.page,
+      label: `「${q.query}」`,
+      pageLabel: page?.title ?? q.page,
+      exists: Boolean(page),
+      impressions7: imp7, impressionsPrev7: impPrev7, impressions7VelocityPct: vel7,
+      impressions28: imp28, impressionsPrev28: impPrev28, impressionsVelocityPct: vel28,
+      viewsVelocityPct: null,
+      isNew, rising, position, ctr, upside,
+      startDate: page?.startDate ?? season?.startDate ?? null,
+      endDate: page?.endDate ?? season?.endDate ?? null,
+      phase: season?.phase ?? null,
+      commercial: components.commercialIntent === 1,
+      components,
+      ...scoreOf(components, w),
+      observing: watch ? watch.observeUntil : null,
+      action: ended ? '需要は終了。PV Relay で次の山へ流入を渡す'
+        : watch ? `観測中（〜${watch.observeUntil}）。観測後に「${q.query}」の検索意図を補強`
+          : position != null && position > 3 && position <= 20 ? `「${q.query}」で3位以内を狙う：title・description・見出し・FAQを検索意図に合わせ、関連ページから内部リンク`
+            : position != null && position <= 3 ? `「${q.query}」は上位。タイトルのCTRと、回遊・CTAを確認`
+              : `「${q.query}」は20位より下。既存ページの補強・新規記事・内部リンクを期待追加PV ÷ 工数で比べる`,
+    });
+  }
+
   // 台帳の未掲載イベント（90日以内）：記事が無いので実測は無い。時期だけで評価する（coverage が低い）
   for (const e of registry?.events ?? []) {
     if (e.articleUrl || !['discovered', 'verified'].includes(e.status) || !isDate(e.startDate)) continue;
@@ -194,12 +256,15 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
     .filter((r) => !site7 || num(r.views7) / site7 >= config.pvRelay.minShareOfSite);
 
   // 代わりに流入を受ける候補：これから需要期に入る（または開催中の）もの
-  const upcoming = radar.filter((s) => (s.components?.timing ?? 0) >= 0.6);
+  const upcoming = radar.filter((s) => s.kind !== 'query' && (s.components?.timing ?? 0) >= 0.6);
 
   const items = rows.map((r) => {
     const page = pages.get(r.path) ?? null;
     const season = seasons.get(r.path) ?? null;
     const endDate = page?.endDate ?? page?.startDate ?? season?.endDate ?? null;
+    // 申請締切・交付開始などの節目（終わりではない。config.milestones、公式一次情報で確認した日付だけ）
+    const milestones = (config.milestones?.[r.path] ?? []).filter((m) => isDate(m?.date));
+    const nextMs = milestones.filter((m) => daysBetween(today, m.date) >= 0).sort((a, b) => a.date.localeCompare(b.date))[0] ?? null;
     const rule = engineConfig.seasonalRules[season?.category] ?? engineConfig.seasonalRules.default;
     const tailEnd = endDate ? addDays(endDate, rule.aftermathDays) : null;
     const daily = num(r.views7) / 7;
@@ -221,10 +286,13 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
     const ctr = num(r.gsc?.ctr28);
     const ctrPrev = num(r.gsc?.ctrPrev28);
     const ctrChangePct = pct(ctr, ctrPrev);
-    const status = endDate == null ? 'END UNKNOWN'
+    const status = endDate == null ? (milestones.length ? 'MILESTONE' : 'END UNKNOWN')
       : daysToEnd < 0 ? 'ENDED'
         : daysToEnd <= 14 ? 'ENDING'
           : 'ACTIVE';
+    // 節目の後に需要が止まった場合の上限（forecast。終わりではないので合計には入れない）
+    const dropMs = nextMs?.effect === 'demand-may-drop' ? nextMs : null;
+    const lostIfDrops = dropMs ? Object.fromEntries(config.pvRelay.horizons.map((h) => [h, Math.round(daily * Math.max(0, h - Math.max(0, daysBetween(today, dropMs.date))))])) : null;
     const sameArea = (s) => s.path && pages.get(s.path)?.municipalities?.some((m) => page?.municipalities?.includes(m));
     const replacements = upcoming
       .filter((s) => s.path !== r.path)
@@ -246,6 +314,9 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
       daysToEnd,
       status,
       lostViewsForecast: lost,
+      milestones,
+      nextMilestone: nextMs,
+      lostViewsIfDrops: lostIfDrops,
       neededReplacementViews7: lost[7] ?? null,
       measuredDropPct: dropPct,
       measuredDrop,
@@ -254,7 +325,9 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
       positionChange,
       ctrChangePct,
       replacements,
-      basis: endDate ? `直近7日の1日平均 ${daily.toFixed(1)} が、終了（${endDate}）＋余韻${rule.aftermathDays}日の後に止まる想定（forecast）` : '記事に開催日・期限のデータが無く、終わりを予測できない',
+      basis: endDate ? `直近7日の1日平均 ${daily.toFixed(1)} が、終了（${endDate}）＋余韻${rule.aftermathDays}日の後に止まる想定（forecast）`
+        : milestones.length ? `終わりではなく節目（${milestones.map((m) => `${m.label} ${m.date}`).join('・')}）。減り方は実測待ち`
+          : '記事に開催日・期限のデータが無く、終わりを予測できない',
     };
   });
 
@@ -264,7 +337,11 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
   const alerts = [];
   const lost7 = sumLost(7);
   if (lost7 > 0 && site7) alerts.push({ level: lost7 / site7 >= 0.2 ? 'critical' : 'warning', kind: 'PV at Risk', message: `今後7日で約 ${lost7.toLocaleString('ja-JP')} PV を失う可能性（forecast・直近7日 ${site7.toLocaleString('ja-JP')} の ${Math.round((lost7 / site7) * 100)}%）。${items.filter((i) => (i.lostViewsForecast[7] ?? 0) > 0).map((i) => i.label.slice(0, 18)).join('、')}` });
-  for (const i of items.filter((x) => x.status === 'END UNKNOWN' && (x.shareOfSite ?? 0) >= 0.1)) alerts.push({ level: 'warning', kind: 'PV at Risk', message: `${i.label.slice(0, 24)}（直近7日 ${i.views7.toLocaleString('ja-JP')}・全体の${Math.round(i.shareOfSite * 100)}%）は終わりの日付データが無く、失速を予測できない（記事に event か expiresAt を入れる）` });
+  for (const i of items.filter((x) => x.status === 'END UNKNOWN' && (x.shareOfSite ?? 0) >= 0.1)) alerts.push({ level: 'warning', kind: 'PV at Risk', message: `${i.label.slice(0, 24)}（直近7日 ${i.views7.toLocaleString('ja-JP')}・全体の${Math.round(i.shareOfSite * 100)}%）は終わりの日付データが無く、失速を予測できない（催しなら記事の event に公式の開催日を、申請締切などの節目なら demand-radar.json の milestones に公式の日付を入れる）` });
+  for (const i of items.filter((x) => x.status === 'MILESTONE' && x.lostViewsIfDrops && (x.shareOfSite ?? 0) >= 0.05)) {
+    const later = i.milestones.filter((m) => m !== i.nextMilestone && daysBetween(today, m.date) >= 0).map((m) => `${m.label} ${m.date}`).join('・');
+    alerts.push({ level: 'warning', kind: 'PV at Risk', message: `${i.label.slice(0, 24)}（直近7日 ${i.views7.toLocaleString('ja-JP')}・全体の${Math.round(i.shareOfSite * 100)}%）は ${i.nextMilestone.label}（${i.nextMilestone.date}）の後に需要が落ちる可能性。止まった場合の上限は今後14日で ${(i.lostViewsIfDrops[14] ?? 0).toLocaleString('ja-JP')} PV（forecast）${later ? `。次の節目：${later}` : ''}` });
+  }
   for (const i of items.filter((x) => x.status === 'ENDING' && (x.shareOfSite ?? 0) >= 0.05)) alerts.push({ level: 'warning', kind: 'PV at Risk', message: `${i.label.slice(0, 24)} は ${i.endDate} に終了（あと${i.daysToEnd}日・直近7日 ${i.views7.toLocaleString('ja-JP')}）。今後14日で約 ${(i.lostViewsForecast[14] ?? 0).toLocaleString('ja-JP')} PV を失う可能性（forecast）。代替を先に仕込む` });
   for (const i of items.filter((x) => x.measuredDrop)) alerts.push({ level: 'warning', kind: '流入急減', message: `${i.label.slice(0, 24)} の7日Viewsが前週比 ${i.measuredDropPct}%（実測）` });
   for (const i of items.filter((x) => x.impressionsDrop)) alerts.push({ level: 'warning', kind: '検索表示急減', message: `${i.label.slice(0, 24)} の28日の検索表示が前期間比 ${i.impressionsChangePct}%（実測）` });
@@ -272,9 +349,17 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
   for (const i of items.filter((x) => x.ctrChangePct != null && x.ctrChangePct <= -30)) alerts.push({ level: 'info', kind: 'CTR悪化', message: `${i.label.slice(0, 24)} のCTRが前期間比 ${i.ctrChangePct}%（実測）` });
   if (top && site7 && top.shareOfSite >= config.pvRelay.dependencyShare) alerts.push({ level: 'warning', kind: '依存度', message: `上位1ページで直近7日の${Math.round(top.shareOfSite * 100)}%${second ? `、上位2ページで${Math.round(((top.views7 + second.views7) / site7) * 100)}%` : ''}。終了時の落ち幅が大きい` });
 
+  // 参考値：上位2ページを除いた単純ランレート（11月 forecast の正本ではない。季節需要の変化を含まない）
+  const rest7 = site7 != null && items.length ? site7 - items.slice(0, 2).reduce((s, i) => s + (i.views7 ?? 0), 0) : null;
   return {
     dataAsOf,
     siteViews7: site7,
+    baselineExcludingTop2: rest7 == null ? null : {
+      views7: rest7,
+      monthly30: Math.round((rest7 / 7) * 30),
+      excluded: items.slice(0, 2).map((i) => i.path),
+      label: '参考値（上位2ページを除いた直近7日 ÷ 7 × 30日。11月 forecast の正本ではない）',
+    },
     items,
     lostViewsForecast: Object.fromEntries(config.pvRelay.horizons.map((h) => [h, sumLost(h)])),
     alerts,
@@ -304,7 +389,7 @@ export function demandPipeline({ pages, seasons, radar, snapshot, today }) {
       action: deadline && daysBetween(today, deadline) >= 0 ? `公開・更新の締切 ${deadline} までに事実更新と内部リンク` : '需要期に入る。公式発表の反映・FAQ・内部リンク・回遊',
     });
   }
-  for (const s of radar.filter((x) => x.kind !== 'page')) {
+  for (const s of radar.filter((x) => x.kind === 'event-candidate' || x.kind === 'season')) {
     if (!isDate(s.startDate)) continue;
     const d = daysBetween(today, s.startDate);
     const b = bucket(Math.max(0, d));
@@ -350,7 +435,7 @@ export function nextWinners({ radar, forecasts, limit = 5 }) {
  * 緊急度 = 締切・季節の段階（Growth Engine）× 需要の速度（前週比+100%以上 1.5、+30%以上 1.2）× 失うPVの代替（1.3）
  * 期待PVが推定できない候補は順位付けせず、candidatesWithoutEstimate に残す（推測で埋めない）
  */
-export function relayBatch({ engineBatch, winners, relay, seasons, limit = 3 }) {
+export function relayBatch({ engineBatch, winners, relay, seasons, queries = [], limit = 3 }) {
   const replacementPaths = new Set(relay.items.flatMap((i) => i.replacements.map((r) => r.path)).filter(Boolean));
   const confidenceOf = (c) => (typeof c === 'number' ? c : CONFIDENCE[c] ?? 0.25);
   const candidates = [];
@@ -368,6 +453,11 @@ export function relayBatch({ engineBatch, winners, relay, seasons, limit = 3 }) 
   for (const w of winners) {
     if (w.observing) continue;
     push({ title: `${w.label}：${w.action}`, path: w.path, expectedPv: w.upside, confidence: w.confidenceOfUpside ?? w.confidence, effort: effortOf(w.action), velocityPct: w.viewsVelocityPct == null && w.impressionsVelocityPct == null ? null : Math.max(w.viewsVelocityPct ?? -Infinity, w.impressionsVelocityPct ?? -Infinity), source: 'demand-radar:next-winner', reason: w.upsideBasis });
+  }
+  // 上昇中の検索語（gscQueries の実測）：4〜20位で、伸びしろ（forecast）があり、観測中・終了でないもの
+  for (const q of queries) {
+    if (!q.rising || q.observing || q.components?.timing === 0 || !(q.upside > 0)) continue;
+    push({ title: `${q.label}（${q.position}位・表示7日 ${q.impressions7}）：${q.action}`, path: q.path, expectedPv: q.upside, confidence: 'medium', effort: effortOf(q.action), velocityPct: q.impressions7VelocityPct, source: 'demand-radar:rising-query', reason: '今の28日の表示のまま3位相当のCTR目安に届いた場合（推定）' });
   }
   const seen = new Set();
   const ranked = candidates.sort((a, b) => b.score - a.score).filter((c) => (c.path ? (seen.has(c.path) ? false : (seen.add(c.path), true)) : true));

@@ -116,6 +116,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   <article class="gc-card">
     <h3>PV at Risk</h3>
     <p class="gc-note gc-note--lead">今後7日 <b>{fmt(relay.lostViewsForecast[7])}</b>・14日 {fmt(relay.lostViewsForecast[14])}・30日 {fmt(relay.lostViewsForecast[30])} PV を失う可能性（forecast。直近7日 {fmt(relay.siteViews7)}）</p>
+    {relay.baselineExcludingTop2 && <p class="gc-note">{relay.baselineExcludingTop2.label}：直近7日 {fmt(relay.baselineExcludingTop2.views7)} → 30日 {fmt(relay.baselineExcludingTop2.monthly30)}</p>}
     <div class="gc-scroll" data-xscroll tabindex="0" aria-label="主要流入ページの表（横にスクロールできます）">
       <table class="gc-table">
         <thead>
@@ -127,9 +128,9 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
               <th scope="row">{i.label}</th>
               <td>{fmt(i.views7)}</td>
               <td>{i.shareOfSite == null ? '—' : `${Math.round(i.shareOfSite * 100)}%`}</td>
-              <td>{i.endDate ?? '不明'}</td>
+              <td>{i.endDate ?? (i.nextMilestone ? `節目 ${i.nextMilestone.date}（${i.nextMilestone.label}）` : '不明')}</td>
               <td><span class:list={['gc-pill', `is-${i.status.toLowerCase().replace(/\s+/g, '-')}`]}>{i.status}</span></td>
-              <td>{fmt(i.lostViewsForecast[7])} / {fmt(i.lostViewsForecast[30])}</td>
+              <td>{i.lostViewsIfDrops ? `上限 ${fmt(i.lostViewsIfDrops[7])} / ${fmt(i.lostViewsIfDrops[30])}` : `${fmt(i.lostViewsForecast[7])} / ${fmt(i.lostViewsForecast[30])}`}</td>
               <td class="gc-action">{i.replacements.map((r: any) => `${r.label.slice(0, 20)}（${fmt(r.views7)}・${r.deadlinePassed ? '至急' : r.next ? `${r.next.label} ${r.next.date}` : '—'}）`).join('、') || '—'}</td>
             </tr>
           ))}
@@ -147,7 +148,17 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
           <li><p class="gc-list__title">{r.label}</p><p class="gc-list__meta">7日 {fmt(r.views7)}（{velocityText(r.viewsVelocityPct, r.isNew)}）・表示28日 {fmt(r.impressions28)}（{velocityText(r.impressionsVelocityPct, r.impressionsPrev28 === 0)}）・Score {r.score ?? '—'}</p></li>
         ))}
       </ul>
-      <p class="gc-note">需要の増加速度が高い順。検索語別の推移（gscQueries）は未取得。</p>
+      <p class="gc-note">ページ：需要の増加速度が高い順。</p>
+      <h4 class="gc-subhead">上昇中の検索語</h4>
+      {result.gscQueriesAvailable ? (
+        result.risingQueries.length ? (
+          <ul class="gc-list">
+            {result.risingQueries.map((q: any) => (
+              <li><p class="gc-list__title">{q.label}<small>（{q.pageLabel.slice(0, 24)}）</small></p><p class="gc-list__meta">表示7日 {fmt(q.impressions7)}（{velocityText(q.impressions7VelocityPct, q.isNew)}）・28日 {fmt(q.impressions28)}・{q.position == null ? '—' : `${q.position.toFixed(1)}位`}・伸びしろ {q.upside == null ? '—' : `+${fmt(q.upside)}（推定）`}{q.observing ? `・観測中〜${q.observing}` : ''}</p></li>
+            ))}
+          </ul>
+        ) : <p class="gc-empty">上昇中の検索語なし。</p>
+      ) : <p class="gc-empty">検索語別の推移（gscQueries）は未取得。performance-snapshot に入ると表示される。</p>}
     </article>
 
     <article class="gc-card">
@@ -215,7 +226,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
       <h3>Annual Learning</h3>
       <p class="gc-note gc-note--lead">台帳 {result.annualLearning.records} 件・実測あり {result.annualLearning.measured} 件（2027年の公開・更新時期に使う）</p>
       <dl class="gc-revenue">
-        {result.annualLearning.categories.map((c: any) => <div><dt>{c.label}</dt><dd>{c.status === 'learned' ? `平均 ${c.leadDaysAvg} 日前` : 'データ不足'}</dd><dd class="gc-revenue__note">{c.records} 件・実測 {c.leadDaysSamples} 件</dd></div>)}
+        {result.annualLearning.categories.map((c: any) => <div><dt>{c.label}</dt><dd>{c.impressionsPeakLeadAvg != null ? `検索ピーク 平均${c.impressionsPeakLeadAvg}日前` : 'データ不足'}</dd><dd class="gc-revenue__note">{c.records} 件・実測 {c.measured} 件・立ち上がり {c.leadDaysAvg != null ? `平均${c.leadDaysAvg}日前` : 'データ不足'}</dd></div>)}
       </dl>
     </article>
   </div>
@@ -280,6 +291,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   .gc-list__meta{margin:.2rem 0 0;color:var(--muted);font-size:.78rem;line-height:1.6;overflow-wrap:anywhere}
   .gc-pipeline{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem}
   @media(min-width:900px){.gc-pipeline{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .gc-subhead{margin:1rem 0 .5rem;font-size:.85rem;color:var(--accent)}
   .gc-pipeline h4{margin:0 0 .5rem;font-size:.85rem;color:var(--accent)}
   .gc-funnel{display:grid;gap:.4rem;margin:0;padding:0;list-style:none;counter-reset:none}
   .gc-funnel li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.1rem .6rem;padding:.5rem .7rem;border-radius:8px;background:var(--panel-2)}

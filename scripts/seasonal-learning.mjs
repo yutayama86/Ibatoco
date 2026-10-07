@@ -28,5 +28,8 @@ const next = {
 if (process.argv.includes('--write')) writeFileSync(PATH, `${JSON.stringify(next, null, 2)}\n`);
 const learned = aggregateLearning(records, config);
 console.log(`Annual Learning：記事 ${records.length} 件（新規 ${added.length} 件）・実測あり ${records.filter((r) => r.measuredAt).length} 件`);
-for (const c of learned) console.log(`  ${c.label}：${c.records} 件・実測 ${c.leadDaysSamples} 件・${c.status}${c.leadDaysAvg != null ? `（需要の立ち上がり 平均${c.leadDaysAvg}日前）` : ''}`);
+for (const c of learned) {
+  const peak = c.impressionsPeakLeadAvg != null ? `・検索表示のピーク 開催の平均${c.impressionsPeakLeadAvg}日前（${c.impressionsPeakSamples}件）` : '';
+  console.log(`  ${c.label}：${c.records} 件・実測 ${c.measured} 件・需要の立ち上がり ${c.leadDaysAvg != null ? `平均${c.leadDaysAvg}日前` : `データ不足（${c.leadDaysSamples}件）`}${peak}`);
+}
 if (!process.argv.includes('--write') && added.length) console.log('台帳に反映するには --write を付ける');

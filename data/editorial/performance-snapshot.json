@@ -625,18 +625,6 @@
     "checkedAt": "2026-10-07T06:58:25+09:00",
     "findings": [
       {
-        "signalType": "page-dimension-reconciliation",
-        "query": "multiple",
-      "page": "/news/ibaraki-passport-2026/",
-      "relatedPage": "/news/kasama-shinguri-matsuri-2026/",
-        "period": "2026-09-07..2026-10-04",
-        "clicks": 2007,
-        "impressions": 58792,
-        "ctr": 0.034137,
-        "position": null,
-        "recommendedAction": "pageとpagepathの正規化後の値が一致。小さい誤取得値を破棄し、pageMetricsへ24,583/34,209表示を採用。"
-      },
-      {
         "signalType": "official-update-on-priority-seasonal-page",
         "query": "土浦花火 バイク / 自転車 / 駐車場",
         "page": "/events/tsuchiura-hanabi-2026/",
@@ -668,17 +656,6 @@
         "ctr": 0.1538,
         "position": 3.1577,
         "recommendedAction": "11月最重要勝ちページとして事実更新と内部リンクだけを継続し、観測窓内の大改修は避ける。"
-      },
-      {
-        "signalType": "page-level-low-ctr",
-        "query": "multiple",
-        "page": "/events/tsuchiura-hanabi-2026/",
-        "period": "2026-09-01..2026-09-28",
-        "clicks": 3,
-        "impressions": 419,
-        "ctr": 0.0072,
-        "position": 7.7064,
-        "recommendedAction": "11月最重要のCTR改善候補。ただし直近公開・改修の14日観測窓を守り、交通規制図など公式更新時に即日反映する。"
       },
       {
         "signalType": "emerging-cannibalization",

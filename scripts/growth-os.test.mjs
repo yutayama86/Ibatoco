@@ -161,3 +161,93 @@ test('Annual Learning：同期は実測の項目を上書きしない。学習�
   assert.equal(hanabi.status, 'learned');
   assert.equal(hanabi.leadDaysAvg, (40 + 43) / 2);
 });
+
+test('実測の整合チェック：query「multiple」は検索語として扱わない。gscQueries の1語がページ合計より大きいときは不整合', async () => {
+  const { auditSnapshot } = await import('../src/lib/snapshot-quality.mjs');
+  const snapshot = {
+    source: { freshness: { gscLatestConfirmedDate: '2026-10-04' } },
+    gscDiscovery: { findings: [
+      { page: '/p/', query: 'multiple', impressions: 58792, period: '2026-09-07..2026-10-04' }, // 2ページの合算行
+      { page: '/p/', query: '茨城パスポート', impressions: 900, period: '2026-09-20..2026-10-04' },
+    ] },
+    gscQueries: [
+      { query: 'multiple', page: '/p/', impressions7: 1, impressionsPrev7: 1, impressions28: 99999 },
+      { query: '茨城パスポート', page: '/p/', impressions7: 6304, impressionsPrev7: 29, impressions28: 11494, impressionsPrev28: 40, position28: 8.12, ctr28: 0.02 },
+      { query: '大きすぎる語', page: '/q/', impressions7: 10, impressionsPrev7: 5, impressions28: 500 },
+      { query: '表示なし', page: '/p/', impressions7: 0, impressionsPrev7: 0, impressions28: 0, position28: 30, ctr28: 0 },
+    ],
+    pageMetrics: [
+      { path: '/p/', gsc: { impressions28: 24583, clicks28: 400, ctr28: 0.016, position28: 7.4 } },
+      { path: '/q/', gsc: { impressions28: 100, clicks28: 1, ctr28: 0.01, position28: 9 } },
+    ],
+  };
+  const { snapshot: out, issues } = auditSnapshot(snapshot);
+  assert.equal(out.pageMetrics.find((r) => r.path === '/p/').gsc.impressions28, 24583); // 合算行と比べて外さない
+  assert.equal(out.pageMetrics.find((r) => r.path === '/q/').gscExcluded, true);
+  assert.deepEqual(out.gscDiscovery.findings.map((f) => f.query), ['茨城パスポート']);
+  assert.deepEqual(out.gscQueries.map((q) => q.query), ['茨城パスポート', '表示なし']);
+  assert.equal(out.gscQueries[1].position28, null);
+  assert.ok(issues.some((i) => i.kind === 'データ整理'));
+  assert.ok(issues.some((i) => i.kind === 'データ不整合' && i.path === '/q/'));
+});
+
+test('Demand Radar（検索語）：前7日比で上昇を判定し、4〜20位は3位相当のCTR目安までを伸びしろ（推定）にする。Batchに入る', () => {
+  const pages = pagesOf([{ path: '/stadium/', title: 'スタジアム駐車場' }]);
+  const snapshot = site(1000, [], { gscQueries: [
+    { query: '水戸信用金庫スタジアム 駐車場', page: '/stadium/', impressions7: 212, impressionsPrev7: 112, impressions28: 679, impressionsPrev28: 300, position28: 9.72, ctr28: 0.01 },
+    { query: '少ない語', page: '/stadium/', impressions7: 5, impressionsPrev7: 1, impressions28: 10, position28: 12, ctr28: 0 },
+  ] });
+  const radar = demandRadar({ snapshot, pages, seasons: new Map(), engineConfig, config, today: TODAY });
+  const q = radar.find((s) => s.kind === 'query' && s.query === '水戸信用金庫スタジアム 駐車場');
+  assert.equal(q.impressions7VelocityPct, 89.3);
+  assert.equal(q.rising, true);
+  assert.equal(q.commercial, true);
+  const top3 = engineConfig.ctrCurve['3'];
+  assert.equal(q.upside, Math.round((679 / 28) * 30 * (top3 - 0.01)));
+  assert.equal(radar.find((s) => s.query === '少ない語').rising, false); // 表示7日がしきい値未満
+  // 検索語は PV Relay の代替候補・Pipeline には入らない
+  const relay = pvRelay({ snapshot, pages, seasons: new Map(), engineConfig, config, radar, today: TODAY });
+  assert.ok(relay.items.every((i) => i.replacements.every((r) => r.kind !== 'query')));
+  assert.ok(demandPipeline({ pages, seasons: new Map(), radar, snapshot, today: TODAY }).every((i) => i.kind !== 'query'));
+  const { batch } = relayBatch({ engineBatch: [], winners: [], relay, seasons: new Map(), queries: radar.filter((s) => s.kind === 'query') });
+  assert.equal(batch[0].source, 'demand-radar:rising-query');
+  assert.equal(batch[0].expectedPv, q.upside);
+});
+
+test('PV Relay：申請締切などの節目は終わりとして扱わず、止まった場合の上限だけを別に出す。参考値は上位2ページ除外', () => {
+  const pages = pagesOf([{ path: '/passport/', title: 'パスポート' }, { path: '/other/', title: '他' }, { path: '/third/', title: '三' }]);
+  const snapshot = site(1000, [
+    { path: '/passport/', views7: 350, viewsPrev7: 10 },
+    { path: '/other/', views7: 200, viewsPrev7: 200 },
+    { path: '/third/', views7: 100, viewsPrev7: 100 },
+  ]);
+  const cfg = { ...config, milestones: { '/passport/': [
+    { key: 'applicationDeadline', label: '追加申請の締切', date: '2026-10-16', effect: 'demand-may-drop' },
+    { key: 'additionalDistributionStart', label: '追加交付の開始', date: '2026-11-10', effect: 'demand-may-rise' },
+  ] } };
+  const relay = pvRelay({ snapshot, pages, seasons: new Map(), engineConfig, config: cfg, radar: [], today: TODAY });
+  const p = relay.items.find((i) => i.path === '/passport/');
+  assert.equal(p.status, 'MILESTONE');
+  assert.equal(p.endDate, null);
+  assert.equal(p.nextMilestone.key, 'applicationDeadline');
+  assert.equal(p.lostViewsForecast[7], null); // 終わりではないので forecast の合計に入れない
+  assert.deepEqual(p.lostViewsIfDrops, { 7: 0, 14: 250, 30: 1050 }); // 1日50 × （期間 − 締切までの9日）
+  assert.equal(relay.lostViewsForecast[30], 0);
+  assert.ok(relay.alerts.some((a) => a.message.includes('追加申請の締切（2026-10-16）の後に需要が落ちる可能性') && a.message.includes('追加交付の開始 2026-11-10')));
+  assert.equal(relay.baselineExcludingTop2.views7, 1000 - 350 - 200);
+  assert.equal(relay.baselineExcludingTop2.monthly30, Math.round((450 / 7) * 30));
+});
+
+test('Annual Learning：検索表示のピークが開催の何日前かを、実測の日付2件以上から出す', () => {
+  const records = [
+    { path: '/a/', category: 'hanabi', eventStart: '2026-09-12', impressionsPeakDate: '2026-09-11', viewsPeakDate: '2026-09-12', measuredAt: '2026-10-07' },
+    { path: '/b/', category: 'hanabi', eventStart: '2026-09-26', impressionsPeakDate: '2026-09-24', viewsPeakDate: '2026-09-25', measuredAt: '2026-10-07' },
+    { path: '/c/', category: 'matsuri', eventStart: '2026-10-02', impressionsPeakDate: '2026-10-02', measuredAt: '2026-10-07' },
+  ];
+  const learned = aggregateLearning(records, config);
+  const hanabi = learned.find((c) => c.category === 'hanabi');
+  assert.equal(hanabi.impressionsPeakLeadAvg, 1.5);
+  assert.equal(hanabi.viewsPeakLeadAvg, 0.5);
+  assert.equal(hanabi.status, 'データ不足'); // 需要の立ち上がり（demandStartDate）は未実測
+  assert.equal(learned.find((c) => c.category === 'matsuri').impressionsPeakLeadAvg, null); // 1件だけ
+});
