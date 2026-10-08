@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-08",
+  "mode": "100k-recovery",
+  "targetMonth": "2026-11",
+  "targetViews": 100000,
+  "currentEvidence": {
+    "portfolioExpectedViews": 22574,
+    "confidenceAdjustedExpectedViews": 22559,
+    "coverage": 0.22574,
+    "unfilledViews": 77426,
+    "paceStatus": "off-pace",
+    "recent7Views": 5260,
+    "recent7DailyAverage": 751.43,
+    "requiredDailyAverage": 3571.43
+  },
+  "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
+  "priorities": [
+    {
+      "rank": 1,
+      "cluster": "autumn-leaves",
+      "pages": [
+        "/events/fukuroda-falls-autumn-2026/",
+        "/events/ryujin-bridge-autumn-2026/",
+        "/events/hananuki-gorge-autumn-2026/",
+        "/events/tsukuba-autumn-2026/",
+        "/kouyou/"
+      ],
+      "objective": "11月の季節需要が立ち上がる前に、index・内部回遊・一次情報鮮度・検索意図の欠損をゼロにする。",
+      "actionType": "indexation/internal-link/freshness",
+      "why": "11月需要の中核だが、現時点の観測下限が小さく、立ち上がり前の仕込み余地が最大。"
+    },
+    {
+      "rank": 2,
+      "cluster": "tsuchiura-fireworks",
+      "pages": [
+        "/events/tsuchiura-hanabi-2026/"
+      ],
+      "objective": "交通規制・駐車場・時間・アクセス等の高意図クエリを、公式更新直後に最速反映して検索需要を取り切る。",
+      "actionType": "freshness/query-intent",
+      "why": "開催日が11月7日で締切が近く、検索需要のピークまで時間が少ない。"
+    },
+    {
+      "rank": 3,
+      "cluster": "oarai-ankou",
+      "pages": [
+        "/events/oarai-ankou-matsuri-2026/",
+        "/events/oarai-ankou-nabe-guide/"
+      ],
+      "objective": "現在すでに取れている順位・CTRを維持し、関連意図（食事・宿泊・アクセス）へ回遊を広げる。",
+      "actionType": "defend/recirculation",
+      "why": "GSCで『あんこう祭り 2026』系は3位前後・高CTR、GA4でも次の主力候補。"
+    },
+    {
+      "rank": 4,
+      "cluster": "november-major-demand",
+      "pages": [
+        "/events/ibaraki-events-november-2026/",
+        "/today/"
+      ],
+      "objective": "個別イベント依存を下げ、11月イベント横断需要と当日需要をハブで受ける。",
+      "actionType": "hub/recirculation",
+      "why": "単発特需終了時の流入落差を吸収する受け皿が必要。"
+    },
+    {
+      "rank": 5,
+      "cluster": "evergreen-striking-distance",
+      "pages": [
+        "/events/tsukuba-cablecar-ropeway-guide/",
+        "/events/kairakuen-guide/",
+        "/events/tsukubasan-jinja-guide/",
+        "/events/ushiku-daibutsu-guide/"
+      ],
+      "objective": "順位5〜9位で表示が出ている常緑ページを、CTR改善と意図整合で底上げする。",
+      "actionType": "seo",
+      "evidence": [
+        "筑波山ケーブルカー 料金: 94 impressions / pos 6.68 / CTR 3.19%",
+        "偕楽園 入園料: 78 impressions / pos 6.12 / CTR 0%",
+        "筑波山神社 駐車場: 131 impressions / pos 7.47 / CTR 1.53%",
+        "牛久大仏 料金: 54 impressions / pos 8.98 / CTR 0%"
+      ]
+    }
+  ],
+  "dailyRules": [
+    "毎日のGrowth Batchは、maintenanceだけで完了扱いにしない。",
+    "criticalな事実訂正を除き、観測窓中のページを再改修しない。",
+    "終了ページの延命より、次の季節需要へのPV Relayを優先する。",
+    "実測impressions・position・CTR・Viewsで説明できる施策を、推測の新規記事より優先する。",
+    "不足Viewsはunfilledのまま保持し、根拠ができた時だけportfolioExpectedViewsへ追加する。",
+    "11月100,000 Viewsの到達確率を下げる作業は、収益化・デザイン改善より後回しにする。ただし誤情報・障害は即時修正する。"
+  ],
+  "exitCondition": "confidenceAdjustedExpectedViews >= 100000 かつ paceStatus が at-risk 以上になったら通常portfolio-gap-closureへ戻す。"
+}
