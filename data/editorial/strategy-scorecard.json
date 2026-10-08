@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-09",
   "sourceSheet": "イバトコ SEO・流入データ / Strategy_Scorecard",
   "reviewCadence": {
     "daily": "execution",
@@ -32,27 +32,27 @@
   "currentRisks": [
     {
       "id": "organic-concentration",
-      "evidence": "1613/1802 sessions from Organic Search in 2026-09-24..09-30 (89.51%)",
+      "evidence": "4301/4651 sessions from Organic Search in 2026-10-01..10-07 (92.47%)",
       "severity": "high"
     },
     {
-      "id": "low-retention",
-      "evidence": "519 returning sessions / 5316 classified new+returning sessions in 2026-09-03..09-30 (9.76%)",
+      "id": "pv-at-risk-ended-winners",
+      "evidence": "かさま新栗まつり1,350 Views/7dと茨城パスポート1,580 Views/7dが直近7日の55.4%。終了・申請締切後の落ち込みが大きい。",
       "severity": "high"
     },
     {
       "id": "weak-monetization",
-      "evidence": "28 outbound booking clicks in 2026-09-24..09-30; confirmed revenue 0; monetized click share remains missing",
+      "evidence": "booking_guide_view 432 / outbound_booking_click 45、確定売上0。今回paid_booking_clickはmissing。",
       "severity": "high"
     },
     {
       "id": "b2b-cta-gap",
-      "evidence": "business_cta_view 266 / business_cta_click 0 in 2026-09-24..09-30",
+      "evidence": "business_cta_view 475 / business_cta_click 1 in 2026-10-01..10-07",
       "severity": "high"
     },
     {
-      "id": "place-inventory-zero",
-      "evidence": "/place/ infrastructure exists but no published verified stores",
+      "id": "gsc-partial-date",
+      "evidence": "2026-09-30の日別GSC行が取得不能。直近7日は6日分の部分値、28日ページ集計は取得成功。",
       "severity": "medium"
     },
     {
@@ -84,56 +84,152 @@
     "Do not accelerate monetization by weakening disclosure, rights, privacy, accessibility, or security."
   ],
   "latestStrategyReset": {
-    "reviewedAt": "2026-10-02",
-    "businessModelReviewRequired": true,
-    "businessModelReviewCompleted": true,
+    "reviewedAt": "2026-10-09",
+    "businessModelReviewRequired": false,
+    "businessModelReviewCompleted": false,
     "evidence": {
-      "ga4Period": "2026-09-03..2026-09-30",
-      "ga4Views28d": 6870,
-      "ga4ViewsRecent7": 2197,
-      "ga4ViewsPrevious7": 1903,
-      "gscPeriod": "2026-09-22..2026-09-28",
-      "gscClicks7d": 929,
-      "gscImpressions7d": 27038,
+      "ga4Period": "2026-09-10..2026-10-07",
+      "ga4Views28d": 11177,
+      "ga4ViewsRecent7": 5287,
+      "ga4ViewsPrevious7": 2197,
+      "gscPeriod": "2026-09-09..2026-10-06",
+      "gscClicks28d": 4804,
+      "gscImpressions28d": 126344,
       "confirmedRevenueYen": 0,
-      "outboundBookingClicks7d": 28,
-      "businessCtaViews7d": 266,
-      "businessCtaClicks7d": 0
+      "outboundBookingClicks7d": 45,
+      "businessCtaViews7d": 475,
+      "businessCtaClicks7d": 1
     },
     "lensDecisions": [
-      {"lens": "seo-demand", "decision": "strengthen", "reason": "Organic Search is 89.51% of recent 7-day sessions; GA4 Views grew 15.45% but the 28-day run-rate is only 8,788 against the 100,000 target."},
-      {"lens": "discover-news", "decision": "hold", "reason": "The daily 3-5 article quota was stopped by owner decision. Publish news only when search demand, deadline, practical value or distribution upside exceeds seasonal growth work."},
-      {"lens": "sns", "decision": "maintain", "reason": "Organic Social is measurable but small; redistribute proven search themes without adding paid tools."},
-      {"lens": "international", "decision": "hold", "reason": "English title experiment started 2026-09-24 and remains inside its observation window."},
-      {"lens": "owned-audience", "decision": "hold", "reason": "Returning session share is 9.76%. External account or delivery infrastructure requires approval; no new platform is created automatically."},
-      {"lens": "content-portfolio", "decision": "strengthen", "reason": "Allocate production to November large-demand clusters and evergreen transport utility, not low-demand daily news volume."},
-      {"lens": "cro-recirculation", "decision": "maintain", "reason": "GrowthNext reached 1,267 views and 67 clicks (5.29% CTR); Views/session improved 7.57%. Freeze through the 2026-10-04 gate."},
-      {"lens": "affiliate-transaction", "decision": "maintain", "reason": "28 booking clicks show intent, but provider-level monetized share and confirmed revenue remain missing; do not add unapproved links."},
-      {"lens": "b2b-leadgen", "decision": "hold", "reason": "266 CTA views and zero clicks identify the bottleneck, but the homepage changed on 2026-10-01 and is inside its observation window."},
-      {"lens": "business-directory", "decision": "hold", "reason": "Verified published place inventory is still zero; do not scale an empty directory."},
-      {"lens": "sponsorship", "decision": "hold", "reason": "No approved sponsor inventory or commercial terms; preserve editorial independence."},
-      {"lens": "data-api-widget", "decision": "maintain", "reason": "36 event records, 86 event/guide pages and 19 growth opportunities are compounding structured assets; no large product build yet."},
-      {"lens": "brand-backlinks-pr", "decision": "new-test", "reason": "Test whether original event logistics summaries earn official/local citations before building outreach."},
-      {"lens": "ugc-local-network", "decision": "hold", "reason": "Rights, moderation and contributor governance are not yet ready for scale."},
-      {"lens": "technical-indexation-ux", "decision": "maintain", "reason": "News sitemap, NewsArticle and 1200x630 card infrastructure are in place; verify every deploy."},
-      {"lens": "measurement-experiment", "decision": "strengthen", "reason": "GA4 9/30 normalized while 10/1 is an incomplete anomaly; rolling confirmation and backfill remain required."},
-      {"lens": "trust-freshness", "decision": "strengthen", "reason": "Date, weekday and event-status correctness remain immediate-fix controls."},
-      {"lens": "automation-resilience", "decision": "strengthen", "reason": "Direct Windsor reads and Drive readback both succeeded; keep production-browser verification as a hard gate."},
-      {"lens": "unit-economics", "decision": "hold", "reason": "Confirmed revenue is 0; gross profit, labor hours and Revenue/hour are missing. Do not infer economics from clicks."},
-      {"lens": "sellability-founder-dependence", "decision": "maintain", "reason": "Editorial registry, action queue and specifications reduce implicit founder knowledge, but commercial approval and external account work still depend on the owner."}
+      {
+        "lens": "seo-demand",
+        "decision": "strengthen",
+        "reason": "直近7日5,287 Viewsまで伸長したが11月着地下限は22,659。大型季節需要と高表示低CTRの観測明け施策へ集中する。"
+      },
+      {
+        "lens": "discover-news",
+        "decision": "hold",
+        "reason": "記事本数KPIは停止中。PV根拠・期限・実用性が大型季節施策を上回る時だけ公開する。"
+      },
+      {
+        "lens": "sns",
+        "decision": "maintain",
+        "reason": "Organic Socialは14 sessions。勝ち検索テーマの再配布だけを無料範囲で続ける。"
+      },
+      {
+        "lens": "international",
+        "decision": "hold",
+        "reason": "英語ひたち海浜公園は1,127表示・CTR0.44%だが11月重点より小さく、本文観測窓も10月22日まで。"
+      },
+      {
+        "lens": "owned-audience",
+        "decision": "maintain",
+        "reason": "/today/ Phase 1で再訪導線を小さく検証。新規配信基盤は作らない。"
+      },
+      {
+        "lens": "content-portfolio",
+        "decision": "strengthen",
+        "reason": "終了済み新栗まつりから11月のあんこう・紅葉・菊・土浦花火へポートフォリオを移す。"
+      },
+      {
+        "lens": "cro-recirculation",
+        "decision": "maintain",
+        "reason": "GrowthNext 3,140表示・170クリック（5.41%）。28日観測窓を守り、再改修しない。"
+      },
+      {
+        "lens": "affiliate-transaction",
+        "decision": "maintain",
+        "reason": "Booking Guide CTR 10.42%だが確定売上0。Bookable MVP3ページを7日固定し成果を観測する。"
+      },
+      {
+        "lens": "b2b-leadgen",
+        "decision": "hold",
+        "reason": "475表示・1クリック（0.21%）。自然問い合わせ0で、営業送信や価格変更は自動化しない。"
+      },
+      {
+        "lens": "business-directory",
+        "decision": "hold",
+        "reason": "検証済み店舗在庫の規模が不足。LocalOS schemaだけを先に整える。"
+      },
+      {
+        "lens": "sponsorship",
+        "decision": "hold",
+        "reason": "承認済み価格・在庫なし。編集順位を販売しない。"
+      },
+      {
+        "lens": "data-api-widget",
+        "decision": "maintain",
+        "reason": "イベント台帳と/today/が構造化資産として進展。大規模プロダクト化は需要実測後。"
+      },
+      {
+        "lens": "brand-backlinks-pr",
+        "decision": "maintain",
+        "reason": "公式一次情報の行動要約を維持し、自然引用の実測を待つ。"
+      },
+      {
+        "lens": "ugc-local-network",
+        "decision": "hold",
+        "reason": "権利・モデレーション・個人情報ガバナンス未整備。"
+      },
+      {
+        "lens": "technical-indexation-ux",
+        "decision": "strengthen",
+        "reason": "重点紅葉4ページはGA4閲覧があるがGSCページ行は未取得。nullを保持し、サイトマップ・canonical・内部リンクを継続監視。"
+      },
+      {
+        "lens": "measurement-experiment",
+        "decision": "strengthen",
+        "reason": "GA4 10月7日とGSC 10月6日へ前進。GSC 9月30日欠損を0補完せず部分値として分離した。"
+      },
+      {
+        "lens": "trust-freshness",
+        "decision": "strengthen",
+        "reason": "11月イベントの交通・駐車場・時刻は公式発表だけを即日反映する。"
+      },
+      {
+        "lens": "automation-resilience",
+        "decision": "strengthen",
+        "reason": "Direct取得・GitHub正本・Drive記録・production QAを同一実行で閉じる。"
+      },
+      {
+        "lens": "unit-economics",
+        "decision": "hold",
+        "reason": "確定売上0、粗利・工数・Revenue/hourはmissing。推測しない。"
+      },
+      {
+        "lens": "sellability-founder-dependence",
+        "decision": "strengthen",
+        "reason": "Growth Engine、/control/、action queue、/today/、LocalOS schemaで判断と運用を構造化する。"
+      }
     ],
     "nextWeekAllocation": [
-      {"area": "november-seasonal-search", "share": 0.6},
-      {"area": "ctr-recirculation-and-evergreen-utility", "share": 0.2},
-      {"area": "revenue-measurement-and-b2b-conversion", "share": 0.1},
-      {"area": "trust-freshness-and-automation", "share": 0.07},
-      {"area": "international-and-new-channels", "share": 0.03}
+      {
+        "area": "november-seasonal-search",
+        "share": 0.55
+      },
+      {
+        "area": "ctr-recirculation-and-pv-relay",
+        "share": 0.2
+      },
+      {
+        "area": "revenue-measurement-and-bookable-mvp",
+        "share": 0.12
+      },
+      {
+        "area": "trust-freshness-and-automation",
+        "share": 0.08
+      },
+      {
+        "area": "today-owned-audience-localos",
+        "share": 0.05
+      }
     ],
     "stopOrHold": [
-      "Do not change GrowthNext before the 2026-10-04 scheduled gate despite passing the interim threshold.",
-      "Do not expand akippa links beyond the registered event URL without confirmed approval and exact affiliate URLs.",
-      "Do not expand /place/ until verified businesses exist.",
-      "Do not alter the English title experiment before its 14-day review."
+      "10月14日まで水戸信金スタジアム2ページの役割再設計を実装しない。",
+      "10月14日まで大洗あんこう祭本文を事実訂正以外で再改修しない。",
+      "10月21日まで菊まつり・筑波山ケーブルカー・土浦花火metadata/internal linksを再変更しない。",
+      "10月22日まで英語ひたち海浜公園本文を再変更しない。",
+      "新規ASP申請・広告・有料SaaS・営業送信を行わない。"
     ]
   },
   "businessModelReview": {
