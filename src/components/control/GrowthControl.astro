@@ -13,6 +13,7 @@ import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import asp from '../../../data/editorial/asp-results.json';
 import learning from '../../../data/editorial/seasonal-learning.json';
+import recovery from '../../../data/editorial/recovery-plan.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
 import { runGrowthOS } from '../../lib/growth-os.mjs';
@@ -57,6 +58,7 @@ const buckets = [
 ].map((b) => ({ ...b, items: result.pipeline.filter((p: any) => p.bucket === b.key).slice(0, 8) }));
 const funnel = result.revenueFunnel;
 const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
+const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
 ---
 
 <section id="growth" class="gc" aria-labelledby="gc-title">
@@ -74,6 +76,19 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
     </dl>
     <p class="gc-note">予測の根拠：{g.forecastBasis}。11月まであと{g.daysToMonth}日。GA4 {g.dataAsOf ?? '—'} 時点・{today} 計算。</p>
   </div>
+
+  <article class="gc-card gc-recovery">
+    <h3>100k Recovery Mode</h3>
+    <p class="gc-note gc-note--lead">説明できている11月Views <b>{fmt(recovery.currentEvidence.confidenceAdjustedExpectedViews)}</b> / {fmt(recovery.targetViews)}。未充足 <b>{fmt(recovery.currentEvidence.unfilledViews)}</b> Views。推測で埋めず、実測根拠のある施策だけでGapを縮める。</p>
+    <ol class="gc-batch">
+      {recoveryPriorities.map((p: any) => (
+        <li>
+          <p class="gc-batch__title">P{p.rank} {p.cluster}</p>
+          <p class="gc-batch__meta">{p.objective}</p>
+        </li>
+      ))}
+    </ol>
+  </article>
 
   <div class="gc-grid">
     <article class="gc-card">
@@ -261,6 +276,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
 <style>
   .gc{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:1.5rem 0 2rem}
   .gc-target,.gc-card{min-width:0;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .gc-recovery{border-color:var(--bad);box-shadow:inset 3px 0 0 var(--bad)}
   .gc-target{background:linear-gradient(160deg,var(--panel-2),var(--panel))}
   .gc-target__head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem}
   .gc-eyebrow{flex:1 0 100%;margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
