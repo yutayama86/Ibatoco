@@ -3,6 +3,85 @@
   "updatedAt": "2026-10-08",
   "actions": [
     {
+      "id": "20261008-recovery-autumn-indexation",
+      "title": "Recovery P1：紅葉4本＋/kouyou/ のindex・内部回遊・鮮度を一括監査",
+      "kind": "technical",
+      "targetUrl": "/kouyou/",
+      "targetFile": "src/pages/kouyou/index.astro",
+      "additionalTargetFiles": [
+        "src/content/events/fukuroda-falls-autumn-2026.md",
+        "src/content/events/ryujin-bridge-autumn-2026.md",
+        "src/content/events/hananuki-gorge-autumn-2026.md",
+        "src/content/events/tsukuba-autumn-2026.md"
+      ],
+      "priority": "critical",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-10",
+      "confidence": "high",
+      "effort": "M",
+      "deadline": "2026-10-10",
+      "source": "11月100k Recovery Mode。紅葉は11月中核需要だが、GA4観測下限が小さいため、需要立ち上がり前の技術・回遊欠損を先に除去する。",
+      "reason": "新規記事量産ではなく、既存4本とハブのindex/canonical/内部リンク/2026一次情報の欠損を監査し、問題がある箇所だけ修正する。",
+      "acceptanceCriteria": [
+        "5URLすべて200・indexable・self canonical・sitemap収録",
+        "4記事→/kouyou/ と /kouyou/→4記事の双方向導線を確認",
+        "2026見頃未発表事項は推測せず、公式発表済み情報だけ更新",
+        "GSCの対象クエリ/ページを基準値として保存",
+        "npm run verify・CI成功"
+      ]
+    },
+    {
+      "id": "20261008-recovery-evergreen-striking-distance",
+      "title": "Recovery P2：常緑4ページの5〜9位クエリCTR改善候補を抽出",
+      "kind": "seo",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-11",
+      "confidence": "medium",
+      "effort": "M",
+      "deadline": "2026-10-11",
+      "source": "GSC 2026-09-28..10-04：筑波山ケーブルカー料金94表示6.68位、偕楽園入園料78表示6.12位CTR0%、筑波山神社駐車場131表示7.47位、牛久大仏料金54表示8.98位CTR0%。",
+      "reason": "季節特需だけに依存しない底上げ。各ページで検索意図に対するtitle/description/FAQ欠損を確認し、観測窓に抵触しない低リスク改善だけ行う。",
+      "acceptanceCriteria": [
+        "対象4ページの直近28日クエリを保存",
+        "title/description/FAQ/本文のどこが検索意図を満たしているか監査",
+        "変更する場合は1ページ1仮説に限定し観測窓を設定",
+        "推測で料金・駐車場情報を追加しない",
+        "npm run verify・CI成功"
+      ]
+    },
+    {
+      "id": "20261008-recovery-pv-relay",
+      "title": "Recovery P0：新栗・パスポート特需減衰を紅葉・土浦花火・あんこうへPV Relay",
+      "kind": "internal-link",
+      "targetUrl": "/",
+      "targetFile": "data/editorial/popular-pages.json",
+      "additionalTargetFiles": [
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/recovery-plan.json"
+      ],
+      "priority": "critical",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-09",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-09",
+      "source": "GA4 10/1 1,211 Views → 10/6 369 Views。特需ページの減衰が主因。11月主力へ回遊先を切替える必要がある。",
+      "reason": "終了・減衰ページを延命せず、人気推薦・関連導線を11月需要へ再配分する。",
+      "acceptanceCriteria": [
+        "終了済み新栗まつりを推薦在庫へ戻さない",
+        "パスポートは10/16締切と11/10交付開始を踏まえ、需要節目を保持する",
+        "人気推薦に紅葉・土浦花火・大洗あんこうの現役ページを優先",
+        "GrowthNext観測窓を破壊しない",
+        "npm run verify・CI成功"
+      ]
+    },
+    {
       "id": "20261008-bookable-ibatoco-mvp",
       "title": "「予約できるイバトコ」MVP：高商用意図ページ3〜5本で送客計測を統一",
       "kind": "revenue",
