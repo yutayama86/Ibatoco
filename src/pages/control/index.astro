@@ -26,7 +26,7 @@ const gsc7 = performance.windows.gsc.recent7;
 const gsc28 = performance.windows.gsc.recent28;
 const gscCompare = performance.windows.gsc.recent7VsPrevious7;
 const conv = performance.conversionDetail.recent7 as Record<string, number | string | null>;
-const prevConv = performance.conversionDetail.previous7 as Record<string, number | string>;
+const prevConv = performance.conversionDetail.previous7 as Record<string, number | string | null>;
 const freshness = performance.source?.freshness;
 const acquisition = performance.acquisitionControl;
 const pace = performance.paceDiagnostics;
@@ -121,8 +121,14 @@ const remainingViews = Math.max(0, north.target - projectedMonthlyViews);
 const organicSessions = channelRows.find((row)=>row.channel === 'Organic Search')?.sessions ?? 0;
 const organicShare = channelTotal > 0 ? organicSessions / channelTotal : 0;
 const topPageShare = ga7.views > 0 && topPages[0] ? Number(topPages[0].views ?? 0) / ga7.views : 0;
-const bookingGrowth = Number(prevConv.outbound_booking_click ?? 0) > 0
-  ? (Number(conv.outbound_booking_click ?? 0) - Number(prevConv.outbound_booking_click ?? 0)) / Number(prevConv.outbound_booking_click ?? 0)
+const conversionDate = (v: unknown) => Date.parse(`${String(v ?? '')}T00:00:00+09:00`);
+const conversionWindowsAligned = conversionDate(conv.start) - conversionDate(prevConv.end) === 86400000
+  && conversionDate(conv.end) - conversionDate(conv.start) === 6 * 86400000
+  && conversionDate(prevConv.end) - conversionDate(prevConv.start) === 6 * 86400000;
+const currentBookingClicks = observedNumber(conv.outbound_booking_click);
+const previousBookingClicks = observedNumber(prevConv.outbound_booking_click);
+const bookingGrowth = conversionWindowsAligned && currentBookingClicks != null && previousBookingClicks != null && previousBookingClicks > 0
+  ? (currentBookingClicks - previousBookingClicks) / previousBookingClicks
   : null;
 
 const todaySummary = north.status === 'below-pace'
