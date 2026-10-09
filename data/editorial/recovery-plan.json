@@ -122,5 +122,17 @@
       "date": "2026-10-26",
       "criterion": "11月前最終の需要積上げ見通し、観測未確定、残差、実行できる代替施策をオーナーへ報告。未達可能性を隠さない。"
     }
-  ]
+  ],
+  "lastExecution": {
+    "date": "2026-10-09",
+    "pr": 217,
+    "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
+    "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
+    "productionQa": "18 pages × 8 widths, 0 issues",
+    "factsReleased": [
+      "/events/hananuki-gorge-autumn-2026/"
+    ],
+    "incrementalViewsObserved": null,
+    "nextDemandCheckpoint": "2026-10-12"
+  }
 }

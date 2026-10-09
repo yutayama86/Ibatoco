@@ -3,6 +3,21 @@
   "updatedAt": "2026-10-09",
   "actions": [
     {
+      "id": "20261010-ga4-oct8-confirmation",
+      "title": "GA4 10/8の38 Views・engaged sessions 0を再取得して原因を確認",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "priority": "critical",
+      "status": "candidate",
+      "createdAt": "2026-10-09",
+      "dueDate": "2026-10-10",
+      "confidence": "low",
+      "effort": "S",
+      "source": "Windsor.ai GA4 547804264。10/9初回33 Views/33 sessions/engaged 0、再取得38 Views/39 sessions/engaged 0。10/7は314 Views/280 sessions/engaged 203。",
+      "reason": "取得遅延と実際の急落・計測障害の区別は未確定。既存契約内の再取得・本番計測設定・日付窓を点検する。未確定値は終点へ採用せず、原因が確認できる前にIDや設定を変更しない。PV増分の根拠は無いため期待PVは付けない。"
+    },
+    {
       "id": "20261008-recovery-autumn-indexation",
       "title": "Recovery P1：紅葉4本＋/kouyou/ のindex・内部回遊・鮮度を一括監査",
       "kind": "technical",
@@ -15,7 +30,7 @@
         "src/content/events/tsukuba-autumn-2026.md"
       ],
       "priority": "critical",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-10",
       "confidence": "high",
@@ -31,7 +46,24 @@
         "npm run verify・CI成功"
       ],
       "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
-      "notes": "10/9: 既存URLの技術監査と、高萩市10月号で確認した花貫の公式予定を更新する。本番確認前は未完了。GSC非検出だけではnoindex/未登録を断定しない。"
+      "notes": "10/9: 既存URLの技術監査と、高萩市10月号で確認した花貫の公式予定を更新する。本番確認前は未完了。GSC非検出だけではnoindex/未登録を断定しない。 公開実装と監査は完了。production commit一致・18ページ×8幅の問題0を確認。流入増は未確定で、獲得PVとして計上しない。次回は同じ監査を繰り返さず需要獲得の候補を再評価。",
+      "completedAt": "2026-10-09T23:28:38+09:00",
+      "verification": {
+        "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
+        "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
+        "productionPages": 18,
+        "widths": [
+          320,
+          360,
+          375,
+          390,
+          430,
+          768,
+          1280,
+          1440
+        ],
+        "issues": 0
+      }
     },
     {
       "id": "20261008-recovery-evergreen-striking-distance",
@@ -67,7 +99,7 @@
         "data/editorial/recovery-plan.json"
       ],
       "priority": "critical",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-09",
       "confidence": "high",
@@ -83,7 +115,24 @@
         "npm run verify・CI成功"
       ],
       "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
-      "notes": "10/9: 最新mainの人気記事更新を保持。人気順位に未実測の重点ページを差し込まない。紅葉ハブの基準値と季節需要への候補を保存し、本番で既存導線を確認する。"
+      "notes": "10/9: 最新mainの人気記事更新を保持。人気順位に未実測の重点ページを差し込まない。紅葉ハブの基準値と季節需要への候補を保存し、本番で既存導線を確認する。 公開実装と監査は完了。production commit一致・18ページ×8幅の問題0を確認。流入増は未確定で、獲得PVとして計上しない。次回は同じ監査を繰り返さず需要獲得の候補を再評価。",
+      "completedAt": "2026-10-09T23:28:38+09:00",
+      "verification": {
+        "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
+        "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
+        "productionPages": 18,
+        "widths": [
+          320,
+          360,
+          375,
+          390,
+          430,
+          768,
+          1280,
+          1440
+        ],
+        "issues": 0
+      }
     },
     {
       "id": "20261008-bookable-ibatoco-mvp",
@@ -113,7 +162,7 @@
         "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
         "未確認の成果・売上を実績扱いしない"
       ],
-      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。"
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。"
     },
     {
       "id": "20261008-today-ibaraki-mvp",
