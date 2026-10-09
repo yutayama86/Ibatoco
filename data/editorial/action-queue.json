@@ -3,6 +3,89 @@
   "updatedAt": "2026-10-09",
   "actions": [
     {
+      "id": "20261008-recovery-autumn-indexation",
+      "title": "Recovery P1：紅葉4本＋/kouyou/ のindex・内部回遊・鮮度を一括監査",
+      "kind": "technical",
+      "targetUrl": "/kouyou/",
+      "targetFile": "src/pages/kouyou.astro",
+      "additionalTargetFiles": [
+        "src/content/events/fukuroda-falls-autumn-2026.md",
+        "src/content/events/ryujin-bridge-autumn-2026.md",
+        "src/content/events/hananuki-gorge-autumn-2026.md",
+        "src/content/events/tsukuba-autumn-2026.md"
+      ],
+      "priority": "critical",
+      "status": "in-progress",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-10",
+      "confidence": "high",
+      "effort": "M",
+      "deadline": "2026-10-10",
+      "source": "11月100k Recovery Mode。紅葉は11月中核需要だが、GA4観測下限が小さいため、需要立ち上がり前の技術・回遊欠損を先に除去する。",
+      "reason": "新規記事量産ではなく、既存4本とハブのindex/canonical/内部リンク/2026一次情報の欠損を監査し、問題がある箇所だけ修正する。",
+      "acceptanceCriteria": [
+        "5URLすべて200・indexable・self canonical・sitemap収録",
+        "4記事→/kouyou/ と /kouyou/→4記事の双方向導線を確認",
+        "2026見頃未発表事項は推測せず、公式発表済み情報だけ更新",
+        "GSCの対象クエリ/ページを基準値として保存",
+        "npm run verify・CI成功"
+      ],
+      "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
+      "notes": "10/9: 既存URLの技術監査と、高萩市10月号で確認した花貫の公式予定を更新する。本番確認前は未完了。GSC非検出だけではnoindex/未登録を断定しない。"
+    },
+    {
+      "id": "20261008-recovery-evergreen-striking-distance",
+      "title": "Recovery P2：常緑4ページの5〜9位クエリCTR改善候補を抽出",
+      "kind": "seo",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "priority": "high",
+      "status": "candidate",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-11",
+      "confidence": "medium",
+      "effort": "M",
+      "deadline": "2026-10-11",
+      "source": "GSC 2026-09-28..10-04：筑波山ケーブルカー料金94表示6.68位、偕楽園入園料78表示6.12位CTR0%、筑波山神社駐車場131表示7.47位、牛久大仏料金54表示8.98位CTR0%。",
+      "reason": "季節特需だけに依存しない底上げ。各ページで検索意図に対するtitle/description/FAQ欠損を確認し、観測窓に抵触しない低リスク改善だけ行う。",
+      "acceptanceCriteria": [
+        "対象4ページの直近28日クエリを保存",
+        "title/description/FAQ/本文のどこが検索意図を満たしているか監査",
+        "変更する場合は1ページ1仮説に限定し観測窓を設定",
+        "推測で料金・駐車場情報を追加しない",
+        "npm run verify・CI成功"
+      ]
+    },
+    {
+      "id": "20261008-recovery-pv-relay",
+      "title": "Recovery P0：新栗・パスポート特需減衰を紅葉・土浦花火・あんこうへPV Relay",
+      "kind": "internal-link",
+      "targetUrl": "/",
+      "targetFile": "data/editorial/popular-pages.json",
+      "additionalTargetFiles": [
+        "data/editorial/growth-opportunities.json",
+        "data/editorial/recovery-plan.json"
+      ],
+      "priority": "critical",
+      "status": "in-progress",
+      "createdAt": "2026-10-08",
+      "dueDate": "2026-10-09",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-09",
+      "source": "Windsor.ai GA4確定10/7：10/1 1,211→10/7 314 Views、最新3日1,215。新栗まつりは10/4終了、直近7日1,350 Views。パスポート1,580と合計55.4%の集中を観測。",
+      "reason": "終了・減衰ページを延命せず、人気推薦・関連導線を11月需要へ再配分する。",
+      "acceptanceCriteria": [
+        "終了済み新栗まつりを推薦在庫へ戻さない",
+        "パスポートは10/16締切と11/10交付開始を踏まえ、需要節目を保持する",
+        "人気推薦は直近7日実測順位を保持。季節おすすめ・文脈関連導線から紅葉・土浦花火・大洗あんこうへ案内",
+        "GrowthNext観測窓を破壊しない",
+        "npm run verify・CI成功"
+      ],
+      "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
+      "notes": "10/9: 最新mainの人気記事更新を保持。人気順位に未実測の重点ページを差し込まない。紅葉ハブの基準値と季節需要への候補を保存し、本番で既存導線を確認する。"
+    },
+    {
       "id": "20261008-bookable-ibatoco-mvp",
       "title": "「予約できるイバトコ」MVP：高商用意図ページ3〜5本で送客計測を統一",
       "kind": "revenue",
@@ -21,7 +104,7 @@
       "effort": "M",
       "deadline": "2026-10-12",
       "page": "/control/",
-      "source": "Revenue Funnel実測：直近7日 outboundBookingClicks 47、activeAffiliateBookingClicks 4、確定成果0。観光DXの方向性を踏まえ、既存提携先で最小検証する。",
+      "source": "MVP開始時baseline：outboundBookingClicks47/activeAffiliateBookingClicks4/確定成果0。10/9再取得：10/1〜7のoutbound_booking_click45、booking_guide_view432、確定売上0。今回paid_booking_clickは取得不能なので0にしない。",
       "reason": "新規予約システムは作らず、既存流入のうち予約・宿泊・駐車場・体験意図が強い3〜5ページだけで、CTA表示→クリック→paid送客→成果を同一ファネルで計測する。成功基準は商業CTA CTR 3%以上（仮説）。1%未満ならCTA追加ではなく検索意図×商材の不一致を疑う。",
       "acceptanceCriteria": [
         "対象は高商用意図かつ既存流入が確認できる3〜5ページに限定する",
@@ -1027,13 +1110,13 @@
       "status": "candidate",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
-      "expectedPvImpact": 312,
+      "expectedPvImpact": 281,
       "confidence": "medium",
       "effort": "M",
       "deadline": "2026-10-14",
       "page": "/news/mito-hollyhock-new-stadium-access/",
-      "source": "gscQueries（アクセス 28日1,950表示・7.4位、駐車場 1,633表示・10.9位）",
-      "reason": "アクセスクラスタの伸びしろ（推定）。オーナー判断（2026-10-07）：統合せず役割を分けて相互リンク。アクセス記事＝電車・バス・徒歩・当日の動線（「アクセス」系 28日1,950表示・7.4位）、駐車場記事＝駐車場の予約・場所・台数（「駐車場」系）。関連リンクは双方に既にあるため、10月14日の観測明けに、アクセス記事の title・description をアクセス中心にし、駐車場の詳細は本文中から駐車場記事へ案内する。URLは変えない"
+      "source": "reports/editorial/growth-target.md Query Clusters（gscQueriesのアクセス28日1,950表示・7.4位、7/9〜10/6の90日実測CTR校正後の伸びしろ281）",
+      "reason": "アクセスクラスタの伸びしろ281 Views（2026-10-09のgrowth:target・校正済みCTRに基づく推定）。オーナー判断（2026-10-07）：統合せず役割を分けて相互リンク。アクセス記事＝電車・バス・徒歩・当日の動線（「アクセス」系 28日1,950表示・7.4位）、駐車場記事＝駐車場の予約・場所・台数（「駐車場」系）。関連リンクは双方に既にあるため、10月14日の観測明けに、アクセス記事の title・description をアクセス中心にし、駐車場の詳細は本文中から駐車場記事へ案内する。URLは変えない"
     },
     {
       "id": "20261014-shinguri-to-kiku-relay",

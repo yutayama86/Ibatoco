@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-09",
+  "mode": "100k-recovery",
+  "targetMonth": "2026-11",
+  "targetViews": 100000,
+  "currentEvidence": {
+    "asOf": "2026-10-09",
+    "ga4Through": "2026-10-07",
+    "gscThrough": "2026-10-06",
+    "referenceRunRate30": 22659,
+    "referenceGapViews": 77341,
+    "portfolioExpectedViews": null,
+    "confidenceAdjustedExpectedViews": null,
+    "coverage": null,
+    "unfilledViews": null,
+    "paceStatus": "off-pace",
+    "recent7Views": 5287,
+    "recent7DailyAverage": 755.2857142857143,
+    "recent3Views": 1215,
+    "recent3DailyAverage": 405.0,
+    "requiredDailyAverage": 3333.3333333333335,
+    "basis": "30日換算と需要積上げ予測を区別。11月需要を重複なく積み上げたportfolioは未確定。"
+  },
+  "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
+  "priorities": [
+    {
+      "rank": 1,
+      "cluster": "autumn-leaves",
+      "pages": [
+        "/events/fukuroda-falls-autumn-2026/",
+        "/events/ryujin-bridge-autumn-2026/",
+        "/events/hananuki-gorge-autumn-2026/",
+        "/events/tsukuba-autumn-2026/",
+        "/kouyou/"
+      ],
+      "objective": "11月の季節需要が立ち上がる前に、index・内部回遊・一次情報鮮度・検索意図の欠損をゼロにする。",
+      "actionType": "indexation/internal-link/freshness",
+      "why": "11月の季節需要仮説。現在は紅葉4ページ33 Views/7日、GSC非返却。流入獲得は未立証で、index/導線監査と一次情報更新を先に行い、反応が出なければ配分を変える。",
+      "label": "紅葉4ページと紅葉ハブ"
+    },
+    {
+      "rank": 2,
+      "cluster": "tsuchiura-fireworks",
+      "pages": [
+        "/events/tsuchiura-hanabi-2026/"
+      ],
+      "objective": "交通規制・駐車場・時間・アクセス等の高意図クエリを、公式更新直後に最速反映して検索需要を取り切る。",
+      "actionType": "freshness/query-intent",
+      "why": "開催日が11月7日で締切が近く、検索需要のピークまで時間が少ない。",
+      "label": "土浦全国花火競技大会"
+    },
+    {
+      "rank": 3,
+      "cluster": "oarai-ankou",
+      "pages": [
+        "/events/oarai-ankou-matsuri-2026/",
+        "/events/oarai-ankou-nabe-guide/"
+      ],
+      "objective": "現在すでに取れている順位・CTRを維持し、関連意図（食事・宿泊・アクセス）へ回遊を広げる。",
+      "actionType": "defend/recirculation",
+      "why": "GSCで『あんこう祭り 2026』系は3位前後・高CTR、GA4でも次の主力候補。",
+      "label": "大洗あんこう祭・あんこう鍋"
+    },
+    {
+      "rank": 4,
+      "cluster": "november-major-demand",
+      "pages": [
+        "/events/ibaraki-events-november-2026/",
+        "/today/"
+      ],
+      "objective": "個別イベント依存を下げ、11月イベント横断需要と当日需要をハブで受ける。",
+      "actionType": "hub/recirculation",
+      "why": "単発特需終了時の流入落差を吸収する受け皿が必要。",
+      "label": "11月イベント・今日の茨城"
+    },
+    {
+      "rank": 5,
+      "cluster": "evergreen-striking-distance",
+      "pages": [
+        "/events/tsukuba-cablecar-ropeway-guide/",
+        "/events/kairakuen-guide/",
+        "/events/tsukubasan-jinja-guide/",
+        "/events/ushiku-daibutsu-guide/"
+      ],
+      "objective": "順位5〜9位で表示が出ている常緑ページを、CTR改善と意図整合で底上げする。",
+      "actionType": "seo",
+      "evidence": [
+        "筑波山ケーブルカー 料金: 94 impressions / pos 6.68 / CTR 3.19%",
+        "偕楽園 入園料: 78 impressions / pos 6.12 / CTR 0%",
+        "筑波山神社 駐車場: 131 impressions / pos 7.47 / CTR 1.53%",
+        "牛久大仏 料金: 54 impressions / pos 8.98 / CTR 0%"
+      ],
+      "label": "既存の通年ページ"
+    }
+  ],
+  "dailyRules": [
+    "毎日のGrowth Batchは、maintenanceだけで完了扱いにしない。",
+    "criticalな事実訂正を除き、観測窓中のページを再改修しない。",
+    "終了ページの延命より、次の季節需要へのPV Relayを優先する。",
+    "実測impressions・position・CTR・Viewsで説明できる施策を、推測の新規記事より優先する。",
+    "不足Viewsはunfilledのまま保持し、根拠ができた時だけportfolioExpectedViewsへ追加する。",
+    "11月100,000 Views・確定売上・Revenue/1,000 Views・回遊・B2B自然流入・Founder dependenceを同じ土俵で比較する。PVだけの低品質施策は実行せず、誤情報・障害を最優先する。",
+    "7日平均の前週比と最新3日の減速を両方確認。前週比プラスだけで加速・順調と報告しない。",
+    "Engineの最大3候補は即実行リストではない。観測窓・実装仕様・重複・期限・根拠を確認した実行可能な施策へ再選別する。",
+    "同じページ/検索意図の期待増分を重複加算しない。Growth実装0件なら0件と報告し、実行不能理由と次の解除行動を記録する。",
+    "off-pace中は新規機能・DB拡張・OS増設を原則保留。既存収益MVPの観測と誤情報・障害の復旧は継続する。",
+    "週2回はGSC未露出需要を公式/市場の根拠から探索。毎日最大3件に絞り、公開条件が揃った既存ページ改善または独立意図の新規需要を実装する。",
+    "売上は確定成果・受注・入金を別々に追う。10万PV前から既存提携MVPと自然流入B2Bを観測し、クリック増を収益化成功と呼ばない。"
+  ],
+  "exitCondition": "重複を除いた需要根拠付きconfidence-adjusted portfolio coverage >=120%を確認し、終了特需/単一ページ依存を点検してから通常運用へ戻す。参考ランレートだけでは解除しない。120%は管理用バッファで達成確率の保証ではない。",
+  "checkpoints": [
+    {
+      "date": "2026-10-12",
+      "criterion": "紅葉ハブ＋4ページのindexable/公式鮮度/リンク確認と、需要積上げ予測の根拠・不明点を記録。反応0を未登録と断定しない。"
+    },
+    {
+      "date": "2026-10-19",
+      "criterion": "ページ別GSCの前後同日数・Views・配信実績で勝ち筋を再判定。不足を埋める根拠が無ければ小改善の連打を止め、需要クラスターと配信へ資源を移す。"
+    },
+    {
+      "date": "2026-10-26",
+      "criterion": "11月前最終の需要積上げ見通し、観測未確定、残差、実行できる代替施策をオーナーへ報告。未達可能性を隠さない。"
+    }
+  ]
+}

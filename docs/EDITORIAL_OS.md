@@ -17,7 +17,7 @@
 
 - `data/editorial/event-registry.json`：発見済みイベント。未掲載でも削除しない
 - `data/editorial/performance-snapshot.json`：GA4/GSCの最新スナップショット。未取得時はnullのままにし、推測値を入れない
-- `data/editorial/growth-targets.json`：North Starとガードレール。現在はGA4 `screen_page_views`（Views）ローリング28日100,000
+- `data/editorial/growth-targets.json`：North Starとガードレール。現在は2026年11月のGA4 `screen_page_views`（Views）月間100,000。ローリング28日は補助指標
 - `data/editorial/action-queue.json`：施策候補と実装可否
 - `data/editorial/growth-opportunities.json`：SEO/SNS/International/CRO/Product/Technicalの成長機会バックログと需要根拠
 - `data/editorial/revenue-opportunities.json`：旅行送客、B2B、Sponsor、Owned Audience、求人、Data、Inboundの収益機会正本
@@ -31,7 +31,7 @@
 
 ## North Star と Growth Control
 
-- 一次目標は GA4 `screen_page_views`（Views）のローリング28日100,000
+- 一次目標は **2026年11月の月間** GA4 `screen_page_views`（Views）100,000。ローリング28日100,000は補助指標（最新オーナー判断を優先）
 - 安定達成は100,000以上を14日連続で維持した状態
 - 毎日 `Growth_100k` へ、28日Views、進捗率、残差、直近7日Views、7日日平均、28日換算ランレート、必要日平均、判定を1行追記する
 - 直近7日Viewsの28日換算が100,000未満なら、緊急保守以外の施策は「残差を最も効率よく縮めるか」を主要判断基準にする

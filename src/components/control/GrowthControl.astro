@@ -13,6 +13,7 @@ import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import asp from '../../../data/editorial/asp-results.json';
 import learning from '../../../data/editorial/seasonal-learning.json';
+import recovery from '../../../data/editorial/recovery-plan.json';
 import searchTrends from '../../../data/editorial/search-trends.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
@@ -59,6 +60,8 @@ const buckets = [
 ].map((b) => ({ ...b, items: result.pipeline.filter((p: any) => p.bucket === b.key).slice(0, 8) }));
 const funnel = result.revenueFunnel;
 const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
+const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
+const pace = performance.paceDiagnostics;
 ---
 
 <section id="growth" class="gc" aria-labelledby="gc-title">
@@ -69,13 +72,27 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
       <p class:list={['gc-status', statusClass]}>{g.status}</p>
     </div>
     <dl class="gc-kpis">
-      <div><dt>着地予測</dt><dd>{fmt(g.forecast)}<small>PV</small></dd></div>
+      <div><dt>{g.monthToDate ? '着地参考値' : '現状ペースの30日換算'}</dt><dd>{fmt(g.forecast)}<small>PV</small></dd></div>
       <div><dt>Gap</dt><dd class:list={[{ 'is-bad': (g.gap ?? 0) < 0 }]}>{signed(g.gap)}<small>PV</small></dd></div>
       <div><dt>必要な1日平均</dt><dd>{fmt(g.targetDailyAverage)}<small>PV</small></dd></div>
       <div><dt>現在の1日平均</dt><dd>{fmt(g.currentDailyAverage)}<small>PV</small></dd><dd class="gc-kpis__note">目標まで {g.requiredMultiplier ?? '—'} 倍</dd></div>
     </dl>
     <p class="gc-note">予測の根拠：{g.forecastBasis}。11月まであと{g.daysToMonth}日。GA4 {g.dataAsOf ?? '—'} 時点・{today} 計算。</p>
   </div>
+
+  <article class="gc-card gc-recovery">
+    <h3>11月10万PVへの立て直し</h3>
+    <p class="gc-note gc-note--lead">現状ペースの参考値 <b>{fmt(g.forecast)}</b> / {fmt(g.target)}。参考値との差 <b>{fmt(Math.max(0, -(g.gap ?? 0)))}</b> Views。季節需要を積み上げた見通しは未確定です。単純換算を達成保証や確度補正済み予測として扱いません。</p>
+    <p class="gc-note">最新3日の平均 <b>{fmt(pace.recent3DailyAverage)}</b> PV/日、7日平均 <b>{fmt(g.currentDailyAverage)}</b> PV/日。最新3日の30日換算は {fmt(pace.referenceRunRate30FromRecent3)} PV（減速確認用の参考値）。GA4 {pace.ga4Through}まで。</p>
+    <ol class="gc-batch">
+      {recoveryPriorities.map((p: any) => (
+        <li>
+          <p class="gc-batch__title">P{p.rank} {p.label}</p>
+          <p class="gc-batch__meta">{p.objective}</p>
+        </li>
+      ))}
+    </ol>
+  </article>
 
   <div class="gc-grid">
     <article class="gc-card">
@@ -286,6 +303,7 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
 <style>
   .gc{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:1.5rem 0 2rem}
   .gc-target,.gc-card{min-width:0;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .gc-recovery{border-color:var(--bad);box-shadow:inset 3px 0 0 var(--bad)}
   .gc-target{background:linear-gradient(160deg,var(--panel-2),var(--panel))}
   .gc-target__head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem}
   .gc-eyebrow{flex:1 0 100%;margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
