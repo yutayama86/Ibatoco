@@ -18,10 +18,11 @@ const gaCompare = performance.windows.ga4.recent7VsPrevious7;
 const gsc7 = performance.windows.gsc.recent7;
 const gsc28 = performance.windows.gsc.recent28;
 const gscCompare = performance.windows.gsc.recent7VsPrevious7;
-const conv = performance.conversionDetail.recent7 as Record<string, number | string>;
+const conv = performance.conversionDetail.recent7 as Record<string, number | string | null>;
 const prevConv = performance.conversionDetail.previous7 as Record<string, number | string>;
 const freshness = performance.source?.freshness;
 const acquisition = performance.acquisitionControl;
+const pace = performance.paceDiagnostics;
 
 const ledgerEntries = (ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>;
 const confirmedRevenue = ledgerEntries
@@ -61,14 +62,14 @@ const businessCtr = Number(conv.business_cta_view ?? 0) > 0 ? Number(conv.busine
 const formStartRate = Number(conv.contact_form_view ?? 0) > 0 ? Number(conv.contact_form_start ?? 0) / Number(conv.contact_form_view ?? 0) : 0;
 
 const wins = [
-  gaCompare.viewsPct > 50 ? `7日PVが前週比${signed(gaCompare.viewsPct)}。流入は明確に加速。` : null,
+  gaCompare.viewsPct > 50 ? `7日PVは前週比${signed(gaCompare.viewsPct)}。最新3日の日平均は7日平均比${signed(pace.recent3DailyVsRecent7DailyPct)}で、足元の減速を別途確認。` : null,
   Number(conv.active_unmapped_booking_click ?? 0) === 0 && Number(conv.active_partner_click ?? 0) > 0 ? `提携済みクリックの収益化漏れ0件。提携リンク収益化率 ${pct(Number(conv.monetized_click_share ?? 0))}。` : null,
   growthCtr >= 0.04 ? `次の記事クリック率 ${pct(growthCtr)}。回遊導線は機能している。` : null,
   gscCompare.impressionsPct > 10 ? `GSC表示回数が前週比${signed(gscCompare.impressionsPct)}。検索面の露出が拡大。` : null,
 ].filter(Boolean) as string[];
 
 const issues = [
-  north.status === 'below-pace' ? `11月10万PVに対して28日換算${fmt.format(north.runRate28FromRecent7)}。あと約${fmt.format(north.gap)} PVの差。` : null,
+  north.status === 'below-pace' ? `11月10万PVに対して現状ペースの30日換算${fmt.format(pace.referenceRunRate30FromRecent7)}。参考値との差は${fmt.format(Math.max(0, 100000-pace.referenceRunRate30FromRecent7))} PV。季節需要の見通しは未確定。` : null,
   gscCompare.ctrPct < -5 ? `GSC CTRが前週比${signed(gscCompare.ctrPct)}。表示増に対してクリック効率が低下。` : null,
   confirmedRevenue === 0 ? '確定売上が未接続。Actual RPMはまだ0円。' : null,
   Number(conv.non_partner_candidate_click ?? 0) > 0 ? `未提携候補クリックが${fmt.format(Number(conv.non_partner_candidate_click))}件。提携価値の判定余地あり。` : null,
@@ -79,7 +80,7 @@ const actions = [
   {
     priority:'P1',
     title:'11月需要へ流入を集中',
-    detail:`現在の28日換算は${fmt.format(north.runRate28FromRecent7)}。紅葉・あんこう・土浦花火など11月需要クラスターを最優先。`,
+    detail:`現状ペースの30日換算は${fmt.format(pace.referenceRunRate30FromRecent7)}。紅葉・あんこう・土浦花火の需要と、実行できる施策の根拠を最優先で確認。`,
     tone:'danger'
   },
   {
@@ -113,7 +114,7 @@ const bookingGrowth = Number(prevConv.outbound_booking_click ?? 0) > 0
   : null;
 
 const todaySummary = north.status === 'below-pace'
-  ? `流入は前週比${signed(gaCompare.viewsPct)}で急伸。ただし10万PV目標にはまだ大きく不足。今は新機能より、11月需要ページへの集中投下が最優先。`
+  ? `7日PVは前週比${signed(gaCompare.viewsPct)}ですが、最新3日は${fmt.format(pace.recent3DailyAverage)} PV/日で減速しています。11月10万PVには大きく不足。重点ページの需要獲得と配信を優先します。`
   : `目標ペースは順調。勝っているページと収益導線への集中を継続。`;
 
 const weeklySignals = [

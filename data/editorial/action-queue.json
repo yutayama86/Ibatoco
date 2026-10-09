@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-09",
   "actions": [
     {
       "id": "20261008-recovery-autumn-indexation",
       "title": "Recovery P1：紅葉4本＋/kouyou/ のindex・内部回遊・鮮度を一括監査",
       "kind": "technical",
       "targetUrl": "/kouyou/",
-      "targetFile": "src/pages/kouyou/index.astro",
+      "targetFile": "src/pages/kouyou.astro",
       "additionalTargetFiles": [
         "src/content/events/fukuroda-falls-autumn-2026.md",
         "src/content/events/ryujin-bridge-autumn-2026.md",
@@ -15,7 +15,7 @@
         "src/content/events/tsukuba-autumn-2026.md"
       ],
       "priority": "critical",
-      "status": "candidate",
+      "status": "in-progress",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-10",
       "confidence": "high",
@@ -29,7 +29,9 @@
         "2026見頃未発表事項は推測せず、公式発表済み情報だけ更新",
         "GSCの対象クエリ/ページを基準値として保存",
         "npm run verify・CI成功"
-      ]
+      ],
+      "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
+      "notes": "10/9: 既存URLの技術監査と、高萩市10月号で確認した花貫の公式予定を更新する。本番確認前は未完了。GSC非検出だけではnoindex/未登録を断定しない。"
     },
     {
       "id": "20261008-recovery-evergreen-striking-distance",
@@ -65,21 +67,23 @@
         "data/editorial/recovery-plan.json"
       ],
       "priority": "critical",
-      "status": "candidate",
+      "status": "in-progress",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-09",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-10-09",
-      "source": "GA4 10/1 1,211 Views → 10/6 369 Views。特需ページの減衰が主因。11月主力へ回遊先を切替える必要がある。",
+      "source": "Windsor.ai GA4確定10/7：10/1 1,211→10/7 314 Views、最新3日1,215。新栗まつりは10/4終了、直近7日1,350 Views。パスポート1,580と合計55.4%の集中を観測。",
       "reason": "終了・減衰ページを延命せず、人気推薦・関連導線を11月需要へ再配分する。",
       "acceptanceCriteria": [
         "終了済み新栗まつりを推薦在庫へ戻さない",
         "パスポートは10/16締切と11/10交付開始を踏まえ、需要節目を保持する",
-        "人気推薦に紅葉・土浦花火・大洗あんこうの現役ページを優先",
+        "人気推薦は直近7日実測順位を保持。季節おすすめ・文脈関連導線から紅葉・土浦花火・大洗あんこうへ案内",
         "GrowthNext観測窓を破壊しない",
         "npm run verify・CI成功"
-      ]
+      ],
+      "specFile": "docs/editorial/specs/20261009-recovery-followthrough.md",
+      "notes": "10/9: 最新mainの人気記事更新を保持。人気順位に未実測の重点ページを差し込まない。紅葉ハブの基準値と季節需要への候補を保存し、本番で既存導線を確認する。"
     },
     {
       "id": "20261008-bookable-ibatoco-mvp",
@@ -100,7 +104,7 @@
       "effort": "M",
       "deadline": "2026-10-12",
       "page": "/control/",
-      "source": "Revenue Funnel実測：直近7日 outboundBookingClicks 47、activeAffiliateBookingClicks 4、確定成果0。観光DXの方向性を踏まえ、既存提携先で最小検証する。",
+      "source": "MVP開始時baseline：outboundBookingClicks47/activeAffiliateBookingClicks4/確定成果0。10/9再取得：10/1〜7のoutbound_booking_click45、booking_guide_view432、確定売上0。今回paid_booking_clickは取得不能なので0にしない。",
       "reason": "新規予約システムは作らず、既存流入のうち予約・宿泊・駐車場・体験意図が強い3〜5ページだけで、CTA表示→クリック→paid送客→成果を同一ファネルで計測する。成功基準は商業CTA CTR 3%以上（仮説）。1%未満ならCTA追加ではなく検索意図×商材の不一致を疑う。",
       "acceptanceCriteria": [
         "対象は高商用意図かつ既存流入が確認できる3〜5ページに限定する",
@@ -727,7 +731,7 @@
       "targetUrl": "/kouyou/",
       "targetFile": "data/editorial/event-registry.json",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-27",
       "dueDate": "2026-10-07",
       "primarySourceUrls": [
@@ -736,7 +740,7 @@
         "https://ohtsuribashi.ryujinkyo.jp/event.html",
         "https://mt-tsukuba.com/information"
       ],
-      "notes": "2026-10-06再確認。土浦花火は10月2日付でバイク・自転車の案内を新規公開したため、総合・帰り方ガイドへ反映。交通規制図は引き続き準備中。大洗あんこう祭の詳細時刻・駐車場、竜神峡紅葉まつりの2026会期、筑波山秋の夜間運行日は新規公式発表を確認できず、推測更新しない。",
+      "notes": "2026-10-06再確認。土浦花火は10月2日付でバイク・自転車の案内を新規公開したため、総合・帰り方ガイドへ反映。交通規制図は引き続き準備中。大洗あんこう祭の詳細時刻・駐車場、竜神峡紅葉まつりの2026会期、筑波山秋の夜間運行日は新規公式発表を確認できず、推測更新しない。 2026-10-09再確認・台帳整合済み。新規の確定公式発表がない項目は推測せず、次の発表監視へ移行。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
         "src/content/events/tsuchiura-hanabi-2026.md"
@@ -746,7 +750,8 @@
       "deadline": "2026-10-07",
       "page": "/kouyou/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "completedAt": "2026-10-09"
     },
     {
       "id": "20261005-november-pages-recheck",
@@ -755,7 +760,7 @@
       "targetUrl": "/events/ibaraki-events-november-2026/",
       "targetFile": "src/content/events/ibaraki-events-november-2026.md",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-28",
       "dueDate": "2026-10-07",
       "primarySourceUrls": [
@@ -765,7 +770,7 @@
         "https://www.flowerpark.or.jp/time-price/",
         "https://www.town.daigo.ibaraki.jp/page/page009036.html"
       ],
-      "notes": "2026-10-06再確認。土浦花火の開催判断時刻は変更なし。常磐神社七五三は受付時間8〜16時・祈祷料7,000円以上・オンライン/FAXは2日前までを公式で確認し既存記載と整合。フラワーパークのイルミネーション日程・休園日も既存記載と整合。道の駅奥久慈だいごWESTは10月5日付で施設・交通PDFが更新されたため、11月PV期待値と観測窓を比較して次回実装候補に残す。",
+      "notes": "2026-10-06再確認。土浦花火の開催判断時刻は変更なし。常磐神社七五三は受付時間8〜16時・祈祷料7,000円以上・オンライン/FAXは2日前までを公式で確認し既存記載と整合。フラワーパークのイルミネーション日程・休園日も既存記載と整合。道の駅奥久慈だいごWESTは10月5日付で施設・交通PDFが更新されたため、11月PV期待値と観測窓を比較して次回実装候補に残す。 2026-10-09再確認・台帳整合済み。新規の確定公式発表がない項目は推測せず、次の発表監視へ移行。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
         "src/content/events/ibaraki-shichigosan-2026.md",
@@ -777,7 +782,8 @@
       "deadline": "2026-10-07",
       "page": "/events/ibaraki-events-november-2026/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "completedAt": "2026-10-09"
     },
     {
       "id": "20261107-tsuchiura-dayof-update",
@@ -927,20 +933,21 @@
       "targetUrl": "/events/tsukuba-cablecar-ropeway-guide/",
       "targetFile": "src/content/events/tsukuba-cablecar-ropeway-guide.md",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-30",
       "dueDate": "2026-10-02",
       "primarySourceUrls": [
         "https://mt-tsukuba.com/",
         "https://mt-tsukuba.com/cablecar-fare/"
       ],
-      "notes": "2026-10-01再確認：ケーブルカーは引き続き当面運休、ロープウェイは通常運行。ケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。10/2以降も運行再開とロープウェイ運賃ページ更新を確認し、公式表示が一致した時点で再反映する。 2026-10-01夕方：ロープウェイ運賃ページも大人片道930円・往復1,860円・小児400円/800円に更新され、公式内の表示が一致。記事の「表示が一致していない」記述を解消。ケーブルカーは引き続き運転休止中（9/24のお知らせ以降、再開の発表なし）。運転再開の発表を待つ。",
+      "notes": "2026-10-01再確認：ケーブルカーは引き続き当面運休、ロープウェイは通常運行。ケーブルカー運賃ページは改定後、ロープウェイ運賃ページは改定前の金額で不一致。10/2以降も運行再開とロープウェイ運賃ページ更新を確認し、公式表示が一致した時点で再反映する。 2026-10-01夕方：ロープウェイ運賃ページも大人片道930円・往復1,860円・小児400円/800円に更新され、公式内の表示が一致。記事の「表示が一致していない」記述を解消。ケーブルカーは引き続き運転休止中（9/24のお知らせ以降、再開の発表なし）。運転再開の発表を待つ。 2026-10-09再確認・台帳整合済み。新規の確定公式発表がない項目は推測せず、次の発表監視へ移行。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-10-02",
       "page": "/events/tsukuba-cablecar-ropeway-guide/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "completedAt": "2026-10-09"
     },
     {
       "id": "20261013-art-tower-mito-exhibition",
@@ -1103,13 +1110,13 @@
       "status": "candidate",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
-      "expectedPvImpact": 312,
+      "expectedPvImpact": 281,
       "confidence": "medium",
       "effort": "M",
       "deadline": "2026-10-14",
       "page": "/news/mito-hollyhock-new-stadium-access/",
-      "source": "gscQueries（アクセス 28日1,950表示・7.4位、駐車場 1,633表示・10.9位）",
-      "reason": "アクセスクラスタの伸びしろ（推定）。オーナー判断（2026-10-07）：統合せず役割を分けて相互リンク。アクセス記事＝電車・バス・徒歩・当日の動線（「アクセス」系 28日1,950表示・7.4位）、駐車場記事＝駐車場の予約・場所・台数（「駐車場」系）。関連リンクは双方に既にあるため、10月14日の観測明けに、アクセス記事の title・description をアクセス中心にし、駐車場の詳細は本文中から駐車場記事へ案内する。URLは変えない"
+      "source": "reports/editorial/growth-target.md Query Clusters（gscQueriesのアクセス28日1,950表示・7.4位、7/9〜10/6の90日実測CTR校正後の伸びしろ281）",
+      "reason": "アクセスクラスタの伸びしろ281 Views（2026-10-09のgrowth:target・校正済みCTRに基づく推定）。オーナー判断（2026-10-07）：統合せず役割を分けて相互リンク。アクセス記事＝電車・バス・徒歩・当日の動線（「アクセス」系 28日1,950表示・7.4位）、駐車場記事＝駐車場の予約・場所・台数（「駐車場」系）。関連リンクは双方に既にあるため、10月14日の観測明けに、アクセス記事の title・description をアクセス中心にし、駐車場の詳細は本文中から駐車場記事へ案内する。URLは変えない"
     },
     {
       "id": "20261014-shinguri-to-kiku-relay",
@@ -1142,6 +1149,26 @@
       "page": "/sports/mito-hollyhock/",
       "source": "gscQueries（観戦系14語 28日10,483表示・6〜7位・CTR 0.6%。鹿島×甲府 8,300、福島ユナイテッド×水戸 1,553）",
       "reason": "表示は大きいが6〜7位でもCTR 0.6%と低い。検索意図（会場か放送・配信か）とスニペットの不一致を仮説として、試合情報は公式一次情報で ChatGPT が作成。期待PVは仮説検証まで設定しない"
+    },
+    {
+      "id": "20261009-weekly-growth-calibration",
+      "title": "金曜Growth Engine実測校正・Strategy Reset",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "additionalTargetFiles": [
+        "data/editorial/growth-engine.json",
+        "data/editorial/strategy-scorecard.json",
+        "reports/editorial/growth-target.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-09",
+      "completedAt": "2026-10-09",
+      "confidence": "high",
+      "effort": "S",
+      "source": "Windsor.ai GA4 547804264 / GSC sc-domain:ibatoco.jp direct actuals",
+      "reason": "最新実測で100k Gap、重点ページ、順位別CTR曲線、収益導線、金曜20レンズを再校正。直接の追加PVは因果的に再現できないためexpectedPvImpactは設定しない。"
     }
   ]
 }

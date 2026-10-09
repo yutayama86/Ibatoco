@@ -6,6 +6,8 @@ Claude Codeには戦略判断、調査、記事構成、本文執筆を丸投げ
 
 ## 11月100,000 PV Acquisition OS（2026-10-01 オーナー判断）
 
+2026-10-09のオーナー判断を毎回適用する。`docs/IBATOCO_UNIFIED_GROWTH_OS.md` の「10万PV Recoveryの終了条件」と `data/editorial/recovery-plan.json` を先に読み、単純ランレート・最新3日減速・需要積上げ見通しを区別する。Engineが返す最大3件は候補であり、観測窓中/仕様未完成/根拠未確認なら実行可能な代替へ再選別する。0件ならGrowth実装0件と報告し、保守で埋めたことにしない。
+
 11月100,000 Viewsは「努力目標」ではなく、10月の編集・SEO・回遊・配信判断を拘束する獲得目標として扱う。ただしGoogle順位や外部需要は制御不能なので達成保証とは表現せず、**達成確率と期待Viewsを最大化し、未達ペースなら即座に資源配分を変える**。
 
 ### 目的関数
@@ -104,6 +106,7 @@ Growth Batchとして数えてよいのは、根拠付きで次のいずれか�
 - 需要候補（コキア・土浦花火・紅葉・あんこう・11月イベント…）は固定しない。GSC実測・公式発表・`event-registry.json` から、リストに無い次の当たり候補を毎日探す
 - 記事を書くことを目的にしない。既存ページが7位前後で表示が急増しているなら、新規記事より title・description・検索意図・FAQ・一次情報更新・内部リンク・CTA の改善を先にする（期待追加PV ÷ 工数）
 - 主要ページの終わりの日付が無い（END UNKNOWN）ときは、催しなら記事の `event` に公式の開催日を入れる。申請締切・交付開始などの節目は記事に `event` として入れず（入れると締切後に「終了しました」が付き、おすすめから外れる）、`data/editorial/demand-radar.json` の `milestones` に公式一次情報の日付と出典を入れる
+- 市場の需要の大きさと季節は Google Trends（`data/editorial/search-trends.json`、proxy・月間検索ボリュームではない）で見る。ChatGPT からは取得できないため、オーナーが週1回 CSV を書き出し、Claude Code が `npm run trends:import` で取り込む（`docs/GROWTH_ENGINE.md` の 10.6）。Trends だけで期待PVを数値化しない
 - 検索語別の実測（`gscQueries`）から、直近7日の表示が伸びている検索語を毎日見る。リストにない次の当たり候補を探し、既存ページの改善・新規記事・内部リンクを期待追加PV ÷ 工数で比べて Growth Batch に入れる
 - 実測できない値は null のまま。Demand Score・失う可能性・伸びしろは forecast（推定）として扱い、実測として保存しない
 - Annual Learning の実測（需要の立ち上がり日・ピーク日・ピーク値・減衰・CTA・成果）は、GA4/GSC で確認できたものだけ入れる。同カテゴリ2件以上そろうまで seasonalRules を変えない

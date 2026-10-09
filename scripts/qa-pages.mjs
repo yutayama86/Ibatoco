@@ -8,7 +8,7 @@
  * - 一般ページは共通の骨格（SITE_FRAME：ヘッダー・ナビ・本文・フッター）も必須にする
  * - localOnly … 本番ではログインが必要なページ（/control/）。ビルド出力でだけ表示を検査し、本番は認証の転送だけを確かめる
  *
- * 重点イベントは11月の山（土浦花火・あんこう祭）と紅葉の代表（袋田の滝）。入れ替えるときはここだけ直す。
+ * 重点イベントは11月の山（土浦花火・あんこう祭）と紅葉4ページ。入れ替えるときはここだけ直す。
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -21,6 +21,9 @@ export const KEY_EVENT_PATHS = [
 /** 季節の重点ページ（紅葉）。イベント記事だが #facts を持たない型なので別に定義する */
 export const SEASONAL_GUIDE_PATHS = [
   '/events/fukuroda-falls-autumn-2026/',
+  '/events/ryujin-bridge-autumn-2026/',
+  '/events/hananuki-gorge-autumn-2026/',
+  '/events/tsukuba-autumn-2026/',
 ];
 
 /** 一般ページの骨格。ヘッダー・ナビ・本文・フッターが欠けたら表示崩れとして扱う（本番HTMLでは data 属性だけ数える） */

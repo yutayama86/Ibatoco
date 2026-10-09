@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-07",
+  "updatedAt": "2026-10-09",
   "about": "Growth Engine（src/lib/growth-engine.mjs）の設定。数値の実測は performance-snapshot.json。CTR曲線はGSC実測500表示以上の順位を校正し、季節日数は同一カテゴリ2件以上の開催済み実測が揃うまで既存値を維持する（docs/GROWTH_ENGINE.md）。",
   "target": {
     "month": "2026-11",
@@ -162,7 +162,7 @@
     }
   },
   "seasonalRules": {
-    "about": "開催日（季節ガイドは需要期間の開始日）からの逆算。2026-10-07時点では同一カテゴリの開催済みGSC日別実測が2件以上揃わないため既存値を維持。紅葉は11月実測まで変更しない。",
+    "about": "2026-10-09: 開催済み花火3例の日別GSCを再取得。観測開始前/非返却日の欠測を0扱いせず、需要立ち上がりを確定できる2例が揃うまで既存値を維持。seasonalCalibrationReviewに観測上の閾値日を記録。紅葉は11月実測まで変更しない。",
     "hanabi": {
       "demandLeadDays": 42,
       "indexLeadDays": 14,
@@ -261,19 +261,152 @@
   },
   "ctrCurve": {
     "1": 0.28,
-    "2": 0.172794,
-    "3": 0.160594,
-    "4": 0.05524,
-    "5": 0.032071,
-    "6": 0.019968,
-    "7": 0.012602,
-    "8": 0.017288,
-    "9": 0.015741,
-    "10": 0.012286,
-    "11": 0.012566,
-    "12": 0.003417,
+    "2": 0.17803769,
+    "3": 0.14597778,
+    "4": 0.05639731,
+    "5": 0.03151227,
+    "6": 0.01984396,
+    "7": 0.01147471,
+    "8": 0.01715207,
+    "9": 0.01931217,
+    "10": 0.01255459,
+    "11": 0.01356132,
+    "12": 0.00347625,
     "15": 0.01,
     "20": 0.006,
-    "about": "2026-07-07..2026-10-04のGSCページ×検索語実測。平均順位を整数丸めし、impressions>=500の順位だけCTR=clicks/impressionsで置換。500未満の順位は既存値を維持。"
+    "about": "GSC 2026-07-09..2026-10-06、ページ×検索語3,242行。平均順位を整数丸めし、500表示以上の順位のみ clicks合計/impressions合計で更新。500未満は既存値を保持。"
+  },
+  "ctrCalibration": {
+    "start": "2026-07-09",
+    "end": "2026-10-06",
+    "checkedAt": "2026-10-09T22:42:55+09:00",
+    "rows": 3242,
+    "minimumImpressions": 500,
+    "rankTotals": {
+      "1": {
+        "impressions": 378,
+        "clicks": 15
+      },
+      "2": {
+        "impressions": 1539,
+        "clicks": 274
+      },
+      "3": {
+        "impressions": 10529,
+        "clicks": 1537
+      },
+      "4": {
+        "impressions": 1188,
+        "clicks": 67
+      },
+      "5": {
+        "impressions": 6315,
+        "clicks": 199
+      },
+      "6": {
+        "impressions": 23584,
+        "clicks": 468
+      },
+      "7": {
+        "impressions": 14118,
+        "clicks": 162
+      },
+      "8": {
+        "impressions": 20464,
+        "clicks": 351
+      },
+      "9": {
+        "impressions": 3780,
+        "clicks": 73
+      },
+      "10": {
+        "impressions": 3664,
+        "clicks": 46
+      },
+      "11": {
+        "impressions": 1696,
+        "clicks": 23
+      },
+      "12": {
+        "impressions": 863,
+        "clicks": 3
+      },
+      "13": {
+        "impressions": 111,
+        "clicks": 1
+      },
+      "14": {
+        "impressions": 31,
+        "clicks": 1
+      },
+      "15": {
+        "impressions": 71,
+        "clicks": 2
+      },
+      "16": {
+        "impressions": 110,
+        "clicks": 2
+      },
+      "17": {
+        "impressions": 111,
+        "clicks": 1
+      },
+      "18": {
+        "impressions": 102,
+        "clicks": 1
+      },
+      "19": {
+        "impressions": 43,
+        "clicks": 2
+      },
+      "20": {
+        "impressions": 43,
+        "clicks": 0
+      }
+    }
+  },
+  "seasonalCalibrationReview": {
+    "checkedAt": "2026-10-09T22:42:55+09:00",
+    "period": {
+      "start": "2026-07-09",
+      "end": "2026-10-06"
+    },
+    "observations": [
+      {
+        "path": "/events/joso-kinugawa-hanabi-2026/",
+        "eventDate": "2026-09-12",
+        "observedFrom": "2026-09-03",
+        "peakImpressions": 672,
+        "firstObservedAbove20Percent": "2026-09-10",
+        "observedLeadDays": 2,
+        "missingDatesBeforeEvent": []
+      },
+      {
+        "path": "/events/tonegawa-hanabi-2026/",
+        "eventDate": "2026-09-19",
+        "observedFrom": "2026-09-03",
+        "peakImpressions": 610,
+        "firstObservedAbove20Percent": "2026-09-14",
+        "observedLeadDays": 5,
+        "missingDatesBeforeEvent": []
+      },
+      {
+        "path": "/events/oarai-kaijo-hanabi-2026/",
+        "eventDate": "2026-09-26",
+        "observedFrom": "2026-09-03",
+        "peakImpressions": 208,
+        "firstObservedAbove20Percent": "2026-09-22",
+        "observedLeadDays": 4,
+        "missingDatesBeforeEvent": [
+          "2026-09-12",
+          "2026-09-13",
+          "2026-09-14",
+          "2026-09-16",
+          "2026-09-17"
+        ]
+      }
+    ],
+    "status": "insufficient-complete-history",
+    "reason": "観測行の開始は9/3で、開催前の非返却日もある。欠測を0に置換できず需要立ち上がりの初日を確定できない。完全な日別推移2例の成立を確認するまで季節設定を維持。観測上のLeadDaysは参考記録のみ。紅葉・あんこうのseasonWindowsも維持。"
   }
 }

@@ -44,6 +44,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261009-events-hananuki-official-autumn',
+    date: '2026-10-09',
+    url: '/events/hananuki-gorge-autumn-2026/',
+    kind: 'on-page',
+    change: '高萩市の2026年10月号で確認した紅葉まつり・ライトアップ・駐車料金・有料シャトルバス予定を反映し、未発表表記を更新',
+    queries: ['花貫渓谷 紅葉 2026', '花貫渓谷 ライトアップ 2026', '花貫渓谷 シャトルバス 2026'],
+    commit: 'recovery-followthrough-20261009',
+    note: 'seasonal-official。既存URL・本文の独立意図・写真は維持。現在の見頃と通行可否、バス運賃・時刻は推測しない。7日で検索露出、28日でViewsを観測する。',
+  },
+  {
     id: '20261008-news-chikusei-shinycolors-collab-2026',
     date: '2026-10-08',
     url: '/news/chikusei-shinycolors-collab-2026/',

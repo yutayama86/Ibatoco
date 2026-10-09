@@ -14,6 +14,7 @@ import ledger from '../../../data/editorial/revenue-ledger.json';
 import asp from '../../../data/editorial/asp-results.json';
 import learning from '../../../data/editorial/seasonal-learning.json';
 import recovery from '../../../data/editorial/recovery-plan.json';
+import searchTrends from '../../../data/editorial/search-trends.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
 import { runGrowthOS } from '../../lib/growth-os.mjs';
@@ -36,6 +37,7 @@ const result = runGrowthOS({
   ledger,
   asp,
   learningRecords: (learning.records ?? []) as any[],
+  trendsData: searchTrends,
   today,
 });
 const alerts = result.alerts;
@@ -59,6 +61,7 @@ const buckets = [
 const funnel = result.revenueFunnel;
 const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
 const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
+const pace = performance.paceDiagnostics;
 ---
 
 <section id="growth" class="gc" aria-labelledby="gc-title">
@@ -69,7 +72,7 @@ const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
       <p class:list={['gc-status', statusClass]}>{g.status}</p>
     </div>
     <dl class="gc-kpis">
-      <div><dt>着地予測</dt><dd>{fmt(g.forecast)}<small>PV</small></dd></div>
+      <div><dt>{g.monthToDate ? '着地参考値' : '現状ペースの30日換算'}</dt><dd>{fmt(g.forecast)}<small>PV</small></dd></div>
       <div><dt>Gap</dt><dd class:list={[{ 'is-bad': (g.gap ?? 0) < 0 }]}>{signed(g.gap)}<small>PV</small></dd></div>
       <div><dt>必要な1日平均</dt><dd>{fmt(g.targetDailyAverage)}<small>PV</small></dd></div>
       <div><dt>現在の1日平均</dt><dd>{fmt(g.currentDailyAverage)}<small>PV</small></dd><dd class="gc-kpis__note">目標まで {g.requiredMultiplier ?? '—'} 倍</dd></div>
@@ -78,12 +81,13 @@ const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
   </div>
 
   <article class="gc-card gc-recovery">
-    <h3>100k Recovery Mode</h3>
-    <p class="gc-note gc-note--lead">説明できている11月Views <b>{fmt(recovery.currentEvidence.confidenceAdjustedExpectedViews)}</b> / {fmt(recovery.targetViews)}。未充足 <b>{fmt(recovery.currentEvidence.unfilledViews)}</b> Views。推測で埋めず、実測根拠のある施策だけでGapを縮める。</p>
+    <h3>11月10万PVへの立て直し</h3>
+    <p class="gc-note gc-note--lead">現状ペースの参考値 <b>{fmt(g.forecast)}</b> / {fmt(g.target)}。参考値との差 <b>{fmt(Math.max(0, -(g.gap ?? 0)))}</b> Views。季節需要を積み上げた見通しは未確定です。単純換算を達成保証や確度補正済み予測として扱いません。</p>
+    <p class="gc-note">最新3日の平均 <b>{fmt(pace.recent3DailyAverage)}</b> PV/日、7日平均 <b>{fmt(g.currentDailyAverage)}</b> PV/日。最新3日の30日換算は {fmt(pace.referenceRunRate30FromRecent3)} PV（減速確認用の参考値）。GA4 {pace.ga4Through}まで。</p>
     <ol class="gc-batch">
       {recoveryPriorities.map((p: any) => (
         <li>
-          <p class="gc-batch__title">P{p.rank} {p.cluster}</p>
+          <p class="gc-batch__title">P{p.rank} {p.label}</p>
           <p class="gc-batch__meta">{p.objective}</p>
         </li>
       ))}
@@ -197,14 +201,37 @@ const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
   </div>
 
   <article class="gc-card">
+    <h3>Search Trends（proxy）</h3>
+    <p class="gc-note gc-note--lead">Google Trends の相対値（月間検索ボリュームではない）。需要の大きさは基準語「土浦花火」の5年最大＝100。取得 {result.trendsUpdatedAt ?? '—'}</p>
+    <div class="gc-scroll" data-xscroll tabindex="0" aria-label="検索需要の季節性の表（横にスクロールできます）">
+      <table class="gc-table">
+        <thead><tr><th scope="col">検索語</th><th scope="col">需要の大きさ</th><th scope="col">例年の山</th><th scope="col">立ち上がり→山</th><th scope="col">今年の山の週</th><th scope="col">直近（例年同週）</th></tr></thead>
+        <tbody>
+          {result.searchTrends.slice(0, 12).map((t: any) => (
+            <tr>
+              <th scope="row">{t.keyword}</th>
+              <td>{t.peakRelativeToAnchor ?? '—'}</td>
+              <td>{t.typicalPeakMonthDay ? `${t.typicalPeakMonthDay}（${t.seasonsMeasured}年）` : t.status}</td>
+              <td>{t.typicalRiseToPeakDays == null ? '—' : `${t.typicalRiseToPeakDays}日`}</td>
+              <td>{t.expectedPeakWeek ?? '—'}</td>
+              <td>{t.latestComplete ? `${t.latestComplete.belowOne ? '1未満' : t.latestComplete.value}（${t.latestComplete.typicalSameWeek ?? '—'}）` : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="gc-note">立ち上がり＝山の10%以上が山まで続く最初の週。スポーツは通年型。季節の実測が2年未満の語は例年を出さない。</p>
+  </article>
+
+  <article class="gc-card">
     <h3>100k Gap Map</h3>
     <p class="gc-note gc-note--lead">着地予測 {fmt(result.gapMap.siteForecast)}・伸びしろ +{fmt(result.gapMap.upsideTotal)} → {fmt(result.gapMap.withUpside)}。残り <b>{fmt(result.gapMap.remainingGap)}</b> は根拠のある推定でまだ説明できない（新しい需要の発見が必要）</p>
     <div class="gc-scroll" data-xscroll tabindex="0" aria-label="テーマ別の11月見込みの表（横にスクロールできます）">
       <table class="gc-table">
-        <thead><tr><th scope="col">テーマ</th><th scope="col">ページ</th><th scope="col">11月見込み</th><th scope="col">伸びしろ</th><th scope="col">主なページ</th></tr></thead>
+        <thead><tr><th scope="col">テーマ</th><th scope="col">ページ</th><th scope="col">11月見込み</th><th scope="col">伸びしろ</th><th scope="col">検索需要</th><th scope="col">主なページ</th></tr></thead>
         <tbody>
           {result.gapMap.themes.slice(0, 10).map((t: any) => (
-            <tr><th scope="row">{t.theme}</th><td>{t.pages}</td><td>{fmt(t.forecast)}{t.caution ? '※' : ''}</td><td>+{fmt(t.upside)}</td><td class="gc-action">{t.top.map((p: any) => `${p.label.slice(0, 16)}（${fmt(p.forecast)}）`).join('、')}</td></tr>
+            <tr><th scope="row">{t.theme}</th><td>{t.pages}</td><td>{fmt(t.forecast)}{t.caution ? '※' : ''}</td><td>+{fmt(t.upside)}</td><td>{t.trendsPeakRelative ?? '—'}</td><td class="gc-action">{t.top.map((p: any) => `${p.label.slice(0, 16)}（${fmt(p.forecast)}）`).join('、')}</td></tr>
           ))}
         </tbody>
       </table>
