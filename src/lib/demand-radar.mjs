@@ -227,7 +227,7 @@ export function demandRadar({ snapshot, pages, seasons, engineConfig, config, ob
     const covering = [...pages.values()].filter((p) => season.match.some((m) => hay(p).includes(m)) && !p.noindex);
     const components = { velocity: null, size: null, positionOpportunity: null, ctrGap: null, timing: timingScore({ startDate: win.start, endDate: win.end }, today), commercialIntent: null, effort: covering.length ? 0.6 : 0.3, competition: null };
     signals.push({
-      kind: 'season', path: covering[0]?.path ?? null, label: season.label, exists: covering.length > 0, coveringPages: covering.map((p) => p.path).slice(0, 5),
+      kind: 'season', seasonKey: key, path: covering[0]?.path ?? null, label: season.label, exists: covering.length > 0, coveringPages: covering.map((p) => p.path).slice(0, 5),
       startDate: win.start, endDate: win.end, phase: null, commercial: null, components,
       ...scoreOf(components, w),
       action: covering.length ? `既存ページ（${covering.length}件）の更新と季節導線` : '対応ページなし。一次情報の確認と記事化の検討',
@@ -492,7 +492,7 @@ export function demandPipeline({ pages, seasons, radar, snapshot, today }) {
     const d = daysBetween(today, s.startDate);
     const b = bucket(Math.max(0, d));
     if (!b) continue;
-    items.push({ bucket: b, date: s.startDate, label: s.label, path: s.path, kind: s.kind, views7: s.path ? views.get(s.path) ?? null : null, phase: null, nextMilestone: { label: '仕込みの目安', date: addDays(s.startDate, -28) }, action: s.action });
+    items.push({ bucket: b, date: s.startDate, label: s.label, path: s.path, kind: s.kind, seasonKey: s.seasonKey ?? null, views7: s.path ? views.get(s.path) ?? null : null, phase: null, nextMilestone: { label: '仕込みの目安', date: addDays(s.startDate, -28) }, action: s.action });
   }
   const order = { '0-30': 0, '31-60': 1, '61-90': 2 };
   return items.sort((a, b) => order[a.bucket] - order[b.bucket] || a.date.localeCompare(b.date));

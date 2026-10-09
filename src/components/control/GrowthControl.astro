@@ -13,6 +13,7 @@ import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import asp from '../../../data/editorial/asp-results.json';
 import learning from '../../../data/editorial/seasonal-learning.json';
+import searchTrends from '../../../data/editorial/search-trends.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
 import { runGrowthOS } from '../../lib/growth-os.mjs';
@@ -35,6 +36,7 @@ const result = runGrowthOS({
   ledger,
   asp,
   learningRecords: (learning.records ?? []) as any[],
+  trendsData: searchTrends,
   today,
 });
 const alerts = result.alerts;
@@ -182,14 +184,37 @@ const levelLabel: Record<string, string> = { critical: '重大', warning: '注�
   </div>
 
   <article class="gc-card">
+    <h3>Search Trends（proxy）</h3>
+    <p class="gc-note gc-note--lead">Google Trends の相対値（月間検索ボリュームではない）。需要の大きさは基準語「土浦花火」の5年最大＝100。取得 {result.trendsUpdatedAt ?? '—'}</p>
+    <div class="gc-scroll" data-xscroll tabindex="0" aria-label="検索需要の季節性の表（横にスクロールできます）">
+      <table class="gc-table">
+        <thead><tr><th scope="col">検索語</th><th scope="col">需要の大きさ</th><th scope="col">例年の山</th><th scope="col">立ち上がり→山</th><th scope="col">今年の山の週</th><th scope="col">直近（例年同週）</th></tr></thead>
+        <tbody>
+          {result.searchTrends.slice(0, 12).map((t: any) => (
+            <tr>
+              <th scope="row">{t.keyword}</th>
+              <td>{t.peakRelativeToAnchor ?? '—'}</td>
+              <td>{t.typicalPeakMonthDay ? `${t.typicalPeakMonthDay}（${t.seasonsMeasured}年）` : t.status}</td>
+              <td>{t.typicalRiseToPeakDays == null ? '—' : `${t.typicalRiseToPeakDays}日`}</td>
+              <td>{t.expectedPeakWeek ?? '—'}</td>
+              <td>{t.latestComplete ? `${t.latestComplete.belowOne ? '1未満' : t.latestComplete.value}（${t.latestComplete.typicalSameWeek ?? '—'}）` : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="gc-note">立ち上がり＝山の10%以上が山まで続く最初の週。スポーツは通年型。季節の実測が2年未満の語は例年を出さない。</p>
+  </article>
+
+  <article class="gc-card">
     <h3>100k Gap Map</h3>
     <p class="gc-note gc-note--lead">着地予測 {fmt(result.gapMap.siteForecast)}・伸びしろ +{fmt(result.gapMap.upsideTotal)} → {fmt(result.gapMap.withUpside)}。残り <b>{fmt(result.gapMap.remainingGap)}</b> は根拠のある推定でまだ説明できない（新しい需要の発見が必要）</p>
     <div class="gc-scroll" data-xscroll tabindex="0" aria-label="テーマ別の11月見込みの表（横にスクロールできます）">
       <table class="gc-table">
-        <thead><tr><th scope="col">テーマ</th><th scope="col">ページ</th><th scope="col">11月見込み</th><th scope="col">伸びしろ</th><th scope="col">主なページ</th></tr></thead>
+        <thead><tr><th scope="col">テーマ</th><th scope="col">ページ</th><th scope="col">11月見込み</th><th scope="col">伸びしろ</th><th scope="col">検索需要</th><th scope="col">主なページ</th></tr></thead>
         <tbody>
           {result.gapMap.themes.slice(0, 10).map((t: any) => (
-            <tr><th scope="row">{t.theme}</th><td>{t.pages}</td><td>{fmt(t.forecast)}{t.caution ? '※' : ''}</td><td>+{fmt(t.upside)}</td><td class="gc-action">{t.top.map((p: any) => `${p.label.slice(0, 16)}（${fmt(p.forecast)}）`).join('、')}</td></tr>
+            <tr><th scope="row">{t.theme}</th><td>{t.pages}</td><td>{fmt(t.forecast)}{t.caution ? '※' : ''}</td><td>+{fmt(t.upside)}</td><td>{t.trendsPeakRelative ?? '—'}</td><td class="gc-action">{t.top.map((p: any) => `${p.label.slice(0, 16)}（${fmt(p.forecast)}）`).join('、')}</td></tr>
           ))}
         </tbody>
       </table>

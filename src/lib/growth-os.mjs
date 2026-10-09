@@ -5,7 +5,7 @@
  *   → Growth Engine（着地予測・Gap・ページ予測・SEO機会・季節の締切・観測窓・施策の優先度）
  *   → Demand Radar / PV Relay / 30・60・90日 Pipeline / Next Winners（demand-radar）
  *   → Today's Growth Batch（PV Relay 反映。既存と同じ式）
- *   → Revenue Funnel（revenue-funnel）・Annual Learning（seasonal-learning）
+ *   → Revenue Funnel（revenue-funnel）・Annual Learning（seasonal-learning）・Search Trends（search-trends、proxy）
  *
  * ファイルは読まない（呼び出し側が渡す）。docs/GROWTH_ENGINE.md
  */
@@ -14,14 +14,15 @@ import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
 import { aggregateLearning } from './seasonal-learning.mjs';
+import { trendsSummary } from './search-trends.mjs';
 
 const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
 
 /**
  * @param {{ snapshot: any, engineConfig: any, radarConfig: any, pages: Map<string, any>, changes: any[], actions: any[], registry: any,
- *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], today: string }} input
+ *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], trendsData?: any | null, today: string }} input
  */
-export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], today }) {
+export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], trendsData = null, today }) {
   const quality = auditSnapshot(rawSnapshot);
   const snapshot = quality.snapshot;
   const result = runGrowthEngine({ snapshot, config: engineConfig, pages, changes, actions, registry, inbound, freshness, today });
@@ -38,7 +39,14 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const clusters = queryClusters({ snapshot, pages, seasons, engineConfig, config: radarConfig, observation: result.observation, today });
   const trends = searchTrends({ snapshot, pages, config: radarConfig });
   const relayed = relayBatch({ engineBatch: result.batch, winners, relay, seasons, clusters });
-  const gapMap = buildGapMap({ forecasts: result.forecasts, gap: result.gap, engineConfig, pages, relay });
+  const trendsList = trendsSummary(trendsData, { pages, today });
+  // Pipeline に Trends の例年の立ち上がり・山（proxy）を添える。ページか季節のキーで対応づける
+  const trendsFor = (item) => trendsList.find((t) => t.status === 'ok' && t.expectedPeakWeek && ((item.path && t.page === item.path) || (item.seasonKey && t.theme === item.seasonKey))) ?? null;
+  const pipelineWithTrends = pipeline.map((item) => {
+    const t = trendsFor(item);
+    return t ? { ...item, trends: { keyword: t.keyword, expectedRise: t.expectedRise, expectedPeakWeek: t.expectedPeakWeek, peakRelativeToAnchor: t.peakRelativeToAnchor } } : item;
+  });
+  const gapMap = buildGapMap({ forecasts: result.forecasts, gap: result.gap, engineConfig, pages, relay, trendsList });
   const funnel = revenueFunnel({ snapshot, ledger, asp, pages, commercialWords: radarConfig.commercialIntentWords });
   const annual = aggregateLearning(learningRecords, radarConfig);
   return {
@@ -47,7 +55,9 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     dataQuality: quality.issues,
     demandRadar: radar,
     pvRelay: relay,
-    pipeline,
+    pipeline: pipelineWithTrends,
+    searchTrends: trendsList,
+    trendsUpdatedAt: trendsData?.updatedAt ?? null,
     nextWinners: winners,
     risingQueries,
     queryClusters: clusters,
@@ -76,7 +86,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
  * 11月100,000 Views の「どこを何で取るか」。Growth Engine のページ予測（11月の見込み・伸びしろ、どちらも根拠付きの推定）をテーマ別に積む。
  * 予測の無いページ・テーマは数値にしない（推測で埋めない）。サイト全体の着地予測（gap.forecast）との差は「ページ別に説明できていない分」
  */
-function buildGapMap({ forecasts, gap, engineConfig, pages, relay }) {
+function buildGapMap({ forecasts, gap, engineConfig, pages, relay, trendsList = [] }) {
   // 11月より前に「需要が落ちる可能性のある節目」や終わりがあるページ（見込みが下がりうる）
   const caution = new Map((relay?.items ?? [])
     .filter((i) => i.nextMilestone?.effect === 'demand-may-drop' || i.status === 'ENDED' || i.status === 'ENDING')
@@ -102,7 +112,12 @@ function buildGapMap({ forecasts, gap, engineConfig, pages, relay }) {
     if (caution.has(f.path)) t.caution = true;
     themes.set(key, t);
   }
-  const list = [...themes.values()].map((t) => ({ ...t, top: t.top.sort((a, b) => (b.forecast ?? 0) - (a.forecast ?? 0)).slice(0, 3) }))
+  // テーマの検索需要の大きさ（Trends、基準語の5年最大＝100。proxy）。テーマに属する語の最大
+  const trendsPeak = (theme) => {
+    const values = trendsList.filter((t) => t.theme === theme && t.peakRelativeToAnchor != null).map((t) => t.peakRelativeToAnchor);
+    return values.length ? Math.max(...values) : null;
+  };
+  const list = [...themes.values()].map((t) => ({ ...t, trendsPeakRelative: trendsPeak(t.theme), top: t.top.sort((a, b) => (b.forecast ?? 0) - (a.forecast ?? 0)).slice(0, 3) }))
     .sort((a, b) => (b.forecast + b.upside) - (a.forecast + a.upside));
   const explained = list.reduce((s, t) => s + t.forecast, 0);
   const upside = list.reduce((s, t) => s + t.upside, 0);
