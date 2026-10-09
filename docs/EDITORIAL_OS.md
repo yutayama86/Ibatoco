@@ -17,7 +17,7 @@
 
 - `data/editorial/event-registry.json`：発見済みイベント。未掲載でも削除しない
 - `data/editorial/performance-snapshot.json`：GA4/GSCの最新スナップショット。未取得時はnullのままにし、推測値を入れない
-- `data/editorial/growth-targets.json`：North Starとガードレール。現在はGA4 `screen_page_views`（Views）ローリング28日100,000
+- `data/editorial/growth-targets.json`：North Starとガードレール。現在は2026年11月のGA4 `screen_page_views`（Views）月間100,000。ローリング28日は補助指標
 - `data/editorial/action-queue.json`：施策候補と実装可否
 - `data/editorial/growth-opportunities.json`：SEO/SNS/International/CRO/Product/Technicalの成長機会バックログと需要根拠
 - `data/editorial/revenue-opportunities.json`：旅行送客、B2B、Sponsor、Owned Audience、求人、Data、Inboundの収益機会正本
