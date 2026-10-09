@@ -50,7 +50,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '高萩市の2026年10月号で確認した紅葉まつり・ライトアップ・駐車料金・有料シャトルバス予定を反映し、未発表表記を更新',
     queries: ['花貫渓谷 紅葉 2026', '花貫渓谷 ライトアップ 2026', '花貫渓谷 シャトルバス 2026'],
-    commit: 'recovery-followthrough-20261009',
+    commit: 'c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8',
     note: 'seasonal-official。既存URL・本文の独立意図・写真は維持。現在の見頃と通行可否、バス運賃・時刻は推測しない。7日で検索露出、28日でViewsを観測する。',
   },
   {
