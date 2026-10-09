@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-10",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-09",
+    "asOf": "2026-10-10",
     "ga4Through": "2026-10-07",
     "gscThrough": "2026-10-06",
     "referenceRunRate30": 22659,
