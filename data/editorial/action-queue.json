@@ -1,7 +1,25 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-10",
   "actions": [
+    {
+      "id": "20261010-underpass-snippet-intent",
+      "title": "道路冠水ページを『冠水マップ・アンダーパス』意図へ整合",
+      "kind": "seo",
+      "targetUrl": "/news/ibaraki-underpass-kansui-33-2026/",
+      "targetFile": "src/content/news/ibaraki-underpass-kansui-33-2026.md",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-10",
+      "completedAt": "2026-10-10",
+      "expectedPvImpact": 130,
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-10",
+      "page": "/news/ibaraki-underpass-kansui-33-2026/",
+      "source": "GSC 2026-09-09..10-06：1,148表示・6.4位。検索語は『茨城 アンダーパス』『茨城 冠水』『茨城 冠水 マップ』等。growth:targetの3位相当CTR差分は+130 Views。",
+      "reason": "本文と一次情報は検索意図を満たしているため、URL・本文構造を変えずtitle/descriptionだけを冠水マップとアンダーパス意図へ整合。SEO変更ログのon-page区分に従い28日観測し、表示が同水準のままCTR・順位が改善するか判定する。"
+    },
     {
       "id": "20261010-ga4-oct8-confirmation",
       "title": "GA4 10/8の38 Views・engaged sessions 0を再取得して原因を確認",
@@ -9,13 +27,13 @@
       "targetUrl": "/control/",
       "targetFile": "data/editorial/performance-snapshot.json",
       "priority": "critical",
-      "status": "candidate",
+      "status": "in-progress",
       "createdAt": "2026-10-09",
       "dueDate": "2026-10-10",
       "confidence": "low",
       "effort": "S",
-      "source": "Windsor.ai GA4 547804264。10/9初回33 Views/33 sessions/engaged 0、再取得38 Views/39 sessions/engaged 0。10/7は314 Views/280 sessions/engaged 203。",
-      "reason": "取得遅延と実際の急落・計測障害の区別は未確定。既存契約内の再取得・本番計測設定・日付窓を点検する。未確定値は終点へ採用せず、原因が確認できる前にIDや設定を変更しない。PV増分の根拠は無いため期待PVは付けない。"
+      "source": "Windsor.ai GA4 547804264。10/10通常取得で10/8は38 Views/39 sessions/engaged 0、10/9は16 Views/15 sessions/engaged 0。force_refreshは契約上限で利用不可。Drive GA4_日次にも10/8以降なし。10/7は314 Views/280 sessions/engaged 203。",
+      "reason": "取得遅延と実際の急落・計測障害の区別は未確定。既存契約内の通常取得とDrive fallbackを確認済み。10/8以降は未確定として終点へ採用せず、原因が確認できる前にIDや設定を変更しない。PV増分の根拠は無いため期待PVは付けない。解除条件はWindsorの確定値またはGA4直結実測でengaged sessionsが確定すること。"
     },
     {
       "id": "20261008-recovery-autumn-indexation",

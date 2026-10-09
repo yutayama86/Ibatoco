@@ -44,6 +44,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261010-news-ibaraki-underpass-kansui-33-2026',
+    date: '2026-10-10',
+    url: '/news/ibaraki-underpass-kansui-33-2026/',
+    kind: 'on-page',
+    change: 'GSCで冠水マップ・アンダーパス意図が顕在化したためtitle/descriptionを整合（本文・URLは維持）',
+    queries: [],
+    commit: 'PENDING',
+  },
+  {
     id: '20261009-events-hananuki-official-autumn',
     date: '2026-10-09',
     url: '/events/hananuki-gorge-autumn-2026/',
