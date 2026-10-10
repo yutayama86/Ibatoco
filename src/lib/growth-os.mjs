@@ -9,7 +9,8 @@
  *
  * ファイルは読まない（呼び出し側が渡す）。docs/GROWTH_ENGINE.md
  */
-import { runGrowthEngine } from './growth-engine.mjs';
+import { gapController, runGrowthEngine } from './growth-engine.mjs';
+import { adjustSnapshotForIncidents, ga4Incidents, incidentStatus } from './measurement-incidents.mjs';
 import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
@@ -20,11 +21,14 @@ const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
 
 /**
  * @param {{ snapshot: any, engineConfig: any, radarConfig: any, pages: Map<string, any>, changes: any[], actions: any[], registry: any,
- *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], trendsData?: any | null, today: string }} input
+ *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], trendsData?: any | null, incidents?: any | null, today: string }} input
  */
-export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], trendsData = null, today }) {
+export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], trendsData = null, incidents = null, today }) {
   const quality = auditSnapshot(rawSnapshot);
-  const snapshot = quality.snapshot;
+  // 計測障害（measurement-incidents.json）にかかる集計は参考値に差し替えて判断に使い、公式値は別に残す
+  const officialSnapshot = quality.snapshot;
+  const incident = adjustSnapshotForIncidents(officialSnapshot, incidents);
+  const snapshot = incident.snapshot;
   const result = runGrowthEngine({ snapshot, config: engineConfig, pages, changes, actions, registry, inbound, freshness, today });
   const seasons = seasonsFor(pages, engineConfig, today);
   const radar = demandRadar({ snapshot, pages, seasons, engineConfig, config: radarConfig, observation: result.observation, registry, today });
@@ -43,10 +47,13 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   // Trends の日次判断（鮮度・仕込み期限・GSC で表示を取れていないテーマ・重点ページの改善候補）。proxy なので期待PVは出さない
   const trendsCheck = trendsDecisions({ summary: trendsList, data: trendsData, snapshot, observation: result.observation, today, rules: radarConfig.trendsRules });
   // サイト全体の日次 Views の急落（直近の確定日が、前7日の1日平均の30%未満）。計測の停止（タグ・CSP・同意）か配信障害を先に疑う（2026-10-08、Issue #226）
-  const latestDay = snapshot?.windows?.ga4?.latestDay ?? null;
-  const prev7 = snapshot?.windows?.ga4?.previous7?.views ?? null;
+  const latestDay = officialSnapshot?.windows?.ga4?.latestDay ?? null;
+  const prev7 = officialSnapshot?.windows?.ga4?.previous7?.views ?? null;
+  const knownIncident = ga4Incidents(incidents).find((i) => latestDay?.date && i.affectedDates.includes(latestDay.date));
   const dropAlerts = latestDay?.views != null && prev7 ? (() => {
     const baseline = prev7 / 7;
+    if (latestDay.views >= baseline * 0.3) return [];
+    if (knownIncident) return [{ level: 'info', kind: '既知の計測障害', message: `GA4 の ${latestDay.date} の Views ${latestDay.views} は既知の計測障害（${knownIncident.id}・Issue #226）の期間。流入の急落として扱わない（実アクセスは Cloudflare で維持を確認）` }];
     return latestDay.views < baseline * 0.3 ? [{ level: 'critical', kind: '計測・流入の急落', message: `GA4 の ${latestDay.date} の Views が ${latestDay.views}（前7日の1日平均 ${Math.round(baseline)} の${Math.round((latestDay.views / baseline) * 100)}%）。検索エンジン・チャネルをまたいで落ちていれば計測の停止を先に疑う：本番ブラウザで g/collect が送られているか、CSP（public/_headers）、タグ、Cloudflare` }] : [];
   })() : [];
   const trendsAlerts = [
@@ -71,6 +78,13 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     pvRelay: relay,
     pipeline: pipelineWithTrends,
     searchTrends: trendsList,
+    dataIncidents: {
+      contaminated: incident.contaminated,
+      corrections: incident.corrections,
+      status: incidentStatus(officialSnapshot, incidents),
+      // 障害日を含む集計で判断しているとき：公式値（生データのまま）の着地予測を別に出す
+      officialGap: incident.contaminated.length ? gapController({ snapshot: officialSnapshot, config: engineConfig, today }) : null,
+    },
     trendsCheck,
     trendsUpdatedAt: trendsData?.updatedAt ?? null,
     nextWinners: winners,
@@ -92,7 +106,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     batchCandidatesWithoutEstimate: relayed.candidatesWithoutEstimate,
     revenueFunnel: funnel,
     annualLearning: { categories: annual, records: learningRecords.length, measured: learningRecords.filter((r) => r.measuredAt).length },
-    alerts: [...dropAlerts, ...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
+    alerts: [...dropAlerts, ...(incident.corrections.length ? [{ level: 'info', kind: '計測障害の補正', message: `GA4 の ${incident.corrections.map((c) => c.window).join('・')} が計測障害の日（${[...new Set(incident.corrections.flatMap((c) => c.affected))].join('・')}）を含むため、判断は参考値で行う（公式値は日次レポートの「データ品質」）` }] : []), ...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
       .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]),
   };
 }

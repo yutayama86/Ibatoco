@@ -112,6 +112,7 @@ const result = runGrowthOS({
   asp: readJson('data/editorial/asp-results.json'),
   learningRecords,
   trendsData: existsSync(join(ROOT, 'data/editorial/search-trends.json')) ? readJson('data/editorial/search-trends.json') : null,
+  incidents: existsSync(join(ROOT, 'data/editorial/measurement-incidents.json')) ? readJson('data/editorial/measurement-incidents.json') : null,
   today,
 });
 const { demandRadar: radar, pvRelay: relay, pipeline, nextWinners: winners, revenueFunnel: funnel } = result;
@@ -156,6 +157,21 @@ const lines = [
   `- 予測の根拠：${g.forecastBasis}`,
   `- 11月まで あと ${g.daysToMonth} 日。ローリング28日 ${fmt(g.rolling28.views)} / ${fmt(g.rolling28.target)}`,
   `- Growth Velocity：直近7日 ${fmt(g.velocity.last7)}・前週 ${fmt(g.velocity.previous7)}・前週比 ${g.velocity.wowPct == null ? '—' : `${g.velocity.wowPct > 0 ? '+' : ''}${g.velocity.wowPct}%`}・1日平均 ${fmt(g.velocity.dailyAverage)} → 必要 ${fmt(g.velocity.requiredDailyAverage)}`,
+  '',
+  '## データ品質：計測障害（data/editorial/measurement-incidents.json）',
+  '',
+  ...(result.dataIncidents.status.length ? result.dataIncidents.status.flatMap((i) => [
+    `- ${i.id}：${i.start}〜${i.end}${i.startEstimated ? '（開始は推定）' : ''}・障害日 ${i.affectedDates.join('・')}・GA4 最新確定日 ${i.ga4Latest ?? '—'}（${i.inData ? '障害日がデータに入っている' : '障害日はまだデータに入っていない'}）`,
+    `  - 復旧（イベント送信）：${i.eventSending}`,
+    `  - 復旧（日次PV）：${i.dailyViews.status}${i.dailyViews.views != null ? `（${i.dailyViews.date} ${fmt(i.dailyViews.views)} Views・基準 ${fmt(i.dailyViews.baseline)} の${Math.round(i.dailyViews.ratio * 100)}%）` : `（${i.dailyViews.note}）`}`,
+    `  - 実アクセスの裏付け（GSC）：${i.gsc.status}${i.gsc.clicks != null ? `（${i.gsc.date} ${fmt(i.gsc.clicks)} クリック・基準 ${fmt(i.gsc.baselineClicks)}）` : `（${i.gsc.note}）`}`,
+  ]) : ['- 登録された計測障害なし']),
+  ...(result.dataIncidents.corrections.length ? [
+    '- 判断に使う参考値（公式値は変えない・推定値を公式PVに足さない）：',
+    ...result.dataIncidents.corrections.map((c) => `  - ${c.window}：公式 ${fmt(c.official)} → 参考 ${fmt(c.reference)}（${c.basis}）`),
+    `- 11月の着地予測：公式値ベース ${fmt(result.dataIncidents.officialGap?.forecast)} ／ 判断に使う参考値ベース ${fmt(g.forecast)}`,
+    `- ページ別の GA4 値：${result.dataIncidents.contaminated.filter((k) => k.startsWith('pageMetrics')).join('') || '影響なし'}（障害日を含む値は null として扱う）`,
+  ] : ['- 判断に使う集計は障害日を含まない（補正なし）']),
   '',
   '## ④⑤ PV at Risk（今後失う可能性のある Views と代替候補）',
   '',

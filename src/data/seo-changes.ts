@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261010-events-november-picks',
+    date: '2026-10-10',
+    url: '/events/ibaraki-events-november-2026/',
+    kind: 'internal-link',
+    change: '11月まとめの関連カード上位3件を、土浦花火・笠間の菊まつり・茨城の紅葉（/kouyou/）に並べ替え',
+    queries: ['茨城 11月 イベント', '茨城 イベント 11月'],
+    commit: 'ab1d6cd',
+    note: '表示される関連カードは上位3件だけ。並べ替えの根拠は Trends（土浦花火が11月最大の季節需要）と GSC（菊まつりの新規需要）。リンク先ページの観測窓を延ばさないよう、変更したまとめページで記録する',
+  },
+  {
     id: '20261010-kouyou-official-refresh',
     date: '2026-10-10',
     url: '/kouyou/',

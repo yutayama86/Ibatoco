@@ -275,3 +275,51 @@ test('Annual Learning：検索表示のピークが開催の何日前かを、�
   assert.equal(hanabi.status, 'データ不足'); // 需要の立ち上がり（demandStartDate）は未実測
   assert.equal(learned.find((c) => c.category === 'matsuri').impressionsPeakLeadAvg, null); // 1件だけ
 });
+
+test('計測障害：障害日を含む集計は参考値に差し替え、公式値は変えない。ページ別の GA4 値は null（ゼロにしない）', async () => {
+  const { adjustSnapshotForIncidents, incidentStatus } = await import('../src/lib/measurement-incidents.mjs');
+  const incidents = JSON.parse(readFileSync('data/editorial/measurement-incidents.json', 'utf8'));
+  const official = {
+    windows: { ga4: {
+      latestDay: { date: '2026-10-09', views: 17 },
+      recent7: { start: '2026-10-03', end: '2026-10-09', views: 2800, sessions: 2500, engagedSessions: 1500 },
+      previous7: { start: '2026-09-26', end: '2026-10-02', views: 2600, sessions: 2300, engagedSessions: 1600 },
+      recent28: { start: '2026-09-12', end: '2026-10-09', views: 9000 },
+      recent7VsPrevious7: { viewsPct: 7.69 },
+    } },
+    pageMetrics: [{ path: '/a/', views7: 5, viewsPrev7: 100, views28: 300, gsc: { impressions28: 500 } }],
+  };
+  // 日別データなし → 障害前の確定値を参考値に
+  const noDaily = adjustSnapshotForIncidents(official, incidents);
+  assert.equal(official.windows.ga4.recent7.views, 2800); // 公式値は変えない
+  assert.equal(noDaily.snapshot.windows.ga4.recent7.views, 5287);
+  assert.match(noDaily.snapshot.windows.ga4.recent7.basis, /障害前の確定値/);
+  assert.equal(noDaily.snapshot.windows.ga4.previous7.views, 2600); // 障害日を含まない集計はそのまま
+  assert.equal(noDaily.snapshot.windows.ga4.latestDay.incident, true);
+  const row = noDaily.snapshot.pageMetrics[0];
+  assert.equal(row.views7, null);
+  assert.equal(row.views28, null);
+  assert.equal(row.viewsPrev7, 100);
+  assert.equal(row.gsc.impressions28, 500); // GSC は影響を受けていない
+  assert.deepEqual(noDaily.corrections.map((c) => c.window), ['recent7', 'recent28']);
+
+  // 日別データあり → 障害日を除いた1日平均 × 日数
+  const daily = [];
+  for (let d = 3; d <= 9; d += 1) daily.push({ date: `2026-10-0${d}`, views: d >= 8 ? 20 : 300, sessions: 250, engagedSessions: 150 });
+  const withDaily = adjustSnapshotForIncidents({ ...official, windows: { ga4: { ...official.windows.ga4, daily } } }, incidents);
+  assert.equal(withDaily.snapshot.windows.ga4.recent7.views, 300 * 7);
+  assert.match(withDaily.snapshot.windows.ga4.recent7.basis, /障害日（2026-10-08・2026-10-09）を除いた5日/);
+
+  // 障害日を含まない snapshot は何もしない
+  const clean = adjustSnapshotForIncidents({ windows: { ga4: { recent7: { start: '2026-10-01', end: '2026-10-07', views: 5287 } } }, pageMetrics: [] }, incidents);
+  assert.deepEqual(clean.contaminated, []);
+
+  // 復旧の判定：イベント送信と日次PVを分け、日次PVは障害後の確定日だけで判定
+  const pending = incidentStatus(official, incidents)[0];
+  assert.equal(pending.dailyViews.status, '判定待ち');
+  const after = incidentStatus({ windows: { ga4: { latestDay: { date: '2026-10-11', views: 300 } }, gsc: { latestDay: { date: '2026-10-08', clicks: 140 } } }, source: { freshness: { ga4LatestConfirmedDate: '2026-10-11', gscLatestConfirmedDate: '2026-10-08' } } }, incidents)[0];
+  assert.equal(after.dailyViews.status, '回復');
+  assert.equal(after.dailyViews.baseline, Math.round((369 + 314) / 2));
+  assert.equal(after.gsc.status, '維持');
+  assert.equal(after.startEstimated, true);
+});

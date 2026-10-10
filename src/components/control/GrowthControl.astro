@@ -15,6 +15,7 @@ import asp from '../../../data/editorial/asp-results.json';
 import learning from '../../../data/editorial/seasonal-learning.json';
 import recovery from '../../../data/editorial/recovery-plan.json';
 import searchTrends from '../../../data/editorial/search-trends.json';
+import incidents from '../../../data/editorial/measurement-incidents.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
 import { runGrowthOS } from '../../lib/growth-os.mjs';
@@ -38,6 +39,7 @@ const result = runGrowthOS({
   asp,
   learningRecords: (learning.records ?? []) as any[],
   trendsData: searchTrends,
+  incidents,
   today,
 });
 const alerts = result.alerts;
@@ -78,6 +80,9 @@ const pace = performance.paceDiagnostics;
       <div><dt>現在の1日平均</dt><dd>{fmt(g.currentDailyAverage)}<small>PV</small></dd><dd class="gc-kpis__note">目標まで {g.requiredMultiplier ?? '—'} 倍</dd></div>
     </dl>
     <p class="gc-note">予測の根拠：{g.forecastBasis}。11月まであと{g.daysToMonth}日。GA4 {g.dataAsOf ?? '—'} 時点・{today} 計算。</p>
+    {result.dataIncidents.status.map((i: any) => (
+      <p class:list={['gc-note', result.dataIncidents.corrections.length > 0 && 'gc-warn']}>計測障害 {i.id}（{i.start.slice(5, 16).replace('T', ' ')}〜{i.end.slice(5, 16).replace('T', ' ')}{i.startEstimated ? '・開始は推定' : ''}）：{result.dataIncidents.corrections.length > 0 ? `障害日を含む集計は参考値で判断（公式値の着地予測 ${fmt(result.dataIncidents.officialGap?.forecast)}）。` : '判断に使う集計は障害日を含まない。'}日次PVの回復：{i.dailyViews.status}・GSC：{i.gsc.status}</p>
+    ))}
   </div>
 
   <article class="gc-card gc-recovery">
