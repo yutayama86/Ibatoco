@@ -97,7 +97,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'GSCで冠水マップ・アンダーパス意図が顕在化したためtitle/descriptionを整合（本文・URLは維持）',
     queries: [],
-    commit: '3070c77',
+    commit: 'PENDING',
   },
   {
     id: '20261009-events-hananuki-official-autumn',
