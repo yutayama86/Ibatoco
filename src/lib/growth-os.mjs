@@ -14,7 +14,7 @@ import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
 import { aggregateLearning } from './seasonal-learning.mjs';
-import { trendsSummary } from './search-trends.mjs';
+import { trendsDecisions, trendsSummary } from './search-trends.mjs';
 
 const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
 
@@ -40,6 +40,13 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const trends = searchTrends({ snapshot, pages, config: radarConfig });
   const relayed = relayBatch({ engineBatch: result.batch, winners, relay, seasons, clusters });
   const trendsList = trendsSummary(trendsData, { pages, today });
+  // Trends の日次判断（鮮度・仕込み期限・GSC で表示を取れていないテーマ・重点ページの改善候補）。proxy なので期待PVは出さない
+  const trendsCheck = trendsDecisions({ summary: trendsList, data: trendsData, snapshot, observation: result.observation, today, rules: radarConfig.trendsRules });
+  const trendsAlerts = [
+    ...(trendsCheck.freshness.stale ? [{ level: 'info', kind: 'Trends 更新', message: `Google Trends の更新推奨：${trendsCheck.refreshRequest.reason}。比較 ${trendsCheck.refreshRequest.groups.length} 件の CSV を書き出して取り込む（docs/GROWTH_ENGINE.md 10.6）` }] : []),
+    ...trendsCheck.coverageGaps.map((g) => ({ level: 'warning', kind: 'Trends 需要期', message: `${g.keywords.join('・')}（Trends ${g.peakRelativeToAnchor}）：${g.reason}${g.page ? `｜${g.page}` : ''}` })),
+    ...trendsCheck.deadlines.filter((d) => d.phase === 'prep').map((d) => ({ level: 'warning', kind: 'Trends 仕込み期限', message: `${d.keyword}（${d.theme}）の仕込み期限 ${d.prepDeadline}（あと${d.daysLeft}日・例年の立ち上がり ${d.expectedRise}）` })),
+  ];
   // Pipeline に Trends の例年の立ち上がり・山（proxy）を添える。ページか季節のキーで対応づける
   const trendsFor = (item) => trendsList.find((t) => t.status === 'ok' && t.expectedPeakWeek && ((item.path && t.page === item.path) || (item.seasonKey && t.theme === item.seasonKey))) ?? null;
   const pipelineWithTrends = pipeline.map((item) => {
@@ -57,6 +64,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     pvRelay: relay,
     pipeline: pipelineWithTrends,
     searchTrends: trendsList,
+    trendsCheck,
     trendsUpdatedAt: trendsData?.updatedAt ?? null,
     nextWinners: winners,
     risingQueries,
@@ -77,7 +85,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     batchCandidatesWithoutEstimate: relayed.candidatesWithoutEstimate,
     revenueFunnel: funnel,
     annualLearning: { categories: annual, records: learningRecords.length, measured: learningRecords.filter((r) => r.measuredAt).length },
-    alerts: [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts]
+    alerts: [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
       .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]),
   };
 }

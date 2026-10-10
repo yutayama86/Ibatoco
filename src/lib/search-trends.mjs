@@ -214,3 +214,117 @@ export function trendsSummary(data, { pages = new Map(), today }) {
     };
   }).sort((a, b) => (b.peakRelativeToAnchor ?? 0) - (a.peakRelativeToAnchor ?? 0));
 }
+
+/**
+ * 日次の判断（Trends は proxy。期待PVは出さない）。
+ *   freshness      … 最終取得日と経過日数。staleDays 以上で更新推奨、データが無くても止めない
+ *   refreshRequest … 更新が必要なときだけ、オーナーに頼む比較グループ（語・地域・期間・URL）
+ *   deadlines      … テーマごとの仕込み期限（例年の立ち上がり − prepLeadDays）。過ぎた・14日以内・先
+ *   coverageGaps   … 需要期（立ち上がり〜山の週の1週後）なのに、対応ページが無い／GSC の表示が無い／平均順位が weakPosition より下
+ *   focusCandidates… 需要期・仕込み期の語の対応ページで、改善余地（4位以下）があるもの。需要の大きさ順
+ * GSC はページ別（pageMetrics）を優先し、無ければ検索語別（gscQueries）をページで合計した値を使う
+ */
+export function trendsDecisions({ summary = [], data = null, snapshot = null, observation = [], today, rules = {} }) {
+  const prepLeadDays = rules.prepLeadDays ?? 14;
+  const staleDays = rules.staleDays ?? 7;
+  const weakPosition = rules.weakPosition ?? 10;
+  const ageDays = data?.updatedAt && isDate(data.updatedAt) ? daysBetween(data.updatedAt, today) : null;
+  const freshness = {
+    updatedAt: data?.updatedAt ?? null,
+    ageDays,
+    missing: !data?.series?.length,
+    stale: !data?.series?.length || (ageDays != null && ageDays >= staleDays),
+    staleDays,
+  };
+  const groups = new Map();
+  for (const s of data?.series ?? []) {
+    const key = s.group ?? 0;
+    if (!groups.has(key)) groups.set(key, [data.anchor, ...(s.comparedWith ?? []).filter((k) => k !== data.anchor)].slice(0, 5));
+  }
+  const refreshRequest = freshness.stale ? {
+    reason: freshness.missing ? 'search-trends.json が無い' : `最終取得 ${freshness.updatedAt}（${ageDays}日前）`,
+    geo: data?.geo ?? 'JP',
+    timeframe: data?.timeframe ?? 'today 5-y',
+    anchor: data?.anchor ?? '土浦花火',
+    groups: [...groups.values()].map((keywords) => ({
+      keywords,
+      url: `https://trends.google.co.jp/trends/explore?date=${encodeURIComponent(data?.timeframe ?? 'today 5-y')}&geo=${data?.geo ?? 'JP'}&q=${keywords.map(encodeURIComponent).join(',')}&hl=ja`,
+    })),
+    howTo: '各URLの「人気度の動向」右上の↓でCSVを保存し、Claude Code が npm run trends:import -- <CSV…> で取り込む',
+  } : null;
+
+  // ページ別の GSC（28日）
+  const gsc = new Map();
+  for (const r of snapshot?.pageMetrics ?? []) {
+    if (r.gsc?.impressions28 != null) gsc.set(r.path, { impressions28: r.gsc.impressions28, position28: r.gsc.position28 == null ? null : Number(Number(r.gsc.position28).toFixed(1)), source: 'pageMetrics' });
+  }
+  const fromQueries = new Map();
+  for (const q of snapshot?.gscQueries ?? []) {
+    if (!q?.page || gsc.has(q.page)) continue;
+    const a = fromQueries.get(q.page) ?? { impressions28: 0, w: 0, wi: 0 };
+    const imp = Number(q.impressions28) || 0;
+    a.impressions28 += imp;
+    if (q.position28 != null && imp > 0) { a.w += q.position28 * imp; a.wi += imp; }
+    fromQueries.set(q.page, a);
+  }
+  for (const [page, a] of fromQueries) gsc.set(page, { impressions28: a.impressions28, position28: a.wi ? Number((a.w / a.wi).toFixed(1)) : null, source: 'gscQueries' });
+  const observing = new Map(observation.filter((o) => o.status === 'observing').map((o) => [o.path, o.observeUntil]));
+
+  // テーマの需要の段階は、そのテーマで「例年」が出ている語（季節の実測2年以上）のうち需要が最大の語で決める
+  const themeTiming = new Map();
+  for (const t of summary) {
+    if (t.status !== 'ok' || !t.theme || !t.expectedRise || !t.expectedPeakWeek) continue;
+    const cur = themeTiming.get(t.theme);
+    if (!cur || (t.peakRelativeToAnchor ?? 0) > (cur.peakRelativeToAnchor ?? 0)) themeTiming.set(t.theme, t);
+  }
+  const phaseOf = (timing) => {
+    if (!timing) return null;
+    const prepDeadline = addDays(timing.expectedRise, -prepLeadDays);
+    const peakEnd = addDays(timing.expectedPeakWeek, 13);
+    if (daysBetween(peakEnd, today) > 0) return { phase: 'ended', prepDeadline };
+    if (daysBetween(timing.expectedRise, today) >= 0) return { phase: 'demand', prepDeadline };
+    // 仕込み期：仕込み期限の14日前から、需要が立ち上がるまで（期限を過ぎても立ち上がり前なら仕込み期）
+    if (daysBetween(addDays(prepDeadline, -14), today) >= 0) return { phase: 'prep', prepDeadline };
+    return { phase: 'before', prepDeadline };
+  };
+
+  const deadlines = [...themeTiming.values()].map((t) => {
+    const p = phaseOf(t);
+    const daysLeft = daysBetween(today, p.prepDeadline);
+    return {
+      theme: t.theme, keyword: t.keyword, peakRelativeToAnchor: t.peakRelativeToAnchor,
+      expectedRise: t.expectedRise, expectedPeakWeek: t.expectedPeakWeek, prepDeadline: p.prepDeadline, daysLeft, phase: p.phase,
+      status: p.phase === 'ended' ? '終了' : p.phase === 'demand' ? '需要期（仕込み期限は過ぎた）' : daysLeft < 0 ? `仕込み期限を${-daysLeft}日過ぎた（立ち上がり前）` : daysLeft <= 14 ? `仕込み期限まで${daysLeft}日` : `仕込み期限 ${p.prepDeadline}`,
+    };
+  }).filter((d) => d.phase !== 'ended' && d.daysLeft <= 90).sort((a, b) => a.prepDeadline.localeCompare(b.prepDeadline));
+
+  const inSeason = (t) => {
+    const p = phaseOf(themeTiming.get(t.theme));
+    return p && (p.phase === 'demand' || p.phase === 'prep') ? p.phase : null;
+  };
+  const coverageGaps = [];
+  const focusCandidates = [];
+  for (const t of summary) {
+    if (!t.seasonal) continue;
+    const phase = inSeason(t);
+    if (!phase) continue;
+    const g = t.page ? gsc.get(t.page) ?? null : null;
+    const base = { keyword: t.keyword, theme: t.theme, page: t.page, peakRelativeToAnchor: t.peakRelativeToAnchor, phase, impressions28: g?.impressions28 ?? null, position28: g?.position28 ?? null, observing: t.page ? observing.get(t.page) ?? null : null };
+    if (!t.page) coverageGaps.push({ ...base, reason: '対応ページが無い（新規記事の候補。需要の大きさと工数で比べる）' });
+    else if (!g || !g.impressions28) coverageGaps.push({ ...base, reason: '需要期なのに GSC の表示が無い（インデックス・内部リンク・検索意図を確認）' });
+    else if (g.position28 != null && g.position28 > weakPosition) coverageGaps.push({ ...base, reason: `平均${g.position28}位で1ページ目に届いていない` });
+    else if (g.position28 != null && g.position28 > 3) focusCandidates.push({ ...base, reason: `需要期に平均${g.position28}位。TOP3への改善余地（title・description・冒頭の回答・FAQ・内部リンク）` });
+  }
+  const bySize = (a, b) => (b.peakRelativeToAnchor ?? 0) - (a.peakRelativeToAnchor ?? 0);
+  // 同じページに着地する語（例：土浦花火・土浦全国花火競技大会）は1件にまとめる
+  const byPage = (list) => {
+    const out = new Map();
+    for (const x of list.sort(bySize)) {
+      const key = x.page ?? `kw:${x.keyword}`;
+      if (out.has(key)) out.get(key).keywords.push(x.keyword);
+      else out.set(key, { ...x, keywords: [x.keyword] });
+    }
+    return [...out.values()];
+  };
+  return { freshness, refreshRequest, deadlines, coverageGaps: byPage(coverageGaps), focusCandidates: byPage(focusCandidates) };
+}

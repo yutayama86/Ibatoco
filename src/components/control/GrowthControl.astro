@@ -221,6 +221,9 @@ const pace = performance.paceDiagnostics;
       </table>
     </div>
     <p class="gc-note">立ち上がり＝山の10%以上が山まで続く最初の週。スポーツは通年型。季節の実測が2年未満の語は例年を出さない。</p>
+    <p class:list={['gc-note', result.trendsCheck.freshness.stale && 'gc-warn']}>鮮度：{result.trendsCheck.freshness.missing ? 'データ無し' : `最終取得 ${result.trendsCheck.freshness.updatedAt}（${result.trendsCheck.freshness.ageDays}日前）`}{result.trendsCheck.freshness.stale ? `。更新推奨：比較 ${result.trendsCheck.refreshRequest?.groups.length ?? 0} 件の CSV を書き出して取り込む` : '。更新不要'}</p>
+    {result.trendsCheck.coverageGaps.length > 0 && <p class="gc-warn">需要期なのに GSC で表示を取れていない：{result.trendsCheck.coverageGaps.map((g: any) => `${g.keywords.join('・')}（${g.page ?? 'ページなし'}）`).join('、')}</p>}
+    {result.trendsCheck.focusCandidates.length > 0 && <p class="gc-note">需要期の優先改善候補：{result.trendsCheck.focusCandidates.map((g: any) => `${g.keywords.join('・')} ${g.position28}位`).join('、')}</p>}
   </article>
 
   <article class="gc-card">
