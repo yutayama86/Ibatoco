@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'technical',
     change: 'sitemap に /today/（今日の茨城、10/8 公開）を追加（indexable・canonical は自分自身だったが未収録）',
     queries: [],
-    commit: 'PENDING',
+    commit: '3070c77',
     note: 'サイト内リンクは0件のまま（置き場所はオーナー判断：action 20261010-today-internal-links）。今日・週末系の検索語は28日55語・表示59回と小さく、期待PVは設定しない',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'technical',
     change: 'BookingGuide の提携リンク（data-is-paid=1）のクリックで paid_booking_click を送る（outbound_booking_click の内数・同じパラメータ）。BookingGuide を置く全ページが対象',
     queries: [],
-    commit: 'PENDING',
+    commit: '3070c77',
     note: '計測の修正（予約できるイバトコ MVP の受入条件）。表示・CTA・リンク先は変えていない。paid_booking_click は 10/11 以降の確定日から取れる。それより前は送客先ドメインで判定した monetized_booking_click と期間を混ぜない',
     experimentType: 'measurement',
   },
@@ -97,7 +97,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'GSCで冠水マップ・アンダーパス意図が顕在化したためtitle/descriptionを整合（本文・URLは維持）',
     queries: [],
-    commit: 'PENDING',
+    commit: '3070c77',
   },
   {
     id: '20261009-events-hananuki-official-autumn',
