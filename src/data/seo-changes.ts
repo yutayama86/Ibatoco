@@ -36,6 +36,11 @@ export interface SeoChange {
   commit: string;
   /** 補足（判定時に読む前提の注意書き） */
   note?: string;
+  /**
+   * 観測の種類（任意）。書けば kind からの推定より優先する（src/lib/growth-engine.mjs の experimentTypeOf）。
+   * 公式発表の反映など事実の更新は 'fact'（観測窓0日）。SEO の実験（title・本文の改善）には使わない
+   */
+  experimentType?: 'fact' | 'measurement' | 'cta' | 'ui' | 'metadata' | 'internal-link' | 'body' | 'template' | 'ia' | 'new-article';
 }
 
 /**
@@ -43,6 +48,17 @@ export interface SeoChange {
  * 追加は `npm run seo:log` を使うと形式が崩れない。
  */
 export const SEO_CHANGES: SeoChange[] = [
+  {
+    id: '20261010-kouyou-official-refresh',
+    date: '2026-10-10',
+    url: '/kouyou/',
+    kind: 'on-page',
+    change: '公式発表の反映：コキアの見頃予想（10月2日時点）、袋田の滝の色づき速報、花貫渓谷紅葉まつりの予定、筑波山ケーブルカーの運休',
+    queries: [],
+    commit: 'b38c0ac',
+    note: '事実の更新（観測窓0日）。変更前28日（GSC 2026-09-09..10-06）は274表示・8クリック・CTR 2.9%・平均7.7位、直近7日11 Views。検索語別は匿名化でほぼ取れない。title・URLは変更なし',
+    experimentType: 'fact',
+  },
   {
     id: '20261010-news-ibaraki-underpass-kansui-33-2026',
     date: '2026-10-10',
