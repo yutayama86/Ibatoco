@@ -241,11 +241,44 @@ async function runViewport(viewport) {
   await context.close();
 }
 
+// 本番：GA4 の送信経路が CSP で止められていないか。gtag.js だけ読み込み、送信（/g/collect）はブラウザの外に出る前に止める（テストの計測は送らない）。
+// CSP で止められた送信は route に届かず console に CSP 違反が出る。届いた送信は abort する
+async function checkAnalyticsPath() {
+  const context = await browser.newContext({ locale: 'ja-JP', timezoneId: 'Asia/Tokyo', serviceWorkers: 'block' });
+  const attempts = new Set();
+  await context.route('**/*', async (route) => {
+    const url = new URL(route.request().url());
+    if (url.hostname === 'www.googletagmanager.com' && url.pathname === '/gtag/js') return route.continue();
+    if (BLOCKED_HOST.test(url.hostname) || /(^|\.)google\.com$/.test(url.hostname) || url.pathname.endsWith('/g/collect')) {
+      if (url.pathname.endsWith('/collect')) attempts.add(url.hostname);
+      return route.abort();
+    }
+    return route.continue();
+  });
+  const page = await context.newPage();
+  const cspErrors = new Set();
+  page.on('console', (message) => {
+    if (message.type() === 'error' && /Content Security Policy/.test(message.text()) && /collect|google/.test(message.text())) {
+      cspErrors.add((message.text().match(/https:\/\/[^/'\s?]+/)?.[0]) ?? message.text().slice(0, 80));
+    }
+  });
+  try {
+    await page.goto(`${ORIGIN}/`, { waitUntil: 'load', timeout: 30000 });
+    await page.waitForTimeout(6000);
+  } finally {
+    await context.close();
+  }
+  if (cspErrors.size) failures.push(`GA4 の送信が CSP で止められている：${[...cspErrors].join('・')}（public/_headers の connect-src）`);
+  else if (!attempts.size) failures.push('GA4：gtag.js が送信を試みなかった（タグの読み込み・測定ID・本番ホストの判定を確認）');
+  else notes.push(`GA4 の送信経路：CSP で止められていない（送信先 ${[...attempts].join('・')}。送信は QA で止め、計測は送っていない）`);
+}
+
 try {
   const queue = [...VIEWPORTS];
   await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
     while (queue.length) await runViewport(queue.shift());
   }));
+  if (PRODUCTION) await checkAnalyticsPath();
 } finally {
   await browser.close();
 }
