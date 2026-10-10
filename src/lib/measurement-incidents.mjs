@@ -93,6 +93,10 @@ export function incidentStatus(snapshot, data) {
   const ga4 = snapshot?.windows?.ga4 ?? {};
   const gsc = snapshot?.windows?.gsc ?? {};
   const ga4Latest = snapshot?.source?.freshness?.ga4LatestConfirmedDate ?? ga4.latestDay?.date ?? null;
+  // 日別（windows.ga4.daily）の確定日。集計（windows）より先まで入っていることがある
+  const dailyRows = Array.isArray(ga4.daily) ? ga4.daily.filter((r) => isDate(r?.date)) : [];
+  const ga4DailyLatest = isDate(ga4.dailyMeta?.confirmedThrough) ? ga4.dailyMeta.confirmedThrough : dailyRows.at(-1)?.date ?? null;
+  const ga4Newest = [ga4Latest, ga4DailyLatest].filter(isDate).sort().at(-1) ?? null;
   const gscLatest = snapshot?.source?.freshness?.gscLatestConfirmedDate ?? gsc.latestDay?.date ?? null;
   return ga4Incidents(data).map((i) => {
     const first = i.affectedDates[0];
@@ -101,7 +105,7 @@ export function incidentStatus(snapshot, data) {
     const baseDaily = Object.values(base.dailyViews ?? {});
     const baseAvg = baseDaily.length ? baseDaily.reduce((s, v) => s + v, 0) / baseDaily.length : null;
     // 障害後の確定日：日別（windows.ga4.daily）に障害後の行があれば最新の行、無ければ latestDay
-    const dailyAfter = (Array.isArray(ga4.daily) ? ga4.daily : []).filter((r) => isDate(r.date) && r.date > last && !r.incident && r.views != null);
+    const dailyAfter = dailyRows.filter((r) => r.date > last && !r.incident && r.views != null);
     const afterDay = dailyAfter.at(-1) ?? (ga4.latestDay?.date && isDate(ga4.latestDay.date) && ga4.latestDay.date > last ? ga4.latestDay : null);
     const ratio = afterDay?.views != null && baseAvg ? afterDay.views / baseAvg : null;
     const baseGsc = Object.values(base.gscDaily ?? {});
@@ -115,9 +119,12 @@ export function incidentStatus(snapshot, data) {
       affectedDates: i.affectedDates,
       inData: Boolean(ga4Latest && ga4Latest >= first),
       ga4Latest,
+      // 日別に入っている障害日（実測のまま。参考計算からは外す）
+      ga4DailyLatest,
+      dailyIncidentDates: dailyRows.filter((r) => r.incident === i.id).map((r) => r.date),
       dailyViews: afterDay
         ? { status: ratio >= 0.7 ? '回復' : '未回復', date: afterDay.date, views: afterDay.views, baseline: Math.round(baseAvg), ratio: Number(ratio.toFixed(2)) }
-        : { status: '判定待ち', note: `障害後（${last} より後）の GA4 確定日がまだ無い（最新 ${ga4Latest ?? '—'}）` },
+        : { status: '判定待ち', note: `障害後（${last} より後）の GA4 確定日がまだ無い（最新 ${ga4Newest ?? '—'}）` },
       gsc: gscDay
         ? { status: baseClicks && gscDay.clicks >= baseClicks * 0.7 ? '維持' : '要確認', date: gscDay.date, clicks: gscDay.clicks, baselineClicks: baseClicks == null ? null : Math.round(baseClicks) }
         : { status: '判定待ち', note: `障害期間の GSC 確定日がまだ無い（最新 ${gscLatest ?? '—'}）` },

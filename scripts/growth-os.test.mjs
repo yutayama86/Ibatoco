@@ -391,3 +391,56 @@ test('計測障害の復旧判定：日別に障害後の行があれば、そ�
   assert.equal(st.dailyViews.date, '2026-10-11');
   assert.equal(st.dailyViews.status, '未回復'); // 150 は基準 342 の44%
 });
+
+test('GA4 日別：集計（windows）と同じ期間の日別の合計を照合する。全日がそろわない期間は照合しない', async () => {
+  const { compareWindows, channelTotalsGap } = await import('../src/lib/ga4-daily.mjs');
+  const daily = [
+    { date: '2026-10-05', views: 532, sessions: 463, engagedSessions: 331 },
+    { date: '2026-10-06', views: 369, sessions: 322, engagedSessions: 219 },
+    { date: '2026-10-07', views: 314, sessions: 280, engagedSessions: 203 },
+  ];
+  const r = compareWindows({
+    daily,
+    recent3: { start: '2026-10-05', end: '2026-10-07', views: 1215 },
+    latestDay: { date: '2026-10-07', views: 300 },
+    recent7: { start: '2026-10-01', end: '2026-10-07', views: 5287 },
+  });
+  assert.deepEqual(r.compared.map((c) => [c.window, c.diff]), [['recent3', 0], ['latestDay', 14]]);
+  assert.deepEqual(r.uncovered, ['recent7']);
+  assert.equal(r.matched, false);
+
+  const gaps = channelTotalsGap({
+    totals: [{ date: '2026-10-07', screen_page_views: 314 }, { date: '2026-10-08', screen_page_views: 38 }],
+    channels: [
+      { date: '2026-10-07', session_default_channel_group: 'Organic Search', screen_page_views: 284 },
+      { date: '2026-10-07', session_default_channel_group: 'Direct', screen_page_views: 30 },
+      { date: '2026-10-08', session_default_channel_group: 'Organic Search', screen_page_views: 3 },
+    ],
+  });
+  assert.deepEqual(gaps, [{ date: '2026-10-08', total: 38, channels: 3 }]);
+});
+
+test('計測障害の補正：日別がそろっていれば、障害日（10/8・10/9）を除いた日の平均で7日・28日の参考値を作る。公式値は変えない', async () => {
+  const { adjustSnapshotForIncidents, incidentStatus } = await import('../src/lib/measurement-incidents.mjs');
+  const incidents = JSON.parse(readFileSync('data/editorial/measurement-incidents.json', 'utf8'));
+  const views = { '2026-10-03': 990, '2026-10-04': 682, '2026-10-05': 532, '2026-10-06': 369, '2026-10-07': 314, '2026-10-08': 38, '2026-10-09': 17 };
+  const daily = Object.entries(views).map(([date, v]) => ({ date, views: v, sessions: v, engagedSessions: 0, ...(date >= '2026-10-08' ? { incident: '2026-10-ga4-csp' } : {}) }));
+  const official = { windows: { ga4: {
+    recent7: { start: '2026-10-03', end: '2026-10-09', views: 2942, sessions: 2942, engagedSessions: 0 },
+    daily,
+    dailyMeta: { confirmedThrough: '2026-10-09' },
+  } }, source: { freshness: { ga4LatestConfirmedDate: '2026-10-07' } }, pageMetrics: [] };
+  const r = adjustSnapshotForIncidents(official, incidents);
+  assert.equal(r.snapshot.windows.ga4.recent7.views, Math.round(((990 + 682 + 532 + 369 + 314) / 5) * 7)); // 4042
+  assert.match(r.snapshot.windows.ga4.recent7.basis, /障害日（2026-10-08・2026-10-09）を除いた5日/);
+  assert.equal(r.corrections[0].official, 2942); // 公式値は別に残る
+  assert.equal(official.windows.ga4.recent7.views, 2942); // 入力は変えない
+  assert.equal(official.windows.ga4.daily[5].views, 38); // 障害日の実測は保持
+
+  // 集計（windows）が 10/7 まででも、日別に入った障害日と最新の確定日を出す
+  const st = incidentStatus(official, incidents)[0];
+  assert.equal(st.inData, false);
+  assert.equal(st.ga4DailyLatest, '2026-10-09');
+  assert.deepEqual(st.dailyIncidentDates, ['2026-10-08', '2026-10-09']);
+  assert.match(st.dailyViews.note, /最新 2026-10-09/);
+});

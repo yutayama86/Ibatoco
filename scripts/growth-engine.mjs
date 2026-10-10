@@ -22,6 +22,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSy
 import { join, relative } from 'node:path';
 import { todayJst } from '../src/lib/growth-engine.mjs';
 import { runGrowthOS } from '../src/lib/growth-os.mjs';
+import { compareWindows } from '../src/lib/ga4-daily.mjs';
 import { loadContentPages } from './lib/content-pages.mjs';
 import { auditFreshness } from './freshness-guard.mjs';
 import { parseSeoChanges } from './lib/seo-changes.mjs';
@@ -161,12 +162,12 @@ const lines = [
   '## データ品質：計測障害（data/editorial/measurement-incidents.json）',
   '',
   ...(result.dataIncidents.status.length ? result.dataIncidents.status.flatMap((i) => [
-    `- ${i.id}：${i.start}〜${i.end}${i.startEstimated ? '（開始は推定）' : ''}・障害日 ${i.affectedDates.join('・')}・GA4 最新確定日 ${i.ga4Latest ?? '—'}（${i.inData ? '障害日がデータに入っている' : '障害日はまだデータに入っていない'}）`,
+    `- ${i.id}：${i.start}〜${i.end}${i.startEstimated ? '（開始は推定）' : ''}・障害日 ${i.affectedDates.join('・')}・GA4 最新確定日 集計 ${i.ga4Latest ?? '—'}${i.ga4DailyLatest ? `・日別 ${i.ga4DailyLatest}` : ''}（${i.inData ? '集計に障害日が入っている' : '集計には障害日がまだ入っていない'}${i.dailyIncidentDates.length ? `。日別の障害日 ${i.dailyIncidentDates.join('・')} は実測のまま持ち、参考計算から外す` : ''}）`,
     `  - 復旧（イベント送信）：${i.eventSending}`,
     `  - 復旧（日次PV）：${i.dailyViews.status}${i.dailyViews.views != null ? `（${i.dailyViews.date} ${fmt(i.dailyViews.views)} Views・基準 ${fmt(i.dailyViews.baseline)} の${Math.round(i.dailyViews.ratio * 100)}%）` : `（${i.dailyViews.note}）`}`,
     `  - 実アクセスの裏付け（GSC）：${i.gsc.status}${i.gsc.clicks != null ? `（${i.gsc.date} ${fmt(i.gsc.clicks)} クリック・基準 ${fmt(i.gsc.baselineClicks)}）` : `（${i.gsc.note}）`}`,
   ]) : ['- 登録された計測障害なし']),
-  ((d, m) => `- GA4 日別（windows.ga4.daily）：${d ? `${d.length} 日（${m?.coverage?.from ?? '—'}〜${m?.confirmedThrough ?? '—'}・未収録 ${m?.coverage?.missingDates?.length ?? '—'} 日・障害日 ${d.filter((r) => r.incident).length} 日）` : '未収録'}`)(snapshot.windows?.ga4?.daily, snapshot.windows?.ga4?.dailyMeta),
+  ((d, m) => `- GA4 日別（windows.ga4.daily）：${d ? `${d.length} 日（${m?.coverage?.from ?? '—'}〜${m?.confirmedThrough ?? '—'}・未収録 ${m?.coverage?.missingDates?.length ?? '—'} 日・障害日 ${d.filter((r) => r.incident).length} 日）${((c) => (c.compared.length ? `・集計との照合 ${c.compared.map((x) => `${x.window} ${x.diff === 0 ? '一致' : `差 ${x.diff > 0 ? '+' : ''}${x.diff}`}`).join('・')}` : ''))(compareWindows(snapshot.windows.ga4))}` : '未収録'}`)(snapshot.windows?.ga4?.daily, snapshot.windows?.ga4?.dailyMeta),
   ...(result.dataIncidents.corrections.length ? [
     '- 判断に使う参考値（公式値は変えない・推定値を公式PVに足さない）：',
     ...result.dataIncidents.corrections.map((c) => `  - ${c.window}：公式 ${fmt(c.official)} → 参考 ${fmt(c.reference)}（${c.basis}）`),

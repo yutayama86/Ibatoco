@@ -76,6 +76,41 @@ export function dailyCoverage(daily = [], confirmedThrough) {
   return { from, to: through, rows: daily.length, expectedDays: GA4_DAILY_MAX_DAYS, missingDates };
 }
 
+/**
+ * 整合の確認：集計（windows.ga4 の recent7・previous7・recent28・recent3・latestDay）と、同じ期間の日別の合計を比べる。
+ * 期間の日が日別にすべてある集計だけを比べる（欠けた日がある期間は uncovered）。取得時点が違うと GA4 側の再集計で差が出ることがあるため、検査では止めず報告に出す
+ */
+export function compareWindows(ga4 = {}) {
+  const daily = Array.isArray(ga4.daily) ? ga4.daily : [];
+  const byDate = new Map(daily.map((r) => [r.date, r]));
+  const compared = [];
+  const uncovered = [];
+  for (const key of ['recent7', 'previous7', 'recent28', 'recent3', 'latestDay']) {
+    const win = ga4[key];
+    const start = key === 'latestDay' ? win?.date : win?.start;
+    const end = key === 'latestDay' ? win?.date : win?.end;
+    if (!isDate(start) || !isDate(end) || num(win.views) == null) continue;
+    const rows = [];
+    for (let d = start; d <= end; d = addDays(d, 1)) rows.push(byDate.get(d));
+    if (rows.some((r) => r == null)) { uncovered.push(key); continue; }
+    const views = rows.reduce((s, r) => s + r.views, 0);
+    compared.push({ window: key, start, end, official: num(win.views), daily: views, diff: views - num(win.views) });
+  }
+  return { compared, uncovered, matched: compared.every((c) => c.diff === 0) };
+}
+
+/** 取り込み時の確認：チャネル別の合計が日別の総数と違う日（チャネルの欠けや取得時点の違い。Organic の値の確からしさの目安） */
+export function channelTotalsGap({ totals = [], channels = [] }) {
+  const sums = new Map();
+  for (const c of channels) {
+    const v = num(c?.screen_page_views ?? c?.views);
+    if (isDate(c?.date) && v != null) sums.set(c.date, (sums.get(c.date) ?? 0) + v);
+  }
+  return totals
+    .filter((t) => isDate(t?.date) && num(t.screen_page_views ?? t.views) != null && sums.get(t.date) !== num(t.screen_page_views ?? t.views))
+    .map((t) => ({ date: t.date, total: num(t.screen_page_views ?? t.views), channels: sums.get(t.date) ?? null }));
+}
+
 /** 形式の検査（npm run verify）。ゼロ埋めの疑い・確定前の日・重複・障害日の印の食い違いを止める */
 export function checkDaily(daily, { confirmedThrough = null, incidents = null } = {}) {
   const errors = [];
