@@ -42,6 +42,13 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const trendsList = trendsSummary(trendsData, { pages, today });
   // Trends の日次判断（鮮度・仕込み期限・GSC で表示を取れていないテーマ・重点ページの改善候補）。proxy なので期待PVは出さない
   const trendsCheck = trendsDecisions({ summary: trendsList, data: trendsData, snapshot, observation: result.observation, today, rules: radarConfig.trendsRules });
+  // サイト全体の日次 Views の急落（直近の確定日が、前7日の1日平均の30%未満）。計測の停止（タグ・CSP・同意）か配信障害を先に疑う（2026-10-08、Issue #226）
+  const latestDay = snapshot?.windows?.ga4?.latestDay ?? null;
+  const prev7 = snapshot?.windows?.ga4?.previous7?.views ?? null;
+  const dropAlerts = latestDay?.views != null && prev7 ? (() => {
+    const baseline = prev7 / 7;
+    return latestDay.views < baseline * 0.3 ? [{ level: 'critical', kind: '計測・流入の急落', message: `GA4 の ${latestDay.date} の Views が ${latestDay.views}（前7日の1日平均 ${Math.round(baseline)} の${Math.round((latestDay.views / baseline) * 100)}%）。検索エンジン・チャネルをまたいで落ちていれば計測の停止を先に疑う：本番ブラウザで g/collect が送られているか、CSP（public/_headers）、タグ、Cloudflare` }] : [];
+  })() : [];
   const trendsAlerts = [
     ...(trendsCheck.freshness.stale ? [{ level: 'info', kind: 'Trends 更新', message: `Google Trends の更新推奨：${trendsCheck.refreshRequest.reason}。比較 ${trendsCheck.refreshRequest.groups.length} 件の CSV を書き出して取り込む（docs/GROWTH_ENGINE.md 10.6）` }] : []),
     ...trendsCheck.coverageGaps.map((g) => ({ level: 'warning', kind: 'Trends 需要期', message: `${g.keywords.join('・')}（Trends ${g.peakRelativeToAnchor}）：${g.reason}${g.page ? `｜${g.page}` : ''}` })),
@@ -85,7 +92,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     batchCandidatesWithoutEstimate: relayed.candidatesWithoutEstimate,
     revenueFunnel: funnel,
     annualLearning: { categories: annual, records: learningRecords.length, measured: learningRecords.filter((r) => r.measuredAt).length },
-    alerts: [...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
+    alerts: [...dropAlerts, ...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
       .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]),
   };
 }

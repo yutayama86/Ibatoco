@@ -66,6 +66,40 @@ for (const file of walk(layoutsDir).filter((p) => p.endsWith('.astro'))) {
   }
 }
 
+// GA4（gtag.js）の送信先が CSP（public/_headers）の connect-src で許可されているか。
+// 許可から外れると、タグは読み込まれるのに送信だけがブラウザで止められ、GA4 がほぼゼロになる（2026-10-08、Issue #226）
+const headers = read('public/_headers');
+const csp = headers.match(/Content-Security-Policy:\s*([^\n]+)/)?.[1] ?? '';
+const directive = (name) => (csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`))?.[1] ?? '').trim().split(/\s+/).filter(Boolean);
+const allows = (sources, url) => {
+  const { protocol, hostname } = new URL(url);
+  return sources.some((src) => {
+    if (src === "'self'") return false;
+    if (src === 'https:') return protocol === 'https:';
+    const m = src.match(/^(https?:)\/\/(\*\.)?([^/:]+)/);
+    if (!m || m[1] !== protocol) return false;
+    return m[2] ? hostname.endsWith(`.${m[3]}`) : hostname === m[3]; // 「*.example.com」は example.com 自体には一致しない
+  });
+};
+const GA4_ENDPOINTS = {
+  'connect-src': [
+    'https://analytics.google.com/g/collect',
+    'https://region1.google-analytics.com/g/collect',
+    'https://www.google-analytics.com/g/collect',
+    'https://www.google.com/g/collect',
+    'https://stats.g.doubleclick.net/g/collect',
+  ],
+  'script-src': ['https://www.googletagmanager.com/gtag/js'],
+};
+for (const [name, urls] of Object.entries(GA4_ENDPOINTS)) {
+  const sources = directive(name);
+  for (const url of urls) {
+    const ok = allows(sources, url);
+    checks.push({ label: `CSP ${name} allows ${new URL(url).hostname}`, ok, path: 'public/_headers' });
+    if (!ok) errors.push(`CSP ${name} が GA4 の送信先 ${url} を許可していない（public/_headers）`);
+  }
+}
+
 if (errors.length) {
   console.error('Analytics audit failed:');
   for (const error of errors) console.error(`- ${error}`);
