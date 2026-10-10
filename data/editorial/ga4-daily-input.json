@@ -1,7 +1,7 @@
 {
   "source": "Windsor.ai GA4 547804264",
-  "fetchedAt": "2026-10-10T13:22:35.032Z",
-  "confirmedThrough": "2026-10-09",
+  "fetchedAt": "2026-10-10T22:08:00.000Z",
+  "confirmedThrough": "2026-10-10",
   "totals": [
     {
       "date": "2026-09-05",
@@ -212,6 +212,12 @@
       "screen_page_views": 17,
       "sessions": 16,
       "engaged_sessions": 1
+    },
+    {
+      "date": "2026-10-10",
+      "screen_page_views": 67,
+      "sessions": 67,
+      "engaged_sessions": 2
     }
   ],
   "channels": [
@@ -974,6 +980,31 @@
       "date": "2026-10-09",
       "session_default_channel_group": "Organic Search",
       "screen_page_views": 2
+    },
+    {
+      "date": "2026-10-10",
+      "session_default_channel_group": "Cross-network",
+      "screen_page_views": 27
+    },
+    {
+      "date": "2026-10-10",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 26
+    },
+    {
+      "date": "2026-10-10",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 9
+    },
+    {
+      "date": "2026-10-10",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 4
+    },
+    {
+      "date": "2026-10-10",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 1
     }
   ]
 }
