@@ -180,6 +180,9 @@ const KIND_LABEL: Record<string, string> = {
           experiment_variant: experimentEnabled ? experimentVariant : undefined,
         };
         trackEvent('outbound_booking_click', clickParams);
+        // 提携（成果報酬）リンクだけを数えるイベント。outbound_booking_click の内数（同じパラメータ）。
+        // is_paid_link はカスタムディメンション未登録では集計できないため、イベント名で直接数えられるようにする（Revenue Funnel の「ASPへの送客クリック」）
+        if (link.dataset.isPaid === '1') trackEvent('paid_booking_click', clickParams);
         if (experimentEnabled && link.dataset.isPaid === '1') {
           trackEvent(experimentVariant === 'a' ? 'outbound_booking_click_a' : 'outbound_booking_click_b', clickParams);
         }

@@ -168,6 +168,7 @@ BookingGuide側は既に `page_path` と `source_page` を送っている。Wind
 ルール:
 - ページ別値が取得できない場合は `missing` とし、サイト合計をページへ按分しない。
 - `monetized_booking_click` は `is_paid_link=1` が取得できる場合のみ使う。取得不能なら0ではなく未取得として扱う。
+- 2026-10-10 から BookingGuide は提携リンクのクリックで `paid_booking_click` も送る（`outbound_booking_click` の内数・同じパラメータ）。10/11 以降の確定日は event_name = `paid_booking_click` で数え、それより前の期間（送客先ドメインで判定した値）と混ぜない。`paid_booking_click` が同じ期間・ページの `outbound_booking_click` を超えたら計測不具合として止める
 - ページ別ファネルが取れたら、Revenue Yield Engineは Actual RPM → Monetized Click / 1,000PV → Intent Proxy の順で判断する。
 - 収益化施策の横展開は、単純なPV上位ではなくページ別Yield上位を優先する。
 

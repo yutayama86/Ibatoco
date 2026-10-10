@@ -88,6 +88,8 @@ export const GET: APIRoute = async () => {
   entries.push({ path: '/sponsor/' });
   entries.push({ path: '/sponsor/terms/' });
   entries.push({ path: '/discover/' });
+  // 今日の茨城（2026-10-08 公開。indexable・canonical は自分自身だったが未収録。Growth Director 判断 2026-10-10）
+  entries.push({ path: '/today/' });
 
   // /reporters/ はローカルエディター（協力者）の案内ページ。公開中の人物が0人でも内容が成立するため常に掲載する。
   entries.push({ path: '/reporters/' });

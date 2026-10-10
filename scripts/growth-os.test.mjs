@@ -444,3 +444,41 @@ test('計測障害の補正：日別がそろっていれば、障害日（10/8�
   assert.deepEqual(st.dailyIncidentDates, ['2026-10-08', '2026-10-09']);
   assert.match(st.dailyViews.note, /最新 2026-10-09/);
 });
+
+test('参考予測：一時（終了・節目）・季節・基礎に分け、一時的な流入は対象月に残さない。公式の予測は変えない', async () => {
+  const { splitForecast, recentLevels, backtestDaily } = await import('../src/lib/forecast-reference.mjs');
+  const forecasts = [
+    { path: '/news/passport/', label: 'パスポート', views7: 1580, forecast: 6771, activeDays: 30, seasonPhase: null },
+    { path: '/news/shinguri/', label: '新栗', views7: 1350, forecast: 0, activeDays: 0, seasonPhase: 'ended' },
+    { path: '/events/ankou/', label: 'あんこう祭', views7: 809, forecast: 2080, activeDays: 18, seasonPhase: 'index-window' },
+    { path: '/events/guide/', label: 'ガイド', views7: 100, forecast: 429, activeDays: 30, seasonPhase: null },
+    { path: '/events/no-data/', label: '未取得', views7: null, forecast: null, activeDays: 30, seasonPhase: null },
+  ];
+  const relayItems = [{ path: '/news/passport/', status: 'MILESTONE', nextMilestone: { label: '締切', date: '2026-10-16', effect: 'demand-may-drop' } }];
+  const s = splitForecast({ siteViews7: 5287, forecasts, relayItems, month: '2026-11' });
+  assert.equal(s.temporary.views7, 1580 + 1350);
+  assert.equal(s.temporary.milestoneCurrentPace, 6771); // 節目のあるページの今のペースは別に出すが、予測には入れない
+  assert.equal(s.seasonal.forecast, 2080);
+  assert.equal(s.base.views7, 5287 - 2930 - 809); // ページ別に無い分（未取得を含む）は基礎に入る
+  assert.equal(s.base.forecast, Math.round(((5287 - 2930 - 809) / 7) * 30));
+  assert.equal(s.reference, s.base.forecast + 2080);
+  assert.equal(s.temporary.pages[0].reason, '2026-10-16 締切の後は不明');
+
+  // ページ別が計測障害で null のときは分けない
+  assert.ok(splitForecast({ siteViews7: 4042, forecasts: forecasts.map((f) => ({ ...f, views7: null })), relayItems, month: '2026-11' }).unavailable);
+
+  // ① 障害日を除いた直近の実績（ゼロで埋めない・使った日数を出す）
+  const daily = [];
+  for (let d = 1; d <= 30; d += 1) daily.push({ date: `2026-09-${String(d).padStart(2, '0')}`, views: 100 });
+  daily.push({ date: '2026-10-01', views: 400 }, { date: '2026-10-02', views: 10, incident: 'x' }, { date: '2026-10-03', views: 200 });
+  const r = recentLevels(daily);
+  assert.equal(r.latest.date, '2026-10-03');
+  assert.equal(r.last3.days, 2); // 10/2 は障害日なので除く
+  assert.equal(r.last3.dailyAverage, 300);
+
+  // 答え合わせ：一定のペースなら誤差0。障害日は実績にも履歴にも使わない
+  const flat = daily.slice(0, 30);
+  const bt = backtestDaily(flat, { horizon: 7 });
+  assert.ok(bt.origins > 0);
+  for (const m of bt.methods) assert.equal(m.mape, 0);
+});

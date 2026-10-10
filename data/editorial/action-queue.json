@@ -3,6 +3,67 @@
   "updatedAt": "2026-10-10",
   "actions": [
     {
+      "id": "20261010-paid-booking-click",
+      "title": "提携リンクへの送客クリック（paid_booking_click）をイベント名で計測",
+      "kind": "measurement",
+      "targetUrl": "/events/oarai-ankou-matsuri-2026/",
+      "targetFile": "src/components/BookingGuide.astro",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-10",
+      "completedAt": "2026-10-10",
+      "specPath": "docs/editorial/specs/20261010-paid-booking-click.md",
+      "primarySourceUrls": [
+        "https://support.google.com/analytics/answer/9267735"
+      ],
+      "acceptanceCriteria": [
+        "提携リンク（data-is-paid=1）のクリックで outbound_booking_click に加えて paid_booking_click を同じパラメータで送る",
+        "既存イベント・CTA・リンク先を変えない",
+        "npm run audit:analytics と npm run verify が成功"
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "source": "BookingGuide.astro のコード確認（2026-10-10）。conversionDetail.recent7.paid_booking_click が取得不能（null）",
+      "reason": "予約できるイバトコMVPの受入条件を満たすための計測修正。期待PVは無い（計測のみ）"
+    },
+    {
+      "id": "20261010-today-sitemap",
+      "title": "「今日の茨城」/today/ を sitemap に追加",
+      "kind": "technical",
+      "targetUrl": "/today/",
+      "targetFile": "src/pages/sitemap.xml.ts",
+      "priority": "medium",
+      "status": "done",
+      "createdAt": "2026-10-10",
+      "completedAt": "2026-10-10",
+      "specPath": "docs/editorial/specs/20261010-today-sitemap.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview"
+      ],
+      "acceptanceCriteria": [
+        "dist/sitemap.xml に https://ibatoco.jp/today/ がある",
+        "/today/ のURL・本文・TOPを変えない",
+        "npm run verify が成功"
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "source": "2026-10-10 に dist で確認：/today/ は indexable・self canonical だが sitemap 未収録・内部リンク0件",
+      "reason": "公開済みページを検索エンジンに知らせる。期待PVは設定しない（今日・週末系の検索語は28日55語・表示59回と小さい）"
+    },
+    {
+      "id": "20261010-today-internal-links",
+      "title": "「今日の茨城」/today/ へのサイト内リンクの置き場所（オーナー判断）",
+      "kind": "internal-link",
+      "targetUrl": "/today/",
+      "priority": "medium",
+      "status": "candidate",
+      "createdAt": "2026-10-10",
+      "confidence": "low",
+      "effort": "S",
+      "source": "2026-10-10 に dist で確認：/today/ への内部リンク0件",
+      "reason": "見た目の変更のためオーナー判断。候補 A：TOPの「今週」ブロックの見出し横（TOP固定版のため要確認）、B：/events/ の冒頭、C：ヘッダー・フッター。期待PVは設定しない（docs/editorial/specs/20261010-mvp-forecast-review.md）"
+    },
+    {
       "id": "20261010-underpass-snippet-intent",
       "title": "道路冠水ページを『冠水マップ・アンダーパス』意図へ整合",
       "kind": "seo",
@@ -180,7 +241,8 @@
         "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
         "未確認の成果・売上を実績扱いしない"
       ],
-      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。"
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。 10/10: 受入条件の paid_booking_click が未送信だったため 20261010-paid-booking-click で送るようにした（10/11以降の確定日から取得）。観測期間10/8〜14は計測障害（10/8〜10）と重なるため、10/11〜17への取り直しと成功基準CTRの定義をGrowth Directorの判断待ちとして整理（docs/editorial/specs/20261010-mvp-forecast-review.md）。",
+      "specPath": "docs/editorial/specs/20261010-mvp-forecast-review.md"
     },
     {
       "id": "20261008-today-ibaraki-mvp",
@@ -189,7 +251,7 @@
       "targetUrl": "/today/",
       "targetFile": "src/pages/today/index.astro",
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-16",
       "confidence": "medium",
@@ -205,7 +267,9 @@
         "Phase 4以降（LINE/クーポン/CRM）は実装しない",
         "npm run verifyとCIが成功する"
       ],
-      "notes": "Phase 1実装: /today/ を追加。既存ThisWeek/happeningsを再利用し、開催中・今日・明日・今週末・この先1週間を日付で自動切替。終了済みは既存ロジックで除外。LINE/クーポン/自社予約/CRMは未実装。"
+      "notes": "Phase 1実装: /today/ を追加。既存ThisWeek/happeningsを再利用し、開催中・今日・明日・今週末・この先1週間を日付で自動切替。終了済みは既存ロジックで除外。LINE/クーポン/自社予約/CRMは未実装。 10/10: Phase 1は2026-10-08に公開済み（commit 611d664）で受入条件を満たすためdone。sitemap未収録・内部リンク0件だったため、sitemapは20261010-today-sitemapで追加、サイト内リンクの置き場所はオーナー判断（20261010-today-internal-links）。",
+      "completedAt": "2026-10-08",
+      "specPath": "docs/editorial/specs/20261010-mvp-forecast-review.md"
     },
     {
       "id": "20261008-localos-place-schema",
@@ -1191,7 +1255,7 @@
       "kind": "internal-link",
       "targetUrl": "/events/kasama-kiku-matsuri-2026/",
       "priority": "high",
-      "status": "candidate",
+      "status": "ready",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
       "confidence": "medium",
@@ -1199,7 +1263,20 @@
       "deadline": "2026-10-14",
       "page": "/news/kasama-shinguri-matsuri-2026/",
       "source": "PV Relay（新栗まつり 直近7日1,337 Views・10月4日終了）",
-      "reason": "終了後も残る流入を同じ笠間市の次の山へ渡す。代替効果の大きさは実測が無く expectedPvImpact は設定しない"
+      "reason": "終了後も残る流入を同じ笠間市の次の山へ渡す。代替効果の大きさは実測が無く expectedPvImpact は設定しない",
+      "notBefore": "2026-10-14",
+      "specPath": "docs/editorial/specs/20261014-shinguri-to-kiku-relay.md",
+      "primarySourceUrls": [
+        "https://www.kasama.or.jp/event/kiku.html",
+        "https://www.city.kasama.lg.jp/page/page000117.html"
+      ],
+      "acceptanceCriteria": [
+        "10/14以降に実装する（観測窓ガード）",
+        "新栗まつり記事の relatedArticleUrls の先頭に /events/kasama-kiku-matsuri-2026/ を足し、既存5件の順序は変えない",
+        "本文・title・description・updatedDate を変えない",
+        "seo-changes に internal-link として記録",
+        "npm run date:check と npm run verify が成功"
+      ]
     },
     {
       "id": "20261013-match-viewing-queries",

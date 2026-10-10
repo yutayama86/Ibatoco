@@ -49,6 +49,27 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261010-today-sitemap',
+    date: '2026-10-10',
+    url: '/today/',
+    kind: 'technical',
+    change: 'sitemap に /today/（今日の茨城、10/8 公開）を追加（indexable・canonical は自分自身だったが未収録）',
+    queries: [],
+    commit: '3070c77',
+    note: 'サイト内リンクは0件のまま（置き場所はオーナー判断：action 20261010-today-internal-links）。今日・週末系の検索語は28日55語・表示59回と小さく、期待PVは設定しない',
+  },
+  {
+    id: '20261010-paid-booking-click',
+    date: '2026-10-10',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'technical',
+    change: 'BookingGuide の提携リンク（data-is-paid=1）のクリックで paid_booking_click を送る（outbound_booking_click の内数・同じパラメータ）。BookingGuide を置く全ページが対象',
+    queries: [],
+    commit: '3070c77',
+    note: '計測の修正（予約できるイバトコ MVP の受入条件）。表示・CTA・リンク先は変えていない。paid_booking_click は 10/11 以降の確定日から取れる。それより前は送客先ドメインで判定した monetized_booking_click と期間を混ぜない',
+    experimentType: 'measurement',
+  },
+  {
     id: '20261010-events-november-picks',
     date: '2026-10-10',
     url: '/events/ibaraki-events-november-2026/',
