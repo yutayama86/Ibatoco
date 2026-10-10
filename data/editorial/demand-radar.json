@@ -34,6 +34,12 @@
     "positionChange": 3,
     "ctrDropPct": 30
   },
+  "trendsRules": {
+    "about": "Google Trends（proxy）の日次判断（src/lib/search-trends.mjs の trendsDecisions）。仕込み期限＝例年の立ち上がり − prepLeadDays。staleDays 以上更新が無ければ更新推奨。平均順位が weakPosition より下なら「表示を取れていない」",
+    "prepLeadDays": 14,
+    "staleDays": 7,
+    "weakPosition": 10
+  },
   "trendsKeywords": {
     "about": "Google Trends（data/editorial/search-trends.json）の検索語と、テーマ・対応ページ。対応ページが無い語は page: null（新規記事の候補）。基準語は「土浦花火」",
     "土浦花火": { "theme": "hanabi", "page": "/events/tsuchiura-hanabi-2026/" },
