@@ -11,6 +11,7 @@
  */
 import { gapController, runGrowthEngine } from './growth-engine.mjs';
 import { adjustSnapshotForIncidents, ga4Incidents, incidentStatus } from './measurement-incidents.mjs';
+import { referenceForecast } from './forecast-reference.mjs';
 import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
@@ -70,6 +71,8 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const gapMap = buildGapMap({ forecasts: result.forecasts, gap: result.gap, engineConfig, pages, relay, trendsList });
   const funnel = revenueFunnel({ snapshot, ledger, asp, pages, commercialWords: radarConfig.commercialIntentWords });
   const annual = aggregateLearning(learningRecords, radarConfig);
+  // 参考予測（別指標）：一時的な流入・季節・基礎を分ける。公式の着地予測（result.gap）と計算式は変えない
+  const forecastReference = referenceForecast({ snapshot, forecasts: result.forecasts, relayItems: relay.items, month: engineConfig.target.month, officialForecast: result.gap?.forecast ?? null });
   return {
     ...result,
     freshness,
@@ -100,6 +103,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
       ctrDown: trends.filter((t) => t.kind === 'ctr-down'),
     },
     gapMap,
+    forecastReference,
     gscQueriesAvailable: Array.isArray(snapshot?.gscQueries),
     engineBatch: result.batch,
     batch: relayed.batch,

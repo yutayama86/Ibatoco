@@ -175,6 +175,21 @@ const lines = [
     `- ページ別の GA4 値：${result.dataIncidents.contaminated.filter((k) => k.startsWith('pageMetrics')).join('') || '影響なし'}（障害日を含む値は null として扱う）`,
   ] : ['- 判断に使う集計は障害日を含まない（補正なし）']),
   '',
+  ...((r) => {
+    const sp = r.split && !r.split.unavailable ? r.split : null;
+    const bt = r.backtest;
+    const pages = (rows, n = 4) => rows.slice(0, n).map((p) => `${p.label.slice(0, 18)}（${fmt(p.views7)}${p.reason ? `・${p.reason}` : p.forecast != null ? `→ ${fmt(p.forecast)}` : ''}）`).join('、');
+    return [
+      `## 11月の参考予測（別指標。公式の着地予測 ${fmt(r.official)} と計算式は変えない・src/lib/forecast-reference.mjs）`,
+      '',
+      `- ① 計測障害を除いた直近の実績：${r.recent ? `直近7日 ${fmt(r.recent.last7.views)}（${r.recent.last7.from}〜${r.recent.last7.to}・確定 ${r.recent.last7.days} 日・1日平均 ${fmt(r.recent.last7.dailyAverage)}）／直近3日 1日平均 ${fmt(r.recent.last3.dailyAverage)}（${r.recent.last3.days} 日）／最新の確定日 ${r.recent.latest.date} ${fmt(r.recent.latest.views)}` : '日別（windows.ga4.daily）が無い'}`,
+      sp ? `- ② 一時的な検索需要（11月には残さない）：直近7日 ${fmt(sp.temporary.views7)}（全体の ${sp.temporary.share}%）— ${pages(sp.temporary.pages)}${sp.temporary.milestoneCurrentPace ? `。節目のあるページは今のペースなら ${fmt(sp.temporary.milestoneCurrentPace)} だが、節目の後は不明のため含めない` : ''}` : `- ② 一時的な検索需要：${r.split?.unavailable ?? '分けられない'}`,
+      sp ? `- ③ 季節需要を考えた参考予測：**${fmt(sp.reference)}** ＝ 基礎 ${fmt(sp.base.forecast)}（1日平均 ${fmt(sp.base.dailyAverage)} × ${sp.monthDays}日）＋ 11月に開催・見頃のあるページ ${fmt(sp.seasonal.forecast)}（${pages(sp.seasonal.pages, 3)}）。季節の上振れ（開催日前後のピーク）は実測が2件以上たまるまで足さない` : '- ③ 季節需要を考えた参考予測：分けられないため出さない',
+      ...(bt ? [`- 答え合わせ（日別 ${bt.origins} 起点・${bt.from}〜${bt.to}・${bt.horizon}日先の1日平均。＋は過大、−は過小）：${bt.methods.map((m) => `${m.label} 偏り ${m.bias > 0 ? '+' : ''}${m.bias}%・誤差 ${m.mape}%`).join('／')}`] : []),
+      '- 公式の予測（直近7日 × 日数）は、終わった・締切のある流入もそのまま延ばすため上振れしやすい。参考予測は上振れを足さないため下振れしやすい。採否は Growth Director が検証結果を見て決める',
+      '',
+    ];
+  })(result.forecastReference),
   '## ④⑤ PV at Risk（今後失う可能性のある Views と代替候補）',
   '',
   `今後7日 ${fmt(relay.lostViewsForecast[7])}・14日 ${fmt(relay.lostViewsForecast[14])}・30日 ${fmt(relay.lostViewsForecast[30])} PV（forecast。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}）`,

@@ -25,6 +25,7 @@ requirePattern('src/components/BusinessCta.astro', 'business_cta_view instrument
 requirePattern('src/components/BusinessCta.astro', 'business_cta_click instrumentation', /business_cta_click/);
 requirePattern('src/components/BookingGuide.astro', 'booking_guide_view instrumentation', /booking_guide_view/);
 requirePattern('src/components/BookingGuide.astro', 'outbound_booking_click instrumentation', /outbound_booking_click/);
+requirePattern('src/components/BookingGuide.astro', 'paid_booking_click instrumentation（提携リンクのみ。Revenue Funnel の ASP 送客）', /if \(link\.dataset\.isPaid === '1'\) trackEvent\('paid_booking_click', clickParams\)/);
 requirePattern('src/pages/contact.astro', 'contact_form_view instrumentation', /contact_form_view/);
 requirePattern('src/pages/contact.astro', 'contact_form_start instrumentation', /contact_form_start/);
 requirePattern('src/lib/forms.ts', 'generate_lead instrumentation', /generate_lead/);

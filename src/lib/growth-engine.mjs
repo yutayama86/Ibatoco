@@ -27,7 +27,7 @@ export function daysBetween(a, b) {
 export function addDays(value, amount) {
   return iso(addDateOnlyDays(parseDateOnly(value), amount));
 }
-function daysInMonth(month) {
+export function daysInMonth(month) {
   const [y, m] = month.split('-').map(Number);
   return new Date(Date.UTC(y, m, 0)).getUTCDate();
 }

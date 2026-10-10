@@ -242,6 +242,8 @@ npm run editorial:daily
 
 `ready` は「Claudeが考えなくても実装できる完成仕様」がある場合だけ使います。調査中や本文未完成は `candidate` のままにします。
 
+観測窓の明け・公式発表の予定日など、着手日が決まっている案件は、仕様を先に確定して `"notBefore": "YYYY-MM-DD"`（日本の暦日）を付けた `ready` にできます。日次ブリーフでは「予約・○日から実装可」と出し、その日になるまで Claude の実装指示には載せません（観測窓ガードも別に止めます）。
+
 ## 仕様を書くときの注意
 
 - **`booking.items` の `provider` は、`src/data/affiliates.ts` に登録済みのIDを指定する。**
