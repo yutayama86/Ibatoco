@@ -3,13 +3,13 @@
  *
  * 原則
  *   - GA4 の生データ・公式実績は変えない（公式値は元の snapshot から別に出す）
- *   - 障害日を含む集計（7日・28日・3日）は、日別データ（windows.ga4.daily）があれば障害日を除いた1日平均 × 日数の参考値に、
- *     無ければ障害前の確定値（baselineBeforeIncident）を参考値にする。どちらも「参考値」と明記する
+ *   - 障害日を含む集計（7日・28日・3日）は、日別データ（windows.ga4.daily）が障害日以外の日をすべて持っていれば、
+ *     障害日を除いた1日平均 × 日数の参考値に、欠けていれば障害前の確定値（baselineBeforeIncident）を参考値にする。どちらも「参考値」と明記する
  *   - 障害日を含むページ別の GA4 値は null（不明）にする。ゼロとして扱わない（急減と誤判定しない）
  *   - 推定値を公式PVに加算しない
  * Growth Engine の計算式は変えない（入力の snapshot を差し替えるだけ）。docs/GROWTH_ENGINE.md の「計測障害」
  */
-import { daysBetween } from './growth-engine.mjs';
+import { addDays, daysBetween } from './growth-engine.mjs';
 
 const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const WINDOW_BASELINE = { recent7: 'ga4Recent7', previous7: 'ga4Previous7', recent28: 'ga4Recent28' };
@@ -43,7 +43,10 @@ export function adjustSnapshotForIncidents(snapshot, data) {
     contaminated.push(key);
     const span = daysBetween(win.start, win.end) + 1;
     const clean = daily ? daily.filter((d) => d.date >= win.start && d.date <= win.end && !affected.includes(d.date) && d.views != null) : [];
-    if (clean.length) {
+    // 障害日以外の日が日別ですべてそろっているときだけ、日別から参考値を作る（欠けた日がある平均は偏るため使わない）
+    const cleanDays = [];
+    for (let d = win.start; d <= win.end; d = addDays(d, 1)) if (!affected.includes(d)) cleanDays.push(d);
+    if (clean.length && clean.length === cleanDays.length) {
       const avg = (field) => (clean.every((d) => d[field] != null) ? clean.reduce((s, d) => s + d[field], 0) / clean.length : null);
       const scaled = (field) => (avg(field) == null ? null : Math.round(avg(field) * span));
       out.windows.ga4[key] = {
@@ -97,7 +100,9 @@ export function incidentStatus(snapshot, data) {
     const base = i.baselineBeforeIncident ?? {};
     const baseDaily = Object.values(base.dailyViews ?? {});
     const baseAvg = baseDaily.length ? baseDaily.reduce((s, v) => s + v, 0) / baseDaily.length : null;
-    const afterDay = ga4.latestDay?.date && isDate(ga4.latestDay.date) && ga4.latestDay.date > last ? ga4.latestDay : null;
+    // 障害後の確定日：日別（windows.ga4.daily）に障害後の行があれば最新の行、無ければ latestDay
+    const dailyAfter = (Array.isArray(ga4.daily) ? ga4.daily : []).filter((r) => isDate(r.date) && r.date > last && !r.incident && r.views != null);
+    const afterDay = dailyAfter.at(-1) ?? (ga4.latestDay?.date && isDate(ga4.latestDay.date) && ga4.latestDay.date > last ? ga4.latestDay : null);
     const ratio = afterDay?.views != null && baseAvg ? afterDay.views / baseAvg : null;
     const baseGsc = Object.values(base.gscDaily ?? {});
     const baseClicks = baseGsc.length ? baseGsc.reduce((s, v) => s + v.clicks, 0) / baseGsc.length : null;

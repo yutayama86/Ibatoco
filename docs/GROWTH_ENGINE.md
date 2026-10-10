@@ -347,6 +347,23 @@ Search Console の表示回数は「イバトコが出た検索」しか見え�
 "monthToDate": { "month": "2026-11", "views": 0, "days": 0, "through": "2026-11-05" }
 ```
 
+**GA4 の日別**（`windows.ga4.daily`・`windows.ga4.dailyMeta`、`src/lib/ga4-daily.mjs`）。計測障害の日を除いた参考値（7日・28日・成長率・着地予測）と、障害後の回復の判定に使う。
+
+```jsonc
+"daily": [
+  // 日付の昇順・直近35日・確定日（dailyMeta.confirmedThrough）まで。取得できなかった日は行を作らない（ゼロで埋めない）
+  { "date": "2026-10-07", "views": 314, "sessions": 280, "engagedSessions": 203, "organicViews": 284 },
+  // 計測障害の日は実測値のまま incident を付ける（data/editorial/measurement-incidents.json の id）
+  { "date": "2026-10-08", "views": 38, "sessions": 39, "engagedSessions": 0, "organicViews": 3, "incident": "2026-10-ga4-csp" }
+],
+"dailyMeta": { "source": "...", "fetchedAt": "...", "confirmedThrough": "2026-10-09", "coverage": { "from": "...", "to": "...", "rows": 0, "missingDates": [] } }
+```
+
+- views＝screen_page_views、sessions、engagedSessions＝engaged_sessions（日別の総数）。organicViews＝session_default_channel_group が「Organic Search」の screen_page_views（Organic sessions ではない）。チャネル別が無い日は null
+- 日別の総数が無い日は、チャネル別があっても行を作らない（総数を推測しない）
+- 取り込み：`npm run ga4:daily -- --input <file.json>`（Windsor の totals・channels をそのまま渡すと日付で結合する）。検査：`node scripts/ga4-daily.mjs --check`（npm run verify。ゼロ埋めの疑い・確定日より後・障害日の印の食い違い・Organic が総数より大きい、を止める）
+- 計測障害の補正は、障害日以外の日が日別ですべてそろっているときだけ日別から参考値を作る（欠けた日がある平均は偏るため、障害前の確定値を使う）
+
 Demand Radar・事前警戒の確度を上げるため、次も入れられると良い（無ければ null として扱う）。
 
 ```jsonc

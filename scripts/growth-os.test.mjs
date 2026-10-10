@@ -323,3 +323,71 @@ test('計測障害：障害日を含む集計は参考値に差し替え、公�
   assert.equal(after.gsc.status, '維持');
   assert.equal(after.startEstimated, true);
 });
+
+test('GA4 日別：Windsor の総数とチャネル別を日付で結合（Organic は Organic Search の views）。総数が無い日は行を作らない', async () => {
+  const { joinWindsorDaily, mergeDaily, checkDaily, dailyCoverage } = await import('../src/lib/ga4-daily.mjs');
+  const incidents = JSON.parse(readFileSync('data/editorial/measurement-incidents.json', 'utf8'));
+  const rows = joinWindsorDaily({
+    totals: [
+      { date: '2026-10-07', screen_page_views: 314, sessions: 280, engaged_sessions: 203 },
+      { date: '2026-10-08', screen_page_views: 38, sessions: 39, engaged_sessions: 0 },
+    ],
+    channels: [
+      { date: '2026-10-07', session_default_channel_group: 'Organic Search', screen_page_views: 284 },
+      { date: '2026-10-07', session_default_channel_group: 'Direct', screen_page_views: 17 },
+      { date: '2026-10-10', session_default_channel_group: 'Organic Search', screen_page_views: 5 }, // 総数が無い日
+    ],
+  });
+  assert.deepEqual(rows.map((r) => r.date), ['2026-10-07', '2026-10-08']);
+  assert.equal(rows[0].organicViews, 284);
+  assert.equal(rows[1].organicViews, null); // チャネル別が無い日は null（0にしない）
+
+  // 確定日より後は入れない・障害日に印・35日に絞る
+  const old = { date: '2026-08-01', views: 100, sessions: 90, engagedSessions: 50, organicViews: 80 };
+  const merged = mergeDaily({ existing: [old], incoming: [...rows, { date: '2026-10-10', views: 1, sessions: 1, engagedSessions: 0 }], confirmedThrough: '2026-10-09', incidents });
+  assert.deepEqual(merged.map((r) => r.date), ['2026-10-07', '2026-10-08']);
+  assert.equal(merged[1].incident, '2026-10-ga4-csp');
+  assert.equal(merged[1].views, 38); // 実測のまま
+  assert.equal(dailyCoverage(merged, '2026-10-09').missingDates.length, 33);
+  assert.deepEqual(checkDaily(merged, { confirmedThrough: '2026-10-09', incidents }), []);
+
+  // 検査：ゼロ埋めの疑い・Organic が総数より大きい・障害日の印が無い・確定日より後
+  const bad = [
+    { date: '2026-10-05', views: 0, sessions: 0, engagedSessions: 0, organicViews: 0 },
+    { date: '2026-10-06', views: 10, sessions: 10, engagedSessions: 5, organicViews: 20 },
+    { date: '2026-10-08', views: 38, sessions: 39, engagedSessions: 0, organicViews: 3 },
+    { date: '2026-10-12', views: 300, sessions: 280, engagedSessions: 200, organicViews: 250 },
+  ];
+  const errors = checkDaily(bad, { confirmedThrough: '2026-10-09', incidents }).join('\n');
+  assert.match(errors, /ゼロ埋めの疑い/);
+  assert.match(errors, /organicViews（20）が views（10）より大きい/);
+  assert.match(errors, /2026-10-08 は計測障害/);
+  assert.match(errors, /2026-10-12 は確定日/);
+});
+
+test('計測障害の補正：日別が障害日以外の日をすべて持っていないときは、日別から参考値を作らない', async () => {
+  const { adjustSnapshotForIncidents } = await import('../src/lib/measurement-incidents.mjs');
+  const incidents = JSON.parse(readFileSync('data/editorial/measurement-incidents.json', 'utf8'));
+  const partial = { windows: { ga4: {
+    recent7: { start: '2026-10-03', end: '2026-10-09', views: 2800 },
+    daily: [
+      { date: '2026-10-06', views: 369, sessions: 322, engagedSessions: 219 },
+      { date: '2026-10-07', views: 314, sessions: 280, engagedSessions: 203 },
+    ],
+  } }, pageMetrics: [] };
+  const r = adjustSnapshotForIncidents(partial, incidents);
+  assert.equal(r.snapshot.windows.ga4.recent7.views, 5287); // 障害前の確定値（10/3〜10/5 が欠けているため）
+  assert.match(r.snapshot.windows.ga4.recent7.basis, /障害前の確定値/);
+});
+
+test('計測障害の復旧判定：日別に障害後の行があれば、それで日次PVの回復を判定する', async () => {
+  const { incidentStatus } = await import('../src/lib/measurement-incidents.mjs');
+  const incidents = JSON.parse(readFileSync('data/editorial/measurement-incidents.json', 'utf8'));
+  const s = { windows: { ga4: { latestDay: { date: '2026-10-07', views: 314 }, daily: [
+    { date: '2026-10-09', views: 17, sessions: 16, engagedSessions: 1, incident: '2026-10-ga4-csp' },
+    { date: '2026-10-11', views: 150, sessions: 140, engagedSessions: 90 },
+  ] } }, source: { freshness: { ga4LatestConfirmedDate: '2026-10-07' } } };
+  const st = incidentStatus(s, incidents)[0];
+  assert.equal(st.dailyViews.date, '2026-10-11');
+  assert.equal(st.dailyViews.status, '未回復'); // 150 は基準 342 の44%
+});
