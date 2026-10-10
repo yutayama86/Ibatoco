@@ -166,6 +166,7 @@ const lines = [
     `  - 復旧（日次PV）：${i.dailyViews.status}${i.dailyViews.views != null ? `（${i.dailyViews.date} ${fmt(i.dailyViews.views)} Views・基準 ${fmt(i.dailyViews.baseline)} の${Math.round(i.dailyViews.ratio * 100)}%）` : `（${i.dailyViews.note}）`}`,
     `  - 実アクセスの裏付け（GSC）：${i.gsc.status}${i.gsc.clicks != null ? `（${i.gsc.date} ${fmt(i.gsc.clicks)} クリック・基準 ${fmt(i.gsc.baselineClicks)}）` : `（${i.gsc.note}）`}`,
   ]) : ['- 登録された計測障害なし']),
+  ((d, m) => `- GA4 日別（windows.ga4.daily）：${d ? `${d.length} 日（${m?.coverage?.from ?? '—'}〜${m?.confirmedThrough ?? '—'}・未収録 ${m?.coverage?.missingDates?.length ?? '—'} 日・障害日 ${d.filter((r) => r.incident).length} 日）` : '未収録'}`)(snapshot.windows?.ga4?.daily, snapshot.windows?.ga4?.dailyMeta),
   ...(result.dataIncidents.corrections.length ? [
     '- 判断に使う参考値（公式値は変えない・推定値を公式PVに足さない）：',
     ...result.dataIncidents.corrections.map((c) => `  - ${c.window}：公式 ${fmt(c.official)} → 参考 ${fmt(c.reference)}（${c.basis}）`),
