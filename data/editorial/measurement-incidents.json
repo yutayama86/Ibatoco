@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-10",
+  "about": "計測障害の台帳（Growth OS の正本）。GA4 の生データ・公式実績は変えない。障害期間にかかる集計（7日・28日・成長率・着地予測・優先順位）は src/lib/measurement-incidents.mjs が判断から外し、公式値と参考値を分けて出す。欠測をゼロとして扱わず、推定値を公式PVに足さない。docs/GROWTH_ENGINE.md の「計測障害」",
+  "incidents": [
+    {
+      "id": "2026-10-ga4-csp",
+      "source": "ga4",
+      "status": "resolved",
+      "start": "2026-10-08T00:00:00+09:00",
+      "startEstimated": true,
+      "startBasis": "GA4 の日次（JST）で 10/7 は通常（314 Views・Organic 284）、10/8 から急落（38・Organic 3）。時刻別データは未取得のため、日の境界を開始と推定",
+      "end": "2026-10-10T20:28:00+09:00",
+      "endEstimated": false,
+      "endBasis": "PR #227 の本番反映（Deploy production 完了 2026-10-10 11:28 UTC）。本番ブラウザで analytics.google.com/g/collect への送信成功を確認",
+      "affectedDates": ["2026-10-08", "2026-10-09", "2026-10-10"],
+      "partialDates": ["2026-10-10"],
+      "cause": "gtag.js の送信先 https://analytics.google.com/g/collect（と予備の www.google.com、stats.g.doubleclick.net）が CSP の connect-src に無く、ブラウザが送信を拒否した。CSP は 2026-07-30 から不変で、Google 側の送信先の変更が契機と推定",
+      "realTrafficEvidence": "Cloudflare Analytics（国=Japan）で 10/8〜10/10 も 10/6〜7 と同じ日次の波。5xx 0。実アクセスの減少ではない",
+      "unaffectedSources": ["gsc", "cloudflare"],
+      "handling": "欠測（null）。ゼロとして扱わない。推定値を公式PVに加算しない",
+      "baselineBeforeIncident": {
+        "basis": "障害前の確定値（Windsor.ai GA4、performance-snapshot 2026-10-10 時点の windows.ga4）",
+        "ga4Recent7": { "start": "2026-10-01", "end": "2026-10-07", "views": 5287, "sessions": 4651, "engagedSessions": 3281 },
+        "ga4Previous7": { "start": "2026-09-24", "end": "2026-09-30", "views": 2197, "sessions": 1800, "engagedSessions": 1251 },
+        "ga4Recent28": { "start": "2026-09-10", "end": "2026-10-07", "views": 11177, "sessions": 9600, "engagedSessions": 6428 },
+        "dailyViews": { "2026-10-06": 369, "2026-10-07": 314 },
+        "dailyOrganicViews": { "2026-10-06": 320, "2026-10-07": 284 },
+        "gscDaily": { "2026-10-06": { "clicks": 133, "impressions": 2958, "position": 6.5456 } }
+      },
+      "recoveryCriteria": {
+        "eventSending": "本番 QA の「GA4 の送信経路」が CSP で止められていない（毎デプロイ）",
+        "dailyViews": "障害後の確定日の Views が、障害前の基準（10/6〜7 の平均 約340）の70%以上。検索需要の変動も考慮し、GSC のクリックと合わせて判定する",
+        "gsc": "障害期間の GSC クリック・表示が、障害前と同じ水準（GSC は影響を受けていないため、実アクセスの裏付けに使う）"
+      },
+      "issue": "https://github.com/yutayama86/Ibatoco/issues/226",
+      "fix": "https://github.com/yutayama86/Ibatoco/pull/227"
+    }
+  ]
+}
