@@ -1,0 +1,979 @@
+{
+  "source": "Windsor.ai GA4 547804264",
+  "fetchedAt": "2026-10-10T13:22:35.032Z",
+  "confirmedThrough": "2026-10-09",
+  "totals": [
+    {
+      "date": "2026-09-05",
+      "screen_page_views": 104,
+      "sessions": 86,
+      "engaged_sessions": 42
+    },
+    {
+      "date": "2026-09-06",
+      "screen_page_views": 95,
+      "sessions": 77,
+      "engaged_sessions": 43
+    },
+    {
+      "date": "2026-09-07",
+      "screen_page_views": 209,
+      "sessions": 129,
+      "engaged_sessions": 89
+    },
+    {
+      "date": "2026-09-08",
+      "screen_page_views": 148,
+      "sessions": 88,
+      "engaged_sessions": 56
+    },
+    {
+      "date": "2026-09-09",
+      "screen_page_views": 150,
+      "sessions": 106,
+      "engaged_sessions": 59
+    },
+    {
+      "date": "2026-09-10",
+      "screen_page_views": 262,
+      "sessions": 173,
+      "engaged_sessions": 106
+    },
+    {
+      "date": "2026-09-11",
+      "screen_page_views": 242,
+      "sessions": 200,
+      "engaged_sessions": 116
+    },
+    {
+      "date": "2026-09-12",
+      "screen_page_views": 333,
+      "sessions": 280,
+      "engaged_sessions": 150
+    },
+    {
+      "date": "2026-09-13",
+      "screen_page_views": 207,
+      "sessions": 176,
+      "engaged_sessions": 104
+    },
+    {
+      "date": "2026-09-14",
+      "screen_page_views": 175,
+      "sessions": 151,
+      "engaged_sessions": 84
+    },
+    {
+      "date": "2026-09-15",
+      "screen_page_views": 239,
+      "sessions": 210,
+      "engaged_sessions": 114
+    },
+    {
+      "date": "2026-09-16",
+      "screen_page_views": 332,
+      "sessions": 281,
+      "engaged_sessions": 182
+    },
+    {
+      "date": "2026-09-17",
+      "screen_page_views": 316,
+      "sessions": 248,
+      "engaged_sessions": 149
+    },
+    {
+      "date": "2026-09-18",
+      "screen_page_views": 290,
+      "sessions": 263,
+      "engaged_sessions": 155
+    },
+    {
+      "date": "2026-09-19",
+      "screen_page_views": 251,
+      "sessions": 221,
+      "engaged_sessions": 128
+    },
+    {
+      "date": "2026-09-20",
+      "screen_page_views": 246,
+      "sessions": 226,
+      "engaged_sessions": 136
+    },
+    {
+      "date": "2026-09-21",
+      "screen_page_views": 240,
+      "sessions": 216,
+      "engaged_sessions": 128
+    },
+    {
+      "date": "2026-09-22",
+      "screen_page_views": 215,
+      "sessions": 193,
+      "engaged_sessions": 136
+    },
+    {
+      "date": "2026-09-23",
+      "screen_page_views": 345,
+      "sessions": 311,
+      "engaged_sessions": 208
+    },
+    {
+      "date": "2026-09-24",
+      "screen_page_views": 300,
+      "sessions": 269,
+      "engaged_sessions": 187
+    },
+    {
+      "date": "2026-09-25",
+      "screen_page_views": 362,
+      "sessions": 290,
+      "engaged_sessions": 215
+    },
+    {
+      "date": "2026-09-26",
+      "screen_page_views": 414,
+      "sessions": 322,
+      "engaged_sessions": 216
+    },
+    {
+      "date": "2026-09-27",
+      "screen_page_views": 277,
+      "sessions": 223,
+      "engaged_sessions": 158
+    },
+    {
+      "date": "2026-09-28",
+      "screen_page_views": 274,
+      "sessions": 240,
+      "engaged_sessions": 163
+    },
+    {
+      "date": "2026-09-29",
+      "screen_page_views": 283,
+      "sessions": 225,
+      "engaged_sessions": 161
+    },
+    {
+      "date": "2026-09-30",
+      "screen_page_views": 287,
+      "sessions": 231,
+      "engaged_sessions": 151
+    },
+    {
+      "date": "2026-10-01",
+      "screen_page_views": 1211,
+      "sessions": 1058,
+      "engaged_sessions": 805
+    },
+    {
+      "date": "2026-10-02",
+      "screen_page_views": 1189,
+      "sessions": 1040,
+      "engaged_sessions": 729
+    },
+    {
+      "date": "2026-10-03",
+      "screen_page_views": 990,
+      "sessions": 886,
+      "engaged_sessions": 594
+    },
+    {
+      "date": "2026-10-04",
+      "screen_page_views": 682,
+      "sessions": 602,
+      "engaged_sessions": 400
+    },
+    {
+      "date": "2026-10-05",
+      "screen_page_views": 532,
+      "sessions": 463,
+      "engaged_sessions": 331
+    },
+    {
+      "date": "2026-10-06",
+      "screen_page_views": 369,
+      "sessions": 322,
+      "engaged_sessions": 219
+    },
+    {
+      "date": "2026-10-07",
+      "screen_page_views": 314,
+      "sessions": 280,
+      "engaged_sessions": 203
+    },
+    {
+      "date": "2026-10-08",
+      "screen_page_views": 38,
+      "sessions": 39,
+      "engaged_sessions": 0
+    },
+    {
+      "date": "2026-10-09",
+      "screen_page_views": 17,
+      "sessions": 16,
+      "engaged_sessions": 1
+    }
+  ],
+  "channels": [
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 65
+    },
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 15
+    },
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 12
+    },
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 7
+    },
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-05",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-06",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 73
+    },
+    {
+      "date": "2026-09-06",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 19
+    },
+    {
+      "date": "2026-09-06",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-07",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 145
+    },
+    {
+      "date": "2026-09-07",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 46
+    },
+    {
+      "date": "2026-09-07",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 18
+    },
+    {
+      "date": "2026-09-08",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 78
+    },
+    {
+      "date": "2026-09-08",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 62
+    },
+    {
+      "date": "2026-09-08",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 7
+    },
+    {
+      "date": "2026-09-08",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-09",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 108
+    },
+    {
+      "date": "2026-09-09",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 42
+    },
+    {
+      "date": "2026-09-10",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 114
+    },
+    {
+      "date": "2026-09-10",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 109
+    },
+    {
+      "date": "2026-09-10",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 25
+    },
+    {
+      "date": "2026-09-10",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 14
+    },
+    {
+      "date": "2026-09-11",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 199
+    },
+    {
+      "date": "2026-09-11",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 31
+    },
+    {
+      "date": "2026-09-11",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 10
+    },
+    {
+      "date": "2026-09-11",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-12",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 315
+    },
+    {
+      "date": "2026-09-12",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 9
+    },
+    {
+      "date": "2026-09-12",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 9
+    },
+    {
+      "date": "2026-09-13",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 194
+    },
+    {
+      "date": "2026-09-13",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 8
+    },
+    {
+      "date": "2026-09-13",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-13",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-14",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 135
+    },
+    {
+      "date": "2026-09-14",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 30
+    },
+    {
+      "date": "2026-09-14",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 5
+    },
+    {
+      "date": "2026-09-14",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 4
+    },
+    {
+      "date": "2026-09-14",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-15",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 175
+    },
+    {
+      "date": "2026-09-15",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 48
+    },
+    {
+      "date": "2026-09-15",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 16
+    },
+    {
+      "date": "2026-09-16",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 275
+    },
+    {
+      "date": "2026-09-16",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 25
+    },
+    {
+      "date": "2026-09-16",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 17
+    },
+    {
+      "date": "2026-09-16",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 12
+    },
+    {
+      "date": "2026-09-16",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-17",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 207
+    },
+    {
+      "date": "2026-09-17",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 72
+    },
+    {
+      "date": "2026-09-17",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 27
+    },
+    {
+      "date": "2026-09-17",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 7
+    },
+    {
+      "date": "2026-09-17",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-18",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 247
+    },
+    {
+      "date": "2026-09-18",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 26
+    },
+    {
+      "date": "2026-09-18",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 13
+    },
+    {
+      "date": "2026-09-18",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-18",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 223
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 18
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-19",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-20",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 229
+    },
+    {
+      "date": "2026-09-20",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 9
+    },
+    {
+      "date": "2026-09-20",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 8
+    },
+    {
+      "date": "2026-09-21",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 217
+    },
+    {
+      "date": "2026-09-21",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 15
+    },
+    {
+      "date": "2026-09-21",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-09-21",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-21",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-22",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 188
+    },
+    {
+      "date": "2026-09-22",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 18
+    },
+    {
+      "date": "2026-09-22",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 5
+    },
+    {
+      "date": "2026-09-22",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-22",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-23",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 312
+    },
+    {
+      "date": "2026-09-23",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 21
+    },
+    {
+      "date": "2026-09-23",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-09-23",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-23",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 272
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 11
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 10
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 4
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-24",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-25",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 286
+    },
+    {
+      "date": "2026-09-25",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 31
+    },
+    {
+      "date": "2026-09-25",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 24
+    },
+    {
+      "date": "2026-09-25",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 20
+    },
+    {
+      "date": "2026-09-25",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-26",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 320
+    },
+    {
+      "date": "2026-09-26",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 34
+    },
+    {
+      "date": "2026-09-26",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 31
+    },
+    {
+      "date": "2026-09-26",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 28
+    },
+    {
+      "date": "2026-09-26",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-09-27",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 240
+    },
+    {
+      "date": "2026-09-27",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 33
+    },
+    {
+      "date": "2026-09-27",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-27",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-09-28",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 227
+    },
+    {
+      "date": "2026-09-28",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 37
+    },
+    {
+      "date": "2026-09-28",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 7
+    },
+    {
+      "date": "2026-09-28",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-09-29",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 238
+    },
+    {
+      "date": "2026-09-29",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 33
+    },
+    {
+      "date": "2026-09-29",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-09-29",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-09-30",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 250
+    },
+    {
+      "date": "2026-09-30",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 20
+    },
+    {
+      "date": "2026-09-30",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 12
+    },
+    {
+      "date": "2026-09-30",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 5
+    },
+    {
+      "date": "2026-10-01",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 1121
+    },
+    {
+      "date": "2026-10-01",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 46
+    },
+    {
+      "date": "2026-10-01",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 36
+    },
+    {
+      "date": "2026-10-01",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 5
+    },
+    {
+      "date": "2026-10-01",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 1065
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 62
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 41
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 15
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-02",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-03",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 920
+    },
+    {
+      "date": "2026-10-03",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 38
+    },
+    {
+      "date": "2026-10-03",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 23
+    },
+    {
+      "date": "2026-10-03",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 7
+    },
+    {
+      "date": "2026-10-03",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-10-04",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 633
+    },
+    {
+      "date": "2026-10-04",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 28
+    },
+    {
+      "date": "2026-10-04",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 13
+    },
+    {
+      "date": "2026-10-04",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-10-04",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 473
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 43
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 11
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "Organic Social",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "Unassigned",
+      "screen_page_views": 2
+    },
+    {
+      "date": "2026-10-05",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 1
+    },
+    {
+      "date": "2026-10-06",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 320
+    },
+    {
+      "date": "2026-10-06",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 27
+    },
+    {
+      "date": "2026-10-06",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 19
+    },
+    {
+      "date": "2026-10-06",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-07",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 284
+    },
+    {
+      "date": "2026-10-07",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 17
+    },
+    {
+      "date": "2026-10-07",
+      "session_default_channel_group": "Referral",
+      "screen_page_views": 6
+    },
+    {
+      "date": "2026-10-07",
+      "session_default_channel_group": "Paid Search",
+      "screen_page_views": 4
+    },
+    {
+      "date": "2026-10-07",
+      "session_default_channel_group": "AI Assistant",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-08",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 35
+    },
+    {
+      "date": "2026-10-08",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 3
+    },
+    {
+      "date": "2026-10-09",
+      "session_default_channel_group": "Direct",
+      "screen_page_views": 15
+    },
+    {
+      "date": "2026-10-09",
+      "session_default_channel_group": "Organic Search",
+      "screen_page_views": 2
+    }
+  ]
+}

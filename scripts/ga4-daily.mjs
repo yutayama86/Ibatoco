@@ -13,7 +13,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { checkDaily, dailyCoverage, joinWindsorDaily, mergeDaily } from '../src/lib/ga4-daily.mjs';
+import { channelTotalsGap, checkDaily, compareWindows, dailyCoverage, joinWindsorDaily, mergeDaily } from '../src/lib/ga4-daily.mjs';
 
 const ROOT = process.cwd();
 const SNAPSHOT = join(ROOT, 'data/editorial/performance-snapshot.json');
@@ -25,6 +25,14 @@ const raw = readFileSync(SNAPSHOT, 'utf8');
 const snapshot = JSON.parse(raw);
 const incidents = existsSync(INCIDENTS) ? JSON.parse(readFileSync(INCIDENTS, 'utf8')) : null;
 const ga4 = snapshot.windows?.ga4 ?? {};
+
+/** 集計（windows.ga4）と日別の合計の照合を1行で（検査では止めない。差は取得時点の違いでも出る） */
+function windowsLine(g) {
+  const { compared, uncovered } = compareWindows(g);
+  if (!compared.length) return '集計との照合：日別で全日がそろう集計なし';
+  const parts = compared.map((c) => `${c.window} ${c.official}${c.diff === 0 ? ' 一致' : ` ↔ 日別 ${c.daily}（差 ${c.diff > 0 ? '+' : ''}${c.diff}）`}`);
+  return `集計との照合：${parts.join('・')}${uncovered.length ? `（日別に欠けがあり照合しない：${uncovered.join('・')}）` : ''}`;
+}
 
 if (args.includes('--input')) {
   const input = JSON.parse(readFileSync(arg('input'), 'utf8'));
@@ -47,6 +55,11 @@ if (args.includes('--input')) {
   const minified = !raw.trimEnd().includes('\n');
   writeFileSync(SNAPSHOT, `${minified ? JSON.stringify(snapshot) : JSON.stringify(snapshot, null, 2)}\n`);
   console.log(`windows.ga4.daily：${daily.length} 日（${coverage.from}〜${coverage.to}、未収録 ${coverage.missingDates.length} 日）`);
+  if (!Array.isArray(input.daily)) {
+    const gaps = channelTotalsGap({ totals: input.totals ?? [], channels: input.channels ?? [] });
+    console.log(gaps.length ? `チャネル別の合計が総数と違う日：${gaps.map((g) => `${g.date}（総数 ${g.total}・チャネル計 ${g.channels ?? '—'}）`).join('・')}` : 'チャネル別の合計：全日で総数と一致');
+  }
+  console.log(windowsLine(snapshot.windows.ga4));
   process.exit(0);
 }
 
@@ -61,10 +74,11 @@ const coverage = dailyCoverage(daily, confirmedThrough);
 const line = `GA4 日別：${coverage.rows} 日（${coverage.from}〜${coverage.to}・未収録 ${coverage.missingDates.length} 日・障害日 ${daily.filter((r) => r.incident).length} 日）`;
 if (args.includes('--check')) {
   if (errors.length) { for (const e of errors) console.error(`  [error] windows.ga4.daily：${e}`); process.exit(1); }
-  console.log(`${line} の形式 OK`);
+  console.log(`${line} の形式 OK｜${windowsLine(ga4)}`);
   process.exit(0);
 }
 console.log(line);
+console.log(windowsLine(ga4));
 for (const r of daily) console.log(`  ${r.date} views ${r.views} sessions ${r.sessions} engaged ${r.engagedSessions} organic ${r.organicViews ?? '—'}${r.incident ? `（障害日 ${r.incident}）` : ''}`);
 if (coverage.missingDates.length) console.log(`  未収録：${coverage.missingDates.join('・')}`);
 process.exit(errors.length ? 1 : 0);
