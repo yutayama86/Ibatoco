@@ -52,8 +52,9 @@ const ALL_VIEWPORTS = [
   { name: '1280', width: 1280, height: 800 }, // ノートPC
   { name: '1440', width: 1440, height: 900 }, // PC
 ];
-// 本番は通信を伴うので、必須の幅（320 / 375 / 430 / 768 / 1280 / 1440）に、利用の多い 360・390 を足した8幅に絞る
-const PRODUCTION_VIEWPORTS = new Set(['320', '360', '375', '390', '430', '768', '1280', '1440']);
+// 本番は通信を伴うので、必須の6幅（320 / 375 / 430 / 768 / 1280 / 1440）に絞る（360・390 はビルド検査の11幅で見る）。
+// 本番への自動アクセスが Cloudflare のリクエストの大半を占めていたため（2026-10-10、Issue #226 の調査）
+const PRODUCTION_VIEWPORTS = new Set(['320', '375', '430', '768', '1280', '1440']);
 const VIEWPORTS = PRODUCTION ? ALL_VIEWPORTS.filter((v) => PRODUCTION_VIEWPORTS.has(v.name)) : ALL_VIEWPORTS;
 // 同時に開く幅の数。CIの時間内（Validate・Deploy とも15分）に収めるため、幅ごとに並列で回す
 const CONCURRENCY = 3;

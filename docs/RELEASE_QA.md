@@ -17,7 +17,7 @@
 
 ## UI検査（scripts/ui-smoke.mjs・scripts/ui-smoke-checks.mjs・scripts/qa-pages.mjs）
 
-- 幅：320 / 360 / 375 / 390 / 402 / 412 / 414 / 430 / 768 / 1280 / 1440px（本番は 320 / 360 / 375 / 390 / 430 / 768 / 1280 / 1440px）
+- 幅：320 / 360 / 375 / 390 / 402 / 412 / 414 / 430 / 768 / 1280 / 1440px（本番は必須の 320 / 375 / 430 / 768 / 1280 / 1440px）
 - ページ：主要テンプレートを最低1ページずつ（TOP・ニュース一覧・最新ニュース・土浦花火・あんこう祭・袋田の滝・イベント一覧・紅葉テーマ・SPORTS・市町村2件・Discovery・事業者向け・情報送信・検索・Control Center）
 - 失敗にするもの
   - 横スクロール（`scrollWidth > clientWidth`）・画面外へのはみ出し・CTAの viewport 外へのはみ出し・親に切られる文字・極端に狭い文字列
@@ -58,3 +58,14 @@ CI を止めるもの：
 参考（止めない）：記事以外で、noindex でも canonical 違いでもないのに sitemap に無いページ（タグ一覧など）。意図した除外かを確かめる。`/control/`・`/preview/`・`/og/`・`/search/` などは対象外。
 
 結果は `/control/` の Index Health カード（ビルド時点の値を `dist/control/index.html` に書き込む）、CI のログと Job Summary に出る。テストは `scripts/index-health.test.mjs`。
+
+## 本番への自動アクセスと Cloudflare の上限
+
+本番 QA（`ui-smoke.mjs --production`）・Visual Regression・`verify-production.mjs` は本番に実際にアクセスする。2026-10-06〜10 の Cloudflare では、全リクエスト約34万件のうち約23万件がこれらの自動アクセスだった（HeadlessChrome・IbatocoProductionQA・ibatoco-verify-production。Issue #226 の調査）。
+
+- Workers の無料プランは Worker の実行が1日10万件まで。超えると Worker を通るリクエストが 429 になる（静的ファイルは無料・無制限）
+- `wrangler.jsonc` の `run_worker_first` は、HTMLページと /control/ だけ Worker を通し、`/_astro/*`・`/images/*`・`/fonts/*`・`/og/*` などの静的ファイルは通さない。/control/ が範囲から外れていないかは `scripts/security-audit.mjs` が検査する
+- 本番 QA は必須の6幅だけ、Visual Regression は PR のときだけ本番を撮る（main への push・定期実行では撮らない）
+- 本番 QA は GA4 の送信経路（CSP）も検査するが、送信そのものは止める（計測は送らない）
+- メンテナンス用の `SITE_PASSWORD` を設定したとき、静的ファイル（画像・CSS・JS）は保護されない（HTMLページは保護される）
+

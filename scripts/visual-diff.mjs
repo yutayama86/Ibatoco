@@ -51,6 +51,8 @@ const skip = (message) => {
   process.exit(0);
 };
 if (!existsSync(join(DIST, 'index.html'))) skip('dist/ がありません');
+// 本番を撮るのは PR のときだけ（参考レポートなので、main への push・定期実行では本番へのアクセスを増やさない）
+if (process.env.GITHUB_ACTIONS && process.env.GITHUB_EVENT_NAME && process.env.GITHUB_EVENT_NAME !== 'pull_request') skip(`${process.env.GITHUB_EVENT_NAME} では撮らない（PR のときだけ）`);
 
 let chromium;
 let PNG;

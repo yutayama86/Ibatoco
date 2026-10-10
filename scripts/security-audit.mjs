@@ -77,6 +77,25 @@ if (worker.includes('Path=/control;')) add('worker-security-invalid: __Host cook
 if (!/status:\s*503/.test(worker)) add('worker-security-missing: fail-closed 503');
 if (!worker.includes("style-src 'self' 'unsafe-inline'")) add('worker-security-missing: same-origin control stylesheet allowance');
 
+// /control/ は必ず Worker を先に通す（パスワード保護）。run_worker_first を範囲指定にしたため、
+// /control/ が範囲から外れていないか・除外パターンに入っていないかを検査する（wrangler.jsonc）
+{
+  const raw = readFileSync('wrangler.jsonc', 'utf8').replace(/^\s*\/\/.*$/gm, '').replace(/,(\s*[}\]])/g, '$1');
+  const runFirst = JSON.parse(raw).assets?.run_worker_first;
+  const patterns = Array.isArray(runFirst) ? runFirst : null;
+  const toRegExp = (glob) => new RegExp(`^${glob.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`);
+  const workerFirst = (path) => runFirst === true || (patterns
+    && patterns.some((p) => !p.startsWith('!') && toRegExp(p).test(path))
+    && !patterns.some((p) => p.startsWith('!') && toRegExp(p.slice(1)).test(path)));
+  for (const path of ['/control', '/control/', '/control/login', '/control/logout', '/control/index.html']) {
+    if (!workerFirst(path)) add(`worker-routing: ${path} が Worker を通らない（wrangler.jsonc の run_worker_first）`);
+  }
+  // ページ（HTML）も Worker を通す：www・http からの301と、メンテナンス用の SITE_PASSWORD のため
+  for (const path of ['/', '/events/tsuchiura-hanabi-2026/', '/kouyou/']) {
+    if (!workerFirst(path)) add(`worker-routing: ${path} が Worker を通らない（www・http の301が効かなくなる）`);
+  }
+}
+
 if (findings.length) {
   console.error(`Security audit failed: ${findings.length} finding(s)`);
   for (const item of findings) console.error('  - ' + item);
