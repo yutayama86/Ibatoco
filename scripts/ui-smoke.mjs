@@ -274,12 +274,78 @@ async function checkAnalyticsPath() {
   else notes.push(`GA4 の送信経路：CSP で止められていない（送信先 ${[...attempts].join('・')}。送信は QA で止め、計測は送っていない）`);
 }
 
+// 予約・送客の計測イベントが1回の操作で1回ずつ出るか（予約できるイバトコ MVP の主KPI paid_booking_click ÷ booking_guide_view の前提）。
+// gtag を記録用に包む（本番でも計測は送らない：除外フラグで gtag.js を読まず、送信先も route で止める）。リンクの遷移は止める
+const BOOKING_PAGES = ['/events/oarai-ankou-matsuri-2026/', '/events/oarai-ankou-nabe-guide/', '/events/tsuchiura-hanabi-2026/'];
+async function checkBookingEvents() {
+  const context = await browser.newContext({ locale: 'ja-JP', timezoneId: 'Asia/Tokyo', serviceWorkers: 'block', viewport: { width: 390, height: 844 } });
+  await context.addInitScript(() => {
+    try { localStorage.setItem('ibatoco_ga_optout', '1'); } catch {}
+    const events = [];
+    let real = null;
+    const wrapper = (...args) => { if (args[0] === 'event') events.push(args[1]); if (typeof real === 'function') real(...args); };
+    Object.defineProperty(window, '__qaEvents', { value: events });
+    Object.defineProperty(window, 'gtag', { configurable: true, get: () => wrapper, set: (fn) => { real = fn; } });
+    document.addEventListener('click', (e) => { if (e.target instanceof Element && e.target.closest('a')) e.preventDefault(); }, true);
+  });
+  await context.route('**/*', async (route) => {
+    const url = new URL(route.request().url());
+    if (BLOCKED_HOST.test(url.hostname) || url.pathname.endsWith('/g/collect')) return route.abort();
+    if (PRODUCTION) return route.continue();
+    if (url.origin === ORIGIN) {
+      const file = distFile(url.pathname);
+      return file ? route.fulfill({ path: file }) : route.fulfill({ status: 404, body: 'not found' });
+    }
+    return route.abort();
+  });
+  const count = (list, name) => list.filter((n) => n === name).length;
+  try {
+    for (const path of BOOKING_PAGES) {
+      const page = await context.newPage();
+      try {
+        const res = await page.goto(`${ORIGIN}${path}`, { waitUntil: 'load', timeout: 30000 });
+        if (!res || res.status() !== 200) continue;
+        const paid = page.locator('[data-is-paid="1"]').first();
+        if (!(await paid.count())) continue;
+        const free = page.locator('[data-is-paid="0"]').first();
+        // 表示イベントは1ページ1回：2回スクロールしても1回
+        await paid.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(400);
+        await page.mouse.wheel(0, -600);
+        await paid.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(400);
+        const afterView = await page.evaluate(() => [...window.__qaEvents]);
+        await paid.click();
+        const afterPaid = (await page.evaluate(() => [...window.__qaEvents])).slice(afterView.length);
+        let afterFree = [];
+        if (await free.count()) {
+          await free.click();
+          afterFree = (await page.evaluate(() => [...window.__qaEvents])).slice(afterView.length + afterPaid.length);
+        }
+        const problems = [];
+        if (count(afterView, 'booking_guide_view') !== 1) problems.push(`booking_guide_view が ${count(afterView, 'booking_guide_view')} 回（1回であること）`);
+        if (count(afterPaid, 'outbound_booking_click') !== 1 || count(afterPaid, 'paid_booking_click') !== 1) problems.push(`提携リンク1クリックで outbound_booking_click ${count(afterPaid, 'outbound_booking_click')} 回・paid_booking_click ${count(afterPaid, 'paid_booking_click')} 回（各1回であること）`);
+        if (afterFree.length && (count(afterFree, 'outbound_booking_click') !== 1 || count(afterFree, 'paid_booking_click') !== 0)) problems.push(`提携でないリンク1クリックで outbound_booking_click ${count(afterFree, 'outbound_booking_click')} 回・paid_booking_click ${count(afterFree, 'paid_booking_click')} 回（1回・0回であること）`);
+        if (problems.length) failures.push(`送客イベント（${path}）：${problems.join('／')}`);
+        else notes.push(`送客イベント：${path} で表示1回・提携クリックで outbound と paid が各1回・公式リンクで outbound のみ（計測は送っていない）`);
+        return;
+      } finally {
+        await page.close();
+      }
+    }
+    notes.push('送客イベント：提携リンクのあるページが無いため省略');
+  } finally {
+    await context.close();
+  }
+}
+
 try {
   const queue = [...VIEWPORTS];
   await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
     while (queue.length) await runViewport(queue.shift());
   }));
   if (PRODUCTION) await checkAnalyticsPath();
+  await checkBookingEvents();
 } finally {
   await browser.close();
 }
