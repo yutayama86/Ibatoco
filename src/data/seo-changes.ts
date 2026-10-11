@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: 'TOP の「今週の茨城」の見出しの横に「今日の茨城で見る」（/today/）のテキストリンクを追加。TOP の必須構成・ほかの見た目は変更なし',
     queries: [],
-    commit: 'PENDING',
+    commit: '896a93b',
     note: 'Growth Director 最終判断 2026-10-10。クリックは next_action_click（destination_type=hub・when_bucket=more・action_source=this_week）で見る。期待PVは設定しない',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: '/events/ 冒頭の「今日・今週末、茨城でできること」の見出しの横に「今日の茨城で見る」（/today/）のテキストリンクを追加',
     queries: [],
-    commit: 'PENDING',
+    commit: '896a93b',
     note: 'Growth Director 最終判断 2026-10-10。TOP と同じ部品（ThisWeek の moreHref）',
   },
   {
