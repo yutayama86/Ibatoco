@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-10",
+  "updatedAt": "2026-10-12",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-10",
+    "asOf": "2026-10-12",
     "ga4Through": "2026-10-07",
-    "gscThrough": "2026-10-06",
+    "gscThrough": "2026-10-09",
     "referenceRunRate30": 22659,
     "referenceGapViews": 77341,
     "portfolioExpectedViews": null,
@@ -42,9 +42,7 @@
     {
       "rank": 2,
       "cluster": "tsuchiura-fireworks",
-      "pages": [
-        "/events/tsuchiura-hanabi-2026/"
-      ],
+      "pages": ["/events/tsuchiura-hanabi-2026/"],
       "objective": "交通規制・駐車場・時間・アクセス等の高意図クエリを、公式更新直後に最速反映して検索需要を取り切る。",
       "actionType": "freshness/query-intent",
       "why": "開催日が11月7日で締切が近く、検索需要のピークまで時間が少ない。",
@@ -65,10 +63,7 @@
     {
       "rank": 4,
       "cluster": "november-major-demand",
-      "pages": [
-        "/events/ibaraki-events-november-2026/",
-        "/today/"
-      ],
+      "pages": ["/events/ibaraki-events-november-2026/", "/today/"],
       "objective": "個別イベント依存を下げ、11月イベント横断需要と当日需要をハブで受ける。",
       "actionType": "hub/recirculation",
       "why": "単発特需終了時の流入落差を吸収する受け皿が必要。",
@@ -112,7 +107,17 @@
   "checkpoints": [
     {
       "date": "2026-10-12",
-      "criterion": "紅葉ハブ＋4ページのindexable/公式鮮度/リンク確認と、需要積上げ予測の根拠・不明点を記録。反応0を未登録と断定しない。"
+      "criterion": "紅葉ハブ＋4ページのindexable/公式鮮度/リンク確認と、需要積上げ予測の根拠・不明点を記録。反応0を未登録と断定しない。",
+      "status": "completed",
+      "completedAt": "2026-10-12",
+      "evidence": {
+        "indexable": "本番5URLすべて200・self canonical・noindexなし・sitemap収録を確認",
+        "internalLinks": "紅葉ハブから4ページ、4ページから紅葉ハブへの双方向リンクを確認",
+        "officialFreshness": "10/12に各記事の公式確認先を再点検。花貫は2026年市報の確定範囲を掲載、袋田・竜神・筑波山は2026年の未発表事項を未確認と明記",
+        "ga4": "重点4ページは直近7日合計33 Views（7+4+13+9）。GA4復旧後10/11は418 ViewsだがengagedSessions 3で未確定",
+        "gsc": "10/9確定。/kouyou/は370表示・12クリック・7.71位、袋田は2表示・0クリック・5.5位。竜神・花貫・筑波山はページ行非返却であり未登録とは断定しない",
+        "forecast": "需要積上げ予測は重複排除・確度補正の根拠不足のためnullを維持。現状30日換算22,659はrun-rate参考値であり予測ではない"
+      }
     },
     {
       "date": "2026-10-19",
@@ -124,15 +129,16 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-09",
-    "pr": 217,
-    "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
-    "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
-    "productionQa": "18 pages × 8 widths, 0 issues",
-    "factsReleased": [
-      "/events/hananuki-gorge-autumn-2026/"
-    ],
+    "date": "2026-10-12",
+    "pr": null,
+    "productionCommit": null,
+    "productionQaRun": null,
+    "productionQa": "pending",
+    "factsReleased": [],
     "incrementalViewsObserved": null,
-    "nextDemandCheckpoint": "2026-10-12"
+    "growthImplementations": 0,
+    "growthImplementationBlocker": "紅葉4ページはindex・内部リンク・一次情報鮮度の欠損なし。公式未発表事項は推測で補完せず、観測窓中の再改修もしない。",
+    "nextConcreteAction": "公式発表を日次確認し、10/19にページ別GSC・GA4・配信実績で資源配分を再判定",
+    "nextDemandCheckpoint": "2026-10-19"
   }
 }
