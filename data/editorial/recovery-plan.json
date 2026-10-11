@@ -42,7 +42,9 @@
     {
       "rank": 2,
       "cluster": "tsuchiura-fireworks",
-      "pages": ["/events/tsuchiura-hanabi-2026/"],
+      "pages": [
+        "/events/tsuchiura-hanabi-2026/"
+      ],
       "objective": "交通規制・駐車場・時間・アクセス等の高意図クエリを、公式更新直後に最速反映して検索需要を取り切る。",
       "actionType": "freshness/query-intent",
       "why": "開催日が11月7日で締切が近く、検索需要のピークまで時間が少ない。",
@@ -63,7 +65,10 @@
     {
       "rank": 4,
       "cluster": "november-major-demand",
-      "pages": ["/events/ibaraki-events-november-2026/", "/today/"],
+      "pages": [
+        "/events/ibaraki-events-november-2026/",
+        "/today/"
+      ],
       "objective": "個別イベント依存を下げ、11月イベント横断需要と当日需要をハブで受ける。",
       "actionType": "hub/recirculation",
       "why": "単発特需終了時の流入落差を吸収する受け皿が必要。",
@@ -130,10 +135,10 @@
   ],
   "lastExecution": {
     "date": "2026-10-12",
-    "pr": null,
-    "productionCommit": null,
-    "productionQaRun": null,
-    "productionQa": "pending",
+    "pr": "https://github.com/yutayama86/Ibatoco/pull/241",
+    "productionCommit": "985667f422215b9d0da1563f551bd11fa1e5112b",
+    "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/38180232129",
+    "productionQa": "passed",
     "factsReleased": [],
     "incrementalViewsObserved": null,
     "growthImplementations": 0,
