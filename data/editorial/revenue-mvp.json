@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-11",
   "id": "bookable-ibatoco-mvp-20261008",
   "status": "running",
   "objective": "既存検索流入を、公式情報を損なわず予約・宿泊等の送客へ変換できるかを最小検証する",
@@ -8,7 +8,8 @@
   "successHypothesis": {
     "commercialCtaCtrMin": 0.03,
     "reviewIfBelow": 0.01,
-    "note": "CTRだけで勝敗を決めず、paid送客・発生成果・確定売上まで分離して確認する。サンプルが小さいページは結論を出さない。"
+    "note": "CTRだけで勝敗を決めず、paid送客・発生成果・確定売上まで分離して確認する。サンプルが小さいページは結論を出さない。 2026-10-10 の最終判断で、成功基準の率は主KPI（提携送客率）で測る。",
+    "primaryKpiMin": 0.03
   },
   "targetPages": [
     {
@@ -54,5 +55,25 @@
     "CTR 1%未満でもサンプル不足なら即改修しない",
     "paid clickは成果ではない。ASP発生・確定売上を別管理する",
     "成果0の場合はCTA増量より検索意図と商材の一致を先に点検する"
+  ],
+  "observation": {
+    "start": "2026-10-11",
+    "end": "2026-10-17",
+    "evaluateAfter": "GA4 の 2026-10-17 が確定した後（10/19 目安）",
+    "basis": "Growth Director 最終判断 2026-10-10：当初の 10/8〜10/14 は GA4 の計測障害（10/8〜10/10）と重なるため取り直す"
+  },
+  "primaryKpi": {
+    "name": "提携送客率",
+    "formula": "paid_booking_click ÷ booking_guide_view（同じ期間・同じページ）",
+    "numerator": "paid_booking_click（2026-10-10 から BookingGuide が提携リンクのクリックで送る）",
+    "denominator": "booking_guide_view（予約案内が画面に入った。1ページ1回）",
+    "doNotMix": "2026-10-10 以前の提携クリック（送客先ドメインで判定した monetized_booking_click）とは混ぜない",
+    "secondary": "outbound_booking_click ÷ booking_guide_view（公式を含む全リンク。読者の役に立った度合いとして別に見る）"
+  },
+  "consistencyChecks": [
+    "paid_booking_click ≤ outbound_booking_click（同じ期間・ページ。超えたら計測不具合として評価しない）",
+    "booking_guide_view > 0 のページだけ率を出す（0 や未取得は null。0% と書かない）",
+    "二重送信：本番 QA・CI の「送客イベント」検査で、提携リンク1クリック＝outbound 1回・paid 1回、公式リンク1クリック＝outbound 1回・paid 0回、表示は1ページ1回であること（scripts/ui-smoke.mjs）",
+    "期間：分子・分母とも 10/11〜10/17 の確定日だけ。障害日（10/8〜10/10）を含めない"
   ]
 }

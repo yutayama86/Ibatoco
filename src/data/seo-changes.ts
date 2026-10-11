@@ -49,6 +49,26 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261011-home-today-link',
+    date: '2026-10-11',
+    url: '/',
+    kind: 'internal-link',
+    change: 'TOP の「今週の茨城」の見出しの横に「今日の茨城で見る」（/today/）のテキストリンクを追加。TOP の必須構成・ほかの見た目は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: 'Growth Director 最終判断 2026-10-10。クリックは next_action_click（destination_type=hub・when_bucket=more・action_source=this_week）で見る。期待PVは設定しない',
+  },
+  {
+    id: '20261011-events-today-link',
+    date: '2026-10-11',
+    url: '/events/',
+    kind: 'internal-link',
+    change: '/events/ 冒頭の「今日・今週末、茨城でできること」の見出しの横に「今日の茨城で見る」（/today/）のテキストリンクを追加',
+    queries: [],
+    commit: 'PENDING',
+    note: 'Growth Director 最終判断 2026-10-10。TOP と同じ部品（ThisWeek の moreHref）',
+  },
+  {
     id: '20261010-today-sitemap',
     date: '2026-10-10',
     url: '/today/',

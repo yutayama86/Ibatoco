@@ -67,5 +67,6 @@ CI を止めるもの：
 - `wrangler.jsonc` の `run_worker_first` は、HTMLページと /control/ だけ Worker を通し、`/_astro/*`・`/images/*`・`/fonts/*`・`/og/*` などの静的ファイルは通さない。/control/ が範囲から外れていないかは `scripts/security-audit.mjs` が検査する
 - 本番 QA は必須の6幅だけ、Visual Regression は PR のときだけ本番を撮る（main への push・定期実行では撮らない）
 - 本番 QA は GA4 の送信経路（CSP）も検査するが、送信そのものは止める（計測は送らない）
+- 送客イベントの検査（本番 QA・CI）：予約案内のあるページで、提携リンク1クリックに outbound_booking_click と paid_booking_click が1回ずつ、公式リンクは outbound_booking_click だけ、booking_guide_view は1ページ1回であること。gtag を記録用に包み、リンクの遷移と送信は止める
 - メンテナンス用の `SITE_PASSWORD` を設定したとき、静的ファイル（画像・CSS・JS）は保護されない（HTMLページは保護される）
 
