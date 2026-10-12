@@ -85,6 +85,9 @@ const pace = performance.paceDiagnostics;
     {refSplit && (
       <p class="gc-note">参考予測（別指標・公式値は上のまま。置き換えは 11/14 の答え合わせ後に判断）：<b>{fmt(refSplit.reference)}</b>（基礎 {fmt(refSplit.base.forecast)} ＋ 11月に開催・見頃のあるページ {fmt(refSplit.seasonal.forecast)}。直近7日のうち終了・締切のある一時的な流入 {refSplit.temporary.share}% は11月に残さない）</p>
     )}
+    {result.measurementMonitor?.latest && (
+      <p class:list={['gc-note', ['計測欠損の疑い', '検索流入の減少の疑い'].includes(result.measurementMonitor.latest.status) && !result.measurementMonitor.latest.incident && 'gc-warn']}>計測の健全性（GA4 日別 × GSC 日別）：{result.measurementMonitor.days.slice(-3).map((d: any) => `${d.date.slice(5)} ${d.status}${d.incident ? '（登録済みの障害）' : ''}`).join('／')}。GA4 が減っただけで SEO の障害とは判断しない（GSC が保たれていれば計測を先に調べる）</p>
+    )}
     {result.dataIncidents.status.map((i: any) => (
       <p class:list={['gc-note', result.dataIncidents.corrections.length > 0 && 'gc-warn']}>計測障害 {i.id}（{i.start.slice(5, 16).replace('T', ' ')}〜{i.end.slice(5, 16).replace('T', ' ')}{i.startEstimated ? '・開始は推定' : ''}）：{result.dataIncidents.corrections.length > 0 ? `障害日を含む集計は参考値で判断（公式値の着地予測 ${fmt(result.dataIncidents.officialGap?.forecast)}）。` : '判断に使う集計は障害日を含まない。'}日次PVの回復：{i.dailyViews.status}・GSC：{i.gsc.status}</p>
     ))}

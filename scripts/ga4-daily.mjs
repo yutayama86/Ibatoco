@@ -6,6 +6,8 @@
  *               "totals":   [{ "date", "screen_page_views", "sessions", "engaged_sessions" }],
  *               "channels": [{ "date", "session_default_channel_group", "screen_page_views" }] }
  *       （日別の行が既にあるときは "daily": [{ date, views, sessions, engagedSessions, organicViews }] でもよい）
+ *       GSC の日別も一緒に入れられる： "gsc": { "confirmedThrough": "YYYY-MM-DD", "daily": [{ "date", "clicks", "impressions", "position" }] }
+ *       （windows.gsc.daily。計測の健全性の判定に使う：src/lib/measurement-monitor.mjs）
  *   node scripts/ga4-daily.mjs --check        … 形式の検査（npm run verify）。日別が無ければ何もしない
  *   node scripts/ga4-daily.mjs                 … 収録状況を表示
  *
@@ -13,7 +15,9 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { channelTotalsGap, checkDaily, compareWindows, dailyCoverage, joinWindsorDaily, mergeDaily } from '../src/lib/ga4-daily.mjs';
+import { channelTotalsGap, checkDaily, compareWindows, dailyCoverage, joinWindsorDaily, mergeDaily, GA4_DAILY_MAX_DAYS } from '../src/lib/ga4-daily.mjs';
+import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
+import { addDays } from '../src/lib/growth-engine.mjs';
 
 const ROOT = process.cwd();
 const SNAPSHOT = join(ROOT, 'data/editorial/performance-snapshot.json');
@@ -42,6 +46,19 @@ if (args.includes('--input')) {
   const errors = checkDaily(daily, { confirmedThrough, incidents });
   if (errors.length) { for (const e of errors) console.error(`  [error] ${e}`); process.exit(1); }
   const coverage = dailyCoverage(daily, confirmedThrough);
+  // GSC の日別（任意）。同じ日は新しい方、確定日から35日に絞る。取れない日は行を作らない
+  if (input.gsc?.daily) {
+    const gscThrough = input.gsc.confirmedThrough ?? null;
+    const byDate = new Map((snapshot.windows.gsc?.daily ?? []).map((r) => [r.date, r]));
+    for (const r of input.gsc.daily) byDate.set(r.date, { date: r.date, clicks: r.clicks, impressions: r.impressions, ...(r.position != null ? { position: r.position } : {}) });
+    const through = gscThrough ?? [...byDate.keys()].sort().at(-1);
+    const from = addDays(through, -(GA4_DAILY_MAX_DAYS - 1));
+    const gscDaily = [...byDate.values()].filter((r) => r.date >= from && r.date <= through).sort((a, b) => a.date.localeCompare(b.date));
+    const gscErrors = checkGscDaily(gscDaily, { confirmedThrough: through });
+    if (gscErrors.length) { for (const e of gscErrors) console.error(`  [error] windows.gsc.daily：${e}`); process.exit(1); }
+    snapshot.windows.gsc = { ...(snapshot.windows.gsc ?? {}), daily: gscDaily, dailyMeta: { source: input.gsc.source ?? input.source ?? null, fetchedAt: input.gsc.fetchedAt ?? input.fetchedAt ?? null, confirmedThrough: through, rows: gscDaily.length } };
+    console.log(`windows.gsc.daily：${gscDaily.length} 日（〜${through}）`);
+  }
   snapshot.windows.ga4.daily = daily;
   snapshot.windows.ga4.dailyMeta = {
     source: input.source ?? ga4.dailyMeta?.source ?? null,
@@ -73,6 +90,8 @@ const errors = checkDaily(daily, { confirmedThrough, incidents });
 const coverage = dailyCoverage(daily, confirmedThrough);
 const line = `GA4 日別：${coverage.rows} 日（${coverage.from}〜${coverage.to}・未収録 ${coverage.missingDates.length} 日・障害日 ${daily.filter((r) => r.incident).length} 日）`;
 if (args.includes('--check')) {
+  const gscErrors = checkGscDaily(snapshot.windows?.gsc?.daily, { confirmedThrough: snapshot.windows?.gsc?.dailyMeta?.confirmedThrough ?? null });
+  for (const e of gscErrors) errors.push(`（GSC）${e}`);
   if (errors.length) { for (const e of errors) console.error(`  [error] windows.ga4.daily：${e}`); process.exit(1); }
   console.log(`${line} の形式 OK｜${windowsLine(ga4)}`);
   process.exit(0);

@@ -33,6 +33,29 @@
         "dailyViews": "障害後の確定日の Views が、障害前の基準（10/6〜7 の平均 約340）の70%以上。検索需要の変動も考慮し、GSC のクリックと合わせて判定する",
         "gsc": "障害期間の GSC クリック・表示が、障害前と同じ水準（GSC は影響を受けていないため、実アクセスの裏付けに使う）"
       },
+      "causeConfidence": "high",
+      "causeEvidence": [
+        "2026-10-10 修正前：本番を実ブラウザで読み込み、page_view の送信先 https://analytics.google.com/g/collect（予備 www.google.com・stats.g.doubleclick.net）が CSP の connect-src で blocked（console の CSP 違反。PR #227）",
+        "修正前の CSP は https://*.analytics.google.com（サブドメイン）だけを許可し、サブドメインなしの analytics.google.com は許可していなかった。public/_headers の CSP は、このリポジトリの履歴では 2026-10-05 の作成から 10/10 の修正まで不変",
+        "GA4 だけが消え、GSC のクリックは保たれた：10/6 133・10/7 128・10/8 114・10/9 133（Organic Views は 320・284・3・2）。Organic Views ÷ GSC クリックは 2.2〜2.4 から 0.02〜0.03 に落ちた",
+        "修正の反映（10/10 20:28 JST）の後に回復：10/10 は 84 Views（修正前を含む部分日）、10/11 は 507 Views・Organic 466・engaged 324",
+        "BrandBase の計測タグ・除外フラグ・本番ホストの判定は 10/5 以降変更なし（計測除外の誤りではない）"
+      ],
+      "triggerEstimated": "CSP がサイト側で変わっていないのに 10/8 から止まったため、gtag.js の送信先がサブドメインなしの analytics.google.com に変わったことが契機と推定（Google 側の変更時期は公表で確認できていない）。10/8〜9 に残った少数の計測は、旧送信先（*.google-analytics.com）を使う版の gtag が動いたブラウザと推定",
+      "verification": {
+        "updatedAt": "2026-10-12",
+        "ga4DailyRecovery": { "date": "2026-10-11", "views": 507, "organicViews": 466, "engagedSessions": 324, "baselineViews": 342, "ratio": 1.48, "status": "回復（終日1日）", "note": "10/10 は修正前を含む部分日のため回復の根拠にしない" },
+        "gscDuringIncident": { "2026-10-07": 128, "2026-10-08": 114, "2026-10-09": 133, "baseline": "10/6 133", "status": "維持（検索からの実アクセスは減っていない）" },
+        "browserChecks": [
+          "2026-10-10 修正前：analytics.google.com/g/collect が CSP で blocked",
+          "2026-10-10 修正後：g/collect の送信に成功",
+          "2026-10-12：本番の PC 表示と スマホ表示（Android Chrome・375px）で CSP 違反 0。connect-src に analytics.google.com・*.google-analytics.com・www.google.com・*.g.doubleclick.net・*.googletagmanager.com があり、gtag.js の読み込みと4つの送信先への通信が CSP で止められない（除外フラグ付き・測定IDなしで確認し、計測は送っていない）"
+        ],
+        "productionQa": "毎デプロイの本番 QA が GA4 の送信経路（CSP）を検査（PR #227 から）。直近：c7400b1 で通過",
+        "cloudflare": "オーナー共有（2026-10-10）：国=Japan の日次の波は 10/8〜10/10 も 10/6〜7 と同じ、5xx 0。403・WAF・Bot 対策の件数は未確認（GA4 の送信はブラウザから Google へ直接行われるため、Cloudflare の WAF は送信を止められない）",
+        "monitoring": "src/lib/measurement-monitor.mjs（GA4 日別 × GSC 日別で、計測欠損の疑い・検索流入の減少・判定保留を分ける。日次レポートと /control/ に表示）",
+        "remaining": ["GA4 10/12 以降の終日の回復（2日目以降）", "GSC 10/10 以降", "Cloudflare の 403・WAF の件数（任意）"]
+      },
       "issue": "https://github.com/yutayama86/Ibatoco/issues/226",
       "fix": "https://github.com/yutayama86/Ibatoco/pull/227"
     }
