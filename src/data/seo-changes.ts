@@ -126,6 +126,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
   },
   {
+    id: '20261014-sports-mito-hollyhock-watch-info',
+    date: '2026-10-14',
+    url: '/sports/mito-hollyhock/',
+    kind: 'on-page',
+    change: '試合データの事実更新：10/14 ルヴァン杯3回戦 FC東京戦（ケーズデンキスタジアム水戸・フジテレビNEXT(録)・スカパー！・スカパー！動画ストア）を追加、9/29 福島戦 7-0・10/11 清水戦 1-2 の結果、10/17・10/21・10/25 の DAZN。次戦枠に「中継」が出る（既存部品・テンプレートは変更なし）',
+    queries: ['観戦 場所 水戸ホーリーホック 対 FC東京', '水戸ホーリーホック 次の試合'],
+    commit: 'PENDING',
+    note: 'Issue #256。事実の更新（観測窓0日・試合ごとの更新を止めない）。変更前28日（GSC）1,860表示・13クリック・CTR 0.7%・7.4位。「観戦 場所 福島ユナイテッドfc 対 水戸ホーリーホック」1,553表示・6.0位・CTR 0.6%（9/29 に終了した試合で、将来の需要に外挿しない）。期待PVは null。meta description は次戦から自動で作られるため、10/14 FC東京戦の内容に変わる',
+    experimentType: 'fact',
+  },
+  {
     id: '20261012-site-prefetch-hover',
     date: '2026-10-12',
     url: '*',
