@@ -66,6 +66,8 @@ CI を止めるもの：
 - Workers の無料プランは Worker の実行が1日10万件まで。超えると Worker を通るリクエストが 429 になる（静的ファイルは無料・無制限）
 - `wrangler.jsonc` の `run_worker_first` は、HTMLページと /control/ だけ Worker を通し、`/_astro/*`・`/images/*`・`/fonts/*`・`/og/*` などの静的ファイルは通さない。/control/ が範囲から外れていないかは `scripts/security-audit.mjs` が検査する
 - 本番 QA は必須の6幅だけ、Visual Regression は PR のときだけ本番を撮る（main への push・定期実行では撮らない）
+- ページの先読み（Astro prefetch）は hover（ホバー・フォーカスしたリンクだけ。2026-10-12 オーナー承認）。先読みした HTML も Worker を通るため、viewport（画面に入ったリンクを全部）だと 1 View あたり約24回呼ばれていた（10/11〜12 の24時間：呼び出し 48.21k・アセット 78.17k・エラー 0）
+- 本番 QA・Visual Regression のブラウザでは先読みを止める（データセーバー扱いにする `DISABLE_PREFETCH`）。本番 QA は全画面の `link[rel=prefetch]` が 0 件であることを確かめる
 - 本番 QA は GA4 の送信経路（CSP）も検査するが、送信そのものは止める（計測は送らない）
 - 送客イベントの検査（本番 QA・CI）：予約案内のあるページで、提携リンク1クリックに outbound_booking_click と paid_booking_click が1回ずつ、公式リンクは outbound_booking_click だけ、booking_guide_view は1ページ1回であること。gtag を記録用に包み、リンクの遷移と送信は止める
 - メンテナンス用の `SITE_PASSWORD` を設定したとき、静的ファイル（画像・CSS・JS）は保護されない（HTMLページは保護される）

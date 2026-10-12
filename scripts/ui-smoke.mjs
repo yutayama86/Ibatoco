@@ -126,6 +126,16 @@ try {
   skipOrFail(`ブラウザを起動できません：${String(error.message).split('\n')[0]}`);
 }
 
+// 先読み（Astro prefetch）を止める。検査のブラウザが画面内・ホバーしたリンクを本番へ先読みすると、
+// ページごとに Worker が呼ばれ、無料枠（1日10万件）を検査が使う（2026-10-12 の計測：24時間で呼び出し 48.21k、山はデプロイの時刻）。
+// Astro はデータセーバーが有効だと viewport・hover の先読みをしない。見た目・検査の内容は変わらない（遷移は止めない）
+const DISABLE_PREFETCH = () => {
+  try {
+    Object.defineProperty(Navigator.prototype, 'connection', { configurable: true, get: () => ({ saveData: true, effectiveType: '4g', addEventListener() {}, removeEventListener() {} }) });
+  } catch {}
+};
+let prefetchLinks = 0;
+
 const sameOrigin = (url) => { try { return new URL(url).origin === ORIGIN; } catch { return false; } };
 const internalLinks = new Set();
 const pageImages = new Set();
@@ -140,6 +150,7 @@ async function runViewport(viewport) {
   });
   // 本番：このブラウザを計測から除外する（BrandBase は除外フラグが立っていると gtag を読み込まない）
   if (PRODUCTION) await context.addInitScript(() => { try { localStorage.setItem('ibatoco_ga_optout', '1'); } catch {} });
+  await context.addInitScript(DISABLE_PREFETCH);
   const missing = new Set();
   await context.route('**/*', async (route) => {
     const url = new URL(route.request().url());
@@ -233,6 +244,7 @@ async function runViewport(viewport) {
     } catch (error) {
       local.push(`${where}: 検査できませんでした — ${String(error.message).split('\n')[0]}`);
     } finally {
+      try { prefetchLinks += await page.evaluate(() => document.querySelectorAll('link[rel="prefetch"]').length); } catch {}
       stats.screens += 1;
       stats.failures += local.length;
       failures.push(...local);
@@ -246,6 +258,7 @@ async function runViewport(viewport) {
 // CSP で止められた送信は route に届かず console に CSP 違反が出る。届いた送信は abort する
 async function checkAnalyticsPath() {
   const context = await browser.newContext({ locale: 'ja-JP', timezoneId: 'Asia/Tokyo', serviceWorkers: 'block' });
+  await context.addInitScript(DISABLE_PREFETCH);
   const attempts = new Set();
   await context.route('**/*', async (route) => {
     const url = new URL(route.request().url());
@@ -279,6 +292,7 @@ async function checkAnalyticsPath() {
 const BOOKING_PAGES = ['/events/oarai-ankou-matsuri-2026/', '/events/oarai-ankou-nabe-guide/', '/events/tsuchiura-hanabi-2026/'];
 async function checkBookingEvents() {
   const context = await browser.newContext({ locale: 'ja-JP', timezoneId: 'Asia/Tokyo', serviceWorkers: 'block', viewport: { width: 390, height: 844 } });
+  await context.addInitScript(DISABLE_PREFETCH);
   await context.addInitScript(() => {
     try { localStorage.setItem('ibatoco_ga_optout', '1'); } catch {}
     const events = [];
@@ -346,6 +360,8 @@ try {
   }));
   if (PRODUCTION) await checkAnalyticsPath();
   await checkBookingEvents();
+  notes.push(`先読み：検査のブラウザでは止めている（データセーバー扱い）。全画面で link[rel=prefetch] ${prefetchLinks} 件${prefetchLinks ? '（0 件であること。Worker の無料枠を検査が使う）' : ''}`);
+  if (prefetchLinks) failures.push(`先読みが ${prefetchLinks} 件出た（検査のブラウザでは 0 件のはず。DISABLE_PREFETCH を確認）`);
 } finally {
   await browser.close();
 }

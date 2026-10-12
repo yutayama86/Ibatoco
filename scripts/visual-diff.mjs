@@ -87,6 +87,12 @@ async function shoot(origin, viewport, path) {
     serviceWorkers: 'block',
   });
   await context.addInitScript(() => { try { localStorage.setItem('ibatoco_ga_optout', '1'); } catch {} });
+  // 先読み（Astro prefetch）を止める：本番を撮るたびに画面内のリンクが先読みされ、Worker の無料枠を使うのを防ぐ（scripts/ui-smoke.mjs と同じ）
+  await context.addInitScript(() => {
+    try {
+      Object.defineProperty(Navigator.prototype, 'connection', { configurable: true, get: () => ({ saveData: true, effectiveType: '4g', addEventListener() {}, removeEventListener() {} }) });
+    } catch {}
+  });
   await context.route('**/*', async (route) => {
     const url = new URL(route.request().url());
     if (BLOCKED_HOST.test(url.hostname)) return route.abort();
