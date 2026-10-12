@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261012-events-oarai-ankou-matsuri-2026-official',
+    date: '2026-10-12',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '公式発表（大洗観光協会 10/7 開催告知）の反映：時間 両日9:30〜15:00、15日のあんこう汁 1杯300円・1,000食・整理券10時から、交通規制（会場周辺 両日9:00〜15:30・商店街 15日9:00〜16:00）、各日の催し、プレミアムあんこう鍋チケット、会場での禁止事項。FAQ 2件追加・3件更新',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。title・description・予約案内（BookingGuide）は変えていない（予約できるイバトコ MVP の観測 10/11〜10/17）。駐車場は告知に記載がなく未確認のまま。変更前28日（GSC）9,969表示・3.5位・CTR 14.3%、直近7日809 Views',
+    experimentType: 'fact',
+  },
+  {
     id: '20261012-events-tsuchiura-hanabi-2026-official',
     date: '2026-10-12',
     url: '/events/tsuchiura-hanabi-2026/',
