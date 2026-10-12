@@ -33,7 +33,9 @@ export default defineConfig({
   site: SITE,
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'viewport',
+    // ホバー・フォーカスしたリンクだけ先読みする（2026-10-12 オーナー承認）。viewport（画面に入ったリンクを全部）だと
+    // 1 View あたり約24回 Worker が呼ばれ、11月の目標（1日 3,333 Views）で無料枠（1日10万件）を超えるおそれがあった
+    defaultStrategy: 'hover',
   },
   build: {
     inlineStylesheets: 'auto',
