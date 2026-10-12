@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: '関連記事の先頭に笠間の菊まつり（/events/kasama-kiku-matsuri-2026/）を追加し、結論の冒頭に「10月4日に終了。以下は開催前に整理した内容」と明示（本文は残す）',
     queries: ['笠間菊まつり 2026', '笠間 菊まつり 2026', '菊まつり 2026'],
-    commit: 'PENDING',
+    commit: '0594e0a',
     note: 'PV Relay（新栗まつりは10/4終了後も直近7日1,350 Views・28日35,264表示）。新栗まつり記事は 9/15 の new-article で 10/13 まで観測中だったため 10/14 に反映。終了の明示は事実の更新。菊まつり側（10/21 まで観測中）は変えていない。変更前：菊まつり 28日367表示・6.0位・直近7日54 Views',
     experimentType: 'internal-link',
   },
