@@ -1352,7 +1352,7 @@
       "kind": "seo",
       "targetUrl": "/news/mito-hollyhock-new-stadium-access/",
       "priority": "high",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
       "expectedPvImpact": 281,
@@ -1374,7 +1374,9 @@
         "frontmatterのtitleとdescriptionだけを仕様の文言に変える（本文・FAQ・関連リンク・updatedDate・URLは変えない）",
         "seo-changesにon-page・experimentType metadataで記録",
         "npm run verify が成功"
-      ]
+      ],
+      "completedAt": "2026-10-15",
+      "notes": "2026-10-15：title・description をアクセス中心に変更（docs/editorial/specs/20261015-stadium-access-metadata.md）。特急ひたちの臨時停車・東海駅の精算機1台は既に本文に掲載済みで、10/12 にクラブ公式の現行記載と一致を確認したため別の事実更新は不要。+281 は推定で、公開後の実測で評価する。"
     },
     {
       "id": "20261014-shinguri-to-kiku-relay",
