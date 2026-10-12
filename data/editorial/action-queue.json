@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-13",
   "actions": [
     {
       "id": "20261012-tsuchiura-official-map",
@@ -1201,19 +1201,20 @@
       "targetUrl": "/events/art-tower-mito-guide/",
       "targetFile": "src/content/events/art-tower-mito-guide.md",
       "priority": "medium",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-30",
       "dueDate": "2026-10-13",
       "primarySourceUrls": [
         "https://www.arttowermito.or.jp/gallery/"
       ],
-      "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。",
+      "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。 2026-10-13：公式ページで竹村京展の会期終了（10/12）と、次回「再会」の11/7開始を再確認し、終了表記・FAQ・descriptionを更新。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-10-13",
       "page": "/events/art-tower-mito-guide/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "completedAt": "2026-10-13"
     },
     {
       "id": "20261022-torinokosan-road-work",
@@ -1419,7 +1420,8 @@
       "deadline": "2026-10-13",
       "page": "/sports/mito-hollyhock/",
       "source": "gscQueries（観戦系14語 28日10,483表示・6〜7位・CTR 0.6%。鹿島×甲府 8,300、福島ユナイテッド×水戸 1,553）",
-      "reason": "表示は大きいが6〜7位でもCTR 0.6%と低い。検索意図（会場か放送・配信か）とスニペットの不一致を仮説として、試合情報は公式一次情報で ChatGPT が作成。期待PVは仮説検証まで設定しない"
+      "reason": "表示は大きいが6〜7位でもCTR 0.6%と低い。検索意図（会場か放送・配信か）とスニペットの不一致を仮説として、試合情報は公式一次情報で ChatGPT が作成。期待PVは仮説検証まで設定しない",
+      "notes": "Issue #256で仕様化済み。観測窓は10/13までのため、10/14以前の実装・マージは禁止。水戸に関係する試合クエリだけを基準保存し、次戦の会場・TV・配信・PVは一次情報が揃ってから実装判断する。"
     },
     {
       "id": "20261009-weekly-growth-calibration",
@@ -1440,6 +1442,24 @@
       "effort": "S",
       "source": "Windsor.ai GA4 547804264 / GSC sc-domain:ibatoco.jp direct actuals",
       "reason": "最新実測で100k Gap、重点ページ、順位別CTR曲線、収益導線、金曜20レンズを再校正。直接の追加PVは因果的に再現できないためexpectedPvImpactは設定しない。"
+    },
+    {
+      "id": "20261013-ga4-unassigned-processing-anomaly",
+      "title": "GA4 10/12のUnassigned・空landing急増を処理確定後に再取得",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "priority": "critical",
+      "status": "in-progress",
+      "createdAt": "2026-10-13",
+      "dueDate": "2026-10-14",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-14",
+      "page": "/control/",
+      "source": "Windsor.ai GA4 account 547804264",
+      "reason": "10/12は475 Views/453 Sessionsに対しengagedSessions 2。session Unassigned 252（(not set)）、空landing 243、Cross-network 47で、チャネル別sessions合計が総sessionsを上回る。処理不連続のため確定値にせず、翌日再取得して差し替える。計測修正でありexpectedPvImpactは設定しない。",
+      "notes": "10/13通常取得で再現。Windsor接続・account ID・引数は正常。追加費用のforce refreshは使わない。GSCは10/10まで正常取得。"
     }
   ]
 }

@@ -1,19 +1,20 @@
 {
-  "source": "Windsor.ai GA4 547804264・Search Console sc-domain:ibatoco.jp（Growth Director が Issue #226 comment 6119412656 に記録した再取得値）",
-  "fetchedAt": "2026-10-12T07:04:02Z",
+  "source": "Windsor.ai GA4 547804264・Search Console sc-domain:ibatoco.jp（2026-10-13 Growth Director 直接再取得）",
+  "fetchedAt": "2026-10-13T07:00:00+09:00",
   "confirmedThrough": "2026-10-11",
   "daily": [
     { "date": "2026-10-10", "views": 84, "sessions": 71, "engagedSessions": 46, "organicViews": 76 },
     { "date": "2026-10-11", "views": 507, "sessions": 442, "engagedSessions": 324, "organicViews": 466 }
   ],
   "gsc": {
-    "source": "Windsor.ai Search Console sc-domain:ibatoco.jp（Issue #226 comment 6119412656）",
-    "confirmedThrough": "2026-10-09",
+    "source": "Windsor.ai Search Console sc-domain:ibatoco.jp（2026-10-13 Growth Director 直接再取得）",
+    "confirmedThrough": "2026-10-10",
     "daily": [
       { "date": "2026-10-06", "clicks": 133, "impressions": 2958, "position": 6.5456 },
       { "date": "2026-10-07", "clicks": 128, "impressions": 2687, "position": 6.8415 },
       { "date": "2026-10-08", "clicks": 114, "impressions": 2649, "position": 6.4111 },
-      { "date": "2026-10-09", "clicks": 133, "impressions": 3554, "position": 6.915 }
+      { "date": "2026-10-09", "clicks": 133, "impressions": 3554, "position": 6.915 },
+      { "date": "2026-10-10", "clicks": 201, "impressions": 5556, "position": 6.8742 }
     ]
   }
 }
