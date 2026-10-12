@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-12",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -967,6 +967,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
+    },
+    {
+      "id": "matsuri-yuki-2026",
+      "name": "祭りゆうき2026",
+      "municipality": "yuki",
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-25",
+      "officialUrl": "https://www.city.yuki.lg.jp/kankou/event/page007363.html",
+      "discoveredAt": "2026-10-12",
+      "verifiedAt": "2026-10-12",
+      "articleUrl": "/events/matsuri-yuki-2026/",
+      "articleUpdatedAt": "2026-10-12",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "結城市公式発表に基づく開催日時・会場・駐車場情報。需要シグナルは未測定。"
     }
   ]
 }
