@@ -885,27 +885,6 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
-      "id": "daigo-hanabi-2026",
-      "name": "大子町花火大会（松沼橋 防災道の駅完成記念大会・仮称）",
-      "municipality": "daigo",
-      "startDate": "2026-11-21",
-      "endDate": null,
-      "officialUrl": null,
-      "discoveredAt": "2026-10-05",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "観光いばらき・花火情報サイトで11月21日（土）、久慈川・押川合流点中州、18:00〜18:30（予定）の掲載を確認。名称は仮称で、詳細（打ち上げ数等）は未発表。大子町・大子町観光協会の一次情報が出てから確認すること。"
-    },
-    {
       "id": "tsuchiura-curry-festival-2026",
       "name": "第23回土浦カレーフェスティバル",
       "municipality": "tsuchiura",
@@ -925,6 +904,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "daigo-hanabi-2026",
+      "name": "令和8年度大子町花火大会",
+      "municipality": "daigo",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.daigo-kanko.jp/news/news-19536",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-11",
+      "articleUrl": "/events/daigo-hanabi-2026/",
+      "articleUpdatedAt": "2026-10-11",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
     },
     {
       "id": "tsukuba-marathon-2026",
