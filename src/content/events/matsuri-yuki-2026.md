@@ -52,7 +52,8 @@ faq:
   - question: "島谷ひとみさんのステージは予約が必要ですか？"
     answer: "事前予約はなく、10月24日11時開場の当日先着順です。開演は12時30分です。"
 sourceUrls:
-  - "https://www.city.yuki.lg.jp/kankou/event/page007363.html"
+  - url: "https://www.city.yuki.lg.jp/kankou/event/page007363.html"
+    label: "結城市公式・祭りゆうき2026"
 ---
 結城市の秋のイベント「祭りゆうき2026」は10月24日・25日に開催されます。車で来場する場合、市役所駐車場は利用できないため、結城市が指定する臨時駐車場からシャトルバスで向かってください。
 
