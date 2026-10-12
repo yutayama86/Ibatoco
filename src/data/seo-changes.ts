@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'technical',
     change: 'ページの先読み（Astro prefetch）を viewport（画面に入ったリンクを全部）から hover（ホバー・フォーカスしたリンクだけ）に変更。本番QA・Visual Regression のブラウザでは先読みを止める',
     queries: [],
-    commit: 'PENDING',
+    commit: '0711cae',
     note: 'オーナー承認 2026-10-12。Workers の24時間（10/11〜12）は呼び出し 48.21k・アセット 78.17k・エラー 0。日本からの呼び出し約1.2万件に対し GA4 は 507 Views（1 View あたり約24回、viewport の先読みと推定）で、11月の目標の1日 3,333 Views では無料枠の1日10万件を超えるおそれ。見た目・URL・本文は変わらない。次のページへの移動が少し遅くなる可能性がある',
     experimentType: 'measurement',
   },
