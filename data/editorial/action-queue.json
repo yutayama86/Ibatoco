@@ -1382,7 +1382,7 @@
       "kind": "internal-link",
       "targetUrl": "/events/kasama-kiku-matsuri-2026/",
       "priority": "high",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
       "confidence": "medium",
@@ -1403,7 +1403,9 @@
         "本文・title・description・updatedDate を変えない",
         "seo-changes に internal-link として記録",
         "npm run date:check と npm run verify が成功"
-      ]
+      ],
+      "completedAt": "2026-10-14",
+      "notes": "2026-10-14：関連記事の先頭に菊まつりを追加し、結論の冒頭に終了を明示（本文は残す）。菊まつりの会期は菊まつり記事（9/29 公式照合）の表示名のまま、新しい日付は書いていない。"
     },
     {
       "id": "20261013-match-viewing-queries",
