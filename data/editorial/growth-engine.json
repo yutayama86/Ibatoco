@@ -56,39 +56,71 @@
   "seasonCategories": [
     {
       "key": "hanabi",
-      "match": ["花火", "hanabi"]
+      "match": [
+        "花火",
+        "hanabi"
+      ]
     },
     {
       "key": "kouyou",
-      "match": ["紅葉", "kouyou"]
+      "match": [
+        "紅葉",
+        "kouyou"
+      ]
     },
     {
       "key": "ankou",
-      "match": ["あんこう", "ankou"]
+      "match": [
+        "あんこう",
+        "ankou"
+      ]
     },
     {
       "key": "kochia",
-      "match": ["コキア", "kochia"]
+      "match": [
+        "コキア",
+        "kochia"
+      ]
     },
     {
       "key": "ume",
-      "match": ["梅まつり", "梅", "ume"]
+      "match": [
+        "梅まつり",
+        "梅",
+        "ume"
+      ]
     },
     {
       "key": "newyear",
-      "match": ["初日の出", "初詣", "年末年始", "hatsuhinode", "hatsumode"]
+      "match": [
+        "初日の出",
+        "初詣",
+        "年末年始",
+        "hatsuhinode",
+        "hatsumode"
+      ]
     },
     {
       "key": "gw",
-      "match": ["ゴールデンウィーク", "GW"]
+      "match": [
+        "ゴールデンウィーク",
+        "GW"
+      ]
     },
     {
       "key": "summer",
-      "match": ["夏休み"]
+      "match": [
+        "夏休み"
+      ]
     },
     {
       "key": "matsuri",
-      "match": ["まつり", "祭り", "祭", "matsuri"]
+      "match": [
+        "まつり",
+        "祭り",
+        "祭",
+        "matsuri"
+      ]
     }
   ],
   "seasonWindows": {
@@ -216,7 +248,10 @@
   },
   "seo": {
     "minImpressions28": 100,
-    "strikingDistance": [8, 20],
+    "strikingDistance": [
+      8,
+      20
+    ],
     "lowCtrMaxPosition": 7,
     "lowCtrRatio": 0.6,
     "risingDemandPct": 50,
@@ -226,106 +261,106 @@
   },
   "ctrCurve": {
     "1": 0.28,
-    "2": 0.175471,
-    "3": 0.141425,
-    "4": 0.048141,
-    "5": 0.030046,
-    "6": 0.018977,
-    "7": 0.012397,
-    "8": 0.016948,
-    "9": 0.020236,
-    "10": 0.013685,
-    "11": 0.011203,
-    "12": 0.00369,
+    "2": 0.169843,
+    "3": 0.136688,
+    "4": 0.055602,
+    "5": 0.028888,
+    "6": 0.018748,
+    "7": 0.012354,
+    "8": 0.016902,
+    "9": 0.019977,
+    "10": 0.013942,
+    "11": 0.010026,
+    "12": 0.004802,
     "15": 0.01,
     "20": 0.006,
-    "about": "GSC 2026-07-12..2026-10-09、ページ×検索語3,436行。平均順位を整数丸めし、500表示以上の順位のみ clicks合計/impressions合計で更新。500未満は既存値を保持。"
+    "about": "GSC 2026-07-13..2026-10-10、ページ×検索語3,544行。平均順位を整数丸めし、500表示以上の順位のみ clicks合計/impressions合計で更新。500未満は既存値を保持。"
   },
   "ctrCalibration": {
-    "start": "2026-07-12",
-    "end": "2026-10-09",
-    "checkedAt": "2026-10-12T07:02:00+09:00",
-    "rows": 3436,
+    "start": "2026-07-13",
+    "end": "2026-10-10",
+    "checkedAt": "2026-10-13T07:00:00+09:00",
+    "rows": 3544,
     "minimumImpressions": 500,
     "rankTotals": {
       "1": {
-        "impressions": 378,
-        "clicks": 15
+        "impressions": 398,
+        "clicks": 14
       },
       "2": {
-        "impressions": 1539,
-        "clicks": 274
+        "impressions": 1784,
+        "clicks": 303
       },
       "3": {
-        "impressions": 10529,
-        "clicks": 1537
+        "impressions": 13154,
+        "clicks": 1798
       },
       "4": {
-        "impressions": 1188,
-        "clicks": 67
+        "impressions": 2410,
+        "clicks": 134
       },
       "5": {
-        "impressions": 6315,
-        "clicks": 199
+        "impressions": 6681,
+        "clicks": 193
       },
       "6": {
-        "impressions": 23584,
-        "clicks": 468
+        "impressions": 24056,
+        "clicks": 451
       },
       "7": {
-        "impressions": 14118,
-        "clicks": 162
+        "impressions": 14813,
+        "clicks": 183
       },
       "8": {
-        "impressions": 20464,
-        "clicks": 351
+        "impressions": 21122,
+        "clicks": 357
       },
       "9": {
-        "impressions": 3780,
-        "clicks": 73
+        "impressions": 4305,
+        "clicks": 86
       },
       "10": {
-        "impressions": 3664,
-        "clicks": 46
+        "impressions": 4447,
+        "clicks": 62
       },
       "11": {
-        "impressions": 1696,
-        "clicks": 23
+        "impressions": 1895,
+        "clicks": 19
       },
       "12": {
-        "impressions": 863,
-        "clicks": 3
+        "impressions": 833,
+        "clicks": 4
       },
       "13": {
-        "impressions": 111,
+        "impressions": 185,
         "clicks": 1
       },
       "14": {
-        "impressions": 31,
-        "clicks": 1
-      },
-      "15": {
-        "impressions": 71,
+        "impressions": 36,
         "clicks": 2
       },
+      "15": {
+        "impressions": 270,
+        "clicks": 0
+      },
       "16": {
-        "impressions": 110,
+        "impressions": 87,
         "clicks": 2
       },
       "17": {
-        "impressions": 111,
+        "impressions": 30,
         "clicks": 1
       },
       "18": {
-        "impressions": 102,
-        "clicks": 1
+        "impressions": 78,
+        "clicks": 2
       },
       "19": {
-        "impressions": 43,
+        "impressions": 39,
         "clicks": 2
       },
       "20": {
-        "impressions": 43,
+        "impressions": 58,
         "clicks": 0
       }
     }

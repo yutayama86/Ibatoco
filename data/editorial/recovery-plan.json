@@ -1,26 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-13",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-12",
-    "ga4Through": "2026-10-07",
-    "gscThrough": "2026-10-09",
-    "referenceRunRate30": 22659,
-    "referenceGapViews": 77341,
+    "asOf": "2026-10-13",
+    "ga4Through": "2026-10-11",
+    "gscThrough": "2026-10-10",
+    "referenceRunRate30": 12917,
+    "referenceGapViews": 87083,
+    "officialRawRunRate30": 7976,
+    "latest3RawRunRate30": 6080,
+    "incidentAdjustedLatest3ReferenceRunRate30": 15210,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 5287,
-    "recent7DailyAverage": 755.2857142857143,
-    "recent3Views": 1215,
-    "recent3DailyAverage": 405.0,
+    "recent7Views": 1861,
+    "recent7DailyAverage": 265.85714285714283,
+    "recent3Views": 608,
+    "recent3DailyAverage": 202.66666666666666,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。11月需要を重複なく積み上げたportfolioは未確定。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日はCSP障害日10/9を含む。11月需要を重複なく積み上げたportfolioは未確定。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -134,16 +137,20 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-12",
-    "pr": "https://github.com/yutayama86/Ibatoco/pull/241",
-    "productionCommit": "985667f422215b9d0da1563f551bd11fa1e5112b",
-    "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/38180232129",
-    "productionQa": "passed",
-    "factsReleased": [],
+    "date": "2026-10-13",
+    "pr": null,
+    "productionCommit": null,
+    "productionQaRun": null,
+    "productionQa": "pending",
+    "factsReleased": [
+      "/events/art-tower-mito-guide/",
+      "/events/ryujin-bridge-autumn-2026/",
+      "/news/ishioka-noriai-taxi-weekend-2026/"
+    ],
     "incrementalViewsObserved": null,
     "growthImplementations": 0,
-    "growthImplementationBlocker": "紅葉4ページはindex・内部リンク・一次情報鮮度の欠損なし。公式未発表事項は推測で補完せず、観測窓中の再改修もしない。",
-    "nextConcreteAction": "公式発表を日次確認し、10/19にページ別GSC・GA4・配信実績で資源配分を再判定",
+    "growthImplementationBlocker": "Growth候補は観測窓中または公開解禁前。水戸ホーリーホックの観戦場所・放送・配信クエリは10/14まで実装禁止、スタジアムmetadataは10/15以降。",
+    "nextConcreteAction": "10/14にIssue #256の完全一致クエリを再取得し、一次情報で答えられる範囲だけを再選別する。GA4 10/12は処理不連続のため10/14に再取得する。",
     "nextDemandCheckpoint": "2026-10-19"
   }
 }
