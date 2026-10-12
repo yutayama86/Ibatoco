@@ -12,6 +12,7 @@
 import { gapController, runGrowthEngine } from './growth-engine.mjs';
 import { adjustSnapshotForIncidents, ga4Incidents, incidentStatus } from './measurement-incidents.mjs';
 import { referenceForecast } from './forecast-reference.mjs';
+import { measurementMonitor } from './measurement-monitor.mjs';
 import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
@@ -51,12 +52,16 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   const latestDay = officialSnapshot?.windows?.ga4?.latestDay ?? null;
   const prev7 = officialSnapshot?.windows?.ga4?.previous7?.views ?? null;
   const knownIncident = ga4Incidents(incidents).find((i) => latestDay?.date && i.affectedDates.includes(latestDay.date));
-  const dropAlerts = latestDay?.views != null && prev7 ? (() => {
+  // 計測の健全性（日別）：GA4 の日別と GSC の日別を突き合わせ、計測欠損の疑いと検索流入の減少を分ける（src/lib/measurement-monitor.mjs）。
+  // 日別が無いときだけ、従来どおり集計の最新日（latestDay）で急落を見る
+  const monitor = measurementMonitor({ ga4Daily: officialSnapshot?.windows?.ga4?.daily, gscDaily: officialSnapshot?.windows?.gsc?.daily, incidents });
+  const legacyDropAlerts = latestDay?.views != null && prev7 ? (() => {
     const baseline = prev7 / 7;
     if (latestDay.views >= baseline * 0.3) return [];
     if (knownIncident) return [{ level: 'info', kind: '既知の計測障害', message: `GA4 の ${latestDay.date} の Views ${latestDay.views} は既知の計測障害（${knownIncident.id}・Issue #226）の期間。流入の急落として扱わない（実アクセスは Cloudflare で維持を確認）` }];
     return latestDay.views < baseline * 0.3 ? [{ level: 'critical', kind: '計測・流入の急落', message: `GA4 の ${latestDay.date} の Views が ${latestDay.views}（前7日の1日平均 ${Math.round(baseline)} の${Math.round((latestDay.views / baseline) * 100)}%）。検索エンジン・チャネルをまたいで落ちていれば計測の停止を先に疑う：本番ブラウザで g/collect が送られているか、CSP（public/_headers）、タグ、Cloudflare` }] : [];
   })() : [];
+  const dropAlerts = monitor.days.length ? monitor.alerts : legacyDropAlerts;
   const trendsAlerts = [
     ...(trendsCheck.freshness.stale ? [{ level: 'info', kind: 'Trends 更新', message: `Google Trends の更新推奨：${trendsCheck.refreshRequest.reason}。比較 ${trendsCheck.refreshRequest.groups.length} 件の CSV を書き出して取り込む（docs/GROWTH_ENGINE.md 10.6）` }] : []),
     ...trendsCheck.coverageGaps.map((g) => ({ level: 'warning', kind: 'Trends 需要期', message: `${g.keywords.join('・')}（Trends ${g.peakRelativeToAnchor}）：${g.reason}${g.page ? `｜${g.page}` : ''}` })),
@@ -81,6 +86,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     pvRelay: relay,
     pipeline: pipelineWithTrends,
     searchTrends: trendsList,
+    measurementMonitor: monitor,
     dataIncidents: {
       contaminated: incident.contaminated,
       corrections: incident.corrections,

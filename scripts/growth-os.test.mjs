@@ -482,3 +482,46 @@ test('参考予測：一時（終了・節目）・季節・基礎に分け、�
   assert.ok(bt.origins > 0);
   for (const m of bt.methods) assert.equal(m.mape, 0);
 });
+
+test('計測の健全性：GA4 だけが消え GSC が保たれた日は「計測欠損の疑い」、GSC も減った日は「検索流入の減少の疑い」、GSC が無い日は保留', async () => {
+  const { measurementMonitor, STATUS, checkGscDaily } = await import('../src/lib/measurement-monitor.mjs');
+  const base = (date, views, organic = Math.round(views * 0.9)) => ({ date, views, sessions: views, engagedSessions: Math.round(views * 0.7), organicViews: organic });
+  const ga = [
+    base('2026-10-01', 300), base('2026-10-02', 320), base('2026-10-03', 310), base('2026-10-04', 290), base('2026-10-05', 305),
+    { date: '2026-10-06', views: 30, sessions: 30, engagedSessions: 0, organicViews: 3 }, // GA4 だけが消えた
+    base('2026-10-07', 120, 108), // GSC も減った
+    base('2026-10-08', 100, 90), // GSC 未取得
+    base('2026-10-09', 160, 30), // 検索は落ちていないが Organic が消えた（GSC 未取得・エンゲージメントは正常）
+  ];
+  const gsc = [
+    { date: '2026-10-03', clicks: 100, impressions: 2000 }, { date: '2026-10-04', clicks: 98, impressions: 2000 }, { date: '2026-10-05', clicks: 102, impressions: 2000 },
+    { date: '2026-10-06', clicks: 99, impressions: 2000 }, { date: '2026-10-07', clicks: 40, impressions: 900 },
+  ];
+  const m = measurementMonitor({ ga4Daily: ga, gscDaily: gsc, incidents: null, rules: { alertDays: 9 } });
+  const by = Object.fromEntries(m.days.map((d) => [d.date, d]));
+  assert.equal(by['2026-10-05'].status, STATUS.ok);
+  assert.equal(by['2026-10-06'].status, STATUS.measurement);
+  assert.equal(by['2026-10-06'].diverged, true);
+  assert.equal(by['2026-10-07'].status, STATUS.traffic);
+  assert.equal(by['2026-10-08'].status, STATUS.pending);
+  // 計測欠損の疑いの日（10/6）は、後の日の比較相手から外す（ゼロに近い値で基準を下げない）
+  assert.ok(by['2026-10-08'].vsBaselinePct < 50);
+  const levels = Object.fromEntries(m.alerts.map((a) => [a.message.slice(4, 14), a.level]));
+  assert.equal(levels['2026-10-06'], 'critical');
+  assert.equal(levels['2026-10-07'], 'warning');
+  assert.equal(levels['2026-10-08'], 'warning');
+  // 台帳に登録済みの障害の日は info（流入の急落として扱わない）
+  const known = measurementMonitor({ ga4Daily: ga, gscDaily: gsc, incidents: { incidents: [{ id: 'x', source: 'ga4', affectedDates: ['2026-10-06'] }] }, rules: { alertDays: 9 } });
+  assert.equal(known.alerts.find((a) => a.message.includes('2026-10-06')).level, 'info');
+  // 検索以外の流入だけが減った日は、計測欠損にしない
+  const nonSearch = measurementMonitor({ ga4Daily: [...ga.slice(0, 5), { date: '2026-10-06', views: 100, sessions: 100, engagedSessions: 70, organicViews: 270 }], gscDaily: gsc });
+  assert.equal(nonSearch.latest.status, STATUS.nonSearch);
+  assert.equal(nonSearch.alerts.length, 0);
+
+  // GSC 日別の形式検査
+  assert.deepEqual(checkGscDaily(gsc, { confirmedThrough: '2026-10-07' }), []);
+  const errs = checkGscDaily([{ date: '2026-10-01', clicks: 0, impressions: 0 }, { date: '2026-10-02', clicks: 5, impressions: 3 }, { date: '2026-10-09', clicks: 1, impressions: 9 }], { confirmedThrough: '2026-10-07' }).join('\n');
+  assert.match(errs, /ゼロ埋めの疑い/);
+  assert.match(errs, /clicks（5）が impressions（3）より大きい/);
+  assert.match(errs, /確定日（2026-10-07）より後/);
+});

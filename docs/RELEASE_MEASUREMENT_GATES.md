@@ -26,7 +26,7 @@
 
 - 配信面: GA4タグが実際に読み込まれること、CSP `script-src`/`connect-src` が必要なGA4送信先を許可することを検査。既存 `scripts/analytics-audit.mjs` を利用。
 - 収集面: GA4 Views/Sessions/engagedSessions、日別欠損、前日比の急変を確認。engagedSessions/Sessionsが極端に低い場合は要調査として扱い、勝手に0補完しない。
-- 外部比較: GSCクリック・表示回数はGA4 Viewsとは別指標。GSC正常かつGA4異常なら計測障害を優先調査する。
+- 外部比較: GSCクリック・表示回数はGA4 Viewsとは別指標。GSC正常かつGA4異常なら計測障害を優先調査する。判定は `src/lib/measurement-monitor.mjs`（GA4 日別 × GSC 日別。日次レポートの「計測の健全性」と `/control/`。docs/GROWTH_ENGINE.md「計測の健全性」）。
 - `data/editorial/measurement-incidents.json` に障害期間と復旧確認の根拠を記録。部分回復を完全復旧としない。
 - ASP送客クリックは確定成果・売上ではない。Revenue Funnelを分離する。
 

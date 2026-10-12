@@ -168,6 +168,10 @@ const lines = [
     `  - 実アクセスの裏付け（GSC）：${i.gsc.status}${i.gsc.clicks != null ? `（${i.gsc.date} ${fmt(i.gsc.clicks)} クリック・基準 ${fmt(i.gsc.baselineClicks)}）` : `（${i.gsc.note}）`}`,
   ]) : ['- 登録された計測障害なし']),
   ((d, m) => `- GA4 日別（windows.ga4.daily）：${d ? `${d.length} 日（${m?.coverage?.from ?? '—'}〜${m?.confirmedThrough ?? '—'}・未収録 ${m?.coverage?.missingDates?.length ?? '—'} 日・障害日 ${d.filter((r) => r.incident).length} 日）${((c) => (c.compared.length ? `・集計との照合 ${c.compared.map((x) => `${x.window} ${x.diff === 0 ? '一致' : `差 ${x.diff > 0 ? '+' : ''}${x.diff}`}`).join('・')}` : ''))(compareWindows(snapshot.windows.ga4))}` : '未収録'}`)(snapshot.windows?.ga4?.daily, snapshot.windows?.ga4?.dailyMeta),
+  ...((m) => (m.days.length ? [
+    `- 計測の健全性（GA4 日別 × GSC 日別・src/lib/measurement-monitor.mjs）：GSC 日別 ${m.gscAvailable ? 'あり' : '未収録'}。直近の判定`,
+    ...m.days.slice(-5).map((d) => `  - ${d.date}：${d.status}${d.incident ? `（登録済みの障害 ${d.incident}）` : ''}｜Views ${fmt(d.views)}（前日比 ${d.dayOverDayPct == null ? '—' : `${d.dayOverDayPct > 0 ? '+' : ''}${d.dayOverDayPct}%`}・直近7日の中央値比 ${d.vsBaselinePct ?? '—'}%）・Organic ${fmt(d.organicViews)}・GSC クリック ${fmt(d.gscClicks)}${d.organicPerGscClick != null ? `・Organic ÷ GSC ${d.organicPerGscClick}（基準 ${d.organicPerGscClickBaseline ?? '—'}）` : ''}`),
+  ] : ['- 計測の健全性：GA4 日別が無いため、集計の最新日だけで急落を見る']))(result.measurementMonitor),
   ...(result.dataIncidents.corrections.length ? [
     '- 判断に使う参考値（公式値は変えない・推定値を公式PVに足さない）：',
     ...result.dataIncidents.corrections.map((c) => `  - ${c.window}：公式 ${fmt(c.official)} → 参考 ${fmt(c.reference)}（${c.basis}）`),
