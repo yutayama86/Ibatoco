@@ -56,7 +56,6 @@ sourceUrls:
 relatedArticleUrls:
   - "/events/ibaraki-hanabi-2026/"
   - "/events/tsuchiura-hanabi-2026/"
-  - "/daigo/"
 commercialPriority: medium
 evergreen: false
 ---
