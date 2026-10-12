@@ -104,6 +104,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
   },
   {
+    id: '20261012-kouyou-hub-official',
+    date: '2026-10-12',
+    url: '/kouyou/',
+    kind: 'on-page',
+    change: '公式発表の反映：「いま、どこが見頃か」の竜神大吊橋（物産市 11/1〜30・常陸太田市観光物産協会）と花貫渓谷（高萩市観光協会 10/8・予約不可）、名所の竜神の説明、FAQ、出典2件。確認日を10月12日に（コキアの予想は公園公式で10/2時点のまま）',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。title・description・URL・構成は変えていない。導線（3記事へのリンクは関連リンク・カード・名所の3系統で既にある）は追加していない。変更前28日（GSC）370表示・12クリック・7.7位・CTR 3.2%（前28日23表示）',
+    experimentType: 'fact',
+  },
+  {
     id: '20261012-events-tsuchiura-hanabi-2026-kaeri-official',
     date: '2026-10-12',
     url: '/events/tsuchiura-hanabi-2026-kaeri/',
