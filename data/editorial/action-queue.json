@@ -3,6 +3,46 @@
   "updatedAt": "2026-10-12",
   "actions": [
     {
+      "id": "20261012-tsuchiura-official-map",
+      "title": "土浦花火：10/7〜8 の公式発表（交通規制・お帰り経路のマップ、無料観覧席なし、転売禁止、有料席のお帰り案内図）を反映",
+      "kind": "update",
+      "targetUrl": "/events/tsuchiura-hanabi-2026/",
+      "additionalTargetFiles": [
+        "src/content/events/tsuchiura-hanabi-2026-kaeri.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-12",
+      "completedAt": "2026-10-12",
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/page/page000332.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000329.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000330.html",
+        "https://www.tsuchiura-hanabi.jp/page/page000334.html"
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "source": "大会公式サイト（2026-10-12 確認）。PR #248（merge f529509）・本番反映と本番QAを確認",
+      "reason": "記事の「交通規制図は準備中」が古くなっていた。規制区間・時刻は PDF の図にあるため書き写さず公式マップを案内。期待PVは設定しない（11/7 前後の需要の実測が無い）。変更前28日（GSC）280表示・7.3位・CTR 1.1%"
+    },
+    {
+      "id": "20261012-ankou-official-announcement",
+      "title": "大洗あんこう祭：大洗観光協会の開催告知（10/7）で時間・あんこう汁・交通規制・催しを反映",
+      "kind": "update",
+      "targetUrl": "/events/oarai-ankou-matsuri-2026/",
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-12",
+      "completedAt": "2026-10-12",
+      "primarySourceUrls": [
+        "https://www.oarai-info.jp/news/postid_8902/"
+      ],
+      "confidence": "high",
+      "effort": "S",
+      "source": "大洗観光協会（2026-10-07 開催告知、10-12 確認）。PR #249（merge 66d0056）",
+      "reason": "11月の実測で最も強いページ（GSC 28日 9,969表示・3.5位・CTR 14.3%）が「開催時間・催しは未確認」のままだった。title・description・予約案内は変えていない（MVP 観測 10/11〜10/17）。駐車場は告知に記載がなく未確認。期待PVは設定しない（開催前後のピークの実測が無い）"
+    },
+    {
       "id": "20261012-recovery-checkpoint",
       "title": "10万PV Recovery 10/12 checkpoint：紅葉ハブ＋4ページ監査",
       "kind": "measurement",
@@ -37,9 +77,9 @@
       "id": "20261011-matsuri-yuki-2026",
       "title": "祭りゆうき2026（10/24・25）の新規記事",
       "kind": "new-article",
-      "targetUrl": "/events/",
+      "targetUrl": "/events/matsuri-yuki-2026/",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-10-11",
       "dueDate": "2026-10-17",
       "confidence": "medium",
@@ -48,7 +88,9 @@
         "https://www.city.yuki.lg.jp/kankou/event/page007363.html"
       ],
       "source": "event-registry：祭りゆうき2026（10/24〜25・重要度large・logisticsDemand high・公式URLあり・未掲載）。日次ブリーフでurgent",
-      "reason": "公式一次情報で日程・会場・交通規制・駐車場を確認してから記事化する。検索需要の実測が無いため期待PVは設定しない。docs/editorial/specs/20261011-november-growth-plan.md の5."
+      "reason": "公式一次情報で日程・会場・交通規制・駐車場を確認してから記事化する。検索需要の実測が無いため期待PVは設定しない。docs/editorial/specs/20261011-november-growth-plan.md の5.",
+      "completedAt": "2026-10-12",
+      "notes": "2026-10-12：PR #243 で結城市公式の一次情報記事として公開済み（/events/matsuri-yuki-2026/・sitemap 収録・本番200を確認）。"
     },
     {
       "id": "20261011-shimotsuma-kiku-2026",
@@ -61,9 +103,12 @@
       "dueDate": "2026-10-24",
       "confidence": "medium",
       "effort": "M",
-      "primarySourceUrls": ["https://www.daiho.or.jp/"],
+      "primarySourceUrls": [
+        "https://www.daiho.or.jp/"
+      ],
       "source": "event-registry：下妻市菊まつり（11/1〜11/25・公式URLあり・未掲載）",
-      "reason": "11月に会期がある菊まつりを、笠間の菊まつりと合わせて案内する。公式一次情報で会期・会場・駐車場を確認してから記事化する。検索需要の実測が無いため期待PVは設定しない。docs/editorial/specs/20261011-november-growth-plan.md の5."
+      "reason": "11月に会期がある菊まつりを、笠間の菊まつりと合わせて案内する。公式一次情報で会期・会場・駐車場を確認してから記事化する。検索需要の実測が無いため期待PVは設定しない。docs/editorial/specs/20261011-november-growth-plan.md の5.",
+      "notes": "2026-10-12：2026年の開催要項を公式で確認できず保留。大宝八幡宮の年中行事は「11月1〜23日頃」、台帳は11/1〜11/25で食い違うため記事化しない（出典間で食い違う日付は書かない）。下妻市・主催者の2026年の要項が出たら着手。"
     },
     {
       "id": "20261010-paid-booking-click",
@@ -198,7 +243,16 @@
         "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
         "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
         "productionPages": 18,
-        "widths": [320, 360, 375, 390, 430, 768, 1280, 1440],
+        "widths": [
+          320,
+          360,
+          375,
+          390,
+          430,
+          768,
+          1280,
+          1440
+        ],
         "issues": 0
       }
     },
@@ -260,7 +314,16 @@
         "productionCommit": "c9531b6bcd42099eb8aeb7b41d41b12502a3b4d8",
         "productionQaRun": "https://github.com/yutayama86/Ibatoco/actions/runs/37942718547",
         "productionPages": 18,
-        "widths": [320, 360, 375, 390, 430, 768, 1280, 1440],
+        "widths": [
+          320,
+          360,
+          375,
+          390,
+          430,
+          768,
+          1280,
+          1440
+        ],
         "issues": 0
       }
     },
@@ -791,7 +854,9 @@
       "status": "done",
       "createdAt": "2026-09-21",
       "specPath": "docs/editorial/specs/20260921-kashima-antlers-score-correction.md",
-      "primarySourceUrls": ["https://www.antlers.co.jp/pages/games"],
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/pages/games"
+      ],
       "acceptanceCriteria": [
         "「0-2で敗れています」が対象ファイルからなくなる",
         "指定箇所が「3-3で引き分けました」に置換される",
@@ -975,7 +1040,9 @@
       "status": "candidate",
       "createdAt": "2026-09-28",
       "dueDate": "2026-11-07",
-      "primarySourceUrls": ["https://www.tsuchiura-hanabi.jp/"],
+      "primarySourceUrls": [
+        "https://www.tsuchiura-hanabi.jp/"
+      ],
       "notes": "ユーザーが当日にClaudeを起動する予定。公式の開催・延期・中止の発表を確認し、延期・中止ページ、本体記事、帰り方、11月まとめの冒頭に反映する。発表前の推測は書かない。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026.md",
@@ -1137,7 +1204,9 @@
       "status": "candidate",
       "createdAt": "2026-09-30",
       "dueDate": "2026-10-13",
-      "primarySourceUrls": ["https://www.arttowermito.or.jp/gallery/"],
+      "primarySourceUrls": [
+        "https://www.arttowermito.or.jp/gallery/"
+      ],
       "notes": "竹村京展は10/12まで。10/13〜11/6は現代美術ギャラリーの会期なし、11/7から収蔵作品展「再会」。開催中の表記を直す。",
       "confidence": "high",
       "effort": "S",
@@ -1156,7 +1225,9 @@
       "status": "candidate",
       "createdAt": "2026-09-30",
       "dueDate": "2026-10-22",
-      "primarySourceUrls": ["https://www.torinokosan.com/news/"],
+      "primarySourceUrls": [
+        "https://www.torinokosan.com/news/"
+      ],
       "notes": "令和8年8月24日〜10月21日（予定）、平日は茨城県側が全面通行止め・大型車は神社まで行けない。終了（または延長）の告知を確認して記載を直す。夜祭り（毎年11月第3土曜）の2026年の告知が出たら日付を追記。",
       "confidence": "high",
       "effort": "S",
@@ -1233,7 +1304,9 @@
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-07",
       "specPath": "docs/editorial/specs/20261007-november-batch-gsc-queries.md",
-      "primarySourceUrls": ["https://mt-tsukuba.com/information/"],
+      "primarySourceUrls": [
+        "https://mt-tsukuba.com/information/"
+      ],
       "acceptanceCriteria": [
         "titleとdescriptionのみ変更",
         "運休は公式で当日確認",
@@ -1258,7 +1331,9 @@
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-07",
       "specPath": "docs/editorial/specs/20261007-november-batch-gsc-queries.md",
-      "primarySourceUrls": ["https://www.kasama-kanko.jp/"],
+      "primarySourceUrls": [
+        "https://www.kasama-kanko.jp/"
+      ],
       "acceptanceCriteria": [
         "観測期間外のページからだけリンク",
         "seo-changesに記録"
