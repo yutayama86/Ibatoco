@@ -12,6 +12,7 @@ import actionQueue from '../../../data/editorial/action-queue.json';
 import registry from '../../../data/editorial/event-registry.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import asp from '../../../data/editorial/asp-results.json';
+import { MAX_SLOTS_PER_PAGE, SPONSOR_SLOTS } from '../../data/sponsors';
 import learning from '../../../data/editorial/seasonal-learning.json';
 import recovery from '../../../data/editorial/recovery-plan.json';
 import searchTrends from '../../../data/editorial/search-trends.json';
@@ -40,6 +41,8 @@ const result = runGrowthOS({
   learningRecords: (learning.records ?? []) as any[],
   trendsData: searchTrends,
   incidents,
+  sponsorSlots: SPONSOR_SLOTS,
+  maxSponsorSlots: MAX_SLOTS_PER_PAGE,
   today,
 });
 const alerts = result.alerts;
@@ -63,6 +66,7 @@ const buckets = [
   { key: '61-90', label: '61〜90日' },
 ].map((b) => ({ ...b, items: result.pipeline.filter((p: any) => p.bucket === b.key).slice(0, 8) }));
 const funnel = result.revenueFunnel;
+const local: any = result.localRevenue;
 const levelLabel: Record<string, string> = { critical: '重大', warning: '注意', info: '情報' };
 const recoveryPriorities = (recovery.priorities ?? []).slice(0, 5);
 const pace = performance.paceDiagnostics;
@@ -307,6 +311,20 @@ const pace = performance.paceDiagnostics;
         {funnel.providers.map((p: any) => <div><dt>{p.name}</dt><dd>{p.clicks == null ? '未取得' : `${fmt(p.clicks)} click`}・発生 {fmt(p.occurred)}</dd><dd class="gc-revenue__note">{p.period}・未確定 {p.pendingRewardYen == null ? '—' : `¥${fmt(p.pendingRewardYen)}`}・確定 {p.confirmedRewardYen == null ? '—' : `¥${fmt(p.confirmedRewardYen)}`}</dd></div>)}
       </dl>
       {funnel.diagnosis.map((d: any) => <p class="gc-warn">{d.message}</p>)}
+    </article>
+
+    <article class="gc-card">
+      <h3>地域事業者への送客と協賛枠</h3>
+      <p class="gc-note">送客先別のクリック（GA4 {local.referrals.period ?? '期間未取得'}）。公式は事業者・団体の一次情報、提携は ASP。</p>
+      {local.referrals.destinations.length > 0 ? (
+        <ol class="gc-funnel">
+          {local.referrals.destinations.slice(0, 8).map((d: any) => <li><span>{d.kind === 'paid' ? '提携' : d.kind === 'official' ? '公式' : 'その他'}｜{d.label ?? d.destination}</span><b>{fmt(d.clicks)}</b><small>{d.destination}・{d.pages.slice(0, 2).map((p: any) => p.path).join('、')}</small></li>)}
+        </ol>
+      ) : <p class="gc-note">未取得</p>}
+      <p class="gc-note">協賛枠の在庫（{local.inventory.basis ?? '実測なし'}）：掲載中 {local.inventory.activeSponsors ?? '—'} 件。料金・営業・契約はオーナー承認。</p>
+      <ol class="gc-funnel">
+        {local.inventory.pages.slice(0, 6).map((p: any) => <li><span>{p.title}</span><b>{fmt(p.demand)}</b><small>{p.demandBasis}・{p.path}・空き {p.freeSlots ?? '—'} 枠{p.startDate ? `・開催 ${p.startDate}` : ''}</small></li>)}
+      </ol>
     </article>
 
     <article class="gc-card">

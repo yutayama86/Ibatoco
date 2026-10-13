@@ -290,6 +290,25 @@ const lines = [
   '',
   ...funnel.diagnosis.flatMap((d) => [`- ⚠ ${d.message}`, ...d.pages.map((p) => `  - ${p.path}（${p.provider}・${fmt(p.clicks)} click）`)]),
   '',
+  '## ⑩-2 地域事業者への送客と協賛枠の在庫（料金・営業はオーナー承認）',
+  '',
+  `### 送客先（事業者・団体のサイト）別のクリック（GA4 ${result.localRevenue.referrals.period ?? '期間未取得'}）`,
+  '',
+  ...(result.localRevenue.referrals.destinations.length
+    ? [
+        `- 合計：公式（事業者・団体）${fmt(result.localRevenue.referrals.totals.official)}・提携（ASP）${fmt(result.localRevenue.referrals.totals.paid)}・その他 ${fmt(result.localRevenue.referrals.totals.other)} click（送客先 ${fmt(result.localRevenue.referrals.totals.destinations)} か所）`,
+        ...result.localRevenue.referrals.destinations.map((d) => `- ${d.kind === 'paid' ? '提携' : d.kind === 'official' ? '公式' : 'その他'}｜${d.label ? `${d.label}（${d.destination}）` : d.destination}：${fmt(d.clicks)} click（${d.pages.slice(0, 3).map((p) => `${p.path} ${fmt(p.clicks)}`).join('・')}）`),
+      ]
+    : ['- 未取得（GA4 の page_path × link_url が入っていない）']),
+  '',
+  `### 協賛枠の在庫（協賛枠を出せるページ・${result.localRevenue.inventory.basis ?? '実測なし'}。掲載中の枠は /control/ で確認）`,
+  '',
+  ...(result.localRevenue.inventory.pages.length
+    ? result.localRevenue.inventory.pages.map((p) => `- ${p.title.slice(0, 40)}（${p.path}）：${p.demandBasis} ${fmt(p.demand)}${p.views28 != null ? `・GSC ${fmt(p.gscClicks28)} click` : ''}${p.startDate ? `・開催 ${p.startDate}${p.daysUntilStart != null && p.daysUntilStart >= 0 ? `（${p.daysUntilStart}日後）` : ''}` : ''}`)
+    : ['- 実測のある候補ページなし']),
+  '',
+  '地域別（候補ページの合計・同じ基準）：' + (result.localRevenue.inventory.areas.map((a) => `${a.municipality} ${fmt(a.demand)}`).join('・') || '—'),
+  '',
   '## ⑪ Annual Learning（2027年に使う季節実測）',
   '',
   `台帳 ${learningRecords.length} 件・実測あり ${learningRecords.filter((r) => r.measuredAt).length} 件（data/editorial/seasonal-learning.json）`,

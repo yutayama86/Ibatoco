@@ -8,6 +8,7 @@ import { readFileSync } from 'node:fs';
 import { demandPipeline, demandRadar, effortOf, nextWinners, pvRelay, queryClusters, relayBatch } from '../src/lib/demand-radar.mjs';
 import { addDays, daysBetween } from '../src/lib/growth-engine.mjs';
 import { revenueFunnel } from '../src/lib/revenue-funnel.mjs';
+import { businessReferrals, sponsorInventory } from '../src/lib/local-revenue.mjs';
 import { aggregateLearning, syncLearningRecords } from '../src/lib/seasonal-learning.mjs';
 
 const engineConfig = JSON.parse(readFileSync('data/editorial/growth-engine.json', 'utf8'));
@@ -167,6 +168,52 @@ test('Revenue Funnel：ASPごとの実績。未確定報酬は売上に入れず
   // ページ別送客は提携リンクだけ・期間つき
   assert.equal(f.paidByPage.period, '2026-09-27..2026-10-03');
   assert.deepEqual(f.paidByPage.rows.map((x) => [x.path, x.provider, x.clicks]), [['/q/', 'akippa', 3], ['/p/', 'rakuten-travel', 2], ['/p/', 'jalan', 1]]);
+});
+
+test('地域事業者：送客先別のクリック（公式と提携を分ける）と、協賛枠の在庫（終了・PR・防災は除く。GA4 が無ければ GSC）', () => {
+  const pages = new Map([
+    ['/events/a/', { path: '/events/a/', type: 'event', title: 'A祭', tags: [], municipalities: ['oarai'], startDate: '2026-11-14', endDate: '2026-11-15', frontmatter: { booking: { items: [{ label: '観光協会の宿一覧', url: 'https://www.example-kanko.jp/hotel/' }] } } }],
+    ['/events/old/', { path: '/events/old/', type: 'event', title: '終わった祭', tags: [], municipalities: ['mito'], startDate: '2026-09-01', endDate: '2026-09-02', frontmatter: {} }],
+    ['/news/pr/', { path: '/news/pr/', type: 'news', title: 'PR記事', tags: [], municipalities: [], frontmatter: { disclosure: 'pr' } }],
+    ['/news/flood/', { path: '/news/flood/', type: 'news', title: '冠水マップ', tags: [], municipalities: [], frontmatter: {} }],
+    ['/news/b/', { path: '/news/b/', type: 'news', title: 'B', tags: [], municipalities: ['mito'], frontmatter: {} }],
+  ]);
+  const snapshot = {
+    pageMetrics: [
+      { path: '/events/a/', views28: null, gsc: { clicks28: 300 } },
+      { path: '/events/old/', views28: null, gsc: { clicks28: 900 } },
+      { path: '/news/pr/', views28: null, gsc: { clicks28: 800 } },
+      { path: '/news/flood/', views28: null, gsc: { clicks28: 700 } },
+      { path: '/news/b/', views28: null, gsc: { clicks28: 100 } },
+    ],
+    conversionDetail: {
+      byProviderPagePeriod: { start: '2026-09-27', end: '2026-10-03' },
+      byProviderPage: [
+        { path: '/events/a/', link_url: 'https://www.example-kanko.jp/hotel/', link_provider: 'official', classification: 'official', event_count: 11 },
+        { path: '/news/b/', link_url: 'https://www.example-kanko.jp/hotel/', link_provider: 'official', classification: 'official', event_count: 2 },
+        { path: '/events/a/', link_url: 'https://hb.afl.rakuten.co.jp/hgc/x/?pc=y', link_provider: 'rakuten-travel', classification: 'paid', event_count: 2 },
+        { path: '/events/a/', link_url: 'https://ticket.example.jp/buy/', link_provider: 'ticket', classification: 'non-partner-candidate', event_count: 3 },
+      ],
+    },
+  };
+  const ref = businessReferrals({ snapshot, pages });
+  assert.equal(ref.period, '2026-09-27..2026-10-03');
+  assert.deepEqual(ref.totals, { official: 13, paid: 2, other: 3, destinations: 3 });
+  assert.equal(ref.destinations[0].destination, 'example-kanko.jp');
+  assert.equal(ref.destinations[0].label, '観光協会の宿一覧'); // 名前は記事の予約案内から引く（推測しない）
+  assert.deepEqual(ref.destinations[0].pages, [{ path: '/events/a/', clicks: 11 }, { path: '/news/b/', clicks: 2 }]);
+  assert.equal(ref.destinations.find((d) => d.kind === 'paid').destination, 'rakuten-travel');
+
+  const slots = [{ id: 's1', pages: ['/events/a/'], start: '2026-10-01', end: '2026-11-15' }];
+  const inv = sponsorInventory({ snapshot, pages, sponsorSlots: slots, maxSlots: 3, today: '2026-10-13' });
+  assert.deepEqual(inv.pages.map((p) => p.path), ['/events/a/', '/news/b/']); // 終了・PR・防災は除く
+  assert.equal(inv.pages[0].demandBasis, 'GSC クリック（28日）');
+  assert.equal(inv.pages[0].freeSlots, 2);
+  assert.equal(inv.pages[0].daysUntilStart, 32);
+  assert.equal(inv.activeSponsors, 1);
+  assert.match(inv.basis, /GSC/);
+  // 登録簿を渡さない呼び出し（Node のレポート）では、空き枠は分からない（0 にしない）
+  assert.equal(sponsorInventory({ snapshot, pages, today: '2026-10-13' }).pages[0].freeSlots, null);
 });
 
 test('Annual Learning：同期は実測の項目を上書きしない。学習は同カテゴリ2件以上の実測から', () => {
