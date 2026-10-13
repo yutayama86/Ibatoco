@@ -178,6 +178,16 @@ export const SEO_CHANGES: SeoChange[] = [
     note: 'サイト内リンクは0件のまま（置き場所はオーナー判断：action 20261010-today-internal-links）。今日・週末系の検索語は28日55語・表示59回と小さく、期待PVは設定しない',
   },
   {
+    id: '20261014-nakaminato-akippa-paid',
+    date: '2026-10-14',
+    url: '/events/nakaminato-osakana-ichiba-guide/',
+    kind: 'on-page',
+    change: '予約導線の akippa（ひたちなか大洗リゾートの予約制駐車場・市が案内する特設ページ）を A8 の成果リンクに切り替え、予約案内の説明を「提携しており、このリンクは広告」に修正（それまでは「広告ではありません」）。リンク先・並び順（公式が先）・ラベルは変えていない',
+    queries: [],
+    commit: 'PENDING',
+    note: '提携済みだが成果URLになっていなかったリンク（active-unmapped）の解消（Issue #262）。広告表示（冒頭の #アフィリエイト広告・枠の「広告」）と rel="nofollow sponsored noopener" は affiliates.ts の登録で自動で付く。A8 の1×1の表示計測画像は入れない。クリックは GA4 の paid_booking_click（link_provider=akippa）で見る',
+  },
+  {
     id: '20261010-paid-booking-click',
     date: '2026-10-10',
     url: '/events/oarai-ankou-matsuri-2026/',
