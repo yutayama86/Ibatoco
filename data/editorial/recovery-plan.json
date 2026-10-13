@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-14",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-13",
-    "ga4Through": "2026-10-11",
-    "gscThrough": "2026-10-10",
-    "referenceRunRate30": 12917,
-    "referenceGapViews": 87083,
-    "officialRawRunRate30": 7976,
-    "latest3RawRunRate30": 6080,
-    "incidentAdjustedLatest3ReferenceRunRate30": 15210,
+    "asOf": "2026-10-14",
+    "ga4Through": "2026-10-12",
+    "gscThrough": "2026-10-11",
+    "referenceRunRate30": 13208,
+    "referenceGapViews": 86792,
+    "officialRawRunRate30": 8143,
+    "latest3RawRunRate30": 11620,
+    "incidentAdjustedLatest3ReferenceRunRate30": 16170,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 1861,
-    "recent7DailyAverage": 265.85714285714283,
-    "recent3Views": 608,
-    "recent3DailyAverage": 202.66666666666666,
+    "recent7Views": 1900,
+    "recent7DailyAverage": 271.42857142857144,
+    "recent3Views": 1162,
+    "recent3DailyAverage": 387.3333333333333,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日はCSP障害日10/9を含む。11月需要を重複なく積み上げたportfolioは未確定。"
+    "basis": "ローリング28日を11月実績へ加算しない。30日換算と需要積上げ予測を分離。障害日除外4日平均の参考ランレートでもGapは86,792 Views。重複排除・確度補正済みportfolioは根拠不足のためnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -137,20 +137,19 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-13",
+    "date": "2026-10-14",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
     "factsReleased": [
-      "/events/art-tower-mito-guide/",
-      "/events/ryujin-bridge-autumn-2026/",
-      "/news/ishioka-noriai-taxi-weekend-2026/"
+      "/sports/mito-hollyhock/",
+      "/news/kasama-shinguri-matsuri-2026/"
     ],
     "incrementalViewsObserved": null,
-    "growthImplementations": 0,
-    "growthImplementationBlocker": "Growth候補は観測窓中または公開解禁前。水戸ホーリーホックの観戦場所・放送・配信クエリは10/14まで実装禁止、スタジアムmetadataは10/15以降。",
-    "nextConcreteAction": "10/14にIssue #256の完全一致クエリを再取得し、一次情報で答えられる範囲だけを再選別する。GA4 10/12は処理不連続のため10/14に再取得する。",
+    "growthImplementations": 3,
+    "growthImplementationBlocker": null,
+    "nextConcreteAction": "10/15にGA4 10/13を再取得。PR #252はnotBefore 10/15と公式事実を再確認後に判断。10/19 checkpointでページ別GSC・Views・配信実績を再判定。",
     "nextDemandCheckpoint": "2026-10-19"
   }
 }

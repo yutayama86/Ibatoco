@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261014-news-kasama-shinguri-matsuri-2026-fact',
+    date: '2026-10-14',
+    url: '/news/kasama-shinguri-matsuri-2026/',
+    kind: 'on-page',
+    change: '終了した新栗まつりの開催表現を未来形から過去形へ訂正し、updatedDateを更新',
+    queries: ['かさま新栗まつり 2026', '笠間 新栗まつり'],
+    commit: 'pending',
+    note: '事実鮮度の即時修正。日程・会場・料金などの確定情報とURLは変更せず、終了済みであることを明示。内部リンク施策の観測とは分けて評価する。',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261014-news-kasama-shinguri-matsuri-2026-relay',
+    date: '2026-10-14',
+    url: '/news/kasama-shinguri-matsuri-2026/',
+    kind: 'internal-link',
+    change: '関連記事の先頭に笠間の菊まつり（/events/kasama-kiku-matsuri-2026/）を追加',
+    queries: ['笠間菊まつり 2026', '笠間 菊まつり 2026', '菊まつり 2026'],
+    commit: 'pending',
+    note: '新栗まつり終了後の流入を同じ笠間市の次の季節需要へ渡す。2026-10-14に笠間稲荷神社公式で第119回の会期10/24〜11/23を再確認。内部リンク施策としては本文・title・descriptionを変更せず、同日の事実修正とは別に評価する。',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261012-events-oarai-ankou-matsuri-2026-official',
     date: '2026-10-12',
     url: '/events/oarai-ankou-matsuri-2026/',

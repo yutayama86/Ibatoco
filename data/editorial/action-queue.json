@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-14",
   "actions": [
     {
       "id": "20261012-tsuchiura-official-map",
@@ -1383,7 +1383,7 @@
       "kind": "internal-link",
       "targetUrl": "/events/kasama-kiku-matsuri-2026/",
       "priority": "high",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
       "confidence": "medium",
@@ -1404,7 +1404,9 @@
         "本文・title・description・updatedDate を変えない",
         "seo-changes に internal-link として記録",
         "npm run date:check と npm run verify が成功"
-      ]
+      ],
+      "completedAt": "2026-10-14",
+      "notes": "2026-10-14：仕様どおり relatedArticleUrls の先頭に菊まつりを追加し、既存5件の順序・title・descriptionは不変。菊まつりの会期10/24〜11/23を笠間稲荷神社公式で当日再確認。同ページのupdatedDateと開催表現は、終了済み事実の即時修正として別記録で更新。"
     },
     {
       "id": "20261013-match-viewing-queries",
@@ -1457,7 +1459,7 @@
       "targetUrl": "/control/",
       "targetFile": "data/editorial/performance-snapshot.json",
       "priority": "critical",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-13",
       "dueDate": "2026-10-14",
       "confidence": "high",
@@ -1466,7 +1468,26 @@
       "page": "/control/",
       "source": "Windsor.ai GA4 account 547804264",
       "reason": "10/12は475 Views/453 Sessionsに対しengagedSessions 2。session Unassigned 252（(not set)）、空landing 243、Cross-network 47で、チャネル別sessions合計が総sessionsを上回る。処理不連続のため確定値にせず、翌日再取得して差し替える。計測修正でありexpectedPvImpactは設定しない。",
-      "notes": "10/13通常取得で再現。Windsor接続・account ID・引数は正常。追加費用のforce refreshは使わない。GSCは10/10まで正常取得。"
+      "notes": "10/13通常取得で再現。Windsor接続・account ID・引数は正常。追加費用のforce refreshは使わない。GSCは10/10まで正常取得。 2026-10-14再取得で10/12は571 Views・466 Sessions・engaged 339へ正常化し解消。",
+      "completedAt": "2026-10-14"
+    },
+    {
+      "id": "20261014-ga4-provisional-processing-check",
+      "title": "GA4 10/13の暫定処理不連続を確定後に再取得",
+      "kind": "measurement",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/performance-snapshot.json",
+      "priority": "critical",
+      "status": "in-progress",
+      "createdAt": "2026-10-14",
+      "dueDate": "2026-10-15",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-15",
+      "page": "/control/",
+      "source": "Windsor.ai GA4 account 547804264",
+      "reason": "10/13は506 Views・504 Sessionsに対しengagedSessions 6、Unassigned 269 sessions、空landing 272 sessions。最新日の処理不連続とみて確定値にせず翌日再取得する。計測確認でありexpectedPvImpactは設定しない。",
+      "notes": "Windsor接続・account ID・引数は正常。10/12は翌日正常化。追加費用のforce refreshは使わない。"
     }
   ]
 }

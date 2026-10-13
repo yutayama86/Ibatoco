@@ -1,25 +1,91 @@
 {
-  "source": "Windsor.ai GA4 547804264・Search Console sc-domain:ibatoco.jp（2026-10-14 Growth Director 再取得。取得時刻は未記載）",
-  "fetchedAt": null,
+  "source": "Windsor.ai GA4 547804264（2026-10-14取得）",
+  "fetchedAt": "2026-10-14T07:00:00+09:00",
   "confirmedThrough": "2026-10-12",
   "daily": [
-    { "date": "2026-10-10", "views": 84, "sessions": 71, "engagedSessions": 46, "organicViews": 76 },
-    { "date": "2026-10-11", "views": 507, "sessions": 442, "engagedSessions": 324, "organicViews": 466 },
-    { "date": "2026-10-12", "views": 571, "sessions": null, "engagedSessions": 339, "organicViews": 544 }
+    {
+      "date": "2026-10-10",
+      "views": 84,
+      "sessions": 71,
+      "engagedSessions": 46,
+      "organicViews": 76
+    },
+    {
+      "date": "2026-10-11",
+      "views": 507,
+      "sessions": 442,
+      "engagedSessions": 324,
+      "organicViews": 466
+    },
+    {
+      "date": "2026-10-12",
+      "views": 571,
+      "sessions": 466,
+      "engagedSessions": 339,
+      "organicViews": 544
+    }
   ],
   "provisional": [
-    { "date": "2026-10-13", "status": "暫定（処理途中の疑い）。確定日に入れず、翌日以降の再取得で置き換える", "views": 407, "engagedSessions": 6, "organicSessions": 334, "organicViews": 328, "unassignedSessions": 231, "unassignedViews": 38, "note": "10/12 の暫定値（engaged 2・Unassigned 252）が確定で正常化したのと同じ形。総セッション数は未取得" }
+    {
+      "date": "2026-10-13",
+      "status": "暫定（処理途中の疑い）。確定日に入れず、翌日以降の再取得で置き換える",
+      "views": 506,
+      "sessions": 504,
+      "engagedSessions": 6,
+      "organicSessions": 386,
+      "organicViews": 392,
+      "unassignedSessions": 269,
+      "unassignedViews": 51,
+      "blankLandingSessions": 272,
+      "note": "10/12の暫定異常が翌日正常化したため同様に保留。チャネル別sessionsは非加算性が強く、確定値に採用しない。"
+    }
   ],
   "gsc": {
-    "source": "Windsor.ai Search Console sc-domain:ibatoco.jp（2026-10-14 Growth Director 再取得。10/12 以降は取得結果に無し＝未取得で、0 ではない）",
+    "source": "Windsor.ai Search Console sc-domain:ibatoco.jp（2026-10-14取得）",
     "confirmedThrough": "2026-10-11",
     "daily": [
-      { "date": "2026-10-06", "clicks": 133, "impressions": 2958, "position": 6.5456 },
-      { "date": "2026-10-07", "clicks": 128, "impressions": 2687, "position": 6.8415 },
-      { "date": "2026-10-08", "clicks": 114, "impressions": 2649, "position": 6.4111 },
-      { "date": "2026-10-09", "clicks": 133, "impressions": 3554, "position": 6.915 },
-      { "date": "2026-10-10", "clicks": 201, "impressions": 5556, "position": 6.8742 },
-      { "date": "2026-10-11", "clicks": 241, "impressions": 4052 }
+      {
+        "date": "2026-10-06",
+        "clicks": 133,
+        "impressions": 2958,
+        "ctr": 0.045,
+        "position": 6.5456
+      },
+      {
+        "date": "2026-10-07",
+        "clicks": 128,
+        "impressions": 2687,
+        "ctr": 0.0476,
+        "position": 6.8415
+      },
+      {
+        "date": "2026-10-08",
+        "clicks": 114,
+        "impressions": 2649,
+        "ctr": 0.043,
+        "position": 6.4111
+      },
+      {
+        "date": "2026-10-09",
+        "clicks": 133,
+        "impressions": 3554,
+        "ctr": 0.0374,
+        "position": 6.915
+      },
+      {
+        "date": "2026-10-10",
+        "clicks": 201,
+        "impressions": 5556,
+        "ctr": 0.0362,
+        "position": 6.8742
+      },
+      {
+        "date": "2026-10-11",
+        "clicks": 241,
+        "impressions": 4052,
+        "ctr": 0.0595,
+        "position": 6.1276
+      }
     ]
   }
 }
