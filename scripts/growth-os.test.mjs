@@ -157,6 +157,7 @@ test('Revenue Funnel：ASPごとの実績。未確定報酬は売上に入れず
   assert.equal(a.occurredCvr, 0);
   assert.equal(f.metrics.pendingRewardYen, 254);
   assert.equal(f.metrics.revenuePer1000Views, 0); // 未確定254円は Revenue に入れない
+  assert.equal(f.metrics.approvalRate, null); // 未確定が残るあいだは承認率を出さない（0% にしない）
   assert.equal(f.stages.find((s) => s.key === 'revenue').value, 0);
   assert.match(f.stages.find((s) => s.key === 'occurred').period, /期間が違う/);
   // A8 の診断は jalan・akippa の送客ページを拾う（ASP名 a8 と提供元名は違う）

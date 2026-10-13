@@ -74,7 +74,8 @@ export function revenueFunnel({ snapshot, ledger, asp, pages = new Map(), commer
     ctaCtr: rate(ctaClicks, ctaImpressions),
     affiliateCtr: rate(aspClicks, ctaImpressions),
     occurredCvr: null,
-    approvalRate: occurredTotal ? rate(confirmedEntries.length, occurredTotal) : null,
+    // 未確定が残るあいだは承認率を出さない（未確定は否認ではない。0% と出すと「全部否認された」と読める）
+    approvalRate: occurredTotal && !(pendingRewardYen > 0) && !providers.some((p) => p.status === 'occurred-pending') ? rate(confirmedEntries.length, occurredTotal) : null,
     epc: null,
     pendingRewardYen,
     pendingRewardBasis: '未確定報酬（ASP報告の合計・期間はASPごと）。売上ではないので Revenue に入れない',
