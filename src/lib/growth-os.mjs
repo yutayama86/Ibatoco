@@ -16,6 +16,7 @@ import { measurementMonitor } from './measurement-monitor.mjs';
 import { auditSnapshot } from './snapshot-quality.mjs';
 import { demandPipeline, demandRadar, nextWinners, pvRelay, queryClusters, relayBatch, searchTrends, seasonsFor } from './demand-radar.mjs';
 import { revenueFunnel } from './revenue-funnel.mjs';
+import { businessReferrals, sponsorInventory } from './local-revenue.mjs';
 import { aggregateLearning } from './seasonal-learning.mjs';
 import { trendsDecisions, trendsSummary } from './search-trends.mjs';
 
@@ -23,9 +24,10 @@ const ALERT_ORDER = { critical: 0, warning: 1, info: 2 };
 
 /**
  * @param {{ snapshot: any, engineConfig: any, radarConfig: any, pages: Map<string, any>, changes: any[], actions: any[], registry: any,
- *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], trendsData?: any | null, incidents?: any | null, today: string }} input
+ *   inbound?: any | null, freshness?: any[], ledger: any, asp: any, learningRecords?: any[], trendsData?: any | null, incidents?: any | null,
+ *   sponsorSlots?: any[] | null, maxSponsorSlots?: number, today: string }} input
  */
-export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], trendsData = null, incidents = null, today }) {
+export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, pages, changes, actions, registry, inbound = null, freshness = [], ledger, asp, learningRecords = [], trendsData = null, incidents = null, sponsorSlots = null, maxSponsorSlots = 3, today }) {
   const quality = auditSnapshot(rawSnapshot);
   // 計測障害（measurement-incidents.json）にかかる集計は参考値に差し替えて判断に使い、公式値は別に残す
   const officialSnapshot = quality.snapshot;
@@ -75,6 +77,8 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
   });
   const gapMap = buildGapMap({ forecasts: result.forecasts, gap: result.gap, engineConfig, pages, relay, trendsList });
   const funnel = revenueFunnel({ snapshot, ledger, asp, pages, commercialWords: radarConfig.commercialIntentWords });
+  // 地域事業者向け（協賛・掲載）の材料：送客実績と協賛枠の在庫。sponsorSlots は TS の登録簿なので、渡せる呼び出し側（/control/）だけが渡す
+  const localRevenue = { referrals: businessReferrals({ snapshot, pages }), inventory: sponsorInventory({ snapshot, pages, sponsorSlots, maxSlots: maxSponsorSlots, today }) };
   const annual = aggregateLearning(learningRecords, radarConfig);
   // 参考予測（別指標）：一時的な流入・季節・基礎を分ける。公式の着地予測（result.gap）と計算式は変えない
   const forecastReference = referenceForecast({ snapshot, forecasts: result.forecasts, relayItems: relay.items, month: engineConfig.target.month, officialForecast: result.gap?.forecast ?? null });
@@ -115,6 +119,7 @@ export function runGrowthOS({ snapshot: rawSnapshot, engineConfig, radarConfig, 
     batch: relayed.batch,
     batchCandidatesWithoutEstimate: relayed.candidatesWithoutEstimate,
     revenueFunnel: funnel,
+    localRevenue,
     annualLearning: { categories: annual, records: learningRecords.length, measured: learningRecords.filter((r) => r.measuredAt).length },
     alerts: [...dropAlerts, ...(incident.corrections.length ? [{ level: 'info', kind: '計測障害の補正', message: `GA4 の ${incident.corrections.map((c) => c.window).join('・')} が計測障害の日（${[...new Set(incident.corrections.flatMap((c) => c.affected))].join('・')}）を含むため、判断は参考値で行う（公式値は日次レポートの「データ品質」）` }] : []), ...quality.issues.map(({ level, kind, message }) => ({ level, kind, message })), ...relay.alerts, ...result.alerts, ...trendsAlerts]
       .sort((a, b) => ALERT_ORDER[a.level] - ALERT_ORDER[b.level]),

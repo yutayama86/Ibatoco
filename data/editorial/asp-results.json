@@ -40,8 +40,12 @@
       "confirmed": 0,
       "confirmedRewardYen": 0,
       "revenueYen": 0,
-      "services": null,
-      "servicesNote": "プログラム別（じゃらんnet・akippa）のクリック内訳は未取得",
+      "services": [
+        { "name": "akippa", "clicks": 10, "occurred": 0 },
+        { "name": "じゃらんnet", "clicks": 8, "occurred": 0 },
+        { "name": "Kimoc", "clicks": 1, "occurred": 0 }
+      ],
+      "servicesNote": "プログラム別はオーナー報告（2026-10-13）。Kimoc の広告リンクはイバトコのリポジトリに無い（2026-10-13 検索）。どこから押されたかは未確認で、イバトコの記事への送客とは扱わない",
       "sourcePages": null,
       "sourcePagesNote": "流入元未特定",
       "rewardRule": "じゃらんnet・akippa の成果条件は A8 のプログラム詳細で確認（未取得）。affiliates.ts の記録では akippa は新規駐車場利用（税抜）の5%",
