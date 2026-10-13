@@ -157,6 +157,17 @@ export const SEO_CHANGES: SeoChange[] = [
     note: 'Growth Director 最終判断 2026-10-10。TOP と同じ部品（ThisWeek の moreHref）',
   },
   {
+    id: '20261013-guide-cta-paid-booking-click',
+    date: '2026-10-13',
+    url: '/news/mito-shinkin-stadium-parking/',
+    kind: 'technical',
+    change: 'ニュースのガイド記事の提携リンクのCTA（駐車場記事の akippa・上部と記事末）のクリックで outbound_booking_click と paid_booking_click を送る（BookingGuide と同じパラメータ＋link_kind: guide_cta・cta_location）。公式リンクのCTAは数えない',
+    queries: [],
+    commit: 'PENDING',
+    note: '計測の修正（Issue #262）。表示・文言・リンク先・rel は変えていない。A8（akippa）へのクリックの一部が GA4 の送客イベントに出ておらず、ASP 画面のクリックとページ別に突き合わせられなかった。2026-10-14 の確定日から使う。本番QAが1クリック＝outbound 1回・paid 1回を確かめる',
+    experimentType: 'measurement',
+  },
+  {
     id: '20261010-today-sitemap',
     date: '2026-10-10',
     url: '/today/',

@@ -290,7 +290,9 @@ async function checkAnalyticsPath() {
 // 予約・送客の計測イベントが1回の操作で1回ずつ出るか（予約できるイバトコ MVP の主KPI paid_booking_click ÷ booking_guide_view の前提）。
 // gtag を記録用に包む（本番でも計測は送らない：除外フラグで gtag.js を読まず、送信先も route で止める）。リンクの遷移は止める
 const BOOKING_PAGES = ['/events/oarai-ankou-matsuri-2026/', '/events/oarai-ankou-nabe-guide/', '/events/tsuchiura-hanabi-2026/'];
-async function checkBookingEvents() {
+// ガイド記事の提携リンクのCTA（BookingGuide の外。例：駐車場記事の akippa）
+const GUIDE_PAID_PAGES = ['/news/mito-shinkin-stadium-parking/'];
+async function eventContext() {
   const context = await browser.newContext({ locale: 'ja-JP', timezoneId: 'Asia/Tokyo', serviceWorkers: 'block', viewport: { width: 390, height: 844 } });
   await context.addInitScript(DISABLE_PREFETCH);
   await context.addInitScript(() => {
@@ -312,7 +314,13 @@ async function checkBookingEvents() {
     }
     return route.abort();
   });
-  const count = (list, name) => list.filter((n) => n === name).length;
+  return context;
+}
+const countEvents = (list, name) => list.filter((n) => n === name).length;
+
+async function checkBookingEvents() {
+  const context = await eventContext();
+  const count = countEvents;
   try {
     for (const path of BOOKING_PAGES) {
       const page = await context.newPage();
@@ -353,6 +361,46 @@ async function checkBookingEvents() {
   }
 }
 
+async function checkGuideCtaEvents() {
+  const context = await eventContext();
+  const count = countEvents;
+  try {
+    for (const path of GUIDE_PAID_PAGES) {
+      const page = await context.newPage();
+      try {
+        const res = await page.goto(`${ORIGIN}${path}`, { waitUntil: 'load', timeout: 30000 });
+        if (!res || res.status() !== 200) continue;
+        const paid = page.locator('a[data-guide-paid-link="1"]');
+        const paidCount = await paid.count();
+        if (!paidCount) continue;
+        const events = () => page.evaluate(() => [...window.__qaEvents]);
+        const before = (await events()).length;
+        await paid.first().click();
+        const afterPaid = (await events()).slice(before);
+        // 出典の公式リンクは送客ではない：押しても送客イベントは出ない
+        const official = page.locator('#sources a[href^="http"]').first();
+        let afterOfficial = [];
+        if (await official.count()) {
+          const mark = (await events()).length;
+          await official.click();
+          afterOfficial = (await events()).slice(mark);
+        }
+        const problems = [];
+        if (count(afterPaid, 'outbound_booking_click') !== 1 || count(afterPaid, 'paid_booking_click') !== 1) problems.push(`提携リンクのCTA1クリックで outbound_booking_click ${count(afterPaid, 'outbound_booking_click')} 回・paid_booking_click ${count(afterPaid, 'paid_booking_click')} 回（各1回であること）`);
+        if (count(afterOfficial, 'outbound_booking_click') || count(afterOfficial, 'paid_booking_click')) problems.push(`出典の公式リンク1クリックで送客イベントが出た（outbound ${count(afterOfficial, 'outbound_booking_click')} 回・paid ${count(afterOfficial, 'paid_booking_click')} 回。0回であること）`);
+        if (problems.length) failures.push(`送客イベント・ガイドCTA（${path}）：${problems.join('／')}`);
+        else notes.push(`送客イベント・ガイドCTA：${path} の提携リンク ${paidCount} 件。1クリックで outbound と paid が各1回・出典の公式リンクは0回（計測は送っていない）`);
+        return;
+      } finally {
+        await page.close();
+      }
+    }
+    notes.push('送客イベント・ガイドCTA：提携リンクのCTAがあるページが無いため省略');
+  } finally {
+    await context.close();
+  }
+}
+
 try {
   const queue = [...VIEWPORTS];
   await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
@@ -360,6 +408,7 @@ try {
   }));
   if (PRODUCTION) await checkAnalyticsPath();
   await checkBookingEvents();
+  await checkGuideCtaEvents();
   notes.push(`先読み：検査のブラウザでは止めている（データセーバー扱い）。全画面で link[rel=prefetch] ${prefetchLinks} 件${prefetchLinks ? '（0 件であること。Worker の無料枠を検査が使う）' : ''}`);
   if (prefetchLinks) failures.push(`先読みが ${prefetchLinks} 件出た（検査のブラウザでは 0 件のはず。DISABLE_PREFETCH を確認）`);
 } finally {

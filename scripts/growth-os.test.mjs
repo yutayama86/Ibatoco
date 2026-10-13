@@ -136,6 +136,38 @@ test('Revenue Funnel：取得できない値は0ではなく null。クリック
   assert.equal(empty.diagnosis.length, 0);
 });
 
+test('Revenue Funnel：ASPごとの実績。未確定報酬は売上に入れず、発生CVRは同じASP・同じ期間だけで出す', () => {
+  const asp = {
+    asOf: '2026-10-13',
+    providers: [
+      { key: 'rakuten', name: '楽天', linkProviders: ['rakuten-travel'], period: { label: '直近30日' }, checkedAt: '2026-10-13', clicks: 23, occurred: 2, occurredSalesYen: 25450, pendingRewardYen: 254, confirmed: 0, confirmedRewardYen: 0, revenueYen: 0 },
+      { key: 'a8', name: 'A8', linkProviders: ['jalan', 'akippa'], period: { label: '今月' }, checkedAt: '2026-10-13', clicks: 19, occurred: 0, pendingRewardYen: null, confirmed: 0 },
+    ],
+  };
+  const byProviderPage = [
+    { path: '/p/', link_provider: 'rakuten-travel', partner_status: 'active', event_count: 2, classification: 'paid' },
+    { path: '/p/', link_provider: 'jalan', partner_status: 'active', event_count: 1, classification: 'paid' },
+    { path: '/q/', link_provider: 'akippa', partner_status: 'active', event_count: 3, classification: 'paid' },
+    { path: '/q/', link_provider: 'official', partner_status: 'none', event_count: 9, classification: 'official' },
+  ];
+  const snapshot = site(4000, [], { windows: { ga4: { recent7: { views: 4000 }, recent28: { views: 16000 } } }, conversionDetail: { recent7: {}, byProviderPage, byProviderPagePeriod: { start: '2026-09-27', end: '2026-10-03' } } });
+  const f = revenueFunnel({ snapshot, ledger: { entries: [] }, asp });
+  const [r, a] = f.providers;
+  assert.equal(r.occurredCvr, 0.087); // 2 ÷ 23（楽天の同じ期間）
+  assert.equal(a.occurredCvr, 0);
+  assert.equal(f.metrics.pendingRewardYen, 254);
+  assert.equal(f.metrics.revenuePer1000Views, 0); // 未確定254円は Revenue に入れない
+  assert.equal(f.stages.find((s) => s.key === 'revenue').value, 0);
+  assert.match(f.stages.find((s) => s.key === 'occurred').period, /期間が違う/);
+  // A8 の診断は jalan・akippa の送客ページを拾う（ASP名 a8 と提供元名は違う）
+  assert.equal(f.diagnosis.length, 1);
+  assert.match(f.diagnosis[0].message, /19クリック・発生成果0/);
+  assert.deepEqual(f.diagnosis[0].pages.map((p) => `${p.path}:${p.provider}`).sort(), ['/p/:jalan', '/q/:akippa']);
+  // ページ別送客は提携リンクだけ・期間つき
+  assert.equal(f.paidByPage.period, '2026-09-27..2026-10-03');
+  assert.deepEqual(f.paidByPage.rows.map((x) => [x.path, x.provider, x.clicks]), [['/q/', 'akippa', 3], ['/p/', 'rakuten-travel', 2], ['/p/', 'jalan', 1]]);
+});
+
 test('Annual Learning：同期は実測の項目を上書きしない。学習は同カテゴリ2件以上の実測から', () => {
   const pages = pagesOf([
     { path: '/hanabi-a/', title: 'A花火大会2026', slug: 'hanabi-a', startDate: '2026-08-01', pubDate: '2026-07-01' },
