@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261014-news-kasama-shinguri-matsuri-2026-relay-clean',
+    date: '2026-10-14',
+    url: '/news/kasama-shinguri-matsuri-2026/',
+    kind: 'internal-link',
+    change: '関連記事の先頭に笠間の菊まつり2026を追加。本文・title・description・updatedDate・CTAは変更しない',
+    queries: ['笠間菊まつり 2026', '笠間 菊まつり 2026'],
+    commit: '2abacf3',
+    note: '旧PR #251を最新mainから最小差分で再構成。10/14からの内部リンク変更。10/4終了の事実訂正は別PR #270で対応済み。',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261012-events-oarai-ankou-matsuri-2026-official',
     date: '2026-10-12',
     url: '/events/oarai-ankou-matsuri-2026/',
