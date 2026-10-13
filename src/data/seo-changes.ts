@@ -88,7 +88,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '終了の事実訂正：結論の冒頭に「2026年10月4日に終了しました。以下は開催前に公式情報で整理した内容」、要点カードの開催日に「終了」、最初の見出しの導入文と FAQ（いつ・どこで）の答えを過去形に。updatedDate を 10/14 に。title・description・関連記事の順・CTA は変えていない',
     queries: [],
-    commit: 'PENDING',
+    commit: 'ee4b15a',
     note: 'Growth Director 判断 2026-10-14（案A：承認済みの事実訂正）。10/4 に終了したのに「開かれます」のままだった（直近7日 1,350 Views・GSC 28日 約3.5万表示）。同じ日に #251（関連記事の先頭に菊まつり＝internal-link）も反映するため、#251 の導線の効果の観測に影響しうる変更として記録する',
     experimentType: 'fact',
   },
