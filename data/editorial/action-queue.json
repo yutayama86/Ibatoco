@@ -1383,7 +1383,7 @@
       "kind": "internal-link",
       "targetUrl": "/events/kasama-kiku-matsuri-2026/",
       "priority": "high",
-      "status": "ready",
+      "status": "done",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-14",
       "confidence": "medium",
@@ -1404,7 +1404,9 @@
         "本文・title・description・updatedDate を変えない",
         "seo-changes に internal-link として記録",
         "npm run date:check と npm run verify が成功"
-      ]
+      ],
+      "completedAt": "2026-10-14",
+      "notes": "最新mainから最小差分で再構成。新栗まつりの終了事実訂正はPR #270で別途実施"
     },
     {
       "id": "20261013-match-viewing-queries",
