@@ -302,7 +302,10 @@ const pace = performance.paceDiagnostics;
       <ol class="gc-funnel">
         {funnel.stages.map((st: any) => <li><span>{st.label}</span><b>{st.value == null ? '未取得' : fmt(st.value)}</b><small>{st.period ?? '—'}</small></li>)}
       </ol>
-      <p class="gc-note">Revenue / 1,000 Views ¥{funnel.metrics.revenuePer1000Views ?? '—'}・Affiliate CTR {pct(funnel.metrics.affiliateCtr)}・発生CVR／EPC は期間がそろうまで計算しない。クリックは成果として扱わない。</p>
+      <p class="gc-note">Revenue / 1,000 Views ¥{funnel.metrics.revenuePer1000Views ?? '—'}（確定売上のみ）・Affiliate CTR {pct(funnel.metrics.affiliateCtr)}・未確定報酬 {funnel.metrics.pendingRewardYen == null ? '未取得' : `¥${fmt(funnel.metrics.pendingRewardYen)}`}（売上に入れない）。クリックは成果として扱わない。</p>
+      <dl class="gc-revenue">
+        {funnel.providers.map((p: any) => <div><dt>{p.name}</dt><dd>{p.clicks == null ? '未取得' : `${fmt(p.clicks)} click`}・発生 {fmt(p.occurred)}</dd><dd class="gc-revenue__note">{p.period}・未確定 {p.pendingRewardYen == null ? '—' : `¥${fmt(p.pendingRewardYen)}`}・確定 {p.confirmedRewardYen == null ? '—' : `¥${fmt(p.confirmedRewardYen)}`}</dd></div>)}
+      </dl>
       {funnel.diagnosis.map((d: any) => <p class="gc-warn">{d.message}</p>)}
     </article>
 

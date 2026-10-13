@@ -183,6 +183,7 @@ BookingGuide側は既に `page_path` と `source_page` を送っている。Wind
 - ページ別値が取得できない場合は `missing` とし、サイト合計をページへ按分しない。
 - `monetized_booking_click` は `is_paid_link=1` が取得できる場合のみ使う。取得不能なら0ではなく未取得として扱う。
 - 2026-10-10 から BookingGuide は提携リンクのクリックで `paid_booking_click` も送る（`outbound_booking_click` の内数・同じパラメータ）。10/11 以降の確定日は event_name = `paid_booking_click` で数え、それより前の期間（送客先ドメインで判定した値）と混ぜない。`paid_booking_click` が同じ期間・ページの `outbound_booking_click` を超えたら計測不具合として止める
+- 2026-10-14 の確定日から、ニュースのガイド記事の**提携リンクのCTA**（`guide.cta`・`section.cta`・`guide.bottomCta` のうち affiliates.ts で成果URLになるもの。例：駐車場記事の akippa）も `outbound_booking_click` と `paid_booking_click` を送る（同じパラメータ＋`link_kind: guide_cta`・`cta_location: guide_top / guide_section / guide_bottom`）。それまで A8（akippa）へのクリックの一部は GA4 の送客イベントに出ていなかった。公式リンクのCTAは数えない。ガイド記事には `booking_guide_view` が無いので、提携送客率（paid ÷ booking_guide_view）は BookingGuide のあるページだけで出す
 - 予約できるイバトコ MVP の主KPIは **提携送客率 = `paid_booking_click` ÷ `booking_guide_view`**（同じ期間・同じページ。観測 2026-10-11〜10-17、GA4 の 10/17 確定後に評価。Growth Director 最終判断 2026-10-10）。公式を含む `outbound_booking_click` ÷ `booking_guide_view` は副指標。定義と整合の条件は `data/editorial/revenue-mvp.json` の `primaryKpi`・`consistencyChecks`
 - 二重送信の検査：本番 QA と CI のブラウザ検査（`scripts/ui-smoke.mjs` の「送客イベント」）が、提携リンク1クリック＝outbound 1回・paid 1回、公式リンク1クリック＝outbound 1回・paid 0回、予約案内の表示＝1ページ1回を毎回確かめる（gtag を記録用に包み、計測は送らない）
 - ページ別ファネルが取れたら、Revenue Yield Engineは Actual RPM → Monetized Click / 1,000PV → Intent Proxy の順で判断する。
@@ -252,8 +253,21 @@ KPI:
 
 - **クリックを成果・売上として扱わない**。取得できない値は 0 ではなく null（画面では「未取得」）
 - 指標：Revenue / 1,000 Views（確定売上 ÷ 直近28日Views × 1,000）、Affiliate CTR（ASP送客 ÷ CTA表示）、承認率（確定 ÷ 発生）。**発生CVR・EPC は、クリックと成果の期間がそろうまで計算しない**（7日のクリック ÷ 累計の成果で割らない）
-- 現状（2026-10-07 オーナー報告）：**A8 はクリックあり・成果0**。`asp-results.json` に `occurred: 0`・`status: clicks-without-conversions` として記録
+- 現状（2026-10-13 オーナー報告）：**楽天は直近30日 23クリック・発生2件（楽天トラベル。うち1件は高速バス）・売上25,450円・未確定報酬254円**（初の成果。確定は0）。**A8 は今月19クリック・発生0**。どちらも `asp-results.json` に期間つきで記録。未確定254円は `revenue-ledger.json` に入れない
 - 成果0が続くときは「CTAを増やす」だけで対応しない。送客ページ × 提供元の一覧で、**検索意図 × 商材のミスマッチ**を先に疑う（例：アクセス・駐車場を調べる読者に宿泊予約を出していないか）
 - 高商用意図のページ（駐車場・ホテル・宿泊・予約・飲食店・あんこう鍋の店・アクセス・交通規制・周辺観光）は収益化候補として評価する。ただし読者の検索意図に合う場合だけ置き、SEO・UX を損なう CTA の乱設はしない
 - `asp-results.json` は管理画面の集計（成果0も含む）、`docs/records/affiliate-results.csv` は成果1件ごとの記録、`revenue-ledger.json` は確定売上の正本。ASP新規申請・契約は引き続きオーナー承認
+
+## ASP実績の記録（2026-10-13〜）
+
+ASP の管理画面は自動で取得できない（API・権限なし）。オーナーが画面で確認した値を、手で `data/editorial/asp-results.json` に入れる。
+
+- `providers` は ASP ごとの最新の値。前の値は消さずに `history` へ移す
+- 1件ごとに **期間**（`period.label`・`start`・`end`）と **確認日**（`checkedAt`）を必ず付ける。楽天は「直近30日」、A8 は「今月」のように ASP ごとに期間が違うので、**ASP をまたいで率を比べない**
+- 項目：`clicks`（ASP 画面のクリック。GA4 の paid_booking_click とは別物）・`occurred`（発生件数）・`occurredSalesYen`（売上金額）・`pendingRewardYen`（未確定報酬）・`confirmed`・`confirmedRewardYen`（確定）・`services`（サービス別。グラフ読み取りなら `approximate: true`）・`sourcePages`（発生元ページ。画面で分からなければ null と「流入元未特定」）
+- `linkProviders` は、その ASP の送客リンクの提供元（affiliates.ts の id。A8 なら `jalan`・`akippa`）。成果0の診断でページを拾うのに使う
+- 取得できない値は null。**0 で埋めない**。未確定報酬は売上ではないので `revenue-ledger.json` に入れない。確定したら、確定日・確定報酬を `revenue-ledger.json` に1件ずつ入れる（`npm run revenue:import`、docs/REVENUE_IMPORT.md）
+- 表示：`/control/` の Revenue Funnel と `npm run growth:target` の ⑩ に、ASP ごとの「クリック・発生・発生CVR（同じASP・同じ期間）・売上・未確定・確定」と、ページ別の送客（GA4 の page_path × link_provider、期間つき）が出る。Revenue / 1,000 Views は確定売上だけで出す
+
+楽天トラベルの成果条件（楽天トラベル アフィリエイト仕様、2026-10-13 確認）：利用金額の1%（レンタカー・観光体験は2%）。Cookie は30日で、**リンク先と違う商品（高速バスなど）の予約も成果になる**。予約日の翌々月末までに利用が完了したものが対象。したがって発生した成果の商品から、読者が押したリンクやページを決めつけない。
 

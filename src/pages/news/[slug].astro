@@ -87,10 +87,24 @@ const ctaHref = (href: string) => paidLinkFor(href)?.href ?? href;
  * **noreferrer を付けない。** 参照元が消えると掲載サイトを照合できず、成果が否認されうる。
  * 広告でないリンクはこれまでどおり noopener noreferrer。
  */
-const linkAttrs = (href: string) => {
+const linkAttrs = (href: string, placement?: 'guide_top' | 'guide_section' | 'guide_bottom') => {
   if (!isExternal(href)) return {};
   const paid = paidLinkFor(href);
-  return { target: '_blank', rel: paid ? 'nofollow sponsored noopener' : 'noopener noreferrer' };
+  return {
+    target: '_blank',
+    rel: paid ? 'nofollow sponsored noopener' : 'noopener noreferrer',
+    // 提携リンクのCTAは、BookingGuide と同じ outbound_booking_click / paid_booking_click で数える（下の script）。
+    // data-is-paid は BookingGuide 専用の印なので使わない（本番QAの BookingGuide 検査と混ざらないように）
+    ...(paid
+      ? {
+          'data-guide-paid-link': '1',
+          'data-provider': paid.provider,
+          'data-placement': placement,
+          'data-municipality': data.municipalities[0],
+          'data-content-category': data.category,
+        }
+      : {}),
+  };
 };
 
 const organizationId = `${SITE_CONFIG.domain}/#organization`;
@@ -173,7 +187,7 @@ if (data.faq.length > 0) jsonLd.push({
       <div class="news-detail__dates"><time datetime={data.pubDate.toISOString()}>公開 {formatDate(data.pubDate)}</time>{data.updatedDate && <time datetime={data.updatedDate.toISOString()}>更新 {formatDate(data.updatedDate)}</time>}<span>{data.author}</span></div>
       {guide && <div class="guide-summary">
         <ul class="guide-cards" aria-label="要点">{guide.summaryCards.map((card) => <li class:list={[{ 'is-emphasis': card.emphasis }]}><span>{card.label}</span><strong>{card.value}</strong></li>)}</ul>
-        {guide.cta && <div class="guide-cta"><a href={ctaHref(guide.cta.href)} {...linkAttrs(guide.cta.href)}>{guide.cta.label}<span aria-hidden="true">{isExternal(guide.cta.href) ? '↗' : '→'}</span>{isExternal(guide.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.cta.note && <p>{guide.cta.note}</p>}</div>}
+        {guide.cta && <div class="guide-cta"><a href={ctaHref(guide.cta.href)} {...linkAttrs(guide.cta.href, 'guide_top')}>{guide.cta.label}<span aria-hidden="true">{isExternal(guide.cta.href) ? '↗' : '→'}</span>{isExternal(guide.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.cta.note && <p>{guide.cta.note}</p>}</div>}
       </div>}
     </header>
 
@@ -194,10 +208,10 @@ if (data.faq.length > 0) jsonLd.push({
             {section.items.length > 0 && <ul>{section.items.map((entry) => <li set:html={emphasize(entry)} />)}</ul>}
             {section.details.length > 0 && <div class="guide-details">{section.details.map((detail) => <div><h3>{detail.title}</h3><dl>{detail.rows.map((row) => <><dt>{row.label}</dt><dd set:html={emphasize(row.value)} /></>)}</dl></div>)}</div>}
             {section.notes.length > 0 && <ul class="guide-notes">{section.notes.map((note) => <li set:html={emphasize(note)} />)}</ul>}
-            {section.cta && <div class="guide-cta guide-cta--inline"><a href={ctaHref(section.cta.href)} {...linkAttrs(section.cta.href)}>{section.cta.label}<span aria-hidden="true">{isExternal(section.cta.href) ? '↗' : '→'}</span>{isExternal(section.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{section.cta.note && <p>{section.cta.note}</p>}</div>}
+            {section.cta && <div class="guide-cta guide-cta--inline"><a href={ctaHref(section.cta.href)} {...linkAttrs(section.cta.href, 'guide_section')}>{section.cta.label}<span aria-hidden="true">{isExternal(section.cta.href) ? '↗' : '→'}</span>{isExternal(section.cta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{section.cta.note && <p>{section.cta.note}</p>}</div>}
             {section.block === 'passport-stamp-spots' && <PassportStampIndex />}
           </section>)}
-          {guide.bottomCta && <div class="guide-cta guide-cta--bottom"><a href={ctaHref(guide.bottomCta.href)} {...linkAttrs(guide.bottomCta.href)}>{guide.bottomCta.label}<span aria-hidden="true">{isExternal(guide.bottomCta.href) ? '↗' : '→'}</span>{isExternal(guide.bottomCta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.bottomCta.note && <p>{guide.bottomCta.note}</p>}</div>}
+          {guide.bottomCta && <div class="guide-cta guide-cta--bottom"><a href={ctaHref(guide.bottomCta.href)} {...linkAttrs(guide.bottomCta.href, 'guide_bottom')}>{guide.bottomCta.label}<span aria-hidden="true">{isExternal(guide.bottomCta.href) ? '↗' : '→'}</span>{isExternal(guide.bottomCta.href) && <span class="sr-only">（新しいタブで開きます）</span>}</a>{guide.bottomCta.note && <p>{guide.bottomCta.note}</p>}</div>}
         </> : <>
         <section id="points"><p class="section-number">02 / KEY POINTS</p><h2>この記事でわかること</h2><ul>{data.keyPoints.map((point) => <li set:html={emphasize(point)} />)}</ul></section>
         <section id="what-happened"><p class="section-number">03 / WHAT HAPPENED</p><h2>何が起きた？</h2><p set:html={emphasize(data.whatHappened)} />
@@ -242,6 +256,26 @@ if (data.faq.length > 0) jsonLd.push({
   </section>}
   <script>
     import { commonParams, trackEvent } from '../../lib/analytics-events';
+    // ガイド記事の提携リンクのCTA（例：駐車場記事の akippa）。BookingGuide と同じイベント・同じパラメータで数え、
+    // ASP 管理画面のクリックとページ別に突き合わせられるようにする。置き場所は cta_location で分ける。
+    // 公式リンクのCTAは数えない（予約・送客ではないため。BookingGuide の公式リンクとは扱いが違う）
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-guide-paid-link="1"]')) {
+      link.addEventListener('click', () => {
+        const params = {
+          ...commonParams({ page_type: 'news', municipality: link.dataset.municipality, content_category: link.dataset.contentCategory }),
+          link_provider: link.dataset.provider ?? '',
+          link_kind: 'guide_cta',
+          partner_status: 'active',
+          monetization_state: 'paid',
+          is_paid_link: 1,
+          link_page_type: 'news',
+          link_url: link.getAttribute('href') ?? '',
+          cta_location: link.dataset.placement ?? '',
+        };
+        trackEvent('outbound_booking_click', params);
+        trackEvent('paid_booking_click', params);
+      });
+    }
     // 記事の最後の「関連情報」で、どの種類のリンクが押されるかを見る（docs/ARTICLE_ACTIONS.md）。
     // イベント名は既存の next_action_click。新しいイベント名は作らない
     for (const block of document.querySelectorAll<HTMLElement>('[data-news-related]')) {
