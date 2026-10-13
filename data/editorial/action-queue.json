@@ -1405,7 +1405,7 @@
         "npm run date:check と npm run verify が成功"
       ],
       "completedAt": "2026-10-14",
-      "notes": "2026-10-14：関連記事の先頭に菊まつりを追加し、結論の冒頭に終了を明示（本文は残す）。菊まつりの会期は菊まつり記事（9/29 公式照合）の表示名のまま、新しい日付は書いていない。"
+      "notes": "2026-10-14：仕様どおり relatedArticleUrls の先頭に菊まつりを追加しただけ（既存5件の順序・本文・title・description・updatedDate は不変）。表示名は internal-links.ts の既存の文言。本番の記事に終了の表示が無い点は、本文の変更になるため別途 GD に判断を依頼。"
     },
     {
       "id": "20261013-match-viewing-queries",

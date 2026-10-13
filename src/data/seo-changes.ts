@@ -53,10 +53,10 @@ export const SEO_CHANGES: SeoChange[] = [
     date: '2026-10-14',
     url: '/news/kasama-shinguri-matsuri-2026/',
     kind: 'internal-link',
-    change: '関連記事の先頭に笠間の菊まつり（/events/kasama-kiku-matsuri-2026/）を追加し、結論の冒頭に「10月4日に終了。以下は開催前に整理した内容」と明示（本文は残す）',
+    change: '関連記事（relatedArticleUrls）の先頭に笠間の菊まつり（/events/kasama-kiku-matsuri-2026/）を追加。既存5件の順序・本文・title・description・updatedDate は変えていない',
     queries: ['笠間菊まつり 2026', '笠間 菊まつり 2026', '菊まつり 2026'],
     commit: '0594e0a',
-    note: 'PV Relay（新栗まつりは10/4終了後も直近7日1,350 Views・28日35,264表示）。新栗まつり記事は 9/15 の new-article で 10/13 まで観測中だったため 10/14 に反映。終了の明示は事実の更新。菊まつり側（10/21 まで観測中）は変えていない。変更前：菊まつり 28日367表示・6.0位・直近7日54 Views',
+    note: 'PV Relay（新栗まつりは10/4終了後も直近7日1,350 Views・28日35,264表示）。新栗まつり記事は 9/15 の new-article で 10/13 まで観測中だったため 10/14 に反映。仕様（docs/editorial/specs/20261014-shinguri-to-kiku-relay.md）どおり変更は関連記事の1行だけ。終了の明示は本文の変更になるため入れていない（別途 GD に判断を依頼）。菊まつり側（10/21 まで観測中）は変えていない。変更前：菊まつり 28日367表示・6.0位・直近7日54 Views',
     experimentType: 'internal-link',
   },
   {
