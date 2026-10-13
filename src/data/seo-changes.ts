@@ -184,7 +184,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '予約導線の akippa（ひたちなか大洗リゾートの予約制駐車場・市が案内する特設ページ）を A8 の成果リンクに切り替え、予約案内の説明を「提携しており、このリンクは広告」に修正（それまでは「広告ではありません」）。リンク先・並び順（公式が先）・ラベルは変えていない',
     queries: [],
-    commit: 'PENDING',
+    commit: '423c23a',
     note: '提携済みだが成果URLになっていなかったリンク（active-unmapped）の解消（Issue #262）。広告表示（冒頭の #アフィリエイト広告・枠の「広告」）と rel="nofollow sponsored noopener" は affiliates.ts の登録で自動で付く。A8 の1×1の表示計測画像は入れない。クリックは GA4 の paid_booking_click（link_provider=akippa）で見る',
   },
   {
