@@ -101,6 +101,11 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
       // 駐車場記事の上部CTA・記事末CTAと、アクセス記事の予約導線が同じURLを指す
       'https://www.akippa.com/event/mito-hollyhock':
         'https://px.a8.net/svt/ejp?a8mat=4BCCJM+B43BAQ+3NAY+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.akippa.com%2Fevent%2Fmito-hollyhock',
+      // ひたちなか大洗リゾートの予約制駐車場 特設ページ（那珂湊おさかな市場の徒歩圏の駐車場）。
+      // ひたちなか市の市場案内がこのURLを案内している。那珂湊おさかな市場の記事の予約導線が指す（2026-10-14 A8で生成）。
+      // ※キーワード検索（/driver/searchparking?keyword=…）のリンクは大洗町側の駐車場を返すので使わない
+      'https://www.akippa.com/event/hitachinaka-oarai':
+        'https://px.a8.net/svt/ejp?a8mat=4BCCJM+B43BAQ+3NAY+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.akippa.com%2Fevent%2Fhitachinaka-oarai',
     },
   },
   eplus: {

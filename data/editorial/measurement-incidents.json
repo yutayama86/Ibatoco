@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-14",
   "about": "計測障害の台帳（Growth OS の正本）。GA4 の生データ・公式実績は変えない。障害期間にかかる集計（7日・28日・成長率・着地予測・優先順位）は src/lib/measurement-incidents.mjs が判断から外し、公式値と参考値を分けて出す。欠測をゼロとして扱わず、推定値を公式PVに足さない。docs/GROWTH_ENGINE.md の「計測障害」",
   "incidents": [
     {
@@ -120,20 +120,21 @@
     {
       "id": "2026-10-12-ga4-processing-anomaly",
       "source": "ga4",
-      "status": "monitoring",
+      "status": "resolved",
+      "resolution": "processing-delay",
       "start": "2026-10-12T00:00:00+09:00",
       "startEstimated": false,
       "end": "2026-10-12T23:59:59+09:00",
       "endEstimated": true,
-      "affectedDates": [
+      "provisionalDates": [
         "2026-10-12"
       ],
-      "cause": "GA4処理不連続（確定待ち）。Unassigned/(not set) 252 sessionsのうち空landingが243。Cross-network/(data not available) 47 sessions。",
-      "causeConfidence": "medium",
+      "cause": "GA4 の処理途中の値（処理遅延）で、計測障害ではない。暫定値（10/13 07:00 取得）では Unassigned/(not set) 252 sessions・空 landing 243・engaged 2 だったが、確定値（10/14 再取得）では Unassigned が出ず engaged 339 に正常化した",
+      "causeConfidence": "high",
       "unaffectedSources": [
         "gsc"
       ],
-      "handling": "10/12を最新確定日・前週比・収益窓へ採用しない。翌日の通常取得で再取得し、確定後に置換。",
+      "handling": "確定値（2026-10-14 再取得）で置き換え、10/12 は通常の確定日として扱う。データは欠けていないため affectedDates を外し（provisionalDates に移した）、集計から除外しない。暫定値は判断に使わない",
       "evidence": {
         "date": "2026-10-12",
         "sessionDefault": {
@@ -160,6 +161,23 @@
           "engagedSessions": 2
         },
         "diagnosis": "GA4の同日処理不連続。チャネル別sessions合計が総sessionsを上回り、blank landing 243・engaged 2のため確定集計に不採用。翌日再取得して置換する。"
+      },
+      "verification": {
+        "checkedAt": "2026-10-14",
+        "source": "Windsor.ai GA4（Growth Director 再取得 2026-10-14）",
+        "confirmed": {
+          "views": 571,
+          "sessions": null,
+          "engagedSessions": 339,
+          "channels": {
+            "Organic Search": { "sessions": 444, "views": 544 },
+            "Direct": { "sessions": 14, "views": 15 },
+            "Referral": { "sessions": 7, "views": 8 },
+            "AI Assistant": { "sessions": 2, "views": 4 }
+          },
+          "unassigned": "確定値の結果に出現せず"
+        },
+        "note": "総セッション数は未取得（チャネル別の合計から推定しない）。10/13 の暫定値も同じ形（Unassigned 231 sessions・engaged 6）で、確定値で置き換える（ga4-daily-input.json の provisional）"
       },
       "issue": "https://github.com/yutayama86/Ibatoco/issues/226"
     }
