@@ -104,6 +104,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
   },
   {
+    id: '20261014-kouyou-hub-november-link-order',
+    date: '2026-10-14',
+    url: '/kouyou/',
+    kind: 'internal-link',
+    change: '紅葉ハブの関連リンクの順番を11月の需要順（花貫渓谷→袋田の滝→竜神大吊橋→筑波山→コキア）に変え、4本のラベルを記事の中身（2026年の公式情報）に合わせた（PR #261）。title・description・canonical・CTA は変えていない',
+    queries: [],
+    commit: '7ace051',
+    note: 'Growth Director 承認（2026-10-14、Issue #260 の紅葉ハブ導線）。根拠は GSC 10/10 の表示（袋田97・花貫66・竜神22・/kouyou/ 33）。/kouyou/ は直近7日2 Views と小さく、期待PVは設定しない。ラベルは各記事の実記載（花貫：紅葉まつり・ライトアップ・駐車場／袋田：色づき速報・料金・駐車場／竜神：紅葉まつり・料金・アクセス／筑波山：運行情報・駐車場・混雑）と照合済み',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261012-kouyou-hub-official',
     date: '2026-10-12',
     url: '/kouyou/',
