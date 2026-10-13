@@ -1412,7 +1412,7 @@
       "kind": "sports",
       "targetUrl": "/sports/mito-hollyhock/",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-10-07",
       "dueDate": "2026-10-13",
       "confidence": "low",
@@ -1421,7 +1421,14 @@
       "page": "/sports/mito-hollyhock/",
       "source": "gscQueries（観戦系14語 28日10,483表示・6〜7位・CTR 0.6%。鹿島×甲府 8,300、福島ユナイテッド×水戸 1,553）",
       "reason": "表示は大きいが6〜7位でもCTR 0.6%と低い。検索意図（会場か放送・配信か）とスニペットの不一致を仮説として、試合情報は公式一次情報で ChatGPT が作成。期待PVは仮説検証まで設定しない",
-      "notes": "Issue #256で仕様化済み。観測窓は10/13までのため、10/14以前の実装・マージは禁止。水戸に関係する試合クエリだけを基準保存し、次戦の会場・TV・配信・PVは一次情報が揃ってから実装判断する。"
+      "notes": "Issue #256で仕様化済み。観測窓は10/13までのため、10/14以前の実装・マージは禁止。水戸に関係する試合クエリだけを基準保存し、次戦の会場・TV・配信・PVは一次情報が揃ってから実装判断する。 2026-10-14：既存部品の「中継」を使い、試合データに公式の放送・配信と、抜けていた10/14ルヴァン杯3回戦（ケーズデンキスタジアム水戸）・9/29と10/11の結果を反映。新しいカード・テンプレート変更なし。PV会場・10/31の放送は未確認のため書かない。",
+      "completedAt": "2026-10-14",
+      "specPath": "docs/editorial/specs/20261014-mito-watch-info.md",
+      "primarySourceUrls": [
+        "https://www.mito-hollyhock.net/news/p=55174/",
+        "https://www.jleague.jp/match/leaguecup/2026/101408/",
+        "https://www.jleague.jp/club/mito/day/"
+      ]
     },
     {
       "id": "20261009-weekly-growth-calibration",
