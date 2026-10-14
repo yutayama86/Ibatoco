@@ -49,6 +49,39 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261015-events-ibaraki-flowerpark-illumination-2026-title',
+    date: '2026-10-15',
+    url: '/events/ibaraki-flowerpark-illumination-2026/',
+    kind: 'on-page',
+    change: 'title を「いばらきフラワーパークのイルミネーション2026｜秋バラ・料金・点灯時間・休園日」から「いばらきフラワーパーク イルミネーション2026｜期間・料金・アクセス」へ（Growth Director 承認 10/14 の候補どおり）。description・本文・URL は変更なし',
+    queries: ['石岡 フラワーパーク イルミネーション 期間', '茨城フラワーパーク イルミネーション', 'フラワーパーク イルミネーション 料金', '石岡フラワーパーク イルミネーション'],
+    commit: '55ba98b',
+    note: 'SEO実験（title）。変更前（GSC 28日、〜2026-10-10）：579表示・13クリック・CTR 2.2%・平均6.7位、直近7日 GA4 5 Views。検索語：「石岡 フラワーパーク イルミネーション 期間」10表示・13.8位、「茨城フラワーパーク イルミネーション」9・10.3位、「フラワーパーク イルミネーション 料金」4・4位、「石岡フラワーパーク イルミネーション」3・1.7位。「あしかがフラワーパーク イルミネーション期間」14表示・1位などは栃木県の別施設の検索で意図違い（評価から外す）。観測窓（14日）のあいだは再変更しない',
+    experimentType: 'metadata',
+  },
+  {
+    id: '20261015-events-tsukuba-autumn-2026-title',
+    date: '2026-10-15',
+    url: '/events/tsukuba-autumn-2026/',
+    kind: 'on-page',
+    change: 'title から「夜間運行」を外す（2026年秋の夜間運行の開催を公式で確認できないため。Growth Director 方針 10/14）。description・URL は変更なし',
+    queries: [],
+    commit: '55ba98b',
+    note: '変更前（GSC 28日、〜2026-10-10）は表示の記録なし、直近7日 GA4 7 Views。同日に FAQ の事実更新（20261015-events-tsukuba-autumn-2026-cablecar-faq）あり。同じ日・同じURLは先の記録が観測の種類になるため、この metadata（14日）を fact より前に置く',
+    experimentType: 'metadata',
+  },
+  {
+    id: '20261015-events-tsukuba-autumn-2026-cablecar-faq',
+    date: '2026-10-15',
+    url: '/events/tsukuba-autumn-2026/',
+    kind: 'on-page',
+    change: 'FAQ「ケーブルカーとロープウェイは何時までですか」と summary に、ケーブルカーの当面運休（2026年9月25日から・10月15日確認・ロープウェイは通常運行）を1文ずつ追記。運休の告知を出典に加え、見どころの確認日と updatedDate を10/15に更新',
+    queries: [],
+    commit: '55ba98b',
+    note: '事実の更新（観測窓0日）。本文の見どころには9/30から運休を記載済みで、FAQ と summary だけが両方使える前提の書き方だった',
+    experimentType: 'fact',
+  },
+  {
     id: '20261014-news-kasama-shinguri-matsuri-2026-relay-clean',
     date: '2026-10-14',
     url: '/news/kasama-shinguri-matsuri-2026/',
@@ -250,7 +283,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '11月まとめの関連カード上位3件を、土浦花火・笠間の菊まつり・茨城の紅葉（/kouyou/）に並べ替え',
     queries: ['茨城 11月 イベント', '茨城 イベント 11月'],
     commit: 'ab1d6cd',
-    note: '表示される関連カードは上位3件だけ。並べ替えの根拠は Trends（土浦花火が11月最大の季節需要）と GSC（菊まつりの新規需要）。リンク先ページの観測窓を延ばさないよう、変更したまとめページで記録する',
+    note: '表示される関連カードは上位3件だけ。並べ替えの根拠は Trends（土浦花火が11月最大の季節需要）と GSC（菊まつりの新規需要）。リンク先ページの観測窓を延ばさないよう、変更したまとめページで記録する。2026-10-15：観測中に事実の更新を例外（seasonal-official、PR #274）で反映。花貫渓谷紅葉まつりの公式日程を一覧に追加して花貫の記事へリンク、あんこう祭の開催時間（10/7告知）、竜神峡の物産市と紅葉まつりの区別。SEOの変更ではないため別の記録にしない（記録を足すと、この観測〈10/10〜10/24〉がガード上で終わるため）。2026-10-15 を介入日として記録する（花貫の記事への内部リンク追加を含み、SEO評価に影響し得る）。10/24 の観測結果は、10/10〜10/14 と 10/15〜10/24 を分けて解釈する',
   },
   {
     id: '20261010-kouyou-official-refresh',
