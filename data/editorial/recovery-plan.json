@@ -138,7 +138,7 @@
   ],
   "lastExecution": {
     "date": "2026-10-15",
-    "pr": null,
+    "pr": "https://github.com/yutayama86/Ibatoco/pull/277",
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
