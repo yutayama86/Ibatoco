@@ -63,6 +63,41 @@ test('PV Relay：終わったページは余韻の後に流入が止まる想定
   assert.ok(relay.alerts.some((a) => a.kind === '依存度')); // 上位1ページで35%
 });
 
+test('PV Relay：ページ別の7日 Views が無い（計測障害・未取得）ときは「0 PV」ではなく判定不能。一部だけなら計測できたページの合計', () => {
+  const pages = pagesOf([
+    { path: '/ended/', title: '終わった祭り', startDate: '2026-10-03', endDate: '2026-10-04' },
+    { path: '/open/', title: '通年の案内' },
+  ]);
+  // 全ページで null（計測障害の期間を含むため、measurement-incidents が外した形）
+  const none = site(1000, [
+    { path: '/ended/', views7: null, viewsPrev7: null, ga4Excluded: ['views7', 'views28'], gsc: { clicks28: 900 } },
+    { path: '/open/', views7: null, viewsPrev7: null, ga4Excluded: ['views7', 'views28'], gsc: { clicks28: 50 } },
+  ]);
+  const a = pvRelay({ snapshot: none, pages, seasons: new Map(), engineConfig, config, radar: [], today: TODAY });
+  assert.equal(a.measurement.status, 'unmeasured');
+  assert.match(a.measurement.reason, /計測障害/);
+  assert.deepEqual(Object.values(a.lostViewsForecast), config.pvRelay.horizons.map(() => null)); // 0 ではない
+  assert.deepEqual(a.unmeasuredAtRisk.map((i) => [i.path, i.status, i.lostViewsForecast]), [['/ended/', 'ENDED', null]]);
+  assert.ok(a.alerts.some((x) => x.kind === 'PV at Risk' && /判定不能/.test(x.message) && x.message.includes('終わった祭り')));
+
+  // 一部だけ null：計測できたページの合計（従来の式のまま）と、残りの判定不能を分けて出す
+  const part = site(1000, [
+    { path: '/ended/', views7: 350, viewsPrev7: 300 },
+    { path: '/open/', views7: null, viewsPrev7: null },
+  ]);
+  const b = pvRelay({ snapshot: part, pages, seasons: new Map(), engineConfig, config, radar: [], today: TODAY });
+  assert.equal(b.measurement.status, 'partial');
+  assert.equal(b.measurement.measuredPages, 1);
+  assert.equal(b.items.length, 1);
+  assert.equal(b.lostViewsForecast[7], b.items[0].lostViewsForecast[7] ?? 0);
+
+  // 全ページあり：従来どおり（判定不能の警告は出さない）
+  const ok = site(1000, [{ path: '/ended/', views7: 350, viewsPrev7: 300 }]);
+  const c = pvRelay({ snapshot: ok, pages, seasons: new Map(), engineConfig, config, radar: [], today: TODAY });
+  assert.equal(c.measurement.status, 'ok');
+  assert.ok(!c.alerts.some((x) => /判定不能/.test(x.message)));
+});
+
 test('流入急減の事前警戒：14日以内の終了・検索表示の急減・順位下落（前期間の値がある時だけ）', () => {
   const pages = pagesOf([{ path: '/soon/', title: 'もうすぐ終わる祭り', startDate: '2026-10-15', endDate: '2026-10-16' }, { path: '/seo/', title: '検索ページ' }]);
   const snapshot = site(1000, [

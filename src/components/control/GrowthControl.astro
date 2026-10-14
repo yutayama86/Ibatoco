@@ -151,7 +151,9 @@ const pace = performance.paceDiagnostics;
 
   <article class="gc-card">
     <h3>PV at Risk</h3>
-    <p class="gc-note gc-note--lead">今後7日 <b>{fmt(relay.lostViewsForecast[7])}</b>・14日 {fmt(relay.lostViewsForecast[14])}・30日 {fmt(relay.lostViewsForecast[30])} PV を失う可能性（forecast。直近7日 {fmt(relay.siteViews7)}）</p>
+    {relay.lostViewsForecast[7] == null
+      ? <p class="gc-note gc-note--lead"><b>判定不能</b>（{relay.measurement.reason}。0 PV ではない）{relay.unmeasuredAtRisk.length > 0 && `。終了・終了間近で失速を測れないページ：${relay.unmeasuredAtRisk.map((x: any) => x.label.slice(0, 18)).join('、')}`}</p>
+      : <p class="gc-note gc-note--lead">今後7日 <b>{fmt(relay.lostViewsForecast[7])}</b>・14日 {fmt(relay.lostViewsForecast[14])}・30日 {fmt(relay.lostViewsForecast[30])} PV を失う可能性（forecast。直近7日 {fmt(relay.siteViews7)}）</p>}
     {relay.baselineExcludingTop2 && <p class="gc-note">{relay.baselineExcludingTop2.label}：直近7日 {fmt(relay.baselineExcludingTop2.views7)} → 30日 {fmt(relay.baselineExcludingTop2.monthly30)}</p>}
     <div class="gc-scroll" data-xscroll tabindex="0" aria-label="主要流入ページの表（横にスクロールできます）">
       <table class="gc-table">
