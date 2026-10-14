@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261015-events-daigo-hanabi-2026-fukuroda-relay',
+    date: '2026-10-15',
+    url: '/events/daigo-hanabi-2026/',
+    kind: 'internal-link',
+    change: '11月21日大子町花火大会の記事の関連記事3枠目から袋田の滝の紅葉ガイドへリンク。本文・title・description・URL・updatedDateは変更なし',
+    queries: [],
+    commit: 'd0fa9e9',
+    note: '大子町で同じ11月に訪問検討されるイベントと紅葉の地域内回遊。期待Viewsは未計測でnull。10/15〜10/24は内部リンクの観測窓として関連記事の順序を再変更しない',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261015-news-mito-hollyhock-new-stadium-access-metadata',
     date: '2026-10-15',
     url: '/news/mito-hollyhock-new-stadium-access/',
