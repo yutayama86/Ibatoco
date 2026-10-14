@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-15",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
@@ -137,20 +137,19 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-13",
-    "pr": null,
+    "date": "2026-10-15",
+    "pr": "https://github.com/yutayama86/Ibatoco/pull/277",
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
-    "factsReleased": [
-      "/events/art-tower-mito-guide/",
-      "/events/ryujin-bridge-autumn-2026/",
-      "/news/ishioka-noriai-taxi-weekend-2026/"
-    ],
+    "factsReleased": [],
     "incrementalViewsObserved": null,
-    "growthImplementations": 0,
-    "growthImplementationBlocker": "Growth候補は観測窓中または公開解禁前。水戸ホーリーホックの観戦場所・放送・配信クエリは10/14まで実装禁止、スタジアムmetadataは10/15以降。",
-    "nextConcreteAction": "10/14にIssue #256の完全一致クエリを再取得し、一次情報で答えられる範囲だけを再選別する。GA4 10/12は処理不連続のため10/14に再取得する。",
+    "growthImplementations": 1,
+    "growthImplementation": "/news/mito-hollyhock-new-stadium-access/ のtitle・description改善",
+    "expectedPvImpact": 281,
+    "expectedPvImpactConfidence": "medium",
+    "observationWindow": "2026-10-15..2026-10-28",
+    "nextConcreteAction": "10/16以降はスタジアムアクセス記事を再変更せず観測。10/19 checkpointで重点8ページのGSC/GA4と未露出需要を再比較する。",
     "nextDemandCheckpoint": "2026-10-19"
   }
 }
