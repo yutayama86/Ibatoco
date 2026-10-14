@@ -6,6 +6,8 @@ Claude Codeには戦略判断、調査、記事構成、本文執筆を丸投げ
 
 ## 11月100,000 PV Acquisition OS（2026-10-01 オーナー判断）
 
+2026-10-09のオーナー判断を毎回適用する。`docs/IBATOCO_UNIFIED_GROWTH_OS.md` の「10万PV Recoveryの終了条件」と `data/editorial/recovery-plan.json` を先に読み、単純ランレート・最新3日減速・需要積上げ見通しを区別する。Engineが返す最大3件は候補であり、観測窓中/仕様未完成/根拠未確認なら実行可能な代替へ再選別する。0件ならGrowth実装0件と報告し、保守で埋めたことにしない。
+
 11月100,000 Viewsは「努力目標」ではなく、10月の編集・SEO・回遊・配信判断を拘束する獲得目標として扱う。ただしGoogle順位や外部需要は制御不能なので達成保証とは表現せず、**達成確率と期待Viewsを最大化し、未達ペースなら即座に資源配分を変える**。
 
 ### 目的関数
@@ -80,24 +82,55 @@ Growth Batchとして数えてよいのは、根拠付きで次のいずれか�
 「PRを作った」「mergeした」「情報を修正した」は成果指標ではない。Growth成果は期待Viewsの積み増し、実測Views/GSC改善、または検証済み収益ファネル改善で評価する。
 
 
-## North Star：GA4 月間表示回数10万
+## Demand Radar / PV Relay（2026-10-07 オーナー判断）
 
-唯一の一次目標は `data/editorial/growth-targets.json` を正本とする。現在の目標は **GA4のscreen_page_views（Views）をローリング28日で100,000**。ウェブではpage_viewを集計し、同一ユーザーの再閲覧も表示回数として数える。単発イベントのピークだけでなく14日連続で目標水準を維持できたら安定達成とみなす。
+「昨日何をしたか」だけを見る日次判断は禁止。流入が落ちてから気づくのではなく、勝ちページの失速・失うPV・次の需要の山を先に見る。11月100,000 Viewsを達成しても止めず、12月以降の需要を先取りし、2026年の実測を2027年へ残す。
 
-毎日、GA4の最新確定日を基準に次を必ず計算する。
+毎日、`npm run growth:target`（`reports/editorial/growth-target.md`）と `/control/` で、必ず次の12項目を見る。数字は同じ計算（`src/lib/growth-os.mjs`）から取り、推定には forecast と根拠を付ける。
 
-- ローリング28日Views / 100,000 の進捗率
-- 目標までの残差
-- 直近7日Viewsと1日平均
-- 直近7日平均を28日換算したランレート
-- 100,000 ÷ 28 = 必要日平均
-- 現在ペースから必要な増加率
-- 28日Viewsへの寄与が大きいページ
-- 直近7日のViews増加を作ったページと、その再現性
+1. 現在のPV（直近7日・28日のGA4 Views）
+2. 100,000 Views 着地予測
+3. Gap（不足Views・必要な1日平均）
+4. 今後30日で失う可能性のあるPV（PV at Risk。主要ページの終わり・失う Views の forecast）
+5. その代替PV候補（PV Relay。代替候補の現在Views・仕込みの締切）
+6. 急上昇している query / page（Demand Radar。増加速度を最も重く見る）
+7. 次に当てる記事（Next Winners・台帳の未掲載候補）
+8. 改善すべき既存記事（8〜20位・高表示低CTR・表示急増中の既存ページ）
+9. 30/60/90日の仕込み（10月時点で12月・年末年始・1月まで。11月に入ったら1〜2月まで）
+10. 収益ファネル（PV → CTA表示 → CTAクリック → ASP送客 → 発生 → 確定 → Revenue。クリックは成果ではない）
+11. 翌年学習データ（Annual Learning。季節記事の実測を `data/editorial/seasonal-learning.json` に入れる）
+12. 今日最も期待値の高い Growth Batch（期待PV × 確度 ÷ 工数 × 緊急度。緊急度に需要の速度と失うPVの代替を含む）
 
-Viewsだけを増やす不要なページ分割・自動リロード・質の低い量産は禁止。active_users、sessions、engagement、Organic Search sessions、GSC clicks/CTR/position、CTA/送客、generate_leadをガードレールにする。GSCのimpressionsはNorth Starではなく、GA4 Viewsを増やすための検索獲得診断として使う。季節イベント1本のピークで100,000を超えても「安定達成」とは扱わず、制度・交通・観光・地域データベース・SPORTS等の非単発需要を増やす。
+運用ルール：
 
-直近7日のViewsを28日換算したランレートが100,000未満なら、緊急保守を除くその日の成長施策は「GA4 Views 100,000への残差を最も効率よく縮めるか」を主要判断基準にする。ランレートが100,000以上でも、持続性と収益性を優先し、不要な変更をしない。
+- 需要候補（コキア・土浦花火・紅葉・あんこう・11月イベント…）は固定しない。GSC実測・公式発表・`event-registry.json` から、リストに無い次の当たり候補を毎日探す
+- 記事を書くことを目的にしない。既存ページが7位前後で表示が急増しているなら、新規記事より title・description・検索意図・FAQ・一次情報更新・内部リンク・CTA の改善を先にする（期待追加PV ÷ 工数）
+- 主要ページの終わりの日付が無い（END UNKNOWN）ときは、催しなら記事の `event` に公式の開催日を入れる。申請締切・交付開始などの節目は記事に `event` として入れず（入れると締切後に「終了しました」が付き、おすすめから外れる）、`data/editorial/demand-radar.json` の `milestones` に公式一次情報の日付と出典を入れる
+- 毎日、GA4 の日別を `performance-snapshot.json` の `windows.ga4.daily` に入れる（直近35日・確定日まで）。Windsor.ai の GA4（property 547804264）で、日別の screen_page_views・sessions・engaged_sessions と、session_default_channel_group 別の screen_page_views（Organic Search の行）を date で結合する。取得できない日は行を作らない（ゼロ埋めしない）。計測障害の日（`data/editorial/measurement-incidents.json`）は実測値のまま `incident` を付ける。形式と取り込みは `docs/GROWTH_ENGINE.md` の「GA4 の日別」（入力 JSON は `data/editorial/ga4-daily-input.json` に置いて証跡として残し、`npm run ga4:daily -- --input data/editorial/ga4-daily-input.json`、検査は `npm run verify`）。日次レポートの「集計との照合」に差が出たら、集計（windows）と日別を同じ取得時点で取り直す
+- 同じ入力 JSON に GSC の日別（Windsor の Search Console、date ごとの clicks・impressions・position）を `"gsc": { "confirmedThrough", "daily": [...] }` で入れる（`windows.gsc.daily`・直近35日）。日次レポートの「計測の健全性」が、GA4 の急減を「計測欠損の疑い／検索流入の減少の疑い／判定保留」に分ける。GSC が無い日は判定保留になるので、GSC の日別は毎日入れる
+- 市場の需要の大きさと季節は Google Trends（`data/editorial/search-trends.json`、proxy・月間検索ボリュームではない）で見る。ChatGPT からは取得できないため、オーナーが週1回 CSV を書き出し、Claude Code が `npm run trends:import` で取り込む（`docs/GROWTH_ENGINE.md` の 10.6）。Trends だけで期待PVを数値化しない
+- 検索語別の実測（`gscQueries`）から、直近7日の表示が伸びている検索語を毎日見る。リストにない次の当たり候補を探し、既存ページの改善・新規記事・内部リンクを期待追加PV ÷ 工数で比べて Growth Batch に入れる
+- 実測できない値は null のまま。Demand Score・失う可能性・伸びしろは forecast（推定）として扱い、実測として保存しない
+- Annual Learning の実測（需要の立ち上がり日・ピーク日・ピーク値・減衰・CTA・成果）は、GA4/GSC で確認できたものだけ入れる。同カテゴリ2件以上そろうまで seasonalRules を変えない
+- A8 は「クリックあり・成果0」。成果0が続くときは CTA を増やす前に、検索意図 × 商材のミスマッチを確認する（`docs/REVENUE_OS.md`）
+- 低〜中リスクで既存ルール内なら自律実行。オーナー承認は既存どおり（新規有料サービス・契約・広告・ASP新規申請・URL削除/統合/変更・大規模IA・全面デザイン・法的判断・個人情報取得・一次情報未確認事項）
+
+## North Star：2026年11月のGA4月間表示回数10万
+
+一次目標は `data/editorial/growth-targets.json` と最上位の統合Growth OSを正本とする。現在の目標は **2026年11月1〜30日のGA4 screen_page_views（Views）100,000**。同一ユーザーの再閲覧も表示回数として数える。ローリング28日と14日連続の維持は長期安定性の補助指標であり、11月月間の達成判定へ置き換えない。
+
+毎日、GA4の最新確定日を基準に次を計算する。
+
+- 11月開始後のGA4実測MTD / 100,000と残差。10月中は「11月実績は未開始」とし、10月実績を11月へ加算しない
+- 直近7日・最新3日のViews、日平均、日別推移。30日換算は現状ペースの参考値として表示する
+- 100,000 ÷ 30 = 必要日平均3,333.33 Views。11月開始後は実測MTD・確定日数から残り日数の必要平均も算出する
+- 需要積上げ予測のbaseと追加Views、確度、期限、重複除外、未説明の不足。根拠不足はnull
+- ローリング28日Viewsと直近7日平均の28日換算は補助指標として保持する
+- Viewsへの寄与が大きいページ、直近7日の増加を作ったページ、終了日・節目・最新3日の減速と再現性
+
+Viewsだけを増やす不要なページ分割・自動リロード・質の低い量産は禁止。active_users、sessions、engagement、Organic Search sessions、GSC clicks/CTR/position、CTA/送客、generate_leadをガードレールにする。GSC impressionsは検索獲得の診断に使う。11月の単月達成に加えて、制度・交通・観光・地域データベース・SPORTS等の需要と確定収益で持続性を評価する。
+
+参考ランレートと需要積上げ予測を分け、未達ペースなら統合Growth OSのRecovery条件に従って資源配分を見直す。確定売上・Revenue/1,000 Views・回遊・B2B自然流入・Founder dependenceも同時に評価し、ランレートだけでRecoveryを解除しない。
 
 Google Drive「イバトコ SEO・流入データ」の `Growth_100k` に1日1行だけ記録する。
 

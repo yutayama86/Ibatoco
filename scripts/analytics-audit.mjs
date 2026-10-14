@@ -25,6 +25,7 @@ requirePattern('src/components/BusinessCta.astro', 'business_cta_view instrument
 requirePattern('src/components/BusinessCta.astro', 'business_cta_click instrumentation', /business_cta_click/);
 requirePattern('src/components/BookingGuide.astro', 'booking_guide_view instrumentation', /booking_guide_view/);
 requirePattern('src/components/BookingGuide.astro', 'outbound_booking_click instrumentation', /outbound_booking_click/);
+requirePattern('src/components/BookingGuide.astro', 'paid_booking_click instrumentation（提携リンクのみ。Revenue Funnel の ASP 送客）', /if \(link\.dataset\.isPaid === '1'\) trackEvent\('paid_booking_click', clickParams\)/);
 requirePattern('src/pages/contact.astro', 'contact_form_view instrumentation', /contact_form_view/);
 requirePattern('src/pages/contact.astro', 'contact_form_start instrumentation', /contact_form_start/);
 requirePattern('src/lib/forms.ts', 'generate_lead instrumentation', /generate_lead/);
@@ -63,6 +64,40 @@ for (const file of walk(layoutsDir).filter((p) => p.endsWith('.astro'))) {
   const src = readFileSync(file, 'utf8');
   if (rel !== 'src/layouts/BrandBase.astro' && /googletagmanager\.com\/gtag\/js|gtag\('config'/.test(src)) {
     errors.push(`duplicate/legacy GA4 boot code outside BrandBase: ${rel}`);
+  }
+}
+
+// GA4（gtag.js）の送信先が CSP（public/_headers）の connect-src で許可されているか。
+// 許可から外れると、タグは読み込まれるのに送信だけがブラウザで止められ、GA4 がほぼゼロになる（2026-10-08、Issue #226）
+const headers = read('public/_headers');
+const csp = headers.match(/Content-Security-Policy:\s*([^\n]+)/)?.[1] ?? '';
+const directive = (name) => (csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`))?.[1] ?? '').trim().split(/\s+/).filter(Boolean);
+const allows = (sources, url) => {
+  const { protocol, hostname } = new URL(url);
+  return sources.some((src) => {
+    if (src === "'self'") return false;
+    if (src === 'https:') return protocol === 'https:';
+    const m = src.match(/^(https?:)\/\/(\*\.)?([^/:]+)/);
+    if (!m || m[1] !== protocol) return false;
+    return m[2] ? hostname.endsWith(`.${m[3]}`) : hostname === m[3]; // 「*.example.com」は example.com 自体には一致しない
+  });
+};
+const GA4_ENDPOINTS = {
+  'connect-src': [
+    'https://analytics.google.com/g/collect',
+    'https://region1.google-analytics.com/g/collect',
+    'https://www.google-analytics.com/g/collect',
+    'https://www.google.com/g/collect',
+    'https://stats.g.doubleclick.net/g/collect',
+  ],
+  'script-src': ['https://www.googletagmanager.com/gtag/js'],
+};
+for (const [name, urls] of Object.entries(GA4_ENDPOINTS)) {
+  const sources = directive(name);
+  for (const url of urls) {
+    const ok = allows(sources, url);
+    checks.push({ label: `CSP ${name} allows ${new URL(url).hostname}`, ok, path: 'public/_headers' });
+    if (!ok) errors.push(`CSP ${name} が GA4 の送信先 ${url} を許可していない（public/_headers）`);
   }
 }
 

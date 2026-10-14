@@ -4,9 +4,8 @@
  * Public site:
  * - SITE_PASSWORD: when set, protects the whole site with Basic Auth.
  *
- * Private Control Center:
+ * Private Control Center（パスワードのみ。2026-10-07 オーナー判断で認証コード（TOTP）は廃止）:
  * - CONTROL_PASSWORD: required, 20+ chars
- * - CONTROL_TOTP_SECRET: required, Base32 TOTP secret
  * - CONTROL_SESSION_SECRET: required, 32+ chars, signs short-lived session cookies
  *
  * Missing/weak Control secrets never fall back to public access.
@@ -23,57 +22,6 @@ function secureCompare(a, b) {
   let diff = aa.length ^ bb.length;
   for (let i = 0; i < len; i += 1) diff |= (aa[i % Math.max(1, aa.length)] ?? 0) ^ (bb[i % Math.max(1, bb.length)] ?? 0);
   return diff === 0;
-}
-
-function base32Decode(input) {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-  const clean = String(input ?? '').toUpperCase().replace(/[^A-Z2-7]/g, '');
-  let bits = '';
-  for (const ch of clean) {
-    const value = alphabet.indexOf(ch);
-    if (value < 0) continue;
-    bits += value.toString(2).padStart(5, '0');
-  }
-  const bytes = [];
-  for (let i = 0; i + 8 <= bits.length; i += 8) bytes.push(parseInt(bits.slice(i, i + 8), 2));
-  return new Uint8Array(bytes);
-}
-
-function hotpCounterBytes(counter) {
-  const out = new Uint8Array(8);
-  let n = BigInt(counter);
-  for (let i = 7; i >= 0; i -= 1) {
-    out[i] = Number(n & 255n);
-    n >>= 8n;
-  }
-  return out;
-}
-
-async function totp(secret, counter) {
-  const keyBytes = base32Decode(secret);
-  const key = await crypto.subtle.importKey(
-    'raw',
-    keyBytes,
-    { name: 'HMAC', hash: 'SHA-1' },
-    false,
-    ['sign'],
-  );
-  const digest = new Uint8Array(await crypto.subtle.sign('HMAC', key, hotpCounterBytes(counter)));
-  const offset = digest[digest.length - 1] & 0x0f;
-  const binary = ((digest[offset] & 0x7f) << 24)
-    | ((digest[offset + 1] & 0xff) << 16)
-    | ((digest[offset + 2] & 0xff) << 8)
-    | (digest[offset + 3] & 0xff);
-  return String(binary % 1000000).padStart(6, '0');
-}
-
-async function verifyTotp(secret, code, now = Date.now()) {
-  if (!/^\d{6}$/.test(String(code ?? ''))) return false;
-  const counter = Math.floor(now / 30000);
-  for (const drift of [-1, 0, 1]) {
-    if (secureCompare(await totp(secret, counter + drift), code)) return true;
-  }
-  return false;
 }
 
 function b64url(bytes) {
@@ -142,8 +90,6 @@ function protectedHeaders(extra = {}) {
 function controlSecretsReady(env) {
   return typeof env.CONTROL_PASSWORD === 'string'
     && env.CONTROL_PASSWORD.length >= 20
-    && typeof env.CONTROL_TOTP_SECRET === 'string'
-    && base32Decode(env.CONTROL_TOTP_SECRET).length >= 10
     && typeof env.CONTROL_SESSION_SECRET === 'string'
     && env.CONTROL_SESSION_SECRET.length >= 32;
 }
@@ -165,9 +111,8 @@ function loginHtml(error = false) {
 <p class="eyebrow">OWNER ONLY</p><h1>Ibatoco Control Center</h1>
 ${message}
 <label>パスワード<input name="password" type="password" minlength="20" required autocomplete="current-password"></label>
-<label>認証コード<input name="totp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code"></label>
 <button type="submit">ログイン</button>
-<p class="note">パスワードと認証アプリの6桁コードが必要です。4時間で自動ログアウトします。</p>
+<p class="note">パスワードでログインします。4時間で自動ログアウトします。</p>
 </form>
 </body></html>`;
 }
@@ -251,12 +196,10 @@ export default {
 
           const form = await request.formData();
           const password = String(form.get('password') ?? '');
-          const code = String(form.get('totp') ?? '');
           const passwordOk = secureCompare(password, env.CONTROL_PASSWORD);
-          const totpOk = await verifyTotp(env.CONTROL_TOTP_SECRET, code);
 
-          if (!(passwordOk && totpOk)) {
-            // Deliberately identical response for bad password and bad TOTP.
+          if (!passwordOk) {
+            // 失敗の理由は返さない（どの入力が違ったかを推測させない）
             return new Response(loginHtml(true), {
               status: 401,
               headers: protectedHeaders({ 'Content-Type': 'text/html; charset=utf-8' }),

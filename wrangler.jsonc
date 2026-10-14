@@ -8,8 +8,12 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    // 全リクエストでまずWorkerを実行（パスワード保護のため）
-    "run_worker_first": true,
+    // Workerを先に実行する範囲。HTMLページは Worker を通す（/control/ のパスワード保護、www・http から https://ibatoco.jp への301、
+    // メンテナンス用の SITE_PASSWORD）。画像・CSS・JS・フォント・OG画像などの静的ファイルは Worker を通さず直接返す。
+    // 無料プランでは Worker の実行が1日10万件までで、超えると Worker を通るリクエストが 429 になる（静的ファイルは無料・無制限）。
+    // 2026-10-10 に全リクエストを Worker に通していたため、自動QAを含めて1日7〜10万件に達していた（Issue #226 の調査で判明）。
+    // /control/ を除外パターンに入れないこと（scripts/security-audit.mjs が検査する）
+    "run_worker_first": ["/*", "!/_astro/*", "!/images/*", "!/fonts/*", "!/og/*", "!/brand/*", "!/og-*", "!/favicon.svg", "!/search-index.json"],
     // 未知のURLは自作の404ページ（dist/404.html）を返す
     "not_found_handling": "404-page"
   }

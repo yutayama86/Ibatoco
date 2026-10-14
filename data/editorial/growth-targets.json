@@ -62,7 +62,7 @@
     "effectiveDate": "2026-10-01",
     "targetMonth": "2026-11",
     "targetViews": 100000,
-    "mode": "portfolio-gap-closure",
+    "mode": "100k-recovery",
     "objective": "Maximize probability of reaching 100,000 GA4 Views in November by allocating effort to the largest confidence-adjusted incremental Views opportunities.",
     "portfolioClusters": [
       "autumn-leaves",
@@ -93,6 +93,13 @@
       "high-intent-monetization"
     ],
     "maintenanceDoesNotCountAsGrowth": true,
-    "notes": "Maintenance remains mandatory for trust and correctness but cannot by itself satisfy the daily Growth Batch while executable growth work exists."
-  }
+    "notes": "Maintenance remains mandatory for trust and correctness but cannot by itself satisfy the daily Growth Batch while executable growth work exists.",
+    "recovery": {
+      "enteredAt": "2026-10-08",
+      "trigger": "confidenceAdjustedExpectedViews 22,559 / target 100,000。coverage 22.6%でOFF PACE。",
+      "planPath": "data/editorial/recovery-plan.json",
+      "rule": "unfilledViewsを推測で埋めず、実測根拠のある需要・CTR・順位・回遊改善だけで縮める。"
+    }
+  },
+  "updatedAt": "2026-10-08"
 }

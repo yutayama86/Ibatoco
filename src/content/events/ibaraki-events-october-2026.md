@@ -121,6 +121,7 @@ sourceUrls:
     url: "https://www.city.itako.lg.jp/kankou/kankou-info/page009024.html"
     accessedAt: 2026-10-05
 relatedArticleUrls:
+  - "/events/kasama-kiku-matsuri-2026/"
   - "/events/ibaraki-flowerpark-illumination-2026/"
   - "/events/rockinstar-carnival-2026/"
   - "/events/namegata-sunset-festa-2026/"

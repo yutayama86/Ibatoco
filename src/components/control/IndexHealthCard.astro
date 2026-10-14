@@ -1,0 +1,28 @@
+---
+/**
+ * Index Health（sitemap.xml とビルド結果の突き合わせ）。
+ * 中身は npm run build の最後に scripts/index-health.mjs --write が dist/control/index.html へ書き込む（ビルド時点の値）。
+ * 開発サーバーでは計測していないので「未計測」と出る。検査の内容は docs/RELEASE_QA.md の Index Health。
+ */
+---
+<section class="ih-card" id="index-health" aria-labelledby="index-health-title">
+  <div class="ih-head"><span>検索インデックス</span><h2 id="index-health-title">Index Health</h2></div>
+  <div data-index-health-body><p class="ih-note">未計測（npm run build の後に scripts/index-health.mjs が書き込む）</p></div><span hidden data-index-health-end></span>
+</section>
+
+<style is:global>
+  .ih-card{margin-top:.8rem;padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .ih-head span{color:var(--accent);font-size:.75rem;font-weight:800;letter-spacing:.14em}
+  .ih-head h2{margin:.35rem 0 .8rem;font-size:1.05rem}
+  .ih-status{display:inline-block;margin:0 0 .8rem;padding:.3rem .7rem;border-radius:999px;background:var(--panel-2);font-size:.82rem;font-weight:800}
+  .ih-status.is-good{color:var(--good)}
+  .ih-status.is-bad{color:var(--bad)}
+  .ih-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:.5rem;margin:0}
+  .ih-row{display:grid;gap:.2rem;min-width:0;padding:.65rem .75rem;border-radius:10px;background:var(--panel-2)}
+  .ih-row dt{color:var(--muted);font-size:.75rem;overflow-wrap:break-word}
+  .ih-row dd{margin:0;font-size:1.05rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--good)}
+  .ih-row:first-child dd{color:var(--text)}
+  .ih-row.is-bad dd{color:var(--bad)}
+  .ih-issues{display:grid;gap:.3rem;margin:.8rem 0 0;padding-left:1.1rem;color:var(--bad);font-size:.8rem;line-height:1.6;overflow-wrap:break-word}
+  .ih-note{margin:.7rem 0 0;color:var(--muted);font-size:.78rem;line-height:1.6}
+</style>

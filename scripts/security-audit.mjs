@@ -39,7 +39,8 @@ function inspect(rel, full){
     if (p.re.test(text)) add(`${p.name}: ${rel}`);
   }
 
-  if (/\bCONTROL_PASSWORD\b/.test(text) && rel !== 'worker/index.js' && rel !== 'docs/CONTROL_CENTER.md' && !rel.endsWith('security-audit.mjs') && !rel.endsWith('tech-audit.mjs')) {
+  // scripts/control-auth.test.mjs は認証の振る舞いテスト。値はテスト内で乱数から作る（直書きは上の secretPatterns で検出される）
+  if (/\bCONTROL_PASSWORD\b/.test(text) && rel !== 'worker/index.js' && rel !== 'docs/CONTROL_CENTER.md' && rel !== 'scripts/control-auth.test.mjs' && !rel.endsWith('security-audit.mjs') && !rel.endsWith('tech-audit.mjs')) {
     // Secret name references outside the sanctioned implementation are suspicious.
     if (/password\s*[:=]/i.test(text)) add(`control-secret-reference: ${rel}`);
   }
@@ -54,13 +55,13 @@ for (const forbidden of ['.env','.env.production','.env.local']) {
 const worker = readFileSync(join(ROOT,'worker/index.js'),'utf8');
 for (const required of [
   'CONTROL_PASSWORD',
-  'CONTROL_TOTP_SECRET',
   'CONTROL_SESSION_SECRET',
   'SameSite=Strict',
   'HttpOnly',
   'Secure',
   'CONTROL_SESSION_SECONDS',
-  'verifyTotp',
+  // パスワードのみ（2026-10-07 オーナー判断）。定数時間で照合し、セッションを検証する
+  'secureCompare(password, env.CONTROL_PASSWORD)',
   'validSession',
   'X-Content-Type-Options',
   'Permissions-Policy',
@@ -76,10 +77,29 @@ if (worker.includes('Path=/control;')) add('worker-security-invalid: __Host cook
 if (!/status:\s*503/.test(worker)) add('worker-security-missing: fail-closed 503');
 if (!worker.includes("style-src 'self' 'unsafe-inline'")) add('worker-security-missing: same-origin control stylesheet allowance');
 
+// /control/ は必ず Worker を先に通す（パスワード保護）。run_worker_first を範囲指定にしたため、
+// /control/ が範囲から外れていないか・除外パターンに入っていないかを検査する（wrangler.jsonc）
+{
+  const raw = readFileSync('wrangler.jsonc', 'utf8').replace(/^\s*\/\/.*$/gm, '').replace(/,(\s*[}\]])/g, '$1');
+  const runFirst = JSON.parse(raw).assets?.run_worker_first;
+  const patterns = Array.isArray(runFirst) ? runFirst : null;
+  const toRegExp = (glob) => new RegExp(`^${glob.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`);
+  const workerFirst = (path) => runFirst === true || (patterns
+    && patterns.some((p) => !p.startsWith('!') && toRegExp(p).test(path))
+    && !patterns.some((p) => p.startsWith('!') && toRegExp(p.slice(1)).test(path)));
+  for (const path of ['/control', '/control/', '/control/login', '/control/logout', '/control/index.html']) {
+    if (!workerFirst(path)) add(`worker-routing: ${path} が Worker を通らない（wrangler.jsonc の run_worker_first）`);
+  }
+  // ページ（HTML）も Worker を通す：www・http からの301と、メンテナンス用の SITE_PASSWORD のため
+  for (const path of ['/', '/events/tsuchiura-hanabi-2026/', '/kouyou/']) {
+    if (!workerFirst(path)) add(`worker-routing: ${path} が Worker を通らない（www・http の301が効かなくなる）`);
+  }
+}
+
 if (findings.length) {
   console.error(`Security audit failed: ${findings.length} finding(s)`);
   for (const item of findings) console.error('  - ' + item);
   process.exit(1);
 }
 
-console.log('Security audit: secrets・2FA・session・security headers に問題なし');
+console.log('Security audit: secrets・パスワード認証・session・security headers に問題なし');

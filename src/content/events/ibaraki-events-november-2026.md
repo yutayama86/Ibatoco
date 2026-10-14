@@ -159,12 +159,14 @@ sourceUrls:
     url: "https://www.city.itako.lg.jp/kankou/kankou-info/page009024.html"
     accessedAt: 2026-10-05
 relatedArticleUrls:
+  - "/events/tsuchiura-hanabi-2026/"
+  - "/events/kasama-kiku-matsuri-2026/"
+  - "/kouyou/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/events/ibaraki-flowerpark-illumination-2026/"
   - "/events/tsuchiura-hanabi-2026-kaisai/"
   - "/events/ibaraki-shichigosan-2026/"
   - "/events/oarai-ankou-nabe-guide/"
-  - "/kouyou/"
   - "/events/"
   - "/hanabi/"
   - "/matsuri/"

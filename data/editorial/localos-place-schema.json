@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-08",
+  "about": "イバトコで蓄積する店舗・施設データを、将来LocalOSの予約/CRM・送客計測へ接続するための共通スキーマ。未確認値はnull。個人顧客の個人情報はここに保存しない。",
+  "entity": {
+    "placeId": "string: 永続一意ID。記事slugや外部サービスIDに依存しない",
+    "name": "string",
+    "type": "restaurant|cafe|hotel|onsen|sauna|attraction|shop|event_venue|other",
+    "status": "active|seasonal|temporarily_closed|closed|unknown",
+    "area": {
+      "prefecture": "string",
+      "municipality": "string|null",
+      "address": "string|null",
+      "lat": "number|null",
+      "lng": "number|null"
+    },
+    "contact": {
+      "officialUrl": "string|null",
+      "phone": "string|null",
+      "lineUrl": "string|null",
+      "googleMapsUrl": "string|null"
+    },
+    "commerce": {
+      "reservationAvailable": "boolean|null",
+      "reservationUrl": "string|null",
+      "reservationProvider": "string|null",
+      "priceNote": "string|null",
+      "couponUrl": "string|null"
+    },
+    "visit": {
+      "hours": "object|null",
+      "parking": "string|null",
+      "childFriendly": "boolean|null",
+      "accessNote": "string|null"
+    },
+    "editorial": {
+      "sourceUrls": "string[]",
+      "verifiedAt": "YYYY-MM-DD|null",
+      "relatedIbatocoPaths": "string[]"
+    },
+    "measurement": {
+      "clickKey": "string|null",
+      "bookingClickKey": "string|null",
+      "lastMeasuredAt": "YYYY-MM-DD|null"
+    },
+    "localos": {
+      "eligible": "boolean",
+      "onboardingStatus": "not_contacted|contacted|trial|active|churned|null",
+      "crmProvider": "string|null"
+    }
+  },
+  "rules": [
+    "一次情報で確認できない値はnullにする",
+    "営業時間・価格・予約可否は更新日を持たせる",
+    "記事削除・URL変更でもplaceIdは変えない",
+    "個人顧客の氏名・電話・メール等は保存しない",
+    "送客計測は集計キーのみ保持し、成果確定はrevenue-ledger/ASP正本で管理する"
+  ]
+}

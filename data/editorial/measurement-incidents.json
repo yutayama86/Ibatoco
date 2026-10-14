@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-14",
+  "about": "計測障害の台帳（Growth OS の正本）。GA4 の生データ・公式実績は変えない。障害期間にかかる集計（7日・28日・成長率・着地予測・優先順位）は src/lib/measurement-incidents.mjs が判断から外し、公式値と参考値を分けて出す。欠測をゼロとして扱わず、推定値を公式PVに足さない。docs/GROWTH_ENGINE.md の「計測障害」",
+  "incidents": [
+    {
+      "id": "2026-10-ga4-csp",
+      "source": "ga4",
+      "status": "resolved",
+      "start": "2026-10-08T00:00:00+09:00",
+      "startEstimated": true,
+      "startBasis": "GA4 の日次（JST）で 10/7 は通常（314 Views・Organic 284）、10/8 から急落（38・Organic 3）。時刻別データは未取得のため、日の境界を開始と推定",
+      "end": "2026-10-10T20:28:00+09:00",
+      "endEstimated": false,
+      "endBasis": "PR #227 の本番反映（Deploy production 完了 2026-10-10 11:28 UTC）。本番ブラウザで analytics.google.com/g/collect への送信成功を確認",
+      "affectedDates": [
+        "2026-10-08",
+        "2026-10-09",
+        "2026-10-10"
+      ],
+      "partialDates": [
+        "2026-10-10"
+      ],
+      "cause": "gtag.js の送信先 https://analytics.google.com/g/collect（と予備の www.google.com、stats.g.doubleclick.net）が CSP の connect-src に無く、ブラウザが送信を拒否した。CSP は 2026-07-30 から不変で、Google 側の送信先の変更が契機と推定",
+      "realTrafficEvidence": "Cloudflare Analytics（国=Japan）で 10/8〜10/10 も 10/6〜7 と同じ日次の波。5xx 0。実アクセスの減少ではない",
+      "unaffectedSources": [
+        "gsc",
+        "cloudflare"
+      ],
+      "handling": "欠測（null）。ゼロとして扱わない。推定値を公式PVに加算しない",
+      "baselineBeforeIncident": {
+        "basis": "障害前の確定値（Windsor.ai GA4、performance-snapshot 2026-10-10 時点の windows.ga4）",
+        "ga4Recent7": {
+          "start": "2026-10-01",
+          "end": "2026-10-07",
+          "views": 5287,
+          "sessions": 4651,
+          "engagedSessions": 3281
+        },
+        "ga4Previous7": {
+          "start": "2026-09-24",
+          "end": "2026-09-30",
+          "views": 2197,
+          "sessions": 1800,
+          "engagedSessions": 1251
+        },
+        "ga4Recent28": {
+          "start": "2026-09-10",
+          "end": "2026-10-07",
+          "views": 11177,
+          "sessions": 9600,
+          "engagedSessions": 6428
+        },
+        "dailyViews": {
+          "2026-10-06": 369,
+          "2026-10-07": 314
+        },
+        "dailyOrganicViews": {
+          "2026-10-06": 320,
+          "2026-10-07": 284
+        },
+        "gscDaily": {
+          "2026-10-06": {
+            "clicks": 133,
+            "impressions": 2958,
+            "position": 6.5456
+          }
+        }
+      },
+      "recoveryCriteria": {
+        "eventSending": "本番 QA の「GA4 の送信経路」が CSP で止められていない（毎デプロイ）",
+        "dailyViews": "障害後の確定日の Views が、障害前の基準（10/6〜7 の平均 約340）の70%以上。検索需要の変動も考慮し、GSC のクリックと合わせて判定する",
+        "gsc": "障害期間の GSC クリック・表示が、障害前と同じ水準（GSC は影響を受けていないため、実アクセスの裏付けに使う）"
+      },
+      "causeConfidence": "high",
+      "causeEvidence": [
+        "2026-10-10 修正前：本番を実ブラウザで読み込み、page_view の送信先 https://analytics.google.com/g/collect（予備 www.google.com・stats.g.doubleclick.net）が CSP の connect-src で blocked（console の CSP 違反。PR #227）",
+        "修正前の CSP は https://*.analytics.google.com（サブドメイン）だけを許可し、サブドメインなしの analytics.google.com は許可していなかった。public/_headers の CSP は、このリポジトリの履歴では 2026-10-05 の作成から 10/10 の修正まで不変",
+        "GA4 だけが消え、GSC のクリックは保たれた：10/6 133・10/7 128・10/8 114・10/9 133（Organic Views は 320・284・3・2）。Organic Views ÷ GSC クリックは 2.2〜2.4 から 0.02〜0.03 に落ちた",
+        "修正の反映（10/10 20:28 JST）の後に回復：10/10 は 84 Views（修正前を含む部分日）、10/11 は 507 Views・Organic 466・engaged 324",
+        "BrandBase の計測タグ・除外フラグ・本番ホストの判定は 10/5 以降変更なし（計測除外の誤りではない）"
+      ],
+      "triggerEstimated": "CSP がサイト側で変わっていないのに 10/8 から止まったため、gtag.js の送信先がサブドメインなしの analytics.google.com に変わったことが契機と推定（Google 側の変更時期は公表で確認できていない）。10/8〜9 に残った少数の計測は、旧送信先（*.google-analytics.com）を使う版の gtag が動いたブラウザと推定",
+      "verification": {
+        "updatedAt": "2026-10-13",
+        "ga4DailyRecovery": {
+          "date": "2026-10-11",
+          "views": 507,
+          "organicViews": 466,
+          "engagedSessions": 324,
+          "baselineViews": 342,
+          "ratio": 1.48,
+          "status": "回復（終日1日）",
+          "note": "10/10は修正前を含む部分日。10/12はGA4処理不連続のため確定に使わない。"
+        },
+        "gscDuringIncident": {
+          "2026-10-07": 128,
+          "2026-10-08": 114,
+          "2026-10-09": 133,
+          "baseline": "10/6 133",
+          "status": "維持（検索からの実アクセスは減っていない）",
+          "2026-10-10": 201
+        },
+        "browserChecks": [
+          "2026-10-10 修正前：analytics.google.com/g/collect が CSP で blocked",
+          "2026-10-10 修正後：g/collect の送信に成功",
+          "2026-10-12：本番の PC 表示と スマホ表示（Android Chrome・375px）で CSP 違反 0。connect-src に analytics.google.com・*.google-analytics.com・www.google.com・*.g.doubleclick.net・*.googletagmanager.com があり、gtag.js の読み込みと4つの送信先への通信が CSP で止められない（除外フラグ付き・測定IDなしで確認し、計測は送っていない）"
+        ],
+        "productionQa": "毎デプロイの本番 QA が GA4 の送信経路（CSP）を検査（PR #227 から）。直近：c7400b1 で通過",
+        "cloudflare": "オーナー共有（2026-10-10）：国=Japan の日次の波は 10/8〜10/10 も 10/6〜7 と同じ、5xx 0。403・WAF・Bot 対策の件数は未確認（GA4 の送信はブラウザから Google へ直接行われるため、Cloudflare の WAF は送信を止められない）",
+        "monitoring": "src/lib/measurement-monitor.mjs（GA4 日別 × GSC 日別で、計測欠損の疑い・検索流入の減少・判定保留を分ける。日次レポートと /control/ に表示）",
+        "remaining": [
+          "GA4 10/12の処理確定（Unassigned 252・空landing 243・engagedSessions 2の再取得）",
+          "Cloudflareの403・WAF件数（任意）"
+        ]
+      },
+      "issue": "https://github.com/yutayama86/Ibatoco/issues/226",
+      "fix": "https://github.com/yutayama86/Ibatoco/pull/227"
+    },
+    {
+      "id": "2026-10-12-ga4-processing-anomaly",
+      "source": "ga4",
+      "status": "resolved",
+      "resolution": "processing-delay",
+      "start": "2026-10-12T00:00:00+09:00",
+      "startEstimated": false,
+      "end": "2026-10-12T23:59:59+09:00",
+      "endEstimated": true,
+      "provisionalDates": [
+        "2026-10-12"
+      ],
+      "cause": "GA4 の処理途中の値（処理遅延）で、計測障害ではない。暫定値（10/13 07:00 取得）では Unassigned/(not set) 252 sessions・空 landing 243・engaged 2 だったが、確定値（10/14 再取得）では Unassigned が出ず engaged 339 に正常化した",
+      "causeConfidence": "high",
+      "unaffectedSources": [
+        "gsc"
+      ],
+      "handling": "確定値（2026-10-14 再取得）で置き換え、10/12 は通常の確定日として扱う。データは欠けていないため affectedDates を外し（provisionalDates に移した）、集計から除外しない。暫定値は判断に使わない",
+      "evidence": {
+        "date": "2026-10-12",
+        "sessionDefault": {
+          "sessions": 252,
+          "views": 62,
+          "engagedSessions": 0,
+          "sourceMedium": "(not set)",
+          "blankLandingSessions": 243
+        },
+        "firstUser": {
+          "sessions": 244,
+          "views": 77,
+          "activeUsers": 231
+        },
+        "crossNetwork": {
+          "sessions": 47,
+          "views": 49,
+          "engagedSessions": 0,
+          "sourceMedium": "(data not available)"
+        },
+        "total": {
+          "sessions": 453,
+          "views": 475,
+          "engagedSessions": 2
+        },
+        "diagnosis": "GA4の同日処理不連続。チャネル別sessions合計が総sessionsを上回り、blank landing 243・engaged 2のため確定集計に不採用。翌日再取得して置換する。"
+      },
+      "verification": {
+        "checkedAt": "2026-10-14",
+        "source": "Windsor.ai GA4（Growth Director 再取得 2026-10-14）",
+        "confirmed": {
+          "views": 571,
+          "sessions": null,
+          "engagedSessions": 339,
+          "channels": {
+            "Organic Search": { "sessions": 444, "views": 544 },
+            "Direct": { "sessions": 14, "views": 15 },
+            "Referral": { "sessions": 7, "views": 8 },
+            "AI Assistant": { "sessions": 2, "views": 4 }
+          },
+          "unassigned": "確定値の結果に出現せず"
+        },
+        "note": "総セッション数は未取得（チャネル別の合計から推定しない）。10/13 の暫定値も同じ形（Unassigned 231 sessions・engaged 6）で、確定値で置き換える（ga4-daily-input.json の provisional）"
+      },
+      "issue": "https://github.com/yutayama86/Ibatoco/issues/226"
+    }
+  ]
+}

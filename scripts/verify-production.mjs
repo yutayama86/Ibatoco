@@ -135,7 +135,9 @@ function countInHtml(html, selector) {
 
 const failures = [];
 const notes = [];
-for (const target of qaPages()) {
+// /control/ など本番ではログインが必要なページは、認証の転送を scripts/ui-smoke.mjs --production で確かめる
+const productionPages = qaPages().filter((page) => !page.localOnly);
+for (const target of productionPages) {
   const where = `${target.name}（${target.path}）`;
   const res = await get(withBust(target.path));
   if (res.status !== 200) {
@@ -155,7 +157,8 @@ for (const target of qaPages()) {
   if (h1 !== 1) failures.push(`${where}: h1 が ${h1} 個`);
 
   for (const [selector, min, mode] of target.required) {
-    if (mode === 'js') { notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
+    // 骨格（nav・main・footer）はブラウザでだけ数える。全ページ同じなので注記は出さない
+    if (mode === 'js') { if (!['nav', 'main', 'footer'].includes(selector)) notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
     const count = countInHtml(html, selector);
     if (count === null) { notes.push(`${where}: ${selector} はJSで描くため本番HTMLでは数えない（UIスモークテストで確認）`); continue; }
     if (count < min) failures.push(`${where}: 主要要素の欠損 — ${selector} が ${count} 件（${min} 件以上必要）`);
@@ -184,4 +187,4 @@ if (failures.length > 0) {
   }
   process.exit(1);
 }
-console.log(`本番確認通過：${qaPages().length} ページ（HTTP・title・canonical・h1・主要DOM・画像・og:image）と検索の索引`);
+console.log(`本番確認通過：${productionPages.length} ページ（HTTP・title・canonical・h1・主要DOM・画像・og:image）と検索の索引`);

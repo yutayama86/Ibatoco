@@ -266,6 +266,7 @@ function validate(registry, actions, performance, inventory) {
       if (!action.primarySourceUrls?.length) errors.push(`readyには一次情報URLが必要: ${action.id}`);
       if (!action.acceptanceCriteria?.length) errors.push(`readyには受入条件が必要: ${action.id}`);
     }
+    if (action.notBefore != null && !dateValue(action.notBefore)) errors.push(`notBeforeはYYYY-MM-DDで指定: ${action.id}`);
   }
 
   if (performance.asOf && !dateValue(performance.asOf)) errors.push('performance-snapshot.asOfはYYYY-MM-DDで指定');
@@ -341,6 +342,18 @@ function newsDeskStatus(inventory) {
   };
 }
 
+/**
+ * ready のうち、今日実装してよいもの。notBefore（YYYY-MM-DD・日本の暦日）があれば、その日まで待つ
+ * （観測窓の明け・公式発表の予定日など。仕様は先に確定し、着手日だけを予約する）
+ */
+function readyNow(action, today = tokyoDate()) {
+  return action.status === 'ready' && (!action.notBefore || action.notBefore <= today);
+}
+
+function readyScheduled(action, today = tokyoDate()) {
+  return action.status === 'ready' && Boolean(action.notBefore) && action.notBefore > today;
+}
+
 function actionPriority(action) {
   const value = { critical: 4, high: 3, medium: 2, low: 1 }[action.priority] ?? 0;
   const ready = action.status === 'ready' ? 10 : 0;
@@ -350,7 +363,8 @@ function actionPriority(action) {
 function reportMarkdown({ registry, inventory, actions, performance, validation }) {
   const candidates = coverageCandidates(registry);
   const changes = improvementWatchlist();
-  const ready = actions.actions.filter((action) => action.status === 'ready').sort((a, b) => actionPriority(b) - actionPriority(a));
+  const ready = actions.actions.filter((action) => readyNow(action)).sort((a, b) => actionPriority(b) - actionPriority(a));
+  const scheduled = actions.actions.filter((action) => readyScheduled(action)).sort((a, b) => a.notBefore.localeCompare(b.notBefore));
   const published = inventory.filter((item) => !item.draft && item.reviewed);
   const newsDesk = newsDeskStatus(inventory);
   const within120 = registry.events.filter((event) => event.startDate && dateDiff(tokyoDate(), event.startDate) >= 0 && dateDiff(tokyoDate(), event.startDate) <= 120);
@@ -399,6 +413,7 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
     '## 4. 実装キュー',
     '',
     ...(ready.length ? ready.map((action) => `- [実装可] ${action.title}｜${action.kind}｜${action.specPath}`) : ['- 実装可の案件なし。Claudeへ調査・執筆を丸投げしない。']),
+    ...scheduled.map((action) => `- [予約・${action.notBefore}から実装可] ${action.title}｜${action.kind}｜${action.specPath}`),
     '',
     '## 5. 改善待ち',
     '',
@@ -417,9 +432,11 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
 }
 
 function claudeBrief(actions) {
-  const ready = actions.actions.filter((action) => action.status === 'ready').sort((a, b) => actionPriority(b) - actionPriority(a));
+  const ready = actions.actions.filter((action) => readyNow(action)).sort((a, b) => actionPriority(b) - actionPriority(a));
+  const scheduled = actions.actions.filter((action) => readyScheduled(action)).sort((a, b) => a.notBefore.localeCompare(b.notBefore));
   if (!ready.length) {
-    return `# Claude Code 実装指示｜${tokyoDate()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n`;
+    const later = scheduled.length ? `\n## 予約済み（着手日まで実装しない）\n\n${scheduled.map((action) => `- ${action.notBefore}から：${action.title}（${action.specPath}）`).join('\n')}\n` : '';
+    return `# Claude Code 実装指示｜${tokyoDate()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n${later}`;
   }
   const action = ready[0];
   return [
@@ -496,7 +513,8 @@ writeJson(join(REPORT_DIR, 'daily-brief.json'), {
   newsDesk: newsDeskStatus(inventory),
   coverageCandidates: coverageCandidates(registry),
   improvementWatchlist: improvementWatchlist(),
-  readyActions: actions.actions.filter((action) => action.status === 'ready'),
+  readyActions: actions.actions.filter((action) => readyNow(action)),
+  scheduledActions: actions.actions.filter((action) => readyScheduled(action)),
 });
 writeFileSync(join(REPORT_DIR, 'daily-brief.md'), reportMarkdown({ registry, inventory, actions, performance, validation }), 'utf8');
 writeFileSync(join(REPORT_DIR, 'claude-implementation-brief.md'), claudeBrief(actions), 'utf8');

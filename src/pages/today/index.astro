@@ -1,0 +1,139 @@
+---
+/**
+ * /today/ — 「今日、茨城で何する？」のPhase 1。
+ *
+ * 運用方針:
+ * - 新しい手入力台帳を作らず、既存のイベント・試合・季節データを再利用する
+ * - 日付経過だけで開催中/今日/明日/今週末/この先1週間を再計算する
+ * - 終了済みは ThisWeek / happenings の既存ロジックで自動除外する
+ * - 予約・宿泊は各記事の既存 BookingGuide に任せ、自社予約は作らない
+ * - Phase 4以降（LINE/クーポン/自社予約/CRM）は未実装
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
+import ThisWeek from '../../components/ThisWeek.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+
+const crumbs: Crumb[] = [
+  { name: 'ホーム', href: '/' },
+  { name: '今日の茨城' },
+];
+
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '今日の茨城｜今日・今週末にできること',
+    url: new URL('/today/', Astro.site).href,
+    description: '茨城県で今日・明日・今週末に開催中のイベント、試合、季節のおでかけを、確認済みの情報から自動でまとめます。',
+  },
+];
+
+const QUICK_LINKS = [
+  { label: 'イベント一覧', href: '/events/', note: '月・エリア・ジャンルから探す', kind: 'events' },
+  { label: '紅葉', href: '/kouyou/', note: '今の時期に見たい場所を探す', kind: 'autumn' },
+  { label: '祭り', href: '/matsuri/', note: '地域の祭り・催しを探す', kind: 'festival' },
+  { label: 'スポーツ', href: '/sports/', note: '茨城の試合・観戦情報を見る', kind: 'sports' },
+];
+---
+
+<BrandBase
+  title="今日の茨城｜今日・今週末にできること｜イバトコ"
+  description="茨城県で今日・明日・今週末にできることを、イベント・試合・季節のおでかけから自動で整理。終了したものは除外し、各記事から公式情報や予約・宿泊の確認先まで進めます。"
+  jsonLd={jsonLd}
+>
+  <header class="today-head bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">TODAY IN IBARAKI</p>
+    <h1>今日、茨城で何する？</h1>
+    <p>開催日を確認できているイベント、試合、季節のおでかけから、<strong>今行ける候補だけ</strong>をまとめます。終わったものは自動で外れます。</p>
+  </header>
+
+  <ThisWeek
+    pageType="today"
+    heading="今日・今週末にできること"
+    lead="開催中、今日、明日、今週末、この先1週間の順で表示します。内容や天候で変更があるため、出発前に各記事から公式情報を確認してください。"
+  />
+
+  <section class="bp-wrap today-flow" aria-labelledby="today-flow-title">
+    <div>
+      <p class="bp-kicker">HOW TO USE</p>
+      <h2 id="today-flow-title">行き先を決めたら、そのまま詳細へ。</h2>
+      <p>各カードからイバトコの記事へ進むと、開催情報、アクセス、駐車場、料金を確認できます。宿泊や予約先がある記事では、既存の「予約・確認」導線から公式・提携サービスへ進めます。</p>
+    </div>
+    <p class="today-flow__note">イバトコ内で予約・決済は受け付けません。価格・空き状況・開催可否は、リンク先の最新情報をご確認ください。</p>
+  </section>
+
+  <section class="bp-wrap bp-section" aria-labelledby="today-more-title">
+    <p class="bp-kicker">MORE</p>
+    <h2 id="today-more-title" class="bp-section-title">もう少し広く探す</h2>
+    <ul class="today-links" data-today-links>
+      {QUICK_LINKS.map((item) => (
+        <li>
+          <a href={item.href} data-today-kind={item.kind}>
+            <strong>{item.label}</strong>
+            <span>{item.note}</span>
+            <b aria-hidden="true">→</b>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="bp-wrap bp-section today-policy" aria-labelledby="today-policy-title">
+    <h2 id="today-policy-title" class="bp-section-title">このページの更新方法</h2>
+    <div>
+      <p><strong>専用の手入力更新は原則しません。</strong> イバトコに登録済みのイベント・試合・季節情報を使い、日付に応じて表示内容を自動で切り替えます。</p>
+      <p>新しいイベントは通常の記事公開フローで追加します。開催終了後は、既存の終了判定によりこのページから自動で外れます。</p>
+      <p>前年実績や未確認情報を「今日開催」として表示することはしません。</p>
+    </div>
+  </section>
+</BrandBase>
+
+<script>
+  import { commonParams, trackEvent } from '../../lib/analytics-events';
+
+  for (const list of document.querySelectorAll<HTMLElement>('[data-today-links]')) {
+    list.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-today-kind]');
+      if (!link) return;
+      trackEvent('next_action_click', {
+        ...commonParams({ page_type: 'today', content_category: 'hub' }),
+        destination_type: link.dataset.todayKind ?? '',
+        action_source: 'today_more',
+        destination_url: link.getAttribute('href') ?? '',
+      });
+    });
+  }
+</script>
+
+<style>
+  .today-head{padding-top:clamp(1.2rem,3vw,2rem)}
+  .today-head h1{margin-top:.9rem;font:600 clamp(2.3rem,6vw,4.2rem)/1.22 var(--font-brand-display);color:var(--brand-navy);text-wrap:balance}
+  .today-head>p:last-child{max-width:var(--measure);margin-top:1.25rem;color:var(--color-soil);font-size:clamp(.98rem,2vw,1.08rem);line-height:2}
+  .today-head strong{color:var(--brand-navy)}
+
+  .today-flow{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.25rem;margin-top:clamp(2.5rem,5vw,4rem);padding:clamp(1.25rem,3vw,2rem);border:1px solid var(--color-mist);border-radius:18px;background:#fff;box-shadow:0 12px 34px rgba(30,60,90,.05)}
+  .today-flow h2{margin:.3rem 0 .7rem;font:600 clamp(1.4rem,3vw,2rem)/1.4 var(--font-brand-display);color:var(--brand-navy)}
+  .today-flow p{margin:0;color:var(--color-soil);line-height:1.9}
+  .today-flow__note{align-self:end;padding:1rem;border-radius:12px;background:#f4f7fa;font-size:.8rem}
+
+  .today-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.2rem 0 0;padding:0;list-style:none}
+  .today-links li{margin:0}
+  .today-links a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.2rem .8rem;min-height:100%;padding:1rem 1.1rem;border:1px solid var(--color-mist);border-radius:14px;background:#fff;color:var(--color-ink);text-decoration:none}
+  .today-links strong{font:600 1.05rem/1.5 var(--font-brand-display);color:var(--brand-navy)}
+  .today-links span{grid-column:1;color:var(--color-soil);font-size:.8rem;line-height:1.7}
+  .today-links b{grid-column:2;grid-row:1/3;align-self:center;color:var(--color-brand-blue);font-size:1.2rem}
+  .today-links a:hover,.today-links a:focus-visible{border-color:var(--color-brand-blue)}
+  .today-links a:focus-visible{outline:2px solid var(--color-brand-blue);outline-offset:3px}
+
+  .today-policy>div{max-width:var(--measure);display:grid;gap:.75rem}
+  .today-policy p{margin:0;color:var(--color-soil);line-height:1.9}
+  .today-policy strong{color:var(--brand-navy)}
+
+  @media(max-width:760px){
+    .today-flow{grid-template-columns:minmax(0,1fr)}
+    .today-links{grid-template-columns:minmax(0,1fr)}
+  }
+</style>

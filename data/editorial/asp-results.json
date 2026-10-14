@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "about": "ASP（アフィリエイト）の管理画面で確認した実績。ASPごとに期間が違うので、ASPをまたいで率を比べない。クリック（clicks）はASP管理画面の値で、GA4 の paid_booking_click とは別物。未確定報酬（pendingRewardYen）は売上ではない。確定売上の正本は revenue-ledger.json。取得できない値は null（0 で埋めない）。src/lib/revenue-funnel.mjs が読む。記録の手順は docs/REVENUE_OS.md「ASP実績の記録」",
+  "asOf": "2026-10-13",
+  "providers": [
+    {
+      "key": "rakuten",
+      "name": "楽天アフィリエイト",
+      "linkProviders": ["rakuten-travel"],
+      "period": { "label": "直近30日", "start": null, "end": "2026-10-13", "note": "管理画面の「直近30日」。開始日は画面の集計仕様による（未確認）" },
+      "checkedAt": "2026-10-13",
+      "clicks": 23,
+      "occurred": 2,
+      "occurredSalesYen": 25450,
+      "pendingRewardYen": 254,
+      "confirmed": 0,
+      "confirmedRewardYen": 0,
+      "revenueYen": 0,
+      "services": [
+        { "name": "楽天トラベル（高速バス予約）", "occurred": 1, "salesYen": 14400, "pendingRewardYen": 144, "approximate": true },
+        { "name": "楽天トラベル", "occurred": 1, "salesYen": 11000, "pendingRewardYen": 110, "approximate": true }
+      ],
+      "servicesNote": "サービス別の金額はグラフからの読み取りで概算。正確なのは合計（売上25,450円・未確定報酬254円）だけ。予約内容（宿泊か・路線・日付）は未確認",
+      "sourcePages": null,
+      "sourcePagesNote": "流入元未特定。楽天の画面は発生元ページを示さず、GA4 の送客クリックとも1対1で結べない",
+      "rewardRule": "楽天トラベル：利用金額の1%（レンタカー・観光体験は2%）。Cookie 30日。リンク先と違う商品（高速バス等）の予約も対象。予約日の翌々月末までに利用が完了したものが成果対象（楽天トラベル アフィリエイト仕様 https://travel.rakuten.co.jp/distributor/affiliate.html）",
+      "status": "occurred-pending",
+      "source": "オーナー報告（楽天アフィリエイト管理画面・サービス別成果、2026-10-13）。2件とも未確定で、これが初の成果"
+    },
+    {
+      "key": "a8",
+      "name": "A8.net",
+      "linkProviders": ["jalan", "akippa"],
+      "period": { "label": "今月", "start": "2026-10-01", "end": "2026-10-13", "note": "管理画面の「今月」（10/13 確認時点まで）" },
+      "checkedAt": "2026-10-13",
+      "clicks": 19,
+      "occurred": 0,
+      "occurredSalesYen": null,
+      "pendingRewardYen": null,
+      "confirmed": 0,
+      "confirmedRewardYen": 0,
+      "revenueYen": 0,
+      "services": [
+        { "name": "akippa", "clicks": 10, "occurred": 0 },
+        { "name": "じゃらんnet", "clicks": 8, "occurred": 0 },
+        { "name": "Kimoc", "clicks": 1, "occurred": 0 }
+      ],
+      "servicesNote": "プログラム別はオーナー報告（2026-10-13）。Kimoc の広告リンクはイバトコのリポジトリに無い（2026-10-13 検索）。どこから押されたかは未確認で、イバトコの記事への送客とは扱わない",
+      "sourcePages": null,
+      "sourcePagesNote": "流入元未特定",
+      "rewardRule": "じゃらんnet・akippa の成果条件は A8 のプログラム詳細で確認（未取得）。affiliates.ts の記録では akippa は新規駐車場利用（税抜）の5%",
+      "status": "clicks-without-conversions",
+      "source": "オーナー報告（A8.net 管理画面、2026-10-13）。19クリックで発生0はサンプル不足で、不採算とは判断しない"
+    }
+  ],
+  "history": [
+    {
+      "key": "a8",
+      "name": "A8.net",
+      "checkedAt": "2026-10-07",
+      "period": null,
+      "clicks": null,
+      "occurred": 0,
+      "confirmed": 0,
+      "revenueYen": 0,
+      "status": "clicks-without-conversions",
+      "source": "オーナー報告（A8管理画面：クリックあり・成果0）"
+    }
+  ]
+}

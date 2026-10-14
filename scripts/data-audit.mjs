@@ -70,6 +70,7 @@ const ALLOWED_EVENTS = new Set([
   'outbound_booking_click',
   'outbound_booking_click_a',
   'outbound_booking_click_b',
+  'paid_booking_click', // 提携リンクのクリックだけ（outbound_booking_click の内数。2026-10-10）
   'business_cta_view',
   'business_cta_click',
   'contact_form_view',

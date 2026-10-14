@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-07",
+  "about": "Demand Radar / PV Relay / 30・60・90日 Pipeline / Annual Learning の設定（src/lib/demand-radar.mjs・src/lib/seasonal-learning.mjs）。重み・しきい値・季節の期間は実測ではなく優先順位付けの目安。実測は performance-snapshot.json と seasonal-learning.json。docs/GROWTH_ENGINE.md の 8〜11.",
+  "demandScore": {
+    "about": "Demand Score = 実測できた要素だけの加重平均（0〜100）。実測できない要素（競合など）は分母からも外し、coverage として示す。需要の増加速度を最も重く見る",
+    "weights": {
+      "velocity": 3,
+      "size": 2,
+      "positionOpportunity": 2,
+      "ctrGap": 1,
+      "timing": 2,
+      "commercialIntent": 1,
+      "effort": 1,
+      "competition": 1
+    },
+    "newPageMinViews7": 50
+  },
+  "pvRelay": {
+    "about": "主要流入ページ＝直近7日Viewsの上位。終了後の流入は止まる想定で、失う可能性のあるViewsを forecast として出す（実測ではない）。2026年の実測で減衰を学習したら置き換える",
+    "topPages": 10,
+    "minShareOfSite": 0.02,
+    "measuredDropPct": 30,
+    "dependencyShare": 0.25,
+    "horizons": [7, 14, 30]
+  },
+  "queryRadar": {
+    "about": "検索語別（performance-snapshot の gscQueries）の需要の速さ。直近7日の表示が前7日から risingPct% 以上増え、かつ minImpressions7 以上の検索語を「上昇中」とする。伸びしろは、今の表示回数のまま3位相当のCTR目安に届いた場合の追加クリック（forecast）",
+    "minImpressions7": 20,
+    "risingPct": 30,
+    "top": 20,
+    "clusterMinImpressions28": 50,
+    "lowCtrRatio": 0.5,
+    "positionChange": 3,
+    "ctrDropPct": 30
+  },
+  "trendsRules": {
+    "about": "Google Trends（proxy）の日次判断（src/lib/search-trends.mjs の trendsDecisions）。仕込み期限＝例年の立ち上がり − prepLeadDays。staleDays 以上更新が無ければ更新推奨。平均順位が weakPosition より下なら「表示を取れていない」",
+    "prepLeadDays": 14,
+    "staleDays": 7,
+    "weakPosition": 10
+  },
+  "trendsKeywords": {
+    "about": "Google Trends（data/editorial/search-trends.json）の検索語と、テーマ・対応ページ。対応ページが無い語は page: null（新規記事の候補）。基準語は「土浦花火」",
+    "土浦花火": { "theme": "hanabi", "page": "/events/tsuchiura-hanabi-2026/" },
+    "土浦全国花火競技大会": { "theme": "hanabi", "page": "/events/tsuchiura-hanabi-2026/" },
+    "袋田の滝 紅葉": { "theme": "kouyou", "page": "/events/fukuroda-falls-autumn-2026/" },
+    "竜神大吊橋 紅葉": { "theme": "kouyou", "page": "/events/ryujin-bridge-autumn-2026/" },
+    "花貫渓谷 紅葉": { "theme": "kouyou", "page": "/events/hananuki-gorge-autumn-2026/" },
+    "筑波山 紅葉": { "theme": "kouyou", "page": "/events/tsukuba-autumn-2026/" },
+    "茨城 紅葉": { "theme": "kouyou", "page": "/kouyou/" },
+    "あんこう祭": { "theme": "ankou", "page": "/events/oarai-ankou-matsuri-2026/" },
+    "大洗 あんこう鍋": { "theme": "ankou", "page": "/events/oarai-ankou-nabe-guide/" },
+    "笠間 菊まつり": { "theme": "matsuri", "page": "/events/kasama-kiku-matsuri-2026/" },
+    "茨城 イベント 11月": { "theme": "events", "page": "/events/ibaraki-events-november-2026/" },
+    "茨城 イルミネーション": { "theme": "illumination", "page": null },
+    "大洗 初日の出": { "theme": "newyear", "page": null },
+    "茨城 初日の出": { "theme": "newyear", "page": null },
+    "笠間稲荷 初詣": { "theme": "hatsumode", "page": "/events/kasama-inari-jinja-guide/" },
+    "大洗磯前神社 初詣": { "theme": "hatsumode", "page": null },
+    "偕楽園 梅まつり": { "theme": "ume", "page": "/events/kairakuen-guide/" },
+    "茨城パスポート": { "theme": "passport", "page": "/news/ibaraki-passport-2026/" },
+    "水戸ホーリーホック": { "theme": "sports", "seasonal": false, "page": "/sports/mito-hollyhock/" },
+    "鹿島アントラーズ": { "theme": "sports", "seasonal": false, "page": "/sports/kashima-antlers/" }
+  },
+  "queryIntents": {
+    "about": "検索語を「ページ × 検索意図」でまとめる辞書（表記ゆれ・年号の有無を同じ意図として数える）。上から順に当てはまるものを全部つなぐ。どれにも当たらなければ「総合」。元の gscQueries は変えない",
+    "order": ["料金", "駐車場", "アクセス", "時間", "日程", "混雑", "見頃", "交通規制", "発数", "観戦", "申込", "グルメ", "宿泊"],
+    "料金": ["料金", "値段", "チケット", "入場料", "入園料", "拝観料", "運賃", "無料", "いくら", "割引"],
+    "駐車場": ["駐車", "パーキング", "駐 車場"],
+    "アクセス": ["アクセス", "行き方", "最寄り", "駅から", "電車", "路線バス", "高速バス", "バス停", "シャトル", "送迎"],
+    "時間": ["時間", "何時", "開園", "営業"],
+    "日程": ["日程", "いつ", "開催日", "期間"],
+    "混雑": ["混雑", "混み"],
+    "見頃": ["見頃", "紅葉情報", "開花"],
+    "交通規制": ["交通規制", "規制"],
+    "発数": ["何発", "発数", "万発"],
+    "観戦": ["観戦", "放送", "中継", "配信", "試合"],
+    "申込": ["申込", "申し込み", "申請", "当選", "抽選", "入手", "応募"],
+    "グルメ": ["屋台", "グルメ", "メニュー", "ランチ"],
+    "宿泊": ["ホテル", "旅館", "宿泊"]
+  },
+  "milestones": {
+    "about": "記事のイベント終了日ではない節目（申請締切・交付開始など）。PV Relay はこれを終わりとして扱わず、次の節目として表示する。日付は公式一次情報で確認したものだけ",
+    "/news/ibaraki-passport-2026/": [
+      { "key": "applicationDeadline", "label": "追加申請の締切", "date": "2026-10-16", "effect": "demand-may-drop", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" },
+      { "key": "additionalDistributionStart", "label": "追加交付の開始（県庁・東京渉外局）", "date": "2026-11-10", "effect": "demand-may-rise", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" }
+    ],
+    "/news/ibaraki-passport-additional-issuance-2026/": [
+      { "key": "applicationDeadline", "label": "追加申請の締切", "date": "2026-10-16", "effect": "demand-may-drop", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" },
+      { "key": "additionalDistributionStart", "label": "追加交付の開始（県庁・東京渉外局）", "date": "2026-11-10", "effect": "demand-may-rise", "source": "https://www.pref.ibaraki.jp/bugai/koho/hodo/press/19press/p261002.html" }
+    ]
+  },
+  "commercialIntentWords": ["駐車場", "ホテル", "宿泊", "宿", "予約", "飲食店", "店", "あんこう鍋", "アクセス", "交通規制", "周辺", "チケット", "料金", "シャトル"],
+  "upcomingSeasons": {
+    "about": "Growth Engine の seasonWindows に無い、年をまたぐ先の季節需要（MM-DD）。30/60/90日 Pipeline で仕込みの対象にする。期間は運用上の想定",
+    "newyear": { "label": "年末年始・初日の出", "start": "12-28", "end": "01-03", "match": ["初日の出", "年末年始", "大晦日", "hatsuhinode"] },
+    "hatsumode": { "label": "初詣", "start": "01-01", "end": "01-10", "match": ["初詣", "hatsumode"] },
+    "illumination": { "label": "イルミネーション", "start": "11-20", "end": "12-25", "match": ["イルミネーション", "illumination"] },
+    "ume": { "label": "梅まつり", "start": "02-10", "end": "03-20", "match": ["梅まつり", "偕楽園の梅", "ume"] },
+    "sakura": { "label": "桜", "start": "03-25", "end": "04-15", "match": ["桜まつり", "さくらまつり", "花見", "お花見", "sakura"] }
+  },
+  "learningCategories": {
+    "about": "Annual Learning のカテゴリ。記事のタグ・キーワード・slug で判定（上から順）。「桜」単独は桜川市と取り違えるため使わない",
+    "order": ["hanabi", "kouyou", "ankou", "gourmet", "ume", "sakura", "gw", "kaisuiyoku", "natsumatsuri", "sports", "newyear", "hatsumode", "matsuri"],
+    "hanabi": { "label": "花火", "match": ["花火", "hanabi"] },
+    "kouyou": { "label": "紅葉", "match": ["紅葉", "kouyou"] },
+    "ankou": { "label": "あんこう", "match": ["あんこう", "ankou"] },
+    "gourmet": { "label": "グルメイベント", "match": ["グルメイベント", "カレーフェス", "フードフェス", "グルメ"] },
+    "ume": { "label": "梅", "match": ["梅まつり", "ume"] },
+    "sakura": { "label": "桜", "match": ["桜まつり", "さくらまつり", "花見", "sakura"] },
+    "gw": { "label": "GW", "match": ["ゴールデンウィーク", "GW"] },
+    "kaisuiyoku": { "label": "海水浴", "match": ["海水浴", "海開き"] },
+    "natsumatsuri": { "label": "夏祭り", "match": ["夏祭り", "黄門まつり", "祇園"] },
+    "sports": { "label": "スポーツ", "match": ["鹿島アントラーズ", "水戸ホーリーホック", "茨城ロボッツ", "アストロプラネッツ", "マラソン", "サッカー", "野球"] },
+    "newyear": { "label": "年末年始", "match": ["初日の出", "年末年始", "大晦日"] },
+    "hatsumode": { "label": "初詣", "match": ["初詣"] },
+    "matsuri": { "label": "祭り", "match": ["まつり", "祭り", "祭"] }
+  },
+  "learningMinSamples": 2
+}

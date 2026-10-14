@@ -8,7 +8,8 @@
  *   imgs    … ページ内の画像URL（src / srcset）。存在確認は Node 側で dist と突き合わせる
  *   counts  … 呼び出し側が指定したセレクタの件数（主要CTAの欠損チェック用）
  *
- * @param {{ required: [string, number][] }} options
+ * @param {{ required: [string, number][], skipExternalImages?: boolean }} options
+ *   skipExternalImages … 外部への通信を止めて検査するとき（ビルド出力の検査）。外部ホストの画像は読み込めなくて当然なので、壊れた画像として数えない
  */
 export function inspectPage(options) {
   const html = document.documentElement;
@@ -166,6 +167,31 @@ export function inspectPage(options) {
     for (const source of document.querySelectorAll('picture source[srcset]')) {
       for (const part of source.getAttribute('srcset').split(',')) imgs.push(part.trim().split(/\s+/)[0]);
     }
+
+    // 6b) 壊れた画像・縦横比の歪み（読み込み済みの画像だけを見る。遅延読み込みで未要求のものは src の実在を呼び出し側で確かめる）
+    for (const img of document.querySelectorAll('img')) {
+      const r = visible(img);
+      if (!r || !img.complete) continue;
+      if (options.skipExternalImages && new URL(img.currentSrc || img.getAttribute('src') || '', location.href).origin !== location.origin) continue;
+      if (img.naturalWidth === 0) {
+        issues.push({ type: 'img-broken', detail: `${label(img)} src="${(img.currentSrc || img.getAttribute('src') || '').slice(0, 80)}"（読み込めない画像）` });
+        continue;
+      }
+      // object-fit が fill（既定）のときだけ、表示枠と画像の比率がずれると引き伸ばされて歪む
+      if (r.width < 24 || r.height < 24 || getComputedStyle(img).objectFit !== 'fill') continue;
+      const box = r.width / r.height;
+      const natural = img.naturalWidth / img.naturalHeight;
+      const skew = Math.abs(box / natural - 1);
+      if (skew > 0.06) {
+        issues.push({ type: 'img-distorted', detail: `${label(img)} 表示 ${Math.round(r.width)}x${Math.round(r.height)} / 画像 ${img.naturalWidth}x${img.naturalHeight}（比率のずれ ${Math.round(skew * 100)}%）` });
+      }
+    }
+
+    // 6c) 文書の骨格。表示中の main と h1 は1つずつ（2つあると支援技術と検索エンジンが本文を取り違える）
+    const mains = [...document.querySelectorAll('main')].filter((el) => !el.closest('[hidden]'));
+    if (mains.length !== 1) issues.push({ type: 'main-count', detail: `main が ${mains.length} 個（1個にする）` });
+    const h1s = [...document.querySelectorAll('h1')].filter((el) => !el.closest('[hidden]'));
+    if (h1s.length !== 1) issues.push({ type: 'h1-count', detail: `h1 が ${h1s.length} 個（1個にする）` });
 
     // 7) 主要CTAの欠損
     const counts = {};

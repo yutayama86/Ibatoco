@@ -1,53 +1,58 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T07:03:56+09:00",
+  "generatedAt": "2026-10-09T21:55:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-09-28",
-      "end": "2026-10-04"
+      "start": "2026-10-03",
+      "end": "2026-10-09"
     }
   },
   "baseline": {
-    "views": 4916,
-    "sessions": 4263,
-    "viewsPerSession": 1.1532
+    "views": 0,
+    "sessions": null,
+    "viewsPerSession": null
   },
-  "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みで後継導線のないページを除外し、最大8件を保存。終了判定はeventsのeventInfo/eventLifecycle等の正本で確認できる場合だけ行い、newsのpubDateをイベント終了日として扱わない。",
+  "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みイベントを除外し、最大8件を保存。同一テーマの記事はHomeNow側でtopic単位に合算して表示順位を決める。終了判定は正本データに基づく。",
   "pages": [
     {
-      "path": "/news/ibaraki-passport-2026/",
-      "views": 1410
+      "path": "/events/oarai-ankou-matsuri-2026/",
+      "views": 628
     },
     {
-      "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 722
+      "path": "/news/ibaraki-passport-2026/",
+      "views": 409
+    },
+    {
+      "path": "/news/ibaraki-passport-additional-issuance-2026/",
+      "views": 104
     },
     {
       "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 90
-    },
-    {
-      "path": "/events/tsuchiura-curry-festival-2026/",
-      "views": 68
-    },
-    {
-      "path": "/events/kasama-kiku-matsuri-2026/",
-      "views": 46
-    },
-    {
-      "path": "/events/tsukuba-cablecar-ropeway-guide/",
-      "views": 36
-    },
-    {
-      "path": "/news/gs-yuasa-ibaraki-machi-battery-plant-2026/",
-      "views": 35
+      "views": 62
     },
     {
       "path": "/news/mito-shinkin-stadium-parking/",
-      "views": 34
+      "views": 53
+    },
+    {
+      "path": "/events/tsuchiura-curry-festival-2026/",
+      "views": 43
+    },
+    {
+      "path": "/events/oarai-ankou-nabe-guide/",
+      "views": 40
+    },
+    {
+      "path": "/events/tsukuba-cablecar-ropeway-guide/",
+      "views": 35
     }
+  ],
+  "notes": [
+    "2026-10-09更新。GA4 2026-10-03〜10-09実測。",
+    "かさま新栗まつり2026（829 Views）は10/4終了済みのため除外。",
+    "rockin'star Carnival 2026（110 Views）は10/3終了済みのため除外。"
   ]
 }
