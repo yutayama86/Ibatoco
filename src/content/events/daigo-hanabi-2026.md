@@ -56,6 +56,7 @@ sourceUrls:
 relatedArticleUrls:
   - "/events/ibaraki-hanabi-2026/"
   - "/events/tsuchiura-hanabi-2026/"
+  - "/events/fukuroda-falls-autumn-2026/"
 commercialPriority: medium
 evergreen: false
 ---
