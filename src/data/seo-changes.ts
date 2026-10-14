@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261015-news-mito-hollyhock-new-stadium-access-metadata',
+    date: '2026-10-15',
+    url: '/news/mito-hollyhock-new-stadium-access/',
+    kind: 'on-page',
+    change: 'title・descriptionをアクセス中心に変更（最寄り駅は東海駅・水戸駅からの行き方・無料シャトル）。駐車場の詳細は駐車場ガイドへ。本文・URLは変更なし',
+    queries: ['水戸信用金庫スタジアム アクセス', '東海駅から水戸信用金庫スタジアム', '水戸信用金庫スタジアム 最寄り 駅', '水戸駅から水戸信用金庫スタジアム'],
+    commit: 'pending',
+    note: '変更前（GSC 28日、〜2026-10-12）：7,646表示・156クリック・平均8.18位・CTR 2.04%。主要語「水戸信用金庫スタジアム アクセス」は1,568表示・19クリック・7.45位・CTR 1.21%。期待+281 ViewsはGrowth Engineの推定で保証ではない。10/15〜10/28は観測し、本文・metadataを再変更しない',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261015-events-tsuchiura-hanabi-2026-kaeri-transit-fix',
     date: '2026-10-15',
     url: '/events/tsuchiura-hanabi-2026-kaeri/',
