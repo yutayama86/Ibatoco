@@ -93,6 +93,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
   },
   {
+    id: '20261014-events-tsuchiura-hanabi-2026-furusato',
+    date: '2026-10-14',
+    url: '/events/tsuchiura-hanabi-2026/',
+    kind: 'on-page',
+    change: '事実の更新：ふるさと納税の駐車場利用券（ふるさとチョイスの4種類・申込期日10/28・延期時の扱いが駐車場ごとに違う）の要点カードを追加し、観覧席（消防本部・申込期日10/18）の延期・中止時の扱いを要点・FAQ に追記。駐車場の FAQ に一文追記。出典6件追加・1件更新、updatedDate を 10/14 に',
+    queries: [],
+    commit: '5036a40',
+    note: 'Growth Director 承認（2026-10-14・事実更新の先行）。大会公式（10/13 更新）とふるさとチョイスの申込ページで確認（10/14）。title・description・予約案内（BookingGuide・MVP 観測中）は変えていない。在庫は「10/14 時点の表示」とし、受付中・終了を断定しない。ほかの申込サイトの期日は未確認のため書いていない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261012-events-fukuroda-falls-autumn-2026-official',
     date: '2026-10-12',
     url: '/events/fukuroda-falls-autumn-2026/',
