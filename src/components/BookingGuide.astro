@@ -205,6 +205,12 @@ const KIND_LABEL: Record<string, string> = {
           experiment_id: experimentEnabled ? experimentId : undefined,
           experiment_variant: experimentEnabled ? experimentVariant : undefined,
         };
+        // 申込先の期限を過ぎた項目のクリックは、送客（予約の機会）と混ぜないよう別のイベント名で数える。
+        // outbound_booking_click・paid_booking_click・提携送客率（MVP の主KPI）には入れない
+        if (link.dataset.deadlinePassed === '1') {
+          trackEvent('booking_deadline_passed_click', clickParams);
+          return;
+        }
         trackEvent('outbound_booking_click', clickParams);
         // 提携（成果報酬）リンクだけを数えるイベント。outbound_booking_click の内数（同じパラメータ）。
         // is_paid_link はカスタムディメンション未登録では集計できないため、イベント名で直接数えられるようにする（Revenue Funnel の「ASPへの送客クリック」）
