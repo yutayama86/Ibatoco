@@ -196,7 +196,10 @@ const lines = [
   })(result.forecastReference),
   '## ④⑤ PV at Risk（今後失う可能性のある Views と代替候補）',
   '',
-  `今後7日 ${fmt(relay.lostViewsForecast[7])}・14日 ${fmt(relay.lostViewsForecast[14])}・30日 ${fmt(relay.lostViewsForecast[30])} PV（forecast。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}）`,
+  relay.lostViewsForecast[7] == null
+    ? `判定不能（${relay.measurement.reason}。0 PV ではない）。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}`
+    : `今後7日 ${fmt(relay.lostViewsForecast[7])}・14日 ${fmt(relay.lostViewsForecast[14])}・30日 ${fmt(relay.lostViewsForecast[30])} PV（forecast。直近7日 ${fmt(relay.siteViews7)}・GA4 ${relay.dataAsOf}）${relay.measurement.status === 'partial' ? `。計測できた ${relay.measurement.measuredPages} ページだけの合計（${relay.measurement.unmeasuredPages} ページは${relay.measurement.reason}）` : ''}`,
+  ...relay.unmeasuredAtRisk.map((i) => `- 失う量は判定不能：${i.label.slice(0, 40)}（${i.path}）${i.status === 'ENDED' ? `・${i.endDate} に終了` : i.status === 'ENDING' ? `・${i.endDate} に終了予定（あと${i.daysToEnd}日）` : '・節目あり'}・GSC 28日 ${fmt(i.gscClicks28)} click`),
   ...(relay.baselineExcludingTop2 ? ['', `- ${relay.baselineExcludingTop2.label}：直近7日 ${fmt(relay.baselineExcludingTop2.views7)} → 30日 ${fmt(relay.baselineExcludingTop2.monthly30)}`] : []),
   '',
   '| 主要流入ページ | 7日Views | 全体比 | 終わり | 状態 | 失う可能性（7日/30日） | 代替候補（現在の7日Views・仕込み期限） |',

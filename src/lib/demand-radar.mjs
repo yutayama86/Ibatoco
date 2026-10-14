@@ -344,7 +344,21 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
   const forecastOf = new Map(forecasts.map((f) => [f.path, f]));
   const site7 = num(snapshot?.windows?.ga4?.recent7?.views);
   const dataAsOf = snapshot?.source?.freshness?.ga4LatestConfirmedDate ?? snapshot?.asOf ?? today;
-  const rows = [...(snapshot?.pageMetrics ?? [])]
+  // ページ別の7日 Views が無い（未取得・計測障害の期間を含むため null）ページは、失う Views を 0 と数えない。
+  // 全ページで無ければ「判定不能」、一部だけなら「計測できたページだけの合計」として区別する
+  const allMetrics = snapshot?.pageMetrics ?? [];
+  const unmeasuredRows = allMetrics.filter((r) => num(r.views7) == null);
+  const measuredCount = allMetrics.length - unmeasuredRows.length;
+  const byIncident = unmeasuredRows.some((r) => Array.isArray(r.ga4Excluded) && r.ga4Excluded.includes('views7'));
+  const measurement = {
+    status: !allMetrics.length ? 'no-data' : measuredCount === 0 ? 'unmeasured' : unmeasuredRows.length ? 'partial' : 'ok',
+    measuredPages: measuredCount,
+    unmeasuredPages: unmeasuredRows.length,
+    reason: !allMetrics.length ? 'ページ別の GA4 Views が未取得'
+      : unmeasuredRows.length ? (byIncident ? 'ページ別の GA4 Views（7日）が計測障害の期間を含むため使えない' : 'ページ別の GA4 Views（7日）が未取得') : null,
+  };
+  const judgeable = measurement.status === 'ok' || measurement.status === 'partial';
+  const rows = [...allMetrics]
     .filter((r) => num(r.views7) != null)
     .sort((a, b) => num(b.views7) - num(a.views7))
     .slice(0, config.pvRelay.topPages)
@@ -429,11 +443,27 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
     };
   });
 
-  const sumLost = (h) => items.reduce((s, i) => s + (i.lostViewsForecast[h] ?? 0), 0);
+  // 計測できたページが1つも無いときは null（「0 PV を失う」と「判定不能」を区別する）
+  const sumLost = (h) => (judgeable ? items.reduce((s, i) => s + (i.lostViewsForecast[h] ?? 0), 0) : null);
+  // 7日 Views が無いため失う量を出せないが、終了・終了間近・節目があるページ（失速の有無を測れない）
+  const unmeasuredAtRisk = unmeasuredRows
+    .map((r) => {
+      const page = pages.get(r.path) ?? null;
+      const season = seasons.get(r.path) ?? null;
+      const endDate = page?.endDate ?? page?.startDate ?? season?.endDate ?? null;
+      const hasMilestone = (config.milestones?.[r.path] ?? []).some((m) => isDate(m?.date) && daysBetween(today, m.date) >= 0);
+      const daysToEnd = endDate ? daysBetween(today, endDate) : null;
+      const status = endDate == null ? (hasMilestone ? 'MILESTONE' : null) : daysToEnd < 0 ? 'ENDED' : daysToEnd <= 14 ? 'ENDING' : null;
+      return status ? { path: r.path, label: page?.title ?? r.path, endDate, daysToEnd, status, gscClicks28: num(r.gsc?.clicks28), lostViewsForecast: null } : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => (b.gscClicks28 ?? 0) - (a.gscClicks28 ?? 0))
+    .slice(0, 5);
   const top = items[0];
   const second = items[1];
   const alerts = [];
   const lost7 = sumLost(7);
+  if (!judgeable || unmeasuredAtRisk.length) alerts.push({ level: 'info', kind: 'PV at Risk', message: `${judgeable ? '一部のページは' : ''}判定不能：${measurement.reason}${unmeasuredAtRisk.length ? `。終了・終了間近で失速を測れないページ：${unmeasuredAtRisk.map((i) => `${i.label.slice(0, 18)}（${i.endDate ?? '節目'}）`).join('、')}` : ''}` });
   if (lost7 > 0 && site7) alerts.push({ level: lost7 / site7 >= 0.2 ? 'critical' : 'warning', kind: 'PV at Risk', message: `今後7日で約 ${lost7.toLocaleString('ja-JP')} PV を失う可能性（forecast・直近7日 ${site7.toLocaleString('ja-JP')} の ${Math.round((lost7 / site7) * 100)}%）。${items.filter((i) => (i.lostViewsForecast[7] ?? 0) > 0).map((i) => i.label.slice(0, 18)).join('、')}` });
   for (const i of items.filter((x) => x.status === 'END UNKNOWN' && (x.shareOfSite ?? 0) >= 0.1)) alerts.push({ level: 'warning', kind: 'PV at Risk', message: `${i.label.slice(0, 24)}（直近7日 ${i.views7.toLocaleString('ja-JP')}・全体の${Math.round(i.shareOfSite * 100)}%）は終わりの日付データが無く、失速を予測できない（催しなら記事の event に公式の開催日を、申請締切などの節目なら demand-radar.json の milestones に公式の日付を入れる）` });
   for (const i of items.filter((x) => x.status === 'MILESTONE' && x.lostViewsIfDrops && (x.shareOfSite ?? 0) >= 0.05)) {
@@ -460,6 +490,8 @@ export function pvRelay({ snapshot, pages, seasons, engineConfig, config, radar,
     },
     items,
     lostViewsForecast: Object.fromEntries(config.pvRelay.horizons.map((h) => [h, sumLost(h)])),
+    measurement,
+    unmeasuredAtRisk,
     alerts,
   };
 }
