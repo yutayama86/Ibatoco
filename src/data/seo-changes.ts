@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式発表の反映：関東鉄道の予約制臨時駐車場（真鍋A・真鍋二丁目、1台3,800円、入庫12:00〜18:00・利用12:00〜24:00、Peatixで事前決済、10/1発表）を見どころとFAQに追加。霞ヶ浦広域バスの運休の対象（第5便の土浦協同病院〜亀城公園前〜土浦駅の区間、上り・下りとも）を追記。出典2件を追加',
     queries: [],
-    commit: 'PENDING',
+    commit: 'de32f18',
     note: '事実の更新（観測窓0日）。title・description・URL・予約案内（BookingGuide）は変えていない（予約できるイバトコ MVP の観測 10/11〜10/17）。このURLに観測中の実験はない',
     experimentType: 'fact',
   },
