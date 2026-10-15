@@ -426,6 +426,8 @@ export const SEO_CHANGES: SeoChange[] = [
     change: 'GSCで冠水マップ・アンダーパス意図が顕在化したためtitle/descriptionを整合（本文・URLは維持）',
     queries: [],
     commit: 'PENDING',
+    note: '2026-10-16 Growth Director分類訂正承認：元の変更はtitle/descriptionのみで、括弧内の「本文・URLは維持」を本文変更と誤認していた。変更日・ID・対象・観測起点は維持。元コミットSHAは未照合のためPENDINGを維持し別途監査。',
+    experimentType: 'metadata',
   },
   {
     id: '20261009-events-hananuki-official-autumn',
