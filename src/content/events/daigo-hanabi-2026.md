@@ -29,7 +29,7 @@ eventInfo:
   endDate: 2026-11-21
   venue: "久慈川・押川合流付近"
   officialName: "大子町観光協会"
-  officialUrl: "https://www.daigo-kanko.jp/news/news-19536"
+  officialUrl: "https://www.daigo-kanko.jp/news/news-19551"
 highlights:
   - title: "7年ぶりに復活する秋の花火"
     detail: "松沼橋の開通と道の駅奥久慈だいごWESTの完成を記念し、秋に開催されます。"
@@ -50,9 +50,9 @@ faq:
   - question: "灯籠流しはありますか？"
     answer: "2026年は灯籠流しを実施しないと公式に案内されています。"
 sourceUrls:
-  - label: "大子町観光協会｜大子町花火大会（11月21日）"
-    url: "https://www.daigo-kanko.jp/news/news-19536"
-    accessedAt: 2026-10-11
+  - label: "大子町観光協会｜「令和8年度大子町花火大会」桟敷席を販売いたします（開催日時・打上げ場所を含む）"
+    url: "https://www.daigo-kanko.jp/news/news-19551"
+    accessedAt: 2026-10-15
 relatedArticleUrls:
   - "/events/ibaraki-hanabi-2026/"
   - "/events/tsuchiura-hanabi-2026/"
