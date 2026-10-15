@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '事実訂正：「TXの臨時列車は首都圏新都市鉄道の発表なし」を、同社の2026年9月25日の発表（守谷〜つくば間の臨時列車・延長運転、研究学園駅への快速の臨時停車 下り朝4本・上り朝2本・日中5本、9/30 別紙訂正）に訂正。要点・見どころ・FAQに追加し、訂正の記録を「行く前に」に残した。出典を発表資料PDFに差し替え',
     queries: [],
-    commit: 'PENDING',
+    commit: '434309f',
     note: '事実の訂正（観測窓0日）。10/15 の #293 でニュースリリースの既定の一覧（直近5件だけ表示）しか見ず、年別の一覧にあった 9/25 の発表を見落とした。Growth Director の指摘で訂正。title・description・URL は変更なし',
     experimentType: 'fact',
   },
