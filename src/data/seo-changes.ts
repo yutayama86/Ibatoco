@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261020-events-oarai-ankou-nabe-guide-stay-relay',
+    date: '2026-10-20',
+    url: '/events/oarai-ankou-nabe-guide/',
+    kind: 'internal-link',
+    change: '関連記事の1件目と4件目を入れ替え、宿の記事（大洗のホテル・旅館のビュッフェ）を表示される先頭3件に入れる（大洗磯前神社は4件目へ）。本文・title・description・予約案内は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: 'Growth Director 承認（10/20実施）。予約MVP（10/11〜10/17）の評価（10/19）の後にマージする。関連記事は先頭3件だけ表示されるため、4件目だった宿の記事は画面に出ていなかった。評価は送客（宿の記事への遷移・予約案内のクリック）で見て、ASPの確定成果とは分ける',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261015-events-ibaraki-hanabi-2026-meta-fact',
     date: '2026-10-15',
     url: '/events/ibaraki-hanabi-2026/',
