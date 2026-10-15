@@ -98,7 +98,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/joso-kinugawa-hanabi-2026/': '常総きぬ川花火大会2026（日程・有料席）',
   '/events/tonegawa-hanabi-2026/': '利根川大花火大会2026（日程・観覧席）',
   '/events/chikusei-hanabi-2026/': 'ちくせい花火大会2026（日程・会場）',
-  '/events/ibaraki-hanabi-2026/': '茨城の花火大会2026（5大会まとめ）',
+  '/events/ibaraki-hanabi-2026/': '茨城の花火大会2026（日程一覧）',
   '/news/chikusei-shinycolors-collab-2026/': '筑西市×シャニマスに見るIP観光（解説）',
   '/michinoeki/': '茨城の道の駅',
   '/eat/': '茨城で食べる',
