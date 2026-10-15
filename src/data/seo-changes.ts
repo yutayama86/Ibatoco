@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261015-events-tsukuba-marathon-2026-transit',
+    date: '2026-10-15',
+    url: '/events/tsukuba-marathon-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：つくば駅周辺駐輪場規制（11/22 8:00〜13:30、4か所が利用不可。大会公式 10/14）を見どころ・要点・FAQに追加。バス運休は「9月30日時点で未発表」を10月15日時点に更新（つくバスは市のページに未掲載、路線バスは大会公式で準備中）。TXの臨時列車は首都圏新都市鉄道の発表なし（10/15確認）。出典3件追加・2件の確認日更新',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。title・description・URL は変更なし。Growth Director 緊急決裁（10/15）P0-B',
+    experimentType: 'fact',
+  },
+  {
     id: '20261015-events-tsuchiura-hanabi-2026-tsuchimaru',
     date: '2026-10-15',
     url: '/events/tsuchiura-hanabi-2026/',
