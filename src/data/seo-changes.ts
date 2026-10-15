@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '事実の追記：つちまるバスは11月7日（延期時14日）終日、荒川沖駅〜県南病院の折り返し運行で、イオンモール土浦・霞ヶ浦医療センターの停留所は休止（土浦市 10/15 更新・関東鉄道の案内PDF）。バス運休の見どころの見出しと本文に追記し、出典2件を追加',
     queries: [],
-    commit: 'PENDING',
+    commit: '8e842e5',
     note: '事実の更新（観測窓0日）。title・description・URL・予約案内は変更なし。10/18 の metadata 実験（Growth Director 承認）とは別の記録',
     experimentType: 'fact',
   },
