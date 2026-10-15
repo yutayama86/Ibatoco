@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261015-events-ibaraki-hanabi-2026-meta-fact',
+    date: '2026-10-15',
+    url: '/events/ibaraki-hanabi-2026/',
+    kind: 'on-page',
+    change: '事実訂正：title「確認済み8大会＋今後の予定3件を日程順に整理」→「開催確認済み10大会と今後の予定・日程一覧」、description の「11月の茨城町・大子町…は未確定・予定」を公式発表済みに（Growth Director 指定の文）。内部リンクのラベル「5大会まとめ」を「日程一覧」に。本文・URL は変更なし',
+    queries: [],
+    commit: '8fa8636',
+    note: '事実の更新（観測窓0日）。CTR改善の実験として評価しない。件数の根拠：要点の公式確認済み10件（常総・利根川・大洗・ちくせい・天王崎・那珂湊・潮来・土浦・茨城町いばらきまつりのフィナーレ花火・大子町）と予定1件（河内町）。茨城町はまつりの最後のフィナーレ花火で、単独の花火大会ではない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261015-events-ibaraki-hanabi-2026-ibaraki-daigo-official',
     date: '2026-10-15',
     url: '/events/ibaraki-hanabi-2026/',
