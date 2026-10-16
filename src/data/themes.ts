@@ -367,12 +367,12 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       ],
       spotBoard: {
         heading: 'いま、どこが見頃か',
-        note: '「2026年の発表」の列は、各スポットの公式サイト・観光協会・自治体の発表をイバトコが確認した結果です（10月12日確認）。見頃の予想日を出しているのは国営ひたち海浜公園のコキアだけです。袋田の滝・奥久慈は大子町観光協会の色づき速報、花貫渓谷は高萩市の市報と高萩市観光協会、竜神大吊橋は常陸太田市観光物産協会の物産市の要項で、2026年の予定が出ています。前年の日付を今年の見頃として載せることはしません。',
+        note: '「2026年の発表」の列は、各スポットの公式サイト・観光協会・自治体の発表をイバトコが確認した結果です（10月12日確認）。見頃の予想日を出しているのは国営ひたち海浜公園のコキアだけです。袋田の滝・奥久慈は大子町観光協会の色づき速報、花貫渓谷は高萩市の市報と高萩市観光協会、竜神大吊橋は常陸太田市観光物産協会が10月16日に紅葉まつりの開催を発表しています。前年の日付を今年の見頃として載せることはしません。',
         rows: [
           { spot: 'コキア（国営ひたち海浜公園）', area: 'ひたちなか市', areaSlug: 'hitachinaka', usual: '10月中旬', now: '紅葉始め9月30日頃、見頃10月10日頃（公園公式・10月2日時点の予想）', confirmed: true },
           { spot: '袋田の滝', area: '大子町', areaSlug: 'daigo', usual: '11月ごろ', now: '大子町観光協会の色づき速報で「青葉」（10月6日時点）。見頃の予想とライトアップの2026年度日程は未発表（10月12日確認）', confirmed: false },
           { spot: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', usual: '11月ごろ', now: '色づき速報で男体山・月待の滝とも「青葉」（大子町観光協会・10月6日時点）', confirmed: false },
-          { spot: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', usual: '11月ごろ', now: '紅葉まつりの物産市は11月1日（日）〜30日（月）・9:00〜17:00（常陸太田市観光物産協会の出店者募集・9月18日更新）。見頃の予想は未発表（10月12日確認）', confirmed: true },
+          { spot: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', usual: '11月ごろ', now: '第37回竜神峡紅葉まつりは11月1日（日）〜30日（月）、物産市は9:00〜16:00（常陸太田市観光物産協会・10月16日発表）。見頃の予想は未発表（10月12日確認）', confirmed: true },
           { spot: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', usual: '11月ごろ', now: '紅葉まつり10月31日（土）〜11月30日（月）、ライトアップ11月7日（土）〜23日（月・祝）日没〜19:00（高萩市の市報10月号、高萩市観光協会・10月8日）。駐車場は期間中有料で予約不可。見頃の予想は未発表', confirmed: true },
           { spot: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', usual: '11月ごろ', now: '見頃予想・秋の夜間運行は未発表（10月12日確認）。ケーブルカーは9月25日から当面運休、ロープウェイは通常運行（筑波観光鉄道）', confirmed: false },
           { spot: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', usual: '11月ごろ', now: '未確認', confirmed: false },
@@ -402,7 +402,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
     spots: [
       { name: 'コキア（国営ひたち海浜公園）', area: 'ひたちなか市', areaSlug: 'hitachinaka', desc: 'みはらしの丘とみはらしの里に、今年は約4万本。ふもとから頂上まで続く風景になります。公園公式は2026年の紅葉を9月30日頃に始まり、10月10日頃に見頃と予想しています（10月2日時点）。9月18日〜11月3日は「コキアカーニバル」。', mapQuery: '国営ひたち海浜公園 みはらしの丘' },
       { name: '袋田の滝', area: '大子町', areaSlug: 'daigo', desc: '高さ120メートル、幅73メートルの日本三名瀑。周囲の大岩壁を紅葉が彩ります。例年11月ごろが見頃です。', mapQuery: '袋田の滝 大子町', detailUrl: '/events/fukuroda-falls-autumn-2026/' },
-      { name: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', desc: '全長375メートルの歩行者専用吊橋（日本最大級）から、紅葉の渓谷を見下ろせます。2026年の竜神峡紅葉まつりの物産市は、11月1日（日）〜30日（月）の9:00〜17:00に竜神大吊橋の物産市スペースで行われる予定です（常陸太田市観光物産協会）。', mapQuery: '竜神大吊橋 常陸太田市', detailUrl: '/events/ryujin-bridge-autumn-2026/' },
+      { name: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', desc: '全長375メートルの歩行者専用吊橋（日本最大級）から、紅葉の渓谷を見下ろせます。2026年の第37回竜神峡紅葉まつりは11月1日（日）〜30日（月）で、物産市は9:00〜16:00です（常陸太田市観光物産協会・10月16日発表）。', mapQuery: '竜神大吊橋 常陸太田市', detailUrl: '/events/ryujin-bridge-autumn-2026/' },
       { name: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', desc: '汐見滝吊り橋のあたりで、赤や黄に色づいた木々が橋を包む「紅葉のトンネル」になります。2026年は高萩市の市報で、紅葉まつり10月31日（土）〜11月30日（月）、ライトアップ11月7日（土）〜23日（月・祝）の日没〜19:00が予定されています。', detailUrl: '/events/hananuki-gorge-autumn-2026/' },
       { name: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', desc: '「関東の嵐山」と呼ばれる、茨城百景のひとつ。那珂川ごしに見る紅葉が知られます。' },
       { name: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', desc: '奥久慈男体山の岩山や、裏側から眺められる月待の滝など、奥久慈一帯が色づきます。' },
@@ -438,7 +438,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       { label: '筑波観光鉄道（お知らせ・ケーブルカーの運行）', url: 'https://mt-tsukuba.com/information/' },
       { label: '竜神大吊橋（公式）', url: 'https://ohtsuribashi.ryujinkyo.jp/' },
       { label: '高萩市観光協会（令和8年花貫渓谷紅葉まつり・10月8日更新）', url: 'https://www.takahagi-kanko.jp/news/page000592.html' },
-      { label: '常陸太田市観光物産協会（竜神峡紅葉まつり物産市 出店者募集・9月18日更新）', url: 'https://www.kanko-hitachiota.com/page/page002122.html' },
+      { label: '常陸太田市観光物産協会（第37回竜神峡紅葉まつりを開催します・10月16日）', url: 'https://www.kanko-hitachiota.com/page/page002136.html' },
       { label: '観光いばらき（県公式）', url: 'https://www.ibarakiguide.jp/' },
     ],
     related: [
