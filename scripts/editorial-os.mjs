@@ -4,7 +4,7 @@
  *
  * sync      公開コンテンツからイベント台帳を同期する（手入力の未掲載候補は保持）
  * check     台帳・実装キュー・パフォーマンス入力の整合性を検証する
- * daily     同期・検証後、日次ブリーフとClaude向け実装指示を生成する
+ * daily     同期・検証後、日次ブリーフとClaude向け実装指示を生成する（--weekly で週次棚卸しも出す。月曜は自動で出す）
  * inventory コンテンツ在庫をJSONで出力する
  *
  * 外部情報を推測で補完しない。検索需要・来訪規模・収益性は、人またはChatGPTが
@@ -19,6 +19,7 @@ import {
 } from 'node:fs';
 import { basename, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { discoveryGate, discoveryMarkdown, parseRegions, validateDiscovery } from './lib/discovery-gate.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = join(ROOT, 'data/editorial');
@@ -27,6 +28,7 @@ const EVENT_REGISTRY = join(DATA_DIR, 'event-registry.json');
 const ACTION_QUEUE = join(DATA_DIR, 'action-queue.json');
 const PERFORMANCE = join(DATA_DIR, 'performance-snapshot.json');
 const SEO_CHANGES = join(ROOT, 'src/data/seo-changes.ts');
+const AREAS = join(ROOT, 'src/data/areas.ts');
 const CONTENT_DIRS = [
   { type: 'event', dir: join(ROOT, 'src/content/events'), prefix: '/events/' },
   { type: 'news', dir: join(ROOT, 'src/content/news'), prefix: '/news/' },
@@ -253,6 +255,10 @@ function validate(registry, actions, performance, inventory) {
   for (const url of articleUrls) {
     if (!registryUrls.has(url)) errors.push(`イベント記事が台帳にありません。npm run editorial:sync を実行: ${url}`);
   }
+  // Discovery Gate：重複・見送り理由・importance・関連記事の実在（docs/EDITORIAL_OS.md）
+  const discovery = validateDiscovery(registry.events, new Set(inventory.map((item) => item.url)));
+  errors.push(...discovery.errors);
+  warnings.push(...discovery.warnings);
 
   const actionIds = new Set();
   for (const action of actions.actions) {
@@ -292,7 +298,7 @@ function coverageCandidates(registry) {
       const evidenceScore = ['searchDemand', 'visitorDraw', 'localSpend', 'logisticsDemand']
         .reduce((total, key) => total + signalScore(signals[key] ?? 'unknown'), 0);
       const timingScore = days == null ? 0 : days < 0 ? -10 : days <= 14 ? 8 : days <= 30 ? 5 : days <= 120 ? 2 : 0;
-      const urgency = days != null && days >= 0 && days <= 14 && event.importance === 'large' ? 'urgent' :
+      const urgency = days != null && days >= 0 && days <= 14 && ['large', 'urgent'].includes(event.importance) ? 'urgent' :
         days != null && days >= 0 && days <= 30 ? 'watch' : 'normal';
       return { ...event, daysToStart: days, evidenceScore, score: evidenceScore + timingScore, urgency };
     })
@@ -360,7 +366,7 @@ function actionPriority(action) {
   return ready + value;
 }
 
-function reportMarkdown({ registry, inventory, actions, performance, validation }) {
+function reportMarkdown({ registry, inventory, actions, performance, validation, gate }) {
   const candidates = coverageCandidates(registry);
   const changes = improvementWatchlist();
   const ready = actions.actions.filter((action) => readyNow(action)).sort((a, b) => actionPriority(b) - actionPriority(a));
@@ -409,6 +415,8 @@ function reportMarkdown({ registry, inventory, actions, performance, validation 
     ...(candidates.slice(0, 10).length ? candidates.slice(0, 10).map((event) =>
       `- [${event.urgency}] ${event.name}｜${event.startDate ?? '日程未確認'}｜${event.municipality ?? '地域未設定'}｜根拠スコア${event.evidenceScore}/12｜${event.officialUrl ?? '一次情報未登録'}`
     ) : ['- なし（未発見を意味しない。外部監視は別途必須）']),
+    '',
+    discoveryMarkdown(gate),
     '',
     '## 4. 実装キュー',
     '',
@@ -505,6 +513,11 @@ if (command !== 'daily') {
 }
 if (validation.errors.length) process.exit(1);
 
+const gate = discoveryGate(registry, {
+  today: tokyoDate(),
+  regions: parseRegions(readFileSync(AREAS, 'utf8')),
+  weekly: process.argv.includes('--weekly'),
+});
 mkdirSync(REPORT_DIR, { recursive: true });
 writeJson(join(REPORT_DIR, 'content-inventory.json'), { generatedAt: tokyoDate(), items: inventory });
 writeJson(join(REPORT_DIR, 'daily-brief.json'), {
@@ -512,10 +525,12 @@ writeJson(join(REPORT_DIR, 'daily-brief.json'), {
   dataQuality: { performanceAsOf: performance.asOf, warnings: validation.warnings },
   newsDesk: newsDeskStatus(inventory),
   coverageCandidates: coverageCandidates(registry),
+  discoveryGate: gate,
   improvementWatchlist: improvementWatchlist(),
   readyActions: actions.actions.filter((action) => readyNow(action)),
   scheduledActions: actions.actions.filter((action) => readyScheduled(action)),
 });
-writeFileSync(join(REPORT_DIR, 'daily-brief.md'), reportMarkdown({ registry, inventory, actions, performance, validation }), 'utf8');
+writeFileSync(join(REPORT_DIR, 'daily-brief.md'), reportMarkdown({ registry, inventory, actions, performance, validation, gate }), 'utf8');
 writeFileSync(join(REPORT_DIR, 'claude-implementation-brief.md'), claudeBrief(actions), 'utf8');
 console.log(`日次ブリーフを生成：${relative(ROOT, REPORT_DIR)}`);
+console.log(`Discovery Gate：新規${gate.counts.newlyDiscovered}・重要未掲載${gate.counts.importantUnlisted}・7日以内未掲載${gate.counts.urgent7}・判断待ち${gate.counts.decisionPending}・未検証${gate.counts.unverified}・確認期限${gate.counts.recheckDue}・重複${gate.duplicates.length}組${gate.weeklyInventory ? '（週次棚卸しあり）' : ''}`);
