@@ -581,12 +581,12 @@
       "municipality": "mito",
       "startDate": "2026-10-23",
       "endDate": "2026-10-25",
-      "officialUrl": null,
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?mode=detail&code=1430",
       "discoveredAt": "2026-10-05",
-      "verifiedAt": null,
+      "verifiedAt": "2026-10-17",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -594,7 +594,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "観光いばらきで、10月23日（金）〜25日（日）、会場は水戸駅南口ペデストリアンデッキ、観覧無料・雨天中止、主催は水戸活性化イベント実行委員会を確認。主催者の告知はX・LINEのみで、一次情報ページは未確認。"
+      "notes": "観光いばらきで10/5に発見。10/17、観光いばらきの個別ページ（主催者が掲載）で、10/23（金）18〜20時、24・25日11〜20時30分（終演予定）、水戸駅南口ペデストリアンデッキ、観覧無料・雨天中止、主催は水戸活性化イベント実行委員会、出演者を確認。主催者の告知はX・LINE（ログインが必要なため未確認）。GD決裁で独立記事は作らず、10月まとめに追記（発見から掲載まで12日）。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-events-october-2026/"
+      ]
     },
     {
       "id": "namegata-sunset-festa-2026",
