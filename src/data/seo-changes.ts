@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261016-events-ibaraki-kenmin-no-hi-2026-facilities-fact',
+    date: '2026-10-16',
+    url: '/events/ibaraki-kenmin-no-hi-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：2026年11月13日の無料を施設の公式サイトで直接確認した2施設を追加（茨城県天心記念五浦美術館＝すべての方の入館料無料、いばらきフラワーパーク＝すべての方の入園料無料・9:00〜20:30営業）。要点・見どころ・FAQ・出典に追記し、要点の「2026年の対象は未公表」を「2026年の県の一覧は未確認」に修正。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）の「2026年の施設条件を公式に直接確認できたものから追加」。五浦美術館は #302（ChatGPT）を最新 main に合わせ、文言を公式のご利用案内どおりに直した。フラワーパークは前年（県の一覧）が半額だったが、2026年の公式料金ページでは全員無料。偕楽園・県立歴史館・かみね動物園の公式サイトには 10/16 時点で2026年の県民の日の案内なし。大洗マリンタワーは閲覧できず未確認',
+    experimentType: 'fact',
+  },
+  {
     id: '20261016-events-ibaraki-kenmin-no-hi-2026-description-fact',
     date: '2026-10-16',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
