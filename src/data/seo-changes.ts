@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261016-news-ibaraki-passport-additional-issuance-2026-application-closed',
+    date: '2026-10-16',
+    url: '/news/ibaraki-passport-additional-issuance-2026/',
+    kind: 'on-page',
+    change: '事実の更新：追加申請（2026/10/3 10時〜10/16 18時）の終了に合わせ、「追加申請可能」「今から申し込めますか→はい」など受付中と読める案内を終了に修正。出典に県の電子申請の手続きページを追加。title・description・URL は変更なし',
+    queries: [],
+    commit: '722df1d',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）。観光いばらき公式の期間表示（10/16 18時まで）と、10/16 23時台に県の電子申請で「申込期間ではありません」を確認。同じ画面の「受付時期」欄は 10/3〜10/8 18時と表示され、公式の期間表示と食い違う（記事には書かず GD に報告）',
+    experimentType: 'fact',
+  },
+  {
     id: '20261016-events-ibaraki-kenmin-no-hi-2026-facilities-fact',
     date: '2026-10-16',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
@@ -539,7 +550,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '申請受付終了の案内を、10月3日開始の追加申請期間・対象者別の交付開始日・申請手順へ更新。追加交付短報と相互リンクし、OG画像も追加申請表示へ更新',
     queries: ['茨城パスポート', '茨城パスポート 追加申請', '茨城パスポート 申請'],
     commit: 'acf50cd',
-    note: '変更前直近7日は主ページ897 Views。主要クエリ「茨城パスポート」は307表示・5クリック・CTR 1.63%・平均7.4072位。事実訂正と10月3日の季節期限を優先した即時更新。7日・28日で評価する。',
+    note: '変更前直近7日は主ページ897 Views。主要クエリ「茨城パスポート」は307表示・5クリック・CTR 1.63%・平均7.4072位。事実訂正と10月3日の季節期限を優先した即時更新。7日・28日で評価する。【2026-10-16 追記】追加申請（10/3 10時〜10/16 18時）の終了に合わせ、受付中と読める案内（description の「受け付けます」、FAQ「いまから申し込めますか→はい」など）を過去形・終了に修正（事実の更新。GD 決裁 10/16、observation-exception: fact）。title・URL は変更なし。この修正で観測窓は延ばさず、評価は 10/3 の変更で行う。',
   },
   {
     id: '20260924-en-hitachi-seaside-park-from-tokyo-title',
