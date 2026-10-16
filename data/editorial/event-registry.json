@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-12",
+  "updatedAt": "2026-10-17",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -967,6 +967,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
+    },
+    {
+      "id": "ibaraki-dream-land-2026",
+      "name": "IBARAKI DREAM LAND 2026",
+      "municipality": "kasama",
+      "startDate": "2026-10-17",
+      "endDate": "2026-10-18",
+      "officialUrl": "https://ibaraki-dream-land.com/overview/",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "high",
+        "localSpend": "high",
+        "logisticsDemand": "high"
+      },
+      "notes": "発見漏れの事例。主催者公式8/4発表・8/31出演者発表・10/5タイムテーブル公開。前回約2万人は主催者公表で2026来場者実績ではない。10/17〜18 10:00〜20:00（公式概要）一方アクセスページの臨時バス説明には20:45との記載があり、開催終了時刻を要確認。入場500円・中学生以下無料、入場時公式LINE登録またはアンケート。臨時バス詳細も交通事業者公式で確認。未記事化。開催直前のため即日優先判定。"
     }
   ]
 }
