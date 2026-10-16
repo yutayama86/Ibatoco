@@ -486,6 +486,27 @@
       "notes": "国営ひたち海浜公園公式で10月11日10時〜15時、たまごの森と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
     },
     {
+      "id": "ibaraki-dream-land-2026",
+      "name": "IBARAKI DREAM LAND 2026",
+      "municipality": "kasama",
+      "startDate": "2026-10-17",
+      "endDate": "2026-10-18",
+      "officialUrl": "https://ibaraki-dream-land.com/",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": "/events/ibaraki-dream-land-2026/",
+      "articleUpdatedAt": "2026-10-17",
+      "status": "published",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "high",
+        "localSpend": "high",
+        "logisticsDemand": "high"
+      },
+      "notes": "発見漏れの事例（主催者公式 8/4 開催発表・8/31 出演者発表・10/5 タイムテーブル公開。自治体と既存台帳だけでは見つからず、開催前日に未掲載と判明）。10/17 に記事化。終了時刻の表記差は、主催者FAQで各エリア10:00〜20:00、タイムテーブルでステージ10:00〜20:45（18日20:45〜フィナーレ花火）と分けて記載。公式トップは10:00〜20:45、開催概要ページと茨城交通は10:00〜20:00の表記のまま。直行シャトルバスは茨城交通 2026/10/1 発表（大人500円・小児250円）で確認。主催者アクセスページの茨城交通リンクは2025年版。前回約2万人は主催者公表の参考値で記事には不掲載。"
+    },
+    {
       "id": "chikusei-hanabi-2026",
       "name": "ちくせい花火大会2026",
       "municipality": "chikusei",
@@ -852,7 +873,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-10-06",
       "articleUrl": "/events/tsuchiura-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-08",
+      "articleUpdatedAt": "2026-10-15",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -869,11 +890,11 @@
       "municipality": "oarai",
       "startDate": "2026-11-14",
       "endDate": "2026-11-15",
-      "officialUrl": "https://www.oarai-info.jp/event/",
+      "officialUrl": "https://www.oarai-info.jp/news/postid_8902/",
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-09-20",
       "articleUrl": "/events/oarai-ankou-matsuri-2026/",
-      "articleUpdatedAt": "2026-09-29",
+      "articleUpdatedAt": "2026-10-12",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -936,7 +957,7 @@
       "discoveredAt": "2026-09-30",
       "verifiedAt": "2026-09-30",
       "articleUrl": "/events/tsukuba-marathon-2026/",
-      "articleUpdatedAt": "2026-09-30",
+      "articleUpdatedAt": "2026-10-15",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -967,27 +988,6 @@
         "logisticsDemand": "unknown"
       },
       "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
-    },
-    {
-      "id": "ibaraki-dream-land-2026",
-      "name": "IBARAKI DREAM LAND 2026",
-      "municipality": "kasama",
-      "startDate": "2026-10-17",
-      "endDate": "2026-10-18",
-      "officialUrl": "https://ibaraki-dream-land.com/overview/",
-      "discoveredAt": "2026-10-17",
-      "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
-      "importance": "urgent",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "high",
-        "localSpend": "high",
-        "logisticsDemand": "high"
-      },
-      "notes": "発見漏れの事例。主催者公式8/4発表・8/31出演者発表・10/5タイムテーブル公開。前回約2万人は主催者公表で2026来場者実績ではない。10/17〜18 10:00〜20:00（公式概要）一方アクセスページの臨時バス説明には20:45との記載があり、開催終了時刻を要確認。入場500円・中学生以下無料、入場時公式LINE登録またはアンケート。臨時バス詳細も交通事業者公式で確認。未記事化。開催直前のため即日優先判定。"
     }
   ]
 }
