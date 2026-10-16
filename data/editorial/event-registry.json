@@ -483,7 +483,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "国営ひたち海浜公園公式で10月11日10時〜15時、たまごの森と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+      "notes": "国営ひたち海浜公園公式で10月11日10時〜15時、たまごの森と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。",
+      "relatedArticleUrls": [
+        "/events/hitachi-seaside-kochia-carnival-2026/"
+      ]
     },
     {
       "id": "ibaraki-dream-land-2026",
@@ -546,7 +549,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "国営ひたち海浜公園公式で10月17日・18日10時〜16時、みはらしの里周辺と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+      "notes": "国営ひたち海浜公園公式で10月17日・18日10時〜16時、みはらしの里周辺と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。",
+      "relatedArticleUrls": [
+        "/events/hitachi-seaside-kochia-carnival-2026/"
+      ]
     },
     {
       "id": "mito-hollyhock-urawa-20261017",
@@ -630,7 +636,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "国営ひたち海浜公園公式で10月24日10時〜15時、みはらしの里と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
+      "notes": "国営ひたち海浜公園公式で10月24日10時〜15時、みはらしの里と確認。コキアカーニバル特設記事内で期間中イベントとして掲載済み。",
+      "relatedArticleUrls": [
+        "/events/hitachi-seaside-kochia-carnival-2026/"
+      ]
     },
     {
       "id": "matsuri-yuki-2026",
@@ -714,28 +723,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "国営ひたち海浜公園公式で10月25日10時〜15時40分、水のステージと確認。詳細は10月上旬以降公開予定。コキアカーニバル特設記事内で期間中イベントとして掲載済み。"
-    },
-    {
-      "id": "mito-marathon-2026",
-      "name": "第11回水戸黄門漫遊マラソン",
-      "municipality": "mito",
-      "startDate": "2026-10-25",
-      "endDate": null,
-      "officialUrl": "https://mitokomon-manyu-marathon.com/",
-      "discoveredAt": "2026-09-23",
-      "verifiedAt": "2026-09-23",
-      "articleUrl": "/news/mito-marathon-measurement-chip-2026/",
-      "articleUpdatedAt": "2026-09-23",
-      "status": "published",
-      "importance": "large",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "high"
-      },
-      "notes": "大会公式で10月25日開催、計測チップはナンバーカード裏面、10月2日から発送開始を確認。来訪・消費の数値根拠は未取得のためunknown。"
+      "notes": "国営ひたち海浜公園公式で10月25日10時〜15時40分、水のステージと確認。詳細は10月上旬以降公開予定。コキアカーニバル特設記事内で期間中イベントとして掲載済み。",
+      "relatedArticleUrls": [
+        "/events/hitachi-seaside-kochia-carnival-2026/"
+      ]
     },
     {
       "id": "mito-komon-marathon-2026",
@@ -744,19 +735,22 @@
       "startDate": "2026-10-25",
       "endDate": "2026-10-25",
       "officialUrl": "https://mitokomon-manyu-marathon.com/venue/index.html",
-      "discoveredAt": "2026-09-30",
+      "discoveredAt": "2026-09-23",
       "verifiedAt": "2026-09-30",
       "articleUrl": "/events/mito-komon-marathon-2026/",
       "articleUpdatedAt": "2026-09-30",
       "status": "published",
-      "importance": "normal",
+      "importance": "large",
       "signals": {
         "searchDemand": "unknown",
         "visitorDraw": "unknown",
         "localSpend": "medium",
-        "logisticsDemand": "unknown"
+        "logisticsDemand": "high"
       },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+      "notes": "交通規制の記事（/events/mito-komon-marathon-2026/）と計測チップのニュース（relatedArticleUrls）で掲載。2026-10-17、同じ大会が別IDで2件登録されていたため1件に統合（旧ID mito-marathon-2026）。旧メモ：大会公式で10月25日開催、計測チップはナンバーカード裏面、10月2日から発送開始を確認。来訪・消費の数値根拠は未取得のためunknown。",
+      "relatedArticleUrls": [
+        "/news/mito-marathon-measurement-chip-2026/"
+      ]
     },
     {
       "id": "nakaminato-kaijo-hanabi-2026",
@@ -873,7 +867,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-10-06",
       "articleUrl": "/events/tsuchiura-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-15",
+      "articleUpdatedAt": "2026-10-17",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -969,6 +963,48 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "koga-chochin-saomomi-matsuri-2026",
+      "name": "第166回 古河提灯竿もみまつり",
+      "municipality": "koga",
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-05",
+      "officialUrl": "https://www.kogakanko.jp/chochin",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "medium"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で発見。発見元：観光いばらきの11月〜1月のイベント一覧に無く、古河市観光協会（こがナビ）で確認。公式に「第166回 令和8年（2026年）12月5日（土）開催決定」、特別観覧席の販売決定（詳細は後日）。タイムスケジュールは16:10から子ども部門、18:00〜19:40大人部門（競技もみ）、19:50〜20:25自由もみ、20:30閉会式（参加団体は準備中の表示）。会場・交通・駐車場は公式のアクセスページで要確認。来場者数は未確認。"
+    },
+    {
+      "id": "hitachi-alps-ocean-trail-2026",
+      "name": "日立アルプスOCEANトレイル2026（第3回大会）",
+      "municipality": "hitachi",
+      "startDate": "2026-12-06",
+      "endDate": "2026-12-06",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1365&mode=detail",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "low",
+        "logisticsDemand": "medium"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で発見。発見元：観光いばらきのイベント一覧（2026年12月6日（日））。主催者の公式サイトは未確認のため discovered。参加型のトレイルランで観戦需要は小さい見込み（推測）。記事化よりも12月まとめへの追記候補。"
+    },
+    {
       "id": "kawachi-christmas-illumination-2026",
       "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
       "municipality": "kawachi",
@@ -988,6 +1024,90 @@
         "logisticsDemand": "unknown"
       },
       "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
+    },
+    {
+      "id": "kasama-inari-hatsumode-2027",
+      "name": "笠間稲荷神社の初詣（2027年）",
+      "municipality": "kasama",
+      "startDate": "2027-01-01",
+      "endDate": "2027-01-03",
+      "officialUrl": null,
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "low",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "high"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の候補として登録。既存の笠間稲荷神社ガイド（/events/kasama-inari-jinja-guide/）は通年の駐車場・行き方で、2027年の初詣（交通規制・臨時駐車場・時間）は未掲載。Googleトレンドの「笠間稲荷 初詣」は1（土浦花火の5年最大=100）。終了日の1/3は三が日の目安で、公式の期間ではない。2026〜27年の公式案内は未確認。"
+    },
+    {
+      "id": "kashima-jingu-hatsumode-2027",
+      "name": "鹿島神宮の初詣（2027年）",
+      "municipality": "kashima",
+      "startDate": "2027-01-01",
+      "endDate": "2027-01-03",
+      "officialUrl": null,
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "high"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の候補として登録。対応記事なし。検索需要は未取得（トレンド未比較）。終了日の1/3は三が日の目安で、公式の期間ではない。2026〜27年の交通規制・臨時駐車場の公式案内は未確認。"
+    },
+    {
+      "id": "oarai-hatsuhinode-2027",
+      "name": "大洗の初日の出・大洗磯前神社の初詣（2027年元日）",
+      "municipality": "oarai",
+      "startDate": "2027-01-01",
+      "endDate": "2027-01-01",
+      "officialUrl": null,
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "medium",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "high"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の大型需要として登録。Googleトレンド（相対値・土浦花火の5年最大=100）で「大洗 初日の出」は5、「茨城 初日の出」は4（あんこう祭は2）。対応記事なし。2026〜27年の交通規制・駐車場・神社の案内は10/17時点で未確認のため、大洗町・大洗観光協会・大洗磯前神社の公式発表を待って verified にする。"
+    },
+    {
+      "id": "katsuta-marathon-2027",
+      "name": "第74回勝田全国マラソン",
+      "municipality": "hitachinaka",
+      "startDate": "2027-01-31",
+      "endDate": "2027-01-31",
+      "officialUrl": "https://katsutamarathon.jp/outline/",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "high",
+        "localSpend": "medium",
+        "logisticsDemand": "high"
+      },
+      "notes": "Discovery Gate 初回巡回（10/17）で発見。大会要項（公式）で2027年1月31日（日）雨天決行、マラソン10:30・男子10km 11:10・女子10km 11:40スタート、会場は石川運動ひろば（ひたちなか市）、コースはひたちなか市・東海村。定員はマラソン12,000人・10km 5,000人（公式・要項の値。来場者数ではない）。一般エントリーは10月31日まで。交通規制・駐車場・シャトルは開催30日前（2027/1/1）までに公式を確認。"
     }
   ]
 }
