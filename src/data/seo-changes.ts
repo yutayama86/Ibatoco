@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261030-events-flowerpark-illumination-kenmin',
+    date: '2026-10-30',
+    url: '/events/ibaraki-flowerpark-illumination-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：11月13日（茨城県民の日）はすべての人が入園無料（県民以外も対象、9:00〜20:30、第1部の期間中で点灯17:00、平日のため周遊バスは運休）を要点・開催情報の料金・FAQ（入園料）に追記し、行く日の選び方に「県民の日に無料で行く」を追加（県民の日2026の記事へリンク）。出典に営業日カレンダー 2026年11月と関東鉄道の時刻表を追加。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）②。2026-10-15 の metadata 観測（〜10/29）の終了後に反映。県民の日の記事へのリンクは GD 指定で、SEO の実験ではない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261016-events-ibaraki-kenmin-no-hi-2026-facilities-fact',
     date: '2026-10-16',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
