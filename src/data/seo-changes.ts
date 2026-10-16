@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261017-events-ibaraki-kenmin-no-hi-2026-facility-list',
+    date: '2026-10-17',
+    url: '/events/ibaraki-kenmin-no-hi-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：施設公式で確認した2026年11月13日の無料・割引を、施設別の一覧（無料・割引の内容・対象者・必要な証明）にまとめた（10施設。リンク先は各施設の公式ページ）。土浦市立博物館の無料開館を追加し、2025年に無料だった上高津貝塚が改修で臨時休館中であることを要点・行く前にに追記。FAQ「2026年はどこが無料」を更新。既存施設は 10月17日 に公式で再確認。title・description・URL は変更なし',
+    queries: [],
+    commit: '0b076e1',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）「県民の日：公式確認済み施設を継続追加」。県公式一覧は障害継続中のため、個別施設の一次情報だけで掲載。偕楽園・県立歴史館・かみね動物園・袋田の滝は 10月17日 時点で公式に2026年の案内なし。一覧のリンクは外部（施設公式）だけで、内部リンクの変更は含まない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261016-news-ibaraki-passport-additional-issuance-2026-application-closed',
     date: '2026-10-16',
     url: '/news/ibaraki-passport-additional-issuance-2026/',
