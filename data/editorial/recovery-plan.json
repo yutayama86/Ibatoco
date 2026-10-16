@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-16",
+  "updatedAt": "2026-10-17",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-16",
-    "ga4Through": "2026-10-14",
-    "gscThrough": "2026-10-13",
-    "referenceRunRate30": 16905,
-    "referenceGapViews": 83095,
-    "officialRawRunRate30": 10256,
-    "latest3RawRunRate30": 17470,
-    "incidentAdjustedLatest3ReferenceRunRate30": 17470,
+    "asOf": "2026-10-17",
+    "ga4Through": "2026-10-15",
+    "gscThrough": "2026-10-14",
+    "referenceRunRate30": 17172,
+    "referenceGapViews": 82828,
+    "officialRawRunRate30": 12699,
+    "latest3RawRunRate30": 17840,
+    "incidentAdjustedLatest3ReferenceRunRate30": 17840,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 2393,
-    "recent7DailyAverage": 341.85714285714283,
-    "recent3Views": 1747,
-    "recent3DailyAverage": 582.3333333333334,
+    "recent7Views": 2963,
+    "recent7DailyAverage": 423.2857142857143,
+    "recent3Views": 1784,
+    "recent3DailyAverage": 594.6666666666666,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日と障害日除外7日は回復を示すが、11月需要を重複なく積み上げたportfolioは未確定。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日と障害日除外7日は回復後の横ばいを示すが、11月需要を重複なく積み上げたportfolioは未確定。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -137,7 +137,7 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-16",
+    "date": "2026-10-17",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
@@ -145,11 +145,15 @@
     "factsReleased": [],
     "incrementalViewsObserved": null,
     "growthImplementations": 0,
-    "growthImplementation": "なし（観測窓中の重点ページを再改修せず、実測同期とCTA分類訂正のみ）",
+    "growthImplementation": "なし（予約MVPと重点季節ページが観測窓中。実測同期・CTR校正は獲得PVに計上しない）",
     "expectedPvImpact": 0,
     "expectedPvImpactConfidence": "none",
-    "observationWindow": null,
-    "nextConcreteAction": "10/17確定後に予約MVPを評価し、10/18に土浦花火PR #292を公式再確認・最新GSC反映後に実装する。",
+    "observationWindow": "予約MVP 2026-10-11..17、10/17確定後に評価",
+    "blockers": [
+      "予約MVPの10/16〜17が未確定",
+      "土浦花火は10/18の公式再確認・観測解除待ち"
+    ],
+    "nextConcreteAction": "10/18に土浦花火の一次情報と最新GSCを再確認し、検索意図不足の最小改善を実装候補へ再選別する。10/19に予約MVP7日窓と需要配分をcheckpoint評価する。",
     "nextDemandCheckpoint": "2026-10-19"
   }
 }
