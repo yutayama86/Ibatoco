@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261017-news-ibaraki-passport-44-municipalities-status',
+    date: '2026-10-17',
+    url: '/news/ibaraki-passport-44-municipalities/',
+    kind: 'on-page',
+    change: '事実の更新：「10月10日から交付予定」「受け取るには9月の申請が必要」など古い交付日・申請条件を、公式で確認できた現状（10/10交付開始、初回は抽選、初回落選者と追加申請者は11/10〜2027/3/31に順次交付、申請受付は終了）に修正。description の「開始予定」も過去形に。title・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 依頼（10/17）。観光いばらき公式の特設ページ（10/17確認）。発行部数10,000部は9/10資料の値として出典つきで残した（追加交付後の総数は未確認）',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261017-events-tsuchiura-hanabi-2026-kamitakatsuka-closed',
+    date: '2026-10-17',
+    url: '/events/tsuchiura-hanabi-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：上高津貝塚ふるさと歴史の広場が改修で臨時休館中（2026/9/1〜2028/4末ごろ予定）で、駐車場・広場・屋外トイレは大会当日も利用不可（土浦市、2026/5/2）を「行く前に」に追記し、出典を追加。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 依頼（10/17）。#292（title・description、10/18）とは別の事実更新。予約導線（CTA）は変更なし',
+    experimentType: 'fact',
+  },
+  {
     id: '20261017-events-ibaraki-kenmin-no-hi-2026-facility-list',
     date: '2026-10-17',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
