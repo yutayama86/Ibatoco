@@ -689,12 +689,12 @@
       "municipality": "hitachiota",
       "startDate": "2026-10-24",
       "endDate": "2026-11-21",
-      "officialUrl": null,
+      "officialUrl": "https://www.kanko-hitachiota.com/page/page002131.html",
       "discoveredAt": "2026-10-05",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": "/events/satomi-kakashi-matsuri-2026/",
+      "articleUpdatedAt": "2026-10-17",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -702,7 +702,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "観光いばらきで、令和8年10月24日（土）〜11月21日（土）、会場は里美ふれあい館イベント広場、問い合わせはさとみ祭り実行委員会を確認。リンク先の常陸太田市観光物産協会のページは前回（第38回、10月25日〜11月22日）の内容のままで、2026年の日程は一次情報で未確認。"
+      "notes": "観光いばらきで10/5に発見（当時は観光物産協会のページが前回の内容）。10/17、常陸太田市観光物産協会の2026年版告知（9/25）で日程・会場・音楽祭と味覚祭の時間を確認し記事化。クラフトマルシェ（11/7・8 10〜15時）は観光いばらきの記載。料金・駐車場・雨天対応・展示時間は2026年の公式発表に記載なし（旅行会社サイトの入場無料・駐車場80台は二次情報のため不採用）。発見から公開まで12日。"
     },
     {
       "id": "hitachi-seaside-wind-music-carnival-2026",
