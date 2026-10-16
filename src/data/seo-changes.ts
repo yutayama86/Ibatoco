@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261025-events-november-2026-flowerpark-kenmin',
+    date: '2026-10-25',
+    url: '/events/ibaraki-events-november-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：いばらきフラワーパークの11月13日（茨城県民の日）全員入園無料（県民以外も対象、9:00〜20:30）を要点・フラワーパークの候補に追記し、県民の日の候補を1件追加（県民の日2026の記事へリンク）。出典に営業時間・料金（2026年11月の営業日カレンダー）を追加。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）①。2026-10-10 の internal-link 観測（〜10/24）の終了後に反映。県民の日の記事へのリンクは GD 指定で、SEO の実験ではない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261016-events-ibaraki-kenmin-no-hi-2026-facilities-fact',
     date: '2026-10-16',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
