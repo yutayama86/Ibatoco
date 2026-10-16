@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261016-events-ibaraki-kenmin-no-hi-2026-description-fact',
+    date: '2026-10-16',
+    url: '/events/ibaraki-kenmin-no-hi-2026/',
+    kind: 'on-page',
+    change: '事実更新：description の「2026年の一覧は9月28日時点で県が未公表」を、現状（県公式の一覧はサイト障害で本文を確認できない。竜神大吊橋・アクアワールド・ムーミンバレーパークなど施設の公式案内と前年実績を分けて紹介）に差し替え。title・URL・本文は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）の採用案どおり。この URL は変更履歴なし（観測窓なし）。県公式一覧（/bugai/koho/kenmin/kenminnohi/kenmin/discount.html）の相違の記録：GD は検索エンジンの保存内容で「令和8年度県民の日の入場料無料・割引、イベント情報」（2026年10月1日更新）を確認。一方、10月16日の実際の表示は県サイト障害（県の報道発表「県ホームページの障害について」第1報 10/7〜第3報 10/8）の臨時ページへの転送で、本文を確認できない。Claude Code の検索では、この題・保存内容は再現できなかった（9/28 に直接確認した版は令和7年度）。保存内容は現行の施設条件として採用せず、施設別の条件は各施設の公式発表で直接確認できたものだけ載せる。関連：#300（ムーミン）・#301（出典状況の書き直し）',
+    experimentType: 'fact',
+  },
+  {
     id: '20261015-events-tsukuba-marathon-2026-tx-correction',
     date: '2026-10-15',
     url: '/events/tsukuba-marathon-2026/',
