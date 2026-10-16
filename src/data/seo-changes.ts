@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '事実の更新：追加申請（2026/10/3 10時〜10/16 18時）の終了に合わせ、「追加申請可能」「今から申し込めますか→はい」など受付中と読める案内を終了に修正。出典に県の電子申請の手続きページを追加。title・description・URL は変更なし',
     queries: [],
-    commit: 'PENDING',
+    commit: '722df1d',
     note: '事実の更新（観測窓0日）。Growth Director 決裁（10/16）。観光いばらき公式の期間表示（10/16 18時まで）と、10/16 23時台に県の電子申請で「申込期間ではありません」を確認。同じ画面の「受付時期」欄は 10/3〜10/8 18時と表示され、公式の期間表示と食い違う（記事には書かず GD に報告）',
     experimentType: 'fact',
   },
