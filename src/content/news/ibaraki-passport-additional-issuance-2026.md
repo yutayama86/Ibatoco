@@ -2,7 +2,7 @@
 title: "IBARAKI PASSPORT追加交付が決定｜10月3日から追加申請、11月10日から順次交付"
 description: "IBARAKI PASSPORTの追加交付が決定。初回抽選の落選者は再申請不要で交付対象、新規申請は2026年10月3日10時〜10月16日18時、追加交付は11月10日から順次始まります。"
 pubDate: 2026-10-02
-updatedDate: 2026-10-02
+updatedDate: 2026-10-16
 author: "イバトコ編集部"
 category: tourism
 tags:
@@ -19,11 +19,11 @@ draft: false
 reviewed: true
 sample: false
 noindex: false
-conclusion: "茨城県の「IBARAKI PASSPORT（イバラキパスポート）」で追加交付が決定しました。初回申請で抽選に落選した人は再申請不要で追加交付の対象です。さらに、まだ申請していない人も2026年10月3日（土）10:00〜10月16日（金）18:00に追加申請できます。追加交付は11月10日（火）から順次始まる予定です。新規申請者は応募多数の場合、交付時期が複数回に分かれる可能性があります。"
+conclusion: "茨城県の「IBARAKI PASSPORT（イバラキパスポート）」で追加交付が決定しました。初回申請で抽選に落選した人は再申請不要で追加交付の対象です。初回に申請していなかった人向けの追加申請（2026年10月3日（土）10:00〜10月16日（金）18:00）は終了しました。追加交付は11月10日（火）から順次始まる予定です。新規申請者は応募多数の場合、交付時期が複数回に分かれる可能性があります。"
 guide:
   summaryCards:
     - label: "追加申請期間"
-      value: "10月3日（土）10:00〜10月16日（金）18:00"
+      value: "10月16日（金）18:00で終了"
       emphasis: true
     - label: "追加交付開始"
       value: "11月10日（火）から順次"
@@ -32,7 +32,7 @@ guide:
       value: "再申請不要"
       emphasis: true
     - label: "まだ申請していない人"
-      value: "追加申請可能"
+      value: "追加申請は終了"
   sections:
     - id: "additional-issuance"
       heading: "IBARAKI PASSPORTの追加交付が決定"
@@ -44,12 +44,12 @@ guide:
       notes:
         - "追加交付は11月10日（火）から順次開始予定です。新規申請者は応募多数の場合、交付時期が複数回に分かれると案内されています。"
     - id: "application"
-      heading: "追加申請は10月3日10時から"
+      heading: "追加申請は10月16日18時で終了"
       kicker: "APPLY"
-      lead: "まだIBARAKI PASSPORTを申請していない人は、追加申請できます。"
+      lead: "追加申請は10月16日18時で終了しました。以下は受付期間中の手順の記録です。"
       steps:
         - title: "申請期間を確認"
-          detail: "2026年10月3日（土）10:00〜10月16日（金）18:00です。締切直前は混雑する可能性があるため、余裕をもって申請するのがおすすめです。"
+          detail: "2026年10月3日（土）10:00〜10月16日（金）18:00でした（終了）。"
         - title: "公式サイトから申請"
           detail: "IBARAKI PASSPORT公式ページから「いばらき電子申請・届出サービス」に進み、案内に沿って手続きします。"
         - title: "申請完了メールを確認"
@@ -110,20 +110,23 @@ faq:
   - question: "初回抽選で落選しました。もう一度申請する必要がありますか？"
     answer: "いいえ。2026年10月2日の茨城県公式観光Xの案内では、初回申請で落選した人は再申請なしで追加交付の対象になるとされています。"
   - question: "まだ一度も申請していません。今から申し込めますか？"
-    answer: "はい。追加申請期間は2026年10月3日（土）10:00から10月16日（金）18:00までです。公式サイトから手続きしてください。"
+    answer: "いいえ。追加申請は2026年10月16日（金）18:00で終了しました。初回抽選で落選した人は再申請なしで追加交付の対象です。"
   - question: "追加交付はいつからですか？"
     answer: "2026年11月10日（火）から順次交付予定です。新規申請者は応募多数の場合、交付時期を複数回に分けると案内されています。"
   - question: "初回当選者はいつから受け取れますか？"
     answer: "公式サイトでは2026年10月10日（土）から交付開始予定と案内されています。10月10日〜12日は茨城県三の丸庁舎の特設窓口、10月13日以降は茨城県庁と東京渉外局の通常窓口が案内されています。"
   - question: "県外在住でも申請できますか？"
-    answer: "茨城県公式観光Xでは、茨城県民・県外在住者の双方に応募を呼びかけています。最新の申請条件は公式サイトの申請画面で確認してください。"
+    answer: "茨城県公式観光Xでは、茨城県民・県外在住者の双方に応募を呼びかけていました。追加申請は2026年10月16日（金）18:00で終了しています。"
 sourceUrls:
   - label: "観光いばらき公式｜IBARAKI PASSPORT 追加交付開始（2026年10月2日）"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
     accessedAt: 2026-10-03
   - label: "観光いばらき公式｜IBARAKI PASSPORT"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
-    accessedAt: 2026-10-03
+    accessedAt: 2026-10-16
+  - label: "いばらき電子申請・届出サービス｜「IBARAKI PASSPORT」追加交付申請受付（10月16日夜に「申込期間ではありません」と表示）"
+    url: "https://apply.e-tumo.jp/pref-ibaraki-u/offer/offerList_detail?tempSeq=94822"
+    accessedAt: 2026-10-16
   - label: "観光いばらき公式｜IBARAKI PASSPORTのお問い合わせ"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/page002241.html"
     accessedAt: 2026-10-02
