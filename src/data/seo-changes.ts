@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式発表の反映：MITO AUTUMN FESTA 2026（10/23〜25、水戸駅南口ペデストリアンデッキ、観覧無料・雨天中止）を要点と候補に追記し、出典に観光いばらきを追加。title・description・URL は変更なし',
     queries: [],
-    commit: 'PENDING',
+    commit: 'b7ba334',
     note: '事実の更新（観測窓0日）。Growth Director 決裁（10/17）P1「10月イベントまとめへの追記を優先、独立記事は不要」。この URL の変更履歴は 10/15 の fact だけで、観測中の実験はない。Discovery Gate で 10/5 に発見',
     experimentType: 'fact',
   },
