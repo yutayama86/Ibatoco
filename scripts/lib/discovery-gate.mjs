@@ -133,15 +133,18 @@ export function discoveryGate(registry, { today, regions = new Map(), weekly = f
   const open = events.filter((e) => !CLOSED_STATUS.has(e.status));
   const withDays = open.map((e) => ({ ...e, daysToStart: isDate(e.startDate) ? daysUntil(today, e.startDate) : null }));
   const upcoming = (max) => withDays.filter((e) => e.daysToStart != null && e.daysToStart >= 0 && e.daysToStart <= max);
+  // 開催中（開始日は過ぎたが終了日前）のものも、未掲載なら当日の判断が必要
+  const ongoing = withDays.filter((e) => e.daysToStart != null && e.daysToStart < 0 && isDate(e.endDate) && daysUntil(today, e.endDate) >= 0);
   // 単独記事（articleUrl）か、まとめ記事などでの掲載（relatedArticleUrls）があれば掲載済み
   const unlisted = (e) => !e.articleUrl && !(e.relatedArticleUrls?.length);
-  const brief = (e) => ({ id: e.id, name: e.name, startDate: e.startDate ?? null, daysToStart: e.daysToStart, municipality: e.municipality ?? null, region: regionOf(e.municipality, regions), status: e.status, importance: e.importance ?? 'normal', officialUrl: e.officialUrl ?? null, articleUrl: e.articleUrl ?? e.relatedArticleUrls?.[0] ?? null });
+  const brief = (e) => ({ id: e.id, name: e.name, startDate: e.startDate ?? null, endDate: e.endDate ?? null, daysToStart: e.daysToStart, municipality: e.municipality ?? null, region: regionOf(e.municipality, regions), status: e.status, importance: e.importance ?? 'normal', officialUrl: e.officialUrl ?? null, articleUrl: e.articleUrl ?? e.relatedArticleUrls?.[0] ?? null });
 
   const newlyDiscovered = events.filter((e) => isDate(e.discoveredAt) && daysUntil(e.discoveredAt, today) <= 1).map((e) => brief({ ...e, daysToStart: isDate(e.startDate) ? daysUntil(today, e.startDate) : null }));
-  const importantUnlisted = withDays.filter((e) => unlisted(e) && ['large', 'urgent'].includes(e.importance) && (e.daysToStart == null || e.daysToStart >= 0)).map(brief);
-  const urgent7 = upcoming(7).filter(unlisted).map(brief);
+  const notOver = (e) => e.daysToStart == null || e.daysToStart >= 0 || ongoing.includes(e);
+  const importantUnlisted = withDays.filter((e) => unlisted(e) && ['large', 'urgent'].includes(e.importance) && notOver(e)).map(brief);
+  const urgent7 = [...ongoing, ...upcoming(7)].filter(unlisted).map(brief);
   const decisionPending = upcoming(30).filter(unlisted).map(brief);
-  const unverified = withDays.filter((e) => (e.status === 'discovered' || !e.officialUrl || !isDate(e.verifiedAt)) && (e.daysToStart == null || e.daysToStart >= 0)).map(brief);
+  const unverified = withDays.filter((e) => (e.status === 'discovered' || !e.officialUrl || !isDate(e.verifiedAt)) && notOver(e)).map(brief);
   const due = open.map((e) => recheckDue(e, today)).filter(Boolean).sort((a, b) => a.daysToStart - b.daysToStart);
   const skipped = events.filter((e) => e.status === 'rejected').map((e) => ({ id: e.id, name: e.name, startDate: e.startDate ?? null, skipReason: e.skipReason ?? null }));
   const scan = upcoming(90).filter((e) => e.daysToStart > 30).map(brief);
@@ -186,7 +189,7 @@ export function discoveryGate(registry, { today, regions = new Map(), weekly = f
 
 /** 毎朝の報告（daily-brief.md）に入れる Markdown */
 export function discoveryMarkdown(gate) {
-  const line = (e) => `- ${e.name}｜${e.startDate ?? '日程未確認'}${e.daysToStart != null ? `（${e.daysToStart}日後）` : ''}｜${e.region}｜${e.status}・${e.importance}｜${e.articleUrl ?? e.officialUrl ?? '一次情報未登録'}`;
+  const line = (e) => `- ${e.name}｜${e.startDate ?? '日程未確認'}${e.daysToStart == null ? '' : e.daysToStart < 0 ? `（開催中・${e.endDate ?? ''}まで）` : `（${e.daysToStart}日後）`}｜${e.region}｜${e.status}・${e.importance}｜${e.articleUrl ?? e.officialUrl ?? '一次情報未登録'}`;
   const list = (rows, empty) => (rows.length ? rows.map(line) : [`- ${empty}`]);
   const out = [
     '## Discovery Gate（イベント取りこぼし防止）',
@@ -195,7 +198,7 @@ export function discoveryMarkdown(gate) {
     '',
     `- 新規発見（前日〜本日に登録）: ${gate.counts.newlyDiscovered}件`,
     `- 重要未掲載（large / urgent）: ${gate.counts.importantUnlisted}件`,
-    `- 開催7日以内の未掲載（緊急）: ${gate.counts.urgent7}件`,
+    `- 開催中・開催7日以内の未掲載（緊急）: ${gate.counts.urgent7}件`,
     `- 開催30日以内の未掲載（記事化・追記・見送りの判断待ち）: ${gate.counts.decisionPending}件`,
     `- 未検証（discovered・一次情報URLや確認日の欠落）: ${gate.counts.unverified}件`,
     `- 開催前の確認期限が来ているもの: ${gate.counts.recheckDue}件`,
@@ -203,7 +206,7 @@ export function discoveryMarkdown(gate) {
     `- 見送りの記録: ${gate.counts.skipped}件`,
     `- 重複の疑い: ${gate.duplicates.length}組`,
     '',
-    '### 開催7日以内の未掲載（本日中に記事化・追記・見送りを決める）',
+    '### 開催中・開催7日以内の未掲載（本日中に記事化・追記・見送りを決める）',
     '',
     ...list(gate.urgent7, 'なし'),
     '',
