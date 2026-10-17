@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261025-events-november-discovery-additions',
+    date: '2026-10-25',
+    url: '/events/ibaraki-events-november-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：里美かかし祭（〜11/21、記事への内部リンク）、奥久慈茶カフェ巡り2026 第3弾（11/14・15）、好文マロンフェア（〜11/23）を要点と候補に追記し、出典4件を追加。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/17）。#304（フラワーパークの県民の日）の後に適用。里美かかし祭への内部リンクは GD 指定で、SEO の実験ではない。カフェ巡りの料金と景品の中身は未確認のため書かない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261017-events-october-marron-fair',
     date: '2026-10-17',
     url: '/events/ibaraki-events-october-2026/',
