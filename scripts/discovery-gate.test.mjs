@@ -70,7 +70,17 @@ test('日次ゲート：単独記事かまとめ記事への掲載があれば�
   assert.deepEqual(gate.scan30to90.map((e) => e.id), ['big']);
   assert.equal(gate.urgent7[0].region, '県央');
   assert.equal(gate.weeklyInventory, null); // 土曜は週次なし
-  assert.match(discoveryMarkdown(gate), /開催7日以内の未掲載（緊急）: 1件/);
+  assert.match(discoveryMarkdown(gate), /開催中・開催7日以内の未掲載（緊急）: 1件/);
+});
+
+test('日次ゲート：開催中（開始日は過ぎたが終了前）の未掲載も緊急に出す。終わったものは出さない', () => {
+  const registry = { events: [
+    ev({ id: 'ongoing', name: '開催中', startDate: '2026-10-16', endDate: '2026-10-25', status: 'discovered' }),
+    ev({ id: 'done', name: '終了', startDate: '2026-10-10', endDate: '2026-10-16' }),
+  ] };
+  const gate = discoveryGate(registry, { today: TODAY });
+  assert.deepEqual(gate.urgent7.map((e) => e.id), ['ongoing']);
+  assert.deepEqual(gate.unverified.map((e) => e.id), ['ongoing']);
 });
 
 test('週次棚卸し：月曜か --weekly のとき、今後90日を地域別・週別に出す', () => {

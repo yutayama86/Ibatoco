@@ -489,6 +489,27 @@
       ]
     },
     {
+      "id": "mito-international-music-festival-2026",
+      "name": "水戸国際音楽祭2026",
+      "municipality": "mito",
+      "startDate": "2026-10-16",
+      "endDate": "2026-10-25",
+      "officialUrl": "https://mito-musicfestival.jp/",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "low"
+      },
+      "notes": "Discovery Gate の巡回（10/17）で観光いばらき（code=1344）から発見。開催中（10/16〜20、22〜25）。会場は水戸市民会館・偕楽園・弘道館・常磐神社・県立歴史館・大洗磯前神社・笠間稲荷神社・笠間芸術の森など。主催は水戸国際音楽祭実行委員会（一社 みと音楽工房）。公式サイト（mito-musicfestival.jp）は未確認のため discovered。開催中で残り日数が少なく、記事化・追記・見送りは編集判断待ち。"
+    },
+    {
       "id": "ibaraki-dream-land-2026",
       "name": "IBARAKI DREAM LAND 2026",
       "municipality": "kasama",
@@ -901,6 +922,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "nishikanasa-tozan-marathon-2026",
+      "name": "第27回 西金砂登山マラソン",
+      "municipality": "hitachiota",
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.kanko-hitachiota.com/page/page002128.html",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "low",
+        "localSpend": "low",
+        "logisticsDemand": "medium"
+      },
+      "notes": "Discovery Gate の巡回（10/17）で常陸太田市観光物産協会のお知らせから発見。公式で11月15日（日）雨天決行、会場は西金砂湯けむりの郷「金砂の湯」前、14kmの部10:00・5kmの部10:05スタート、申込は9月30日で締切、正午に交通規制解除。参加型（中学生以下は参加不可）で、エントリーは締め切り済み。記事化・11月まとめへの追記・見送りは編集判断待ち。来場規模の根拠は未取得。"
     },
     {
       "id": "tsuchiura-curry-festival-2026",
