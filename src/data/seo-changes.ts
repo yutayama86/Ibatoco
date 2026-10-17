@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式発表の反映：好文マロンフェア（9/18〜11/23、みと好文テラス、栗のメニュー）を要点と候補に追記。10/24 17:00〜25 15:00 は水戸黄門漫遊マラソンで好文テラスの駐車場が使えないことも記載。出典3件を追加。title・description・URL は変更なし',
     queries: [],
-    commit: 'PENDING',
+    commit: 'e9829c4',
     note: '事実の更新（観測窓0日）。Growth Director 追加決裁（10/17）P1「10月まとめへの追記を承認、独立記事は不要」。11月まとめへの追記は 10/25 以降の候補（観測中のため）。この URL の変更履歴は fact だけ',
     experimentType: 'fact',
   },
