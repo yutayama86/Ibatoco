@@ -496,10 +496,10 @@
       "endDate": "2026-10-25",
       "officialUrl": "https://mito-musicfestival.jp/",
       "discoveredAt": "2026-10-17",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": "/events/mito-international-music-festival-2026/",
+      "articleUpdatedAt": "2026-10-17",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -507,7 +507,7 @@
         "localSpend": "medium",
         "logisticsDemand": "low"
       },
-      "notes": "Discovery Gate の巡回（10/17）で観光いばらき（code=1344）から発見。開催中（10/16〜20、22〜25）。会場は水戸市民会館・偕楽園・弘道館・常磐神社・県立歴史館・大洗磯前神社・笠間稲荷神社・笠間芸術の森など。主催は水戸国際音楽祭実行委員会（一社 みと音楽工房）。公式サイト（mito-musicfestival.jp）は未確認のため discovered。開催中で残り日数が少なく、記事化・追記・見送りは編集判断待ち。"
+      "notes": "Discovery Gate の巡回（10/17）で観光いばらきから発見し、同日に公式サイト（公演プログラム・各公演ページ・チケット・アクセス）で確認して記事化（発見から公開まで0日）。単券・学生券・パス・ツアー券の料金、公演別の日時・会場・荒天時の会場、無料公演（駅コンサート・マーケット・地域参加）を掲載。残券・空席は扱わない。会場間の臨時バスは公式で準備中。"
     },
     {
       "id": "ibaraki-dream-land-2026",
