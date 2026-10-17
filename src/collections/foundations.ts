@@ -36,6 +36,20 @@ export const bookingSchema = z.object({
     url: z.url(),
     note: z.string().min(1).optional(),
     kind: z.enum(['official', 'ota', 'ticket', 'transport']).default('official'),
+    /**
+     * この申込先の受付期限（日本時間でこの日まで）。公式・申込ページで確認できた期限だけを入れる。
+     * 期限の翌日からは label を表示するだけで、リンク（公式の案内）は残す。受付全体の終了を断定しない。
+     * 延長されたら date・checkedAt・label を直す。確認日の無い期限は書かない（自動では何も変えない）
+     */
+    deadline: z.object({
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      /** 期限の翌日から出す文言。例「観覧席の申込期限（10月18日）を過ぎました」 */
+      label: z.string().min(1),
+      /** 期限を公式・申込ページで確認した日 */
+      checkedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      /** 期限を確認したページ（任意） */
+      source: z.url().optional(),
+    }).optional(),
   })).min(2),
   note: z.string().min(1).optional(),
 });

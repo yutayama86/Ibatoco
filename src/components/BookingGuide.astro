@@ -18,6 +18,8 @@ export interface BookingItem {
   url: string;
   note?: string;
   kind?: 'official' | 'ota' | 'ticket' | 'transport';
+  /** この申込先の受付期限（日本時間でこの日まで）。翌日から label を表示する。リンクは残す */
+  deadline?: { date: string; label: string; checkedAt: string; source?: string };
 }
 export interface Booking {
   heading: string;
@@ -72,6 +74,8 @@ const KIND_LABEL: Record<string, string> = {
           data-partner-status={partnerStatus(item.provider)}
           data-monetization-state={monetizationState(item.provider, item.url)}
           data-is-paid={isPaidLink(item.provider, item.url) ? '1' : '0'}
+          data-deadline={item.deadline?.checkedAt ? item.deadline.date : ''}
+          data-deadline-label={item.deadline?.checkedAt ? item.deadline.label : ''}
         >
           <span class="bkg__meta">
             <span class="bkg__kind">{KIND_LABEL[item.kind ?? 'official']}</span>
@@ -95,10 +99,32 @@ const KIND_LABEL: Record<string, string> = {
 
 <script>
   import { commonParams, trackEvent } from '../lib/analytics-events';
+  import { dateOnlyFromInstant, parseDateOnly } from '../lib/date-only.js';
 
   for (const block of document.querySelectorAll<HTMLElement>('[data-booking-guide]')) {
     const pageType = block.dataset.pageType ?? '';
     const links = Array.from(block.querySelectorAll<HTMLAnchorElement>('a[data-provider]'));
+    // 申込先ごとの受付期限（公式・申込ページで確認できたものだけ）。日本時間で期限の翌日から、
+    // その申込先の期限を過ぎたことを文言で示す。静的ページを再デプロイしなくても切り替わる。
+    // リンクは外さない（公式の案内・ほかの申込方法・延長の案内を見られるように）。受付全体の終了は断定しない
+    const today = dateOnlyFromInstant(new Date()).valueOf();
+    for (const link of links) {
+      const deadline = link.dataset.deadline;
+      const label = link.dataset.deadlineLabel;
+      if (!deadline || !label) continue;
+      let date: number;
+      try { date = parseDateOnly(deadline).valueOf(); } catch { continue; }
+      if (today <= date) continue;
+      link.dataset.deadlinePassed = '1';
+      const strong = link.querySelector('strong');
+      if (strong && !link.querySelector('[data-deadline-badge]')) {
+        const badge = document.createElement('span');
+        badge.dataset.deadlineBadge = '1';
+        badge.className = 'bkg__deadline';
+        badge.textContent = label;
+        strong.after(badge);
+      }
+    }
     const experimentEnabled = block.dataset.experimentEnabled === '1';
     const experimentId = block.dataset.experimentId ?? '';
     let experimentVariant: 'a' | 'b' = 'a';
@@ -179,6 +205,12 @@ const KIND_LABEL: Record<string, string> = {
           experiment_id: experimentEnabled ? experimentId : undefined,
           experiment_variant: experimentEnabled ? experimentVariant : undefined,
         };
+        // 申込先の期限を過ぎた項目のクリックは、送客（予約の機会）と混ぜないよう別のイベント名で数える。
+        // outbound_booking_click・paid_booking_click・提携送客率（MVP の主KPI）には入れない
+        if (link.dataset.deadlinePassed === '1') {
+          trackEvent('booking_deadline_passed_click', clickParams);
+          return;
+        }
         trackEvent('outbound_booking_click', clickParams);
         // 提携（成果報酬）リンクだけを数えるイベント。outbound_booking_click の内数（同じパラメータ）。
         // is_paid_link はカスタムディメンション未登録では集計できないため、イベント名で直接数えられるようにする（Revenue Funnel の「ASPへの送客クリック」）
@@ -203,6 +235,7 @@ const KIND_LABEL: Record<string, string> = {
   .bkg__item{display:grid;grid-template-columns:minmax(0,1fr);gap:.35rem;padding:.9rem 1rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:.85rem;background:var(--interior-sky-soft,var(--color-white));color:var(--color-ink);text-decoration:none;transition:border-color .2s ease,box-shadow .2s ease}
   .bkg__item:hover,.bkg__item:focus-visible{border-color:var(--interior-blue,var(--color-tide));box-shadow:0 10px 26px rgba(25,55,88,.1)}
   .bkg__item:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
+  .bkg__deadline{justify-self:start;padding:.15rem .5rem;border-radius:.4rem;background:var(--color-mist);color:var(--color-soil);font:700 .7rem/1.5 var(--font-brand-meta)}
   .bkg__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
   .bkg__kind{padding:.1rem .45rem;border-radius:999px;background:var(--color-ink);color:#fff;font:700 .62rem var(--font-brand-meta);letter-spacing:.06em}
   .bkg__provider{color:var(--color-soil);font:700 .72rem var(--font-brand-meta)}

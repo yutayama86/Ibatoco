@@ -71,6 +71,7 @@ const ALLOWED_EVENTS = new Set([
   'outbound_booking_click_a',
   'outbound_booking_click_b',
   'paid_booking_click', // 提携リンクのクリックだけ（outbound_booking_click の内数。2026-10-10）
+  'booking_deadline_passed_click', // 申込先の期限を過ぎた予約案内のクリック（送客とは別に数える。#198）
   'business_cta_view',
   'business_cta_click',
   'contact_form_view',
