@@ -155,16 +155,16 @@
     },
     {
       "id": "daigo-tea-cafe-stamp-rally-2026",
-      "name": "大子茶カフェスタンプラリー",
+      "name": "奥久慈茶カフェ巡り2026（お茶カフェ巡りスタンプラリー）",
       "municipality": "daigo",
       "startDate": "2026-09-19",
       "endDate": "2026-11-15",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php",
+      "officialUrl": "https://okukuji-chanosato.com/%e5%a5%a5%e4%b9%85%e6%85%88%e8%8c%b6%e3%82%ab%e3%83%95%e3%82%a7%e5%b7%a1%e3%82%8a/",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-21",
+      "verifiedAt": "2026-10-17",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -172,7 +172,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "県公式一覧では9月19〜21日、10月10〜12日、11月14〜15日の分散開催。startDate/endDateは全体期間で、連続開催ではない。主催者個別URL、会場、料金、交通は未確認。"
+      "notes": "10/17 再確認。公式（奥久慈茶の里公園の「奥久慈茶カフェ巡り」ページの2026年ポスター）：奥久慈3茶園＋大子町の7店舗、8日間（第1弾9/19〜21、第2弾10/10〜12、第3弾11/14・15）、主催 奥久慈茶カフェ巡り2026実行委員会、協賛 奥久慈茶業組合、後援 大子町・大子町観光協会、シールを集めると景品。観光いばらき（code=1408）：参加店舗と茶園ごとの営業日・時間・スイーツセット、4つ以上シールを集めると参加特典、問い合わせ 0295-78-0729（高見園）。未確認：スイーツセットの料金（660円は第三者のSNS投稿のみ）、景品の中身。公式ページ本文の日付は「2025年」と誤記（曜日は2026年と一致）。記事化はしない。追記案：第3弾（11/14・15）を11月まとめ（10/25以降）と袋田の滝の紅葉記事（観測終了10/28以降）に1行で載せる。終了日 11/15 は第3弾の最終日（全期間の通しではなく3回の分散開催）。"
     },
     {
       "id": "tonegawa-hanabi-2026",
