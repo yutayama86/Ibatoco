@@ -110,6 +110,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "jaxa-tsukuba-space-center-guide": "/images/card/jaxa-tsukuba-space-center-guide-866134fe.png",
   "joso-kinugawa-hanabi-2026": "/images/card/joso-kinugawa-hanabi-2026-d1446ad4.png",
   "kairakuen-guide": "/images/card/kairakuen-guide-6c5eb34d.png",
+  "kamine-park-autumn-festival-2-2026": "/images/card/kamine-park-autumn-festival-2-2026-ae31d8b3.png",
   "kamine-zoo-guide": "/images/card/kamine-zoo-guide-ae31d8b3.png",
   "kasama-geijutsu-no-mori-guide": "/images/card/kasama-geijutsu-no-mori-guide-0e48f13d.png",
   "kasama-inari-jinja-guide": "/images/card/kasama-inari-jinja-guide-0e48f13d.png",
