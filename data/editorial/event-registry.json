@@ -92,9 +92,9 @@
       "municipality": "mito",
       "startDate": "2026-09-18",
       "endDate": "2026-11-23",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1419&mode=detail",
+      "officialUrl": "https://mito-koubunterrace.com/xo_event/%e5%a5%bd%e6%96%87%e3%83%9e%e3%83%ad%e3%83%b3%e3%83%95%e3%82%a7%e3%82%a2%e9%96%8b%e5%82%ac%ef%bc%81",
       "discoveredAt": "2026-09-21",
-      "verifiedAt": "2026-09-22",
+      "verifiedAt": "2026-10-17",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -105,7 +105,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報の個別ページで9月18日〜11月23日、みと好文テラス（水戸市千波町3081-1）開催を確認。検索需要・来訪・交通需要は根拠未取得のためunknown。"
+      "notes": "茨城県公式観光情報の個別ページで9月18日〜11月23日、みと好文テラス（水戸市千波町3081-1）開催を確認。検索需要・来訪・交通需要は根拠未取得のためunknown。 2026-10-17：好文テラス公式のイベントページと観光いばらき（メニュー8品）で確認し、10月まとめに追記（GD決裁、独立記事は不要）。11月まとめへの追記は10/25以降の候補。10/24 17時〜25日15時は好文テラスの駐車場が使えない（マラソン）。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-events-october-2026/"
+      ]
     },
     {
       "id": "kamine-park-autumn-festival-2026",
