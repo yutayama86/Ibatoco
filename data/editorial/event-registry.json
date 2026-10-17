@@ -118,7 +118,7 @@
       "verifiedAt": "2026-09-22",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "verified",
+      "status": "rejected",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -126,7 +126,8 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "茨城県公式観光情報の個別ページで9月19日〜10月18日、日立市かみね公園（レジャーランド・遊園地・動物園）開催を確認。休園日を挟む分散日程。料金・交通は施設公式で再確認が必要。"
+      "notes": "茨城県公式観光情報の個別ページで9月19日〜10月18日、日立市かみね公園（レジャーランド・遊園地・動物園）開催を確認。休園日を挟む分散日程。料金・交通は施設公式で再確認が必要。",
+      "skipReason": "第1弾（9/19〜10/18）は残り2日で、記事化の効果が小さいため見送り。GD 決裁（10/17）で第2弾（10/24〜11/23、11/13 県民の日無料）を独立記事にした（/events/kamine-park-autumn-festival-2-2026/）。"
     },
     {
       "id": "yumenoba-space-event-2026",
@@ -619,6 +620,27 @@
       "relatedArticleUrls": [
         "/events/ibaraki-events-october-2026/"
       ]
+    },
+    {
+      "id": "kamine-park-autumn-festival-2-2026",
+      "name": "かみね公園秋まつり（第2弾）",
+      "municipality": "hitachi",
+      "startDate": "2026-10-24",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://kaminepark.or.jp/news/?p=9521",
+      "discoveredAt": "2026-10-17",
+      "verifiedAt": "2026-10-17",
+      "articleUrl": "/events/kamine-park-autumn-festival-2-2026/",
+      "articleUpdatedAt": "2026-10-17",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "medium"
+      },
+      "notes": "観光いばらき（code=1427）で 10/17 に発見し、同日にかみね公園オフィシャルサイト（10/4 秋まつり第2弾、10/14 冬期営業時間）で確認して記事化（発見から公開まで0日）。11/13 の入園料無料は、公園協会の発表はレジャーランド、観光いばらきは動物園とレジャーランド。日立市の動物園ページには 10/17 時点で記載なし。"
     },
     {
       "id": "namegata-sunset-festa-2026",
