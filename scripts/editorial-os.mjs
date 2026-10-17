@@ -27,6 +27,7 @@ const REPORT_DIR = join(ROOT, 'reports/editorial');
 const EVENT_REGISTRY = join(DATA_DIR, 'event-registry.json');
 const ACTION_QUEUE = join(DATA_DIR, 'action-queue.json');
 const PERFORMANCE = join(DATA_DIR, 'performance-snapshot.json');
+const POPULAR = join(DATA_DIR, 'popular-pages.json');
 const SEO_CHANGES = join(ROOT, 'src/data/seo-changes.ts');
 const AREAS = join(ROOT, 'src/data/areas.ts');
 const CONTENT_DIRS = [
@@ -280,6 +281,15 @@ function validate(registry, actions, performance, inventory) {
   else {
     const age = dateDiff(performance.asOf, tokyoDate());
     if (age > 2) warnings.push(`GA4/GSCスナップショットが${age}日前です。推測で数値を補わないでください。`);
+  }
+  // 人気ページ（TOPの「いま読まれている」と GrowthNextReads の補完に使う）は日次で Growth Director が更新する。
+  // 10/10〜10/17 に更新が止まっても気づけなかったため、GA4 の確定日より2日以上古ければ警告する（自動では書き換えない）
+  const popular = existsSync(POPULAR) ? readJson(POPULAR) : null;
+  const popularEnd = popular?.source?.period?.end;
+  const ga4Latest = performance.ga4LatestConfirmedDate;
+  if (!dateValue(popularEnd)) warnings.push('人気ページ（popular-pages.json）の集計期間が読めません。');
+  else if (dateValue(ga4Latest) && dateDiff(popularEnd, ga4Latest) >= 2) {
+    warnings.push(`人気ページ（popular-pages.json）の集計期間が${popularEnd}までで、GA4の確定日（${ga4Latest}）より${dateDiff(popularEnd, ga4Latest)}日古いです。直近7日の実測で更新してください（選定は Growth Director）。`);
   }
   return { errors, warnings };
 }
