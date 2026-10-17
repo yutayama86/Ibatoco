@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261017-events-ibaraki-kenmin-no-hi-2026-kamine',
+    date: '2026-10-17',
+    url: '/events/ibaraki-kenmin-no-hi-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：11月13日のかみね公園（レジャーランドの入園料終日無料＝公園協会 10/4、動物園も終日無料＝観光いばらき、全来園者、午前限定フリーパス1,300円）を要点・施設別一覧・FAQに追記し、出典を追加。FAQの「2026年の案内がまだない施設」からかみね動物園を外した。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 追加決裁（10/17）「県民の日記事にも11/13の無料対象と条件を公式出典付きで追記」。動物園の無料は観光いばらきの記載で、日立市の動物園ページには10/17時点で掲載なしと明記',
+    experimentType: 'fact',
+  },
+  {
     id: '20261017-events-ryujin-bridge-autumn-2026-festival-official',
     date: '2026-10-17',
     url: '/events/ryujin-bridge-autumn-2026/',
