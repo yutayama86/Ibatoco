@@ -121,6 +121,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "matsuri-yuki-2026": "/images/card/matsuri-yuki-2026-fd1f9fbe.png",
   "mentai-park-oarai-guide": "/images/card/mentai-park-oarai-guide-7e5f8ef8.png",
   "michinoeki-joso-guide": "/images/card/michinoeki-joso-guide-d1446ad4.png",
+  "mito-international-music-festival-2026": "/images/card/mito-international-music-festival-2026-0b029b00.png",
   "mito-komon-marathon-2026": "/images/card/mito-komon-marathon-2026-6c5eb34d.png",
   "nakaminato-ichibazushi-guide": "/images/card/nakaminato-ichibazushi-guide-4e47820e.png",
   "nakaminato-kaijo-hanabi-2026": "/images/card/nakaminato-kaijo-hanabi-2026-4e47820e.png",
