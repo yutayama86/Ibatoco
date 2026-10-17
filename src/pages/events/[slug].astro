@@ -231,6 +231,9 @@ if (d.faq.length > 0) {
     <aside class="ev-toc" aria-label="この記事の目次">
       <p>この記事の構成</p>
       <ol>{sections.map((s) => <li><a href={`#${s.id}`}>{s.label}</a></li>)}</ol>
+      {/* 予約・確認先はスマホで記事の7割ほど下（大洗あんこう祭で約10画面目）。目次から直接飛べるようにする。
+          番号つきの本文セクションではないので、番号の一覧には入れない（目次と見出しの番号がずれるため） */}
+      {effectiveBooking && <p class="ev-toc__jump"><a href="#booking" data-toc-target="booking">予約・確認先へ <span aria-hidden="true">↓</span></a></p>}
     </aside>
 
     <div class="ev-body">
@@ -306,7 +309,7 @@ if (d.faq.length > 0) {
     </section>
   )}
 
-  {effectiveBooking && <BookingGuide booking={effectiveBooking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />}
+  {effectiveBooking && <BookingGuide booking={effectiveBooking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} anchorId="booking" />}
   <SponsorSlots path={`/events/${entry.id.split('/').pop()}/`} pageType="events" municipality={d.municipalities[0]} />
 
   <section id="sources" aria-labelledby="ev-src">
@@ -352,6 +355,17 @@ if (d.faq.length > 0) {
   )}
   <script>
     import { commonParams, trackEvent } from '../../lib/analytics-events';
+    // 目次から予約・確認先へ飛んだ数。既存の next_action_click（登録済みのパラメータ）で数える
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('.ev-toc a[data-toc-target="booking"]')) {
+      link.addEventListener('click', () => {
+        trackEvent('next_action_click', {
+          ...commonParams({ page_type: 'events' }),
+          destination_type: 'booking_guide',
+          action_source: 'event_toc',
+          destination_url: '#booking',
+        });
+      });
+    }
     for (const block of document.querySelectorAll<HTMLElement>('[data-event-discovery]')) {
       for (const link of block.querySelectorAll<HTMLAnchorElement>('a[data-discovery-kind]')) {
         link.addEventListener('click', () => {
@@ -392,11 +406,13 @@ if (d.faq.length > 0) {
 
   /* ニュース記事（.news-detail__layout）と同じ作り。左に目次、右に本文。 */
   .ev-layout{display:grid;grid-template-columns:210px minmax(0,700px);justify-content:center;gap:clamp(2rem,6vw,5rem);padding-block:clamp(3.5rem,7vw,6rem)}
-  .ev-toc{position:sticky;top:1rem;align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}
+  .ev-toc{position:sticky;top:calc(var(--site-header-height,0px) + 1rem);align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}
   .ev-toc>p{padding-bottom:.65rem;border-bottom:1px solid var(--color-mist);font-weight:700;color:var(--color-ink)}
   .ev-toc ol{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;margin-top:.75rem;padding-left:1.2rem;list-style:decimal}
   .ev-toc a:hover{color:var(--color-tide)}
-  .ev-body section{scroll-margin-top:1rem}
+  .ev-toc__jump{margin-top:.75rem;padding-top:.65rem;border-top:1px solid var(--color-mist)}
+  .ev-toc__jump a{font-weight:700;color:var(--color-ink)}
+  .ev-body section{scroll-margin-top:calc(var(--site-header-height,0px) + 1rem)}
   .ev-body section+section{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--color-mist)}
   .ev-body h2{margin-top:.6rem}
   @media(max-width:760px){.ev-layout{grid-template-columns:minmax(0,1fr)}.ev-toc{position:static}}

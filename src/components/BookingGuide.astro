@@ -33,8 +33,10 @@ interface Props {
   /** 共通の分析軸。記事が扱っている市町村と分類 */
   municipality?: string;
   contentCategory?: string;
+  /** 目次から飛ぶための id。目次に載せるページだけ渡す */
+  anchorId?: string;
 }
-const { booking, pageType, municipality, contentCategory } = Astro.props;
+const { booking, pageType, municipality, contentCategory, anchorId } = Astro.props;
 const showAdNotice = hasPaidLink(booking.items);
 const KIND_LABEL: Record<string, string> = {
   official: '公式',
@@ -45,6 +47,7 @@ const KIND_LABEL: Record<string, string> = {
 ---
 
 <aside
+  id={anchorId}
   class="bkg"
   aria-labelledby="bkg-title"
   data-booking-guide
@@ -192,7 +195,7 @@ const KIND_LABEL: Record<string, string> = {
 </script>
 
 <style>
-  .bkg{display:grid;grid-template-columns:minmax(0,1fr);gap:.85rem;margin-top:clamp(2.25rem,4vw,3rem);padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:#fff}
+  .bkg{display:grid;grid-template-columns:minmax(0,1fr);gap:.85rem;scroll-margin-top:calc(var(--site-header-height,0px) + 1rem);margin-top:clamp(2.25rem,4vw,3rem);padding:clamp(1.2rem,3vw,1.75rem);border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:#fff}
   .bkg__kicker{margin:0;color:var(--interior-blue,var(--color-tide));font:700 .68rem var(--font-brand-meta);letter-spacing:.14em}
   .bkg__title{margin:0;font:600 clamp(1.2rem,2.3vw,1.5rem)/1.45 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
   .bkg__intro{margin:0;color:var(--color-charcoal);font-size:.92rem;line-height:1.9}
