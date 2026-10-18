@@ -1,7 +1,33 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-10-19",
   "actions": [
+    {
+      "id": "20261019-ryujin-fact-consistency",
+      "title": "竜神峡紅葉まつり公式発表後の未発表表記を2ページで解消",
+      "kind": "freshness",
+      "targetUrl": "/events/ryujin-bridge-autumn-2026/",
+      "targetFile": "src/content/events/ryujin-bridge-autumn-2026.md",
+      "additionalTargetFiles": [
+        "src/content/events/ibaraki-events-november-2026.md"
+      ],
+      "priority": "critical",
+      "status": "completed",
+      "createdAt": "2026-10-19",
+      "completedAt": "2026-10-19",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-19",
+      "page": "/events/ryujin-bridge-autumn-2026/",
+      "source": "常陸太田市観光物産協会『第37回竜神峡紅葉まつりを開催します！』2026-10-16",
+      "reason": "個別記事description/booking noteと11月ハブが公式発表前の文言を残し、本文と矛盾。事実訂正は観測窓0日で即時実施。expectedPvImpactは再現可能に算出できないため付与しない。",
+      "acceptanceCriteria": [
+        "2ページの未発表表記を公式発表済みに整合",
+        "2026年の見頃予想は未確認を維持",
+        "URLを変更しない",
+        "本番6幅Responsive QAを通す"
+      ]
+    },
     {
       "id": "20261012-tsuchiura-official-map",
       "title": "土浦花火：10/7〜8 の公式発表（交通規制・お帰り経路のマップ、無料観覧席なし、転売禁止、有料席のお帰り案内図）を反映",
@@ -339,7 +365,7 @@
         "data/editorial/revenue-mvp.json"
       ],
       "priority": "critical",
-      "status": "in-progress",
+      "status": "completed",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-19",
       "confidence": "high",
@@ -355,8 +381,20 @@
         "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
         "未確認の成果・売上を実績扱いしない"
       ],
-      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。 10/10: 受入条件の paid_booking_click が未送信だったため 20261010-paid-booking-click で送るようにした（10/11以降の確定日から取得）。観測期間10/8〜14は計測障害（10/8〜10）と重なるため、10/11〜17への取り直しと成功基準CTRの定義をGrowth Directorの判断待ちとして整理（docs/editorial/specs/20261010-mvp-forecast-review.md）。 10/11 Growth Director最終判断：観測期間を10/11〜10/17に変更しGA4の10/17確定後に評価。主KPIは paid_booking_click ÷ booking_guide_view（10/10以前の送客先ドメイン判定の値と混ぜない）。二重送信は本番QA・CIの「送客イベント」検査で毎回確認。 10/18 Growth Director：GA4確定は10/16までで6/7日。10/17確定前のためstatus=in-progressを維持し、成否判定・CTA再変更は行わない。",
-      "specPath": "docs/editorial/specs/20261010-mvp-forecast-review.md"
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。 10/10: 受入条件の paid_booking_click が未送信だったため 20261010-paid-booking-click で送るようにした（10/11以降の確定日から取得）。観測期間10/8〜14は計測障害（10/8〜10）と重なるため、10/11〜17への取り直しと成功基準CTRの定義をGrowth Directorの判断待ちとして整理（docs/editorial/specs/20261010-mvp-forecast-review.md）。 10/11 Growth Director最終判断：観測期間を10/11〜10/17に変更しGA4の10/17確定後に評価。主KPIは paid_booking_click ÷ booking_guide_view（10/10以前の送客先ドメイン判定の値と混ぜない）。二重送信は本番QA・CIの「送客イベント」検査で毎回確認。 10/18 Growth Director：GA4確定は10/16までで6/7日。10/17確定前のためstatus=in-progressを維持し、成否判定・CTA再変更は行わない。 10/19: 10/11〜17の7日窓が確定。対象3ページ合計341 Booking Guide表示、outbound 24、paid 3（提携送客率0.88%、全送客率7.04%）、確定売上0円。1%未満の見直し基準に該当するためCTA追加はせず、検索意図×商材の不一致を点検しASP確定成果を継続観測。",
+      "specPath": "docs/editorial/specs/20261010-mvp-forecast-review.md",
+      "completedAt": "2026-10-19",
+      "result": {
+        "period": "2026-10-11..2026-10-17",
+        "bookingGuideViews": 341,
+        "outboundBookingClicks": 24,
+        "paidBookingClicks": 3,
+        "paidRate": 0.008797653958944282,
+        "outboundRate": 0.07038123167155426,
+        "confirmedRevenueYen": 0,
+        "verdict": "review-offer-intent-fit",
+        "nextAction": "CTAを増やさず、送客先・商材の意図一致とASP確定成果を確認"
+      }
     },
     {
       "id": "20261008-today-ibaraki-mvp",
