@@ -60,6 +60,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
   },
   {
+    id: '20261018-events-ibaraki-illumination-2026-new',
+    date: '2026-10-18',
+    url: '/events/ibaraki-illumination-2026/',
+    kind: 'new-article',
+    change: '新規記事：茨城のイルミネーション2026-2027（公式で期間を確認できた3会場＋予定段階のかわち＋光のイベントの Night Park OARAI を別枠）。既存のフラワーパークの記事へリンクし、内容は重複させない',
+    queries: ['茨城 イルミネーション', '茨城 イルミネーション 2026', '水郷桜イルミネーション 2026', 'ヒタチスターライトイルミネーション 2026'],
+    commit: '34f4a3f',
+    note: '新規記事（28日）。Growth Director 指示（10/18夜）「イルミネーション2026–2027まとめ記事を先行制作」。需要：Googleトレンドで「茨城 イルミネーション」は2025年11〜12月に毎週2〜3（土浦花火の5年最大＝100）。競合：Walker+・観光いばらき（2025-2026版）。マージ日はGDが決める（マージ時にこの日付を直す）',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261018-events-tsuchiura-hanabi-2026-metadata',
     date: '2026-10-18',
     url: '/events/tsuchiura-hanabi-2026/',
