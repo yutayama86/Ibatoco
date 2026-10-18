@@ -1,30 +1,30 @@
-name: Temporary card asset sync for event articles
+name: Temporary generate event card assets
 on:
-  push:
-    branches:
-      - content/urgent-events-drafts-20261019
+  pull_request:
+    branches: [main]
 permissions:
-  contents: write
+  contents: read
 jobs:
   generate:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: true
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: 'npm'
       - run: npm ci
-      - run: npm run og:cards
-      - name: Commit generated cards
+      - name: Generate cards and emit PR asset data
+        shell: bash
         run: |
-          git add public/images/card src/data/card-images.ts
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "chore: commit generated card images for new events"
-            git push
-          fi
+          npm run og:cards
+          for slug in mirai-music-fes-2026 hitachi-kenki-festival-hitachinaka-2026; do
+            file=$(find public/images/card -maxdepth 1 -name "${slug}-*.png" | head -n 1)
+            echo "ASSET_BEGIN ${file}"
+            base64 -w0 "${file}"
+            echo
+            echo "ASSET_END ${file}"
+          done
+          echo "MAPPING_BEGIN"
+          grep -E 'mirai-music-fes-2026|hitachi-kenki-festival-hitachinaka-2026' src/data/card-images.ts
+          echo "MAPPING_END"
