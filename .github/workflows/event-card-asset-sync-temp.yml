@@ -17,7 +17,7 @@ jobs:
       - name: Generate cards and emit PR asset data
         shell: bash
         run: |
-          npm run og:cards
+          env -u GITHUB_ACTIONS npm run og:cards
           for slug in mirai-music-fes-2026 hitachi-kenki-festival-hitachinaka-2026; do
             file=$(find public/images/card -maxdepth 1 -name "${slug}-*.png" | head -n 1)
             echo "ASSET_BEGIN ${file}"
