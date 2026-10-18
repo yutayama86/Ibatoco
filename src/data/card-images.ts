@@ -100,6 +100,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-events-september-2026": "/images/card/ibaraki-events-september-2026-c94cff40.png",
   "ibaraki-flowerpark-illumination-2026": "/images/card/ibaraki-flowerpark-illumination-2026-6b2d089e.png",
   "ibaraki-hanabi-2026": "/images/card/ibaraki-hanabi-2026-33e50ab6.png",
+  "ibaraki-illumination-2026": "/images/card/ibaraki-illumination-2026-fe7e8347.png",
   "ibaraki-kenmin-no-hi-2026": "/images/card/ibaraki-kenmin-no-hi-2026-4c8cbdb8.png",
   "ibaraki-michinoeki-drive-2026": "/images/card/ibaraki-michinoeki-drive-2026-2af3e39f.png",
   "ibaraki-modern-art-museum-guide": "/images/card/ibaraki-modern-art-museum-guide-6c5eb34d.png",

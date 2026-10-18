@@ -31,6 +31,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/oarai-ankou-nabe-guide/': '大洗のあんこう鍋（食べられる時期・店と宿の探し方）',
   '/events/ibaraki-shichigosan-2026/': '茨城の七五三2026（6社の祈祷時間・初穂料・予約）',
   '/events/ibaraki-flowerpark-illumination-2026/': 'いばらきフラワーパークのイルミネーション2026（秋バラ・料金・休園日）',
+  '/events/ibaraki-illumination-2026/': '茨城のイルミネーション2026-2027（公式で期間を確認できた会場）',
   '/events/daigo-ringo-gari-2026/': '大子のりんご狩り2026（入園料・品種の時期・39か所）',
   '/news/michinoeki-okukuji-daigo-west-2026/': '道の駅奥久慈だいごWESTが10月10日開業（解説）',
   '/events/fukuroda-falls-autumn-2026/': '袋田の滝の紅葉2026（見頃・ライトアップ・駐車場）',
