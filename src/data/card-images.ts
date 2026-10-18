@@ -2,6 +2,7 @@
 // 記事ごとのカード画像。ファイル名に内容のハッシュが入っているので、
 // 中身が変わればURLも変わり、古い画像が表示され続けることがない。
 export const CARD_IMAGES: Record<string, string> = {
+  "akatsuka-mito-medical-bus-discontinue-2027": "/images/card/akatsuka-mito-medical-bus-discontinue-2027-6c5eb34d.png",
   "ami-premium-outlets-silver-week-sale-2026": "/images/card/ami-premium-outlets-silver-week-sale-2026-aa8ca6d9.png",
   "chikusei-shinycolors-collab-2026": "/images/card/chikusei-shinycolors-collab-2026-480f2a7d.png",
   "gs-yuasa-ibaraki-machi-battery-plant-2026": "/images/card/gs-yuasa-ibaraki-machi-battery-plant-2026-2e323418.png",
@@ -14,6 +15,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "hitachiota-kajual-fruit-farm-dx": "/images/card/hitachiota-kajual-fruit-farm-dx-0eca618d.png",
   "hitachiota-kubiaka-first-detection-2026": "/images/card/hitachiota-kubiaka-first-detection-2026-0eca618d.png",
   "hoshiimo-shake-fair-2026": "/images/card/hoshiimo-shake-fair-2026-a4a6dfa6.png",
+  "ibaraki-airport-bus-timetable-october-2026": "/images/card/ibaraki-airport-bus-timetable-october-2026-f28829d4.png",
   "ibaraki-airport-busan-air-busan-charter-2026": "/images/card/ibaraki-airport-busan-air-busan-charter-2026-fca89878.png",
   "ibaraki-airport-sky-day-2026": "/images/card/ibaraki-airport-sky-day-2026-4c8cbdb8.png",
   "ibaraki-airport-winter-schedule-2026": "/images/card/ibaraki-airport-winter-schedule-2026-fca89878.png",
@@ -48,6 +50,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kashima-away-guide-mito-2026-09-02": "/images/card/kashima-away-guide-mito-2026-09-02-3304e4d2.png",
   "kashima-newcastle-jets-acle-guide-2026-09-15": "/images/card/kashima-newcastle-jets-acle-guide-2026-09-15-57697a75.png",
   "michinoeki-okukuji-daigo-west-2026": "/images/card/michinoeki-okukuji-daigo-west-2026-49bd2cf5.png",
+  "mito-go-bus-suspension-october-2026": "/images/card/mito-go-bus-suspension-october-2026-8c7392b1.png",
   "mito-hollyhock-home-opening-13226-regional-impact": "/images/card/mito-hollyhock-home-opening-13226-regional-impact-865786ac.png",
   "mito-hollyhock-kids-passport-urawa-2026": "/images/card/mito-hollyhock-kids-passport-urawa-2026-6c5eb34d.png",
   "mito-hollyhock-new-stadium-access": "/images/card/mito-hollyhock-new-stadium-access-380567ec.png",
@@ -109,6 +112,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "izura-rokkakudo-guide": "/images/card/izura-rokkakudo-guide-0a1ec3c0.png",
   "jaxa-tsukuba-space-center-guide": "/images/card/jaxa-tsukuba-space-center-guide-866134fe.png",
   "joso-kinugawa-hanabi-2026": "/images/card/joso-kinugawa-hanabi-2026-d1446ad4.png",
+  "joso-shin-hanabi-2026": "/images/card/joso-shin-hanabi-2026-d1446ad4.png",
   "kairakuen-guide": "/images/card/kairakuen-guide-6c5eb34d.png",
   "kamine-park-autumn-festival-2-2026": "/images/card/kamine-park-autumn-festival-2-2026-ae31d8b3.png",
   "kamine-zoo-guide": "/images/card/kamine-zoo-guide-ae31d8b3.png",
@@ -159,6 +163,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-expo-center-guide": "/images/card/tsukuba-expo-center-guide-866134fe.png",
   "tsukuba-marathon-2026": "/images/card/tsukuba-marathon-2026-866134fe.png",
   "tsukubasan-jinja-guide": "/images/card/tsukubasan-jinja-guide-866134fe.png",
+  "ushiku-chateau-beer-festival-2026": "/images/card/ushiku-chateau-beer-festival-2026-cef3c0f9.png",
   "ushiku-chateau-guide": "/images/card/ushiku-chateau-guide-cef3c0f9.png",
   "ushiku-daibutsu-guide": "/images/card/ushiku-daibutsu-guide-cef3c0f9.png",
   "yokaren-heiwa-kinenkan-guide": "/images/card/yokaren-heiwa-kinenkan-guide-aa8ca6d9.png"
