@@ -1,6 +1,6 @@
 {
   "team": "kashima-antlers",
-  "updatedAt": "2026-10-13",
+  "updatedAt": "2026-10-18",
   "matches": [
     {
       "id": "kashima-antlers-2026-08-07-j1-01",
@@ -834,7 +834,7 @@
       "opponent": "コンアン・ハノイ",
       "homeAway": "away",
       "venue": "ハンダイ・スタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
@@ -843,8 +843,18 @@
           "label": "鹿島アントラーズ公式｜試合日程・結果",
           "url": "https://www.antlers.co.jp/blogs/games",
           "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
         }
-      ]
+      ],
+      "score": {
+        "own": 1,
+        "opponent": 0
+      },
+      "recap": "ベトナムのハンダイ・スタジアムでコンアン・ハノイに1-0で勝ちました。"
     },
     {
       "id": "kashima-antlers-2026-10-17-j1-10",
@@ -856,7 +866,7 @@
       "opponent": "V・ファーレン長崎",
       "homeAway": "home",
       "venue": "メルカリスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
@@ -865,6 +875,154 @@
           "label": "鹿島アントラーズ公式｜試合日程・結果",
           "url": "https://www.antlers.co.jp/blogs/games",
           "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ],
+      "score": {
+        "own": 2,
+        "opponent": 0
+      },
+      "recap": "メルカリスタジアムでV・ファーレン長崎に2-0で勝ちました。"
+    },
+    {
+      "id": "kashima-antlers-2026-10-21-j1-11",
+      "date": "2026-10-21",
+      "kickoff": "19:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第11節",
+      "kind": "league",
+      "opponent": "京都サンガF.C.",
+      "homeAway": "away",
+      "venue": "サンガスタジアム by KYOCERA",
+      "status": "scheduled",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-10-24-j1-12",
+      "date": "2026-10-24",
+      "kickoff": "15:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第12節",
+      "kind": "league",
+      "opponent": "柏レイソル",
+      "homeAway": "home",
+      "venue": "メルカリスタジアム",
+      "status": "scheduled",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-10-28-acle-md3",
+      "date": "2026-10-28",
+      "kickoff": "19:00",
+      "competition": "AFCチャンピオンズリーグElite 2026/27",
+      "round": "リーグステージ MD3",
+      "kind": "continental",
+      "opponent": "浦項スティーラーズ",
+      "homeAway": "home",
+      "venue": "カシマサッカースタジアム",
+      "status": "scheduled",
+      "broadcast": [
+        "DAZN"
+      ],
+      "officialUrl": "https://www.antlers.co.jp/pages/mdp-2026-27-acle03",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
+        },
+        {
+          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
+          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
+          "accessedAt": "2026-10-18"
+        },
+        {
+          "label": "鹿島アントラーズ公式｜ACL Elite 2026/27 MD3 浦項スティーラーズ戦 観戦ガイド",
+          "url": "https://www.antlers.co.jp/pages/mdp-2026-27-acle03",
+          "accessedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-10-31-j1-13",
+      "date": "2026-10-31",
+      "kickoff": "15:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第13節",
+      "kind": "league",
+      "opponent": "セレッソ大阪",
+      "homeAway": "home",
+      "venue": "メルカリスタジアム",
+      "status": "scheduled",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/kashima/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-04-acle-md4",
+      "date": "2026-11-04",
+      "kickoff": "21:15",
+      "kickoffNote": "日本時間（公式の発表は現地時間19:15）",
+      "competition": "AFCチャンピオンズリーグElite 2026/27",
+      "round": "リーグステージ MD4",
+      "kind": "continental",
+      "opponent": "ブリーラム・ユナイテッド",
+      "homeAway": "away",
+      "venue": "ブリーラムスタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
+          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
+          "accessedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-25-acle-md5",
+      "date": "2026-11-25",
+      "kickoff": "19:00",
+      "competition": "AFCチャンピオンズリーグElite 2026/27",
+      "round": "リーグステージ MD5",
+      "kind": "continental",
+      "opponent": "全北現代モータース",
+      "homeAway": "home",
+      "venue": "カシマサッカースタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
+          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
+          "accessedAt": "2026-10-18"
         }
       ]
     }
