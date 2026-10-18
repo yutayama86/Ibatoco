@@ -1093,7 +1093,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。"
+      "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。 2026-10-18：特設サイトは2025年版のまま、期間は未発表のため discovered のまま。茨城のイルミネーションまとめで「予定」として紹介。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
     },
     {
       "id": "kasama-inari-hatsumode-2027",
@@ -1244,7 +1247,56 @@
       "relatedArticleUrls": [
         "/events/ibaraki-events-october-2026/",
         "/events/ibaraki-events-november-2026/",
-        "/events/ibaraki-autumn-odekake-2026/"
+        "/events/ibaraki-autumn-odekake-2026/",
+        "/events/ibaraki-illumination-2026/"
+      ]
+    },
+    {
+      "id": "hitachi-starlight-illumination-2026",
+      "name": "Hitachi Starlight Illumination 2026",
+      "municipality": "hitachi",
+      "startDate": "2026-11-14",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.civic.jp/event.php?mode=detail&f=1&code=492",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "日立シビックセンター公式で、期間2026年11月14日〜2027年1月11日、16:30〜22:00、会場は日立シビックセンター新都市広場・アトリウムと日立駅自由通路、点灯式11月14日16:45〜17:20（初日の点灯は17時ごろ予定）、ひたちクリスマスマーケット2026は11月14日・15日11:00〜18:00を確認。主催は日立市民科学文化財団。入場料の記載なし。茨城のイルミネーションまとめに掲載（Growth Director 指示 10/18）。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
+    },
+    {
+      "id": "suigo-sakura-illumination-2026",
+      "name": "第15回 光がつくる“Art”水郷桜イルミネーション",
+      "municipality": "tsuchiura",
+      "startDate": "2026-11-21",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/sangyobunkajigyodan/event-info/suigosakura-illumination/page021941.html",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "土浦市公式で、点灯期間2026年11月21日〜2027年1月11日、17:00〜21:00、霞ケ浦総合公園オランダ型風車前広場、LED約19万球、点灯式11月21日16:30〜、ほしぞらマルシェ12月19日・20日16:00〜21:00（雨天中止）、大晦日は翌1月1日6:30ごろまで点灯を確認。入場料の記載なし。SNS・民間サイトに公式と違う終了日（2月28日）があるため、公式の日付だけを使う。茨城のイルミネーションまとめに掲載。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
       ]
     }
   ]
