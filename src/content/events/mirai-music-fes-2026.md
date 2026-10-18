@@ -12,10 +12,9 @@ municipalities:
 tags:
   - "つくばみらい市"
   - "音楽フェス"
-  - "花火"
-draft: true
-reviewed: false
-noindex: true
+draft: false
+reviewed: true
+noindex: false
 summary: "つくばみらい市の市制施行20周年記念「MIRAI Music Fes 2026」は2026年10月24日（土）、日本スポーツ振興パークみらいで開催。市公式は開場13時、開演15時と案内しています。市民無料席の第2弾追加抽選は10月20日（火）23時59分まで。HIPPYの出演はキャンセルされ、ET-KINGに変更されています。"
 keyPoints:
   - "開催：10月24日（土）、開場13:00・開演15:00。会場は日本スポーツ振興パークみらい"
@@ -51,4 +50,4 @@ eventInfo:
   officialUrl: "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html"
 ---
 
-公開前確認待ちの下書きです。
+記事の内容は主催者等の公式発表をもとに作成しています。
