@@ -1,58 +1,60 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T21:55:00+09:00",
+  "generatedAt": "2026-10-17T20:50:00+09:00",
   "source": {
     "connector": "Windsor.ai GA4",
     "accountId": "547804264",
     "metric": "screen_page_views",
     "period": {
-      "start": "2026-10-03",
-      "end": "2026-10-09"
+      "start": "2026-10-09",
+      "end": "2026-10-15"
     }
   },
   "baseline": {
-    "views": 0,
-    "sessions": null,
-    "viewsPerSession": null
+    "views": 2963,
+    "sessions": 2524,
+    "viewsPerSession": 1.1739
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みイベントを除外し、最大8件を保存。同一テーマの記事はHomeNow側でtopic単位に合算して表示順位を決める。終了判定は正本データに基づく。",
   "pages": [
     {
       "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 628
+      "views": 1126
     },
     {
-      "path": "/news/ibaraki-passport-2026/",
-      "views": 409
-    },
-    {
-      "path": "/news/ibaraki-passport-additional-issuance-2026/",
-      "views": 104
-    },
-    {
-      "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 62
-    },
-    {
-      "path": "/news/mito-shinkin-stadium-parking/",
-      "views": 53
+      "path": "/events/hananuki-gorge-autumn-2026/",
+      "views": 234
     },
     {
       "path": "/events/tsuchiura-curry-festival-2026/",
-      "views": 43
+      "views": 122
+    },
+    {
+      "path": "/news/mito-hollyhock-new-stadium-access/",
+      "views": 105
+    },
+    {
+      "path": "/events/kasama-kiku-matsuri-2026/",
+      "views": 90
+    },
+    {
+      "path": "/events/fukuroda-falls-autumn-2026/",
+      "views": 63
+    },
+    {
+      "path": "/news/mito-shinkin-stadium-parking/",
+      "views": 63
     },
     {
       "path": "/events/oarai-ankou-nabe-guide/",
-      "views": 40
-    },
-    {
-      "path": "/events/tsukuba-cablecar-ropeway-guide/",
-      "views": 35
+      "views": 62
     }
   ],
   "notes": [
-    "2026-10-09更新。GA4 2026-10-03〜10-09実測。",
-    "かさま新栗まつり2026（829 Views）は10/4終了済みのため除外。",
-    "rockin'star Carnival 2026（110 Views）は10/3終了済みのため除外。"
+    "2026-10-17作成（10/18以降にマージ）。GA4 2026-10-09〜10-15の確定値（Windsor.ai GA4 direct、performance-snapshot.json の ga4TopPages.recent7・asOf 2026-10-17）。",
+    "refreshRule どおり上位から機械的に選定。除外：ホーム（/・36 Views）、かさま新栗まつりのニュース（/news/kasama-shinguri-matsuri-2026/・79 Views、frontmatter の event.endDate 2026-10-04 で終了済み）。",
+    "/news/ibaraki-passport-2026/（211 Views）は除外し、次点の /events/oarai-ankou-nabe-guide/（62 Views）を入れた。Growth Director 判断（10/17）「申請可能であるかのような古い訴求を人気記事枠に残さない」。記事本文と description は受付終了（10/16）を表示しているが、「次に読む」の札に出るタイトルが「追加申請は10/3〜16・追加交付は11/10から」のままで、終了が分からないため。記事自体は残す（追加交付・受け取り・スタンプ設置場所の情報に価値がある）。",
+    "集計期間の 10/9〜10/10 は GA4 計測障害の日を含む（measurement-incidents）。順位づけのみに使い、Views の水準比較には使わない。",
+    "10/10〜10/17 は日次の Growth Recovery 運用に人気ページ更新の手順が含まれず、10/9 の値のまま止まっていた。以後は日次ブリーフの「データ品質」に古さの警告を出す（scripts/editorial-os.mjs）。"
   ]
 }
