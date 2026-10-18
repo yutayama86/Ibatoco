@@ -9,10 +9,18 @@ export const GET: APIRoute = async () => {
   const news = await getIndexableNews();
   const now = Date.now();
   const twoDaysMs = 2 * 24 * 60 * 60 * 1000;
+  // Date-only frontmatter is parsed as UTC midnight; compare its JST calendar date.
+  const dayMs = 24 * 60 * 60 * 1000;
+  const jstDay = (ms: number) => Math.floor((ms + 9 * 60 * 60 * 1000) / dayMs);
+  const isDateOnly = (date: Date) => date.toISOString().endsWith('T00:00:00.000Z');
 
   const recent = news
     .filter((item) => {
       const published = item.data.pubDate.valueOf();
+      if (isDateOnly(item.data.pubDate)) {
+        const ageDays = jstDay(now) - Math.floor(published / dayMs);
+        return ageDays >= 0 && ageDays <= 2;
+      }
       return published <= now && now - published <= twoDaysMs;
     })
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -21,7 +29,9 @@ export const GET: APIRoute = async () => {
   const urls = recent.map((item) => {
     const slug = item.id.split('/').pop();
     const loc = escapeXml(new URL(`/news/${slug}/`, SITE_CONFIG.domain).href);
-    const date = item.data.pubDate.toISOString();
+    const date = isDateOnly(item.data.pubDate)
+      ? item.data.pubDate.toISOString().slice(0, 10)
+      : item.data.pubDate.toISOString();
     const title = escapeXml(item.data.title);
     return `<url><loc>${loc}</loc><news:news><news:publication><news:name>イバトコ</news:name><news:language>ja</news:language></news:publication><news:publication_date>${date}</news:publication_date><news:title>${title}</news:title></news:news></url>`;
   }).join('');
