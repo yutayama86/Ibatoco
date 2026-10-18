@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-15",
+  "updatedAt": "2026-10-18",
   "actions": [
     {
       "id": "20261012-tsuchiura-official-map",
@@ -355,7 +355,7 @@
         "7日観測窓を守り、CTR 3%以上を成功仮説、1%未満を見直し基準とする",
         "未確認の成果・売上を実績扱いしない"
       ],
-      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。 10/10: 受入条件の paid_booking_click が未送信だったため 20261010-paid-booking-click で送るようにした（10/11以降の確定日から取得）。観測期間10/8〜14は計測障害（10/8〜10）と重なるため、10/11〜17への取り直しと成功基準CTRの定義をGrowth Directorの判断待ちとして整理（docs/editorial/specs/20261010-mvp-forecast-review.md）。 10/11 Growth Director最終判断：観測期間を10/11〜10/17に変更しGA4の10/17確定後に評価。主KPIは paid_booking_click ÷ booking_guide_view（10/10以前の送客先ドメイン判定の値と混ぜない）。二重送信は本番QA・CIの「送客イベント」検査で毎回確認。",
+      "notes": "MVP対象を大洗あんこう祭・大洗あんこう鍋・土浦花火の3ページに固定。既存Booking Guide計測をそのまま使い、7日観測中は事実訂正以外のCTA改変をしない。 10/9: status=in-progressのまま収益観測を継続。既存URL・CTAを変えず、GA4未取得区分はnullとし、Controlの欠測0/NaN表示と月間目標表示を計測修正として整合させる。 10/10: 受入条件の paid_booking_click が未送信だったため 20261010-paid-booking-click で送るようにした（10/11以降の確定日から取得）。観測期間10/8〜14は計測障害（10/8〜10）と重なるため、10/11〜17への取り直しと成功基準CTRの定義をGrowth Directorの判断待ちとして整理（docs/editorial/specs/20261010-mvp-forecast-review.md）。 10/11 Growth Director最終判断：観測期間を10/11〜10/17に変更しGA4の10/17確定後に評価。主KPIは paid_booking_click ÷ booking_guide_view（10/10以前の送客先ドメイン判定の値と混ぜない）。二重送信は本番QA・CIの「送客イベント」検査で毎回確認。 10/18 Growth Director：GA4確定は10/16までで6/7日。10/17確定前のためstatus=in-progressを維持し、成否判定・CTA再変更は行わない。",
       "specPath": "docs/editorial/specs/20261010-mvp-forecast-review.md"
     },
     {
