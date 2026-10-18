@@ -1,0 +1,45 @@
+name: Check production event URLs
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check production build and event pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re, json, ssl
+          base='https://ibatoco.jp'
+          urls=[
+            '/build.json',
+            '/events/mirai-music-fes-2026/',
+            '/events/hitachi-kenki-festival-hitachinaka-2026/',
+            '/images/card/mirai-music-fes-2026-60156f4a.png',
+            '/images/card/hitachi-kenki-festival-hitachinaka-2026-4e47820e.png',
+            '/sitemap.xml'
+          ]
+          errors=[]
+          for path in urls:
+            try:
+              req=urllib.request.Request(base+path,headers={'User-Agent':'IbatocoProductionAudit/1.0'})
+              with urllib.request.urlopen(req, timeout=20) as r:
+                data=r.read()
+                ct=r.headers.get('Content-Type','')
+                print(json.dumps({'path':path,'status':r.status,'bytes':len(data),'content_type':ct},ensure_ascii=False))
+                if r.status!=200: errors.append(path+' non200')
+                if path.endswith('/') and path.startswith('/events/'):
+                  html=data.decode('utf-8','replace')
+                  if 'noindex' in html.lower():errors.append(path+' noindex')
+                  if 'rel="canonical"' not in html and "rel='canonical'" not in html:errors.append(path+' no canonical')
+                  if path not in html: errors.append(path+' self canonical not found')
+                if path.endswith('.png') and not data.startswith(b'\x89PNG\r\n\x1a\n'):errors.append(path+' invalid PNG')
+                if path=='/build.json':print('BUILD_JSON',data[:500].decode('utf-8','replace'))
+            except Exception as e:
+              print('FAIL',path,type(e).__name__,str(e));errors.append(path+' request exception')
+          print('ERRORS',errors)
+          if errors:exit(1)
+          PY
