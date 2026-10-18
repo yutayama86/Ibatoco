@@ -14,9 +14,9 @@ tags:
   - "工場見学"
   - "建設機械"
   - "家族でおでかけ"
-draft: true
-reviewed: false
-noindex: true
+draft: false
+reviewed: true
+noindex: false
 summary: "2026年10月25日（日）10時15分〜15時、日立建機の常陸那珂臨港工場（ひたちなか市長砂163-10）で「日立建機フェスティバルinひたちなか」が開催されます。8年ぶりの工場一般開放で、入場は無料ですが事前登録が必要です。大型油圧ショベルの展示・乗車体験、建機を使ったゲームなどが予定されています。"
 keyPoints:
   - "開催：10月25日（日）10:15〜15:00、常陸那珂臨港工場"
@@ -56,4 +56,4 @@ eventInfo:
   officialUrl: "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/"
 ---
 
-公開前確認待ちの下書きです。
+記事の内容は主催者等の公式発表をもとに作成しています。
