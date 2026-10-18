@@ -351,3 +351,15 @@ export const CARD_IMAGES: Record<string, string> = ${JSON.stringify(manifest, nu
 `;
 if (body !== prev) writeFileSync(MANIFEST, body);
 console.log(`記事カード：${made}枚を生成、${kept}枚は据え置き、${removed}枚を削除（${CARD_DIR}/）`);
+
+/*
+ * CI（GitHub Actions）では、カード画像のコミット漏れで止める。
+ * verify も deploy もこのスクリプトを毎回動かすため、作り忘れた画像はその場で生成されて検査を通ってしまう。
+ * 2026-10-18 に新しい記事5本の画像がコミットされず、本番の一覧で画像が 404 になった（#331 で修正）。
+ * 手元では従来どおり生成するだけ。CI では「生成・削除・一覧の書き換えが必要＝リポジトリが古い」として失敗させる。
+ */
+const manifestChanged = body !== prev;
+if (process.env.GITHUB_ACTIONS === 'true' && (made > 0 || removed > 0 || manifestChanged)) {
+  console.error(`::error title=記事カードのコミット漏れ::カード画像がリポジトリと合っていません（生成 ${made}枚・削除 ${removed}枚・${MANIFEST} の更新${manifestChanged ? 'あり' : 'なし'}）。npm run og:cards を実行し、${CARD_DIR}/ の PNG と ${MANIFEST} を同じPRにコミットしてください`);
+  process.exit(1);
+}
