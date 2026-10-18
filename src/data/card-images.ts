@@ -49,6 +49,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kashima-antlers-kofu-result-2026-09-23": "/images/card/kashima-antlers-kofu-result-2026-09-23-57697a75.png",
   "kashima-away-guide-mito-2026-09-02": "/images/card/kashima-away-guide-mito-2026-09-02-3304e4d2.png",
   "kashima-newcastle-jets-acle-guide-2026-09-15": "/images/card/kashima-newcastle-jets-acle-guide-2026-09-15-57697a75.png",
+  "kashima-pohang-acle-guide-2026-10-28": "/images/card/kashima-pohang-acle-guide-2026-10-28-57697a75.png",
   "michinoeki-okukuji-daigo-west-2026": "/images/card/michinoeki-okukuji-daigo-west-2026-49bd2cf5.png",
   "mito-go-bus-suspension-october-2026": "/images/card/mito-go-bus-suspension-october-2026-8c7392b1.png",
   "mito-hollyhock-home-opening-13226-regional-impact": "/images/card/mito-hollyhock-home-opening-13226-regional-impact-865786ac.png",
