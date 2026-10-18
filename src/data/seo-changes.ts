@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261018-events-tsuchiura-hanabi-2026-kaeri-train-tickets',
+    date: '2026-10-18',
+    url: '/events/tsuchiura-hanabi-2026-kaeri/',
+    kind: 'on-page',
+    change: '公式発表の反映：大会公式「第95回大会に電車でご来場する皆様へ」（10/7）と添付の「列車ご案内」PDFから、特急（ひたち・ときわ）の乗車券＋特急券、交通系IC＋在来線チケットレス特急券の推奨、事前チャージ、ICと紙の乗車券の併用時は土浦駅で自動改札不可（行き）を、既存の「特急券があっても、土浦駅では優先されない」に追記。出典2件を追加。title・description・URL は変更なし',
+    queries: ['土浦花火大会 帰りの電車', '土浦花火大会 最寄り駅', '土浦花火大会 帰れ ない'],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 指示（10/19 実行指示 P1-5）「既存記事で不足する重要情報があれば、観測窓を守ったうえで修正PR」。本記事（/events/tsuchiura-hanabi-2026/）は #292 の metadata 観測中（〜11/1）のため触らない。関連の検索語（GSC 10/1〜16・Growth Director 取得）：帰れない24・シャトルバス18・最寄り駅15・帰りの電車9・帰り8表示',
+    experimentType: 'fact',
+  },
+  {
     id: '20261018-events-tsuchiura-hanabi-2026-metadata',
     date: '2026-10-18',
     url: '/events/tsuchiura-hanabi-2026/',
