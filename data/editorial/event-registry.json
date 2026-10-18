@@ -1220,6 +1220,32 @@
         "logisticsDemand": "unknown"
       },
       "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
+    },
+    {
+      "id": "night-park-oarai-2026",
+      "name": "Night Park OARAI 2026",
+      "municipality": "oarai",
+      "startDate": "2026-10-30",
+      "endDate": "2026-11-01",
+      "officialUrl": "https://nightpark-oarai.jp/",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "公式特設サイト（日程・時間の画像）で、10月30日（金）・31日（土）・11月1日（日）15:00〜21:00（日没に合わせて点灯）、大洗サンビーチ、入場無料（駐車場は有料）、シャトルバスなし（大洗駅から徒歩約20分）を確認。主催は大洗観光協会の令和8年度年間イベントスケジュールで（一社）大洗観光協会。10月・11月のまとめと秋のおでかけに掲載済みのため、独立記事は作らない（Growth Director 判断 10/18：台帳へ登録）。検索需要・来訪・交通需要は根拠未取得のため unknown。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-events-october-2026/",
+        "/events/ibaraki-events-november-2026/",
+        "/events/ibaraki-autumn-odekake-2026/"
+      ]
     }
   ]
 }
