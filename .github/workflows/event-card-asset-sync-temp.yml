@@ -1,0 +1,30 @@
+name: Temporary card asset sync for event articles
+on:
+  push:
+    branches:
+      - content/urgent-events-drafts-20261019
+permissions:
+  contents: write
+jobs:
+  generate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run og:cards
+      - name: Commit generated cards
+        run: |
+          git add public/images/card src/data/card-images.ts
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: commit generated card images for new events"
+            git push
+          fi
