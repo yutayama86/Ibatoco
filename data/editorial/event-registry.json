@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-10-19",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -754,6 +754,48 @@
       "notes": "観光いばらきで10/5に発見（当時は観光物産協会のページが前回の内容）。10/17、常陸太田市観光物産協会の2026年版告知（9/25）で日程・会場・音楽祭と味覚祭の時間を確認し記事化。クラフトマルシェ（11/7・8 10〜15時）は観光いばらきの記載。料金・駐車場・雨天対応・展示時間は2026年の公式発表に記載なし（旅行会社サイトの入場無料・駐車場80台は二次情報のため不採用）。発見から公開まで12日。"
     },
     {
+      "id": "ushiku-chateau-beer-festival-2026",
+      "name": "牛久シャトービールフェスティバル2026",
+      "municipality": "ushiku",
+      "startDate": "2026-10-24",
+      "endDate": null,
+      "officialUrl": "https://www.city.ushiku.lg.jp/kanko-bunka-sports/culture/nihonisan/page015031.html",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": "/events/ushiku-chateau-beer-festival-2026/",
+      "articleUpdatedAt": "2026-10-18",
+      "status": "published",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "牛久シャトー・シャトーガーデン、11:00〜20:00。荒天時10/25順延。県内14ブルワリー、ランタン同時開催。独立記事を優先。 記事と台帳の紐付けをCI再検証するための確認更新。"
+    },
+    {
+      "id": "mirai-music-fes-2026",
+      "name": "MIRAI Music Fes 2026",
+      "municipality": "tsukubamirai",
+      "startDate": "2026-10-24",
+      "endDate": null,
+      "officialUrl": "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html",
+      "discoveredAt": "2026-10-19",
+      "verifiedAt": "2026-10-19",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "市制20周年。市民無料席の追加抽選は10/20 23:59締切。HIPPY出演中止、ET-KING出演決定。会場は日本スポーツ振興パークみらい。交通・駐車場は市公式の最新案内を確認。"
+    },
+    {
       "id": "hitachi-seaside-wind-music-carnival-2026",
       "name": "吹奏楽カーニバル",
       "municipality": "hitachinaka",
@@ -799,6 +841,54 @@
       "notes": "交通規制の記事（/events/mito-komon-marathon-2026/）と計測チップのニュース（relatedArticleUrls）で掲載。2026-10-17、同じ大会が別IDで2件登録されていたため1件に統合（旧ID mito-marathon-2026）。旧メモ：大会公式で10月25日開催、計測チップはナンバーカード裏面、10月2日から発送開始を確認。来訪・消費の数値根拠は未取得のためunknown。",
       "relatedArticleUrls": [
         "/news/mito-marathon-measurement-chip-2026/"
+      ]
+    },
+    {
+      "id": "hitachi-kenki-festival-hitachinaka-2026",
+      "name": "日立建機フェスティバルinひたちなか",
+      "municipality": "hitachinaka",
+      "startDate": "2026-10-25",
+      "endDate": null,
+      "officialUrl": "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/",
+      "discoveredAt": "2026-10-19",
+      "verifiedAt": "2026-10-19",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "10:15〜15:00、常陸那珂臨港工場。入場無料・事前登録必須。ひたちなか市公式は10/20を申込締切日として案内。会場への自家用車駐車不可、臨時駐車場は完全予約制、勝田駅東口などから無料シャトルバス予定。"
+    },
+    {
+      "id": "night-park-oarai-2026",
+      "name": "Night Park OARAI 2026",
+      "municipality": "oarai",
+      "startDate": "2026-10-30",
+      "endDate": "2026-11-01",
+      "officialUrl": "https://nightpark-oarai.jp/",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "公式特設サイト（日程・時間の画像）で、10月30日（金）・31日（土）・11月1日（日）15:00〜21:00（日没に合わせて点灯）、大洗サンビーチ、入場無料（駐車場は有料）、シャトルバスなし（大洗駅から徒歩約20分）を確認。主催は大洗観光協会の令和8年度年間イベントスケジュールで（一社）大洗観光協会。10月・11月のまとめと秋のおでかけに掲載済みのため、独立記事は作らない（Growth Director 判断 10/18：台帳へ登録）。検索需要・来訪・交通需要は根拠未取得のため unknown。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-events-october-2026/",
+        "/events/ibaraki-events-november-2026/",
+        "/events/ibaraki-autumn-odekake-2026/",
+        "/events/ibaraki-illumination-2026/"
       ]
     },
     {
@@ -949,6 +1039,30 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "hitachi-starlight-illumination-2026",
+      "name": "Hitachi Starlight Illumination 2026",
+      "municipality": "hitachi",
+      "startDate": "2026-11-14",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.civic.jp/event.php?mode=detail&f=1&code=492",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "日立シビックセンター公式で、期間2026年11月14日〜2027年1月11日、16:30〜22:00、会場は日立シビックセンター新都市広場・アトリウムと日立駅自由通路、点灯式11月14日16:45〜17:20（初日の点灯は17時ごろ予定）、ひたちクリスマスマーケット2026は11月14日・15日11:00〜18:00を確認。主催は日立市民科学文化財団。入場料の記載なし。茨城のイルミネーションまとめに掲載（Growth Director 指示 10/18）。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
+    },
+    {
       "id": "nishikanasa-tozan-marathon-2026",
       "name": "第27回 西金砂登山マラソン",
       "municipality": "hitachiota",
@@ -1012,6 +1126,30 @@
       "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
     },
     {
+      "id": "suigo-sakura-illumination-2026",
+      "name": "第15回 光がつくる“Art”水郷桜イルミネーション",
+      "municipality": "tsuchiura",
+      "startDate": "2026-11-21",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/sangyobunkajigyodan/event-info/suigosakura-illumination/page021941.html",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "土浦市公式で、点灯期間2026年11月21日〜2027年1月11日、17:00〜21:00、霞ケ浦総合公園オランダ型風車前広場、LED約19万球、点灯式11月21日16:30〜、ほしぞらマルシェ12月19日・20日16:00〜21:00（雨天中止）、大晦日は翌1月1日6:30ごろまで点灯を確認。入場料の記載なし。SNS・民間サイトに公式と違う終了日（2月28日）があるため、公式の日付だけを使う。茨城のイルミネーションまとめに掲載。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
+    },
+    {
       "id": "tsukuba-marathon-2026",
       "name": "第46回つくばマラソン",
       "municipality": "tsukuba",
@@ -1073,6 +1211,27 @@
         "logisticsDemand": "medium"
       },
       "notes": "Discovery Gate 初回巡回（10/17）で発見。発見元：観光いばらきのイベント一覧（2026年12月6日（日））。主催者の公式サイトは未確認のため discovered。参加型のトレイルランで観戦需要は小さい見込み（推測）。記事化よりも12月まとめへの追記候補。"
+    },
+    {
+      "id": "joso-shin-hanabi-2026",
+      "name": "第2回常総新花火 X’mas全国若手花火師選手権",
+      "municipality": "joso",
+      "startDate": "2026-12-12",
+      "endDate": null,
+      "officialUrl": "https://shin-hanabi.com/",
+      "discoveredAt": "2026-10-18",
+      "verifiedAt": "2026-10-18",
+      "articleUrl": "/events/joso-shin-hanabi-2026/",
+      "articleUpdatedAt": "2026-10-18",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
     },
     {
       "id": "kawachi-christmas-illumination-2026",
@@ -1181,123 +1340,6 @@
         "logisticsDemand": "high"
       },
       "notes": "Discovery Gate 初回巡回（10/17）で発見。大会要項（公式）で2027年1月31日（日）雨天決行、マラソン10:30・男子10km 11:10・女子10km 11:40スタート、会場は石川運動ひろば（ひたちなか市）、コースはひたちなか市・東海村。定員はマラソン12,000人・10km 5,000人（公式・要項の値。来場者数ではない）。一般エントリーは10月31日まで。交通規制・駐車場・シャトルは開催30日前（2027/1/1）までに公式を確認。"
-    },
-    {
-      "id": "ushiku-chateau-beer-festival-2026",
-      "name": "牛久シャトービールフェスティバル2026",
-      "municipality": "ushiku",
-      "startDate": "2026-10-24",
-      "endDate": null,
-      "officialUrl": "https://www.city.ushiku.lg.jp/kanko-bunka-sports/culture/nihonisan/page015031.html",
-      "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
-      "articleUrl": "/events/ushiku-chateau-beer-festival-2026/",
-      "articleUpdatedAt": "2026-10-18",
-      "status": "published",
-      "importance": "urgent",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "牛久シャトー・シャトーガーデン、11:00〜20:00。荒天時10/25順延。県内14ブルワリー、ランタン同時開催。独立記事を優先。 記事と台帳の紐付けをCI再検証するための確認更新。"
-    },
-    {
-      "id": "joso-shin-hanabi-2026",
-      "name": "第2回常総新花火 X’mas全国若手花火師選手権",
-      "municipality": "joso",
-      "startDate": "2026-12-12",
-      "endDate": null,
-      "officialUrl": "https://shin-hanabi.com/",
-      "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
-      "articleUrl": "/events/joso-shin-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-18",
-      "status": "published",
-      "importance": "large",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
-    },
-    {
-      "id": "night-park-oarai-2026",
-      "name": "Night Park OARAI 2026",
-      "municipality": "oarai",
-      "startDate": "2026-10-30",
-      "endDate": "2026-11-01",
-      "officialUrl": "https://nightpark-oarai.jp/",
-      "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "公式特設サイト（日程・時間の画像）で、10月30日（金）・31日（土）・11月1日（日）15:00〜21:00（日没に合わせて点灯）、大洗サンビーチ、入場無料（駐車場は有料）、シャトルバスなし（大洗駅から徒歩約20分）を確認。主催は大洗観光協会の令和8年度年間イベントスケジュールで（一社）大洗観光協会。10月・11月のまとめと秋のおでかけに掲載済みのため、独立記事は作らない（Growth Director 判断 10/18：台帳へ登録）。検索需要・来訪・交通需要は根拠未取得のため unknown。",
-      "relatedArticleUrls": [
-        "/events/ibaraki-events-october-2026/",
-        "/events/ibaraki-events-november-2026/",
-        "/events/ibaraki-autumn-odekake-2026/",
-        "/events/ibaraki-illumination-2026/"
-      ]
-    },
-    {
-      "id": "hitachi-starlight-illumination-2026",
-      "name": "Hitachi Starlight Illumination 2026",
-      "municipality": "hitachi",
-      "startDate": "2026-11-14",
-      "endDate": "2027-01-11",
-      "officialUrl": "https://www.civic.jp/event.php?mode=detail&f=1&code=492",
-      "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "日立シビックセンター公式で、期間2026年11月14日〜2027年1月11日、16:30〜22:00、会場は日立シビックセンター新都市広場・アトリウムと日立駅自由通路、点灯式11月14日16:45〜17:20（初日の点灯は17時ごろ予定）、ひたちクリスマスマーケット2026は11月14日・15日11:00〜18:00を確認。主催は日立市民科学文化財団。入場料の記載なし。茨城のイルミネーションまとめに掲載（Growth Director 指示 10/18）。",
-      "relatedArticleUrls": [
-        "/events/ibaraki-illumination-2026/"
-      ]
-    },
-    {
-      "id": "suigo-sakura-illumination-2026",
-      "name": "第15回 光がつくる“Art”水郷桜イルミネーション",
-      "municipality": "tsuchiura",
-      "startDate": "2026-11-21",
-      "endDate": "2027-01-11",
-      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/sangyobunkajigyodan/event-info/suigosakura-illumination/page021941.html",
-      "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "土浦市公式で、点灯期間2026年11月21日〜2027年1月11日、17:00〜21:00、霞ケ浦総合公園オランダ型風車前広場、LED約19万球、点灯式11月21日16:30〜、ほしぞらマルシェ12月19日・20日16:00〜21:00（雨天中止）、大晦日は翌1月1日6:30ごろまで点灯を確認。入場料の記載なし。SNS・民間サイトに公式と違う終了日（2月28日）があるため、公式の日付だけを使う。茨城のイルミネーションまとめに掲載。",
-      "relatedArticleUrls": [
-        "/events/ibaraki-illumination-2026/"
-      ]
     }
   ]
 }
