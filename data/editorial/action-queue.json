@@ -5,14 +5,14 @@
     {
       "id": "20261019-ryujin-fact-consistency",
       "title": "竜神峡紅葉まつり公式発表後の未発表表記を2ページで解消",
-      "kind": "freshness",
+      "kind": "update",
       "targetUrl": "/events/ryujin-bridge-autumn-2026/",
       "targetFile": "src/content/events/ryujin-bridge-autumn-2026.md",
       "additionalTargetFiles": [
         "src/content/events/ibaraki-events-november-2026.md"
       ],
       "priority": "critical",
-      "status": "completed",
+      "status": "done",
       "createdAt": "2026-10-19",
       "completedAt": "2026-10-19",
       "confidence": "high",
@@ -365,7 +365,7 @@
         "data/editorial/revenue-mvp.json"
       ],
       "priority": "critical",
-      "status": "completed",
+      "status": "done",
       "createdAt": "2026-10-08",
       "dueDate": "2026-10-19",
       "confidence": "high",
