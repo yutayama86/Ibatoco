@@ -17,7 +17,8 @@ const motifs: Record<string, string[]> = {
   gorge: ['takahagi','kitaibaraki','hitachiota','daigo'],
   coast: ['hitachi','oarai','kamisu'],
   lake: ['kasumigaura','tsuchiura','ami','miho','tone','shimotsuma','namegata'],
-  shrine: ['itako','kasama','kashima'],
+  shrine: ['kasama','kashima'],
+  canal: ['itako'],
   flower: ['mito','hitachinaka','ishioka','ushiku','sakuragawa'],
   mountain: ['hitachiomiya','shirosato','tsukuba','chikusei'],
   river: ['ryugasaki','moriya','toride','joso','bando','goka','sakai'],
@@ -39,7 +40,6 @@ const prefix = `ch-${slug}`;
 const actualPhoto = !!photo;
 const visualSeed = [...slug].reduce((n,c)=>((n*31+c.charCodeAt(0))>>>0),0);
 const sunX = 620 + visualSeed % 175;
-const lakeSailX = 440 + visualSeed % 120;
 const stageOffset = (visualSeed % 38) - 19;
 ---
 <header class="city-hero" data-city-hero data-city-slug={slug}>
@@ -93,17 +93,46 @@ const stageOffset = (visualSeed % 38) - 19;
             <path d="M0 450L155 343L296 412L435 319L591 440L737 352L900 435V610H0Z" fill={tone.deep}/>
             {scene === 'gorge' && <><path d="M190 610C330 500 400 483 520 421C630 360 642 345 730 328" fill="none" stroke="#d9f1f1" stroke-width="56" opacity=".83"/><path d="M185 610C321 515 398 489 516 423C625 364 648 348 729 330" fill="none" stroke="#5398ad" stroke-width="23" opacity=".8"/><path d="M315 418Q455 350 590 390" fill="none" stroke={tone.warm} stroke-width="17"/><path d="M314 419Q455 350 590 390" fill="none" stroke="#f1c7a5" stroke-width="3"/></>}
           </>}
-          {(scene === 'lake' || scene === 'coast' || scene === 'river' || scene === 'shrine') && <>
+          {(scene === 'lake' || scene === 'coast' || scene === 'river' || scene === 'canal') && <>
             <path d="M0 364Q204 342 395 356T900 339V610H0Z" fill={`url(#${prefix}-water)`}/>
             <path d="M0 370Q204 347 395 358T900 345V610H0Z" fill={`url(#${prefix}-ripple)`}/>
             {scene === 'coast' && <><path d="M0 610V392Q85 359 161 431L218 463L269 508L372 536L435 610Z" fill={tone.deep}/><path d="M560 610L659 439L772 467L848 388L900 421V610Z" fill="#284f55"/><path d="M596 470Q642 427 695 442" stroke="#fff" stroke-width="6" fill="none" opacity=".45"/></>}
-            {(scene === 'lake' || scene === 'shrine') && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
+            {(scene === 'lake') && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
             {scene === 'river' && <><path d="M105 420Q320 347 519 403T895 397" fill="none" stroke="#e0f1ef" stroke-width="75" opacity=".6"/><path d="M180 390L741 380" stroke="#e6e6de" stroke-width="9"/>{[260,430,605].map(x=><path d={`M${x} 391V466`} stroke="#d6dacf" stroke-width="11"/>)}</>}
           </>}
-          {(scene === 'field' || scene === 'flower' || scene === 'town') && <>
+          {(scene === 'field' || scene === 'flower' || scene === 'town' || scene === 'shrine') && <>
             <path d="M0 468Q200 365 387 462Q588 393 900 468V610H0Z" fill="#96b6a0"/>
             {[0,1,2,3,4].map((i) => <path d={`M${-80 + i*55} ${550+i*20} Q480 ${402+i*10} 865 ${505+i*30}`} fill="none" stroke="#e5ddbc" stroke-width="5" opacity=".6"/>)}
           </>}
+          {scene === 'canal' && <>
+            <path d="M0 405Q250 340 473 402T900 381V610H0Z" fill={tone.mid} opacity=".54"/>
+            <path d="M70 610L286 384L388 384L259 610Z" fill="#e9d4ac" opacity=".9"/>
+            <path d="M419 610L552 393L638 393L597 610Z" fill="#e9d4ac" opacity=".8"/>
+            {[250,345,442,539,635].map((x,i) => <g transform={`translate(${x} ${374+i%2*10})`}>
+              <path d="M0 0V-93" stroke={tone.deep} stroke-width="5"/>
+              <path d="M-22 -77Q0 -120 22 -77" fill={tone.light} stroke={tone.deep} stroke-width="3"/>
+            </g>)}
+          </>}
+          {slug === 'tsukuba' && <g opacity=".94">
+            <path d="M180 430L383 190L502 359L632 205L832 431Z" fill={tone.mid}/>
+            <path d="M180 430L385 203L500 373L630 218L827 431Z" fill={tone.deep} opacity=".68"/>
+          </g>}
+          {slug === 'tsuchiura' && <g transform="translate(0 -26)">
+            <path d="M610 175L610 231M580 201L641 201M590 180L630 220M591 220L629 181" stroke="#fff1d9" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="610" cy="201" r="47" stroke="#fff1d9" stroke-width="3" fill="none" stroke-dasharray="2 11"/>
+            <path d="M723 128L723 190M694 159H752M703 138L744 181M704 181L743 138" stroke="#eeb6b7" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="723" cy="159" r="40" stroke="#eeb6b7" stroke-width="3" fill="none" stroke-dasharray="2 10"/>
+          </g>}
+          {slug === 'mito' && <g transform="translate(525 388)" opacity=".9">
+            <path d="M0 90V-64M-7 -30Q-84 -98 -141 -77M6 -45Q76 -115 130 -86" fill="none" stroke="#355c56" stroke-width="13" stroke-linecap="round"/>
+            {[-132,-95,-46,20,75,117].map((x,i)=><g><circle cx={x} cy={-80+(i%3)*17} r="23" fill={i%2?'#f7ecec':'#eec7d5'}/><circle cx={x-4} cy={-86+(i%3)*17} r="10" fill="#fff8f2" opacity=".75"/></g>)}
+          </g>}
+          {slug === 'takahagi' && <g transform="translate(0 -7)">
+            {[100,169,768,827].map((x,i)=><g transform={`translate(${x} ${260+i%2*19})`}>
+              <path d="M0 95V-72" stroke="#624a3c" stroke-width="10"/>
+              {[[-29,-65],[-7,-89],[27,-61],[5,-39]].map(([dx,dy],j)=><circle cx={dx} cy={dy} r={28-(j%2)*5} fill={j%2?'#d08b54':'#aa644a'} opacity=".88"/>)}
+            </g>)}
+          </g>}
           {scene === 'shrine' && <g transform={`translate(${475+stageOffset} 320)`} fill="none" stroke="#294a5b" stroke-width="13" stroke-linejoin="round"><path d="M0 155V-40M170 155V-40M-22 -32H194M-5 -62H178"/><path d="M-15 -63Q82 -82 188 -63" stroke="#c87c64" stroke-width="13"/></g>}
           {scene === 'town' && <>
             {[220,345,478,605].map((x,i)=><g transform={`translate(${x+stageOffset} ${335+i*13})`}><path d="M-25 73V-6H62V73" fill="#e3d1b4"/><path d="M-48 -9L18 -60L87 -9Z" fill={tone.deep}/><path d="M13 73V20H42V73" fill="#8a9784"/><path d="M-7 15H8V41H-7Z" fill="#789fac"/></g>)}
