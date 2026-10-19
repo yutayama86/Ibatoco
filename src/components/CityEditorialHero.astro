@@ -6,6 +6,7 @@
  * SVGは観光写真ではないため、実在しない建築物・風景を「現地画像」と呼ばない。
  */
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import type { MunicipalitySlug } from '../data/areas';
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
 import { CITY_SCENE_BY_SLUG, REGION_SCENE_TONES } from '../data/city-visuals';
@@ -14,7 +15,7 @@ interface Props { slug: string; catchCopy: string; lead: string[]; photo?: CityP
 const { slug, catchCopy, lead, photo, relatedSpots = [] } = Astro.props;
 const city = MUNI_BY_SLUG.get(slug)!;
 const region = REGIONS[city.region];
-const scene = CITY_SCENE_BY_SLUG[slug];
+const scene = CITY_SCENE_BY_SLUG[slug as MunicipalitySlug];
 const tone = REGION_SCENE_TONES[city.region];
 const featureNames = relatedSpots.filter(Boolean).slice(0,2);
 const latinName = slug.replaceAll('-', ' ').toUpperCase();
