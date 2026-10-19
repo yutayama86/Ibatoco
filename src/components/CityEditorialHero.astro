@@ -89,7 +89,7 @@ const stageOffset = (visualSeed % 38) - 19;
             <path d="M0 370Q204 347 395 358T900 345V610H0Z" fill={`url(#${prefix}-ripple)`}/>
             {scene === 'coast' && <><path d="M0 610V392Q85 359 161 431L218 463L269 508L372 536L435 610Z" fill={tone.deep}/><path d="M560 610L659 439L772 467L848 388L900 421V610Z" fill="#284f55"/><path d="M596 470Q642 427 695 442" stroke="#fff" stroke-width="6" fill="none" opacity=".45"/></>}
             {(scene === 'lake' || scene === 'shrine') && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
-            {scene === 'river' && <><path d="M105 420Q320 347 519 403T945 397" fill="none" stroke="#e0f1ef" stroke-width="75" opacity=".6"/><path d="M180 390L741 380" stroke="#e6e6de" stroke-width="9"/>{[260,430,605].map(x=><path d={`M${x} 391V466`} stroke="#d6dacf" stroke-width="11"/>)}</>}
+            {scene === 'river' && <><path d="M105 420Q320 347 519 403T895 397" fill="none" stroke="#e0f1ef" stroke-width="75" opacity=".6"/><path d="M180 390L741 380" stroke="#e6e6de" stroke-width="9"/>{[260,430,605].map(x=><path d={`M${x} 391V466`} stroke="#d6dacf" stroke-width="11"/>)}</>}
           </>}
           {(scene === 'field' || scene === 'flower' || scene === 'town') && <>
             <path d="M0 468Q200 365 387 462Q588 393 900 468V610H0Z" fill="#96b6a0"/>
