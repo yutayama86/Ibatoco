@@ -2,7 +2,7 @@
 title: "茨城の秋のおでかけ2026｜9月から11月に開催が決まっていること"
 description: "2026年秋の茨城県。9月から11月にかけて、花火大会5つ、大洗あんこう祭、Night Park OARAIなど開催が確認できたものを時系列でまとめました。ひたち海浜公園のコキアは10月10日頃に紅葉見頃の予想です（公園公式・9月30日時点）。"
 pubDate: 2026-09-02
-updatedDate: 2026-09-30
+updatedDate: 2026-10-19
 articleType: "roundup"
 searchIntent: "この秋、茨城でどこへ行けるか、何が開催されるかをまとめて知りたい"
 keyword: "茨城 秋 おでかけ 2026"
@@ -43,6 +43,16 @@ picks:
     forWhom: "秋の行楽シーズンに出かけたい人"
     detail: "17日にちくせい花火大会（午後6時開始・約2万発・道の駅グランテラス筑西周辺）。荒天時は翌18日へ順延です。30日から11月1日には大洗町で Night Park OARAI 2026 が予定されています。"
     url: "/events/ibaraki-events-october-2026/"
+  - name: "10月24日：MIRAI Music Fes 2026"
+    area: "つくばみらい市"
+    forWhom: "屋外音楽イベントを楽しみたい人・市民無料席の対象者"
+    detail: "日本スポーツ振興パークみらいで開催。市民無料席の追加抽選は10月20日23:59まで。出演者や駐車場、シャトルバスの最新情報は市公式で確認してください。"
+    url: "/events/mirai-music-fes-2026/"
+  - name: "10月25日：日立建機フェスティバル"
+    area: "ひたちなか市"
+    forWhom: "建設機械の展示・乗車体験を楽しみたい人"
+    detail: "日立建機 常陸那珂臨港工場を8年ぶりに一般開放。入場無料ですが事前登録が必要で、市の案内では10月20日が申込期限。会場へ車は駐車できず、無料シャトルバス利用を案内しています。"
+    url: "/events/hitachi-kenki-festival-hitachinaka-2026/"
   - name: "11月：土浦の競技大会と、あんこう祭"
     area: "土浦市／大洗町"
     forWhom: "花火の技を見たい人。食を目当てにしたい人"
@@ -71,6 +81,12 @@ faq:
   - question: "紅葉はどこで見られますか。"
     answer: "この記事では、2026年の紅葉の見頃時期を確認できたスポットがないため、具体的な時期を書いていません。イバトコの紅葉ページで県内のスポットをご覧いただけます。"
 sourceUrls:
+  - label: "つくばみらい市｜MIRAI Music Fes 2026"
+    url: "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html"
+    accessedAt: 2026-10-19
+  - label: "日立建機｜日立建機フェスティバルinひたちなか"
+    url: "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/"
+    accessedAt: 2026-10-19
   - label: "国営ひたち海浜公園｜2026年コキア紅葉＆混雑予想"
     url: "https://www.hitachikaihin.jp/event/kochiacarnival2026/page001034.html"
     accessedAt: 2026-09-30
@@ -96,6 +112,8 @@ sourceUrls:
     url: "https://www.hitachikaihin.jp/flower-plant/flower-info/kochia.html"
     accessedAt: 2026-09-02
 relatedArticleUrls:
+  - "/events/mirai-music-fes-2026/"
+  - "/events/hitachi-kenki-festival-hitachinaka-2026/"
   - "/events/kasama-kiku-matsuri-2026/"
   - "/events/daigo-ringo-gari-2026/"
   - "/events/"
