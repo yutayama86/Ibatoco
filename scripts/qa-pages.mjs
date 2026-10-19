@@ -139,12 +139,6 @@ export function qaPages(root = process.cwd()) {
       required: [['h1', 1], ['a[href^="/events/"]', 1]],
     },
     {
-      name: '市町村（高萩市・エディトリアルFV試作）',
-      path: '/area/takahagi/',
-      canonical: '/area/takahagi/',
-      required: [['h1', 1], ['.area-guide--takahagi-editorial .ag-editorial-art', 1], ['.ag-head .ag-catch', 1], ['.ag-content #highlights', 1]],
-    },
-    {
       name: '市町村（高萩市・共通ヒーロー）',
       path: '/area/takahagi/',
       canonical: '/area/takahagi/',
