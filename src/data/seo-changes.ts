@@ -139,6 +139,17 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'metadata',
   },
   {
+    id: '20261029-events-fukuroda-falls-autumn-2026-tea-cafe',
+    date: '2026-10-29',
+    url: '/events/fukuroda-falls-autumn-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：奥久慈茶カフェ巡り2026 第3弾（11/14・15、3茶園＋7店舗、シール4つ以上で参加特典、第3弾の参加茶園と時間）を周遊候補として見どころに追記し、出典2件を追加。title・description・URL は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。Growth Director 決裁（10/17）「10/29以降、観測終了を確認してから」。料金（660円は第三者の投稿のみ）と景品の中身は未確認のため書かない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261017-events-october-marron-fair',
     date: '2026-10-17',
     url: '/events/ibaraki-events-october-2026/',
