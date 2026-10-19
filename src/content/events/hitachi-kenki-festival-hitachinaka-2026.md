@@ -63,6 +63,10 @@ sourceUrls:
   - label: "日立建機｜10月25日 常陸那珂臨港工場でフェスティバルを開催"
     url: "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/"
     accessedAt: 2026-10-19
+relatedArticleUrls:
+  - "/events/ibaraki-events-october-2026/"
+  - "/events/"
+
 eventInfo:
   name: "日立建機フェスティバルinひたちなか"
   startDate: 2026-10-25
