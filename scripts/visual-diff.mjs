@@ -29,6 +29,7 @@ const PAGES = [
   '/sports/',
   '/news/',
   '/area/tsuchiura/',
+  '/area/takahagi/',
 ];
 const WIDTHS = [
   { name: '375', width: 375, height: 812 },
