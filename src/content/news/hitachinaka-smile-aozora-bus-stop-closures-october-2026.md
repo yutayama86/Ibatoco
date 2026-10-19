@@ -43,8 +43,6 @@ sourceUrls:
   - label: "ひたちなか市｜スマイルあおぞらバス停留所の休止・移設（2026年10月15日更新）"
     url: "https://www.city.hitachinaka.lg.jp/kurashi/kotsu/1001712/1007501/1001713.html"
     accessedAt: 2026-10-19
-relatedArticleUrls:
-  - "/news/hitachinaka-library-free-books-october-2026/"
 ---
 
 本文はfrontmatterの構造化フィールドへ移送済みです。
