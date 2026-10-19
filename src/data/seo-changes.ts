@@ -48,6 +48,30 @@ export interface SeoChange {
  * 追加は `npm run seo:log` を使うと形式が崩れない。
  */
 export const SEO_CHANGES: SeoChange[] = [
+
+  {
+    id: '20261019-events-ryujin-official-consistency',
+    date: '2026-10-19',
+    url: '/events/ryujin-bridge-autumn-2026/',
+    kind: 'on-page',
+    change: '公式発表後も残っていたdescriptionと予約案内の「紅葉まつり未発表」表記を、第37回竜神峡紅葉まつりの会期・土曜ライトアップ発表済みに整合。見頃予想は未確認を維持',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の整合（観測窓0日）。出典：常陸太田市観光物産協会、2026年10月16日発表。URL・titleは変更なし',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261019-events-november-ryujin-official-consistency',
+    date: '2026-10-19',
+    url: '/events/ibaraki-events-november-2026/',
+    kind: 'on-page',
+    change: '竜神大吊橋の紹介を10月16日の公式発表に更新し、会期・営業時間・土曜ライトアップ・物産市・県民の日無料を反映。未発表表記を解消',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の整合（観測窓0日）。2026年の紅葉の見頃予想は未確認を維持。URL・title・descriptionは変更なし',
+    experimentType: 'fact',
+  },
+
   {
     id: '20261019-news-kashima-pohang-acle-guide-new',
     date: '2026-10-19',

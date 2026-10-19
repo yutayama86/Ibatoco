@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-10-20",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-18",
-    "ga4Through": "2026-10-16",
-    "gscThrough": "2026-10-15",
-    "referenceRunRate30": 17390,
-    "referenceGapViews": 82610,
-    "officialRawRunRate30": 15266,
-    "latest3RawRunRate30": 18170,
-    "incidentAdjustedLatest3ReferenceRunRate30": 18170,
+    "asOf": "2026-10-20",
+    "ga4Through": "2026-10-18",
+    "gscThrough": "2026-10-17",
+    "referenceRunRate30": 18291,
+    "referenceGapViews": 81709,
+    "officialRawRunRate30": 18291,
+    "latest3RawRunRate30": 19130,
+    "incidentAdjustedLatest3ReferenceRunRate30": null,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 3562,
-    "recent7DailyAverage": 508.85714285714283,
-    "recent3Views": 1817,
-    "recent3DailyAverage": 605.6666666666666,
+    "recent7Views": 4268,
+    "recent7DailyAverage": 609.7142857142857,
+    "recent3Views": 1913,
+    "recent3DailyAverage": 637.6666666666666,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日と障害日除外7日は回復後の微増を示すが、11月需要を重複なく積み上げたportfolioは未確定。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。需要portfolioは重複排除・確度補正の根拠不足でnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -129,7 +129,16 @@
     },
     {
       "date": "2026-10-19",
-      "criterion": "ページ別GSCの前後同日数・Views・配信実績で勝ち筋を再判定。不足を埋める根拠が無ければ小改善の連打を止め、需要クラスターと配信へ資源を移す。"
+      "criterion": "ページ別GSCの前後同日数・Views・配信実績で勝ち筋を再判定。不足を埋める根拠が無ければ小改善の連打を止め、需要クラスターと配信へ資源を移す。",
+      "status": "completed",
+      "completedAt": "2026-10-19",
+      "evidence": {
+        "ga4": "10/11〜17は4,129 Views、589.9/日。最新3日は625/日（+5.96%）だが30日換算18,750は参考値",
+        "gsc": "10/10〜16は32,840表示・1,747クリック・CTR5.32%・平均順位6.41。大洗あんこう祭が最大、紅葉は花貫・袋田・竜神が露出開始",
+        "reallocation": "小改善連打を止め、大洗あんこう防衛・紅葉一次情報/回遊・土浦花火観測窓を優先。竜神峡の公式発表矛盾だけ即修正",
+        "revenue": "予約MVP7日窓は341表示・paid3（0.88%）・outbound24（7.04%）・確定売上0円。CTA増量せず商材一致を点検",
+        "forecast": "需要積上げ予測はnull。現状7日ランレート基準Gap82,304 Viewsを埋めたとは判断しない"
+      }
     },
     {
       "date": "2026-10-26",
@@ -137,23 +146,25 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-18",
-    "pr": 327,
-    "productionCommit": "0a6a30aa099cecc415e8a3e2225c9565dc90fa01",
-    "productionQaRun": 39074882606,
-    "productionQa": "passed: 18 pages x 6 widths (320/375/430/768/1280/1440), 0 issues",
-    "factsReleased": [],
-    "incrementalViewsObserved": null,
-    "growthImplementations": 0,
-    "growthImplementation": "なし（土浦花火は10/17に公式事実更新済みで新差分なし。予約MVPは10/17確定待ち。実測同期・CTR校正は獲得PVに計上しない）",
-    "expectedPvImpact": 0,
-    "expectedPvImpactConfidence": "none",
-    "observationWindow": "予約MVP 2026-10-11..17、10/16まで6日分確定",
-    "blockers": [
-      "予約MVPの10/17が未確定",
-      "土浦花火は10/17更新後の観測中で、新たな公式事実差分なし"
+    "date": "2026-10-20",
+    "pr": null,
+    "productionCommit": null,
+    "productionQaRun": null,
+    "productionQa": "pending",
+    "factsReleased": [
+      "竜神峡紅葉まつり公式発表後の未発表表記を個別記事と11月ハブで解消（前日準備分を本番反映）"
     ],
-    "nextConcreteAction": "10/19 checkpointで予約MVP7日窓、重点8ページの前週比、土浦花火・あんこう祭・紅葉のGSC立ち上がりを再評価し、実行可能な需要獲得施策を最大3件へ再選別する。",
-    "nextDemandCheckpoint": "2026-10-19"
+    "incrementalViewsObserved": null,
+    "growthImplementations": 1,
+    "growthImplementation": "竜神峡の事実整合1件（2ページ）を本番反映。expectedPvImpactは算定不能のため獲得PVに計上しない。",
+    "expectedPvImpact": null,
+    "expectedPvImpactConfidence": "none",
+    "observationWindow": "事実訂正は即時。metadata/internal links 14日、本文28日の既存窓は維持。",
+    "blockers": [
+      "需要根拠付きconfidence-adjusted portfolio未成立",
+      "土浦花火等の進行中観測窓"
+    ],
+    "nextConcreteAction": "10/21は公式一次情報差分とGSC未露出需要を再探索し、大洗あんこう・紅葉・土浦花火の実行可能施策を再選別。",
+    "nextDemandCheckpoint": "2026-10-26"
   }
 }
