@@ -6,7 +6,7 @@
  * SVGは観光写真ではないため、実在しない建築物・風景を「現地画像」と呼ばない。
  */
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
-interface CityPhoto { src: string; alt: string; credit: string; creditUrl: string }
+interface CityPhoto { src: string; alt: string; credit: string; creditUrl?: string }
 interface Props { slug: string; catchCopy: string; lead: string[]; photo?: CityPhoto; relatedSpots?: string[] }
 const { slug, catchCopy, lead, photo, relatedSpots = [] } = Astro.props;
 const city = MUNI_BY_SLUG.get(slug)!;
@@ -14,11 +14,13 @@ const region = REGIONS[city.region];
 const motifs: Record<string, string[]> = {
   gorge: ['takahagi','kitaibaraki','hitachiota','daigo'],
   coast: ['hitachi','oarai','kamisu'],
-  lake: ['kasumigaura','tsuchiura','ami','miho','tone','shimotsuma','namegata','itako'],
-  flower: ['mito','hitachinaka','kasama','ishioka','ushiku','sakuragawa'],
+  lake: ['kasumigaura','tsuchiura','ami','miho','tone','shimotsuma','namegata'],
+  shrine: ['itako','kasama','kashima'],
+  flower: ['mito','hitachinaka','ishioka','ushiku','sakuragawa'],
   mountain: ['hitachiomiya','shirosato','tsukuba','chikusei'],
-  river: ['ryugasaki','moriya','toride','joso','bando','koga','goka','sakai'],
-  field: ['naka','tokai','ibaraki-machi','omitama','inashiki','tsukubamirai','kawachi','hokota','yachiyo','yuki'],
+  river: ['ryugasaki','moriya','toride','joso','bando','goka','sakai'],
+  field: ['naka','tokai','ibaraki-machi','omitama','inashiki','tsukubamirai','kawachi','hokota','yachiyo'],
+  town: ['yuki','koga'],
 };
 const scene = Object.entries(motifs).find(([, list]) => list.includes(slug))?.[0] ?? 'field';
 const regionTones: Record<string, { deep: string; mid: string; light: string; warm: string }> = {
@@ -33,6 +35,10 @@ const featureNames = relatedSpots.filter(Boolean).slice(0,2);
 const latinName = slug.replaceAll('-', ' ').toUpperCase();
 const prefix = `ch-${slug}`;
 const actualPhoto = !!photo;
+const visualSeed = [...slug].reduce((n,c)=>((n*31+c.charCodeAt(0))>>>0),0);
+const sunX = 620 + visualSeed % 175;
+const lakeSailX = 440 + visualSeed % 120;
+const stageOffset = (visualSeed % 38) - 19;
 ---
 <header class="city-hero" data-city-hero data-city-slug={slug}>
   <div class="city-hero__topography" aria-hidden="true"></div>
@@ -70,7 +76,7 @@ const actualPhoto = !!photo;
             </pattern>
           </defs>
           <rect width="900" height="610" fill={`url(#${prefix}-sky)`}/>
-          <circle cx="705" cy="140" r="62" fill="#f6dfb0" opacity=".8"/>
+          <circle cx={sunX} cy="140" r="62" fill="#f6dfb0" opacity=".8"/>
           <path d="M0 290Q170 216 290 263Q460 177 600 256Q720 215 900 251V610H0Z" fill={tone.light} opacity=".8"/>
           <path d="M0 346Q110 303 245 325Q377 248 487 320Q648 275 900 352V610H0Z" fill={tone.mid} opacity=".42"/>
           {(scene === 'gorge' || scene === 'mountain' || scene === 'flower') && <>
@@ -78,16 +84,20 @@ const actualPhoto = !!photo;
             <path d="M0 450L155 343L296 412L435 319L591 440L737 352L900 435V610H0Z" fill={tone.deep}/>
             {scene === 'gorge' && <><path d="M190 610C330 500 400 483 520 421C630 360 642 345 730 328" fill="none" stroke="#d9f1f1" stroke-width="56" opacity=".83"/><path d="M185 610C321 515 398 489 516 423C625 364 648 348 729 330" fill="none" stroke="#5398ad" stroke-width="23" opacity=".8"/><path d="M315 418Q455 350 590 390" fill="none" stroke={tone.warm} stroke-width="17"/><path d="M314 419Q455 350 590 390" fill="none" stroke="#f1c7a5" stroke-width="3"/></>}
           </>}
-          {(scene === 'lake' || scene === 'coast' || scene === 'river') && <>
+          {(scene === 'lake' || scene === 'coast' || scene === 'river' || scene === 'shrine') && <>
             <path d="M0 364Q204 342 395 356T900 339V610H0Z" fill={`url(#${prefix}-water)`}/>
             <path d="M0 370Q204 347 395 358T900 345V610H0Z" fill={`url(#${prefix}-ripple)`}/>
             {scene === 'coast' && <><path d="M0 610V392Q85 359 161 431L218 463L269 508L372 536L435 610Z" fill={tone.deep}/><path d="M560 610L659 439L772 467L848 388L900 421V610Z" fill="#284f55"/><path d="M596 470Q642 427 695 442" stroke="#fff" stroke-width="6" fill="none" opacity=".45"/></>}
-            {scene === 'lake' && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
+            {(scene === 'lake' || scene === 'shrine') && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
             {scene === 'river' && <><path d="M105 420Q320 347 519 403T945 397" fill="none" stroke="#e0f1ef" stroke-width="75" opacity=".6"/><path d="M180 390L741 380" stroke="#e6e6de" stroke-width="9"/>{[260,430,605].map(x=><path d={`M${x} 391V466`} stroke="#d6dacf" stroke-width="11"/>)}</>}
           </>}
-          {(scene === 'field' || scene === 'flower') && <>
+          {(scene === 'field' || scene === 'flower' || scene === 'town') && <>
             <path d="M0 468Q200 365 387 462Q588 393 900 468V610H0Z" fill="#96b6a0"/>
             {[0,1,2,3,4].map((i) => <path d={`M${-80 + i*55} ${550+i*20} Q480 ${402+i*10} 990 ${505+i*30}`} fill="none" stroke="#e5ddbc" stroke-width="5" opacity=".6"/>)}
+          </>}
+          {scene === 'shrine' && <g transform={`translate(${475+stageOffset} 320)`} fill="none" stroke="#294a5b" stroke-width="13" stroke-linejoin="round"><path d="M0 155V-40M170 155V-40M-22 -32H194M-5 -62H178"/><path d="M-15 -63Q82 -82 188 -63" stroke="#c87c64" stroke-width="13"/></g>}
+          {scene === 'town' && <>
+            {[220,345,478,605].map((x,i)=><g transform={`translate(${x+stageOffset} ${335+i*13})`}><path d="M-25 73V-6H62V73" fill="#e3d1b4"/><path d="M-48 -9L18 -60L87 -9Z" fill={tone.deep}/><path d="M13 73V20H42V73" fill="#8a9784"/><path d="M-7 15H8V41H-7Z" fill="#789fac"/></g>)}
           </>}
           {(scene === 'flower' || scene === 'lake') && <>
             {[85,164,241,321,405].map((x,i) => <g transform={`translate(${x} ${485+i*11})`}><path d="M0 10V-100" stroke="#47756b" stroke-width="4"/><circle cx="0" cy="-103" r="27" fill={i%2? '#f5c8d2':'#f5e3ed'}/><circle cx="-10" cy="-110" r="11" fill="#fff6f7" opacity=".85"/><circle cx="9" cy="-97" r="13" fill="#d78b9a" opacity=".5"/></g>)}
@@ -104,7 +114,7 @@ const actualPhoto = !!photo;
         {featureNames.length>0 ? <strong>{featureNames.join(' × ')}</strong> : <strong>{city.name}の風景</strong>}
       </div>
       <figcaption class="city-hero__credit">
-        {photo ? <a href={photo.creditUrl} rel="license noopener" target="_blank">{photo.credit}</a> : '街の特徴をイメージした図案（現地写真ではありません）'}
+        {photo ? (photo.creditUrl ? <a href={photo.creditUrl} rel="license noopener" target="_blank">{photo.credit}</a> : photo.credit) : '街の特徴をイメージした図案（現地写真ではありません）'}
       </figcaption>
     </figure>
   </div>
