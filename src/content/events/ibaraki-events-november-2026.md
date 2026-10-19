@@ -10,7 +10,6 @@ lifespan: "seasonal"
 prefecture: "茨城県"
 municipalities:
   - tsuchiura
-  - kasama
   - oarai
   - hitachinaka
   - hitachiota
