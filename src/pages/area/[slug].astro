@@ -7,6 +7,7 @@ import NewsCard from '../../components/NewsCard.astro';
 import HitachiAreaGuide from '../../components/HitachiAreaGuide.astro';
 import DaigoAreaGuide from '../../components/DaigoAreaGuide.astro';
 import AreaGuide from '../../components/AreaGuide.astro';
+import CityEditorialHero from '../../components/CityEditorialHero.astro';
 import { AREA_GUIDES, type AreaGuide as AreaGuideData } from '../../data/area-guides';
 import { MUNICIPALITY_CONTENT } from '../../data/municipality-content';
 import { MUNICIPALITIES, MUNI_BY_SLUG, REGIONS, municipalitiesByRegion } from '../../data/areas';
@@ -163,13 +164,7 @@ const jsonLd: Record<string, unknown>[] = [
     <a href="/area/">ほかの街</a>
   </nav>
   {isHitachi ? <HitachiAreaGuide /> : isDaigo ? <DaigoAreaGuide /> : hasGuide ? <AreaGuide slug={slug!} guide={guide!} /> : <article class="area-page">
-    <header class="area-head bp-wrap">
-      <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/area/">エリア</a><span>/</span><span>{region.label}</span></nav>
-      <p class="bp-kicker">{region.label} / IBARAKI</p>
-      <h1>{municipality.name}</h1>
-      <p class="area-lead">この街で出会った人、場所、営みを、確認できた情報から記録します。</p>
-      <a class="map-back" href="/area/">44市町村の地図に戻る →</a>
-    </header>
+    <CityEditorialHero slug={slug!} catchCopy="この街で出会った人、場所、営みを、確認できた情報から記録します。" lead={['公開情報に基づき、街に根づく暮らしと場所を少しずつ紹介します。']} relatedSpots={[]} />
 
     {hasContent ? <div class="area-content bp-wrap">
       {articles.length > 0 && <section><p class="bp-kicker">STORIES</p><h2 class="bp-section-title">{municipality.name}で聞いた物語</h2><div class="story-grid">{articles.map((article) => <BrandStoryCard article={article} />)}</div></section>}
