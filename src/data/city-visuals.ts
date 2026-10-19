@@ -1,10 +1,10 @@
-import type { RegionKey } from './areas';
+import type { RegionKey, MunicipalitySlug } from './areas';
 
 /** 44市町村のヘッダー図案の唯一の正本。
  * 写真ではない抽象モチーフ。市町村追加時は明示的に割り当てる。
  */
 export type CityScene = 'gorge' | 'coast' | 'lake' | 'shrine' | 'canal' | 'flower' | 'mountain' | 'river' | 'field' | 'town';
-export const CITY_SCENE_BY_SLUG: Record<string, CityScene> = {
+export const CITY_SCENE_BY_SLUG: Record<MunicipalitySlug, CityScene> = {
   'takahagi': 'gorge',
   'kitaibaraki': 'gorge',
   'hitachiota': 'gorge',
