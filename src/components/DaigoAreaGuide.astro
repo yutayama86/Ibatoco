@@ -1,4 +1,5 @@
 ---
+import CityEditorialHero from './CityEditorialHero.astro';
 /**
  * 大子町エリアガイド（旗艦・リッチ版）。日立市（HitachiAreaGuide）と同水準の作り込み。
  *   事実・数値は大子町／大子町観光協会の公開情報に基づく。架空の加筆はしない。
@@ -65,22 +66,7 @@ const officialLinks: [string, string][] = [
 ---
 
 <article class="daigo-guide">
-  <header class="area-head">
-    <div class="area-head-copy bp-wrap">
-      <div>
-        <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/area/">エリア</a><span>/</span><span>県北</span></nav>
-        <p class="bp-kicker">県北 / IBARAKI</p><h1>大子町</h1>
-        <p class="area-catch">「四度おとずれないと、本当の姿は分からない」と言われた滝の町。</p>
-        <div class="area-lead">
-          <p>久慈川の上流、山あいに位置する県北の町。奥久慈と呼ばれる一帯の中心で、滝と温泉、山の味覚で知られます。</p>
-          <p>袋田の滝は、高さ120メートル、幅73メートル。大岩壁を四段に落ちることから「四度（よど）の滝」とも呼ばれます。一説には、西行法師が「四季に一度ずつ、四度来なければ本当の風趣は味わえない」と評したことが、その名の由来と伝わります。</p>
-          <p>厳しい寒さの年には、滝全体が白く凍る「氷瀑」が見られることがあります。同じ滝が、季節でまったく違う姿になる。奥久慈しゃも、常陸秋そば、りんご。山の恵みも豊かな町です。</p>
-        </div>
-        <a class="map-back" href="/area/">44市町村の地図に戻る →</a>
-      </div>
-      <figure class="area-cover"><img src="/images/area/daigo/cover.jpg" alt="袋田の滝の全景" loading="eager" fetchpriority="high" width="1600" height="1066"><figcaption><a href={commons('Fukuroda_Falls_30.jpg')} rel="license noopener" target="_blank">写真：Σ364 / CC BY 3.0</a></figcaption></figure>
-    </div>
-  </header>
+  <CityEditorialHero slug="daigo" catchCopy="「四度おとずれないと、本当の姿は分からない」と言われた滝の町。" lead={['久慈川の上流、山あいに位置する県北の町。奥久慈と呼ばれる一帯の中心で、滝と温泉、山の味覚で知られます。','袋田の滝は、高さ120メートル、幅73メートル。大岩壁を四段に落ちることから「四度（よど）の滝」とも呼ばれます。一説には、西行法師が「四季に一度ずつ、四度来なければ本当の風趣は味わえない」と評したことが、その名の由来と伝わります。','厳しい寒さの年には、滝全体が白く凍る「氷瀑」が見られることがあります。同じ滝が、季節でまったく違う姿になる。奥久慈しゃも、常陸秋そば、りんご。山の恵みも豊かな町です。']} photo={{src:'/images/area/daigo/cover.jpg',alt:'袋田の滝の全景',credit:'写真：Σ364 / CC BY 3.0',creditUrl:'https://commons.wikimedia.org/wiki/File:Fukuroda_Falls_30.jpg'}} relatedSpots={['袋田の滝','奥久慈']} />
   <nav class="area-jump" aria-label="大子町のページ内ナビゲーション"><div class="bp-wrap"><span>知りたいことから読む</span><a href="#highlights">見どころ</a><a href="#taste">食べる</a><a href="#experience">体験する</a><a href="#route">半日コース</a><a href="#seasons">季節</a><a href="#plan">旅の準備</a><a href="#faq">よくある質問</a></div></nav>
 
   <div class="guide-content bp-wrap">

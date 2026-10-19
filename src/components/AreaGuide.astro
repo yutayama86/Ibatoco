@@ -7,13 +7,14 @@
  * 阿見町・東海村（sensitive）は評価語を避け、「PLACES／この街にある場所。」の中立見出しにする。
  */
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import CityEditorialHero from './CityEditorialHero.astro';
 import type { AreaGuide } from '../data/area-guides';
 
 interface Props { slug: string; guide: AreaGuide; }
 const { slug, guide } = Astro.props;
 const municipality = MUNI_BY_SLUG.get(slug)!;
 // リニューアル試作は高萩市に限定。共通ガイドの文章と検索情報は変更しない。
-const isTakahagiEditorial = slug === 'takahagi';
+
 const region = REGIONS[municipality.region];
 const placesKicker = guide.sensitive ? 'PLACES' : 'HIGHLIGHTS';
 const placesHeading = guide.sensitive ? 'この街にある場所。' : 'この街で、訪ねたい場所。';
@@ -28,35 +29,8 @@ if (guide.seasons?.length) jump.push({ href: '#seasons', label: '季節' });
 if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' });
 ---
 
-<article class:list={['area-guide', { 'area-guide--takahagi-editorial': isTakahagiEditorial }]}>
-  <header class="ag-head">
-    <div class="ag-head-copy bp-wrap">
-      <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/area/">エリア</a><span>/</span><span>{region.label}</span></nav>
-      <p class="bp-kicker">{region.label} / IBARAKI</p>
-      <h1>{municipality.name}</h1>
-      <p class="ag-catch">{guide.catch}</p>
-      <div class="ag-lead">{guide.lead.map((p) => <p>{p}</p>)}</div>
-      <a class="map-back" href="/area/">44市町村の地図に戻る →</a>
-    </div>
-    {isTakahagiEditorial && (
-      <div class="ag-editorial-art" aria-hidden="true">
-        <div class="ag-editorial-art__sky">
-          <span class="ag-editorial-art__eyebrow">IBARAKI / NORTHERN COAST</span>
-          <span class="ag-editorial-art__sun"></span>
-          <span class="ag-editorial-art__ridge ag-editorial-art__ridge--far"></span>
-          <span class="ag-editorial-art__ridge ag-editorial-art__ridge--near"></span>
-          <span class="ag-editorial-art__sea"></span>
-          <span class="ag-editorial-art__coast"></span>
-        </div>
-        <div class="ag-editorial-art__bottom">
-          <span>01 / VALLEY</span>
-          <strong>花貫渓谷</strong>
-          <span>02 / COAST</span>
-          <strong>高戸小浜海岸</strong>
-        </div>
-      </div>
-    )}
-  </header>
+<article class="area-guide">
+  <CityEditorialHero slug={slug} catchCopy={guide.catch} lead={guide.lead} relatedSpots={guide.highlights.map((spot) => spot.title)} photo={slug === "hitachinaka" ? { src: "/images/theme/nemophila-hitachi-seaside-park.jpg", alt: "国営ひたち海浜公園のみはらしの丘に咲くネモフィラ", credit: "写真：イバトコ編集部" } : undefined} />
 
   {jump.length > 1 && (
     <nav class="ag-jump" aria-label={`${municipality.name}のページ内ナビゲーション`}>
@@ -171,26 +145,5 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
   .ag-sources{margin-top:1rem;border-top:1px solid rgba(255,255,255,.2)}.ag-sources li a{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.2);color:var(--color-white);font-size:.82rem}
   @media(max-width:900px){.ag-grid-3{grid-template-columns:minmax(0,1fr)}.route-section ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:640px){.area-guide{padding-top:2.5rem}.ag-head h1{font-size:3.2rem}.ag-grid,.season-grid{grid-template-columns:minmax(0,1fr)}.route-section ol{grid-template-columns:minmax(0,1fr)}.route-section li{border-right:0;border-bottom:1px solid var(--color-mist)}.route-extra,.source-note{grid-template-columns:minmax(0,1fr)}}
-  /* 高萩市先行：文字と地形グラフィックで「渓谷と海の距離」を表す。
-   * 写真・本文・共通導線には触れず、他43市町村へ波及させない。 */
-  .area-guide--takahagi-editorial .ag-head{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;gap:clamp(2rem,4vw,5rem);padding:clamp(2.5rem,5vw,4.5rem) max(1.5rem,calc((100vw - 1320px)/2));margin-inline:auto;max-width:1540px;border-bottom:1px solid var(--color-line)}
-  body.interior-site .area-guide--takahagi-editorial .ag-head-copy.bp-wrap{width:100%;max-width:48rem;min-width:0;margin:0;display:block;grid-template-columns:none;justify-content:initial}
-  body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(4.5rem,8vw,8rem)!important;line-height:1.09!important;letter-spacing:.065em}
-  .area-guide--takahagi-editorial .ag-catch{max-width:15em;font-size:clamp(1.55rem,2.8vw,2.6rem);line-height:1.5;letter-spacing:.025em;text-wrap:pretty}
-  .area-guide--takahagi-editorial .ag-lead{max-width:40rem;font-size:.95rem;line-height:2.1}
-  .area-guide--takahagi-editorial .ag-editorial-art{display:grid;grid-template-rows:minmax(22rem,1fr) auto;min-height:clamp(32rem,52vw,43rem);overflow:hidden;background:var(--color-deep-blue);color:#fff}
-  .area-guide--takahagi-editorial .ag-editorial-art__sky{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(172deg,#b8d7e1 0%,#d7e7e9 37%,#f1e7d4 66%,#b3c4b6 100%)}
-  .area-guide--takahagi-editorial .ag-editorial-art__eyebrow{position:absolute;top:1.5rem;left:1.5rem;z-index:5;color:#203c49;font:700 .64rem/1.5 var(--font-brand-meta);letter-spacing:.22em}
-  .area-guide--takahagi-editorial .ag-editorial-art__sun{position:absolute;top:25%;right:17%;width:clamp(5rem,12vw,10rem);aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#fff5d9,#f1d29d);box-shadow:0 0 5rem #fff0c38c}
-  .area-guide--takahagi-editorial .ag-editorial-art__ridge{position:absolute;inset:auto -5% 0;display:block}
-  .area-guide--takahagi-editorial .ag-editorial-art__ridge--far{height:56%;background:#6b8790;clip-path:polygon(0 63%,16% 41%,29% 55%,44% 19%,64% 61%,76% 35%,100% 59%,100% 100%,0 100%);opacity:.7}
-  .area-guide--takahagi-editorial .ag-editorial-art__ridge--near{height:48%;background:#214e54;clip-path:polygon(0 63%,13% 39%,26% 56%,45% 25%,60% 64%,77% 45%,100% 70%,100% 100%,0 100%)}
-  .area-guide--takahagi-editorial .ag-editorial-art__sea{position:absolute;inset:auto 0 0 0;height:20%;background:repeating-linear-gradient(174deg,#8bb0b7 0 1px,transparent 1px 17px),linear-gradient(180deg,#6b9fa8 0%,#315f73 100%);clip-path:polygon(0 48%,22% 42%,45% 38%,65% 40%,100% 30%,100% 100%,0 100%)}
-  .area-guide--takahagi-editorial .ag-editorial-art__coast{position:absolute;inset:auto -2% 0 auto;width:56%;height:25%;background:#1a3e46;clip-path:polygon(0 100%,23% 70%,38% 75%,57% 38%,74% 53%,100% 25%,100% 100%)}
-  .area-guide--takahagi-editorial .ag-editorial-art__bottom{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1rem;align-items:baseline;padding:1.2rem 1.5rem 1.35rem;background:#0d2943}
-  .area-guide--takahagi-editorial .ag-editorial-art__bottom span{font:.6rem/1.6 var(--font-brand-meta);letter-spacing:.17em;color:#a6d3da}
-  .area-guide--takahagi-editorial .ag-editorial-art__bottom strong{font:600 clamp(.85rem,1.4vw,1.08rem)/1.45 var(--font-brand-display);letter-spacing:.08em}
-  @media(max-width:980px){.area-guide--takahagi-editorial .ag-head{grid-template-columns:minmax(0,1fr);gap:2rem}.area-guide--takahagi-editorial .ag-editorial-art{min-height:23rem;grid-template-rows:minmax(17rem,1fr) auto}body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.5rem,11vw,6rem)!important}}
-  @media(max-width:640px){.area-guide--takahagi-editorial .ag-head{padding:2.2rem 1rem 2.8rem;gap:1.7rem}body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.2rem,14vw,4.6rem)!important}.area-guide--takahagi-editorial .ag-catch{font-size:clamp(1.5rem,7vw,2rem)}.area-guide--takahagi-editorial .ag-editorial-art{min-height:20rem;grid-template-rows:minmax(14rem,1fr) auto}.area-guide--takahagi-editorial .ag-editorial-art__bottom{padding:1rem 1.1rem}}
 
 </style>

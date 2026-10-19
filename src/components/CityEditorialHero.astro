@@ -1,0 +1,163 @@
+---
+/**
+ * 44市町村共通のエディトリアル・ヒーロー。
+ * OGPの地形曲線／青い余白／明朝体を継承し、本文とSEOを改変せずに共通化する。
+ * 画像権利を確認済みの日立・大子以外は、街の主題を抽象化したSVGイラスト。
+ * SVGは観光写真ではないため、実在しない建築物・風景を「現地画像」と呼ばない。
+ */
+import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
+import { compactPath } from '../lib/svg-path';
+interface CityPhoto { src: string; alt: string; credit: string; creditUrl?: string }
+interface Props { slug: string; catchCopy: string; lead: string[]; photo?: CityPhoto; relatedSpots?: string[] }
+const { slug, catchCopy, lead, photo, relatedSpots = [] } = Astro.props;
+const city = MUNI_BY_SLUG.get(slug)!;
+const region = REGIONS[city.region];
+const motifs: Record<string, string[]> = {
+  gorge: ['takahagi','kitaibaraki','hitachiota','daigo'],
+  coast: ['hitachi','oarai','kamisu'],
+  lake: ['kasumigaura','tsuchiura','ami','miho','tone','shimotsuma','namegata'],
+  shrine: ['itako','kasama','kashima'],
+  flower: ['mito','hitachinaka','ishioka','ushiku','sakuragawa'],
+  mountain: ['hitachiomiya','shirosato','tsukuba','chikusei'],
+  river: ['ryugasaki','moriya','toride','joso','bando','goka','sakai'],
+  field: ['naka','tokai','ibaraki-machi','omitama','inashiki','tsukubamirai','kawachi','hokota','yachiyo'],
+  town: ['yuki','koga'],
+};
+const scene = Object.entries(motifs).find(([, list]) => list.includes(slug))?.[0] ?? 'field';
+const regionTones: Record<string, { deep: string; mid: string; light: string; warm: string }> = {
+  kenpoku: { deep: '#225569', mid: '#528392', light: '#b8d6db', warm: '#c47f55' },
+  keno: { deep: '#3b6675', mid: '#769aa3', light: '#d1e0d9', warm: '#d19a8e' },
+  kennan: { deep: '#366b88', mid: '#7ca6b5', light: '#c7e1e8', warm: '#c6a48a' },
+  rokko: { deep: '#23687e', mid: '#6aadb5', light: '#cae9e5', warm: '#c99c68' },
+  kensei: { deep: '#567864', mid: '#8da595', light: '#d9e3d3', warm: '#c6a46b' },
+};
+const tone = regionTones[city.region];
+const featureNames = relatedSpots.filter(Boolean).slice(0,2);
+const latinName = slug.replaceAll('-', ' ').toUpperCase();
+const prefix = `ch-${slug}`;
+const actualPhoto = !!photo;
+const visualSeed = [...slug].reduce((n,c)=>((n*31+c.charCodeAt(0))>>>0),0);
+const sunX = 620 + visualSeed % 175;
+const lakeSailX = 440 + visualSeed % 120;
+const stageOffset = (visualSeed % 38) - 19;
+---
+<header class="city-hero" data-city-hero data-city-slug={slug}>
+  <div class="city-hero__topography" aria-hidden="true"></div>
+  <div class="city-hero__inner">
+    <div class="city-hero__copy">
+      <nav class="city-hero__crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/area/">エリア</a><span aria-hidden="true">/</span>
+        <span>{region.label}</span>
+      </nav>
+      <p class="city-hero__region"><span class="city-hero__dot" aria-hidden="true"></span>{region.label} <span aria-hidden="true">/</span> IBARAKI</p>
+      <h1 class="city-hero__name">{city.name}</h1>
+      <p class="city-hero__latin" lang="en">{latinName} <span>CITY GUIDE</span></p>
+      <div class="city-hero__map" aria-hidden="true">
+        <svg viewBox={`0 0 ${GEO_VIEW.w} ${GEO_VIEW.h}`} focusable="false">
+          <image href="/brand/ibaraki-silhouette.svg" width={GEO_VIEW.w} height={GEO_VIEW.h}/>
+          <path d={compactPath(IBARAKI_GEO[slug]?.d ?? '',1)} fill="#2c74b4" stroke="#fff" stroke-width="6"/>
+          <circle cx={IBARAKI_GEO[slug]?.cx} cy={IBARAKI_GEO[slug]?.cy} r="10" fill="#fff" stroke="#1b639d" stroke-width="6"/>
+        </svg>
+      </div>
+      <p class="city-hero__catch">{catchCopy}</p>
+      <div class="city-hero__lead">{lead.map((line) => <p>{line}</p>)}</div>
+      <a class="city-hero__back" href="/area/">44市町村から、ほかの街を探す <span aria-hidden="true">↗</span></a>
+    </div>
+    <figure class:list={['city-hero__visual',{ 'city-hero__visual--photo': actualPhoto }]} style={`--scenery-deep:${tone.deep};--scenery-mid:${tone.mid};--scenery-light:${tone.light};--scenery-warm:${tone.warm}`}>
+      {photo ? (
+        <img src={photo.src} alt={photo.alt} loading="eager" fetchpriority="high" decoding="async" width="1600" height="1000" />
+      ) : (
+        <svg class="city-hero__landscape" viewBox="0 0 900 610" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id={`${prefix}-sky`} x1="0" y1="0" x2="0.15" y2="1">
+              <stop offset="0%" stop-color="#e8f5fa"/><stop offset="55%" stop-color="#b5d9e9"/><stop offset="100%" stop-color="#f3e6d8"/>
+            </linearGradient>
+            <linearGradient id={`${prefix}-water`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color={tone.mid}/><stop offset="100%" stop-color={tone.deep}/>
+            </linearGradient>
+            <pattern id={`${prefix}-grain`} width="34" height="34" patternUnits="userSpaceOnUse">
+              <circle cx="3" cy="7" r=".85" fill="#fff" opacity=".25"/><circle cx="19" cy="27" r=".65" fill={tone.deep} opacity=".18"/>
+            </pattern>
+            <pattern id={`${prefix}-ripple`} width="120" height="39" patternUnits="userSpaceOnUse">
+              <path d="M-5 19Q27 8 60 19T125 19" fill="none" stroke="#e9f7f9" stroke-width="2" opacity=".4"/>
+            </pattern>
+          </defs>
+          <rect width="900" height="610" fill={`url(#${prefix}-sky)`}/>
+          <circle cx={sunX} cy="140" r="62" fill="#f6dfb0" opacity=".8"/>
+          <path d="M0 290Q170 216 290 263Q460 177 600 256Q720 215 900 251V610H0Z" fill={tone.light} opacity=".8"/>
+          <path d="M0 346Q110 303 245 325Q377 248 487 320Q648 275 900 352V610H0Z" fill={tone.mid} opacity=".42"/>
+          {(scene === 'gorge' || scene === 'mountain' || scene === 'flower') && <>
+            <path d="M0 391L127 233L208 337L355 177L492 364L604 243L760 409L900 297V610H0Z" fill={tone.mid} opacity=".65"/>
+            <path d="M0 450L155 343L296 412L435 319L591 440L737 352L900 435V610H0Z" fill={tone.deep}/>
+            {scene === 'gorge' && <><path d="M190 610C330 500 400 483 520 421C630 360 642 345 730 328" fill="none" stroke="#d9f1f1" stroke-width="56" opacity=".83"/><path d="M185 610C321 515 398 489 516 423C625 364 648 348 729 330" fill="none" stroke="#5398ad" stroke-width="23" opacity=".8"/><path d="M315 418Q455 350 590 390" fill="none" stroke={tone.warm} stroke-width="17"/><path d="M314 419Q455 350 590 390" fill="none" stroke="#f1c7a5" stroke-width="3"/></>}
+          </>}
+          {(scene === 'lake' || scene === 'coast' || scene === 'river' || scene === 'shrine') && <>
+            <path d="M0 364Q204 342 395 356T900 339V610H0Z" fill={`url(#${prefix}-water)`}/>
+            <path d="M0 370Q204 347 395 358T900 345V610H0Z" fill={`url(#${prefix}-ripple)`}/>
+            {scene === 'coast' && <><path d="M0 610V392Q85 359 161 431L218 463L269 508L372 536L435 610Z" fill={tone.deep}/><path d="M560 610L659 439L772 467L848 388L900 421V610Z" fill="#284f55"/><path d="M596 470Q642 427 695 442" stroke="#fff" stroke-width="6" fill="none" opacity=".45"/></>}
+            {(scene === 'lake' || scene === 'shrine') && <><path d="M508 358L557 210L558 358Z" fill="#fff" opacity=".87"/><path d="M564 357L563 260L609 359Z" fill="#e6f4fa" opacity=".9"/><path d="M502 367Q560 384 627 364L608 387H514Z" fill="#203c53"/></>}
+            {scene === 'river' && <><path d="M105 420Q320 347 519 403T895 397" fill="none" stroke="#e0f1ef" stroke-width="75" opacity=".6"/><path d="M180 390L741 380" stroke="#e6e6de" stroke-width="9"/>{[260,430,605].map(x=><path d={`M${x} 391V466`} stroke="#d6dacf" stroke-width="11"/>)}</>}
+          </>}
+          {(scene === 'field' || scene === 'flower' || scene === 'town') && <>
+            <path d="M0 468Q200 365 387 462Q588 393 900 468V610H0Z" fill="#96b6a0"/>
+            {[0,1,2,3,4].map((i) => <path d={`M${-80 + i*55} ${550+i*20} Q480 ${402+i*10} 865 ${505+i*30}`} fill="none" stroke="#e5ddbc" stroke-width="5" opacity=".6"/>)}
+          </>}
+          {scene === 'shrine' && <g transform={`translate(${475+stageOffset} 320)`} fill="none" stroke="#294a5b" stroke-width="13" stroke-linejoin="round"><path d="M0 155V-40M170 155V-40M-22 -32H194M-5 -62H178"/><path d="M-15 -63Q82 -82 188 -63" stroke="#c87c64" stroke-width="13"/></g>}
+          {scene === 'town' && <>
+            {[220,345,478,605].map((x,i)=><g transform={`translate(${x+stageOffset} ${335+i*13})`}><path d="M-25 73V-6H62V73" fill="#e3d1b4"/><path d="M-48 -9L18 -60L87 -9Z" fill={tone.deep}/><path d="M13 73V20H42V73" fill="#8a9784"/><path d="M-7 15H8V41H-7Z" fill="#789fac"/></g>)}
+          </>}
+          {(scene === 'flower' || scene === 'lake') && <>
+            {[85,164,241,321,405].map((x,i) => <g transform={`translate(${x} ${485+i*11})`}><path d="M0 10V-100" stroke="#47756b" stroke-width="4"/><circle cx="0" cy="-103" r="27" fill={i%2? '#f5c8d2':'#f5e3ed'}/><circle cx="-10" cy="-110" r="11" fill="#fff6f7" opacity=".85"/><circle cx="9" cy="-97" r="13" fill="#d78b9a" opacity=".5"/></g>)}
+          </>}
+          {(scene === 'field' || scene === 'river') && <>
+            {[640,694,754,814].map((x,i) => <g><path d={`M${x} 380V${300-i*7}`} stroke="#426e5c" stroke-width="5"/><path d={`M${x-27} ${322-i*7}Q${x} ${275-i*7} ${x+30} ${322-i*7}`} fill={tone.deep} opacity=".87"/></g>)}
+          </>}
+          <rect width="900" height="610" fill={`url(#${prefix}-grain)`} opacity=".65"/>
+        </svg>
+      )}
+      <div class="city-hero__visual-wash" aria-hidden="true"></div>
+      <div class="city-hero__art-tag">
+        <span class="city-hero__art-mini">LOCAL LANDSCAPE / {region.label}</span>
+        {featureNames.length>0 ? <strong>{featureNames.join(' × ')}</strong> : <strong>{city.name}の風景</strong>}
+      </div>
+      <figcaption class="city-hero__credit">
+        {photo ? (photo.creditUrl ? <a href={photo.creditUrl} rel="license noopener" target="_blank">{photo.credit}</a> : photo.credit) : '街の特徴をイメージした図案（現地写真ではありません）'}
+      </figcaption>
+    </figure>
+  </div>
+</header>
+
+<style>
+  .city-hero{position:relative;isolation:isolate;overflow:hidden;padding:clamp(2.4rem,4.6vw,5rem) max(1.25rem,calc((100% - 1450px)/2));background:#fff;border-bottom:1px solid #e4eced}
+  .city-hero__topography{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.8;background:radial-gradient(circle at 100% 0%,#cce9fa 0%,transparent 38%),radial-gradient(circle at 0% 100%,#d6e9f7 0%,transparent 29%),url('/brand/terrain-contours.svg') left bottom/26rem auto no-repeat}
+  .city-hero__inner{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(1.8rem,4vw,4.6rem);align-items:center;width:100%;max-width:1450px;margin-inline:auto}
+  .city-hero__copy{min-width:0;padding-block:.7rem}
+  .city-hero__map{position:absolute;right:2%;top:17%;width:clamp(5rem,8vw,7.2rem);opacity:.85;pointer-events:none}
+  .city-hero__map svg{display:block;width:100%;height:auto}
+  .city-hero__copy{position:relative}
+  .city-hero__copy> :not(.city-hero__map){position:relative;z-index:1}
+  .city-hero__crumbs{display:flex;flex-wrap:wrap;gap:.55rem;color:#7c8a90;font-size:.71rem;letter-spacing:.02em}
+  .city-hero__crumbs a:hover{text-decoration:underline;text-underline-offset:.25em}
+  .city-hero__region{display:flex;align-items:center;gap:.7rem;margin-top:clamp(1.4rem,3.1vw,3rem);color:#285f9c;font-size:.77rem;letter-spacing:.14em}
+  .city-hero__dot{width:.49rem;height:.49rem;border-radius:50%;background:#86b4d8}
+  .city-hero__name{max-width:none!important;margin-top:.35rem!important;font:600 clamp(3.6rem,7vw,7rem)/1.15 var(--font-brand-display)!important;letter-spacing:.06em!important;color:#092b50}
+  .city-hero__latin{display:flex;gap:.8rem;align-items:center;margin-top:.5rem;color:#3a80b7;font:.72rem/1.4 var(--font-brand-meta);letter-spacing:.23em}
+  .city-hero__latin::before{content:'';width:2.8rem;height:1px;background:#3a80b7}
+  .city-hero__latin span{font-size:.64rem;letter-spacing:.12em;color:#8096a6}
+  .city-hero__catch{margin-top:clamp(1.7rem,3vw,3rem);max-width:21em;color:#092b50;font:600 clamp(1.37rem,2.5vw,2.45rem)/1.53 var(--font-brand-display);letter-spacing:.014em;text-wrap:pretty}
+  .city-hero__lead{display:grid;gap:.55rem;max-width:48rem;margin-top:clamp(1rem,2vw,1.6rem);color:#5d707e;font-size:clamp(.81rem,1.06vw,.95rem);line-height:1.93}
+  .city-hero__back{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.7rem;border-bottom:1px solid #a7c3dd;padding-bottom:.38rem;color:#2e6d9c;font-size:.79rem;font-weight:700;text-decoration:none}
+  .city-hero__back:hover,.city-hero__back:focus-visible{border-color:#163f71;color:#163f71}
+  .city-hero__visual{position:relative;isolation:isolate;min-width:0;margin:0;overflow:hidden;aspect-ratio:1.22;background:#d6eaf2;clip-path:polygon(13% 0,100% 0,100% 87%,84% 95%,49% 98%,12% 91%,0 74%,0 24%);border-radius:24% 3% 9% 22%/17% 3% 12% 23%;box-shadow:0 18px 40px rgba(42,79,103,.075)}
+  .city-hero__visual img,.city-hero__visual .city-hero__landscape{display:block;width:100%;height:100%;object-fit:cover}
+  .city-hero__visual-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 65%,rgba(6,37,54,.67) 100%);}
+  .city-hero__art-tag{position:absolute;left:9%;right:8%;bottom:10%;display:grid;gap:.35rem;color:#fff;filter:drop-shadow(0 1px 8px rgba(0,0,0,.24))}
+  .city-hero__art-mini{font:600 .61rem/1.4 var(--font-brand-meta);letter-spacing:.19em;opacity:.9}
+  .city-hero__art-tag strong{font:600 clamp(.95rem,1.6vw,1.3rem)/1.5 var(--font-brand-display);letter-spacing:.05em;text-wrap:balance}
+  .city-hero__credit{position:absolute;right:9%;bottom:3.6%;font-size:.59rem;color:rgba(255,255,255,.94);text-shadow:0 1px 3px #153144}
+  .city-hero__credit a{text-decoration:underline;text-underline-offset:2px}
+  @media(max-width:990px){.city-hero__inner{grid-template-columns:minmax(0,1fr);gap:1.6rem}.city-hero__map{display:none}.city-hero__visual{aspect-ratio:1.9;max-height:30rem}.city-hero__name{font-size:clamp(3.2rem,9vw,5rem)!important}.city-hero__region{margin-top:1.7rem}.city-hero__catch{margin-top:1.5rem}.city-hero__lead{font-size:.89rem}}
+  @media(max-width:620px){.city-hero{padding:1.65rem 1rem 2.1rem}.city-hero__name{font-size:clamp(2.9rem,12vw,4rem)!important}.city-hero__latin{font-size:.76rem;letter-spacing:.14em}.city-hero__catch{font-size:clamp(1.36rem,5.5vw,1.85rem)}.city-hero__visual{aspect-ratio:1.23;border-radius:19% 3% 12% 18%/14% 3% 15% 20%}.city-hero__art-tag{bottom:11%}.city-hero__art-tag strong{font-size:1rem}.city-hero__lead{font-size:.83rem}.city-hero__credit{font-size:.52rem}}
+</style>
