@@ -12,6 +12,9 @@ jobs:
         run: |
           python3 - <<'PY'
           import urllib.request,json,re
+          opener=urllib.request.build_opener()
+          opener.addheaders=[('User-Agent','IbatocoProductionAudit/1.0')] 
+          urllib.request.install_opener(opener)
           base='https://ibatoco.jp'
           expected='63d986964a50d52d158cda8e84379cabc5e8b7c1'
           with urllib.request.urlopen(base+'/build.json',timeout=30) as r:
