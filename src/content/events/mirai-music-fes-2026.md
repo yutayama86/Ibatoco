@@ -35,6 +35,24 @@ faq:
     answer: "2026年10月24日（土）に日本スポーツ振興パークみらいで開催されます。市公式では開場13時、開演15時です。"
   - question: "市民無料席の追加抽選はいつまでですか。"
     answer: "市公式の案内では10月20日（火）23時59分までです。"
+
+booking:
+  heading: "市民無料席の追加抽選・チケット・交通の公式案内"
+  intro: "市民無料席の追加抽選は10月20日（火）23:59締切。販売状況、交通案内は公式でご確認ください。"
+  basis: "つくばみらい市の公式発表と市公式が案内するチケットサイトに基づきます。これらのリンクは広告ではありません。"
+  items:
+    - label: "つくばみらい市｜市民無料席・駐車場・シャトルバス案内"
+      provider: "official"
+      url: "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html"
+      kind: "official"
+      note: "追加抽選の条件と交通案内を確認"
+    - label: "Boosty｜MIRAI Music Fes公式チケット販売"
+      provider: "official"
+      url: "https://ticket.boosty.app/event/963"
+      kind: "official"
+      note: "一般席・VIP席の販売状況を確認"
+  note: "イバトコではチケットの購入・抽選申込を受け付けていません。"
+
 sourceUrls:
   - label: "つくばみらい市｜MIRAI Music Fes 2026開催案内"
     url: "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html"
