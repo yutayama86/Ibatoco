@@ -60,6 +60,10 @@ sourceUrls:
   - label: "主催者案内の公式チケット販売サイト"
     url: "https://ticket.boosty.app/event/963"
     accessedAt: 2026-10-19
+relatedArticleUrls:
+  - "/events/ibaraki-events-october-2026/"
+  - "/events/"
+
 eventInfo:
   name: "MIRAI Music Fes 2026"
   startDate: 2026-10-24
