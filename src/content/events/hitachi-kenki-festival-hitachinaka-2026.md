@@ -38,6 +38,24 @@ faq:
     answer: "入場は無料ですが、日立建機公式の案内では事前登録が必要です。"
   - question: "勝田駅からシャトルバスはありますか。"
     answer: "日立建機公式では、JR勝田駅から会場まで無料シャトルバスを運行予定と案内しています。"
+
+booking:
+  heading: "日立建機フェスの事前登録・交通の公式案内"
+  intro: "入場には事前登録が必要です。ひたちなか市の案内では申し込み締切は10月20日（火）です。"
+  basis: "日立建機・ひたちなか市の公式発表に基づきます。リンクは広告ではありません。"
+  items:
+    - label: "日立建機公式｜来場事前登録フォームへの案内"
+      provider: "official"
+      url: "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/"
+      kind: "official"
+      note: "事前登録リンクとシャトルバスの最新情報"
+    - label: "ひたちなか市公式｜申込期限・駐車場の注意事項"
+      provider: "official"
+      url: "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1017516.html"
+      kind: "official"
+      note: "会場駐車不可・臨時駐車場は完全予約制"
+  note: "入場と駐車場の予約状況は、主催者の最新情報を確認してください。イバトコでは予約を受け付けません。"
+
 sourceUrls:
   - label: "ひたちなか市｜日立建機フェスティバル（申込期限・駐車場）"
     url: "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1017516.html"
