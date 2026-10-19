@@ -175,7 +175,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
    * 写真・本文・共通導線には触れず、他43市町村へ波及させない。 */
   .area-guide--takahagi-editorial .ag-head{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;gap:clamp(2rem,4vw,5rem);padding:clamp(2.5rem,5vw,4.5rem) max(1.5rem,calc((100vw - 1320px)/2));margin-inline:auto;max-width:1540px;border-bottom:1px solid var(--color-line)}
   .area-guide--takahagi-editorial .ag-head-copy{width:auto;max-width:48rem;min-width:0;margin:0;display:block}
-  .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(4.5rem,8vw,8rem);line-height:1.09;letter-spacing:.065em}
+  body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(4.5rem,8vw,8rem)!important;line-height:1.09!important;letter-spacing:.065em}
   .area-guide--takahagi-editorial .ag-catch{max-width:15em;font-size:clamp(1.55rem,2.8vw,2.6rem);line-height:1.5;letter-spacing:.025em;text-wrap:pretty}
   .area-guide--takahagi-editorial .ag-lead{max-width:40rem;font-size:.95rem;line-height:2.1}
   .area-guide--takahagi-editorial .ag-editorial-art{display:grid;grid-template-rows:minmax(22rem,1fr) auto;min-height:clamp(32rem,52vw,43rem);overflow:hidden;background:var(--color-deep-blue);color:#fff}
@@ -190,7 +190,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
   .area-guide--takahagi-editorial .ag-editorial-art__bottom{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1rem;align-items:baseline;padding:1.2rem 1.5rem 1.35rem;background:#0d2943}
   .area-guide--takahagi-editorial .ag-editorial-art__bottom span{font:.6rem/1.6 var(--font-brand-meta);letter-spacing:.17em;color:#a6d3da}
   .area-guide--takahagi-editorial .ag-editorial-art__bottom strong{font:600 clamp(.85rem,1.4vw,1.08rem)/1.45 var(--font-brand-display);letter-spacing:.08em}
-  @media(max-width:980px){.area-guide--takahagi-editorial .ag-head{grid-template-columns:minmax(0,1fr);gap:2rem}.area-guide--takahagi-editorial .ag-editorial-art{min-height:23rem;grid-template-rows:minmax(17rem,1fr) auto}.area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.5rem,11vw,6rem)}}
-  @media(max-width:640px){.area-guide--takahagi-editorial .ag-head{padding:2.2rem 1rem 2.8rem;gap:1.7rem}.area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.2rem,14vw,4.6rem)}.area-guide--takahagi-editorial .ag-catch{font-size:clamp(1.5rem,7vw,2rem)}.area-guide--takahagi-editorial .ag-editorial-art{min-height:20rem;grid-template-rows:minmax(14rem,1fr) auto}.area-guide--takahagi-editorial .ag-editorial-art__bottom{padding:1rem 1.1rem}}
+  @media(max-width:980px){.area-guide--takahagi-editorial .ag-head{grid-template-columns:minmax(0,1fr);gap:2rem}.area-guide--takahagi-editorial .ag-editorial-art{min-height:23rem;grid-template-rows:minmax(17rem,1fr) auto}body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.5rem,11vw,6rem)!important}}
+  @media(max-width:640px){.area-guide--takahagi-editorial .ag-head{padding:2.2rem 1rem 2.8rem;gap:1.7rem}body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(3.2rem,14vw,4.6rem)!important}.area-guide--takahagi-editorial .ag-catch{font-size:clamp(1.5rem,7vw,2rem)}.area-guide--takahagi-editorial .ag-editorial-art{min-height:20rem;grid-template-rows:minmax(14rem,1fr) auto}.area-guide--takahagi-editorial .ag-editorial-art__bottom{padding:1rem 1.1rem}}
 
 </style>
