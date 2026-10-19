@@ -145,6 +145,24 @@ export function qaPages(root = process.cwd()) {
       required: [['h1', 1], ['.area-guide--takahagi-editorial .ag-editorial-art', 1], ['.ag-head .ag-catch', 1], ['.ag-content #highlights', 1]],
     },
     {
+      name: '市町村（高萩市・共通ヒーロー）',
+      path: '/area/takahagi/',
+      canonical: '/area/takahagi/',
+      required: [['h1.city-hero__name', 1], ['[data-city-hero]', 1], ['.city-hero__visual', 1]],
+    },
+    {
+      name: '市町村（日立市・実写CC素材）',
+      path: '/area/hitachi/',
+      canonical: '/area/hitachi/',
+      required: [['h1.city-hero__name', 1], ['[data-city-hero] .city-hero__credit a[rel*="license"]', 1]],
+    },
+    {
+      name: '市町村（大子町・実写CC素材）',
+      path: '/area/daigo/',
+      canonical: '/area/daigo/',
+      required: [['h1.city-hero__name', 1], ['[data-city-hero] .city-hero__credit a[rel*="license"]', 1]],
+    },
+    {
       name: '市町村（土浦市）',
       path: '/area/tsuchiura/',
       canonical: '/area/tsuchiura/',
