@@ -1,0 +1,42 @@
+name: Temporary verify production event CTA
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify publication and official CTA links
+        run: |
+          python3 - <<'PY'
+          import urllib.request,json,re
+          base='https://ibatoco.jp'
+          expected='63d986964a50d52d158cda8e84379cabc5e8b7c1'
+          with urllib.request.urlopen(base+'/build.json',timeout=30) as r:
+            data=json.loads(r.read())
+          print('BUILD',data)
+          assert data.get('commit')==expected,'build SHA is not the expected merge commit'
+          checks=[
+            ('/events/mirai-music-fes-2026/','https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html'),
+            ('/events/hitachi-kenki-festival-hitachinaka-2026/','https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/'),
+          ]
+          for path,official in checks:
+            with urllib.request.urlopen(base+path,timeout=30) as r:
+              html=r.read().decode('utf-8','replace')
+              print('EVENT',path,r.status,'bytes',len(html),'official_link',official in html)
+              assert r.status==200
+            assert official in html,'official CTA missing'
+            assert 'noindex' not in html.lower(),'unexpected noindex'
+            assert base+path in html,'self canonical absent'
+          for path in [
+            '/images/card/mirai-music-fes-2026-60156f4a.png',
+            '/images/card/hitachi-kenki-festival-hitachinaka-2026-4e47820e.png',
+          ]:
+            with urllib.request.urlopen(base+path,timeout=30) as r:
+              data=r.read()
+              print('PNG',path,r.status,len(data))
+              assert r.status==200 and data.startswith(b'\x89PNG\r\n\x1a\n')
+          print('PRODUCTION_AUDIT_OK')
+          PY
