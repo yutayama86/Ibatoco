@@ -6,6 +6,8 @@
  * SVGは観光写真ではないため、実在しない建築物・風景を「現地画像」と呼ばない。
  */
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
+import { compactPath } from '../lib/svg-path';
 interface CityPhoto { src: string; alt: string; credit: string; creditUrl?: string }
 interface Props { slug: string; catchCopy: string; lead: string[]; photo?: CityPhoto; relatedSpots?: string[] }
 const { slug, catchCopy, lead, photo, relatedSpots = [] } = Astro.props;
@@ -52,6 +54,13 @@ const stageOffset = (visualSeed % 38) - 19;
       <p class="city-hero__region"><span class="city-hero__dot" aria-hidden="true"></span>{region.label} <span aria-hidden="true">/</span> IBARAKI</p>
       <h1 class="city-hero__name">{city.name}</h1>
       <p class="city-hero__latin" lang="en">{latinName} <span>CITY GUIDE</span></p>
+      <div class="city-hero__map" aria-hidden="true">
+        <svg viewBox={`0 0 ${GEO_VIEW.w} ${GEO_VIEW.h}`} focusable="false">
+          <image href="/brand/ibaraki-silhouette.svg" width={GEO_VIEW.w} height={GEO_VIEW.h}/>
+          <path d={compactPath(IBARAKI_GEO[slug]?.d ?? '',1)} fill="#2c74b4" stroke="#fff" stroke-width="6"/>
+          <circle cx={IBARAKI_GEO[slug]?.cx} cy={IBARAKI_GEO[slug]?.cy} r="10" fill="#fff" stroke="#1b639d" stroke-width="6"/>
+        </svg>
+      </div>
       <p class="city-hero__catch">{catchCopy}</p>
       <div class="city-hero__lead">{lead.map((line) => <p>{line}</p>)}</div>
       <a class="city-hero__back" href="/area/">44市町村から、ほかの街を探す <span aria-hidden="true">↗</span></a>
@@ -125,6 +134,10 @@ const stageOffset = (visualSeed % 38) - 19;
   .city-hero__topography{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.8;background:radial-gradient(circle at 100% 0%,#cce9fa 0%,transparent 38%),radial-gradient(circle at 0% 100%,#d6e9f7 0%,transparent 29%),url('/brand/terrain-contours.svg') left bottom/26rem auto no-repeat}
   .city-hero__inner{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(1.8rem,4vw,4.6rem);align-items:center;width:100%;max-width:1450px;margin-inline:auto}
   .city-hero__copy{min-width:0;padding-block:.7rem}
+  .city-hero__map{position:absolute;right:2%;top:17%;width:clamp(5rem,8vw,7.2rem);opacity:.85;pointer-events:none}
+  .city-hero__map svg{display:block;width:100%;height:auto}
+  .city-hero__copy{position:relative}
+  .city-hero__copy> :not(.city-hero__map){position:relative;z-index:1}
   .city-hero__crumbs{display:flex;flex-wrap:wrap;gap:.55rem;color:#7c8a90;font-size:.71rem;letter-spacing:.02em}
   .city-hero__crumbs a:hover{text-decoration:underline;text-underline-offset:.25em}
   .city-hero__region{display:flex;align-items:center;gap:.7rem;margin-top:clamp(1.4rem,3.1vw,3rem);color:#285f9c;font-size:.77rem;letter-spacing:.14em}
@@ -145,6 +158,6 @@ const stageOffset = (visualSeed % 38) - 19;
   .city-hero__art-tag strong{font:600 clamp(.95rem,1.6vw,1.3rem)/1.5 var(--font-brand-display);letter-spacing:.05em;text-wrap:balance}
   .city-hero__credit{position:absolute;right:9%;bottom:3.6%;font-size:.59rem;color:rgba(255,255,255,.94);text-shadow:0 1px 3px #153144}
   .city-hero__credit a{text-decoration:underline;text-underline-offset:2px}
-  @media(max-width:990px){.city-hero__inner{grid-template-columns:minmax(0,1fr);gap:1.6rem}.city-hero__visual{aspect-ratio:1.9;max-height:30rem}.city-hero__name{font-size:clamp(3.2rem,9vw,5rem)!important}.city-hero__region{margin-top:1.7rem}.city-hero__catch{margin-top:1.5rem}.city-hero__lead{font-size:.89rem}}
+  @media(max-width:990px){.city-hero__inner{grid-template-columns:minmax(0,1fr);gap:1.6rem}.city-hero__map{display:none}.city-hero__visual{aspect-ratio:1.9;max-height:30rem}.city-hero__name{font-size:clamp(3.2rem,9vw,5rem)!important}.city-hero__region{margin-top:1.7rem}.city-hero__catch{margin-top:1.5rem}.city-hero__lead{font-size:.89rem}}
   @media(max-width:620px){.city-hero{padding:1.65rem 1rem 2.1rem}.city-hero__name{font-size:clamp(2.9rem,12vw,4rem)!important}.city-hero__latin{font-size:.76rem;letter-spacing:.14em}.city-hero__catch{font-size:clamp(1.36rem,5.5vw,1.85rem)}.city-hero__visual{aspect-ratio:1.23;border-radius:19% 3% 12% 18%/14% 3% 15% 20%}.city-hero__art-tag{bottom:11%}.city-hero__art-tag strong{font-size:1rem}.city-hero__lead{font-size:.83rem}.city-hero__credit{font-size:.52rem}}
 </style>
