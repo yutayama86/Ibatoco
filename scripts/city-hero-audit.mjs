@@ -25,7 +25,8 @@ for (const {slug,name} of entries){
     [html.includes('area-discovery-bar__search'), 'search form'],
     [html.includes(`https://ibatoco.jp/area/${slug}/`), 'canonical'],
   ];
-  if(slug==='hitachi'||slug==='daigo') checks.push([html.includes('city-hero__credit')&&html.includes('creativecommons.org')===false ? html.includes('rel="license') : html.includes('rel="license'), 'image license link']);
+  if(slug==='hitachi'||slug==='daigo') checks.push([html.includes('city-hero__credit') && html.includes('rel="license'), 'CC photograph attribution link']);
+  else if(slug==='hitachinaka') checks.push([html.includes('写真：イバトコ編集部'), 'owned photograph credit']);
   else checks.push([html.includes('現地写真ではありません'), 'illustration not asserted as photography']);
   for(const [pass,reason] of checks){if(!pass){console.error('CITY_HERO_QA_FAIL',slug,reason);failures++;}}
 }
