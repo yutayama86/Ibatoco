@@ -93,7 +93,7 @@ const stageOffset = (visualSeed % 38) - 19;
           </>}
           {(scene === 'field' || scene === 'flower' || scene === 'town') && <>
             <path d="M0 468Q200 365 387 462Q588 393 900 468V610H0Z" fill="#96b6a0"/>
-            {[0,1,2,3,4].map((i) => <path d={`M${-80 + i*55} ${550+i*20} Q480 ${402+i*10} 990 ${505+i*30}`} fill="none" stroke="#e5ddbc" stroke-width="5" opacity=".6"/>)}
+            {[0,1,2,3,4].map((i) => <path d={`M${-80 + i*55} ${550+i*20} Q480 ${402+i*10} 865 ${505+i*30}`} fill="none" stroke="#e5ddbc" stroke-width="5" opacity=".6"/>)}
           </>}
           {scene === 'shrine' && <g transform={`translate(${475+stageOffset} 320)`} fill="none" stroke="#294a5b" stroke-width="13" stroke-linejoin="round"><path d="M0 155V-40M170 155V-40M-22 -32H194M-5 -62H178"/><path d="M-15 -63Q82 -82 188 -63" stroke="#c87c64" stroke-width="13"/></g>}
           {scene === 'town' && <>
