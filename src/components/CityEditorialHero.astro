@@ -8,32 +8,14 @@
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
+import { CITY_SCENE_BY_SLUG, REGION_SCENE_TONES } from '../data/city-visuals';
 interface CityPhoto { src: string; alt: string; credit: string; creditUrl?: string }
 interface Props { slug: string; catchCopy: string; lead: string[]; photo?: CityPhoto; relatedSpots?: string[] }
 const { slug, catchCopy, lead, photo, relatedSpots = [] } = Astro.props;
 const city = MUNI_BY_SLUG.get(slug)!;
 const region = REGIONS[city.region];
-const motifs: Record<string, string[]> = {
-  gorge: ['takahagi','kitaibaraki','hitachiota','daigo'],
-  coast: ['hitachi','oarai','kamisu'],
-  lake: ['kasumigaura','tsuchiura','ami','miho','tone','shimotsuma','namegata'],
-  shrine: ['kasama','kashima'],
-  canal: ['itako'],
-  flower: ['mito','hitachinaka','ishioka','ushiku','sakuragawa'],
-  mountain: ['hitachiomiya','shirosato','tsukuba','chikusei'],
-  river: ['ryugasaki','moriya','toride','joso','bando','goka','sakai'],
-  field: ['naka','tokai','ibaraki-machi','omitama','inashiki','tsukubamirai','kawachi','hokota','yachiyo'],
-  town: ['yuki','koga'],
-};
-const scene = Object.entries(motifs).find(([, list]) => list.includes(slug))?.[0] ?? 'field';
-const regionTones: Record<string, { deep: string; mid: string; light: string; warm: string }> = {
-  kenpoku: { deep: '#225569', mid: '#528392', light: '#b8d6db', warm: '#c47f55' },
-  keno: { deep: '#3b6675', mid: '#769aa3', light: '#d1e0d9', warm: '#d19a8e' },
-  kennan: { deep: '#366b88', mid: '#7ca6b5', light: '#c7e1e8', warm: '#c6a48a' },
-  rokko: { deep: '#23687e', mid: '#6aadb5', light: '#cae9e5', warm: '#c99c68' },
-  kensei: { deep: '#567864', mid: '#8da595', light: '#d9e3d3', warm: '#c6a46b' },
-};
-const tone = regionTones[city.region];
+const scene = CITY_SCENE_BY_SLUG[slug];
+const tone = REGION_SCENE_TONES[city.region];
 const featureNames = relatedSpots.filter(Boolean).slice(0,2);
 const latinName = slug.replaceAll('-', ' ').toUpperCase();
 const prefix = `ch-${slug}`;
