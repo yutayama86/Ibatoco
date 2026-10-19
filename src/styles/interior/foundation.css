@@ -7,7 +7,7 @@
 body.interior-site {
   --interior-blue: #174f99;
   --interior-blue-deep: #071c4c;
-  --interior-sky: #dcecff;
+  --interior-sky: var(--color-sky); /* ブランド共通値へ集約（同一色・見た目は不変） */
   --interior-sky-soft: #eef6ff;
   --interior-moss: #bdca8e;
   --interior-paper: #fbfaf6;
