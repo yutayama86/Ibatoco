@@ -308,3 +308,22 @@ body.interior-site .ok-region a:hover {
   box-shadow: 0 12px 28px rgba(25,55,88,.09);
 }
 
+
+
+/* 44市町村の共通エディトリアルFV。
+ * 旧コンポーネント由来の上余白を解除し、主題の写真／図案をサイトヘッダー直下へ。
+ * 以下は市町村ページにしか適用しない。他のニュース・スポーツ・TOPを変えない。 */
+body.interior-site :is(.area-guide,.hitachi-guide,.daigo-guide,.area-page):has(> .city-hero){
+  padding-top:0!important;
+}
+body.interior-site .city-hero h1.city-hero__name{
+  max-width:none!important;
+  font-size:clamp(3.6rem,7vw,7rem)!important;
+  line-height:1.15!important;
+}
+@media(max-width:990px){
+  body.interior-site .city-hero h1.city-hero__name{font-size:clamp(3.2rem,9vw,5rem)!important}
+}
+@media(max-width:620px){
+  body.interior-site .city-hero h1.city-hero__name{font-size:clamp(2.9rem,12vw,4rem)!important}
+}
