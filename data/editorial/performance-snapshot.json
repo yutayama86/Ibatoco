@@ -412,21 +412,24 @@
           "views": 38,
           "sessions": 39,
           "engagedSessions": 0,
-          "activeUsers": 39
+          "activeUsers": 39,
+          "incident": "2026-10-ga4-csp"
         },
         {
           "date": "2026-10-09",
           "views": 17,
           "sessions": 16,
           "engagedSessions": 1,
-          "activeUsers": 16
+          "activeUsers": 16,
+          "incident": "2026-10-ga4-csp"
         },
         {
           "date": "2026-10-10",
           "views": 84,
           "sessions": 71,
           "engagedSessions": 46,
-          "activeUsers": 69
+          "activeUsers": 69,
+          "incident": "2026-10-ga4-csp"
         },
         {
           "date": "2026-10-11",
@@ -484,7 +487,21 @@
           "engagedSessions": 377,
           "activeUsers": 513
         }
-      ]
+      ],
+      "dailyMeta": {
+        "source": "Windsor.ai Google Analytics 4 account 547804264",
+        "fetchedAt": "2026-10-20T07:03:47+09:00",
+        "confirmedThrough": "2026-10-18",
+        "organicDefinition": "session_default_channel_group = \"Organic Search\" の screen_page_views（Organic sessions ではない）",
+        "incidentHandling": "計測障害の日（incident）は実測値のまま持ち、参考計算から外す（data/editorial/measurement-incidents.json）",
+        "coverage": {
+          "from": "2026-09-14",
+          "to": "2026-10-18",
+          "rows": 35,
+          "expectedDays": 35,
+          "missingDates": []
+        }
+      }
     },
     "gsc": {
       "latestDay": {
@@ -777,9 +794,9 @@
         }
       ],
       "dailyMeta": {
-        "source": "Windsor.ai Search Console sc-domain:ibatoco.jp（2026-10-18 Growth Director）",
-        "fetchedAt": "2026-10-18T06:55:47+09:00",
-        "confirmedThrough": "2026-10-15",
+        "source": "Windsor.ai Search Console sc-domain:ibatoco.jp",
+        "fetchedAt": "2026-10-20T07:03:47+09:00",
+        "confirmedThrough": "2026-10-17",
         "rows": 35
       },
       "previous28": {
