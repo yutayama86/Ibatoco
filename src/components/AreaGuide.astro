@@ -30,7 +30,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
 ---
 
 <article class="area-guide">
-  <CityEditorialHero slug={slug} catchCopy={guide.catch} lead={guide.lead} relatedSpots={guide.highlights.map((spot) => spot.title)} />
+  <CityEditorialHero slug={slug} catchCopy={guide.catch} lead={guide.lead} relatedSpots={guide.highlights.map((spot) => spot.title)} photo={slug === "hitachinaka" ? { src: "/images/theme/nemophila-hitachi-seaside-park.jpg", alt: "国営ひたち海浜公園のみはらしの丘に咲くネモフィラ", credit: "写真：イバトコ編集部" } : undefined} />
 
   {jump.length > 1 && (
     <nav class="ag-jump" aria-label={`${municipality.name}のページ内ナビゲーション`}>
