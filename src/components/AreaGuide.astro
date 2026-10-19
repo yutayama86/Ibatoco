@@ -174,7 +174,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
   /* 高萩市先行：文字と地形グラフィックで「渓谷と海の距離」を表す。
    * 写真・本文・共通導線には触れず、他43市町村へ波及させない。 */
   .area-guide--takahagi-editorial .ag-head{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;gap:clamp(2rem,4vw,5rem);padding:clamp(2.5rem,5vw,4.5rem) max(1.5rem,calc((100vw - 1320px)/2));margin-inline:auto;max-width:1540px;border-bottom:1px solid var(--color-line)}
-  .area-guide--takahagi-editorial .ag-head-copy{width:auto;max-width:48rem;min-width:0;margin:0;display:block}
+  body.interior-site .area-guide--takahagi-editorial .ag-head-copy.bp-wrap{width:100%;max-width:48rem;min-width:0;margin:0;display:block;grid-template-columns:none;justify-content:initial}
   body.interior-site .area-guide--takahagi-editorial .ag-head h1{font-size:clamp(4.5rem,8vw,8rem)!important;line-height:1.09!important;letter-spacing:.065em}
   .area-guide--takahagi-editorial .ag-catch{max-width:15em;font-size:clamp(1.55rem,2.8vw,2.6rem);line-height:1.5;letter-spacing:.025em;text-wrap:pretty}
   .area-guide--takahagi-editorial .ag-lead{max-width:40rem;font-size:.95rem;line-height:2.1}
