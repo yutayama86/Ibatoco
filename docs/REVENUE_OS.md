@@ -212,6 +212,7 @@ BookingGuide側は既に `page_path` と `source_page` を送っている。Wind
 ルール:
 - ページ別値が取得できない場合は `missing` とし、サイト合計をページへ按分しない。
 - `monetized_booking_click` は `is_paid_link=1` が取得できる場合のみ使う。取得不能なら0ではなく未取得として扱う。
+- 2026-10-20：申込期限を一次情報で確認したBookingGuide項目では、期限翌日から該当申込先の期限超過を明示する。リンクは取り下げず、延長・他手段の案内に進める。超過後のクリックは `booking_deadline_passed_click` として送客率から除く（期限の事実訂正であり、受付全体の終了を断定しない）。
 - 2026-10-10 から BookingGuide は提携リンクのクリックで `paid_booking_click` も送る（`outbound_booking_click` の内数・同じパラメータ）。10/11 以降の確定日は event_name = `paid_booking_click` で数え、それより前の期間（送客先ドメインで判定した値）と混ぜない。`paid_booking_click` が同じ期間・ページの `outbound_booking_click` を超えたら計測不具合として止める
 - 2026-10-14 の確定日から、ニュースのガイド記事の**提携リンクのCTA**（`guide.cta`・`section.cta`・`guide.bottomCta` のうち affiliates.ts で成果URLになるもの。例：駐車場記事の akippa）も `outbound_booking_click` と `paid_booking_click` を送る（同じパラメータ＋`link_kind: guide_cta`・`cta_location: guide_top / guide_section / guide_bottom`）。それまで A8（akippa）へのクリックの一部は GA4 の送客イベントに出ていなかった。公式リンクのCTAは数えない。ガイド記事には `booking_guide_view` が無いので、提携送客率（paid ÷ booking_guide_view）は BookingGuide のあるページだけで出す
 - 予約できるイバトコ MVP の主KPIは **提携送客率 = `paid_booking_click` ÷ `booking_guide_view`**（同じ期間・同じページ。観測 2026-10-11〜10-17、GA4 の 10/17 確定後に評価。Growth Director 最終判断 2026-10-10）。公式を含む `outbound_booking_click` ÷ `booking_guide_view` は副指標。定義と整合の条件は `data/editorial/revenue-mvp.json` の `primaryKpi`・`consistencyChecks`
