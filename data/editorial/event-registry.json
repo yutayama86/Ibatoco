@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-19",
+  "updatedAt": "2026-10-21",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -782,9 +782,9 @@
       "endDate": null,
       "officialUrl": "https://www.city.tsukubamirai.lg.jp/gyousei/shoukai/20th/page007748.html",
       "discoveredAt": "2026-10-19",
-      "verifiedAt": "2026-10-19",
+      "verifiedAt": "2026-10-21",
       "articleUrl": "/events/mirai-music-fes-2026/",
-      "articleUpdatedAt": "2026-10-19",
+      "articleUpdatedAt": "2026-10-21",
       "status": "published",
       "importance": "urgent",
       "signals": {
@@ -793,7 +793,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "high"
       },
-      "notes": "市制20周年。市民無料席の追加抽選は10/20 23:59締切。HIPPY出演中止、ET-KING出演決定。会場は日本スポーツ振興パークみらい。交通・駐車場は市公式の最新案内を確認。 公開記事を2026-10-19に本番確認済み。"
+      "notes": "市制20周年。市民無料席の第2弾追加抽選は10/20 23:59で締切経過（つくばみらい市公式10/20更新）。延長・当日受付の案内は公式ページで確認できず、実施可否は未確認。一般席・VIP席の販売状況はBoostyで要確認（フォームの直接確認不可）。HIPPY出演中止、ET-KING出演決定。会場は日本スポーツ振興パークみらい。10/20付の駐車場・シャトルバス変更は市公式を参照。記事の受付終了表記を2026-10-21に本番確認済み。"
     },
     {
       "id": "botanical-gathering-rinne-2026",
@@ -893,9 +893,9 @@
       "endDate": null,
       "officialUrl": "https://www.hitachicm.com/global/ja/news/topics/2026/26-10-09/",
       "discoveredAt": "2026-10-19",
-      "verifiedAt": "2026-10-19",
+      "verifiedAt": "2026-10-21",
       "articleUrl": "/events/hitachi-kenki-festival-hitachinaka-2026/",
-      "articleUpdatedAt": "2026-10-19",
+      "articleUpdatedAt": "2026-10-21",
       "status": "published",
       "importance": "urgent",
       "signals": {
@@ -904,7 +904,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "high"
       },
-      "notes": "10:15〜15:00、常陸那珂臨港工場。入場無料・事前登録必須。ひたちなか市公式は10/20を申込締切日として案内。会場への自家用車駐車不可、臨時駐車場は完全予約制、勝田駅東口などから無料シャトルバス予定。 公開記事を2026-10-19に本番確認済み。"
+      "notes": "10:15〜15:00、常陸那珂臨港工場。入場無料・事前登録必須。ひたちなか市公式が案内した10/20の申込締切は経過。日立建機公式は事前登録必須と案内。延長・当日受付の案内は確認できず、実施可否は未確認（申込フォームの直接確認不可）。会場への自家用車駐車不可、臨時駐車場は完全予約制、勝田駅東口などから無料シャトルバス予定。記事の受付終了表記を2026-10-21に本番確認済み。"
     },
     {
       "id": "night-park-oarai-2026",
