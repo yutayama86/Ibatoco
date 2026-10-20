@@ -1,7 +1,35 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-19",
+  "updatedAt": "2026-10-21",
   "actions": [
+    {
+      "id": "20261021-expired-registration-facts",
+      "title": "10月20日締切の抽選・事前登録を受付終了へ更新",
+      "kind": "update",
+      "targetUrl": "/events/mirai-music-fes-2026/",
+      "targetFile": "src/content/events/mirai-music-fes-2026.md",
+      "additionalTargetFiles": [
+        "src/content/events/hitachi-kenki-festival-hitachinaka-2026.md",
+        "src/content/events/ibaraki-events-october-2026.md",
+        "src/content/events/ibaraki-autumn-odekake-2026.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-21",
+      "completedAt": "2026-10-21",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-21",
+      "page": "/events/mirai-music-fes-2026/",
+      "source": "つくばみらい市・ひたちなか市の公式発表（締切経過）",
+      "reason": "10月20日締切の応募導線を受付中に見せないための事実更新。expectedPvImpactは再現可能に算出できないため付与しない。",
+      "acceptanceCriteria": [
+        "市民無料席の追加抽選を終了表記へ更新",
+        "日立建機フェスの事前登録を終了表記へ更新",
+        "関連する10月・秋まとめページも整合",
+        "URLを変更しない"
+      ]
+    },
     {
       "id": "20261019-ryujin-fact-consistency",
       "title": "竜神峡紅葉まつり公式発表後の未発表表記を2ページで解消",
@@ -1262,13 +1290,14 @@
       "targetUrl": "/events/torinokosan-jinja-guide/",
       "targetFile": "src/content/events/torinokosan-jinja-guide.md",
       "priority": "medium",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-30",
       "dueDate": "2026-10-22",
+      "completedAt": "2026-10-21",
       "primarySourceUrls": [
         "https://www.torinokosan.com/news/"
       ],
-      "notes": "令和8年8月24日〜10月21日（予定）、平日は茨城県側が全面通行止め・大型車は神社まで行けない。終了（または延長）の告知を確認して記載を直す。夜祭り（毎年11月第3土曜）の2026年の告知が出たら日付を追記。",
+      "notes": "公式サイトで終了予定が10月21日から10月30日へ延長されたことを確認し、記事のdescription・summary・keyPoints・詳細・FAQ・確認日を更新。夜祭り（毎年11月第3土曜）の2026年の個別告知が出たら日付を追記。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-10-22",

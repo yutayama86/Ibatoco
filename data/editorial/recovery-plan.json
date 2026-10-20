@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-20",
+  "updatedAt": "2026-10-21",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
@@ -146,17 +146,18 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-20",
+    "date": "2026-10-21",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
     "factsReleased": [
-      "竜神峡紅葉まつり公式発表後の未発表表記を個別記事と11月ハブで解消（前日準備分を本番反映）"
+      "鷲子山上神社の公式発表に基づき、道路工事の終了予定を10月21日から10月30日へ更新",
+      "10月20日で終了したMIRAI Music Fes無料席追加抽選と日立建機フェス事前登録を4ページで終了表記へ更新"
     ],
     "incrementalViewsObserved": null,
-    "growthImplementations": 1,
-    "growthImplementation": "竜神峡の事実整合1件（2ページ）を本番反映。expectedPvImpactは算定不能のため獲得PVに計上しない。",
+    "growthImplementations": 2,
+    "growthImplementation": "鷲子山上神社の道路工事延長を1ページ、期限終了した抽選・事前登録を4ページへ反映。いずれも必要な公式事実更新で、expectedPvImpactは算定不能のため獲得PVに計上しない。",
     "expectedPvImpact": null,
     "expectedPvImpactConfidence": "none",
     "observationWindow": "事実訂正は即時。metadata/internal links 14日、本文28日の既存窓は維持。",
@@ -164,7 +165,7 @@
       "需要根拠付きconfidence-adjusted portfolio未成立",
       "土浦花火等の進行中観測窓"
     ],
-    "nextConcreteAction": "10/21は公式一次情報差分とGSC未露出需要を再探索し、大洗あんこう・紅葉・土浦花火の実行可能施策を再選別。",
+    "nextConcreteAction": "10/22は大洗あんこう・紅葉・土浦花火のGSC検索意図差分を再確認し、観測窓外で実行できる需要獲得施策を再選別。鷲子山の工事終了予定は10/30以降に再確認。",
     "nextDemandCheckpoint": "2026-10-26"
   }
 }
