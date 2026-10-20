@@ -10,6 +10,17 @@ const cityBlock = source.split('export const MUNICIPALITIES = [')[1]?.split('] a
 if (!cityBlock) throw new Error('municipality source parse failed');
 const entries = [...cityBlock.matchAll(/\{ slug: '([^']+)', name: '([^']+)'/g)].map((m)=>({slug:m[1],name:m[2]}));
 if (entries.length!==44 || new Set(entries.map((m)=>m.slug)).size!==44) throw new Error(`municipalities expected 44, actual ${entries.length}`);
+// 地域固有の図案を全市町村に明示的に割り当てる。新しい地域を無条件で田園図案にしない。
+const sceneSource=readFileSync(resolve('src/data/city-visuals.ts'),'utf8');
+const sceneBlock=sceneSource.split('export const CITY_SCENE_BY_SLUG')[1]?.split('};')[0];
+if(!sceneBlock) throw new Error('city scene source not found');
+const sceneSlugs=[...sceneBlock.matchAll(/^\s*'([^']+)':\s*'[^']+',?$/gm)].map((m)=>m[1]);
+const expectedSlugs=new Set(entries.map((m)=>m.slug));
+const sceneMissing=[...expectedSlugs].filter((slug)=>!sceneSlugs.includes(slug));
+const sceneExtra=sceneSlugs.filter((slug)=>!expectedSlugs.has(slug));
+if(sceneMissing.length||sceneExtra.length||new Set(sceneSlugs).size!==44){
+  throw new Error(`CITY_SCENE_COVERAGE_ERROR missing=${sceneMissing.join(',')} extra=${sceneExtra.join(',')} count=${sceneSlugs.length}`);
+}
 let failures=0;
 for (const {slug,name} of entries){
   const path=join(resolve('dist'),'area',slug,'index.html');
