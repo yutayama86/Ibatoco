@@ -36,6 +36,12 @@ export const bookingSchema = z.object({
     url: z.url(),
     note: z.string().min(1).optional(),
     kind: z.enum(['official', 'ota', 'ticket', 'transport']).default('official'),
+    deadline: z.object({
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      label: z.string().min(1),
+      checkedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      source: z.url().optional(),
+    }).optional(),
   })).min(2),
   note: z.string().min(1).optional(),
 });
