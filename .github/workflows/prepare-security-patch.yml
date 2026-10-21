@@ -1,0 +1,38 @@
+name: Prepare dependency security patch
+on:
+  push:
+    branches: [security/patch-astro-sharp-20261022]
+    paths:
+      - '.github/workflows/prepare-security-patch.yml'
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: security/patch-astro-sharp-20261022
+          persist-credentials: true
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22.23.4
+          cache: npm
+      - name: Patch declared versions and lockfile without force
+        run: |
+          npm install --save-exact astro@7.2.8 sharp@0.35.5
+          npm audit fix || true
+      - name: Commit only npm manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "security: patch Astro and sharp with regenerated lockfile"
+            git push origin HEAD:security/patch-astro-sharp-20261022
+          fi
+      - name: Report current production vulnerabilities
+        run: npm audit --omit=dev --audit-level=high
