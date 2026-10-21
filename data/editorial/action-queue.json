@@ -1,7 +1,40 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-22",
   "actions": [
+    {
+      "id": "20261022-autumn-official-refresh",
+      "title": "筑波山もみじまつり・夜間運行と袋田の滝色づき速報を反映",
+      "kind": "update",
+      "targetUrl": "/events/tsukuba-autumn-2026/",
+      "targetFile": "src/content/events/tsukuba-autumn-2026.md",
+      "additionalTargetFiles": [
+        "src/content/events/fukuroda-falls-autumn-2026.md"
+      ],
+      "priority": "critical",
+      "status": "done",
+      "createdAt": "2026-10-22",
+      "completedAt": "2026-10-22",
+      "confidence": "high",
+      "effort": "S",
+      "deadline": "2026-10-22",
+      "page": "/events/tsukuba-autumn-2026/",
+      "source": "つくば観光コンベンション協会・筑波観光鉄道・大子町観光協会の公式発表（2026-10-22確認）",
+      "reason": "11月大型需要の来訪判断に必要な公式事実更新。expectedPvImpactは再現可能に算出できないため付与せず、獲得PVに計上しない。",
+      "specPath": "docs/editorial/specs/20261022-autumn-official-refresh.md",
+      "primarySourceUrls": [
+        "https://ttca.jp/autumnmttsukuba/",
+        "https://mt-tsukuba.com/",
+        "https://www.daigo-kanko.jp/themes/koyo.html"
+      ],
+      "acceptanceCriteria": [
+        "筑波山もみじまつり・標高別の紅葉目安・夜間運行日程を公式発表どおり反映",
+        "ケーブルカーは10月22日現在運転休止中と併記",
+        "袋田の滝は10月19日現在青葉へ更新し、実況を見頃予想と混同しない",
+        "既存URL・canonical・画像を変更しない",
+        "npm run audit:freshness と npm run verify が成功"
+      ]
+    },
     {
       "id": "20261021-expired-registration-facts",
       "title": "10月20日締切の抽選・事前登録を受付終了へ更新",
