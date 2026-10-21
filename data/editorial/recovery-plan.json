@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-22",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-20",
-    "ga4Through": "2026-10-18",
-    "gscThrough": "2026-10-17",
-    "referenceRunRate30": 18291,
-    "referenceGapViews": 81709,
-    "officialRawRunRate30": 18291,
-    "latest3RawRunRate30": 19130,
+    "asOf": "2026-10-22",
+    "ga4Through": "2026-10-19",
+    "gscThrough": "2026-10-18",
+    "referenceRunRate30": 18570,
+    "referenceGapViews": 81430,
+    "officialRawRunRate30": 18570,
+    "latest3RawRunRate30": 19330,
     "incidentAdjustedLatest3ReferenceRunRate30": null,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 4268,
-    "recent7DailyAverage": 609.7142857142857,
-    "recent3Views": 1913,
-    "recent3DailyAverage": 637.6666666666666,
+    "recent7Views": 4333,
+    "recent7DailyAverage": 619,
+    "recent3Views": 1933,
+    "recent3DailyAverage": 644.3333333333334,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。需要portfolioは重複排除・確度補正の根拠不足でnull。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。10/22のWindsor.ai再取得は指定期間外の0行のみを返したため不採用とし、最終確定値を保持。需要portfolioは重複排除・確度補正の根拠不足でnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -146,26 +146,28 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-21",
+    "date": "2026-10-22",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
     "factsReleased": [
-      "鷲子山上神社の公式発表に基づき、道路工事の終了予定を10月21日から10月30日へ更新",
-      "10月20日で終了したMIRAI Music Fes無料席追加抽選と日立建機フェス事前登録を4ページで終了表記へ更新"
+      "筑波山もみじまつりの2026年10月24日〜11月30日開催、エリア別見頃目安、夜間運行日程を公式発表に整合",
+      "筑波山ケーブルカーの当面運休継続とロープウェイ通常運行を10月22日に再確認",
+      "袋田の滝の紅葉状況を10月19日公式発表の『青葉』へ更新"
     ],
     "incrementalViewsObserved": null,
-    "growthImplementations": 2,
-    "growthImplementation": "鷲子山上神社の道路工事延長を1ページ、期限終了した抽選・事前登録を4ページへ反映。いずれも必要な公式事実更新で、expectedPvImpactは算定不能のため獲得PVに計上しない。",
+    "growthImplementations": 0,
+    "growthImplementation": "Growth実装は0件。重点紅葉2ページの公式事実更新はMaintenance Batchとして実施し、expectedPvImpactは算定不能のため獲得PVに計上しない。",
     "expectedPvImpact": null,
     "expectedPvImpactConfidence": "none",
     "observationWindow": "事実訂正は即時。metadata/internal links 14日、本文28日の既存窓は維持。",
     "blockers": [
       "需要根拠付きconfidence-adjusted portfolio未成立",
+      "Windsor.aiが指定期間を無視した0行を返し、10/22は新しい確定値を採用できない",
       "土浦花火等の進行中観測窓"
     ],
-    "nextConcreteAction": "10/22は大洗あんこう・紅葉・土浦花火のGSC検索意図差分を再確認し、観測窓外で実行できる需要獲得施策を再選別。鷲子山の工事終了予定は10/30以降に再確認。",
+    "nextConcreteAction": "10/23はWindsor.aiの期間指定応答を再検証し、復旧後にGA4/GSC欠損日をバックフィル。大洗あんこう・紅葉・土浦花火のGSC検索意図差分から観測窓外の需要獲得施策を再選別。",
     "nextDemandCheckpoint": "2026-10-26"
   }
 }
