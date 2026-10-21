@@ -50,16 +50,16 @@ const { src: image, alt: imageAlt } = listImageOf(item);
 </article>
 
 <style>
-  .news-card{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr;height:100%;background:var(--color-white);border:1px solid color-mix(in srgb,var(--color-tide) 18%,transparent)}
-  .news-card:not(.has-image){grid-template-rows:1fr}
+  .news-card{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr;height:100%;min-width:0;overflow:hidden;background:var(--color-white);border:1px solid #e0e8ec;border-radius:14px;transition:border-color .2s ease,box-shadow .2s ease}
+  .news-card:hover{border-color:#b7cbd9;box-shadow:0 10px 26px rgba(23,43,53,.065)}\n  .news-card:focus-within{border-color:#7ba5c8}\n  .news-card:not(.has-image){grid-template-rows:1fr}
   .news-card__image{display:block;overflow:hidden;aspect-ratio:16/9;background:var(--color-mist)}.news-card__image img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}.news-card:hover .news-card__image img{transform:scale(1.025)}
-  .news-card__body{display:flex;flex-direction:column;padding:1.25rem}.news-card__meta{display:flex;flex-wrap:nowrap;gap:.45rem .8rem;min-width:0;color:var(--color-tide);font:.68rem/1.5 var(--font-brand-meta);letter-spacing:.08em}
+  .news-card__body{display:flex;flex-direction:column;min-width:0;padding:clamp(1rem,1.7vw,1.3rem)}.news-card__meta{display:flex;flex-wrap:nowrap;gap:.45rem .8rem;min-width:0;color:var(--color-tide);font:.68rem/1.5 var(--font-brand-meta);letter-spacing:.08em}
   /* 札は1行固定。折り返すとカードごとに見出しの高さが変わって頭がそろわない */
   .news-card__meta>*{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .news-card__meta>span:first-child{flex:none}.news-card__sample{color:var(--color-signal)}
-  h3{margin-top:.75rem;font:600 clamp(1.15rem,2vw,1.45rem)/1.55 var(--font-brand-display);color:var(--color-ink)}h3 a{text-decoration:none}h3 a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
-  p{margin-top:.75rem;color:var(--color-soil);font-size:.84rem;line-height:1.8}.news-card__dates{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin-top:auto;padding-top:1.2rem;color:var(--color-soil);font-size:.68rem}
+  h3{margin-top:.7rem;font:600 clamp(1.08rem,1.65vw,1.34rem)/1.5 var(--font-brand-display);color:var(--color-ink)}h3 a{text-decoration:none}h3 a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
+  p{margin-top:.65rem;color:var(--color-soil);font-size:.84rem;line-height:1.75}.news-card__dates{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin-top:auto;padding-top:1.2rem;color:var(--color-soil);font-size:.68rem}
   .compact{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr}.compact .news-card__image{aspect-ratio:16/9}.compact .news-card__body{padding:1rem}.compact h3{font-size:1rem}
   .compact:not(.has-image){grid-template-rows:1fr}
-  @media(prefers-reduced-motion:reduce){.news-card__image img{transition:none}}
+  @media(prefers-reduced-motion:reduce){.news-card,.news-card__image img{transition:none}}
 </style>
