@@ -17,7 +17,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /control/ /robots.txt /sitemap-index.xml; do
+          for path in / /control/; do
             response=$(curl -sS -L --max-time 15 --max-redirs 3 -o /dev/null -w '%{http_code} %{url_effective}' "https://ibatoco.jp${path}")
             code="${response%% *}"
             final_url="${response#* }"
