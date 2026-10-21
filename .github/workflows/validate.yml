@@ -25,6 +25,10 @@ jobs:
           node-version: 22.23.4
           cache: npm
       - run: npm ci
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+      - name: Audit all critical dependencies
+        run: npm audit --audit-level=critical
       - run: npm run verify
       - name: Generate editorial daily brief
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
