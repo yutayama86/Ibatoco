@@ -9,7 +9,7 @@ jobs:
   verify-candidate:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - name: Verify candidate token without deploying
         env:
@@ -43,3 +43,21 @@ jobs:
           PY
 
 # Re-run preflight after candidate secret registration; no production changes.
+      - name: Verify isolated Workers deploy and delete
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_CANDIDATE }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          name="ibatoco-token-probe-${GITHUB_RUN_ID}"
+          mkdir -p /tmp/ibatoco-token-probe
+          printf 'export default {fetch(){return new Response("ok")}};\n' > /tmp/ibatoco-token-probe/index.js
+          cat > /tmp/ibatoco-token-probe/wrangler.jsonc <<EOF
+          {"name":"$name","main":"index.js","compatibility_date":"2024-11-01","workers_dev":false}
+          EOF
+          cd /tmp/ibatoco-token-probe
+          cleanup() { npx --yes wrangler@4 delete --name "$name" --force || echo "::warning::Probe worker cleanup needs manual review: $name"; }
+          trap cleanup EXIT
+          npx --yes wrangler@4 deploy --config wrangler.jsonc
+          echo "Isolated Worker deployment succeeded; production Worker was not touched."
