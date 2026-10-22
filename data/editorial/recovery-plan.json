@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-22",
+  "updatedAt": "2026-10-23",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-22",
+    "asOf": "2026-10-23",
     "ga4Through": "2026-10-19",
     "gscThrough": "2026-10-18",
     "referenceRunRate30": 18570,
@@ -23,7 +23,7 @@
     "recent3Views": 1933,
     "recent3DailyAverage": 644.3333333333334,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。10/22のWindsor.ai再取得は指定期間外の0行のみを返したため不採用とし、最終確定値を保持。需要portfolioは重複排除・確度補正の根拠不足でnull。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。10/23もWindsor.aiの期間指定が無視され、指定範囲外の2026-10-22・0値1行だけを返したため不採用。GA4 10/19・GSC 10/18までの最終確定値を保持し、需要portfolioは重複排除・確度補正の根拠不足でnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -146,28 +146,25 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-22",
+    "date": "2026-10-23",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
-    "factsReleased": [
-      "筑波山もみじまつりの2026年10月24日〜11月30日開催、エリア別見頃目安、夜間運行日程を公式発表に整合",
-      "筑波山ケーブルカーの当面運休継続とロープウェイ通常運行を10月22日に再確認",
-      "袋田の滝の紅葉状況を10月19日公式発表の『青葉』へ更新"
-    ],
+    "factsReleased": [],
     "incrementalViewsObserved": null,
     "growthImplementations": 0,
-    "growthImplementation": "Growth実装は0件。重点紅葉2ページの公式事実更新はMaintenance Batchとして実施し、expectedPvImpactは算定不能のため獲得PVに計上しない。",
+    "growthImplementation": "Growth実装は0件。Engine候補3件は直近変更後の観測窓、既存ページでの検索意図充足、または公開による因果根拠不足のため見送り。データ同期・Strategy Reset・技術監査は獲得PVに計上しない。",
     "expectedPvImpact": null,
     "expectedPvImpactConfidence": "none",
     "observationWindow": "事実訂正は即時。metadata/internal links 14日、本文28日の既存窓は維持。",
     "blockers": [
       "需要根拠付きconfidence-adjusted portfolio未成立",
-      "Windsor.aiが指定期間を無視した0行を返し、10/22は新しい確定値を採用できない",
-      "土浦花火等の進行中観測窓"
+      "Windsor.aiが指定期間を無視した0値1行を返し、10/23も新しい確定値を採用できない",
+      "土浦花火・水戸ホーリーホック等の進行中観測窓",
+      "公式一次情報で確認した未露出需要に期待PVを置ける実測がない"
     ],
-    "nextConcreteAction": "10/23はWindsor.aiの期間指定応答を再検証し、復旧後にGA4/GSC欠損日をバックフィル。大洗あんこう・紅葉・土浦花火のGSC検索意図差分から観測窓外の需要獲得施策を再選別。",
+    "nextConcreteAction": "10/24に茨城空港の10/25以降の駐車場時間と、笠間の菊まつり公式パンフレットとの差分だけを再確認。Windsor.ai復旧後にGA4/GSC欠損日をバックフィルし、10/26 checkpointで需要配分を再判定。",
     "nextDemandCheckpoint": "2026-10-26"
   }
 }
