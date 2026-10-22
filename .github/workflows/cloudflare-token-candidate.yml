@@ -41,3 +41,5 @@ jobs:
               raise RuntimeError("Candidate token cannot list Workers scripts")
           print("Candidate token can access Workers script API; no deployment performed")
           PY
+
+# Re-run preflight after candidate secret registration; no production changes.
