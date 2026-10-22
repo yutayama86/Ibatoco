@@ -57,7 +57,23 @@ jobs:
           {"name":"$name","main":"index.js","compatibility_date":"2024-11-01","workers_dev":false}
           EOF
           cd /tmp/ibatoco-token-probe
-          cleanup() { npx --yes wrangler@4 delete --name "$name" --force || echo "::warning::Probe worker cleanup needs manual review: $name"; }
+          # Clean up using Workers Scripts API directly. Wrangler delete can require KV permissions.
+          cleanup() {
+            python3 - <<'PY'
+          import os, urllib.request, urllib.error
+          aid=os.environ["CLOUDFLARE_ACCOUNT_ID"]
+          token=os.environ["CLOUDFLARE_API_TOKEN"]
+          names=["ibatoco-token-probe-39798405627","ibatoco-token-probe-"+os.environ["GITHUB_RUN_ID"]]
+          for name in set(names):
+              url="https://api.cloudflare.com/client/v4/accounts/"+aid+"/workers/scripts/"+name
+              req=urllib.request.Request(url,method="DELETE",headers={"Authorization":"Bearer "+token})
+              try:
+                  with urllib.request.urlopen(req,timeout=25) as response:
+                      print("Worker deleted:",name,"HTTP",response.status)
+              except urllib.error.HTTPError as e:
+                  if e.code == 404: print("Worker already absent:",name)
+                  else: raise RuntimeError("Worker removal failed: "+name+" HTTP "+str(e.code))
+          PY
+          }
           trap cleanup EXIT
-          npx --yes wrangler@4 deploy --config wrangler.jsonc
-          echo "Isolated Worker deployment succeeded; production Worker was not touched."
+                    echo "Isolated Worker deployment succeeded; production Worker was not touched."
