@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-09",
+  "updatedAt": "2026-10-23",
   "sourceSheet": "イバトコ SEO・流入データ / Strategy_Scorecard",
   "reviewCadence": {
     "daily": "execution",
@@ -84,27 +84,27 @@
     "Do not accelerate monetization by weakening disclosure, rights, privacy, accessibility, or security."
   ],
   "latestStrategyReset": {
-    "reviewedAt": "2026-10-09",
+    "reviewedAt": "2026-10-23",
     "businessModelReviewRequired": false,
     "businessModelReviewCompleted": false,
     "evidence": {
-      "ga4Period": "2026-09-10..2026-10-07",
-      "ga4Views28d": 11177,
-      "ga4ViewsRecent7": 5287,
-      "ga4ViewsPrevious7": 2197,
-      "gscPeriod": "2026-09-09..2026-10-06",
-      "gscClicks28d": 4804,
-      "gscImpressions28d": 126344,
+      "ga4Period": "2026-09-22..2026-10-19",
+      "ga4Views28d": 13594,
+      "ga4ViewsRecent7": 4333,
+      "ga4ViewsPrevious7": 1900,
+      "gscPeriod": "2026-09-21..2026-10-18",
+      "gscClicks28d": 6159,
+      "gscImpressions28d": 142763,
       "confirmedRevenueYen": 0,
-      "outboundBookingClicks7d": 45,
-      "businessCtaViews7d": 475,
-      "businessCtaClicks7d": 1
+      "outboundBookingClicks7d": 90,
+      "businessCtaViews7d": null,
+      "businessCtaClicks7d": null
     },
     "lensDecisions": [
       {
         "lens": "seo-demand",
         "decision": "strengthen",
-        "reason": "直近7日5,287 Viewsまで伸長したが11月着地下限は22,659。大型季節需要と高表示低CTRの観測明け施策へ集中する。"
+        "reason": "直近7日4,333 Views、30日換算18,570は参考値に留まり、目標とのGapは81,430。11月大型季節需要と観測明け施策へ集中する。"
       },
       {
         "lens": "discover-news",
@@ -179,7 +179,7 @@
       {
         "lens": "measurement-experiment",
         "decision": "strengthen",
-        "reason": "GA4 10月7日とGSC 10月6日へ前進。GSC 9月30日欠損を0補完せず部分値として分離した。"
+        "reason": "GA4 10月19日・GSC 10月18日が最終確定。10月23日のWindsor.ai期間指定異常を0補完せず、前回確定値を保持した。"
       },
       {
         "lens": "trust-freshness",
@@ -205,30 +205,30 @@
     "nextWeekAllocation": [
       {
         "area": "november-seasonal-search",
-        "share": 0.55
+        "share": 0.6
       },
       {
         "area": "ctr-recirculation-and-pv-relay",
-        "share": 0.2
+        "share": 0.18
       },
       {
         "area": "revenue-measurement-and-bookable-mvp",
         "share": 0.12
       },
       {
-        "area": "trust-freshness-and-automation",
+        "area": "trust-freshness-and-measurement",
         "share": 0.08
       },
       {
         "area": "today-owned-audience-localos",
-        "share": 0.05
+        "share": 0.02
       }
     ],
     "stopOrHold": [
-      "10月14日まで水戸信金スタジアム2ページの役割再設計を実装しない。",
-      "10月14日まで大洗あんこう祭本文を事実訂正以外で再改修しない。",
-      "10月21日まで菊まつり・筑波山ケーブルカー・土浦花火metadata/internal linksを再変更しない。",
-      "10月22日まで英語ひたち海浜公園本文を再変更しない。",
+      "10月29日まで水戸ホーリーホック・水戸信金スタジアム関連ページを事実訂正以外で再改修しない。",
+      "11月1日まで土浦花火metadata/internal linksを事実訂正以外で再変更しない。",
+      "11月3日まで大洗あんこう鍋の予約導線を再変更しない。",
+      "10月26日のcheckpointまでLocalOS拡張・新規機能・全面デザインを保留する。",
       "新規ASP申請・広告・有料SaaS・営業送信を行わない。"
     ]
   },
