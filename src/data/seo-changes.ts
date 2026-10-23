@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261023-events-kenmin-no-hi-rekishikan',
+    date: '2026-10-24',
+    url: '/events/ibaraki-kenmin-no-hi-2026/',
+    kind: 'on-page',
+    change: '事実の更新：茨城県立歴史館が公式の「歴史館いちょうまつり2026」特設ページで「11/13(金)茨城県民の日無料」（展示室）と案内しているのを確認し、要点・施設別の無料一覧（picks）・FAQに追加。同日の県民の日コンサートと歴史館マルシェ（10〜15時、雨天中止）も記載。前年無料で未確認の施設は偕楽園本園・好文亭と袋田の滝に更新。県ホームページの障害（臨時ページ、10/21 15時現在の表示）が10/23時点でも続いていることを日付つきで更新。県立歴史館ガイドへ内部リンク',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。GD決定（10/23）B5「県民の日」。県の一覧は県ホームページの障害で確認できないため、施設の公式発表で積み上げる方針を継続。前回の報告で「県民の日の検索が茨城パスポート記事に着地」としたのは誤りで、実際の検索語は「茨城県民パスポート」だった。茨城パスポート記事とは検索意図が別のため、無理な相互リンクはしない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261023-events-ibaraki-camp-autumn-festa-new',
     date: '2026-10-24',
     url: '/events/ibaraki-camp-autumn-festa-2026/',
