@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-23",
+  "updatedAt": "2026-10-24",
   "actions": [
     {
       "id": "20261022-autumn-official-refresh",
@@ -1196,26 +1196,51 @@
       "notes": "9/29時点で終了済みのライトアップと入園無料日を未来形から終了済みへ更新。期間中の休園日、次の色づき、季節料金を一次情報と一致させた。URL・title・内部リンク・既存デザインは変更なし。"
     },
     {
+      "id": "20261024-kasama-kiku-official-brochure",
+      "title": "笠間の菊まつり公式パンフレットの交通・有料エリア・夜祭り情報を反映",
+      "kind": "update",
+      "targetUrl": "/events/kasama-kiku-matsuri-2026/",
+      "targetFile": "src/content/events/kasama-kiku-matsuri-2026.md",
+      "priority": "high",
+      "status": "done",
+      "createdAt": "2026-10-24",
+      "completedAt": "2026-10-24",
+      "dueDate": "2026-10-24",
+      "primarySourceUrls": [
+        "https://www.city.kasama.lg.jp/mm_pro/backnumber.php?code=1&mode=detail&year=2026",
+        "https://www.kasama-kankou.jp/skin/x05_kiku_top/doc/119_kikufestival.pdf"
+      ],
+      "expectedPvImpact": 105,
+      "confidence": "medium",
+      "effort": "S",
+      "deadline": "2026-10-24",
+      "page": "/events/kasama-kiku-matsuri-2026/",
+      "source": "GSC直近7日クエリ実測と第119回公式パンフレット",
+      "reason": "笠間菊クラスターは直近7日672 impressions・平均5.6位・CTR3.4%で、実測CTR曲線との差から+105 Viewsの伸びしろ。開幕日に公式パンフレットの新規事実を検索意図へ反映する。"
+    },
+    {
       "id": "20261024-ibaraki-airport-parking-hours",
-      "title": "茨城空港 10/25以降の駐車場時間と日中バスを反映",
+      "title": "茨城空港 10/25以降の石岡駅予約制乗合タクシーを反映",
       "kind": "update",
       "targetUrl": "/news/ibaraki-airport-winter-schedule-2026/",
       "targetFile": "src/content/news/ibaraki-airport-winter-schedule-2026.md",
       "priority": "high",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-09-28",
       "dueDate": "2026-10-24",
+      "completedAt": "2026-10-24",
       "primarySourceUrls": [
         "https://www.ibaraki-airport.net/",
-        "https://www.ibaraki-airport.net/facilities/parking/"
+        "https://www.ibaraki-airport.net/facilities/parking/",
+        "https://www.ibaraki-airport.net/post-261021022044/"
       ],
-      "notes": "10/23再確認。ターミナルビルは10/25以降5:30〜23:00と発表済みだが、駐車場公式ページは5:30〜22:00のまま、空港の案内記事も10/25以降の駐車場時間を『決まり次第』としている。異なる施設の時刻を混同せず、駐車場の公式発表までcandidateを維持。日中バスも確定差分だけを反映する。",
+      "notes": "10/24再確認。駐車場公式ページは5:30〜22:00のまま、空港の案内記事も10/25以降の駐車場時間を『決まり次第』としている。一方、10/23に札幌21:25着・神戸22:15着の利用者向け石岡駅行き予約制乗合タクシー（680円、前日17時まで）の公式発表が出たため、確定差分だけを反映する。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-10-24",
       "page": "/news/ibaraki-airport-winter-schedule-2026/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定せず、獲得PVに計上しない。"
     },
     {
       "id": "20261001-hitachinaka-rail-free-ticket",
