@@ -1403,6 +1403,27 @@
         "logisticsDemand": "high"
       },
       "notes": "Discovery Gate 初回巡回（10/17）で発見。大会要項（公式）で2027年1月31日（日）雨天決行、マラソン10:30・男子10km 11:10・女子10km 11:40スタート、会場は石川運動ひろば（ひたちなか市）、コースはひたちなか市・東海村。定員はマラソン12,000人・10km 5,000人（公式・要項の値。来場者数ではない）。一般エントリーは10月31日まで。交通規制・駐車場・シャトルは開催30日前（2027/1/1）までに公式を確認。"
+    },
+    {
+      "id": "ibaraki-camp-autumn-festa-2026",
+      "name": "いばらきキャンプ AUTUMN FESTA 2026",
+      "municipality": "ibaraki-machi",
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-25",
+      "officialUrl": "https://ibaraki-camp.jp/autumn_festa2026/",
+      "discoveredAt": "2026-10-21",
+      "verifiedAt": "2026-10-21",
+      "articleUrl": "/events/ibaraki-camp-autumn-festa-2026/",
+      "articleUpdatedAt": "2026-10-21",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     }
   ]
 }
