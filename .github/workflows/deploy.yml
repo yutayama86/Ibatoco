@@ -34,6 +34,21 @@ jobs:
             echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Reject superseded deployment
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::notice::Superseded deployment skipped: target $TARGET_SHA, latest main $latest_sha"
+            exit 1
+          fi
+          echo "Target matches latest main: $TARGET_SHA"
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ steps.ref.outputs.sha }}
@@ -54,6 +69,20 @@ jobs:
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID repository secret"; exit 1; }
 
       - run: npm ci
+
+      - name: Check latest main before deployment
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::error::Main advanced during build; refusing stale deployment: $TARGET_SHA != $latest_sha"
+            exit 1
+          fi
 
       - name: Audit and deploy to Cloudflare Worker
         env:
