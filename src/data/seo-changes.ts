@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261023-events-tsuchiura-hanabi-nokisaki-drone',
+    date: '2026-10-24',
+    url: '/events/tsuchiura-hanabi-2026/',
+    kind: 'on-page',
+    change: '公式発表の反映：軒先パーキングで予約できる民間駐車場の案内（大会公式・10/20）と、会場上空・周辺でのドローン飛行禁止（大会公式・10/23、過去に航空法違反で2回検挙）を追記',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。metadata 実験（〜11/1）の観測は継続（fact の記録で窓は消えない）。GD決定（10/23）B6「11/7に向けた当日判断情報の整備」',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261023-events-tsuchiura-hanabi-kaisai-recheck',
+    date: '2026-10-24',
+    url: '/events/tsuchiura-hanabi-2026-kaisai/',
+    kind: 'on-page',
+    change: '公式の再確認：2026年の開催判断の発表日時は10/23時点でも未掲載、公式FAQ「大会の開催はいつ決定しますか？」は2025年の回答のまま（2025/10/30更新）、延期日（11/14）のシャトルバス・交通規制の個別案内もなし（シャトルバス・交通規制図のページを確認）。「9月27日時点」の記述6か所を10月23日に更新',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。GD決定（10/23）B6。当日（11/7）の開催判断の反映は実装キュー 20261107-tsuchiura-dayof-update で行う。発表前の推測は書かない',
+    experimentType: 'fact',
+  },
+  {
     id: '20261023-events-ibaraki-camp-autumn-festa-new',
     date: '2026-10-24',
     url: '/events/ibaraki-camp-autumn-festa-2026/',
