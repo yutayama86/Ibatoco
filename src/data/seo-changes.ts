@@ -48,6 +48,19 @@ export interface SeoChange {
  * 追加は `npm run seo:log` を使うと形式が崩れない。
  */
 export const SEO_CHANGES: SeoChange[] = [
+  {
+    id: '20261023-news-kashima-pohang-rinji-teisha',
+    date: '2026-10-23',
+    url: '/news/kashima-pohang-acle-guide-2026-10-28/',
+    kind: 'on-page',
+    change: '事実訂正：大洗鹿島線の10/28臨時停車を「未発表」から「発表済み（鹿島臨海鉄道 10/19掲載）」に更新。時刻は同社の臨時停車時刻表（PDF）を出典に追加し、本文には時刻を書かない。直行バス（△ 募集中）・チケットは10/23時点で変化なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '事実の更新（観測窓0日）。new-article の観測（〜11/16）は継続。GD指示（10/19）P1「10/28の試合前に公式情報を再確認」の10/22分（10/23実施）。時刻表PDFはブラウザで表示できず、時刻は未確認のため記載しない',
+    experimentType: 'fact',
+  },
+
+
 
   {
     id: '20261019-events-ryujin-official-consistency',
