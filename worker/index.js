@@ -135,7 +135,20 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    const isControl = url.pathname === '/control' || url.pathname.startsWith('/control/');
+    // Decode once for authorization: encoded path segments must never bypass /control protection.
+    let decodedPath;
+    try {
+      decodedPath = decodeURIComponent(url.pathname);
+    } catch {
+      return new Response('Invalid URL path.', { status: 400 });
+    }
+    const isControl = decodedPath === '/control' || decodedPath.startsWith('/control/');
+    if (isControl && decodedPath !== url.pathname) {
+      return new Response('Encoded control paths are not allowed.', {
+        status: 400,
+        headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
+      });
+    }
     const isLogin = url.pathname === '/control/login';
     const isLogout = url.pathname === '/control/logout';
 
@@ -194,7 +207,31 @@ export default {
             });
           }
 
-          const form = await request.formData();
+          // Content-Length is optional (e.g. chunked requests); bound the actual body too.
+          const reader = request.body?.getReader();
+          const chunks = [];
+          let total = 0;
+          if (reader) {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              total += value.byteLength;
+              if (total > 8192) {
+                await reader.cancel().catch(() => {});
+                return new Response('Request too large.', {
+                  status: 413,
+                  headers: protectedHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
+                });
+              }
+              chunks.push(value);
+            }
+          }
+          const boundedRequest = new Request(request.url, {
+            method: 'POST',
+            headers: { 'Content-Type': contentType },
+            body: new Blob(chunks),
+          });
+          const form = await boundedRequest.formData();
           const password = String(form.get('password') ?? '');
           const passwordOk = secureCompare(password, env.CONTROL_PASSWORD);
 

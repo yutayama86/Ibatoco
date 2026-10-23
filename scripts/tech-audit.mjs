@@ -172,8 +172,17 @@ if (!existsSync(workerPath)) {
   add('error', 'control-center', 'worker/index.js がありません');
 } else {
   const worker = readFileSync(workerPath, 'utf8');
-  for (const required of ['CONTROL_PASSWORD', "url.pathname === '/control'", 'status: 503', 'X-Robots-Tag', 'Cache-Control']) {
+  for (const required of ['CONTROL_PASSWORD', 'status: 503', 'X-Robots-Tag', 'Cache-Control']) {
     if (!worker.includes(required)) add('error', 'control-center', `WorkerのControl保護要件が欠落: ${required}`);
+  }
+  // Both legacy direct matching and decoded-path matching are accepted, but encoded
+  // paths must fail closed before the protected path reaches the public asset handler.
+  const directGuard = worker.includes("url.pathname === '/control'");
+  const decodedGuard = worker.includes("decodedPath === '/control'")
+    && worker.includes("decodeURIComponent(url.pathname)")
+    && worker.includes('Encoded control paths are not allowed.');
+  if (!directGuard && !decodedGuard) {
+    add('error', 'control-center', 'WorkerのControl保護に有効なパス判定がありません');
   }
 }
 
