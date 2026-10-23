@@ -32,6 +32,12 @@
 - 編集責任者の確認、または上記の承認済み条件の確認を終えてから reviewed: true にする。公開する場合だけ draft: false にする。実行時の承認要求を迂回しない。
 - ニュース作成・検証・公開の具体手順は .claude/skills/news-post/SKILL.md を必要時に読む。進行中のGit操作を自動で中断・続行・rebaseしない。
 
+## 本番公開の経路
+
+- 正本は [docs/SECURE_DEPLOYMENT_POLICY.md](docs/SECURE_DEPLOYMENT_POLICY.md)。本番公開は GitHub Actions の「Deploy production」（main）だけ。緊急時も同じワークフローを main で手動実行する。
+- 変更は 作業ブランチ → PR → CI・セキュリティ検証・観測窓ガード → 承認後に main へマージ。main へ直接 push しない。マージは上記「公開の判断」と既存の承認ルールに従う。
+- 手元のPC・Claude Code・Codex から `npm run deploy`・`npx wrangler deploy`・`wrangler login`・`wrangler secret` を実行しない。`npm run deploy` は `scripts/deploy-guard.mjs` により Deploy production（main）以外では止まる。Cloudflareトークン・GitHub Secrets を作成・変更・削除せず、値を出力しない。
+
 ## 現行TOPは固定版
 
 2026年8月9日に本番確認したTOPページを唯一の正とします。旧プレビュー、旧バックアップ、過去の設計書、git履歴上の旧`index.astro`からTOPを復元してはいけません。
