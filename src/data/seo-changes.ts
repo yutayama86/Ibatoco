@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261023-events-ibaraki-camp-autumn-festa-new',
+    date: '2026-10-24',
+    url: '/events/ibaraki-camp-autumn-festa-2026/',
+    kind: 'new-article',
+    change: '新規記事（#362）：いばらきキャンプ AUTUMN FESTA 2026（10/24・25、涸沼自然公園キャンプ場）の日程・入場無料・駐車場（日帰り第1〜3／旧広浦小の臨時駐車場と無料送迎バス）・ペットの注意。eventInfo を追加して終了判定と台帳の日付を有効にし、記事カードを生成',
+    queries: ['いばらきキャンプ AUTUMN FESTA 2026', '涸沼 キャンプ フェス'],
+    commit: 'PENDING',
+    note: '新規記事（28日）。GD決定（10/23）「準備済みPRの照合」で #362 を最新mainに載せ直し、CIで落ちていたカード画像の漏れと台帳の未同期を補った。公式2ページ（開催概要・ペット/駐車場の案内10/16）で全項目を10/23に再確認。開催は10/24・25のため、マージが遅れると価値が下がる。date は公開日（10/24）',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261023-news-kashima-pohang-rinji-teisha',
     date: '2026-10-23',
     url: '/news/kashima-pohang-acle-guide-2026-10-28/',
