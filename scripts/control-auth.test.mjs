@@ -76,3 +76,26 @@ test('一般のページは認証なしでそのまま返す', async () => {
   const res = await worker.fetch(get('/events/'), env());
   assert.equal(res.status, 200);
 });
+
+
+test('エンコードした管理URLでも認証バイパスを許可しない', async () => {
+  const e = env();
+  for (const path of ['/control%2F', '/%63ontrol/', '/control/%6cogin', '/control%2flogin']) {
+    const res = await worker.fetch(get(path), e);
+    assert.notEqual(res.status, 200, path);
+    assert.notEqual(res.headers.get('X-Robots-Tag'), null, path);
+  }
+});
+
+test('Content-Lengthなしの大きなログインPOSTは拒否する', async () => {
+  const e = env();
+  const request = new Request('https://ibatoco.jp/control/login', {
+    method: 'POST',
+    headers: { Origin: 'https://ibatoco.jp', 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'password=' + 'x'.repeat(9000),
+  });
+  request.headers.delete('Content-Length');
+  const res = await worker.fetch(request, e);
+  assert.equal(res.status, 413);
+  assert.equal(res.headers.get('Set-Cookie'), null);
+});
