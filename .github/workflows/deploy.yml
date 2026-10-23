@@ -92,6 +92,26 @@ jobs:
           PUBLIC_GSC_VERIFICATION: ${{ vars.PUBLIC_GSC_VERIFICATION }}
         run: npm run deploy
 
+      - name: Confirm deployed SHA and current main
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::error::Main advanced during deployment: published target $TARGET_SHA; current main $latest_sha. A newer deploy must run."
+            exit 1
+          fi
+          live_sha="$(curl --fail --silent --show-error --retry 3 --retry-delay 2 -H 'Cache-Control: no-cache' "https://ibatoco.jp/build.json?verify=$GITHUB_RUN_ID" | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).commit")"
+          if [ "$live_sha" != "$TARGET_SHA" ]; then
+            echo "::error::Production SHA mismatch: live $live_sha, expected $TARGET_SHA"
+            exit 1
+          fi
+          echo "Production SHA verified: $live_sha"
+
       - name: Verify production
         shell: bash
         run: |
