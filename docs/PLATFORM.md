@@ -202,32 +202,22 @@ npm run opportunity   送客先が無い「地域 × 意図」を出す（営業
 
 ## 8.5 公開が止まったとき
 
-mainへpushすると Cloudflare が自動でビルドし、本番へ出る。`npm run deploy` は要らない。
+本番公開はGitHub Actionsの「Deploy production」だけ（[SECURE_DEPLOYMENT_POLICY.md](SECURE_DEPLOYMENT_POLICY.md)）。
+作業ブランチ → PR → CI成功 → 承認後mainへマージ → Validate site成功 → Deploy production が `npm run deploy` で本番公開する。手元から `npm run deploy`・`npx wrangler deploy` はしない（`scripts/deploy-guard.mjs` で停止）。
 
-**ただし、失敗しても自動でやり直さない。** 2026-09-22 に実際に止まった。
-
-- GitHub Actions の `build` は成功していた（コードの問題ではない）
-- Cloudflare の `Workers Builds: ibatoco` が **所要0秒で failure**
-- GitHubのcheckには**理由が出ない**。ビルドへのリンクだけが載る
-
-確認のしかた。
+確認方法：
 
 ```
-GET /repos/yutayama86/Ibatoco/commits/<sha>/check-runs
-→ "Workers Builds: ibatoco" の conclusion を見る
+GET /repos/yutayama86/Ibatoco/actions/runs?head_sha=<sha>
+→ "Validate site" と "Deploy production" の conclusion を確認
+https://ibatoco.jp/build.json の commit がマージコミットと一致するか確認
 ```
 
-`conclusion: success` なのに本番が古いときは、単に反映待ち（1〜3分）。
-`failure` なら止まっている。**本番を見ただけでは区別できない。**
+失敗時は、GitHub Actionsの対象ジョブログを確認し、原因を修正したPRを作る。必要な場合は「Deploy production」をmainで手動実行（workflow_dispatch）する。mainへの直接pushやローカルからのデプロイは禁止。
 
-直し方は2つ。
+Cloudflare Workers Buildsの旧ビルド経路は2026-10-23に無効化済み。本番公開の判定にはGitHub Actionsを用いる。
 
-1. Cloudflareのダッシュボードで、そのビルドを Retry する（失敗の理由もここでしか見られない）
-2. mainに新しいコミットを積んで、ビルドを起こし直す。
-   **直接pushはしない。**PRを作ってマージする
-
-繰り返し失敗するなら、コミットを積み直しても直らない。
-ダッシュボードで理由を読むこと（無料プランのビルド枠など、リポジトリ側では分からない）。
+---
 
 ---
 
