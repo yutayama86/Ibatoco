@@ -245,9 +245,12 @@ git diff --cached --name-only
 staged一覧が今回の公開対象だけであることを確認する。対象外の変更が含まれる場合は保持して止め、勝手にunstageしない。この確認が終わるまでは次のcommit・pushを実行しない。
 
 ```bash
+git switch -c content/<日付>-<slug>  # 作業ブランチ。main へ直接 push しない
 git commit                          # 変更理由を日本語で。Co-Authored-By を付ける
-git push origin main                # Cloudflare が自動デプロイ
+git push -u origin content/<日付>-<slug>
 ```
+
+PRを作り、CI（Validate site・CodeQL・観測窓ガード）の成功を確認する。承認後に main へマージすると、GitHub Actions の「Deploy production」が本番へ出す。手元から `npm run deploy`・`npx wrangler deploy` はしない（docs/SECURE_DEPLOYMENT_POLICY.md）。
 
 未コミット差分や進行中のGit操作がある場合は保護する。公開対象以外を混ぜず、自動でrebase・cherry-pick続行・中断をしない。
 `.github/workflows/` を含む変更はPATのスコープ不足でpushが弾かれる（内容だけのpushは通る）。

@@ -1,3 +1,5 @@
+> **この文書は公開初日の手順の記録で、現在は使いません。** 本番公開は GitHub Actions の「Deploy production」だけです（[SECURE_DEPLOYMENT_POLICY.md](SECURE_DEPLOYMENT_POLICY.md)）。下記のローカルWrangler手順は実行しないでください。
+
 # 明日の公開手順
 
 作業時間の目安は10〜15分です。実記事の追加は待たず、ブランドサイトとして公開できます。

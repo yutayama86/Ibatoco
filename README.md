@@ -90,19 +90,21 @@ featured: true           # トップの特集に出す
 
 ## 🌐 公開手順（Cloudflare Workers）
 
-### 1. 初回ログイン
+### 1. 本番公開は GitHub Actions だけ
 
-```bash
-npx wrangler login
-```
+本番へ出す経路は、GitHub Actions の「Deploy production」だけです（[docs/SECURE_DEPLOYMENT_POLICY.md](docs/SECURE_DEPLOYMENT_POLICY.md)）。手元で `npx wrangler login`・`npm run deploy`・`npx wrangler deploy` は実行しません。
 
-### 2. 監査してデプロイ
+1. 作業ブランチで変更し、`npm run verify` を通す
+2. PRを作り、CI（Validate site・CodeQL・観測窓ガード）の成功を確認する
+3. 承認後にmainへマージする
+4. 「Validate site」が成功すると「Deploy production」が自動で本番へ出す
+5. `https://ibatoco.jp/build.json` のコミットがマージコミットと一致することを確かめる
 
-```bash
-npm run deploy
-```
+緊急時も、同じ「Deploy production」を main で手動実行（workflow_dispatch）して復旧します。
 
-`npm run deploy` は本番ビルドと品質監査に合格した場合だけ `npx wrangler deploy` を実行します。設定は [`wrangler.jsonc`](wrangler.jsonc)、配信対象は `dist/` です。
+### 2. Deploy production の中身
+
+ワークフローは `npm run deploy` を実行します。先頭の `scripts/deploy-guard.mjs` がGitHub Actionsの「Deploy production」（main）以外では停止します。監査に合格した場合のみ `npx wrangler deploy` を実行します。設定は `wrangler.jsonc`、配信対象は `dist/` です。
 
 ### 3. 独自ドメイン（ibatoco.jp）
 
