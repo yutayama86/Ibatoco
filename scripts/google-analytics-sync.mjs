@@ -67,7 +67,7 @@ data.windows.ga4={...data.windows.ga4,daily:ga,dailyMeta:{
   organicDefinition:'Organic Search channel screenPageViews, not sessions',
   coverage:{from:first,to:gaEnd,rows:ga.length,expectedDays:35,missingDates:[]}},
   recent7,previous7,recent28,recent3,
-  latestDay:{...recent3,date:gaEnd,views:gaBy.get(gaEnd).views,sessions:gaBy.get(gaEnd).sessions,
+  latestDay:{date:gaEnd,views:gaBy.get(gaEnd).views,sessions:gaBy.get(gaEnd).sessions,
     engagedSessions:gaBy.get(gaEnd).engagedSessions,users:null,quality:'google-official-confirmed-daily'},
   recent7VsPrevious7:{usersPct:null,sessionsPct:pct(recent7.sessions,previous7.sessions),
     viewsPct:pct(recent7.views,previous7.views),
