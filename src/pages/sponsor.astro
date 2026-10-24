@@ -30,7 +30,8 @@ const growth = gsc.recent7VsPrevious7.impressionsPct;
 
 const stats = [
   { value: num(snapshot.northStar.current), label: 'ページビュー（直近28日）' },
-  { value: num(ga4.recent28.users), label: 'ユーザー（直近28日）' },
+  ...(typeof ga4.recent28.users === 'number' && Number.isFinite(ga4.recent28.users)
+    ? [{ value: num(ga4.recent28.users), label: 'ユーザー（直近28日）' }] : []),
   { value: num(gsc.recent28.impressions), label: 'Google検索での表示回数（直近28日）' },
   ...(organicShare === null ? [] : [{ value: `${organicShare}%`, label: '検索から来た人の割合（直近7日）' }]),
 ];
