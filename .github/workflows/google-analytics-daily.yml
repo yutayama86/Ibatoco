@@ -80,10 +80,13 @@ jobs:
           path: /tmp/ibatoco-google-verified
       - name: Revalidate output in isolated write job
         run: node scripts/google-daily-preflight.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
+      - name: Install locked dependencies for post-sync verification
+        run: npm ci
       - name: Integrate verified rolling metrics
         run: |
           node scripts/google-analytics-sync.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
           node scripts/ga4-daily.mjs --check
+          npm run verify
       - name: Push only snapshot if changed; refuse unsafe concurrent edits
         env:
           GH_TOKEN: ${{ github.token }}
