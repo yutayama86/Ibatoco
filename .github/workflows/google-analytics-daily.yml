@@ -1,6 +1,9 @@
 name: Read-only GA4 and GSC via Google API
 on:
   workflow_dispatch:
+  schedule:
+    # 05:30 JST; read-only, does not commit or deploy.
+    - cron: '30 20 * * *'
 
 permissions:
   contents: read
@@ -8,7 +11,7 @@ permissions:
 
 jobs:
   fetch:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -43,7 +46,7 @@ jobs:
           GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
           OUTPUT_PATH: /tmp/ibatoco-google-daily.json
         run: node scripts/google-api-daily.mjs
-      - name: Upload private diagnostic artifact
+      - name: Upload short-lived diagnostic artifact
         uses: actions/upload-artifact@v4
         with:
           name: google-analytics-daily-${{ github.run_id }}
