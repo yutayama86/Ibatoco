@@ -87,9 +87,11 @@ jobs:
           node scripts/google-analytics-sync.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
           node scripts/ga4-daily.mjs --check
           npm run verify
-      - name: Push only snapshot if changed; refuse unsafe concurrent edits
+      # Branch protection requires a PR. Never push directly to main.
+      - name: Propose verified snapshot through protected PR
         env:
           GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
         shell: bash
         run: |
           set -euo pipefail
@@ -97,8 +99,14 @@ jobs:
             echo "No changes in confirmed metrics."
             exit 0
           fi
+          branch="bot/google-analytics-daily-$RUN_ID"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
           git add data/editorial/performance-snapshot.json
-          git commit -m "chore(metrics): refresh verified Google daily analytics [skip ci]"
-          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin HEAD:main
+          git commit -m "chore(metrics): propose verified Google daily analytics"
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:refs/heads/$branch"
+          gh pr create --base main --head "$branch" \
+            --title "metrics: verified GA4/GSC daily snapshot (run $RUN_ID)" \
+            --body "Official Google API daily sync. Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only the performance snapshot. Review and required checks before merge. No direct protected-branch write."
+          echo "::notice::Snapshot PR opened; main untouched until approved checks and merge."
