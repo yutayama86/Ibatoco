@@ -18,6 +18,13 @@ const gaEnd = input.confirmedThrough, gsEnd = input.gsc?.confirmedThrough;
 const valid = v => /^\d{4}-\d{2}-\d{2}$/.test(v ?? '') && !Number.isNaN(Date.parse(v+'T00:00:00Z'));
 if (!valid(gaEnd) || !valid(gsEnd)) throw new Error('Invalid confirmation dates');
 if (gaEnd !== gsEnd) throw new Error('GA4 and GSC confirmation dates differ; safe-sync halted');
+const previousGaEnd = data.windows?.ga4?.dailyMeta?.confirmedThrough;
+const previousGsEnd = data.windows?.gsc?.dailyMeta?.confirmedThrough;
+if ((previousGaEnd && gaEnd < previousGaEnd) || (previousGsEnd && gsEnd < previousGsEnd))
+  throw new Error('Official API export older than saved snapshot; refusing regression');
+const updatedAt = Date.parse(input.fetchedAt ?? '');
+if (!Number.isFinite(updatedAt) || updatedAt > Date.now() + 300000 || Date.now() - updatedAt > 3 * 3600000)
+  throw new Error('Verified API export has an invalid or stale fetchedAt');
 const existingGa = data.windows?.ga4?.daily ?? [];
 const existingGs = data.windows?.gsc?.daily ?? [];
 const gaMap = new Map(existingGa.map(x => [x.date,x]));
