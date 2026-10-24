@@ -4,7 +4,7 @@
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateBrief, buildPrompt, checkPaths, checkPatch, scanInjection, MAX_TASKS } from './daily-brief.mjs';
+import { validateBrief, buildPrompt, checkPaths, checkPatch, candidatesReport, scanInjection, MAX_TASKS } from './daily-brief.mjs';
 
 const DATE = '2026-10-25';
 const NOW = new Date('2026-10-25T07:20:00+09:00');
@@ -98,4 +98,28 @@ test('パッチ：範囲外のパス・シンボリックリンク・実行権�
   assert.ok(checkPatch('new file mode 120000\n', ['src/content/news/x.md']).some((e) => e.includes('シンボリックリンク')));
   assert.ok(checkPatch('new file mode 100755\n', ['src/content/news/x.md']).some((e) => e.includes('実行権限')));
   assert.ok(checkPatch('', []).some((e) => e.includes('変更がありません')));
+  assert.ok(checkPatch(`+報告 ${'sk-ant-oat01-'}${'x'.repeat(40)}\n`, ['reports/daily-claude/2026-10-25.md']).some((e) => e.includes('認証情報')));
+});
+
+test('観測窓：観測中のページは止め、main でレビュー済みの例外があるときだけ通す', async () => {
+  const observing = (p) => (p === '/events/nakaminato-kaijo-hanabi-2026/' ? { observeUntil: '2026-11-01' } : null);
+  assert.match((await run(brief(), { observing })).errors.join('\n'), /2026-11-01 まで観測中/);
+  const ok = await run(brief(), { observing, queue: queue(action({ observationException: 'fact — 公式発表で交通規制が変わったため' })) });
+  assert.deepEqual(ok.errors, []);
+  assert.equal(ok.tasks[0].exception, 'observation-exception: fact — 公式発表で交通規制が変わったため');
+  assert.match(buildPrompt({ date: DATE, tasks: ok.tasks, body: '' }), /観測窓の例外（main でレビュー済み）：observation-exception: fact/);
+  assert.match((await run(brief(), { observing, queue: queue(action({ observationException: 'たぶん大丈夫' })) })).errors.join('\n'), /fact — 理由/);
+});
+
+test('止める：指示書に認証情報のような文字列', async () => {
+  assert.ok((await run(brief({}, `メモ ghp_${'a'.repeat(36)}`))).errors.some((e) => e.includes('認証情報')));
+});
+
+test('候補の一覧：candidate は理由つきで「回せない」、条件を満たす ready だけ数える', () => {
+  const r = candidatesReport(queue(action(), action({ id: 'c1', status: 'candidate', specPath: undefined }), action({ id: 'd1', status: 'done' })),
+    { date: DATE, specExists: (p) => Boolean(p) });
+  assert.equal(r.ok, 1);
+  assert.match(r.text, /\| 20261025-a \| ready \| update \| 指示書に載せられる \|/);
+  assert.match(r.text, /\| c1 \| candidate \| update \| ready ではありません（candidate）／完成仕様（specPath）がありません \|/);
+  assert.doesNotMatch(r.text, /d1/);
 });
