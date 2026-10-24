@@ -1,7 +1,7 @@
 // 自動生成（scripts/build-og-backdrop.mjs）。手で編集しない。
 // 記事ごとのカード画像。ファイル名に内容のハッシュが入っているので、
 // 中身が変わればURLも変わり、古い画像が表示され続けることがない。
-export const CARD_IMAGES: Record<string, string> =  {
+export const CARD_IMAGES: Record<string, string> = {
   "akatsuka-mito-medical-bus-discontinue-2027": "/images/card/akatsuka-mito-medical-bus-discontinue-2027-6c5eb34d.png",
   "ami-premium-outlets-silver-week-sale-2026": "/images/card/ami-premium-outlets-silver-week-sale-2026-aa8ca6d9.png",
   "chikusei-premium-voucher-second-2026": "/images/card/chikusei-premium-voucher-second-2026-480f2a7d.png",
