@@ -69,6 +69,7 @@ tasks:                             # 最大3件
 ## 安全設計
 
 - **Claude はコマンドを実行できない**：使えるのは Read・Glob・Grep と、下の範囲への Edit/Write だけ。Bash・Web 取得・検索・サブエージェントは無効。`/proc`・ホーム・一時フォルダの読み取りも禁止
+- **権限の根拠**：`claude-code-action` の agent モードは権限モードを変えない（v1.0.250 のソースで確認。`acceptEdits` を付けるのは tag モードだけ）ため、許可した道具以外は使えない。リポジトリに `.claude/settings.json`・`.mcp.json` を追加すると自動実装の権限・フックにも効くので、追加する PR は必ずレビューする（2026-10-25 時点でどちらも無い）
 - **Claude が書ける範囲**：`src/content/events/**`・`src/content/news/**`・`src/data/seo-changes.ts`・`src/data/sports/matches/**`・`data/editorial/event-registry.json`・`data/editorial/action-queue.json`・`reports/daily-claude/**`。`.github`・`scripts`・`worker`・`package*.json`・設定は変更できない
 - **Claude の書いた内容は、認証情報のあるジョブで実行しない**：`seo-changes.ts` などは verify で実行されるため、verify は Claude の認証を持たない別のジョブ（新しい環境）で行う
 - **権限の分離**：gate・implement・verify は `contents: read` だけ。push と PR 作成は Claude を動かさない pr ジョブ（`contents: write`・`pull-requests: write`・`actions: write`）で、依存関係を入れず、パッチを適用する前にパス・シンボリックリンク・実行権限・認証情報の文字列を検査し、適用後にもう一度検査する。本番デプロイの Secret（Cloudflare）はどのジョブにも渡さない
