@@ -7,7 +7,7 @@ const path = process.argv[2];
 if (!path) throw new Error('Usage: node scripts/google-daily-preflight.mjs <daily.json>');
 const input = JSON.parse(readFileSync(path, 'utf8'));
 const fail = [];
-const validDate = v => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v) && !Number.isNaN(Date.parse(v+'T00:00:00Z'));
+const validDate = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v+'T00:00:00Z'));
 const inspect = (label, rows, fields, end) => {
   if (!Array.isArray(rows) || !rows.length) { fail.push(label+': empty rows'); return; }
   const dates = new Set();
