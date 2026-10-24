@@ -43,6 +43,8 @@ jobs:
           GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
           OUTPUT_PATH: /tmp/ibatoco-google-daily.json
         run: node scripts/google-api-daily.mjs
+      - name: Validate daily data before any import
+        run: node scripts/google-daily-preflight.mjs /tmp/ibatoco-google-daily.json
       - name: Upload private diagnostic artifact
         uses: actions/upload-artifact@v4
         with:
