@@ -1,0 +1,51 @@
+name: Read-only GA4 and GSC via Google API
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  fetch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate configuration
+        env:
+          WIF_PROVIDER: ${{ vars.GOOGLE_WIF_PROVIDER }}
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+        run: |
+          test -n "$WIF_PROVIDER" || { echo "::error::Set GOOGLE_WIF_PROVIDER repository variable"; exit 1; }
+          test -n "$GA4_PROPERTY_ID" || { echo "::error::Set GA4_PROPERTY_ID repository variable"; exit 1; }
+          test -n "$GSC_SITE_URL" || { echo "::error::Set GSC_SITE_URL repository variable"; exit 1; }
+      - name: Authenticate without persistent keys
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GOOGLE_WIF_PROVIDER }}
+          service_account: ibatoco-analytics-reader@ibatoco-seo.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/webmasters.readonly
+          create_credentials_file: false
+      - name: Retrieve confirmed analytics (no repository writes)
+        env:
+          GOOGLE_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+          OUTPUT_PATH: /tmp/ibatoco-google-daily.json
+        run: node scripts/google-api-daily.mjs
+      - name: Upload private diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: google-analytics-daily-${{ github.run_id }}
+          path: /tmp/ibatoco-google-daily.json
+          retention-days: 1
