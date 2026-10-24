@@ -63,7 +63,8 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
-      actions: read
+      actions: write
+      pull-requests: write
     concurrency:
       group: google-analytics-daily-sync
       cancel-in-progress: false
@@ -109,4 +110,6 @@ jobs:
           gh pr create --base main --head "$branch" \
             --title "metrics: verified GA4/GSC daily snapshot (run $RUN_ID)" \
             --body "Official Google API daily sync. Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only the performance snapshot. Review and required checks before merge. No direct protected-branch write."
-          echo "::notice::Snapshot PR opened; main untouched until approved checks and merge."
+          gh workflow run validate.yml --ref "$branch"
+          gh workflow run codeql.yml --ref "$branch"
+          echo "::notice::Snapshot PR opened; required validations dispatched. Protected main unchanged pending checks and merge."
