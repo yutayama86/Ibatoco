@@ -178,14 +178,16 @@
       "kind": "internal-link",
       "targetUrl": "/kouyou/",
       "priority": "medium",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-10-11",
       "dueDate": "2026-10-28",
       "confidence": "low",
       "effort": "S",
       "page": "/events/hitachi-seaside-kochia-carnival-2026/",
       "source": "GSC 28日：コキア 480表示・6.0位、/kouyou/ 274表示・7.7位。コキアカーニバルの会期は11/3まで（event-registry）",
-      "reason": "見頃が過ぎたコキアの流入を、11月に見頃を迎える紅葉へ渡す。見頃の終了は公式の発表で判断し、推測で書かない。期待PVは設定しない（導線の実測が無い）。docs/editorial/specs/20261011-november-growth-plan.md の2."
+      "reason": "見頃が過ぎたコキアの流入を、11月に見頃を迎える紅葉へ渡す。見頃の終了は公式の発表で判断し、推測で書かない。期待PVは設定しない（導線の実測が無い）。docs/editorial/specs/20261011-november-growth-plan.md の2.",
+      "completedAt": "2026-10-24",
+      "notes": "2026-10-24：PR #420 で実装済み。要点と見どころに、コキアカーニバル（〜11/3）のあとの案内として「茨城の紅葉」まとめへの導線を追加（/kouyou/ は既存の関連リンク）。SEO記録 20261023-events-kochia-status-kouyou-relay（内部リンクの観測は11/7まで）。見頃終了の公式発表はまだないため「見頃終了」とは書いていない。"
     },
     {
       "id": "20261011-matsuri-yuki-2026",
