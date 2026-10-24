@@ -23,7 +23,7 @@ const num = (value: number) => value.toLocaleString('ja-JP');
 const channels = ga4.channelRecent7 as { channel: string; sessions: number }[];
 const totalSessions = channels.reduce((sum, row) => sum + row.sessions, 0);
 const organic = channels.find((row) => row.channel === 'Organic Search')?.sessions ?? 0;
-const organicShare = totalSessions > 0 ? Math.round((organic / totalSessions) * 100) : 0;
+const organicShare = totalSessions > 0 ? Math.round((organic / totalSessions) * 100) : null;
 const [asOfYear, asOfMonth, asOfDay] = snapshot.asOf.split('-').map(Number);
 const asOfLabel = `${asOfYear}年${asOfMonth}月${asOfDay}日`;
 const growth = gsc.recent7VsPrevious7.impressionsPct;
@@ -32,7 +32,7 @@ const stats = [
   { value: num(snapshot.northStar.current), label: 'ページビュー（直近28日）' },
   { value: num(ga4.recent28.users), label: 'ユーザー（直近28日）' },
   { value: num(gsc.recent28.impressions), label: 'Google検索での表示回数（直近28日）' },
-  { value: `${organicShare}%`, label: '検索から来た人の割合（直近7日）' },
+  ...(organicShare === null ? [] : [{ value: `${organicShare}%`, label: '検索から来た人の割合（直近7日）' }]),
 ];
 
 // ---- よく読まれたページ（トップページを除く上位3件） ----
@@ -80,6 +80,7 @@ const jsonLd = [
     <dl class="sp-stats__grid">
       {stats.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
     </dl>
+    {organicShare === null && <p class="sp-note">チャネル別セッション数が未取得のため、検索流入率は表示していません。</p>}
     <p class="sp-note">Google検索での表示回数は、直近7日で前の週より{growth >= 0 ? `${growth}%増えました` : `${Math.abs(growth)}%減りました`}。数字はGoogle Analytics 4とGoogle Search Consoleの実測値です（{asOfLabel}時点の集計）。</p>
     {topPages.length > 0 && (
       <div class="sp-top">
