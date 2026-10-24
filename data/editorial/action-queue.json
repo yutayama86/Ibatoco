@@ -1,7 +1,34 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-25",
   "actions": [
+    {
+      "id": "20261025-tsuchiura-sangyosai-confirmed",
+      "title": "土浦カレーフェス記事：翌日の第50回土浦市産業祭を公式の確定情報に更新",
+      "kind": "update",
+      "targetUrl": "/events/tsuchiura-curry-festival-2026/",
+      "targetFile": "src/content/events/tsuchiura-curry-festival-2026.md",
+      "priority": "medium",
+      "status": "ready",
+      "createdAt": "2026-10-25",
+      "dueDate": "2026-11-14",
+      "confidence": "high",
+      "effort": "S",
+      "page": "/events/tsuchiura-curry-festival-2026/",
+      "source": "土浦市「第50回「土浦市産業祭」を開催いたします」（2026-09-10更新、2026-10-25確認）",
+      "reason": "記事の産業祭の記述が「予定」のままで、会場も1か所だけ。公式の開催案内に日時・会場3か所・駐車場が出ているため、記載どおりに事実を更新する。事実の更新で因果根拠のある見積もりが無いため expectedPvImpact は設定しない。",
+      "specPath": "docs/editorial/specs/20261025-tsuchiura-sangyosai-confirmed.md",
+      "primarySourceUrls": [
+        "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022255.html"
+      ],
+      "acceptanceCriteria": [
+        "仕様の「変更」1〜6の文言どおりに summary・keyPoints・highlights・notes・sourceUrls・updatedDate が更新され、ほかのフィールドは変わっていない",
+        "産業祭の記述から「予定」が消え、会場3か所・市営駐車場の料金・出店内容は準備中が載っている。カレーフェス本体の「未発表」の記述は変わっていない",
+        "title・description・URL・canonical・画像は変わっていない",
+        "src/data/seo-changes.ts の先頭に id 20261025-events-tsuchiura-curry-sangyosai-confirmed（experimentType: fact）の記録が1件ある",
+        "npm run date:check と npm run verify が成功する"
+      ]
+    },
     {
       "id": "20261022-autumn-official-refresh",
       "title": "筑波山もみじまつり・夜間運行と袋田の滝色づき速報を反映",
@@ -1288,7 +1315,7 @@
       "primarySourceUrls": [
         "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html"
       ],
-      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。",
+      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。 2026-10-25確認：カレーフェスの開催案内（2026-08-05更新）に出店一覧・駐車場・入場料の記載はまだ無い。産業祭は開催案内（2026-09-10更新）で日時・会場3か所・駐車場が確定したため、20261025-tsuchiura-sangyosai-confirmed として切り出した。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-11-14",
