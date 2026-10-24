@@ -1,0 +1,277 @@
+name: Daily Claude implementation
+
+# 毎朝 ChatGPT（Growth Director）が書いた指示書を検査し、合格したときだけ Claude Code が
+# 最大3件を実装して Draft PR にする。マージ・本番公開はしない（オーナー承認後に ChatGPT が行う）。
+# 仕様：docs/automation/daily-claude/README.md
+on:
+  schedule:
+    - cron: '15 22 * * *' # 毎日 07:15 JST。GitHub の schedule は遅れることがあるため、指示書の完成を必須条件にする
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '指示書の日付（YYYY-MM-DD・日本時間）。空なら今日'
+        required: false
+        default: ''
+      dry_run:
+        description: 'true なら検査と計画だけ（Claude を動かさず、PR も作らない）'
+        type: boolean
+        default: true
+
+permissions: {}
+
+concurrency:
+  group: daily-claude
+  cancel-in-progress: false
+
+env:
+  BRIEF_REF: ${{ vars.DAILY_BRIEF_REF || 'automation/daily-briefs' }}
+
+jobs:
+  gate:
+    name: Check the brief
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+      date: ${{ steps.gate.outputs.date }}
+      branch: ${{ steps.gate.outputs.branch }}
+      base: ${{ steps.gate.outputs.base }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch the brief (data only, never executed)
+        id: brief
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          DATE="${INPUT_DATE:-$(TZ=Asia/Tokyo date +%F)}"
+          [[ "$DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::日付の形式が不正です"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/brief"
+          found=false
+          if git fetch --no-tags "https://github.com/${REPO}.git" "refs/heads/${BRIEF_REF}:refs/remotes/brief" >/dev/null 2>&1 \
+            && git show "refs/remotes/brief:docs/automation/daily-claude/${DATE}.md" > "$RUNNER_TEMP/brief/brief.md" 2>/dev/null; then
+            found=true
+          fi
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "found=$found" >> "$GITHUB_OUTPUT"
+
+      - name: Gate
+        id: gate
+        env:
+          DATE: ${{ steps.brief.outputs.date }}
+          FOUND: ${{ steps.brief.outputs.found }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          ENABLED: ${{ vars.DAILY_CLAUDE_ENABLED == 'true' }}
+          HAS_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="claude/daily-${DATE}"
+          BASE="$(git rev-parse HEAD)"
+          run=false
+          {
+            echo "## 毎朝の自動実装（${DATE}）"
+            echo "- main: \`${BASE}\`"
+            echo "- 指示書: \`docs/automation/daily-claude/${DATE}.md\`（ブランチ \`${BRIEF_REF}\`）"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$FOUND" != "true" ]; then
+            echo "::notice::指示書が見つからないため停止します"
+            echo "- 結果: **停止**（指示書なし）" >> "$GITHUB_STEP_SUMMARY"
+          elif ! node scripts/daily-brief.mjs validate "$RUNNER_TEMP/brief/brief.md" --name "${DATE}.md" --date "$DATE" --main "$BASE" > "$RUNNER_TEMP/brief/validate.txt" 2>&1; then
+            cat "$RUNNER_TEMP/brief/validate.txt"
+            { echo "- 結果: **停止**（指示書の検査に不合格）"; echo '```'; cat "$RUNNER_TEMP/brief/validate.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::指示書の検査に通らないため停止します"
+            exit 1
+          elif git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "::notice::同じ日のブランチ ${BRANCH} があるため停止します（重複防止）"
+            echo "- 結果: **停止**（同じ日のブランチあり）" >> "$GITHUB_STEP_SUMMARY"
+          else
+            cat "$RUNNER_TEMP/brief/validate.txt"
+            { echo '```'; cat "$RUNNER_TEMP/brief/validate.txt"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "- 結果: **Dry Run**（検査は通過。Claude は動かさない）" >> "$GITHUB_STEP_SUMMARY"
+              { echo '<details><summary>Claude に渡す指示文</summary>'; echo; node scripts/daily-brief.mjs prompt "$RUNNER_TEMP/brief/brief.md" --name "${DATE}.md" --date "$DATE" --main "$BASE"; echo; echo '</details>'; } >> "$GITHUB_STEP_SUMMARY"
+            elif [ "$ENABLED" != "true" ]; then
+              echo "::notice::DAILY_CLAUDE_ENABLED が true ではないため、Claude は動かしません"
+              echo "- 結果: **停止**（自動実装が無効）" >> "$GITHUB_STEP_SUMMARY"
+            elif [ "$HAS_TOKEN" != "true" ]; then
+              echo "::warning::CLAUDE_CODE_OAUTH_TOKEN が未設定のため停止します"
+              echo "- 結果: **停止**（Claude の認証が未設定）" >> "$GITHUB_STEP_SUMMARY"
+            else
+              run=true
+              echo "- 結果: **実装へ進む**" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+
+      - name: Keep the validated brief
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: daily-claude-brief-${{ github.run_id }}
+          path: ${{ runner.temp }}/brief/brief.md
+          retention-days: 14
+
+  implement:
+    name: Implement with Claude (read-only)
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.gate.outputs.base }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: daily-claude-brief-${{ github.run_id }}
+          path: ${{ runner.temp }}/brief
+
+      - name: Build the prompt
+        id: prompt
+        env:
+          DATE: ${{ needs.gate.outputs.date }}
+          BASE: ${{ needs.gate.outputs.base }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/daily-brief.mjs prompt "$RUNNER_TEMP/brief/brief.md" --name "${DATE}.md" --date "$DATE" --main "$BASE" > "$RUNNER_TEMP/prompt.md"
+          {
+            echo "text<<PROMPT_EOF_${GITHUB_RUN_ID}"
+            cat "$RUNNER_TEMP/prompt.md"
+            echo "PROMPT_EOF_${GITHUB_RUN_ID}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Claude Code
+        # v1.0.250（2026-10-14）。公開直後の版は避け、上げるときは別PRで差分を確認する
+        uses: anthropics/claude-code-action@a26b07d8c778b0c43f64618e5fd29fd0f8af72e8 # v1.0.250
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: ${{ steps.prompt.outputs.text }}
+          claude_args: >-
+            --model claude-sonnet-5-5
+            --max-turns 60
+            --allowedTools "Read,Edit,MultiEdit,Write,Glob,Grep,Bash(npm run date:check),Bash(npm run verify),Bash(npm run og:cards),Bash(npm run editorial:sync),Bash(npm run editorial:check),Bash(node scripts/fact-guard.mjs)"
+            --disallowedTools "WebFetch,WebSearch"
+
+      # 範囲外（scripts 等）を書き換えた変更では、リポジトリのスクリプトを実行する前に止める
+      - name: Check the change scope
+        env:
+          BASE: ${{ needs.gate.outputs.base }}
+        run: node scripts/daily-brief.mjs check-diff --base "$BASE"
+
+      - name: Verify
+        run: npm run verify
+
+      - name: Re-check the change scope after verify
+        env:
+          BASE: ${{ needs.gate.outputs.base }}
+        run: node scripts/daily-brief.mjs check-diff --base "$BASE"
+
+      - name: Export the change
+        env:
+          BASE: ${{ needs.gate.outputs.base }}
+          DATE: ${{ needs.gate.outputs.date }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/out"
+          git add -A
+          git diff --cached --binary --no-renames "$BASE" > "$RUNNER_TEMP/out/change.patch"
+          if [ -f "reports/daily-claude/${DATE}.md" ]; then cp "reports/daily-claude/${DATE}.md" "$RUNNER_TEMP/out/report.md"; else echo "（Claude の報告がありません）" > "$RUNNER_TEMP/out/report.md"; fi
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: daily-claude-change-${{ github.run_id }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+
+  pr:
+    name: Open a Draft PR (no Claude, no merge)
+    needs: [gate, implement]
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.gate.outputs.base }}
+          fetch-depth: 0
+
+      # 書き込み権限のあるジョブでは依存関係を入れない（検査スクリプトは Node 標準だけで動く）
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: daily-claude-change-${{ github.run_id }}
+          path: ${{ runner.temp }}/out
+
+      - name: Apply, re-check, push and open the Draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ needs.gate.outputs.base }}
+          DATE: ${{ needs.gate.outputs.date }}
+          BRANCH: ${{ needs.gate.outputs.branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$BRANCH" =~ ^claude/daily-[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::ブランチ名が不正です"; exit 1; }
+          node scripts/daily-brief.mjs check-patch "$RUNNER_TEMP/out/change.patch"
+          git apply --index "$RUNNER_TEMP/out/change.patch"
+          node scripts/daily-brief.mjs check-diff --base "$BASE" --staged
+          git switch -c "$BRANCH"
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "content: 毎朝の自動実装（${DATE}）" -m "指示書 docs/automation/daily-claude/${DATE}.md（${BRIEF_REF}）を Claude Code が実装。Draft PR。マージはオーナー承認後。"
+          git push origin "HEAD:refs/heads/${BRANCH}"
+          {
+            echo "毎朝の自動実装（${DATE}）。**Draft・マージしない**。公開はオーナーが明示的に「公開」と承認した場合だけ、ChatGPT が最新状態を再確認してマージする。"
+            echo
+            cat "$RUNNER_TEMP/out/report.md"
+            echo
+            echo "---"
+            echo "- 指示書: \`docs/automation/daily-claude/${DATE}.md\`（ブランチ \`${BRIEF_REF}\`）"
+            echo "- 実行: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "- 変更範囲の検査・npm run verify はワークフロー内で通過済み。Validate site と CodeQL はこのあと起動する"
+          } > "$RUNNER_TEMP/body.md"
+          gh pr create --draft --base main --head "$BRANCH" --title "【自動・Draft】毎朝の記事改善（${DATE}）" --body-file "$RUNNER_TEMP/body.md"
+          # GITHUB_TOKEN で作った PR では pull_request のワークフローが起動しないため、必須チェックを明示的に起動する
+          gh workflow run validate.yml --ref "$BRANCH"
+          gh workflow run codeql.yml --ref "$BRANCH"
