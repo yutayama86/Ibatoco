@@ -108,6 +108,13 @@ jobs:
             echo "- 検査した main: \`${BASE}\`"
             echo "- 指示書: \`${BRIEF_DIR}/${DATE}.md\`（ブランチ \`${BRIEF_REF}\`）"
           } >> "$GITHUB_STEP_SUMMARY"
+          # 有効化の準備状況（オーナーの設定の確認用。Secret の有無はこのジョブからは見えない）
+          {
+            echo "- 有効化の準備状況："
+            if env_protected; then echo "  - 環境 daily-claude：main だけで使える設定あり"; else echo "  - 環境 daily-claude：未設定（または使えるブランチの制限なし）"; fi
+            echo "  - 変数 DAILY_CLAUDE_EXTRA_USAGE_OFF：$([ "$EXTRA_USAGE_OFF" = "true" ] && echo 登録済み（true） || echo 未登録)"
+            echo "  - 変数 DAILY_CLAUDE_ENABLED：$([ "$ENABLED" = "true" ] && echo 有効（true） || echo 無効)"
+          } >> "$GITHUB_STEP_SUMMARY"
           if [ "$FOUND" != "true" ]; then
             stop "指示書がありません"
           elif git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then

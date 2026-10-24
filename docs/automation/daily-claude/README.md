@@ -62,7 +62,7 @@ tasks:                             # 最大3件
 - `generated_at` が当日でない・未来・20時間以上前／`base_main_sha` が現在の main の祖先でない
 - 案件が 0 件または 4 件以上／上の「ready にする条件」を満たさない案件がある（ready が0件なら必ず止まる）
 - 指示書にシェルのコードブロック、取得・削除・push・デプロイのコマンド、秘密情報の名前や値、指示の上書きが含まれる
-- 変数 `DAILY_CLAUDE_ENABLED` が `true` でない／変数 `DAILY_CLAUDE_EXTRA_USAGE_OFF` が `true` でない／環境 `daily-claude` に使えるブランチの制限がない
+- 変数 `DAILY_CLAUDE_ENABLED` が `true` でない／変数 `DAILY_CLAUDE_EXTRA_USAGE_OFF` が `true` でない／環境 `daily-claude` に使えるブランチの制限がない（Dry Run でも要約の「有効化の準備状況」に出る）
 
 検査は `scripts/daily-brief.mjs`、テストは `scripts/daily-brief.test.mjs`（`npm run verify` に含む）。
 
@@ -85,21 +85,68 @@ tasks:                             # 最大3件
 
 | 方式 | 費用 | 判断 |
 |---|---|---|
-| **GitHub Actions＋`claude-code-action`＋`CLAUDE_CODE_OAUTH_TOKEN`（推奨）** | Claude の契約プランの利用枠を使う（API キーの従量課金ではない）。**プランの「追加利用（extra usage）」がオンだと、枠を超えた分が課金されうる**。オフなら枠を超えた日は実行が失敗して止まるだけ（PR は作られない） | オーナーが追加利用をオフにしたことを確認し、変数 `DAILY_CLAUDE_EXTRA_USAGE_OFF=true` を登録するまで Claude は動かない |
+| **GitHub Actions＋`claude-code-action`＋`CLAUDE_CODE_OAUTH_TOKEN`（推奨）** | Claude の契約プランの利用枠を使う（API キーの従量課金ではない）。**claude.ai の「Usage credits」（旧称：追加利用・extra usage）がオンだと、枠を超えた分が課金されうる**。オフなら枠を超えた日は実行が失敗して止まるだけ（PR は作られない） | オーナーが Usage credits をオフにしたことを確認し、変数 `DAILY_CLAUDE_EXTRA_USAGE_OFF=true` を登録するまで Claude は動かない |
 | `ANTHROPIC_API_KEY`（API 従量課金） | 実行ごとに課金 | 追加費用ゼロ原則に反するため使わない |
 | Mac のローカル予約タスク | 追加費用なし | Mac が起きていて Claude アプリが動いている時だけ。無人運用には不向き |
 
-GitHub Actions は、GitHub の料金案内では公開リポジトリの標準ランナーが無料（このワークフローは1日1回・合計30〜60分程度）。
+GitHub Actions は、GitHub の料金案内では公開リポジトリの標準ランナーが無料（このワークフローは1日1回・合計30〜60分程度）。自動実装の分だけ、オーナー自身が使える Claude の利用枠は減る。
 
-## 有効にする手順（オーナー）
+## 有効にする手順（オーナー・画面操作）
 
-1. PR #421 をマージする（この時点では Claude は動かない）
-2. **追加利用をオフにする**：claude.ai の設定で「追加利用（extra usage）」がオフであることを確認する（オンのままだと、利用枠を超えた分が課金されうる）
-3. **環境を作る**：GitHub の Settings → Environments → New environment で `daily-claude` を作り、Deployment branches and tags を「Selected branches and tags」にして `main` だけを追加する
-4. **トークンを登録する**：手元のターミナルで `claude setup-token` を実行し、表示されたトークンを、手順3の環境 `daily-claude` の Environment secrets に `CLAUDE_CODE_OAUTH_TOKEN` として登録する（リポジトリ全体の Secret には置かない。チャットには貼らない）
-5. **PR の作成を許可する**：Settings → Actions → General → Workflow permissions の「Allow GitHub Actions to create and approve pull requests」をオンにする
-6. **Dry Run**：Actions → Daily Claude implementation → Run workflow（`dry_run: true`）で、検査と指示文だけを確認する
-7. **有効にする**：Settings → Secrets and variables → Actions → Variables に `DAILY_CLAUDE_EXTRA_USAGE_OFF=true` と `DAILY_CLAUDE_ENABLED=true` を登録する（翌朝 7:15 から動く）
+GitHub の画面は、リポジトリ `yutayama86/Ibatoco` の上部「Settings」から入る。
+
+1. **PR #421 をマージする**（ChatGPT の確認後。この時点では Claude は動かない）
+2. **Claude の Usage credits をオフにする**
+   - claude.ai にログイン → 左下のアカウント名 → Settings → Usage
+   - 「Usage credits」（旧称：追加利用・extra usage）をオフにする。オフの間は、プランに含まれる利用枠だけになる
+   - 公式ヘルプによると、Usage credits をオフにすると fast mode は使えなくなる
+3. **環境 `daily-claude` を作り、main だけに制限する**
+   - Settings → 左メニュー「Environments」→「New environment」→ Name に `daily-claude` →「Configure environment」
+   - 「Deployment branches and tags」を「No restriction」から「Selected branches and tags」に変える
+   - 「Add deployment branch or tag rule」→ Ref type は「Branch」、Name pattern は `main` →「Add rule」
+   - 「Required reviewers」「Wait timer」は設定しない（7:15 の無人実行が承認待ちで止まるため）
+4. **Claude の認証トークンを登録する**
+   - Mac のターミナル（アプリ「ターミナル」）で `claude setup-token` を実行 → ブラウザで claude.ai の承認画面が開く → 承認する
+   - ターミナルに表示されたトークンをコピーする（有効期限1年。どこにも保存されないので、この場でだけ使う。チャット・メモ・PR には貼らない）
+   - 手順3の環境の画面の「Environment secrets」→「Add environment secret」→ Name は `CLAUDE_CODE_OAUTH_TOKEN`、Value に貼り付け →「Add secret」
+   - リポジトリ全体の Secrets（Settings → Secrets and variables → Actions の Secrets タブ）には置かない
+5. **Actions に PR の作成を許可する**
+   - Settings → 左メニュー「Actions」→「General」→ いちばん下の「Workflow permissions」
+   - 「Read repository contents and packages permissions」は**そのまま**（Read and write に変えない）
+   - 「Allow GitHub Actions to create and approve pull requests」にチェック →「Save」
+6. **main で Dry Run する**
+   - 上部「Actions」→ 左の一覧「Daily Claude implementation」→ 右の「Run workflow」→ Branch は `main`、date は空、dry_run はチェックのまま →「Run workflow」
+   - 実行を開き、Summary の「有効化の準備状況」で「環境 daily-claude：main だけで使える設定あり」になっていることを確認する（Secret の有無はここには出ない）
+7. **変数を2つ登録する**（手順7と8は、同じ日の 7:15 より後にまとめて行う。変数を入れると翌朝 7:15 から自動で動くため、手動実行の結果が悪ければその日のうちに `DAILY_CLAUDE_ENABLED` を `false` に戻す）
+   - Settings → 左メニュー「Secrets and variables」→「Actions」→「Variables」タブ →「New repository variable」
+   - Name `DAILY_CLAUDE_EXTRA_USAGE_OFF`、Value `true` →「Add variable」（手順2を済ませたことの確認）
+   - Name `DAILY_CLAUDE_ENABLED`、Value `true` →「Add variable」（これで翌朝 7:15 から自動で動く）
+8. **初回の手動実行**（下の「初回の手動実行」。オーナーが見ている日に行う）
+
+## 初回の手動実行（土浦市産業祭の ready 案件）
+
+1. ChatGPT が、土浦市の開催案内（第50回土浦市産業祭、https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022255.html ）が仕様を作った時点（2026-10-25確認・9/10更新）から変わっていないことを確かめる。変わっていたら、先に仕様を通常の PR で直す
+2. ChatGPT が、実行する日の指示書を `automation/daily-briefs` の `docs/automation/daily-claude/YYYY-MM-DD.md` に置く（例）
+
+```yaml
+---
+schema: ibatoco-daily-claude/v1
+date: "YYYY-MM-DD"                          # 実行する日（日本時間）
+status: ready
+generated_by: chatgpt-growth-director
+generated_at: "YYYY-MM-DDTHH:MM:00+09:00"   # 書いた時刻（実行と同じ日・20時間以内・未来でない）
+base_main_sha: "<書いた時点の main の40桁SHA>"
+tasks:
+  - action_id: "20261025-tsuchiura-sangyosai-confirmed"
+    expected_pv: "設定しない（事実の更新）"
+    notes: "カレーフェス本体の未発表事項は変更しない"
+---
+初回の自動実装の試験。土浦市の開催案内が仕様作成時から変わっていないことを確認してから書いた。
+```
+
+3. オーナーが Actions → Daily Claude implementation → Run workflow（Branch `main`、date 空、**dry_run のチェックを外す**）→「Run workflow」
+4. 4つのジョブ（Check the brief → Implement → Verify → Open a Draft PR）が成功し、`【自動・Draft】毎朝の記事改善（YYYY-MM-DD）` の Draft PR ができることを確認する。PR に Validate site・CodeQL のチェックが付くことも確認する
+5. ChatGPT が PR の差分を仕様（`docs/editorial/specs/20261025-tsuchiura-sangyosai-confirmed.md`）と照らし、問題なければ通常の公開手順へ。おかしければ PR を閉じて、変数 `DAILY_CLAUDE_ENABLED` を `false` にする
 
 ## 公開（ChatGPT とオーナー）
 
@@ -112,8 +159,10 @@ GitHub Actions は、GitHub の料金案内では公開リポジトリの標準�
 
 ## 止める・戻す
 
-- **すぐ止める**：変数 `DAILY_CLAUDE_ENABLED` を `false` にする（gate で停止）。または Actions → Daily Claude implementation → Disable workflow
-- **認証を止める**：環境 `daily-claude` の Secret を削除する。トークンが漏れた疑いがあれば、Claude 側でトークンを無効化してから作り直す
-- **間違った PR**：Draft のまま閉じ、`claude/daily-YYYY-MM-DD` ブランチを削除する。本番には出ていない
-- **やり直す**：指示書を直して `status: ready` にし、その日のブランチを削除してから Run workflow（`date` を指定、`dry_run: false`）
+- **すぐ止める（翌朝から動かさない）**：Settings → Secrets and variables → Actions → Variables の `DAILY_CLAUDE_ENABLED` の鉛筆 → Value を `false` →「Update variable」（gate で停止する）
+- **実行中を止める**：Actions → 実行中の Daily Claude implementation を開く →「Cancel workflow」
+- **ワークフローごと止める**：Actions → 左の「Daily Claude implementation」→ 右上の「…」→「Disable workflow」
+- **認証を止める**：Settings → Environments → `daily-claude` → Environment secrets の `CLAUDE_CODE_OAUTH_TOKEN` を削除する。Secret を消してもトークン自体は1年間有効なまま。漏れた疑いがあれば claude.ai の設定の Claude Code の項目でトークンを無効化する（公式の手順は未確認。利用者の報告では claude.ai/settings/claude-code）。`claude setup-token` をもう一度実行しても古いトークンは無効にならない
+- **間違った PR**：Draft のまま「Close pull request」→「Delete branch」。本番には出ていない
+- **やり直す**：指示書を直して `status: ready` にし、その日の `claude/daily-YYYY-MM-DD` ブランチを削除してから Run workflow（`date` を指定、`dry_run` を外す）
 - **マージ後に問題**：通常の手順で revert PR を作り、CI を通してマージする（Deploy production が元に戻す）
