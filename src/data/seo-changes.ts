@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261023-events-kochia-status-kouyou-relay',
+    date: '2026-10-24',
+    url: '/events/hitachi-seaside-kochia-carnival-2026/',
+    kind: 'internal-link',
+    change: '公式の最新状況に更新（ひたち海浜公園の紅葉予想ページ：10/10時点で「紅葉見頃」、ピークは例年1週間〜10日。10/23確認時点で最新）し、9/30時点の予想の記述を置き換え。コキアカーニバル（〜11/3）のあとの導線として「茨城の紅葉」まとめへの案内を要点と見どころに追加（リンク先 /kouyou/ は既存の関連リンク）',
+    queries: [],
+    commit: 'PENDING',
+    note: '内部リンクの実験（14日、10/23〜11/6）。GD決定（10/23）C・実装キュー 20261028-kochia-to-kouyou-relay。/kouyou/ 側は10/28まで観測中のため触らない（変更はコキアのページだけ）。見頃終了の発表はまだないため「見頃終了」とは書かない',
+    experimentType: 'internal-link',
+  },
+  {
     id: '20261023-events-oarai-ankou-matsuri-alias',
     date: '2026-10-24',
     url: '/events/oarai-ankou-matsuri-2026/',
