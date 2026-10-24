@@ -206,7 +206,7 @@ async function main() {
         process.exit(1);
       }
       console.log(`指示書の検査：通過（${date}・${result.tasks.length} 件）`);
-      for (const a of result.tasks) console.log(`  - [${a.id}] ${a.title}（${a.kind}）`);
+      for (const a of result.tasks) console.log(`  - [${a.id}] ${a.title}（${a.kind}）対象：${a.targetUrl ?? a.page ?? '—'}／期待PV：${a.expectedPv ?? '—'}`);
       return;
     }
     if (result.errors.length) { console.error('検査に通らない指示書から指示文は作りません'); process.exit(1); }

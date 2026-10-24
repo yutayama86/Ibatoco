@@ -167,6 +167,9 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/daily-brief.mjs prompt "$RUNNER_TEMP/brief/brief.md" --name "${DATE}.md" --date "$DATE" --main "$BASE" > "$RUNNER_TEMP/prompt.md"
+          # PR 本文用の案件一覧（施策・対象・期待PV）。Claude が台帳を更新する前に取っておく
+          mkdir -p "$RUNNER_TEMP/out"
+          node scripts/daily-brief.mjs validate "$RUNNER_TEMP/brief/brief.md" --name "${DATE}.md" --date "$DATE" --main "$BASE" > "$RUNNER_TEMP/out/tasks.txt"
           {
             echo "text<<PROMPT_EOF_${GITHUB_RUN_ID}"
             cat "$RUNNER_TEMP/prompt.md"
@@ -264,6 +267,10 @@ jobs:
           {
             echo "毎朝の自動実装（${DATE}）。**Draft・マージしない**。公開はオーナーが明示的に「公開」と承認した場合だけ、ChatGPT が最新状態を再確認してマージする。"
             echo
+            echo "## 案件（指示書より）"
+            grep -E '^  - ' "$RUNNER_TEMP/out/tasks.txt" || echo "（一覧なし）"
+            echo
+            echo "## Claude の報告"
             cat "$RUNNER_TEMP/out/report.md"
             echo
             echo "---"
