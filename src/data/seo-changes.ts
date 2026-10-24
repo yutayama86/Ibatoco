@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261023-events-oarai-ankou-matsuri-alias',
+    date: '2026-10-24',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '案A：本文（summary）とFAQに「あんこう祭り」の表記を自然に追加（前年の大洗町商工会の告知の表記を根拠に、「大洗あんこう祭り」も同じイベントと明記）。title・description・URLは変更しない。あわせて10/23に大洗観光協会の開催告知（10/7）を再確認し、駐車場の案内が未掲載であることを日付つきで更新',
+    queries: ['あんこう祭り 2026', '大洗あんこう祭り 2026', 'あんこう祭り', '大洗 あんこう祭り', '大洗あんこう祭り'],
+    commit: 'PENDING',
+    note: '本文の実験（28日、10/23〜11/20。14日目の11/6に中間確認）。GD決定（10/23）A3・案A採用。変更前（GSC 28日・10/18まで）：ページ計 表示13,658・クリック2,026・平均3.3位。「あんこう祭り」表示1,482・73ク・3.3位、「大洗 あんこう祭り」表示757・46ク・6.4位、「大洗あんこう祭り」表示200・18ク・5.3位。開催（11/14・15）前後の公式発表（駐車場・臨時交通）は事実更新として観測中も反映する',
+    experimentType: 'body',
+  },
+  {
     id: '20261023-events-kenmin-no-hi-rekishikan',
     date: '2026-10-24',
     url: '/events/ibaraki-kenmin-no-hi-2026/',
