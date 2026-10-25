@@ -1,7 +1,7 @@
 ---
 import BrandBase from '../../layouts/BrandBase.astro';
 const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
-const description = 'あなたの推し干し芋は？ べにはるか・シルクスイート・玉豊・いずみ・ほしこがねの8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
+const description = 'べにはるか・シルクスイート・玉豊・いずみ・ほしこがねなど8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
 const varieties = [
   {id:'beniharuka',name:'べにはるか',ruby:'BENIHARUKA',number:'01',lead:'甘く、しっとり。黄金色の定番。',taste:'濃厚な甘み',texture:'しっとり柔らか',story:'近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。',tag:'濃厚派'},
   {id:'silksweet',name:'シルクスイート',ruby:'SILK SWEET',number:'02',lead:'絹のように、なめらか。',taste:'上品な甘み',texture:'なめらか',story:'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。',tag:'なめらか派'},
@@ -23,18 +23,16 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 ---
 <BrandBase title={title} description={description} jsonLd={jsonLd}>
   <main class="hz">
-    <section class="hz-hero">
+    <section class="hz-hero hz-hero--editorial" aria-labelledby="hoshiimo-title">
       <div class="hz-hero__inner">
-        <p class="hz-kicker">IBATOCO FIELD GUIDE <span>— VOL. 01 / IBARAKI</span></p>
-        <p class="hz-eyebrow">茨城の風土と、甘い時間。</p>
-        <h1>あなたの<span>推し干し芋</span>、<br/>どの品種？</h1>
-        <p class="hz-hero__stamp" aria-label="茨城の干し芋図鑑、8品種を掲載"><span>IBARAKI</span><strong>08</strong><span>VARIETIES</span></p>
-        <p class="hz-hero__lead">ねっとり派も、昔ながら派も。<br/>8つの品種から、自分だけのおいしさを見つけよう。</p>
-        <a class="hz-primary" href="#diagnosis">30秒で好みを見つける <span aria-hidden="true">↗</span></a>
-        <a class="hz-secondary" href="#varieties">8品種を見比べる ↓</a>
+        <p class="hz-kicker">IBATOCO / FOOD & CULTURE <span>ISSUE 01 — IBARAKI</span></p>
+        <p class="hz-eyebrow">茨城、冬の甘い風景。</p>
+        <h1 id="hoshiimo-title">干し芋を、<br/><em>もっと好きになる。</em></h1>
+        <p class="hz-hero__lead">同じ干し芋でも、甘さも、色も、食感も違う。<br/>茨城の風土から生まれた、8品種の物語。</p>
+        <div class="hz-hero__actions"><a class="hz-primary" href="#varieties">品種を知る <span aria-hidden="true">↗</span></a><a class="hz-secondary" href="#diagnosis">好みから探す <span aria-hidden="true">↓</span></a></div>
       </div>
-      <div class="hz-hero__art" aria-hidden="true"><div class="hz-plate"><span class="hz-slice hz-slice--a"></span><span class="hz-slice hz-slice--b"></span><span class="hz-slice hz-slice--c"></span></div><span class="hz-art-label">HOSHIIMO<br/>IBARAKI</span></div>
-      <p class="hz-hero__foot">SCROLL TO DISCOVER <span>↓</span></p>
+      <figure class="hz-hero__art hz-hero__art--photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg?width=1280" alt="茨城で撮影された、並べられた干し芋の実物写真" width="1280" height="720" fetchpriority="high" decoding="async" /><figcaption>写真：<a href="https://commons.wikimedia.org/wiki/File:%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg" target="_blank" rel="noopener noreferrer">ジョンドウ / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>（画面表示に合わせてトリミング）</figcaption></figure>
+      <div class="hz-hero__folio" aria-hidden="true"><span>01 / 08</span><span>THE ART OF HOSHIIMO</span></div>
     </section>
     <div class="hz-marquee" aria-hidden="true">BENIHARUKA <span>✳</span> SILK SWEET <span>✳</span> TAMAYUTAKA <span>✳</span> IZUMI <span>✳</span> HOSHIKOGANE</div>
     <section class="hz-section hz-intro">
@@ -50,9 +48,9 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
       </form>
     </section>
     <section class="hz-section" id="varieties">
-      <div class="hz-section-head"><p class="hz-section__no">03 / THE COLLECTION</p><h2>五つの個性を、<em>味わう。</em></h2><p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p></div>
-      <div class="hz-varieties">{varieties.map(v=><article class="hz-variety" id={v.id}><div class="hz-variety__top"><span>SPECIMEN / {v.number}</span><span class="hz-tag">{v.tag}</span></div><div class="hz-variety__figure" aria-hidden="true"><span class="hz-variety__shape"></span></div><p class="hz-variety__roman">{v.ruby}</p><h3>{v.name}</h3><p class="hz-variety__lead">{v.lead}</p><dl><div><dt>甘み</dt><dd>{v.taste}</dd></div><div><dt>食感</dt><dd>{v.texture}</dd></div></dl><p class="hz-variety__story">{v.story}</p></article>)}</div>
-      <p class="hz-small">※品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。イラストは概念表現で、品種ごとの実物写真ではありません。</p>
+      <div class="hz-section-head"><p class="hz-section__no">03 / THE COLLECTION</p><h2>八つの個性を、<em>味わう。</em></h2><p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p></div>
+      <div class="hz-varieties">{varieties.map(v=><article class="hz-variety" id={v.id}><div class="hz-variety__top"><span>SPECIMEN / {v.number}</span><span class="hz-tag">{v.tag}</span></div><div class="hz-variety__figure hz-variety__figure--type" aria-hidden="true"><span class="hz-variety__index">{v.number}</span><span class="hz-variety__glyph">干し芋図鑑</span></div><p class="hz-variety__roman">{v.ruby}</p><h3>{v.name}</h3><p class="hz-variety__lead">{v.lead}</p><dl><div><dt>甘み</dt><dd>{v.taste}</dd></div><div><dt>食感</dt><dd>{v.texture}</dd></div></dl><p class="hz-variety__story">{v.story}</p></article>)}</div>
+      <p class="hz-small">※品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。品種の実物写真は撮影・使用許諾確認後に掲載予定です。</p>
     </section>
     <section class="hz-section hz-origin" id="origin"><p class="hz-section__no">04 / MADE IN IBARAKI</p><h2>海と大地が育む、<br/><em>干し芋のふるさと。</em></h2><p>ひたちなか市、東海村、那珂市。火山灰由来の水はけのよい土壌、潮風、冬の晴天。茨城の干し芋は、この土地の条件と「蒸す・切る・乾燥させる」手仕事によって育まれてきました。</p><div class="hz-places"><span>ひたちなか市 <small>HITACHINAKA</small></span><span>東海村 <small>TOKAI</small></span><span>那珂市 <small>NAKA</small></span></div></section>
     <section class="hz-section hz-shapes"><p class="hz-section__no">05 / HOW TO CHOOSE</p><h2>平干し、それとも<em>丸干し？</em></h2><div class="hz-shape-grid"><article><span>01 / HIRABOSHI</span><h3>平干し</h3><p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p></article><article><span>02 / MARUBOSHI</span><h3>丸干し</h3><p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p></article></div></section>
@@ -93,4 +91,50 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-variety:nth-child(4n+1){border-top:4px solid #a5673b}.hz-variety:nth-child(4n+2){border-top:4px solid #173c59}.hz-variety:nth-child(4n+3){border-top:4px solid #a1a08a}.hz-variety:nth-child(4n){border-top:4px solid #7b513e}
 .hz-variety h3{overflow-wrap:anywhere}.hz-places span{border:1px solid #c8d8db}.hz-faq summary:focus-visible{outline:3px solid #a5673b;outline-offset:4px}
 @media(max-width:560px){.hz-hero__stamp{margin-top:18px!important}.hz-hero__stamp strong{font-size:27px}}
+</style>
+
+<style>
+/* V2 art direction: editorial typography and negative space, not decorative UI. */
+.hz-hero--editorial{position:relative;min-height:660px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);align-items:center;overflow:hidden;background:#f5f0e8;color:#1d313b;border-bottom:1px solid #d9d1c4}
+.hz-hero--editorial:before{display:none}
+.hz-hero--editorial .hz-hero__inner{max-width:720px;position:relative;z-index:2;padding:clamp(70px,8vw,132px) 0 clamp(100px,10vw,150px) clamp(28px,7vw,116px)}
+.hz-hero--editorial .hz-kicker{color:#536875;letter-spacing:.22em;font-size:10px;border-bottom:1px solid #b9b3a8;padding-bottom:20px;margin-bottom:clamp(45px,6vw,85px)}
+.hz-hero--editorial .hz-eyebrow{font-size:clamp(13px,1.2vw,16px);letter-spacing:.25em;color:#7c6046;margin:0 0 24px}
+.hz-hero--editorial h1{font-family:"Noto Serif JP","Yu Mincho",serif!important;font-size:clamp(40px,4.6vw,78px)!important;line-height:1.38!important;letter-spacing:-.055em!important;font-weight:600!important;color:#1b3544!important;margin:0 0 32px!important}
+.hz-hero--editorial h1 em{font-style:normal;white-space:nowrap}
+.hz-hero--editorial .hz-hero__lead{font-size:clamp(13px,1.3vw,17px);line-height:2.15;letter-spacing:.045em;color:#44565e;margin-bottom:36px}
+.hz-hero--editorial .hz-hero__actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
+.hz-hero--editorial .hz-primary{border-radius:0;background:#173c59;box-shadow:none;padding:16px 30px}
+.hz-hero--editorial .hz-secondary{border-radius:0;border:0;border-bottom:1px solid #6d787d;padding:10px 0;background:transparent;color:#1b3544}
+.hz-hero--editorial .hz-hero__art{height:100%;min-height:620px;position:relative;inset:auto!important;display:grid;place-items:center;background:radial-gradient(circle at 52% 47%,#e7c49a 0%,#d9b48c 38%,#b98058 100%);overflow:hidden;filter:none}
+.hz-hero--editorial .hz-hero__art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#f5f0e822,transparent 24%),repeating-linear-gradient(0deg,#fff2 0px,transparent 1px,transparent 6px);opacity:.22}
+.hz-hero--editorial .hz-plate{transform:scale(1.1) rotate(-10deg);filter:drop-shadow(18px 30px 20px #482c2340)}
+.hz-hero--editorial .hz-art-label{position:absolute;bottom:70px;right:40px;font:500 11px/1.8 Georgia,serif;letter-spacing:.22em;color:#fffaf2;text-align:right}
+.hz-hero--editorial .hz-hero__folio{position:absolute;left:clamp(28px,7vw,116px);right:clamp(28px,7vw,116px);bottom:28px;display:flex;justify-content:space-between;gap:20px;color:#536875;font:11px Georgia,serif;letter-spacing:.17em;z-index:3}
+.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:40%}
+.hz-variety{border-top:1px solid #cfc5b7!important;border-radius:0!important;box-shadow:none!important;background:#fcfaf6!important}
+.hz-variety:hover{transform:none!important;box-shadow:none!important}
+.hz-variety__figure{border-radius:0!important}
+@media(max-width:900px){.hz-hero--editorial{grid-template-columns:1fr;min-height:0}.hz-hero--editorial .hz-hero__inner{padding:68px 26px 58px}.hz-hero--editorial .hz-kicker{margin-bottom:42px}.hz-hero--editorial .hz-hero__art{min-height:330px;height:330px;grid-row:2}.hz-hero--editorial .hz-plate{transform:scale(.8) rotate(-10deg)}.hz-hero--editorial .hz-hero__folio{position:relative;left:auto;right:auto;bottom:auto;padding:20px 26px;grid-row:3}.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:0}}
+@media(max-width:420px){.hz-hero--editorial h1{font-size:clamp(34px,9vw,42px)!important}.hz-hero--editorial h1 em{white-space:normal}.hz-hero--editorial .hz-hero__actions{gap:18px}}
+</style>
+
+<style>
+/* No pseudo-food illustration: a deliberately typographic placeholder until rights-cleared photography. */
+.hz-hero--editorial .hz-hero__art--type{background:#d3b08c!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;filter:none!important}
+.hz-hero--editorial .hz-hero__art--type:after{display:none}
+.hz-hero__edition{font:12px Georgia,serif;letter-spacing:.35em;color:#47372e}
+.hz-hero__kanji{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:clamp(76px,8vw,128px);font-weight:600;line-height:1.05;letter-spacing:.15em;color:#fffaf2;text-shadow:1px 1px 0 #fff4}
+.hz-variety__figure--type{height:105px!important;display:flex!important;align-items:center;justify-content:space-between;padding:8px 18px!important;background:#f2eee7!important;border-top:1px solid #ded5c9;border-bottom:1px solid #ded5c9;margin:18px 0!important}
+.hz-variety__index{font:italic 72px/.95 Georgia,serif;color:#c3ae94;letter-spacing:-.09em}.hz-variety__glyph{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:12px;letter-spacing:.23em;color:#6d645b;writing-mode:vertical-rl}
+@media(max-width:900px){.hz-hero__kanji{font-size:80px}.hz-hero--editorial .hz-hero__art--type{min-height:330px}}
+</style>
+
+<style>
+.hz-hero--editorial .hz-hero__art--photo{margin:0!important;min-width:0;position:relative;display:block!important;background:#d3b08c!important;overflow:hidden}
+.hz-hero--editorial .hz-hero__art--photo:after{display:none}
+.hz-hero__art--photo img{display:block;width:100%;height:100%;min-height:620px;object-fit:cover;object-position:50% 50%;filter:none}
+.hz-hero__art--photo figcaption{position:absolute;bottom:0;left:0;right:0;padding:18px 22px;background:linear-gradient(transparent,#17252fc9);color:#fff;font-size:10px;line-height:1.8;text-align:right}
+.hz-hero__art--photo figcaption a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:900px){.hz-hero__art--photo img{min-height:330px;height:330px}}
 </style>
