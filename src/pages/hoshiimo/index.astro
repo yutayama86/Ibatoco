@@ -1,7 +1,7 @@
 ---
 import BrandBase from '../../layouts/BrandBase.astro';
-const title = '茨城の干し芋図鑑｜7品種の違い・産地・選び方 | イバトコ';
-const description = 'あなたの推し干し芋は？ べにはるか・シルクスイート・玉豊・いずみ・ほしこがねの7品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
+const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
+const description = 'あなたの推し干し芋は？ べにはるか・シルクスイート・玉豊・いずみ・ほしこがねの8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
 const varieties = [
   {id:'beniharuka',name:'べにはるか',ruby:'BENIHARUKA',number:'01',lead:'甘く、しっとり。黄金色の定番。',taste:'濃厚な甘み',texture:'しっとり柔らか',story:'近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。',tag:'濃厚派'},
   {id:'silksweet',name:'シルクスイート',ruby:'SILK SWEET',number:'02',lead:'絹のように、なめらか。',taste:'上品な甘み',texture:'なめらか',story:'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。',tag:'なめらか派'},
@@ -10,8 +10,10 @@ const varieties = [
   {id:'hoshikogane',name:'ほしこがね',ruby:'HOSHIKOGANE',number:'05',lead:'芋そのものの風味を。',taste:'上品な甘み',texture:'製品によって異なる',story:'上品な甘みと、さつまいもらしい風味を楽しめる品種です。',tag:'風味派'},
   {id:'hoshikirari',name:'ほしキラリ',ruby:'HOSHI KIRARI',number:'06',lead:'干し芋のために生まれた、期待の品種。',taste:'糖化しやすく甘みが出やすい',texture:'加工条件により異なる',story:'農研機構が育成した干し芋加工用品種。白く硬い部分「シロタ」が発生しにくく、淡黄色の仕上がりが特徴です。',tag:'加工専用品種'},
   {id:'hoshiakane',name:'ほしあかね',ruby:'HOSHI AKANE',number:'07',lead:'ほんのり橙色、色から楽しむ。',taste:'加工条件により異なる',texture:'加工条件により異なる',story:'農研機構が育成した干し芋加工用品種。カロテン由来の淡い橙色と透明感のある仕上がりが特徴です。',tag:'橙色の干し芋'},
+  {id:'tamaotome',name:'タマオトメ',ruby:'TAMAOTOME',number:'08',lead:'加工しやすさにも理由がある。',taste:'製品によって異なる',texture:'製品によって異なる',story:'農研機構が育成した蒸切干向け品種。繊維が少なく、皮がむきやすいことや、黄色い仕上がりが特徴です。',tag:'加工用品種'},
 ];
 const sources = [
+ {name:'農研機構「タマオトメ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001435.html'},
  {name:'農研機構「ほしキラリ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001573.html'},
  {name:'農研機構「ほしあかね」',url:'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html'},
  {name:'茨城県「茨城をたべよう」ほしいも',url:'https://www.ibaraki-shokusai.net/brand/hoshiimo'},
@@ -28,9 +30,9 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
         <p class="hz-kicker">IBATOCO FIELD GUIDE <span>— VOL. 01 / IBARAKI</span></p>
         <p class="hz-eyebrow">茨城の風土と、甘い時間。</p>
         <h1>あなたの<span>推し干し芋</span>、<br/>どの品種？</h1>
-        <p class="hz-hero__lead">ねっとり派も、昔ながら派も。<br/>7つの品種から、自分だけのおいしさを見つけよう。</p>
+        <p class="hz-hero__lead">ねっとり派も、昔ながら派も。<br/>8つの品種から、自分だけのおいしさを見つけよう。</p>
         <a class="hz-primary" href="#diagnosis">30秒で好みを見つける <span aria-hidden="true">↗</span></a>
-        <a class="hz-secondary" href="#varieties">7品種を見比べる ↓</a>
+        <a class="hz-secondary" href="#varieties">8品種を見比べる ↓</a>
       </div>
       <div class="hz-hero__art" aria-hidden="true"><div class="hz-plate"><span class="hz-slice hz-slice--a"></span><span class="hz-slice hz-slice--b"></span><span class="hz-slice hz-slice--c"></span></div><span class="hz-art-label">HOSHIIMO<br/>IBARAKI</span></div>
       <p class="hz-hero__foot">SCROLL TO DISCOVER <span>↓</span></p>
