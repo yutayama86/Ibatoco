@@ -88,11 +88,12 @@ TOP専用の挙動は`HomeAreaExplorer.astro`、下層・一覧用の二段階�
 
 ## 編集OSと実装分担
 
-- 情報監視・記事判断・SEO設計・完成原稿はChatGPT側、Claude Codeは完成仕様の実装を担当する。
+- 情報監視・記事判断・SEO設計・完成原稿と、通常の実装・PR作成はChatGPT側が担当する。Claude Codeは、大規模なAstro改修・複雑な不具合修正・多数のファイルを対象とする変更・高負荷/長時間の開発のうち、ChatGPTまたはオーナーから明示的に依頼されたものだけを実装する（2026-10-25 オーナー決定）。
+- Claude Codeを定期的・自動的に起動しない。毎朝の自動実装（daily-claude）は運用を中止した。
 - `data/editorial/event-registry.json` の未掲載候補を、記事化しないことを理由に削除しない。
-- Claude Codeは `data/editorial/action-queue.json` で `status: "ready"` の案件だけ実装する。
+- Claude Codeが実装するのは、`data/editorial/action-queue.json` で `status: "ready"` の案件か、ChatGPT/オーナーの明示的な依頼だけ。
 - `ready` の正本は `docs/editorial/specs/` の指定ファイル。正本にない調査・構成・本文・URL変更を独自に追加しない。
-- 実装前に `npm run editorial:daily` を実行し、`reports/editorial/claude-implementation-brief.md` を確認する。
+- Claude Codeが ready 案件を実装するときは、実装前に `npm run editorial:daily` を実行し、`reports/editorial/claude-implementation-brief.md` を確認する。
 - 新しいイベント記事を追加したら `npm run editorial:sync` で台帳へ同期する。
 - 詳細は `docs/EDITORIAL_OS.md` を正本とする。
 
