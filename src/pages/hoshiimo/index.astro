@@ -31,7 +31,7 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
         <p class="hz-hero__lead">同じ干し芋でも、甘さも、色も、食感も違う。<br/>茨城の風土から生まれた、8品種の物語。</p>
         <div class="hz-hero__actions"><a class="hz-primary" href="#varieties">品種を知る <span aria-hidden="true">↗</span></a><a class="hz-secondary" href="#diagnosis">好みから探す <span aria-hidden="true">↓</span></a></div>
       </div>
-      <div class="hz-hero__art" aria-hidden="true"><div class="hz-plate"><span class="hz-slice hz-slice--a"></span><span class="hz-slice hz-slice--b"></span><span class="hz-slice hz-slice--c"></span></div><span class="hz-art-label">IBARAKI<br/>HOSHIIMO</span></div>
+      <div class="hz-hero__art hz-hero__art--type" aria-hidden="true"><span class="hz-hero__edition">IBARAKI / JAPAN</span><span class="hz-hero__kanji">干<br/>し<br/>芋</span><span class="hz-art-label">THE HOSHIIMO<br/>FIELD GUIDE</span></div>
       <div class="hz-hero__folio" aria-hidden="true"><span>01 / 08</span><span>THE ART OF HOSHIIMO</span></div>
     </section>
     <div class="hz-marquee" aria-hidden="true">BENIHARUKA <span>✳</span> SILK SWEET <span>✳</span> TAMAYUTAKA <span>✳</span> IZUMI <span>✳</span> HOSHIKOGANE</div>
@@ -48,9 +48,9 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
       </form>
     </section>
     <section class="hz-section" id="varieties">
-      <div class="hz-section-head"><p class="hz-section__no">03 / THE COLLECTION</p><h2>五つの個性を、<em>味わう。</em></h2><p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p></div>
-      <div class="hz-varieties">{varieties.map(v=><article class="hz-variety" id={v.id}><div class="hz-variety__top"><span>SPECIMEN / {v.number}</span><span class="hz-tag">{v.tag}</span></div><div class="hz-variety__figure" aria-hidden="true"><span class="hz-variety__shape"></span></div><p class="hz-variety__roman">{v.ruby}</p><h3>{v.name}</h3><p class="hz-variety__lead">{v.lead}</p><dl><div><dt>甘み</dt><dd>{v.taste}</dd></div><div><dt>食感</dt><dd>{v.texture}</dd></div></dl><p class="hz-variety__story">{v.story}</p></article>)}</div>
-      <p class="hz-small">※品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。イラストは概念表現で、品種ごとの実物写真ではありません。</p>
+      <div class="hz-section-head"><p class="hz-section__no">03 / THE COLLECTION</p><h2>八つの個性を、<em>味わう。</em></h2><p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p></div>
+      <div class="hz-varieties">{varieties.map(v=><article class="hz-variety" id={v.id}><div class="hz-variety__top"><span>SPECIMEN / {v.number}</span><span class="hz-tag">{v.tag}</span></div><div class="hz-variety__figure hz-variety__figure--type" aria-hidden="true"><span class="hz-variety__index">{v.number}</span><span class="hz-variety__glyph">干し芋図鑑</span></div><p class="hz-variety__roman">{v.ruby}</p><h3>{v.name}</h3><p class="hz-variety__lead">{v.lead}</p><dl><div><dt>甘み</dt><dd>{v.taste}</dd></div><div><dt>食感</dt><dd>{v.texture}</dd></div></dl><p class="hz-variety__story">{v.story}</p></article>)}</div>
+      <p class="hz-small">※品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。品種の実物写真は撮影・使用許諾確認後に掲載予定です。</p>
     </section>
     <section class="hz-section hz-origin" id="origin"><p class="hz-section__no">04 / MADE IN IBARAKI</p><h2>海と大地が育む、<br/><em>干し芋のふるさと。</em></h2><p>ひたちなか市、東海村、那珂市。火山灰由来の水はけのよい土壌、潮風、冬の晴天。茨城の干し芋は、この土地の条件と「蒸す・切る・乾燥させる」手仕事によって育まれてきました。</p><div class="hz-places"><span>ひたちなか市 <small>HITACHINAKA</small></span><span>東海村 <small>TOKAI</small></span><span>那珂市 <small>NAKA</small></span></div></section>
     <section class="hz-section hz-shapes"><p class="hz-section__no">05 / HOW TO CHOOSE</p><h2>平干し、それとも<em>丸干し？</em></h2><div class="hz-shape-grid"><article><span>01 / HIRABOSHI</span><h3>平干し</h3><p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p></article><article><span>02 / MARUBOSHI</span><h3>丸干し</h3><p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p></article></div></section>
@@ -117,4 +117,15 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-variety__figure{border-radius:0!important}
 @media(max-width:900px){.hz-hero--editorial{grid-template-columns:1fr;min-height:0}.hz-hero--editorial .hz-hero__inner{padding:68px 26px 58px}.hz-hero--editorial .hz-kicker{margin-bottom:42px}.hz-hero--editorial .hz-hero__art{min-height:330px;height:330px;grid-row:2}.hz-hero--editorial .hz-plate{transform:scale(.8) rotate(-10deg)}.hz-hero--editorial .hz-hero__folio{position:relative;left:auto;right:auto;bottom:auto;padding:20px 26px;grid-row:3}.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:0}}
 @media(max-width:420px){.hz-hero--editorial h1{font-size:clamp(34px,9vw,42px)!important}.hz-hero--editorial h1 em{white-space:normal}.hz-hero--editorial .hz-hero__actions{gap:18px}}
+</style>
+
+<style>
+/* No pseudo-food illustration: a deliberately typographic placeholder until rights-cleared photography. */
+.hz-hero--editorial .hz-hero__art--type{background:#d3b08c!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;filter:none!important}
+.hz-hero--editorial .hz-hero__art--type:after{display:none}
+.hz-hero__edition{font:12px Georgia,serif;letter-spacing:.35em;color:#47372e}
+.hz-hero__kanji{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:clamp(76px,8vw,128px);font-weight:600;line-height:1.05;letter-spacing:.15em;color:#fffaf2;text-shadow:1px 1px 0 #fff4}
+.hz-variety__figure--type{height:105px!important;display:flex!important;align-items:center;justify-content:space-between;padding:8px 18px!important;background:#f2eee7!important;border-top:1px solid #ded5c9;border-bottom:1px solid #ded5c9;margin:18px 0!important}
+.hz-variety__index{font:italic 72px/.95 Georgia,serif;color:#c3ae94;letter-spacing:-.09em}.hz-variety__glyph{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:12px;letter-spacing:.23em;color:#6d645b;writing-mode:vertical-rl}
+@media(max-width:900px){.hz-hero__kanji{font-size:80px}.hz-hero--editorial .hz-hero__art--type{min-height:330px}}
 </style>
