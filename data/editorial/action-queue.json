@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-10-26",
   "actions": [
     {
       "id": "20261025-tsuchiura-sangyosai-confirmed",
@@ -9,7 +9,7 @@
       "targetUrl": "/events/tsuchiura-curry-festival-2026/",
       "targetFile": "src/content/events/tsuchiura-curry-festival-2026.md",
       "priority": "medium",
-      "status": "ready",
+      "status": "in-progress",
       "createdAt": "2026-10-25",
       "dueDate": "2026-11-14",
       "confidence": "high",
@@ -27,7 +27,9 @@
         "title・description・URL・canonical・画像は変わっていない",
         "src/data/seo-changes.ts の先頭に id 20261025-events-tsuchiura-curry-sangyosai-confirmed（experimentType: fact）の記録が1件ある",
         "npm run date:check と npm run verify が成功する"
-      ]
+      ],
+      "startedAt": "2026-10-26",
+      "executionNote": "ChatGPT実装PRでCI確認中。マージ・本番公開はオーナー承認後。"
     },
     {
       "id": "20261022-autumn-official-refresh",
