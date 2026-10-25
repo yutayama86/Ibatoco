@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261025-events-tsuchiura-curry-sangyosai-confirmed',
+    date: '2026-10-26',
+    url: '/events/tsuchiura-curry-festival-2026/',
+    kind: 'on-page',
+    change: '翌日の第50回土浦市産業祭を、土浦市の開催案内（9/10更新）の確定情報に更新（「予定」を外し、会場3か所・市営駐車場と料金・出店内容は準備中を追記）。カレーフェス本体の未発表事項は変更なし',
+    queries: [],
+    commit: 'PENDING',
+    note: '公式発表の反映（事実の更新・観測窓0日）。実装キュー 20261025-tsuchiura-sangyosai-confirmed',
+    experimentType: 'fact',
+  },
+  {
     id: '20261025-events-illumination-kawachi-official',
     date: '2026-10-25',
     url: '/events/ibaraki-illumination-2026/',
