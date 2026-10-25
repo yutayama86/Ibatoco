@@ -148,6 +148,19 @@ const heroSlides = [
   {/* 日付から入る枠。該当が無ければブロックごと出ない */}
   <div data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
 
+  <section class="hoshiimo-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
+    <div class="bp-wrap hoshiimo-home__inner">
+      <div class="hoshiimo-home__copy">
+        <p class="hoshiimo-home__eyebrow">IBATOCO FOOD FIELD GUIDE / 茨城の冬の味覚</p>
+        <h2 id="hoshiimo-home-title">あなたの<span>推し干し芋</span>、<br />どの品種？</h2>
+        <p>ねっとり派？ 昔ながら派？ 8品種の図鑑から、あなた好みの干し芋を見つけよう。</p>
+        <a class="hoshiimo-home__cta" href="/hoshiimo/#diagnosis">30秒で干し芋診断 <span aria-hidden="true">↗</span></a>
+        <a class="hoshiimo-home__sub" href="/hoshiimo/#varieties">8品種の図鑑を見る →</a>
+      </div>
+      <div class="hoshiimo-home__visual" aria-hidden="true"><span class="hoshiimo-home__slice hoshiimo-home__slice--one"></span><span class="hoshiimo-home__slice hoshiimo-home__slice--two"></span><span class="hoshiimo-home__slice hoshiimo-home__slice--three"></span><small>HOSHIIMO<br />IBARAKI</small></div>
+    </div>
+  </section>
+
   <section class="brand-origin" data-module="home_origin">
     <div class="origin-sky" aria-hidden="true"></div>
     <div class="bp-wrap origin-grid">
@@ -333,4 +346,23 @@ const heroSlides = [
   .november-now__list a:hover,.november-now__list a:focus-visible{background:#fff}.november-now__text{display:grid;gap:.32rem}.november-now__text small{color:#718292;font-size:.7rem}.november-now__text strong{font:600 clamp(1.05rem,1.7vw,1.3rem)/1.5 var(--font-brand-display)}.november-now__text em{font-style:normal;color:var(--color-soil);font-size:.72rem}.november-now__list b{font-weight:400;color:#8395a6}
 
   @media(max-width:720px){.editorial-note__inner{grid-template-columns:minmax(0,1fr);gap:.35rem}.editorial-note strong{white-space:normal}.editorial-note small{grid-column:auto}.home-intent__head{grid-template-columns:minmax(0,1fr);gap:.8rem}.home-intent__grid{grid-template-columns:minmax(0,1fr)}.home-intent__grid a:nth-child(odd),.home-intent__grid a:nth-child(even){padding-inline:.1rem;border-right:0}.november-now__head{grid-template-columns:minmax(0,1fr);align-items:start}.november-now__list{grid-template-columns:minmax(0,1fr)}.november-now__list li:nth-child(odd){border-right:0}.november-now__list a{min-height:0}}
+</style>
+
+<style>
+  .hoshiimo-home{background:#eaf1f1;padding:clamp(36px,5vw,76px) 0;color:#173c59}
+  .hoshiimo-home__inner{display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:24px}
+  .hoshiimo-home__eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:#53768a;margin:0 0 15px}
+  .hoshiimo-home h2{font-size:clamp(30px,4vw,58px);line-height:1.28;letter-spacing:-.04em;margin:0 0 16px}
+  .hoshiimo-home h2 span{color:#a5673b}
+  .hoshiimo-home__copy>p:not(.hoshiimo-home__eyebrow){font-size:15px;line-height:1.9;max-width:500px;margin:0 0 24px}
+  .hoshiimo-home__cta{display:inline-flex;align-items:center;gap:20px;background:#173c59;color:#fff!important;text-decoration:none;font-weight:700;border-radius:99px;padding:15px 22px}
+  .hoshiimo-home__cta:hover{background:#275a7c}
+  .hoshiimo-home__sub{display:inline-block;margin:12px 0 0 20px;color:#173c59;text-underline-offset:4px;font-size:13px;font-weight:700}
+  .hoshiimo-home__visual{position:relative;min-height:260px;display:flex;justify-content:center;align-items:center;gap:9px;transform:rotate(-13deg)}
+  .hoshiimo-home__visual:before{content:"";position:absolute;width:250px;height:250px;border-radius:50%;background:#faf8ed;box-shadow:0 20px 40px #173c5920,inset 0 0 0 9px #fff9}
+  .hoshiimo-home__slice{z-index:1;display:block;width:55px;height:145px;border-radius:45% 38% 40% 36%;background:linear-gradient(95deg,#a35e2b,#e8b56d 38%,#c7823d);box-shadow:inset 3px 0 8px #fff5,4px 6px 8px #56371b33;transform:rotate(8deg)}
+  .hoshiimo-home__slice--two{height:164px;transform:rotate(-6deg)}
+  .hoshiimo-home__slice--three{height:137px;transform:rotate(13deg)}
+  .hoshiimo-home__visual small{position:absolute;right:0;bottom:0;transform:rotate(13deg);font-size:10px;letter-spacing:.16em;line-height:1.5}
+  @media(max-width:700px){.hoshiimo-home__inner{grid-template-columns:1fr}.hoshiimo-home__visual{min-height:205px;order:-1}.hoshiimo-home__visual:before{width:185px;height:185px}.hoshiimo-home__slice{height:112px;width:42px}.hoshiimo-home__slice--two{height:125px}.hoshiimo-home__slice--three{height:108px}.hoshiimo-home__sub{display:block;margin:16px 0 0}.hoshiimo-home__visual small{right:10%}}
 </style>
