@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261025-events-illumination-kawachi-official',
+    date: '2026-10-25',
+    url: '/events/ibaraki-illumination-2026/',
+    kind: 'on-page',
+    change: 'かわちイルミネーション2026の公式特設サイトの発表（11/3〜2027/2/14・毎日・点灯時間・入場無料・駐車場の有料化と料金）を反映し、「11月ごろ開催予定・期間の発表待ち」の記述を置き換え。12/19の花火は観光いばらきの予定のまま',
+    queries: [],
+    commit: 'PENDING',
+    note: '季節イベントの公式発表の反映（事実の更新）。観測中（新規記事の28日、〜11/15）のため observation-exception: fact。title・description は変更なし',
+    experimentType: 'fact',
+  },
+  {
     id: '20261023-events-kochia-status-kouyou-relay',
     date: '2026-10-24',
     url: '/events/hitachi-seaside-kochia-carnival-2026/',
