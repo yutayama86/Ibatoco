@@ -28,6 +28,7 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
         <p class="hz-kicker">IBATOCO FIELD GUIDE <span>— VOL. 01 / IBARAKI</span></p>
         <p class="hz-eyebrow">茨城の風土と、甘い時間。</p>
         <h1>あなたの<span>推し干し芋</span>、<br/>どの品種？</h1>
+        <p class="hz-hero__stamp" aria-label="茨城の干し芋図鑑、8品種を掲載"><span>IBARAKI</span><strong>08</strong><span>VARIETIES</span></p>
         <p class="hz-hero__lead">ねっとり派も、昔ながら派も。<br/>8つの品種から、自分だけのおいしさを見つけよう。</p>
         <a class="hz-primary" href="#diagnosis">30秒で好みを見つける <span aria-hidden="true">↗</span></a>
         <a class="hz-secondary" href="#varieties">8品種を見比べる ↓</a>
@@ -83,4 +84,13 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-variety{transition:transform .2s ease,box-shadow .2s ease;position:relative}.hz-variety:hover{transform:translateY(-4px);box-shadow:0 18px 35px #173c5914}.hz-variety__top{border-bottom:1px solid #e8ddce;padding-bottom:12px}.hz-variety__roman{font-family:Georgia,serif;letter-spacing:.21em}.hz-variety__figure{background:radial-gradient(ellipse at center,#f7e7cc 0%,transparent 65%);margin:12px 0}
 .hz-quiz__form{border:1px solid #c8d7db}.hz-result{background:linear-gradient(135deg,#173c59,#245d75)}.hz-shape-grid article{background:#fffaf2;border-color:#d9c9b4}.hz-primary:focus-visible,.hz-secondary:focus-visible,.hz-result__actions a:focus-visible,.hz-result__actions button:focus-visible{outline:3px solid #b76c3b;outline-offset:4px}
 @media(prefers-reduced-motion:reduce){.hz-variety{transition:none}.hz-variety:hover{transform:none}}
+</style>
+
+<style>
+/* Stronger editorial hierarchy: distinct from event promotion, optimized for mobile. */
+.hz-hero__stamp{display:inline-flex;align-items:baseline;gap:8px;color:#173c59;border-top:1px solid #a48e78;border-bottom:1px solid #a48e78;padding:8px 0;margin-top:24px!important;font-family:Georgia,serif;letter-spacing:.13em}
+.hz-hero__stamp strong{font-size:32px;line-height:1;color:#a5673b}.hz-hero__stamp span{font-size:10px;font-weight:700}
+.hz-variety:nth-child(4n+1){border-top:4px solid #a5673b}.hz-variety:nth-child(4n+2){border-top:4px solid #173c59}.hz-variety:nth-child(4n+3){border-top:4px solid #a1a08a}.hz-variety:nth-child(4n){border-top:4px solid #7b513e}
+.hz-variety h3{overflow-wrap:anywhere}.hz-places span{border:1px solid #c8d8db}.hz-faq summary:focus-visible{outline:3px solid #a5673b;outline-offset:4px}
+@media(max-width:560px){.hz-hero__stamp{margin-top:18px!important}.hz-hero__stamp strong{font-size:27px}}
 </style>
