@@ -1,7 +1,7 @@
 ---
 import BrandBase from '../../layouts/BrandBase.astro';
 const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
-const description = 'あなたの推し干し芋は？ べにはるか・シルクスイート・玉豊・いずみ・ほしこがねの8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
+const description = 'べにはるか・シルクスイート・玉豊・いずみ・ほしこがねなど8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
 const varieties = [
   {id:'beniharuka',name:'べにはるか',ruby:'BENIHARUKA',number:'01',lead:'甘く、しっとり。黄金色の定番。',taste:'濃厚な甘み',texture:'しっとり柔らか',story:'近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。',tag:'濃厚派'},
   {id:'silksweet',name:'シルクスイート',ruby:'SILK SWEET',number:'02',lead:'絹のように、なめらか。',taste:'上品な甘み',texture:'なめらか',story:'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。',tag:'なめらか派'},
@@ -23,18 +23,16 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 ---
 <BrandBase title={title} description={description} jsonLd={jsonLd}>
   <main class="hz">
-    <section class="hz-hero">
+    <section class="hz-hero hz-hero--editorial" aria-labelledby="hoshiimo-title">
       <div class="hz-hero__inner">
-        <p class="hz-kicker">IBATOCO FIELD GUIDE <span>— VOL. 01 / IBARAKI</span></p>
-        <p class="hz-eyebrow">茨城の風土と、甘い時間。</p>
-        <h1>あなたの<span>推し干し芋</span>、<br/>どの品種？</h1>
-        <p class="hz-hero__stamp" aria-label="茨城の干し芋図鑑、8品種を掲載"><span>IBARAKI</span><strong>08</strong><span>VARIETIES</span></p>
-        <p class="hz-hero__lead">ねっとり派も、昔ながら派も。<br/>8つの品種から、自分だけのおいしさを見つけよう。</p>
-        <a class="hz-primary" href="#diagnosis">30秒で好みを見つける <span aria-hidden="true">↗</span></a>
-        <a class="hz-secondary" href="#varieties">8品種を見比べる ↓</a>
+        <p class="hz-kicker">IBATOCO / FOOD & CULTURE <span>ISSUE 01 — IBARAKI</span></p>
+        <p class="hz-eyebrow">茨城、冬の甘い風景。</p>
+        <h1 id="hoshiimo-title">干し芋を、<br/><em>もっと好きになる。</em></h1>
+        <p class="hz-hero__lead">同じ干し芋でも、甘さも、色も、食感も違う。<br/>茨城の風土から生まれた、8品種の物語。</p>
+        <div class="hz-hero__actions"><a class="hz-primary" href="#varieties">品種を知る <span aria-hidden="true">↗</span></a><a class="hz-secondary" href="#diagnosis">好みから探す <span aria-hidden="true">↓</span></a></div>
       </div>
-      <div class="hz-hero__art" aria-hidden="true"><div class="hz-plate"><span class="hz-slice hz-slice--a"></span><span class="hz-slice hz-slice--b"></span><span class="hz-slice hz-slice--c"></span></div><span class="hz-art-label">HOSHIIMO<br/>IBARAKI</span></div>
-      <p class="hz-hero__foot">SCROLL TO DISCOVER <span>↓</span></p>
+      <div class="hz-hero__art" aria-hidden="true"><div class="hz-plate"><span class="hz-slice hz-slice--a"></span><span class="hz-slice hz-slice--b"></span><span class="hz-slice hz-slice--c"></span></div><span class="hz-art-label">IBARAKI<br/>HOSHIIMO</span></div>
+      <div class="hz-hero__folio" aria-hidden="true"><span>01 / 08</span><span>THE ART OF HOSHIIMO</span></div>
     </section>
     <div class="hz-marquee" aria-hidden="true">BENIHARUKA <span>✳</span> SILK SWEET <span>✳</span> TAMAYUTAKA <span>✳</span> IZUMI <span>✳</span> HOSHIKOGANE</div>
     <section class="hz-section hz-intro">
@@ -93,4 +91,30 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-variety:nth-child(4n+1){border-top:4px solid #a5673b}.hz-variety:nth-child(4n+2){border-top:4px solid #173c59}.hz-variety:nth-child(4n+3){border-top:4px solid #a1a08a}.hz-variety:nth-child(4n){border-top:4px solid #7b513e}
 .hz-variety h3{overflow-wrap:anywhere}.hz-places span{border:1px solid #c8d8db}.hz-faq summary:focus-visible{outline:3px solid #a5673b;outline-offset:4px}
 @media(max-width:560px){.hz-hero__stamp{margin-top:18px!important}.hz-hero__stamp strong{font-size:27px}}
+</style>
+
+<style>
+/* V2 art direction: editorial typography and negative space, not decorative UI. */
+.hz-hero--editorial{position:relative;min-height:660px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);align-items:center;overflow:hidden;background:#f5f0e8;color:#1d313b;border-bottom:1px solid #d9d1c4}
+.hz-hero--editorial:before{display:none}
+.hz-hero--editorial .hz-hero__inner{max-width:720px;position:relative;z-index:2;padding:clamp(70px,8vw,132px) 0 clamp(100px,10vw,150px) clamp(28px,7vw,116px)}
+.hz-hero--editorial .hz-kicker{color:#536875;letter-spacing:.22em;font-size:10px;border-bottom:1px solid #b9b3a8;padding-bottom:20px;margin-bottom:clamp(45px,6vw,85px)}
+.hz-hero--editorial .hz-eyebrow{font-size:clamp(13px,1.2vw,16px);letter-spacing:.25em;color:#7c6046;margin:0 0 24px}
+.hz-hero--editorial h1{font-family:"Noto Serif JP","Yu Mincho",serif!important;font-size:clamp(40px,4.6vw,78px)!important;line-height:1.38!important;letter-spacing:-.055em!important;font-weight:600!important;color:#1b3544!important;margin:0 0 32px!important}
+.hz-hero--editorial h1 em{font-style:normal;white-space:nowrap}
+.hz-hero--editorial .hz-hero__lead{font-size:clamp(13px,1.3vw,17px);line-height:2.15;letter-spacing:.045em;color:#44565e;margin-bottom:36px}
+.hz-hero--editorial .hz-hero__actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
+.hz-hero--editorial .hz-primary{border-radius:0;background:#173c59;box-shadow:none;padding:16px 30px}
+.hz-hero--editorial .hz-secondary{border-radius:0;border:0;border-bottom:1px solid #6d787d;padding:10px 0;background:transparent;color:#1b3544}
+.hz-hero--editorial .hz-hero__art{height:100%;min-height:620px;position:relative;inset:auto!important;display:grid;place-items:center;background:radial-gradient(circle at 52% 47%,#e7c49a 0%,#d9b48c 38%,#b98058 100%);overflow:hidden;filter:none}
+.hz-hero--editorial .hz-hero__art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#f5f0e822,transparent 24%),repeating-linear-gradient(0deg,#fff2 0px,transparent 1px,transparent 6px);opacity:.22}
+.hz-hero--editorial .hz-plate{transform:scale(1.1) rotate(-10deg);filter:drop-shadow(18px 30px 20px #482c2340)}
+.hz-hero--editorial .hz-art-label{position:absolute;bottom:70px;right:40px;font:500 11px/1.8 Georgia,serif;letter-spacing:.22em;color:#fffaf2;text-align:right}
+.hz-hero--editorial .hz-hero__folio{position:absolute;left:clamp(28px,7vw,116px);right:clamp(28px,7vw,116px);bottom:28px;display:flex;justify-content:space-between;gap:20px;color:#536875;font:11px Georgia,serif;letter-spacing:.17em;z-index:3}
+.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:40%}
+.hz-variety{border-top:1px solid #cfc5b7!important;border-radius:0!important;box-shadow:none!important;background:#fcfaf6!important}
+.hz-variety:hover{transform:none!important;box-shadow:none!important}
+.hz-variety__figure{border-radius:0!important}
+@media(max-width:900px){.hz-hero--editorial{grid-template-columns:1fr;min-height:0}.hz-hero--editorial .hz-hero__inner{padding:68px 26px 58px}.hz-hero--editorial .hz-kicker{margin-bottom:42px}.hz-hero--editorial .hz-hero__art{min-height:330px;height:330px;grid-row:2}.hz-hero--editorial .hz-plate{transform:scale(.8) rotate(-10deg)}.hz-hero--editorial .hz-hero__folio{position:relative;left:auto;right:auto;bottom:auto;padding:20px 26px;grid-row:3}.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:0}}
+@media(max-width:420px){.hz-hero--editorial h1{font-size:clamp(34px,9vw,42px)!important}.hz-hero--editorial h1 em{white-space:normal}.hz-hero--editorial .hz-hero__actions{gap:18px}}
 </style>
