@@ -31,7 +31,7 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
         <p class="hz-hero__lead">同じ干し芋でも、甘さも、色も、食感も違う。<br/>茨城の風土から生まれた、8品種の物語。</p>
         <div class="hz-hero__actions"><a class="hz-primary" href="#varieties">品種を知る <span aria-hidden="true">↗</span></a><a class="hz-secondary" href="#diagnosis">好みから探す <span aria-hidden="true">↓</span></a></div>
       </div>
-      <div class="hz-hero__art hz-hero__art--type" aria-hidden="true"><span class="hz-hero__edition">IBARAKI / JAPAN</span><span class="hz-hero__kanji">干<br/>し<br/>芋</span><span class="hz-art-label">THE HOSHIIMO<br/>FIELD GUIDE</span></div>
+      <figure class="hz-hero__art hz-hero__art--photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg?width=1280" alt="茨城で撮影された、並べられた干し芋の実物写真" width="1280" height="720" fetchpriority="high" decoding="async" /><figcaption>写真：<a href="https://commons.wikimedia.org/wiki/File:%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg" target="_blank" rel="noopener noreferrer">ジョンドウ / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>（画面表示に合わせてトリミング）</figcaption></figure>
       <div class="hz-hero__folio" aria-hidden="true"><span>01 / 08</span><span>THE ART OF HOSHIIMO</span></div>
     </section>
     <div class="hz-marquee" aria-hidden="true">BENIHARUKA <span>✳</span> SILK SWEET <span>✳</span> TAMAYUTAKA <span>✳</span> IZUMI <span>✳</span> HOSHIKOGANE</div>
@@ -128,4 +128,13 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-variety__figure--type{height:105px!important;display:flex!important;align-items:center;justify-content:space-between;padding:8px 18px!important;background:#f2eee7!important;border-top:1px solid #ded5c9;border-bottom:1px solid #ded5c9;margin:18px 0!important}
 .hz-variety__index{font:italic 72px/.95 Georgia,serif;color:#c3ae94;letter-spacing:-.09em}.hz-variety__glyph{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:12px;letter-spacing:.23em;color:#6d645b;writing-mode:vertical-rl}
 @media(max-width:900px){.hz-hero__kanji{font-size:80px}.hz-hero--editorial .hz-hero__art--type{min-height:330px}}
+</style>
+
+<style>
+.hz-hero--editorial .hz-hero__art--photo{margin:0!important;min-width:0;position:relative;display:block!important;background:#d3b08c!important;overflow:hidden}
+.hz-hero--editorial .hz-hero__art--photo:after{display:none}
+.hz-hero__art--photo img{display:block;width:100%;height:100%;min-height:620px;object-fit:cover;object-position:50% 50%;filter:none}
+.hz-hero__art--photo figcaption{position:absolute;bottom:0;left:0;right:0;padding:18px 22px;background:linear-gradient(transparent,#17252fc9);color:#fff;font-size:10px;line-height:1.8;text-align:right}
+.hz-hero__art--photo figcaption a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:900px){.hz-hero__art--photo img{min-height:330px;height:330px}}
 </style>
