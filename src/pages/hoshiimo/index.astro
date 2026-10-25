@@ -1,5 +1,7 @@
 ---
 import BrandBase from '../../layouts/BrandBase.astro';
+import SeriesNav from '../../components/food/SeriesNav.astro';
+import FoodStyles from '../../components/food/FoodStyles.astro';
 const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
 const description = 'べにはるか・シルクスイート・玉豊・いずみ・ほしこがねなど8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
 const varieties = [
@@ -19,10 +21,25 @@ const sources = [
  {name:'農研機構「ほしキラリ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001573.html'},
  {name:'農研機構「ほしあかね」',url:'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html'},
 ];
-const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨城の干し芋図鑑｜8品種の違い・産地・選び方',description,author:{'@type':'Organization',name:'イバトコ'},mainEntityOfPage:new URL('/hoshiimo/',Astro.site).href};
+// 「茨城のおいしい図鑑」シリーズの1冊（/food-library/）。URL は /hoshiimo/ のまま
+const jsonLd = [
+  {'@context':'https://schema.org','@type':'Article',headline:'茨城の干し芋図鑑｜8品種の違い・産地・選び方',description,author:{'@type':'Organization',name:'イバトコ'},mainEntityOfPage:new URL('/hoshiimo/',Astro.site).href,isPartOf:{'@type':'CollectionPage',name:'茨城のおいしい図鑑',url:new URL('/food-library/',Astro.site).href}},
+  {'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[
+    {'@type':'ListItem',position:1,name:'ホーム',item:new URL('/',Astro.site).href},
+    {'@type':'ListItem',position:2,name:'茨城のおいしい図鑑',item:new URL('/food-library/',Astro.site).href},
+    {'@type':'ListItem',position:3,name:'干し芋図鑑',item:new URL('/hoshiimo/',Astro.site).href},
+  ]},
+];
 ---
 <BrandBase title={title} description={description} jsonLd={jsonLd}>
-  <main class="hz">
+  <div class="hz">
+    <nav class="hz-crumbs" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="/">ホーム</a></li>
+        <li><a href="/food-library/">茨城のおいしい図鑑</a></li>
+        <li aria-current="page">干し芋図鑑</li>
+      </ol>
+    </nav>
     <section class="hz-hero hz-hero--editorial" aria-labelledby="hoshiimo-title">
       <div class="hz-hero__inner">
         <p class="hz-kicker">IBATOCO / FOOD & CULTURE <span>ISSUE 01 — IBARAKI</span></p>
@@ -56,7 +73,9 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
     <section class="hz-section hz-shapes"><p class="hz-section__no">05 / HOW TO CHOOSE</p><h2>平干し、それとも<em>丸干し？</em></h2><div class="hz-shape-grid"><article><span>01 / HIRABOSHI</span><h3>平干し</h3><p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p></article><article><span>02 / MARUBOSHI</span><h3>丸干し</h3><p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p></article></div></section>
     <section class="hz-section hz-faq"><p class="hz-section__no">06 / GOOD TO KNOW</p><h2>干し芋の<em>豆知識。</em></h2><details><summary>砂糖は入っていますか？</summary><p>さつまいもだけで作られる干し芋が一般的ですが、購入する商品の原材料表示を確認してください。</p></details><details><summary>どこで買えますか？</summary><p>産地の直売所や生産者のオンライン販売などで購入できます。品種、在庫、配送方法は販売元の最新情報をご確認ください。</p></details><details><summary>保存はどうすればいいですか？</summary><p>商品によって賞味期限や保存温度が異なります。パッケージの表示を優先し、開封後は指定された方法で保存してください。</p></details></section>
     <section class="hz-section hz-sources"><h2>出典・参考情報</h2><ul>{sources.map(s=><li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a></li>)}</ul><p>品種の味・食感は目安です。実地取材や生産者写真は、許諾取得後に順次追加します。</p></section>
-  </main>
+  </div>
+  <div class="fg" style="--fg-accent:#b98058"><SeriesNav current="hoshiimo" /></div>
+  <FoodStyles />
 </BrandBase>
 <script>
   const quiz=document.querySelector<HTMLFormElement>('#hz-quiz');
@@ -137,4 +156,15 @@ const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨�
 .hz-hero__art--photo figcaption{position:absolute;bottom:0;left:0;right:0;padding:18px 22px;background:linear-gradient(transparent,#17252fc9);color:#fff;font-size:10px;line-height:1.8;text-align:right}
 .hz-hero__art--photo figcaption a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 @media(max-width:900px){.hz-hero__art--photo img{min-height:330px;height:330px}}
+</style>
+
+<style>
+  /* 茨城のおいしい図鑑シリーズのパンくず（扉の上に、扉と同じ地色で置く） */
+  .hz-crumbs{background:#f5f0e8;padding:16px clamp(28px,7vw,116px) 0;font-size:12.5px;letter-spacing:.08em;color:#59656a}
+  .hz-crumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
+  .hz-crumbs li+li::before{content:'／';margin:0 .5em;color:#b9ad9b}
+  .hz-crumbs a{text-decoration:none}
+  .hz-crumbs a:hover{text-decoration:underline;color:#173c59}
+  .hz-crumbs [aria-current]{color:#6f6354;font-weight:700}
+  @media(max-width:560px){.hz-crumbs{padding-left:22px;padding-right:22px}}
 </style>

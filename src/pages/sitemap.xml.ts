@@ -8,6 +8,7 @@ import { MUNICIPALITIES } from '../data/areas';
 import { AREA_GUIDES } from '../data/area-guides';
 import { THEMES } from '../data/themes';
 import { SPORTS_TEAMS } from '../data/sports';
+import { FOOD_LIBRARY_PATHS } from '../data/food-library';
 
 type SitemapEntry = { path: string; lastmod?: Date };
 
@@ -83,6 +84,8 @@ export const GET: APIRoute = async () => {
   for (const theme of Object.values(THEMES)) entries.push({ path: `/${theme.slug}/` });
   entries.push({ path: '/hanabi/' });
   entries.push({ path: '/michinoeki/' });
+  // 茨城のおいしい図鑑（親ページ・各図鑑・干し芋図鑑）。/hoshiimo/ はこれまで未収録だった
+  for (const path of FOOD_LIBRARY_PATHS) entries.push({ path });
   entries.push({ path: '/odekake/' });
   // 協賛の案内と規約、地域の店・スポットを探すページ（オーナー判断 2026-10-07）。タグ一覧は noindex なので載せない
   entries.push({ path: '/sponsor/' });
