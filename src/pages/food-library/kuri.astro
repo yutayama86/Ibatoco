@@ -1,0 +1,255 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('kuri')!;
+const title = '茨城の栗図鑑｜笠間・かすみがうらの品種と旬、飯沼栗、むき方と保存 | イバトコ';
+const description = '栽培面積・出荷量とも全国1位の茨城の栗（農林水産省 果樹生産出荷統計 令和7年産）。丹沢・ぽろたんから岸根まで、9月上旬から10月下旬に入れ替わる8品種の暦、冷やして甘くする飯沼栗と笠間の「極み」、選び方・保存・むき方を、県・市・農研機構の資料で整理しました。';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「栗」', url: 'https://www.ibaraki-shokusai.net/brand/chestnuts/', accessedAt: '2026-10-25' },
+  { label: '笠間市「笠間の栗について」', url: 'https://www.city.kasama.lg.jp/page/page014668.html', accessedAt: '2026-10-25' },
+  { label: '笠間市「おいしい食べ方」', url: 'https://www.city.kasama.lg.jp/page/page014672.html', accessedAt: '2026-10-25' },
+  { label: '笠間市「笠間の栗」', url: 'https://www.city.kasama.lg.jp/page/dir014729.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ぽろたん」', url: 'https://www.naro.go.jp/collab/breed/0400/0407/001257.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城の栗は日本一ですか？', a: '茨城県の「茨城をたべよう」によると、茨城県の栗は栽培面積・出荷量とも全国1位です（農林水産省 果樹生産出荷統計 令和7年産）。市町村では、笠間市が栽培面積と経営体数で日本一としています（笠間市）。' },
+  { q: '茨城の栗の旬はいつですか？', a: '品種ごとに出荷の時期が違い、9月上旬の丹沢・ぽろたんから、10月中旬〜下旬の岸根まで入れ替わります。収穫後に低温で貯蔵する飯沼栗は、10月下旬から11月中旬に販売されます（茨城をたべよう）。' },
+  { q: '渋皮がむきやすい栗はありますか？', a: '農研機構がつくば市で育成した「ぽろたん」は、加熱する前に鬼皮へ切り目を入れておくと、渋皮まで簡単にむけます。茨城では9月上旬から中旬に出荷される早生の品種です。' },
+  { q: '生の栗はどうやって保存すればいいですか？', a: '栗は果物に分類される生鮮食品で、常温に置くと傷みます。笠間市は、ポリ袋に入れて口をしばらずに折り、冷蔵庫のチルド室（0度付近）で乾かさないように保存し、早めに食べることをすすめています。長く置くなら、むき栗にして冷凍します。' },
+  { q: '飯沼栗とはどんな栗ですか？', a: '茨城町下飯沼地区の下飯沼栗生産販売組合が出荷する栗で、2017年（平成29年）に栗として日本で初めて地理的表示（GI）に登録されました。収穫後に低温の冷蔵庫で20日ほど貯蔵し、糖を増やしてから販売します（茨城をたべよう）。' },
+];
+
+/** 出荷の旬（上・中・下旬）。0 = 9月上旬 … 7 = 11月中旬。茨城をたべようの品種表から */
+const decades = ['9月上旬', '9月中旬', '9月下旬', '10月上旬', '10月中旬', '10月下旬', '11月上旬', '11月中旬'];
+const relay = [
+  { group: '早生', rows: [
+    { id: 'tanzawa', name: '丹沢', from: 0, to: 1 },
+    { id: 'porotan', name: 'ぽろたん', from: 0, to: 1 },
+    { id: 'hitomaru', name: '人丸', from: 1, to: 2 },
+  ] },
+  { group: '中生', rows: [
+    { id: 'rihei', name: '利平', from: 1, to: 2 },
+    { id: 'tsukuba', name: '筑波', from: 2, to: 3 },
+    { id: 'ginyose', name: '銀寄', from: 2, to: 3 },
+  ] },
+  { group: '晩生', rows: [
+    { id: 'ishizuchi', name: '石鎚', from: 3, to: 4 },
+    { id: 'ganne', name: '岸根', from: 4, to: 5 },
+  ] },
+  { group: '貯蔵してから販売', rows: [
+    { id: 'iinuma', name: '飯沼栗', from: 5, to: 7 },
+  ] },
+];
+
+const varieties = [
+  { id: 'tanzawa', name: '丹沢', reading: 'たんざわ', meta: ['早生', '9月上旬〜中旬'],
+    text: '果肉は鮮やかな黄色。甘露煮やペーストに向きます。1959年（昭和34年）に「くり農林1号」として登録された品種で、国内では3番目に栽培面積の多い品種です。', source: '茨城をたべよう' },
+  { id: 'porotan', name: 'ぽろたん', meta: ['早生', '9月上旬〜中旬'],
+    text: '加熱する前に鬼皮へ切り目を入れておくと、渋皮まで簡単にむけます。農研機構がつくば市で育成した丹沢の子で、渋皮が「ポロン」とむけることから名付けられました。平均の重さは30g程度、果肉は黄色でやや粉質。2007年に品種登録されています。', source: '茨城をたべよう、農研機構' },
+  { id: 'hitomaru', name: '人丸', reading: 'ひとまる', meta: ['早生', '9月中旬〜下旬'],
+    text: '小粒で、皮につやがあります。焼き栗に向く品種です。', source: '茨城をたべよう' },
+  { id: 'rihei', name: '利平', reading: 'りへい', meta: ['中生', '9月中旬〜下旬'],
+    text: '日本栗と中国栗をかけ合わせた品種で、「栗の王様」とも呼ばれます。甘みが強く、ゆで栗や蒸し栗に。鬼皮は硬いものの、渋皮はむきやすい品種です。育てるのが難しく、出回る量は多くありません。', source: '茨城をたべよう' },
+  { id: 'tsukuba', name: '筑波', reading: 'つくば', meta: ['中生', '9月下旬〜10月上旬'],
+    text: '中生を代表する品種で、国内の栗の生産の約3割を占めます。粉質で甘みと香りが強く、渋皮煮に向きます。1959年（昭和34年）に品種登録されました。', source: '茨城をたべよう' },
+  { id: 'ginyose', name: '銀寄', reading: 'ぎんよせ', meta: ['中生', '9月下旬〜10月上旬'],
+    text: '大粒で甘みが強く、風味の豊かな品種です。渋皮煮に向きます。', source: '茨城をたべよう' },
+  { id: 'ishizuchi', name: '石鎚', reading: 'いしづち', meta: ['晩生', '10月上旬〜中旬'],
+    text: '煮崩れが少なく、貯蔵性の高い品種です。甘露煮や渋皮煮に向きます。', source: '茨城をたべよう' },
+  { id: 'ganne', name: '岸根', reading: 'がんね', meta: ['晩生', '10月中旬〜下旬'],
+    text: '日本栗のなかでも最大級の大粒で、30gを超えるものもあります。風味がよく、加工に向く品種です。', source: '茨城をたべよう' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城の栗図鑑｜品種の暦と旬、飯沼栗、むき方と保存" faq={faq} sources={sources} photos={[]}>
+  <FoodHero
+    guide={guide}
+    lines={['栗は、九月から', '品種でめぐる。']}
+    lead="茨城は、栗の栽培面積も出荷量も全国でいちばん。9月の初めに丹沢とぽろたんが出て、10月の終わりに大粒の岸根で締めくくる。その間、ほぼ十日ごとに主役の品種が入れ替わります。品種の暦と、冷やして甘くする貯蔵、家での扱い方までをまとめました。"
+    glyph="栗"
+    facts={[
+      { label: '茨城の位置づけ', value: '栽培面積・出荷量とも全国1位（果樹生産出荷統計 令和7年産）' },
+      { label: '出回る時期', value: '9月上旬〜10月下旬。貯蔵栗は11月中旬まで' },
+      { label: '主な産地', value: '笠間市・かすみがうら市・石岡市・茨城町' },
+      { label: '栽培の始まり', value: '明治30年ごろから' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="kuri-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-origin">火山灰の土と、<span>昼と夜の寒暖差。</span></h2>
+      <p class="fg-lead">茨城の栗づくりは明治30年ごろに始まり、明治の末には本格的な栽培へ広がりました。温暖な気候と、水を保ちながら空気も通す火山灰の土が、栗に合っていたといいます（茨城をたべよう）。</p>
+      <p>栽培面積を市町村ごとに比べると、1位が笠間市、2位がかすみがうら市。上位10のうち5つが茨城県の市町村です（茨城をたべよう）。笠間市は、年間を通して穏やかで昼と夜の温度差がある気候と、保水性・通気性に優れた火山灰土壌を挙げ、栽培面積と経営体数で日本一の産地としています（笠間市）。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように載っている栗の主な産地です。"
+        notes={{
+          kasama: '栽培面積・経営体数とも日本一（笠間市）',
+          kasumigaura: '市町村別の栽培面積で全国2位（茨城をたべよう）',
+          'ibaraki-machi': '下飯沼地区の「飯沼栗」は、栗で日本初のGI',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-relay">
+    <div class="fg-section__label"><p>品種の暦</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-relay">十日ごとに、<span>主役が入れ替わる。</span></h2>
+      <p>栗は、実が熟す時期の早い順に早生（わせ）・中生（なかて）・晩生（おくて）と分けられます。茨城をたべようの品種表を、旬（上旬・中旬・下旬）ごとに並べると、9月上旬から10月下旬まで、出荷の主役が切れ目なく入れ替わっていくのが分かります。</p>
+      <figure class="kuri-relay">
+        <div class="kuri-relay__scroll">
+          <table>
+            <caption>茨城の栗の品種別の出荷時期</caption>
+            <thead>
+              <tr>
+                <th scope="col" rowspan="2" class="kuri-relay__corner"><span class="sr-only">品種</span></th>
+                <th scope="colgroup" colspan="3">9月</th>
+                <th scope="colgroup" colspan="3">10月</th>
+                <th scope="colgroup" colspan="2">11月</th>
+              </tr>
+              <tr>
+                {decades.map((d) => <th scope="col" class="kuri-relay__decade"><span aria-hidden="true">{d.replace(/^\d+月/, '').slice(0, 1)}<span class="kuri-relay__jun">旬</span></span><span class="sr-only">{d}</span></th>)}
+              </tr>
+            </thead>
+            {relay.map((block) => (
+              <tbody>
+                <tr class="kuri-relay__group"><th scope="rowgroup" colspan={decades.length + 1}>{block.group}</th></tr>
+                {block.rows.map((row) => (
+                  <tr>
+                    <th scope="row"><a href={row.id === 'iinuma' ? '#kuri-storage' : `#${row.id}`}>{row.name}</a></th>
+                    {decades.map((d, i) => {
+                      const on = i >= row.from && row.to >= i;
+                      return <td class:list={{ 'is-on': on, 'is-start': i === row.from, 'is-end': i === row.to }}><span class="sr-only">{d}：{on ? '出荷' : '—'}</span></td>;
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            ))}
+          </table>
+        </div>
+        <figcaption>出典：茨城をたべよう（茨城県）の品種表。飯沼栗は収穫後に低温で20日ほど貯蔵してからの販売期間。産地・年・天候で前後します。</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-varieties">
+    <div class="fg-section__label"><p>品種</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-varieties">甘露煮か、渋皮煮か、<span>焼き栗か。</span></h2>
+      <p>品種によって、大きさ、甘み、ほくほく感、煮崩れのしにくさが違います。茨城をたべようが挙げる8品種を、出荷の早い順に並べました。笠間市によると、笠間で育てられている品種は十数種類あるといわれます。</p>
+      <VarietyList items={varieties} />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-storage">
+    <div class="fg-section__label"><p>貯蔵</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-storage">寒さに当てて、<span>甘くする。</span></h2>
+      <p>茨城には、収穫した栗をすぐに売らず、低い温度で寝かせてから出す産地があります。冷やして貯蔵するあいだに、栗のでんぷんが糖に変わっていきます。</p>
+      <div class="fg-pair">
+        <div>
+          <h3>飯沼栗<span class="kuri-pair__where">茨城町 下飯沼地区</span></h3>
+          <p>下飯沼栗生産販売組合が出荷する栗で、2017年（平成29年）に、栗として日本で初めて地理的表示（GI）保護制度に登録されました。関東ローム層の火山灰性の土で、ひとつのいがにひとつの実を目指す「一毬一果（いっきゅういっか）」の栽培を行い、丸く大きな実に育てます。独自の洗果機と3回の選別を経て、低温の冷蔵庫で20日ほど貯蔵し、10月下旬から11月中旬に販売されます。</p>
+          <p class="fg-note">出典：茨城をたべよう</p>
+        </div>
+        <div>
+          <h3>笠間の栗「極み」<span class="kuri-pair__where">笠間市</span></h3>
+          <p>0℃で貯蔵して栗に「冬」を感じさせ、でんぷんを糖に変えてから出荷する取り組みです。品種ごとに重さで選別します。冷蔵で熟成させることで粉っぽさが減り、加熱すると、ねっとりとした食感になるといいます。</p>
+          <p class="fg-note">出典：茨城をたべよう</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-choose">
+    <div class="fg-section__label"><p>選ぶ・保存する</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-choose">持ったときに、<span>ずっしり重いもの。</span></h2>
+      <p>店先で選ぶときの目安です（茨城をたべようが、農林水産省の情報をもとに紹介しているもの）。</p>
+      <ul class="fg-list">
+        <li><strong>鬼皮に張りがあり、茶色が濃い</strong>押したときにブカブカしないもの</li>
+        <li><strong>表面に白いブツブツがない</strong>皮がきれいにそろっているもの</li>
+        <li><strong>おしり（座）がきれい</strong>黒っぽいところがなく、ベトベトしていないもの</li>
+        <li><strong>手に持って重い</strong>同じ大きさなら、ずっしりしたものを</li>
+      </ul>
+      <h3>買ったら、すぐ冷蔵庫へ</h3>
+      <p>栗は果物に分類される生鮮食品で、常温に置いておくと傷みます。持ち帰ったらポリ袋に入れ、口をしばらずに折り、冷蔵庫のチルド室（0度付近）で乾かさないように保存して、早めに食べます。長く置くなら、むき栗にして冷凍しておくと日持ちします（笠間市）。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-prepare">
+    <div class="fg-section__label"><p>下ごしらえ</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-prepare">鬼皮は、<span>湯に浸けてからむく。</span></h2>
+      <p>笠間市が紹介している、生の栗のむき方です。</p>
+      <ol class="fg-steps">
+        <li>熱湯に10分つける。</li>
+        <li>おしりの方から、とがった先に向かって鬼皮をむく。</li>
+        <li>渋皮がついた状態で、1〜2分ゆでる。</li>
+        <li>渋皮がやわらかく、むきやすいうちにむく。</li>
+      </ol>
+      <div class="fg-pair">
+        <div>
+          <h3>ゆで栗にする</h3>
+          <p>鍋なら、沸騰してから中火で40〜50分。圧力鍋なら、蒸気が上がってから中火で10〜15分ゆで、圧が自然に抜けるのを待ちます。</p>
+        </div>
+        <div>
+          <h3>むき栗を冷凍する</h3>
+          <p>20分ほどかためにゆで、流水で熱をとってから皮をむきます。袋に入れ、空気を抜いて冷凍します。</p>
+        </div>
+      </div>
+      <p class="fg-note">出典：笠間市「おいしい食べ方」。市のページには、ぽろたんを使った栗ご飯などのレシピも載っています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="kuri-taste">
+    <div class="fg-section__label"><p>味わう</p></div>
+    <div class="fg-section__body">
+      <h2 id="kuri-taste">秋は、<span>笠間の栗を目当てに。</span></h2>
+      <p>笠間市は「笠間の栗」のページで、品種を紹介する「てくてく栗図鑑2026秋」や「もんぶらり旅マップ2026」を公開しています。秋には「かさま新栗まつり」が開かれ、第20回の2026年は10月2日から4日までの3日間でした。</p>
+      <ul class="fg-list">
+        <li><strong><a href="https://www.city.kasama.lg.jp/page/dir014729.html" target="_blank" rel="noopener noreferrer">笠間の栗（笠間市）</a></strong>品種の図鑑、旅マップ、栗の取り組み</li>
+        <li><strong><a href="/news/kasama-shinguri-matsuri-2026/">第20回かさま新栗まつり2026</a></strong>イバトコの記事。まつりの内容と、笠間の栗の楽しみ方</li>
+        <li><strong><a href="/area/kasama/">笠間市のページ</a></strong>焼き物と稲荷と栗の街を歩く</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  .kuri-relay { margin: 0; max-width: 980px; }
+  .kuri-relay__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .kuri-relay table { width: 100%; min-width: 0; border-collapse: collapse; table-layout: fixed; }
+  .kuri-relay caption { text-align: left; font-size: 13px; color: var(--fg-mute); padding-bottom: 10px; }
+  .kuri-relay th, .kuri-relay td { padding: 0; }
+  .kuri-relay__corner { width: 24%; }
+  @media (max-width: 559px) {
+    .kuri-relay thead th { font-size: 12px; padding-left: 3px; }
+    .kuri-relay thead tr + tr th { font-size: 10.5px; letter-spacing: 0; }
+    .kuri-relay tbody th[scope='row'] { font-size: 14px; padding-right: 4px; }
+    .kuri-relay__jun { display: none; }
+  }
+  .kuri-relay thead th { font-family: var(--font-brand-meta); font-weight: 700; font-size: 13px; color: var(--fg-ink); text-align: left; padding: 0 0 6px 6px; border-left: 1px solid var(--fg-line); }
+  .kuri-relay thead tr + tr th { font-weight: 400; font-size: 12px; color: var(--fg-mute); padding-bottom: 8px; border-bottom: 1px solid var(--fg-ink); border-left-color: transparent; }
+  .kuri-relay thead tr + tr th:nth-child(3n + 1) { border-left-color: var(--fg-line); }
+  .kuri-relay thead .kuri-relay__corner { border-left: 0; border-bottom: 1px solid var(--fg-ink); }
+  .kuri-relay__group th { font-family: var(--font-brand-meta); font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--fg-soil); text-align: left; padding: 18px 0 6px; }
+  .kuri-relay tbody th[scope='row'] { text-align: left; font-family: var(--font-brand-display); font-weight: 600; font-size: 17px; padding: 10px 10px 10px 0; border-bottom: 1px solid var(--fg-line); }
+  .kuri-relay tbody th a { color: var(--fg-navy); text-decoration: none; }
+  .kuri-relay tbody th a:hover { text-decoration: underline; }
+  .kuri-relay td { position: relative; height: 46px; border-bottom: 1px solid var(--fg-line); }
+  .kuri-relay td:nth-of-type(3n + 1) { border-left: 1px solid var(--fg-line); }
+  .kuri-relay td.is-on::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 14px; transform: translateY(-50%); background: var(--fg-accent); }
+  .kuri-relay td.is-start::after { left: 3px; }
+  .kuri-relay td.is-end::after { right: 3px; }
+  .kuri-relay figcaption { margin-top: 12px; font-size: 12.5px; line-height: 1.8; color: var(--fg-mute); }
+  .kuri-pair__where { display: block; margin-top: 2px; font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 400; letter-spacing: .08em; color: var(--fg-soil); }
+</style>

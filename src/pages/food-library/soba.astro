@@ -1,0 +1,156 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('soba')!;
+const title = '常陸秋そば図鑑｜金砂郷の在来種から生まれた茨城のそば、種を守る畑の一年とつけけんちん | イバトコ';
+const description = '1985年から茨城県の奨励品種となった常陸秋そば。常陸太田市金砂郷地区の在来種から選び抜かれた経緯、交雑を防ぐための種の管理、煙草と小麦のあいだに収まる約75日の栽培、郷土の食べ方「つけけんちん」まで、茨城県と常陸太田市の資料で整理しました。';
+
+const storyUrl = 'https://www.city.hitachiota.ibaraki.jp/hitachiakisoba/story/story1.html';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「常陸秋そば」', url: 'https://www.ibaraki-shokusai.net/brand/soba/', accessedAt: '2026-10-25', note: '2023年3月28日更新' },
+  { label: '常陸太田市「常陸秋そば発祥の地 常陸太田市」Story', url: storyUrl, accessedAt: '2026-10-25', note: '第1章〜第8章' },
+];
+
+const faq = [
+  { q: '常陸秋そばとはどんなそばですか？', a: '茨城県が在来種から選び抜いて育てた、そばの品種です。1985年（昭和60年）に県の奨励品種になりました。実が大きく粒がそろい、豊かな香りと甘みがあります（茨城をたべよう）。' },
+  { q: '常陸秋そばはどこで生まれたのですか？', a: '発祥の地は常陸太田市の金砂郷（かなさごう）地区です。1978年（昭和53年）に茨城県農業試験場（いまの茨城県農業総合センター）が、当時いちばんおいしいと言われた金砂郷の在来種を親に、品種の育成を始めました（茨城をたべよう、常陸太田市）。' },
+  { q: '常陸秋そばの収穫はいつですか？', a: '常陸太田市によると、8月上旬ごろに種をまき、約75日後の10月中旬ごろに収穫します。玄そば・そば粉の出荷量がもっとも多いのは11月です（茨城をたべよう）。' },
+  { q: 'なぜ県内でほかの品種のそばを作らないようお願いしているのですか？', a: 'そばはほかの株の花粉で実をつける植物で、ほかの品種と交雑しやすいためです。茨城県は、常陸秋そばにほかの品種が混ざらないよう種子を厳しく管理し、県内ではほかの品種を栽培しないようお願いしています（茨城をたべよう）。' },
+  { q: '「つけけんちん」とはどんな食べ方ですか？', a: '常陸太田市の郷土の食べ方で、具だくさんのけんちん汁に、太めのそばをつけて食べます。ねぎ、大根、ごぼう、こんにゃく、にんじん、天然のしめじ、芋がらなどを油で炒め、味噌を加え、かつおと昆布のだしで煮て、しょうゆとみりんで味をととのえます（常陸太田市）。' },
+];
+
+const years = [
+  { year: '江戸時代', text: '茨城は、江戸時代からのそばどころ。県内の各地に、土地ごとの在来種があった。' },
+  { year: '1978年', era: '昭和53年', text: '茨城県農業試験場（いまの茨城県農業総合センター）が、在来種から品種を選び育てる取り組みを始める。親に選んだのは、当時いちばんおいしいと言われた金砂郷の在来種。' },
+  { year: '', text: '何代にもわたって選抜を重ね、実の粒を大きく、収穫量を多く、粒の形をそろえて製粉しやすくした。' },
+  { year: '1985年', era: '昭和60年', text: '茨城の気候に合ったブランド品種「常陸秋そば」として、県の奨励品種に採用される。' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="常陸秋そば図鑑｜金砂郷の在来種から生まれた茨城のそば" faq={faq} sources={sources} photos={[FOOD_PHOTOS.sobaFlowers]}>
+  <FoodHero
+    guide={guide}
+    lines={['常陸秋そばは、', '種から守られる。']}
+    lead="そばは、ほかの品種の花粉ですぐに交じり合ってしまう作物です。だから茨城は、金砂郷の在来種から選び抜いた常陸秋そばの種を、厳しく管理してきました。種を守る畑、煙草と小麦のあいだの三か月に収まる栽培、具だくさんの汁につけて食べる郷土の味まで、茨城のそばをたどります。"
+    position="50% 60%"
+    caption="9月の小美玉市のそば畑。写っているそばの品種は、写真の記録からは分かりません。"
+    facts={[
+      { label: '茨城の位置づけ', value: '1985年（昭和60年）から茨城県の奨励品種' },
+      { label: '発祥', value: '常陸太田市 金砂郷地区' },
+      { label: '主な産地', value: '常陸太田市・筑西市' },
+      { label: '出回る時期', value: '玄そば・そば粉はほぼ一年じゅう。多いのは11月' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="soba-birth">
+    <div class="fg-section__label"><p>生まれ</p></div>
+    <div class="fg-section__body" id="birth">
+      <h2 id="soba-birth">いちばんおいしい在来種を、<span>親に選んだ。</span></h2>
+      <ol class="soba-years">
+        {years.map((y) => (
+          <li>
+            <p class="soba-years__when">{y.year && <span>{y.year}</span>}{y.era && <small>{y.era}</small>}</p>
+            <p>{y.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p>こうして生まれた常陸秋そばは、実が大きく粒ぞろいがよく、豊かな香りと甘みを持つ、玄そばの優良品種です（茨城をたべよう）。常陸太田市は、金砂郷の在来種が選ばれた理由として、収量が多く粒がそろっていたことを挙げています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="soba-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="soba-origin">霧の立ちこめる、<span>山あいの傾斜地。</span></h2>
+      <p class="fg-lead">発祥の地・金砂郷地区は、久慈川の中流から下流にかけての東側にあります。そば畑は山あいの傾斜地にあり、昼と夜の気温差が大きく、霧の立ちこめる地形が、味のよいそばを育てるといわれています（常陸太田市）。</p>
+      <p>茨城をたべようは、主な生産地に常陸太田市と筑西市を挙げています。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように常陸秋そばの主な生産地として載っている市町村です。"
+        notes={{
+          hitachiota: '発祥の地・金砂郷地区。赤土町の採種圃で原種の種を育てる（常陸太田市）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="soba-seed">
+    <div class="fg-section__label"><p>種を守る</p></div>
+    <div class="fg-section__body">
+      <h2 id="soba-seed">ほかの品種と<span>交じらないように。</span></h2>
+      <p>そばは、ほかの株の花粉を受けて実をつける植物です。花には、めしべの長い花（長柱花）と短い花（短柱花）があり、昆虫が花から花へ花粉を運びます（常陸太田市）。そのため、ほかの品種が近くにあると、すぐに交雑してしまいます。</p>
+      <p class="fg-pull">県内では、<br />ほかの品種のそばを作らない。</p>
+      <p>茨城県は、常陸秋そばにほかの品種が混ざらないよう種子を厳しく管理し、県内ではほかの品種を栽培しないようお願いしています（茨城をたべよう）。常陸太田市の赤土町では、「採種圃」と呼ばれる畑で原種の種をまき、そこで育った種が、JAなどを通じて一般の農家へ届けられます。周りから隔てられ、多様な樹林帯に囲まれた赤土町は、花粉を運ぶ昆虫が多い土地でもあります（常陸太田市）。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="soba-year">
+    <div class="fg-section__label"><p>畑の一年</p></div>
+    <div class="fg-section__body">
+      <h2 id="soba-year">煙草と小麦のあいだの、<span>三か月。</span></h2>
+      <p>赤土町（旧赤土村）は、水戸藩の煙草「水府煙草」の生産が始まった土地です。常陸太田市が紹介する畑の一年では、4月中旬に植えた煙草を7月下旬に収穫したあと、そばの種をまき、10月中旬にそばを収穫。11月からは小麦を育て、翌年の6月に収穫します。煙草の収穫から小麦の種まきまでの約3か月で、種まきから収穫まで終えられることが、品種を選ぶうえで大切な基準だったといいます。</p>
+      <SeasonTable
+        caption="常陸太田市赤土町の畑の一年（常陸太田市の紹介による）"
+        inLabel="畑で育てている時期"
+        rows={[
+          { label: '煙草', note: '4月中旬に植え、7月下旬に収穫', months: [4, 5, 6, 7] },
+          { label: 'そば', note: '8月上旬にまき、10月中旬に収穫', months: [8, 9, 10] },
+          { label: '小麦', note: '11月から、翌年6月に収穫', months: [11, 12, 1, 2, 3, 4, 5, 6] },
+        ]}
+        note="出典：常陸太田市「常陸秋そば発祥の地 常陸太田市」Story 第2章。年や畑によって前後します。"
+      />
+      <h3>種まきから、約75日</h3>
+      <ol class="fg-steps">
+        <li>8月上旬ごろに種をまく。3日ほどで芽が出て、10日ほどで15cmほどに伸びたら、土を寄せて株元を固める（中耕・培土）。</li>
+        <li>9月中ごろ、畑一面に白い花が咲く。</li>
+        <li>10月中旬ごろ、実の7〜8割が黒くなったら収穫する。うぐいす色に茶が混じるころに刈り取ると、打ったときに緑がかった、香りのあるそばになる。種にするそばは、8〜9割が黒くなるまで待つ。</li>
+      </ol>
+      <p>赤土町では、冬に国有林の落ち葉を集め、一反あたり1〜1.5トンを牛小屋に敷いて発酵させ、煙草の肥料にしてきました。そばには肥料を一切使いません（常陸太田市）。</p>
+      <SeasonTable
+        caption="常陸秋そば（玄そば・そば粉）の出荷時期"
+        rows={[{ label: '常陸秋そば', note: '県全体', months: guide.months, peak: guide.peakMonths }]}
+        note="出典：茨城をたべよう（茨城県）の出荷カレンダー。そば粉・丸抜きは1kg入りの袋で出荷されます。"
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="soba-eat">
+    <div class="fg-section__label"><p>食べ方</p></div>
+    <div class="fg-section__body">
+      <h2 id="soba-eat">具だくさんの汁に、<span>太めのそばをつける。</span></h2>
+      <p>常陸太田市によると、この土地では冬の主食がそば、夏はうどんだったといいます。郷土の食べ方「つけけんちん」は、具だくさんのけんちん汁に、太めに打ったそばをつけて食べるものです（常陸太田市）。</p>
+      <ol class="fg-steps">
+        <li>ねぎ、大根、ごぼう、こんにゃく、にんじん、天然のしめじ、芋がらを油で炒める。</li>
+        <li>味噌を加えてさらに炒め、かつおと昆布のだしで煮る。</li>
+        <li>しょうゆとみりんで味をととのえる。</li>
+      </ol>
+      <p>そば粉には、石臼で挽いたあとに出る薄茶色の粉「めごな」を振るといいます（常陸太田市）。</p>
+      <ul class="fg-list">
+        <li><strong><a href={storyUrl} target="_blank" rel="noopener noreferrer">常陸秋そば発祥の地 常陸太田市（常陸太田市）</a></strong>種、畑、花、収穫、食べ方を8章でたどる市の特集</li>
+        <li><strong><a href="/events/hitachi-fudoki-no-oka-guide/">常陸風土記の丘（石岡市）</a></strong>イバトコの案内。園内の食事処「曲屋」で、常陸秋そばの十割そば</li>
+        <li><strong><a href="/area/hitachiota/">常陸太田市のページ</a></strong>常陸秋そば発祥の地</li>
+        <li><strong><a href="/area/chikusei/">筑西市のページ</a></strong>常陸秋そばの主な産地のひとつ</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  #birth { scroll-margin-top: calc(var(--site-header-height, 80px) + 16px); }
+  .soba-years { list-style: none; padding: 0; border-top: 1px solid var(--fg-ink); max-width: 860px; }
+  .soba-years li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .soba-years__when { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .soba-years__when:empty { display: none; }
+  .soba-years__when span { font-family: var(--font-brand-serif-latin); font-size: 19px; color: var(--fg-navy); font-variant-numeric: tabular-nums; }
+  .soba-years__when small { font-size: 12px; color: var(--fg-mute); }
+  @media (min-width: 760px) {
+    .soba-years li { grid-template-columns: 9em minmax(0, 1fr); gap: 20px; align-items: baseline; }
+    .soba-years__when { flex-direction: column; gap: 0; }
+    .soba-years__when:empty { display: block; }
+  }
+</style>

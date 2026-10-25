@@ -1,0 +1,58 @@
+---
+/**
+ * 図鑑の写真（Wikimedia Commons）。画面の幅に合ったサムネイルを srcset で渡し、
+ * 撮影地・時期・作者・ライセンスを写真のすぐ下に書く（CC の表示義務と、撮影地の誤認を防ぐため）。
+ */
+import { licenseUrl, type FoodPhoto } from '../../data/food-library';
+import { wikimediaImage } from '../../lib/wikimedia-image';
+
+interface Props {
+  photo: FoodPhoto;
+  /** 表示の大きさに合わせたブラウザへのヒント */
+  sizes?: string;
+  /** ファーストビューの写真だけ true（優先して読み込む） */
+  priority?: boolean;
+  /** 写真の上に重ねる位置（object-position） */
+  position?: string;
+  /** 縦横比（CSS aspect-ratio）。省略時は原本の比率 */
+  ratio?: string;
+  /** 撮影地・時期のほかに添える説明 */
+  caption?: string;
+  class?: string;
+}
+
+const { photo, sizes = '100vw', priority = false, position = '50% 50%', ratio, caption, class: className } = Astro.props;
+const widths = [500, 960, 1280, 1920].filter((w) => w <= (photo.maxWidth ?? 1920));
+const image = wikimediaImage(photo.src, widths);
+const aspect = ratio ?? `${photo.width} / ${photo.height}`;
+---
+
+<figure class:list={['fg-photo', className]}>
+  <div class="fg-photo__frame" style={`aspect-ratio:${aspect}`}>
+    <img
+      src={image.src}
+      srcset={image.srcset}
+      sizes={sizes}
+      width={photo.width}
+      height={photo.height}
+      alt={photo.alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      style={`object-position:${position}`}
+    />
+  </div>
+  <figcaption>
+    {caption && <span class="fg-photo__caption">{caption}</span>}
+    <span class="fg-photo__credit">{photo.place}・{photo.taken}　写真：<a href={photo.page} target="_blank" rel="noopener noreferrer">{photo.author} / Wikimedia Commons</a>（<a href={licenseUrl(photo.license)} target="_blank" rel="noopener noreferrer license">{photo.license}</a>）</span>
+  </figcaption>
+</figure>
+
+<style>
+  .fg-photo { margin: 0; min-width: 0; }
+  .fg-photo__frame { position: relative; overflow: hidden; background: var(--fg-paper-deep, #ece4d6); }
+  .fg-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  figcaption { margin-top: 10px; font-size: 12px; line-height: 1.8; color: var(--fg-mute, #59656a); }
+  .fg-photo__caption { display: block; font-size: 13.5px; color: var(--fg-ink, #1f2b31); margin-bottom: 2px; }
+  .fg-photo__credit a { color: inherit; }
+</style>

@@ -1,0 +1,159 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('ichigo')!;
+const title = '茨城のいちご図鑑｜県オリジナル品種「いばらキッス」の生まれ方と特長、鉾田の畑のいちご | イバトコ';
+const description = '出荷量全国7位（令和5年）の茨城のいちご。1万を超える系統を食べて選んだ県オリジナル品種「いばらキッス」の育成の経緯と特長、12月上旬から5月までの出荷、鉾田市の「畑のいちご」、主な産地10市町村を、茨城県と鉾田市の資料で整理しました。';
+
+const archiveUrl = 'https://web.archive.org/web/20260611103233/https://www.pref.ibaraki.jp/nourinsuisan/nosose/cont/ibarakiss.html';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「いちご」', url: 'https://www.ibaraki-shokusai.net/brand/strawberry/', accessedAt: '2026-10-25', note: '2025年4月22日更新' },
+  { label: '茨城県農業総合センター 生物工学研究所「イチゴ『いばらキッス』」', url: archiveUrl, accessedAt: '2026-10-25', note: '県ホームページの障害のため、Internet Archive の2026年6月11日の保存版で確認' },
+  { label: '鉾田市「農産物のご紹介」', url: 'https://www.city.hokota.lg.jp/page/page004753.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城のいちごの生産量は全国で何位ですか？', a: '茨城県の「茨城をたべよう」によると、茨城県は全国7位のいちごの産地です（令和5年の出荷量）。' },
+  { q: '「いばらキッス」とはどんないちごですか？', a: '茨城県農業総合センター生物工学研究所が育成した、茨城県のオリジナル品種です。2012年（平成24年）12月に品種登録されました。糖度が高く、酸味とのバランスがよい濃厚な味で、適度な硬さがありジューシー。やや長めの形で、皮は濃い赤色でつやがあります。' },
+  { q: 'いばらキッスの親の品種は何ですか？', a: '母が「とちおとめ」、父が「ひたち1号」です。ひたち1号は、「レッドパール」と「章姫」をかけ合わせて生まれた系統です（茨城県農業総合センター）。' },
+  { q: '茨城のいちごの旬はいつですか？', a: '12月上旬から5月まで出荷されます（茨城をたべよう）。摘み取り（いちご狩り）ができる期間は、農園ごとに違います。' },
+  { q: '鉾田市の「畑のいちご」とは何ですか？', a: 'いちごは一般に水田の跡地で作られることが多いなか、鉾田市では、いちごのためだけに土をつくった畑で、ミツバチによる自然交配で育てています。水はけがよく、水っぽさのない濃い味になると市は紹介しています（鉾田市）。' },
+];
+
+/** いばらキッスができるまで（茨城県農業総合センター） */
+const history = [
+  { year: '1997年', era: '平成9年', text: '「レッドパール」と「章姫」をかけ合わせ、有望な親の系統「ひたち1号」が生まれる。' },
+  { year: '2002年', era: '平成14年', text: '母「とちおとめ」と父「ひたち1号」をかけ合わせる。' },
+  { year: '2005年', era: '平成17年', text: '有望な系統を「生研9号」として選ぶ。' },
+  { year: '2006〜2010年', era: '平成18〜22年', text: '「ひたち4号」の名で、産地で試しに栽培する。' },
+  { year: '2010年2月', era: '平成22年', text: '品種登録を出願する。' },
+  { year: '2012年12月', era: '平成24年', text: '「いばらキッス」として品種登録される（登録番号22111）。' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城のいちご図鑑｜いばらキッスの生まれ方と特長、鉾田の畑のいちご" faq={faq} sources={sources} photos={[FOOD_PHOTOS.ichigoIbarakiss]}>
+  <FoodHero
+    guide={guide}
+    lines={['いばらキッスは、', '食べて選ばれた。']}
+    lead="茨城のいちごの真ん中にあるのは、県が育てたオリジナル品種「いばらキッス」。同じ親から生まれた兄弟だけで297系統、ほかの組み合わせを含めると1万を超える系統を、ひとつ残らず食べて評価して選び出しました。冬から春の茨城のいちごを、品種の生い立ちと産地から読み解きます。"
+    position="50% 50%"
+    facts={[
+      { label: '茨城の位置づけ', value: '出荷量 全国7位（令和5年）' },
+      { label: '出回る時期', value: '12月上旬〜5月' },
+      { label: '主な産地', value: '鉾田市・行方市・筑西市など県内全域' },
+      { label: '県オリジナル品種', value: 'いばらキッス（2012年 品種登録）' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="ichigo-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="ichigo-origin">鉾田・行方・筑西から、<span>県内の全域へ。</span></h2>
+      <p class="fg-lead">茨城のいちごは、鉾田市・行方市・筑西市などを中心に、県内の全域で作られています。市場への出荷だけでなく、直売や摘み取り（いちご狩り）にも積極的に取り組んでいる産地です（茨城をたべよう）。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように主な生産地として載っている市町村です。"
+        notes={{
+          hokota: 'いちごのためだけに土をつくった「畑のいちご」（鉾田市）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="ichigo-season">
+    <div class="fg-section__label"><p>旬</p></div>
+    <div class="fg-section__body">
+      <h2 id="ichigo-season">十二月の初めから、<span>五月まで。</span></h2>
+      <p>茨城のいちごは、12月上旬から5月まで出荷されます（茨城をたべよう）。鉾田市では12月から4月ごろが出回りの時期です（鉾田市）。いちご狩りができる期間や予約の方法は、農園ごとに違います。</p>
+      <SeasonTable
+        caption="茨城のいちごの出荷時期"
+        rows={[
+          { label: 'いちご', note: '県全体（12月上旬〜5月）', months: guide.months },
+          { label: 'いちご', note: '鉾田市（12月〜4月ごろ）', months: [12, 1, 2, 3, 4] },
+        ]}
+        note="出典：茨城をたべよう（茨城県）、鉾田市「農産物のご紹介」。産地・品種・年によって前後します。"
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="ichigo-history">
+    <div class="fg-section__label"><p>生まれ方</p></div>
+    <div class="fg-section__body">
+      <h2 id="ichigo-history">最初の交配から登録まで、<span>十五年。</span></h2>
+      <p>茨城県農業総合センター生物工学研究所は、実が大きく味がよいこと、たくさん採れてシーズンを通して安定して収穫できること、実が硬めで市場へ運びやすいことを目指して、新しい品種づくりを進めました。</p>
+      <ol class="ichigo-years">
+        {history.map((h) => (
+          <li>
+            <p class="ichigo-years__when"><span>{h.year}</span><small>{h.era}</small></p>
+            <p class="ichigo-years__what">{h.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="fg-pull">兄弟は297系統。<br />ほかの組み合わせも含めて、<br />一万を超える系統を食べて評価した。</p>
+      <p class="fg-note">出典：茨城県農業総合センター 生物工学研究所「イチゴ『いばらキッス』」（Internet Archive の2026年6月11日の保存版で確認）</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="ichigo-traits">
+    <div class="fg-section__label"><p>特長</p></div>
+    <div class="fg-section__body" id="ibarakiss">
+      <h2 id="ichigo-traits">甘くて濃く、<span>冬の寒さにも負けない。</span></h2>
+      <dl class="ichigo-traits">
+        <div>
+          <dt>味</dt>
+          <dd>いちばんの特長は、糖度が高く、酸味とのバランスもよい濃厚な味。適度な硬さがあり、ジューシーです。</dd>
+        </div>
+        <div>
+          <dt>形と色</dt>
+          <dd>形はやや長め。皮は濃い赤色でつやがあり、果肉も赤色です。</dd>
+        </div>
+        <div>
+          <dt>大きさ</dt>
+          <dd>収量が多く、2L（15g以上）の大きな実が多く採れます。形もよくそろいます。</dd>
+        </div>
+        <div>
+          <dt>育ち方</dt>
+          <dd>株がよく育ち、厳しい寒さの時期にも勢いが落ちにくいため、「中休み」が起きにくく、シーズンを通して安定して収穫できます。</dd>
+        </div>
+      </dl>
+      <p class="fg-note">出典：茨城県農業総合センター 生物工学研究所。萎黄病・うどんこ病は少ない傾向で、炭そ病はやや多いため、苗を育てる時期からの防除が必要とされています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="ichigo-field">
+    <div class="fg-section__label"><p>鉾田の畑</p></div>
+    <div class="fg-section__body">
+      <h2 id="ichigo-field">田んぼではなく、<span>いちごのための畑で。</span></h2>
+      <p>いちごは一般に、水田の跡地で作られることが多い作物です。鉾田市では、いちごのためだけに土をつくった畑で育て、ミツバチに花粉を運ばせる自然交配で実をつけさせています。市は、水はけのよい畑で育つため水っぽさがなく、味の濃いいちごになると紹介しています（鉾田市）。</p>
+      <ul class="fg-list">
+        <li><strong><a href="/events/fukasaku-noen-guide/">深作農園（鉾田市）の場所と時期</a></strong>イバトコの案内。いちご狩りはゴールデンウィークまで</li>
+        <li><strong><a href="/area/hokota/">鉾田市のページ</a></strong>いちご、メロン、さつまいもの産地</li>
+        <li><strong><a href="/area/namegata/">行方市のページ</a></strong>霞ヶ浦と北浦にはさまれた産地</li>
+        <li><strong><a href="/area/chikusei/">筑西市のページ</a></strong>県西のいちごの産地</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  .ichigo-years { list-style: none; padding: 0; border-top: 1px solid var(--fg-ink); max-width: 860px; }
+  .ichigo-years li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .ichigo-years__when { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .ichigo-years__when span { font-family: var(--font-brand-serif-latin); font-size: 19px; color: var(--fg-navy); font-variant-numeric: tabular-nums; }
+  .ichigo-years__when small { font-size: 12px; color: var(--fg-mute); }
+  .ichigo-traits { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--fg-ink); max-width: 860px; }
+  .ichigo-traits > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--fg-line); }
+  .ichigo-traits dt { font-family: var(--font-brand-display); font-weight: 600; font-size: 19px; color: var(--fg-navy); }
+  .ichigo-traits dd { margin: 0; }
+  #ibarakiss { scroll-margin-top: calc(var(--site-header-height, 80px) + 16px); }
+  @media (min-width: 760px) {
+    .ichigo-years li { grid-template-columns: 11em minmax(0, 1fr); gap: 20px; align-items: baseline; }
+    .ichigo-years__when { flex-direction: column; gap: 0; }
+    .ichigo-traits > div { grid-template-columns: 7em minmax(0, 1fr); gap: 20px; align-items: baseline; }
+  }
+</style>

@@ -1,0 +1,166 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('satsumaimo')!;
+const title = '茨城のさつまいも図鑑｜行方・鉾田の品種、キュアリングと貯蔵、甘くする焼き方と保存 | イバトコ';
+const description = '産出額全国1位（令和4年）、生産量全国2位（令和5年産）の茨城のさつまいも。行方台地の畑、32℃で4日間のキュアリングと13℃の貯蔵、べにはるか・シルクスイート・玉豊・泉13号などの品種、GI「行方かんしょ」、甘く焼くコツと保存法を県・市の資料で整理しました。';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「さつまいも」', url: 'https://www.ibaraki-shokusai.net/brand/sweet-potato/', accessedAt: '2026-10-25' },
+  { label: '鉾田市「農産物のご紹介」', url: 'https://www.city.hokota.lg.jp/page/page004753.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城のさつまいもは日本一ですか？', a: '茨城県の「茨城をたべよう」によると、さつまいもの産出額は茨城県が全国1位です（農林水産省 令和4年）。生産量は鹿児島県に次ぐ全国2位です（作物統計 令和5年産）。' },
+  { q: '茨城でいちばん多く作られている品種は何ですか？', a: 'べにはるかです。茨城をたべようによると、県内の作付面積は2位のベニアズマの倍以上あります。ほかにシルクスイート、紅まさり、安納芋、玉豊、ふくむらさき、茨城生まれのヒタチレッドなども作られています。' },
+  { q: 'さつまいもは掘りたてより、置いたほうが甘いのですか？', a: '茨城をたべようによると、収穫後2週間から1か月ほど置くと追熟し、甘みが増します。産地では温度13℃・湿度90％以上の貯蔵庫で保管し、貯蔵のあいだにでんぷんが糖に変わることで、甘みとしっとり感が増すと紹介しています。' },
+  { q: 'さつまいもは冷蔵庫で保存していいですか？', a: 'さつまいもは低温に弱いため、冷蔵庫には入れません。13℃前後が適温で、新聞紙で包んで常温で保存します。ポリ袋に入れたままにせず、切ったものはラップをして冷蔵庫の野菜室に入れます（茨城をたべよう）。' },
+  { q: '「行方かんしょ」とは何ですか？', a: '行方市のさつまいもで、さつまいもとして東日本で初めて地理的表示（GI）に登録されました。茨城県内のGIでは、江戸崎かぼちゃ、飯沼栗、水戸の柔甘ねぎ、奥久慈しゃもに続く5例目です（茨城をたべよう）。' },
+];
+
+const varieties = [
+  { id: 'beniharuka', name: 'べにはるか', meta: ['県内でいちばん多い品種'],
+    text: 'ねっとりとした食感で、加熱すると甘みが増す品種です。茨城県内の作付面積は、2位のベニアズマの倍以上あります。', source: '茨城をたべよう' },
+  { id: 'beniazuma', name: 'ベニアズマ', meta: ['ホクホク'],
+    text: '皮は鮮やかな紅色、中は黄色く粉質です。繊維が少なく、ホクホクとした食感があります。', source: '茨城をたべよう' },
+  { id: 'silksweet', name: 'シルクスイート', meta: ['なめらか'],
+    text: '紅まさりを親に持つ品種で、名前のとおりなめらかな食感です。収穫した直後はやや粉質で、貯蔵すると粘りのある質に変わります。', source: '茨城をたべよう' },
+  { id: 'benimasari', name: '紅まさり', reading: 'べにまさり', meta: ['行方かんしょの品種リレー'],
+    text: 'シルクスイートの親にあたる品種です。行方かんしょの品種リレーでは、べにはるかに続いて出荷されます。', source: '茨城をたべよう' },
+  { id: 'tamayutaka', name: '玉豊', reading: 'たまゆたか', meta: ['1960年（昭和35年）', '干し芋の品種'],
+    text: 'もとはでんぷんをとるための品種でしたが、干し芋にしたところ高く評価され、茨城がほしいもで全国シェアの9割以上を占めるきっかけになりました。中身は灰白色。今では作られる量が少なくなっています。', source: '茨城をたべよう' },
+  { id: 'izumi', name: '泉13号', reading: 'いずみ13ごう', meta: ['1938年（昭和13年）', '幻のいずみ'],
+    text: '茨城県農業試験場の技師・泉正六氏が開発した品種です。もとは生で売るための品種でしたが、ひたちなか市や東海村で干し芋向けに作られるようになりました。収量が少なく、「幻のいずみ」と呼ばれる希少な品種です。', source: '茨城をたべよう' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城のさつまいも図鑑｜品種、キュアリングと貯蔵、甘くする焼き方と保存" faq={faq} sources={sources} photos={[FOOD_PHOTOS.satsumaimoField]}>
+  <FoodHero
+    guide={guide}
+    lines={['さつまいもは、', '寝かせて甘くなる。']}
+    lead="秋に掘ったさつまいもは、すぐには出荷されません。傷を癒やし、温度と湿度を一定に保った蔵でじっくり寝かせるうちに、でんぷんが糖に変わっていきます。産出額全国1位の茨城が、一年じゅう甘いいもを届けられる理由を、畑と蔵と台所から見ていきます。"
+    position="50% 55%"
+    facts={[
+      { label: '茨城の位置づけ', value: '産出額 全国1位（令和4年）、生産量 全国2位（令和5年産）' },
+      { label: '出回る時期', value: '一年じゅう（品種のリレーと貯蔵）' },
+      { label: '主な産地', value: '行方市・鉾田市など、東海村から鹿嶋市にかけての沿岸部' },
+      { label: '県内でいちばん多い品種', value: 'べにはるか' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="imo-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-origin">霞ヶ浦と北浦に<span>はさまれた台地。</span></h2>
+      <p class="fg-lead">茨城でさつまいもの作付けが多いのは、東海村から鹿嶋市にかけての沿岸部です。赤土でなだらかに傾斜した、水はけのよい畑が多いことが、さつまいもづくりに向いています（茨城をたべよう）。</p>
+      <p>県内最大の産地は、行方市のJAなめがたしおさい。霞ヶ浦と北浦にはさまれた行方台地には、海砂と赤土がほどよく混ざった、なだらかな傾斜の畑が広がります。隣の鉾田市も全国有数の産地で、紅あずま・紅はるか・シルクスイートを主に作っています（鉾田市）。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、県・市の資料に産地として名前の出てくる市町村です。"
+        notes={{
+          namegata: '県内最大の産地（JAなめがたしおさい）。GI「行方かんしょ」',
+          hokota: '紅あずま・紅はるか・シルクスイートが中心（鉾田市）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="imo-year">
+    <div class="fg-section__label"><p>畑から蔵へ</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-year">秋に掘り、冬を越して、<span>春まで届ける。</span></h2>
+      <p>鉾田市では、さつまいもを10月から11月ごろに収穫し、温度と湿度を管理した貯蔵庫で保管しながら、春先まで出荷します（鉾田市）。県全体では、品種のリレーと貯蔵を組み合わせて、一年を通して出荷されています（茨城をたべよう）。</p>
+      <SeasonTable
+        caption="茨城のさつまいもの収穫と出荷"
+        inLabel="収穫・出荷の時期"
+        rows={[
+          { label: '収穫', note: '鉾田市', months: [10, 11] },
+          { label: '出荷', note: '県全体', months: guide.months },
+        ]}
+        note="出典：鉾田市「農産物のご紹介」、茨城をたべよう（茨城県）。産地・品種・年によって前後します。"
+      />
+      <ol class="fg-steps imo-steps">
+        <li><div><strong>キュアリング</strong>掘ったいもを、温度32℃・湿度90％以上で4日間おきます。表皮の下にコルク層を増やして、傷みにくくするための処理です。</div></li>
+        <li><div><strong>貯蔵</strong>そのあとは、温度13℃・湿度90％以上の貯蔵庫へ。温度と湿度を一定に保つキュアリング貯蔵庫は、2005年（平成17年）に導入されています。</div></li>
+        <li><div><strong>甘くなる</strong>貯蔵のあいだに、でんぷんが糖に変わり、甘みとしっとり感が増していきます。</div></li>
+      </ol>
+      <p class="fg-note">出典：茨城をたべよう</p>
+      <p class="fg-pull">掘りたてより、<br />寝かせたいもが甘い。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="imo-varieties">
+    <div class="fg-section__label"><p>品種</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-varieties">ねっとりか、ホクホクか。<span>干し芋にするか。</span></h2>
+      <p>茨城では、べにはるか、ベニアズマ、シルクスイート、紅まさりのほか、安納芋、ふくむらさき、茨城生まれのヒタチレッドなども作られています。干し芋を育てた古い品種も含めて、茨城をたべようが紹介する6品種を並べました。</p>
+      <VarietyList items={varieties} />
+      <p class="fg-note">玉豊・泉13号を使った干し芋は、<a href="/hoshiimo/">干し芋図鑑</a>で品種ごとに紹介しています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="imo-brand">
+    <div class="fg-section__label"><p>行方の銘柄</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-brand">行方かんしょ、<span>東日本で初めてのGI。</span></h2>
+      <p>行方市のさつまいも「行方かんしょ」は、さつまいもとして東日本で初めて地理的表示（GI）に登録されました。茨城県内のGIでは、江戸崎かぼちゃ、飯沼栗、水戸の柔甘ねぎ、奥久慈しゃもに続く5例目です。行方かんしょブランド推進協議会が認定し、紅こがね・紅まさり・べにはるかの品種リレーで出荷しています（茨城をたべよう）。</p>
+      <div class="fg-pair">
+        <div>
+          <h3>紅優甘<span class="imo-pair__reading">べにゆうか</span></h3>
+          <p>品種はべにはるか。JAなめがたしおさいの品種リレーの口火を切る早生のブランドです。</p>
+        </div>
+        <div>
+          <h3>熟成紅こがね<span class="imo-pair__reading">じゅくせいべにこがね</span></h3>
+          <p>ベニアズマから選び抜かれた「紅こがね」を、温度と湿度を一定に保った貯蔵庫で9か月熟成させたブランドです。</p>
+        </div>
+      </div>
+      <p class="fg-note">出典：茨城をたべよう（JAなめがたしおさい）</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="imo-cook">
+    <div class="fg-section__label"><p>台所で</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-cook">ゆっくり火を通すほど、<span>甘くなる。</span></h2>
+      <p>さつまいもの甘みを引き出すのは、でんぷんを糖に変える酵素（β-アミラーゼ）です。茨城をたべようによると、この酵素は70℃くらいでいちばんよく働くため、時間をかけて加熱すると、電子レンジで急に加熱するよりも甘くなります。焼いたいもを温め直すときは、電子レンジが便利です。</p>
+      <ul class="fg-list">
+        <li><strong>切ったら、水にさらす</strong>10分ほど水にさらしてから調理します</li>
+        <li><strong>皮は厚めにむく</strong>アクは皮のすぐ下にあるため、色よく仕上げたい料理では厚めにむきます</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="imo-keep">
+    <div class="fg-section__label"><p>選ぶ・保存する</p></div>
+    <div class="fg-section__body">
+      <h2 id="imo-keep">冷蔵庫には、<span>入れない。</span></h2>
+      <p>選ぶときは、皮の色が均一で鮮やかなもの、つやがあり、でこぼこや傷、斑点のないものを。皮が濃いピンク色や紫色で、色むらのないものが食べごろの目安です。収穫から2週間〜1か月ほど置くと追熟して甘みが増します。</p>
+      <div class="fg-pair">
+        <div>
+          <h3>丸ごとなら</h3>
+          <p>保存の適温は13℃前後（±2℃）。低温に弱いので冷蔵庫には入れず、新聞紙で包んで常温に置きます。ポリ袋に入れたままにしないこと。</p>
+        </div>
+        <div>
+          <h3>切ったものは</h3>
+          <p>切り口をラップで包み、冷蔵庫の野菜室で保存します。</p>
+        </div>
+      </div>
+      <p class="fg-note">出典：茨城をたべよう</p>
+      <ul class="fg-list">
+        <li><strong><a href="/hoshiimo/">干し芋図鑑</a></strong>さつまいもを蒸して干す、茨城の冬の加工品</li>
+        <li><strong><a href="/area/namegata/">行方市のページ</a></strong>霞ヶ浦と北浦にはさまれた、台地の街</li>
+        <li><strong><a href="/area/hokota/">鉾田市のページ</a></strong>さつまいも、メロン、いちごの産地</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  .imo-steps > li > div > strong { display: block; font-family: var(--font-brand-display); font-weight: 600; color: var(--fg-navy); font-size: 18px; }
+  .imo-pair__reading { display: block; margin-top: 2px; font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 400; letter-spacing: .08em; color: var(--fg-soil); }
+</style>

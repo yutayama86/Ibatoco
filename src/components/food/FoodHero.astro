@@ -1,0 +1,135 @@
+---
+/**
+ * 図鑑の扉。最上段にパンくず、左に見出しと導入、右に実物の写真。
+ * 権利を確認できる写真が無い品目は、写真の代わりに品目名の大きな文字組みで成り立たせる
+ * （食べ物の絵や CSS の疑似写真では埋めない）。
+ */
+import FoodPhoto from './FoodPhoto.astro';
+import type { FoodGuide } from '../../data/food-library';
+
+interface Props {
+  guide: FoodGuide;
+  /** h1 を行ごとに。2行目以降は字間をやや詰めた強調にする */
+  lines: string[];
+  lead: string;
+  /** 写真の切り抜き位置 */
+  position?: string;
+  /** 写真が無いときに大きく組む文字（例：栗） */
+  glyph?: string;
+  /** 写真の説明（写真から断定できないことを補うときに使う） */
+  caption?: string;
+  /** 扉の下に並べる基本情報（3〜4項目） */
+  facts: { label: string; value: string }[];
+}
+
+const { guide, lines, lead, position, caption, glyph, facts } = Astro.props;
+---
+
+<header class:list={['fg-hero', { 'fg-hero--type': !guide.hero }]}>
+  <div class="fg-hero__text">
+    <nav class="fg-hero__kicker" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="/">ホーム</a></li>
+        <li><a href="/food-library/">茨城のおいしい図鑑</a></li>
+        <li aria-current="page">{guide.title}</li>
+      </ol>
+    </nav>
+    <h1>{lines.map((line, i) => <span class:list={['fg-hero__line', { 'fg-hero__line--em': i > 0 }]}>{line}</span>)}</h1>
+    <p class="fg-hero__lead">{lead}</p>
+  </div>
+  <div class="fg-hero__visual">
+    {guide.hero ? (
+      <FoodPhoto photo={guide.hero} priority sizes="(min-width: 900px) 52vw, 100vw" position={position} ratio="4 / 3" caption={caption} />
+    ) : (
+      <div class="fg-hero__glyph" role="img" aria-label={`${guide.name}の文字組み（実物の写真は、権利を確認できたものから掲載します）`}>
+        <span class="fg-hero__glyph-main" aria-hidden="true">{glyph ?? guide.name}</span>
+        <span class="fg-hero__glyph-note" aria-hidden="true">写真は、権利を確認できたものから掲載します</span>
+      </div>
+    )}
+  </div>
+  <dl class="fg-hero__facts" style={`--fg-facts:${facts.length}`}>
+    {facts.map((fact) => (
+      <div>
+        <dt>{fact.label}</dt>
+        <dd>{fact.value}</dd>
+      </div>
+    ))}
+  </dl>
+</header>
+
+<style>
+  .fg-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: clamp(20px, 3.4vw, 44px) var(--fg-gutter) clamp(40px, 6vw, 72px);
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .fg-hero__kicker {
+    font-family: var(--font-brand-meta);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--fg-soil);
+    padding-bottom: 14px;
+    margin-bottom: clamp(24px, 4vw, 48px) !important;
+    border-bottom: 1px solid var(--fg-line);
+  }
+  .fg-hero__kicker ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 0; }
+  .fg-hero__kicker li + li::before { content: '／'; margin: 0 .5em; color: var(--fg-line-strong); font-weight: 400; }
+  .fg-hero__kicker a { text-decoration: none; font-weight: 400; color: var(--fg-mute); }
+  .fg-hero__kicker a:hover { text-decoration: underline; color: var(--fg-navy); }
+  .fg-hero__kicker [aria-current] { color: var(--fg-soil); }
+  h1 {
+    /* 1行9字まで（各図鑑の見出しは、行ごとに9字以内で組む） */
+    font-size: clamp(32px, 4.4vw, 60px);
+    line-height: 1.32;
+    letter-spacing: .015em;
+  }
+  .fg-hero__line { display: block; }
+  .fg-hero__line--em { color: var(--fg-ink); }
+  .fg-hero__lead {
+    margin-top: clamp(20px, 2.6vw, 32px) !important;
+    font-size: clamp(16px, 1.55vw, 18.5px);
+    line-height: 2.05;
+    max-width: 30em;
+  }
+  .fg-hero__visual { min-width: 0; }
+  .fg-hero__glyph {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 18px;
+    background: var(--fg-paper-deep);
+    border-top: 2px solid var(--fg-accent);
+  }
+  .fg-hero__glyph-main {
+    font-family: var(--font-brand-display);
+    font-weight: 600;
+    font-size: clamp(120px, 22vw, 260px);
+    line-height: 1;
+    color: var(--fg-navy);
+  }
+  .fg-hero__glyph-note { font-size: 12px; letter-spacing: .1em; color: var(--fg-mute); }
+  .fg-hero__facts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid var(--fg-ink);
+  }
+  .fg-hero__facts > div { padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  dt { font-family: var(--font-brand-meta); font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--fg-soil); }
+  dd { margin: 4px 0 0; font-size: 15px; line-height: 1.75; }
+
+  @media (min-width: 760px) {
+    .fg-hero__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+  }
+  @media (min-width: 900px) {
+    .fg-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); column-gap: clamp(40px, 5vw, 88px); align-items: end; }
+    .fg-hero__text { padding-bottom: 8px; }
+    .fg-hero__facts { grid-column: 1 / -1; grid-template-columns: repeat(var(--fg-facts, 4), minmax(0, 1fr)); margin-top: 20px; }
+    .fg-hero__facts > div { padding: 16px 20px 16px 0; border-bottom: 0; }
+    .fg-hero__facts > div + div { padding-left: 20px; border-left: 1px solid var(--fg-line); }
+  }
+</style>
