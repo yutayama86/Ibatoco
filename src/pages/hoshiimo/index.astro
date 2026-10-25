@@ -13,15 +13,13 @@ const varieties = [
   {id:'tamaotome',name:'タマオトメ',ruby:'TAMAOTOME',number:'08',lead:'加工しやすさにも理由がある。',taste:'製品によって異なる',texture:'製品によって異なる',story:'農研機構が育成した蒸切干向け品種。繊維が少なく、皮がむきやすいことや、黄色い仕上がりが特徴です。',tag:'加工用品種'},
 ];
 const sources = [
+ {name:'農研機構「ほしキラリ」研究紹介',url:'https://www.naro.go.jp/publicity_report/press/laboratory/nics/013141.html'},
+ {name:'農研機構「ほしあかね」研究成果',url:'https://www.naro.go.jp/publicity_report/press/laboratory/nics/137043.html'},
  {name:'農研機構「タマオトメ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001435.html'},
  {name:'農研機構「ほしキラリ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001573.html'},
  {name:'農研機構「ほしあかね」',url:'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html'},
- {name:'茨城県「茨城をたべよう」ほしいも',url:'https://www.ibaraki-shokusai.net/brand/hoshiimo'},
- {name:'幸田商店「品種で選べるほしいも」',url:'https://www.koutashop.com/hpgen/HPB/categories/27109.html'},
- {name:'観光いばらき「茨城のほしいも」',url:'https://www.ibarakiguide.jp/gourmet/hoshiimo.html'},
- {name:'茨城県「第19回ほしいも品評会」',url:'https://www.pref.ibaraki.jp/nourinsuisan/ounourin/keiei/realtime2025/20260118.html'},
 ];
-const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨城の干し芋図鑑｜5品種の違い・産地・選び方',description,author:{'@type':'Organization',name:'イバトコ'},mainEntityOfPage:new URL('/hoshiimo/',Astro.site).href};
+const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨城の干し芋図鑑｜8品種の違い・産地・選び方',description,author:{'@type':'Organization',name:'イバトコ'},mainEntityOfPage:new URL('/hoshiimo/',Astro.site).href};
 ---
 <BrandBase title={title} description={description} jsonLd={jsonLd}>
   <main class="hz">
