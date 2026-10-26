@@ -1,0 +1,69 @@
+---
+import BrandBase from '../../layouts/BrandBase.astro';
+const title = '花貫渓谷への行き方｜高萩駅からのシャトルバス・車・2026年紅葉まつり | イバトコ';
+const description = '花貫渓谷へ公共交通機関で行く方法を案内。2026年紅葉まつりの高萩駅発シャトルバス運行日、公式時刻表、車でのアクセス、帰りの注意点をまとめました。';
+const updatedAt = new Date('2026-10-26T00:00:00+09:00');
+const official = 'https://www.city.takahagi.ibaraki.jp/kankou/news/page008436.html';
+const tourism = 'https://www.ibarakiguide.jp/spot.php?code=236&mode=detail';
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, dateModified: '2026-10-26', url: new URL('/access/hananuki/', Astro.site).href },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: '高萩市', item: new URL('/area/takahagi/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: '花貫渓谷への行き方', item: new URL('/access/hananuki/', Astro.site).href },
+  ] },
+];
+---
+<BrandBase title={title} description={description} updatedAt={updatedAt} jsonLd={jsonLd}>
+  <main class="access-page">
+    <nav aria-label="パンくずリスト"><a href="/">ホーム</a> / <a href="/area/takahagi/">高萩市</a> / 花貫渓谷への行き方</nav>
+    <header class="hero">
+      <p class="eyebrow">IBARAKI ACCESS GUIDE / TAKAHAGI</p>
+      <h1>花貫渓谷への<br /><span>行き方。</span></h1>
+      <p class="lead">高萩駅から紅葉の名所へ。2026年のシャトルバス運行日と、車・タクシーでのアクセスを整理しました。</p>
+      <p class="checked">最終確認：2026年10月26日 ／ 運行前に必ず公式情報をご確認ください。</p>
+    </header>
+    <section aria-labelledby="summary">
+      <h2 id="summary">まず知っておきたいこと</h2>
+      <div class="facts">
+        <div><span>公共交通</span><strong>JR高萩駅から期間限定シャトルバス</strong></div>
+        <div><span>運行日</span><strong>11/14・15、11/20〜24</strong></div>
+        <div><span>通常時</span><strong>高萩駅からタクシー約25分</strong></div>
+        <div><span>車</span><strong>常磐道・高萩ICから約20分</strong></div>
+      </div>
+    </section>
+    <section aria-labelledby="bus">
+      <h2 id="bus">2026年・高萩駅からのシャトルバス</h2>
+      <p>高萩市の発表によると、<strong>11月14日（土）・15日（日）、20日（金）〜24日（火）</strong>に高萩駅と花貫渓谷を結ぶシャトルバスが運行されます。紅葉まつりの全日程に運行するわけではありません。</p>
+      <p>平日と土日・祝日では運行本数や運賃が異なります。<strong>発車時刻・帰りの最終便・運賃は、高萩市公式ページにある「2026花貫渓谷紅葉まつりチラシ（裏面）」</strong>で確認してください。</p>
+      <p><a class="action" href={official} target="_blank" rel="noopener noreferrer">2026年の公式時刻表・運行案内を見る ↗</a></p>
+      <p class="note">※ 2025年のバス時刻・料金は掲載していません。天候や交通状況などで運行が変わる場合があります。</p>
+    </section>
+    <section aria-labelledby="route">
+      <h2 id="route">電車で行く場合</h2>
+      <ol class="steps">
+        <li><strong>JR常磐線で高萩駅へ</strong><p>出発地から高萩駅までの最新の乗換案内を確認します。</p></li>
+        <li><strong>運行日を確認してシャトルバスへ</strong><p>上記の2026年公式チラシで乗り場・発車時刻・運賃を確認してください。運行日以外はタクシーなどの移動手段を事前に手配しましょう。</p></li>
+        <li><strong>帰りの便を先に決める</strong><p>紅葉観賞やライトアップを楽しむ前に、帰路の最終便と駅への到着時間を確認しておくと安心です。</p></li>
+      </ol>
+    </section>
+    <section aria-labelledby="car">
+      <h2 id="car">車で行く場合</h2>
+      <p>常磐自動車道・高萩ICから花貫渓谷まで、目安は約20分です。紅葉の時期は混雑により所要時間が変わることがあります。</p>
+      <div class="facts">
+        <div><span>花貫駐車場</span><strong>普通車 1,000円（110台）</strong></div>
+        <div><span>大能駐車場</span><strong>普通車 1,000円（40台）</strong></div>
+      </div>
+      <p class="note">上記は2026年紅葉まつり期間の高萩市発表料金です。駐車場の状況や現地規制は出発前に確認してください。</p>
+    </section>
+    <section aria-labelledby="festival">
+      <h2 id="festival">紅葉まつり・ライトアップ</h2>
+      <p>2026年の花貫渓谷紅葉まつりは<strong>10月31日（土）〜11月30日（月）</strong>。ライトアップは<strong>11月7日（土）〜23日（月・祝）の日没〜19時</strong>の予定です。シャトルバスの運行日とは異なるため、夜間の帰路は特に注意してください。</p>
+      <p><a href={official} target="_blank" rel="noopener noreferrer">高萩市の公式開催案内 ↗</a> ／ <a href={tourism} target="_blank" rel="noopener noreferrer">観光いばらきの花貫渓谷案内 ↗</a></p>
+    </section>
+    <aside class="next"><h2>高萩をもっと知る</h2><p>花貫渓谷を訪れたら、街の見どころや地域の物語も。</p><a href="/area/takahagi/">高萩市の歩き方を見る →</a></aside>
+  </main>
+</BrandBase>
+<style>
+  .access-page{max-width:960px;margin:auto;padding:2rem 1.25rem 5rem;color:#19384c;line-height:1.85}.access-page a{color:#126c84;text-underline-offset:3px}.access-page nav{font-size:.85rem;margin-bottom:2rem}.hero{padding:3.5rem clamp(1.5rem,5vw,4rem);background:#edf5f3;border-radius:1.5rem}.eyebrow{font-size:.7rem;letter-spacing:.2em;font-weight:700}.hero h1{font-size:clamp(2.7rem,7vw,5.4rem);line-height:1.18;letter-spacing:-.05em;margin:1.2rem 0}.hero h1 span{color:#388c89}.lead{font-size:1.12rem;max-width:37rem}.checked,.note{font-size:.85rem;color:#526773}.access-page section{margin-top:3.5rem}.access-page h2{font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.35;letter-spacing:-.035em;margin-bottom:1.3rem}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}.facts>div{padding:1.4rem;background:#f4f7f7;border-radius:1rem}.facts span{display:block;font-size:.75rem;color:#58707a}.facts strong{display:block;font-size:1.06rem;margin-top:.5rem}.action{display:inline-block;background:#153e55;color:white!important;padding:.85rem 1.25rem;border-radius:.5rem;text-decoration:none;font-weight:700}.steps{padding-left:1.6rem}.steps li{padding:.6rem 0}.steps p{margin:.3rem 0}.next{margin-top:4rem;background:#e9f3f1;border-radius:1rem;padding:2rem}.next h2{margin-top:0}@media(max-width:600px){.facts{grid-template-columns:1fr}.hero{padding:2rem 1.4rem}.access-page{padding:1.3rem 1rem 4rem}}
+</style>
