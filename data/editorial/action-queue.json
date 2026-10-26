@@ -1,7 +1,34 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-25",
+  "updatedAt": "2026-10-27",
   "actions": [
+    {
+      "id": "20261027-hananuki-shuttle-official",
+      "title": "花貫渓谷紅葉記事：2026年シャトルバス公式ダイヤ公開を反映",
+      "kind": "update",
+      "targetUrl": "/events/hananuki-gorge-autumn-2026/",
+      "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
+      "priority": "high",
+      "status": "in-progress",
+      "createdAt": "2026-10-27",
+      "dueDate": "2026-10-31",
+      "confidence": "high",
+      "effort": "S",
+      "page": "/events/hananuki-gorge-autumn-2026/",
+      "source": "高萩市「花貫渓谷紅葉まつり」（2026-10-21更新、2026-10-27確認）",
+      "reason": "読者から公共交通案内の不足が具体的に寄せられ、高萩市が2026年の運行日と公式ダイヤPDFを公開したため。必要な公式事実更新だが因果根拠のある増分見積もりがないためexpectedPvImpactは設定しない。",
+      "specPath": "docs/editorial/specs/20261027-hananuki-shuttle-official.md",
+      "primarySourceUrls": [
+        "https://www.city.takahagi.ibaraki.jp/kankou/news/page008436.html",
+        "https://www.city.takahagi.ibaraki.jp/data/doc/1792473350_doc_19_0.pdf"
+      ],
+      "acceptanceCriteria": [
+        "高萩駅〜花貫渓谷の運行日と公式ダイヤPDFへの導線が反映されている",
+        "前年時刻・運賃を2026年情報として流用していない",
+        "title・URL・canonical・画像・見頃の未確認表現を変更していない",
+        "npm run date:check、npm run audit:freshness、npm run verifyが成功する"
+      ]
+    },
     {
       "id": "20261025-tsuchiura-sangyosai-confirmed",
       "title": "土浦カレーフェス記事：翌日の第50回土浦市産業祭を公式の確定情報に更新",
