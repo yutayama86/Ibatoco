@@ -36,6 +36,7 @@ const { guide, lines, lead, position, caption, glyph, facts } = Astro.props;
     </nav>
     <h1>{lines.map((line, i) => <span class:list={['fg-hero__line', { 'fg-hero__line--em': i > 0 }]}>{line}</span>)}</h1>
     <p class="fg-hero__lead">{lead}</p>
+    <slot name="actions" />
   </div>
   <div class="fg-hero__visual">
     {guide.hero ? (
