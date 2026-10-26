@@ -1,0 +1,196 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import FoodPhoto from '../../components/food/FoodPhoto.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('renkon')!;
+const title = '茨城のれんこん図鑑｜霞ヶ浦の産地・旬・水掘りの収穫と部位の使い分け | イバトコ';
+const description = '霞ヶ浦周辺は日本一のれんこん産地（農林水産省 作物統計 令和5年産）。土浦市・かすみがうら市など10市町村の産地、一年を通して続く出荷、水掘りの収穫、白い肌と赤いシブ、部位ごとの使い分け、浮島・玉里の銘柄まで、県・市・JAの公開資料から整理しました。';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「れんこん」', url: 'https://www.ibaraki-shokusai.net/brand/lotus-root/', accessedAt: '2026-10-25' },
+  { label: '土浦市「日本一のれんこんの取り組み」', url: 'https://www.city.tsuchiura.lg.jp/shigoto-sangyo/sangyo/nogyo/nihonichinorenkonsanchi/page020637.html', accessedAt: '2026-10-25', note: '2026年10月13日更新' },
+  { label: '土浦市「れんこんデジタルマップ」', url: 'https://www.city.tsuchiura.lg.jp/shigoto-sangyo/sangyo/nogyo/nihonichinorenkonsanchi/map/', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城のれんこんは日本一ですか？', a: '茨城県の「茨城をたべよう」は、豊富な水と低湿地帯に恵まれた霞ヶ浦周辺を、日本一のれんこん産地と紹介しています（農林水産省 作物統計 令和5年産）。' },
+  { q: 'れんこんの旬はいつですか？', a: '茨城では大型ハウスの普及や品種の改良で、一年を通して出荷されています。出荷量が多いのは8月から翌年2月です（茨城をたべよう）。' },
+  { q: 'れんこんはどうやって収穫するのですか？', a: '茨城では、水圧でまわりの土を落とし、れんこんを浮かび上がらせる「水掘り」で収穫しています。れんこんを傷つけないための方法です。' },
+  { q: 'れんこんの表面が赤褐色になっているのはなぜですか？', a: '夏に生長するれんこんは、葉から取り込んだ空気を表皮から放出します。泥の中の鉄分がその酸素に触れると、表皮に赤褐色の「シブ」が付きます。小美玉市玉里地区の「マルタマ真レンコン」は、シブを抜く「から刈り」をせずに出荷しています（茨城をたべよう）。' },
+  { q: '土浦でれんこん料理を食べられるのはいつですか？', a: '土浦市によると、2026年は11月9日（月）から30日（月）まで「土浦れんこんグルメまつり」が開かれ、市内の飲食店が独自のれんこん料理を出します。参加店は市の「れんこんデジタルマップ」で確認できます。' },
+];
+
+const brands = [
+  {
+    id: 'suigo-tsukuba', name: '土浦れんこん・霞ヶ浦のれんこん', reading: 'JA水郷つくば（土浦市・かすみがうら市）',
+    meta: ['2市で県内作付面積の約50％'],
+    text: '理想のおいしさ・形・食感を求めて、品種の改良を重ねた末に生まれたれんこんです。傷みやすい夏は、品質を保つために発泡スチロールの箱に氷を詰めて出荷しています。',
+    source: '茨城をたべよう',
+  },
+  {
+    id: 'ukishima', name: '浮島れんこん', reading: 'JA稲敷（稲敷市）',
+    meta: ['すべて無漂白', 'いばらきエコ農産物'],
+    text: '有機質肥料を使い、さとうきびのしぼりかすを入れた堆肥で土をつくっています。環境に配慮した栽培が評価され、いばらきエコ農産物（特別栽培農産物）の認証を取得しています。',
+    source: '茨城をたべよう',
+  },
+  {
+    id: 'tamari', name: '玉里のれんこん', reading: 'JA新ひたち野（小美玉市）',
+    meta: ['大正時代から続く産地', '収穫当日に出荷'],
+    text: '堆肥を入れた土づくり、生産履歴の記帳、収穫した日のうちの出荷を実践しています。江戸時代には、この地区で育った蓮の花を観賞用として徳川光圀公に献上したと言い伝えられています。蓮根部会玉里支部の「マルタマ真レンコン」は、から刈りをせずに出荷するれんこんで、2023年1月には7農場がJGAPの団体認証を取得しました。',
+    source: '茨城をたべよう',
+  },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城のれんこん図鑑｜霞ヶ浦の産地・旬・収穫と部位の使い分け" faq={faq} sources={sources} photos={[FOOD_PHOTOS.renkonSummer, FOOD_PHOTOS.renkonWinter, FOOD_PHOTOS.renkonPod]}>
+  <FoodHero
+    guide={guide}
+    lines={['れんこんは、', '霞ヶ浦の泥から。']}
+    lead="豊富な水と、低い湿地。霞ヶ浦のまわりは、日本でいちばん多くれんこんが育つ土地です。ぷっくりと丸い節、白くきめ細かな肌、ほのかな甘み。収穫のしかたから、一本のなかの部位の使い分けまで、茨城のれんこんを読み解きます。"
+    position="50% 60%"
+    facts={[
+      { label: '茨城の位置づけ', value: '霞ヶ浦周辺は日本一の産地（作物統計 令和5年産）' },
+      { label: '出回る時期', value: '一年じゅう。多いのは8月〜翌2月' },
+      { label: '主な産地', value: '土浦市・かすみがうら市ほか10市町村' },
+      { label: '茨城のれんこんの姿', value: '団子状の節、やわらかな肉質、白い肌' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="renkon-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-origin">霞ヶ浦の水と、<span>低い湿地。</span></h2>
+      <p class="fg-lead">茨城県の「茨城をたべよう」によると、豊富な水と低湿地帯に恵まれた霞ヶ浦周辺は、日本一のれんこん産地です（農林水産省 作物統計 令和5年産）。</p>
+      <p>県内の主な産地は、霞ヶ浦を囲むように並ぶ10市町村。なかでもJA水郷つくばのある土浦市とかすみがうら市の2市で、県内のれんこん作付面積の約50％を占めています。県の関係機関、市町村、全農茨城県本部、農協などは「いばらきれんこん広域銘柄化推進協議会」をつくり、霞ヶ浦沿岸のれんこんをまとめて計画的に出荷・販売しています。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように載っているれんこんの主な産地です。"
+        notes={{
+          tsuchiura: '市は「日本一のれんこん産地」として料理まつりやデジタルマップに取り組む',
+          kasumigaura: '土浦市と合わせて県内作付面積の約50％（JA水郷つくば）',
+          inashiki: '無漂白の「浮島れんこん」（JA稲敷）',
+          omitama: '玉里地区は大正時代から続く産地（JA新ひたち野）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-season">
+    <div class="fg-section__label"><p>旬</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-season">一年じゅう出回り、<span>晩夏から冬に多い。</span></h2>
+      <p>大型ハウスの普及と品種の改良が進み、茨城では一年を通して品質の高いれんこんを栽培できる体制が整いました。出荷量が多いのは8月から翌年2月。3月から7月も出荷は続きます。</p>
+      <SeasonTable
+        caption="茨城のれんこんの出荷時期"
+        rows={[{ label: 'れんこん', note: '県全体', months: guide.months, peak: guide.peakMonths }]}
+        note="出典：茨城をたべよう（茨城県）の出荷カレンダー。産地・作型・年によって前後します。"
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-harvest">
+    <div class="fg-section__label"><p>収穫</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-harvest">泥のなかから、<span>水の力で掘り出す。</span></h2>
+      <p>茨城では、れんこんを傷つけないように、水圧でまわりの土を落とし、れんこんを浮かび上がらせる「水掘り」で収穫しています（茨城をたべよう）。</p>
+      <FoodPhoto photo={FOOD_PHOTOS.renkonWinter} caption="11月の土浦市の蓮田。出荷量の多い季節の、収穫を待つ田の姿。" sizes="(min-width: 900px) 64vw, 100vw" ratio="3 / 2" class="renkon-wide" />
+      <p>茨城のれんこんの魅力は、ぷっくりとした団子状の形と、やわらかな肉質、ほんのりとした甘みです。肌がきめ細かく、美しく白いことも特長に挙げられています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-skin">
+    <div class="fg-section__label"><p>肌の色</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-skin">白い肌と、<span>赤褐色の「シブ」。</span></h2>
+      <div class="renkon-skin">
+        <div class="renkon-skin__text">
+          <p>夏に生長のピークを迎えるれんこんは、葉を通じて盛んに呼吸し、取り込んだ空気を表皮から放出します。泥の中の鉄分がその酸素に触れると、表皮に赤褐色の「シブ」が付きます。</p>
+          <p>そのため、収穫の数日前から10日ほど前（夏季）に地上の葉と茎を刈り取り、酸素の供給を止めてシブを抜く「から刈り」を行うのが一般的です。小美玉市玉里地区の「マルタマ真レンコン」は、このから刈りをあえて行わず、収穫の直前まで呼吸し、生長を続けていたれんこんを出荷しています。</p>
+          <p class="fg-pull">シブは、収穫の直前まで<br />育っていたしるし。</p>
+          <p class="fg-note">出典：茨城をたべよう（JA新ひたち野 蓮根部会玉里支部）</p>
+        </div>
+        <FoodPhoto photo={FOOD_PHOTOS.renkonPod} caption="夏の蓮田では、花が散ったあとの花托も見られる。" sizes="(min-width: 900px) 30vw, 100vw" ratio="4 / 5" position="45% 50%" />
+      </div>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-parts">
+    <div class="fg-section__label"><p>使い分け</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-parts">一本のなかで、<span>食感が変わる。</span></h2>
+      <p>JA水郷つくばによると、れんこんは一本の中でも部位によって食感が微妙に違います。料理によって、使う場所を選べます。</p>
+      <ol class="renkon-parts" aria-label="れんこんの部位と向いている料理">
+        <li><span class="renkon-parts__part">頭の部分</span><span class="renkon-parts__use">やわらかい。サラダに</span></li>
+        <li><span class="renkon-parts__part">真ん中</span><span class="renkon-parts__use">天ぷら、きんぴらに</span></li>
+        <li><span class="renkon-parts__part">根元</span><span class="renkon-parts__use">すり身に</span></li>
+      </ol>
+      <p>生で食べるサラダの使い方は、土浦市も広めています。市は2023年10月からキユーピー株式会社と「土浦市れんこんサラダ化プロジェクト推進協定」を結び、れんこんのサラダのレシピを共同で開発しています（土浦市）。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-brands">
+    <div class="fg-section__label"><p>産地の銘柄</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-brands">同じ霞ヶ浦でも、<span>産地ごとのこだわり。</span></h2>
+      <VarietyList items={brands} />
+      <h3>出荷の規格</h3>
+      <p>箱に書かれた規格は、1本あたりの重さの目安です。JA水郷つくばと浮島れんこんの規格は次のとおりです（箱の仕様は出荷時期によって異なります）。</p>
+      <dl class="renkon-grades">
+        <div><dt>AL</dt><dd>1,400g以上</dd></div>
+        <div><dt>AM</dt><dd>400〜1,400g程度</dd></div>
+        <div><dt>AS</dt><dd>200〜400g程度</dd></div>
+        <div><dt>ASS</dt><dd>70〜200g程度</dd></div>
+      </dl>
+      <p class="fg-note">玉里れんこんは、1パック300g（2〜3個）から4kg箱まで。出典：茨城をたべよう</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="renkon-taste">
+    <div class="fg-section__label"><p>味わう</p></div>
+    <div class="fg-section__body">
+      <h2 id="renkon-taste">11月の土浦は、<span>れんこんの街になる。</span></h2>
+      <p>土浦市は、市内の飲食店がそれぞれのれんこん料理を出す「土浦れんこんグルメまつり」を、2026年は11月9日（月）から30日（月）まで開きます。参加店は、市の「れんこんデジタルマップ」で確認できます（土浦市、2026年10月13日更新）。</p>
+      <p>デジタルマップには、れんこんを食べられる店、買える店、フォトスポットがまとめられています。霞ヶ浦周辺の市町村では、毎年、飲食店でれんこん料理を出す「れんこん料理フェア」も開かれています（2025年度は11月1日〜30日）。</p>
+      <ul class="fg-list">
+        <li><strong><a href="https://www.city.tsuchiura.lg.jp/shigoto-sangyo/sangyo/nogyo/nihonichinorenkonsanchi/map/" target="_blank" rel="noopener noreferrer">れんこんデジタルマップ（土浦市）</a></strong>食べる・買う・フォトスポット。グルメまつりの参加店もここで</li>
+        <li><strong><a href="/area/tsuchiura/">土浦市のページ</a></strong>霞ヶ浦の蓮田のある街の歩き方</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  :global(.renkon-wide) { max-width: 980px; }
+  .renkon-skin { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }
+  .renkon-skin__text > * + * { margin-top: 1.1em; }
+  .renkon-parts {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid var(--fg-ink);
+    max-width: 860px;
+  }
+  .renkon-parts li { display: grid; grid-template-columns: minmax(0, 7em) minmax(0, 1fr); gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--fg-line); }
+  .renkon-parts__part { font-family: var(--font-brand-display); font-weight: 600; font-size: 21px; color: var(--fg-navy); }
+  .renkon-parts__use { align-self: center; }
+  .renkon-grades { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 20px; border-top: 1px solid var(--fg-line); max-width: 640px; }
+  .renkon-grades > div { padding: 12px 0; border-bottom: 1px solid var(--fg-line); display: flex; gap: 14px; align-items: baseline; }
+  .renkon-grades dt { font-family: var(--font-brand-serif-latin); font-size: 20px; color: var(--fg-navy); min-width: 2.6em; }
+  .renkon-grades dd { margin: 0; font-variant-numeric: tabular-nums; }
+  @media (min-width: 760px) {
+    .renkon-parts { grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 0; }
+    .renkon-parts li { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 18px 20px 18px 0; border-top: 1px solid var(--fg-ink); border-bottom: 0; }
+    .renkon-parts li + li { padding-left: 20px; border-left: 1px solid var(--fg-line); }
+    .renkon-grades { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .renkon-grades > div { flex-direction: column; gap: 2px; }
+  }
+  @media (min-width: 900px) {
+    .renkon-skin { grid-template-columns: minmax(0, 1.35fr) minmax(0, .9fr); gap: 48px; }
+  }
+</style>

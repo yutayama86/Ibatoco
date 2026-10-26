@@ -18,6 +18,7 @@ import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import { getHappeningsForMunicipality } from '../../lib/happenings';
 import { businessesInMunicipality } from '../../data/businesses';
 import { michinoekiForArea } from '../../data/michinoeki';
+import { foodGuidesForArea } from '../../data/food-library';
 import { areaToSlug } from '../../data/areas';
 
 export const getStaticPaths = (() => MUNICIPALITIES.map((municipality) => ({ params: { slug: municipality.slug } }))) satisfies GetStaticPaths;
@@ -64,6 +65,8 @@ const isDaigo = slug === 'daigo';
 const relatedThemes = themesForArea(slug!);
 // この街にある道の駅（公式一覧で確認済みのものだけ）
 const areaMichinoeki = michinoekiForArea(slug!);
+// 茨城のおいしい図鑑で、この街が主な産地として出てくる図鑑
+const areaFoods = foodGuidesForArea(slug!);
 // この街で今週あること（イベント・ホームゲーム・季節もの）。無ければ出さない
 const areaThisWeek = await getHappeningsForMunicipality(slug!);
 // この街の店舗・施設。実在を確認して登録したものだけ
@@ -254,7 +257,7 @@ const jsonLd: Record<string, unknown>[] = [
     <div class="bp-wrap"><p class="bp-kicker">NEARBY CITIES</p><h2>{region.label}の、ほかの街。</h2><ul>{neighbors.map((item) => <li><a href={`/area/${item.slug}/`}>{item.name}</a></li>)}</ul></div>
   </section>
 
-  {(relatedThemes.length > 0 || areaMichinoeki.length > 0) && (
+  {(relatedThemes.length > 0 || areaMichinoeki.length > 0 || areaFoods.length > 0) && (
     <section id="area-themes" class="area-themes">
       <div class="bp-wrap">
         <p class="bp-kicker">THEMES</p>
@@ -262,6 +265,9 @@ const jsonLd: Record<string, unknown>[] = [
         <p class="area-themes__lead">同じ土地を、別の切り口から読む。</p>
         {areaMichinoeki.length > 0 && (
           <p class="area-themes__eki">この街には道の駅が{areaMichinoeki.length}駅あります（{areaMichinoeki.map((e) => `道の駅 ${e.name}`).join('、')}）。<a href="/michinoeki/">茨城の道の駅16駅を見る →</a></p>
+        )}
+        {areaFoods.length > 0 && (
+          <p class="area-themes__eki">「茨城のおいしい図鑑」では、{municipality.name}を{areaFoods.map((g, i) => <>{i > 0 && '・'}<a href={g.path}>{g.name}</a></>)}の主な産地として紹介しています。<a href="/food-library/">図鑑の一覧を見る →</a></p>
         )}
         <ul>{relatedThemes.map((theme) => (
           <li><a href={`/${theme.slug}/`}><small>{theme.kicker}</small><span>{theme.title}</span><b aria-hidden="true">→</b></a></li>

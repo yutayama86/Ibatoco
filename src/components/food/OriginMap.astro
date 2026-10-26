@@ -1,0 +1,50 @@
+---
+/**
+ * 産地の地図と一覧。地図は 44市町村の正確な境界（src/data/ibaraki-geo.ts）から、
+ * ビルド時に /food-library/map/<slug>.svg として描いた画像（産地だけ差し色で塗る）。
+ * 地図は画像なので、産地の名前と市町村ページへのリンクは隣の一覧に必ず出す。
+ */
+import type { FoodGuide } from '../../data/food-library';
+
+interface Props {
+  guide: FoodGuide;
+  /** 市町村ごとの一言（出典の範囲で） */
+  notes?: Record<string, string>;
+  caption?: string;
+}
+
+const { guide, notes = {}, caption } = Astro.props;
+const names = guide.areas.map((item) => item.name).join('、');
+---
+
+<div class="fg-origin">
+  <figure class="fg-origin__map">
+    <img src={`/food-library/map/${guide.slug}.svg`} width="519" height="660" loading="lazy" decoding="async"
+      alt={`茨城県の地図。${guide.name}の主な産地（${names}）を色で示している`} />
+    <figcaption>{caption ?? `色の付いた市町村が、${guide.name}の主な産地です。`}地図の境界は国土数値情報（行政区域）をもとにしています。</figcaption>
+  </figure>
+  <ol class="fg-origin__list">
+    {guide.areas.map((item) => (
+      <li>
+        <a href={`/area/${item.slug}/`}>{item.name}</a>
+        {notes[item.slug] && <span>{notes[item.slug]}</span>}
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .fg-origin { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+  .fg-origin__map { margin: 0; max-width: 360px; }
+  .fg-origin__map img { display: block; width: 100%; height: auto; }
+  figcaption { margin-top: 8px; font-size: 12px; line-height: 1.8; color: var(--fg-mute, #59656a); }
+  .fg-origin__list { list-style: none; padding: 0; border-top: 1px solid var(--fg-line, #d6cdbf); columns: 1; }
+  .fg-origin__list li { break-inside: avoid; padding: 10px 0; border-bottom: 1px solid var(--fg-line, #d6cdbf); }
+  .fg-origin__list a { font-family: var(--font-brand-display); font-weight: 600; font-size: 17px; color: var(--fg-navy, #173c59); }
+  .fg-origin__list span { display: block; font-size: 13.5px; line-height: 1.75; color: var(--fg-mute, #59656a); }
+  @media (min-width: 760px) {
+    .fg-origin { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 40px; }
+    .fg-origin__list { columns: 2; column-gap: 32px; border-top: 0; }
+    .fg-origin__list li:first-child { border-top: 1px solid var(--fg-line, #d6cdbf); }
+  }
+</style>

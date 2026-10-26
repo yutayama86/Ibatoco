@@ -1,140 +1,210 @@
 ---
-import BrandBase from '../../layouts/BrandBase.astro';
+/**
+ * 干し芋図鑑（/hoshiimo/）。「茨城のおいしい図鑑」シリーズの1冊として、ほかの図鑑と同じ外枠・部品で組む。
+ * URL・title・description・品種のアンカー（#beniharuka など）・診断（#diagnosis）は、TOPや外部からの導線のため変えない。
+ */
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('hoshiimo')!;
 const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
 const description = 'べにはるか・シルクスイート・玉豊・いずみ・ほしこがねなど8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
+
 const varieties = [
-  {id:'beniharuka',name:'べにはるか',ruby:'BENIHARUKA',number:'01',lead:'甘く、しっとり。黄金色の定番。',taste:'濃厚な甘み',texture:'しっとり柔らか',story:'近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。',tag:'濃厚派'},
-  {id:'silksweet',name:'シルクスイート',ruby:'SILK SWEET',number:'02',lead:'絹のように、なめらか。',taste:'上品な甘み',texture:'なめらか',story:'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。',tag:'なめらか派'},
-  {id:'tamayutaka',name:'玉豊',ruby:'TAMAYUTAKA',number:'03',lead:'懐かしさを噛みしめる。',taste:'素朴な甘み',texture:'噛むほど味わい',story:'産地の歴史を支えた伝統品種。昔ながらの干し芋を探している人に。',tag:'伝統派'},
-  {id:'izumi',name:'いずみ',ruby:'IZUMI 13',number:'04',lead:'手間をかけて育つ、希少な味。',taste:'コクのある甘み',texture:'柔らかく粘りがある',story:'栽培と加工に手間がかかる希少品種。濃い飴色とコクが特徴です。',tag:'探究派'},
-  {id:'hoshikogane',name:'ほしこがね',ruby:'HOSHIKOGANE',number:'05',lead:'芋そのものの風味を。',taste:'上品な甘み',texture:'製品によって異なる',story:'上品な甘みと、さつまいもらしい風味を楽しめる品種です。',tag:'風味派'},
-  {id:'hoshikirari',name:'ほしキラリ',ruby:'HOSHI KIRARI',number:'06',lead:'干し芋のために生まれた、期待の品種。',taste:'糖化しやすく甘みが出やすい',texture:'加工条件により異なる',story:'農研機構が育成した干し芋加工用品種。白く硬い部分「シロタ」が発生しにくく、淡黄色の仕上がりが特徴です。',tag:'加工専用品種'},
-  {id:'hoshiakane',name:'ほしあかね',ruby:'HOSHI AKANE',number:'07',lead:'ほんのり橙色、色から楽しむ。',taste:'加工条件により異なる',texture:'加工条件により異なる',story:'農研機構が育成した干し芋加工用品種。カロテン由来の淡い橙色と透明感のある仕上がりが特徴です。',tag:'橙色の干し芋'},
-  {id:'tamaotome',name:'タマオトメ',ruby:'TAMAOTOME',number:'08',lead:'加工しやすさにも理由がある。',taste:'製品によって異なる',texture:'製品によって異なる',story:'農研機構が育成した蒸切干向け品種。繊維が少なく、皮がむきやすいことや、黄色い仕上がりが特徴です。',tag:'加工用品種'},
+  { id: 'beniharuka', name: 'べにはるか', ruby: 'BENIHARUKA', lead: '甘く、しっとり。黄金色の定番。', taste: '濃厚な甘み', texture: 'しっとり柔らか', story: '近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。', tag: '濃厚派' },
+  { id: 'silksweet', name: 'シルクスイート', ruby: 'SILK SWEET', lead: '絹のように、なめらか。', taste: '上品な甘み', texture: 'なめらか', story: 'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。', tag: 'なめらか派' },
+  { id: 'tamayutaka', name: '玉豊', ruby: 'TAMAYUTAKA', lead: '懐かしさを噛みしめる。', taste: '素朴な甘み', texture: '噛むほど味わい', story: '産地の歴史を支えた伝統品種。昔ながらの干し芋を探している人に。', tag: '伝統派' },
+  { id: 'izumi', name: 'いずみ', ruby: 'IZUMI 13', lead: '手間をかけて育つ、希少な味。', taste: 'コクのある甘み', texture: '柔らかく粘りがある', story: '栽培と加工に手間がかかる希少品種。濃い飴色とコクが特徴です。', tag: '探究派' },
+  { id: 'hoshikogane', name: 'ほしこがね', ruby: 'HOSHIKOGANE', lead: '芋そのものの風味を。', taste: '上品な甘み', texture: '製品によって異なる', story: '上品な甘みと、さつまいもらしい風味を楽しめる品種です。', tag: '風味派' },
+  { id: 'hoshikirari', name: 'ほしキラリ', ruby: 'HOSHI KIRARI', lead: '干し芋のために生まれた、期待の品種。', taste: '糖化しやすく甘みが出やすい', texture: '加工条件により異なる', story: '農研機構が育成した干し芋加工用品種。白く硬い部分「シロタ」が発生しにくく、淡黄色の仕上がりが特徴です。', tag: '加工専用品種', source: '農研機構' },
+  { id: 'hoshiakane', name: 'ほしあかね', ruby: 'HOSHI AKANE', lead: 'ほんのり橙色、色から楽しむ。', taste: '加工条件により異なる', texture: '加工条件により異なる', story: '農研機構が育成した干し芋加工用品種。カロテン由来の淡い橙色と透明感のある仕上がりが特徴です。', tag: '橙色の干し芋', source: '農研機構' },
+  { id: 'tamaotome', name: 'タマオトメ', ruby: 'TAMAOTOME', lead: '加工しやすさにも理由がある。', taste: '製品によって異なる', texture: '製品によって異なる', story: '農研機構が育成した蒸切干向け品種。繊維が少なく、皮がむきやすいことや、黄色い仕上がりが特徴です。', tag: '加工用品種', source: '農研機構' },
 ];
+
 const sources = [
- {name:'農研機構「ほしキラリ」研究紹介',url:'https://www.naro.go.jp/publicity_report/press/laboratory/nics/013141.html'},
- {name:'農研機構「ほしあかね」研究成果',url:'https://www.naro.go.jp/publicity_report/press/laboratory/nics/137043.html'},
- {name:'農研機構「タマオトメ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001435.html'},
- {name:'農研機構「ほしキラリ」',url:'https://www.naro.go.jp/collab/breed/0100/0102/001573.html'},
- {name:'農研機構「ほしあかね」',url:'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html'},
+  { label: '農研機構「ほしキラリ」研究紹介', url: 'https://www.naro.go.jp/publicity_report/press/laboratory/nics/013141.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしあかね」研究成果', url: 'https://www.naro.go.jp/publicity_report/press/laboratory/nics/137043.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「タマオトメ」', url: 'https://www.naro.go.jp/collab/breed/0100/0102/001435.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしキラリ」', url: 'https://www.naro.go.jp/collab/breed/0100/0102/001573.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしあかね」', url: 'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html', accessedAt: '2026-10-25' },
 ];
-const jsonLd = {'@context':'https://schema.org','@type':'Article',headline:'茨城の干し芋図鑑｜8品種の違い・産地・選び方',description,author:{'@type':'Organization',name:'イバトコ'},mainEntityOfPage:new URL('/hoshiimo/',Astro.site).href};
+
+const faq = [
+  { q: '砂糖は入っていますか？', a: 'さつまいもだけで作られる干し芋が一般的ですが、購入する商品の原材料表示を確認してください。' },
+  { q: 'どこで買えますか？', a: '産地の直売所や生産者のオンライン販売などで購入できます。品種、在庫、配送方法は販売元の最新情報をご確認ください。' },
+  { q: '保存はどうすればいいですか？', a: '商品によって賞味期限や保存温度が異なります。パッケージの表示を優先し、開封後は指定された方法で保存してください。' },
+];
 ---
-<BrandBase title={title} description={description} jsonLd={jsonLd}>
-  <main class="hz">
-    <section class="hz-hero hz-hero--editorial" aria-labelledby="hoshiimo-title">
-      <div class="hz-hero__inner">
-        <p class="hz-kicker">IBATOCO / FOOD & CULTURE <span>ISSUE 01 — IBARAKI</span></p>
-        <p class="hz-eyebrow">茨城、冬の甘い風景。</p>
-        <h1 id="hoshiimo-title">干し芋を、<br/><em>もっと好きになる。</em></h1>
-        <p class="hz-hero__lead">同じ干し芋でも、甘さも、色も、食感も違う。<br/>茨城の風土から生まれた、8品種の物語。</p>
-        <div class="hz-hero__actions"><a class="hz-primary" href="#varieties">品種を知る <span aria-hidden="true">↗</span></a><a class="hz-secondary" href="#diagnosis">好みから探す <span aria-hidden="true">↓</span></a></div>
-      </div>
-      <figure class="hz-hero__art hz-hero__art--photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg?width=1280" alt="茨城で撮影された、並べられた干し芋の実物写真" width="1280" height="720" fetchpriority="high" decoding="async" /><figcaption>写真：<a href="https://commons.wikimedia.org/wiki/File:%E8%8C%A8%E5%9F%8E%E5%90%8D%E7%94%A3%E3%81%AE%E5%B9%B2%E3%81%97%E8%8A%8B.jpg" target="_blank" rel="noopener noreferrer">ジョンドウ / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>（画面表示に合わせてトリミング）</figcaption></figure>
-      <div class="hz-hero__folio" aria-hidden="true"><span>01 / 08</span><span>THE ART OF HOSHIIMO</span></div>
-    </section>
-    <div class="hz-marquee" aria-hidden="true">BENIHARUKA <span>✳</span> SILK SWEET <span>✳</span> TAMAYUTAKA <span>✳</span> IZUMI <span>✳</span> HOSHIKOGANE</div>
-    <section class="hz-section hz-intro">
-      <div><p class="hz-section__no">01 / THE STORY</p><h2>同じ干し芋なのに、<br/><em>こんなに違う。</em></h2></div>
-      <p>ひとくちに「干し芋」といっても、品種が違えば甘みも香りも、歯ざわりも変わります。茨城の干し芋は、産地の風土と作り手の手仕事が生み出す、食べ比べるほど奥深い食文化です。</p>
-    </section>
-    <section class="hz-section hz-quiz" id="diagnosis" aria-labelledby="quiz-heading">
-      <div class="hz-section-head"><p class="hz-section__no">02 / FIND YOUR TYPE</p><h2 id="quiz-heading">あなたは、<em>何派？</em></h2><p>たった2問で、好みに合いそうな品種を見つけよう。</p></div>
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城の干し芋図鑑｜8品種の違い・産地・選び方" faq={faq} sources={sources} photos={[FOOD_PHOTOS.hoshiimo]}>
+  <FoodHero
+    guide={guide}
+    lines={['干し芋を、', 'もっと好きになる。']}
+    lead="同じ干し芋でも、甘さも、色も、食感も違う。茨城の風土から生まれた、8品種の物語。"
+    position="50% 55%"
+    facts={[
+      { label: '紹介する品種', value: 'べにはるか・玉豊・いずみなど8品種' },
+      { label: '主な産地', value: 'ひたちなか市・東海村・那珂市' },
+      { label: '形', value: '平干しと丸干し' },
+    ]}
+  >
+    <ul slot="actions" class="hz-jump" aria-label="このページの中を探す">
+      <li><a href="#varieties">品種を知る</a></li>
+      <li><a href="#diagnosis">好みから探す（2問の診断）</a></li>
+    </ul>
+  </FoodHero>
+
+  <section class="fg-section" aria-labelledby="hz-story">
+    <div class="fg-section__label"><p>品種で違う</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-story">同じ干し芋なのに、<span>こんなに違う。</span></h2>
+      <p class="fg-lead">ひとくちに「干し芋」といっても、品種が違えば甘みも香りも、歯ざわりも変わります。茨城の干し芋は、産地の風土と作り手の手仕事が生み出す、食べ比べるほど奥深い食文化です。</p>
+    </div>
+  </section>
+
+  <section class="fg-section hz-quiz" id="diagnosis" aria-labelledby="quiz-heading">
+    <div class="fg-section__label"><p>好みから探す</p></div>
+    <div class="fg-section__body">
+      <h2 id="quiz-heading">あなたは、<span>何派？</span></h2>
+      <p>たった2問で、好みに合いそうな品種を見つけよう。</p>
       <form class="hz-quiz__form" id="hz-quiz">
-        <fieldset><legend><span>Q1</span> 好きな甘さは？</legend><div class="hz-options"><label><input type="radio" name="taste" value="rich" checked/><span>濃厚な甘さ</span></label><label><input type="radio" name="taste" value="refined"/><span>上品な甘さ</span></label><label><input type="radio" name="taste" value="nostalgic"/><span>昔ながらの味</span></label></div></fieldset>
-        <fieldset><legend><span>Q2</span> 好きな食感は？</legend><div class="hz-options"><label><input type="radio" name="texture" value="soft" checked/><span>しっとり</span></label><label><input type="radio" name="texture" value="smooth"/><span>なめらか</span></label><label><input type="radio" name="texture" value="chewy"/><span>噛み応え</span></label></div></fieldset>
-        <div class="hz-result" aria-live="polite"><p>あなたにおすすめの候補</p><strong id="hz-result-name">べにはるか</strong><p class="hz-result__note">好みに合わせた編集上の提案です。実際の食感や甘さは商品・加工方法によって異なります。</p><div class="hz-result__actions"><a id="hz-result-link" href="#beniharuka">この品種を詳しく見る ↗</a><button id="hz-share" type="button">結果をコピー</button></div><span id="hz-share-status" role="status"></span></div>
+        <fieldset>
+          <legend><span class="hz-quiz__q">Q1</span>好きな甘さは？</legend>
+          <div class="hz-options">
+            <label><input type="radio" name="taste" value="rich" checked /><span>濃厚な甘さ</span></label>
+            <label><input type="radio" name="taste" value="refined" /><span>上品な甘さ</span></label>
+            <label><input type="radio" name="taste" value="nostalgic" /><span>昔ながらの味</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend><span class="hz-quiz__q">Q2</span>好きな食感は？</legend>
+          <div class="hz-options">
+            <label><input type="radio" name="texture" value="soft" checked /><span>しっとり</span></label>
+            <label><input type="radio" name="texture" value="smooth" /><span>なめらか</span></label>
+            <label><input type="radio" name="texture" value="chewy" /><span>噛み応え</span></label>
+          </div>
+        </fieldset>
+        <div class="hz-result" aria-live="polite">
+          <p class="hz-result__label">あなたにおすすめの候補</p>
+          <strong id="hz-result-name">べにはるか</strong>
+          <p class="hz-result__note">好みに合わせた編集上の提案です。実際の食感や甘さは商品・加工方法によって異なります。</p>
+          <div class="hz-result__actions">
+            <a id="hz-result-link" href="#beniharuka">この品種を詳しく見る</a>
+            <button id="hz-share" type="button">結果をコピー</button>
+          </div>
+          <span id="hz-share-status" role="status"></span>
+        </div>
       </form>
-    </section>
-    <section class="hz-section" id="varieties">
-      <div class="hz-section-head"><p class="hz-section__no">03 / THE COLLECTION</p><h2>八つの個性を、<em>味わう。</em></h2><p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p></div>
-      <div class="hz-varieties">{varieties.map(v=><article class="hz-variety" id={v.id}><div class="hz-variety__top"><span>SPECIMEN / {v.number}</span><span class="hz-tag">{v.tag}</span></div><div class="hz-variety__figure hz-variety__figure--type" aria-hidden="true"><span class="hz-variety__index">{v.number}</span><span class="hz-variety__glyph">干し芋図鑑</span></div><p class="hz-variety__roman">{v.ruby}</p><h3>{v.name}</h3><p class="hz-variety__lead">{v.lead}</p><dl><div><dt>甘み</dt><dd>{v.taste}</dd></div><div><dt>食感</dt><dd>{v.texture}</dd></div></dl><p class="hz-variety__story">{v.story}</p></article>)}</div>
-      <p class="hz-small">※品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。品種の実物写真は撮影・使用許諾確認後に掲載予定です。</p>
-    </section>
-    <section class="hz-section hz-origin" id="origin"><p class="hz-section__no">04 / MADE IN IBARAKI</p><h2>海と大地が育む、<br/><em>干し芋のふるさと。</em></h2><p>ひたちなか市、東海村、那珂市。火山灰由来の水はけのよい土壌、潮風、冬の晴天。茨城の干し芋は、この土地の条件と「蒸す・切る・乾燥させる」手仕事によって育まれてきました。</p><div class="hz-places"><span>ひたちなか市 <small>HITACHINAKA</small></span><span>東海村 <small>TOKAI</small></span><span>那珂市 <small>NAKA</small></span></div></section>
-    <section class="hz-section hz-shapes"><p class="hz-section__no">05 / HOW TO CHOOSE</p><h2>平干し、それとも<em>丸干し？</em></h2><div class="hz-shape-grid"><article><span>01 / HIRABOSHI</span><h3>平干し</h3><p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p></article><article><span>02 / MARUBOSHI</span><h3>丸干し</h3><p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p></article></div></section>
-    <section class="hz-section hz-faq"><p class="hz-section__no">06 / GOOD TO KNOW</p><h2>干し芋の<em>豆知識。</em></h2><details><summary>砂糖は入っていますか？</summary><p>さつまいもだけで作られる干し芋が一般的ですが、購入する商品の原材料表示を確認してください。</p></details><details><summary>どこで買えますか？</summary><p>産地の直売所や生産者のオンライン販売などで購入できます。品種、在庫、配送方法は販売元の最新情報をご確認ください。</p></details><details><summary>保存はどうすればいいですか？</summary><p>商品によって賞味期限や保存温度が異なります。パッケージの表示を優先し、開封後は指定された方法で保存してください。</p></details></section>
-    <section class="hz-section hz-sources"><h2>出典・参考情報</h2><ul>{sources.map(s=><li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a></li>)}</ul><p>品種の味・食感は目安です。実地取材や生産者写真は、許諾取得後に順次追加します。</p></section>
-  </main>
-</BrandBase>
+    </div>
+  </section>
+
+  <section class="fg-section" id="varieties" aria-labelledby="hz-varieties">
+    <div class="fg-section__label"><p>品種</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-varieties">八つの個性を、<span>味わう。</span></h2>
+      <p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p>
+      <VarietyList items={varieties.map((v) => ({
+        id: v.id,
+        name: v.name,
+        reading: v.ruby,
+        meta: [v.tag, `甘み：${v.taste}`, `食感：${v.texture}`],
+        text: `${v.lead}${v.story}`,
+        source: v.source,
+      }))} />
+      <p class="fg-note">品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。品種ごとの実物の写真は、撮影と使用の許諾を確認してから掲載します。原料のさつまいもの品種は、<a href="/food-library/satsumaimo/#varieties">さつまいも図鑑</a>でも紹介しています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" id="origin" aria-labelledby="hz-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-origin">海と大地が育む、<span>干し芋のふるさと。</span></h2>
+      <p class="fg-lead">ひたちなか市、東海村、那珂市。火山灰由来の水はけのよい土壌、潮風、冬の晴天。茨城の干し芋は、この土地の条件と「蒸す・切る・乾燥させる」手仕事によって育まれてきました。</p>
+      <OriginMap guide={guide} caption="色の付いた市町村が、干し芋の主な産地です。" />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hz-shapes">
+    <div class="fg-section__label"><p>選ぶ</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-shapes">平干し、それとも<span>丸干し？</span></h2>
+      <div class="fg-pair">
+        <div>
+          <h3>平干し</h3>
+          <p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p>
+        </div>
+        <div>
+          <h3>丸干し</h3>
+          <p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</FoodGuideLayout>
+
 <script>
-  const quiz=document.querySelector<HTMLFormElement>('#hz-quiz');
-  const name=document.querySelector<HTMLElement>('#hz-result-name');
-  const link=document.querySelector<HTMLAnchorElement>('#hz-result-link');
-  const share=document.querySelector<HTMLButtonElement>('#hz-share');
-  const status=document.querySelector<HTMLElement>('#hz-share-status');
-  const result=()=>{if(!quiz)return;const data=new FormData(quiz);const t=data.get('taste'),x=data.get('texture');const item=t==='nostalgic'?['玉豊','tamayutaka']:t==='refined'?(x==='smooth'?['シルクスイート','silksweet']:['ほしこがね','hoshikogane']):(x==='smooth'?['シルクスイート','silksweet']:['べにはるか','beniharuka']);if(name)name.textContent=item[0];if(link)link.href='#'+item[1];};
-  quiz?.addEventListener('change',result);result();
-  share?.addEventListener('click',async()=>{const message='私の推し干し芋候補は「'+(name?.textContent||'べにはるか')+'」！あなたは何派？ #イバトコ #干し芋図鑑 '+window.location.href;try{await navigator.clipboard.writeText(message);if(status)status.textContent='コピーしました';}catch{if(status)status.textContent='コピーできませんでした。';}});
+  const quiz = document.querySelector<HTMLFormElement>('#hz-quiz');
+  const name = document.querySelector<HTMLElement>('#hz-result-name');
+  const link = document.querySelector<HTMLAnchorElement>('#hz-result-link');
+  const share = document.querySelector<HTMLButtonElement>('#hz-share');
+  const status = document.querySelector<HTMLElement>('#hz-share-status');
+  const result = () => {
+    if (!quiz) return;
+    const data = new FormData(quiz);
+    const t = data.get('taste'), x = data.get('texture');
+    const item = t === 'nostalgic' ? ['玉豊', 'tamayutaka'] : t === 'refined' ? (x === 'smooth' ? ['シルクスイート', 'silksweet'] : ['ほしこがね', 'hoshikogane']) : (x === 'smooth' ? ['シルクスイート', 'silksweet'] : ['べにはるか', 'beniharuka']);
+    if (name) name.textContent = item[0];
+    if (link) link.href = '#' + item[1];
+  };
+  quiz?.addEventListener('change', result);
+  result();
+  share?.addEventListener('click', async () => {
+    const message = '私の推し干し芋候補は「' + (name?.textContent || 'べにはるか') + '」！あなたは何派？ #イバトコ #干し芋図鑑 ' + window.location.href;
+    try {
+      await navigator.clipboard.writeText(message);
+      if (status) status.textContent = 'コピーしました';
+    } catch {
+      if (status) status.textContent = 'コピーできませんでした。';
+    }
+  });
 </script>
-<style>
-  .hz{--navy:#173c59;--ink:#28343b;--paper:#f8f0e4;--line:#d7d9d3;--amber:#b87742;color:var(--ink);background:var(--paper);font-family:inherit;overflow:hidden}.hz *{box-sizing:border-box}.hz h1,.hz h2,.hz h3,.hz p{margin:0}.hz a{color:inherit}.hz-hero{min-height:650px;position:relative;background:#f0e4d2;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;padding:clamp(36px,6vw,90px) max(5vw,24px);isolation:isolate}.hz-hero__inner{position:relative;z-index:2;max-width:760px}.hz-kicker,.hz-section__no{font-size:12px;letter-spacing:.17em;font-weight:700;color:#487088}.hz-kicker span{opacity:.6}.hz-eyebrow{margin:36px 0 12px!important;font-size:16px;letter-spacing:.16em}.hz h1,.hz h2,.hz h3{font-family:inherit;font-weight:800;letter-spacing:-.045em}.hz h1{font-size:clamp(44px,5.6vw,92px);line-height:1.22;color:var(--navy)}.hz h1 span{color:#b76c3b}.hz-hero__lead{font-size:clamp(15px,1.5vw,20px);line-height:2;margin:28px 0!important}.hz-primary{display:inline-flex;gap:24px;align-items:center;background:var(--navy);color:#fff!important;padding:18px 25px;border-radius:50px;text-decoration:none;font-weight:700}.hz-primary:hover{background:#275a7c}.hz-secondary{display:inline-block;margin:16px 0 0 20px;font-weight:700;font-size:13px;text-underline-offset:5px}.hz-hero__art{min-height:420px;position:relative;display:grid;place-items:center}.hz-plate{width:min(34vw,430px);aspect-ratio:1;border-radius:50%;background:#fff7e8;box-shadow:0 25px 65px #173c5924,inset 0 0 0 12px #fff8;display:flex;align-items:center;justify-content:center;gap:8px;transform:rotate(-16deg)}.hz-slice{display:block;width:23%;height:58%;border-radius:43% 38% 42% 30%;background:linear-gradient(95deg,#a35e2b,#e8b56d 35%,#d48c47 75%,#a35e2b);box-shadow:inset 4px 0 12px #fff5,5px 6px 8px #56371b3b;transform:rotate(9deg)}.hz-slice--b{height:67%;transform:rotate(-8deg)}.hz-slice--c{height:54%;transform:rotate(16deg)}.hz-art-label{position:absolute;right:3%;bottom:8%;font-size:11px;letter-spacing:.25em;line-height:1.8;color:#456778}.hz-hero__foot{position:absolute;bottom:20px;left:5vw;font-size:10px;letter-spacing:.18em}.hz-hero__foot span{margin-left:15px}.hz-marquee{white-space:nowrap;overflow:hidden;background:var(--navy);color:#fff;font-size:12px;letter-spacing:.19em;padding:14px;text-align:center}.hz-marquee span{color:#e2ad79;margin:0 16px}.hz-section{padding:clamp(70px,9vw,130px) max(5vw,24px);max-width:1440px;margin:auto;scroll-margin-top:90px}.hz h2{font-size:clamp(32px,4.5vw,62px);line-height:1.35;color:var(--navy);margin:18px 0 24px}.hz h2 em{font-style:normal;color:var(--amber)}.hz-section p{line-height:1.95}.hz-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.hz-intro>p{max-width:540px;font-size:17px}.hz-section-head{text-align:center;margin-bottom:44px}.hz-quiz{background:#e4edf0;max-width:none}.hz-quiz>.hz-section-head,.hz-quiz__form{max-width:1000px;margin-left:auto;margin-right:auto}.hz-quiz__form{background:#fff;border-radius:24px;padding:clamp(24px,5vw,60px);box-shadow:0 18px 60px #173c590c}.hz-quiz fieldset{border:0;padding:0;margin:0 0 32px;min-width:0}.hz-quiz legend{font-weight:800;font-size:19px;margin-bottom:18px}.hz-quiz legend span{color:var(--amber);font-size:14px;margin-right:12px}.hz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.hz-options label{cursor:pointer;position:relative}.hz-options input{position:absolute;opacity:0}.hz-options label span{display:block;border:1px solid var(--line);border-radius:14px;padding:19px 10px;text-align:center;font-weight:700;background:#fff;transition:background .15s,border-color .15s}.hz-options input:checked+span{border:2px solid var(--navy);background:#e9f2f7}.hz-options input:focus-visible+span{outline:3px solid #b87742;outline-offset:3px}.hz-result{background:var(--navy);color:#fff;border-radius:18px;padding:28px;text-align:center}.hz-result>p:first-child{font-size:13px;letter-spacing:.1em}.hz-result strong{display:block;font-size:clamp(30px,4vw,48px);margin:6px 0}.hz-result__note{font-size:12px;opacity:.85}.hz-result__actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}.hz-result__actions a,.hz-result__actions button{font:inherit;font-weight:700;font-size:13px;border:1px solid #fff9;color:#fff;background:transparent;border-radius:99px;padding:12px 18px;cursor:pointer;text-decoration:none}.hz-result__actions a{background:#fff;color:var(--navy)}#hz-share-status{display:block;font-size:12px;margin-top:8px}.hz-varieties{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.hz-variety{background:#fffaf2;border:1px solid #d9c9b4;border-radius:18px;padding:26px;min-width:0;scroll-margin-top:100px}.hz-variety__top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;letter-spacing:.12em;color:#597184}.hz-tag{background:#e7f0f2;border-radius:99px;padding:7px 12px;letter-spacing:0;color:var(--navy)}.hz-variety__figure{height:150px;display:grid;place-items:center}.hz-variety__shape{display:block;width:65px;height:130px;border-radius:40% 44% 38% 45%;transform:rotate(35deg);background:linear-gradient(105deg,#8b4b2b,#e9b66e 40%,#c78340 85%);box-shadow:7px 8px 10px #6b3e2030}.hz-variety:nth-child(2) .hz-variety__shape{background:linear-gradient(105deg,#9d643c,#f1cf93,#b97940)}.hz-variety:nth-child(3) .hz-variety__shape{background:linear-gradient(105deg,#9a774e,#d5b78a,#8c6b45)}.hz-variety:nth-child(4) .hz-variety__shape{background:linear-gradient(105deg,#7a4b28,#bd8541,#74441e)}.hz-variety:nth-child(5) .hz-variety__shape{background:linear-gradient(105deg,#a56939,#e6bc79,#a76939)}.hz-variety__roman{font-size:11px;letter-spacing:.16em;color:#8b765e}.hz-variety h3{font-size:30px;color:var(--navy);margin:4px 0 8px}.hz-variety__lead{font-weight:700;font-size:15px}.hz-variety dl{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:22px 0;padding:10px 0}.hz-variety dl div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:13px}.hz-variety dt{color:#64737a}.hz-variety dd{margin:0;font-weight:700;text-align:right}.hz-variety__story{font-size:13px;color:#485760}.hz-small{font-size:12px;color:#65737b;margin-top:24px!important}.hz-origin{background:#e4edf0;max-width:none}.hz-origin>p,.hz-origin>h2,.hz-places{max-width:1200px;margin-left:auto!important;margin-right:auto!important}.hz-origin>p:not(.hz-section__no){max-width:780px;margin-left:auto!important;margin-right:auto!important;text-align:center}.hz-origin>.hz-section__no,.hz-origin h2{text-align:center}.hz-places{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:35px!important}.hz-places span{background:#fff;border-radius:14px;padding:24px;text-align:center;font-weight:800;color:var(--navy)}.hz-places small{display:block;font-size:10px;letter-spacing:.13em;font-weight:500;margin-top:7px}.hz-shape-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.hz-shape-grid article{padding:35px;background:#fff;border:1px solid var(--line);border-radius:18px}.hz-shape-grid article>span{font-size:11px;letter-spacing:.15em;color:#a36b40}.hz-shape-grid h3{font-size:30px;margin:18px 0}.hz-faq details{border-bottom:1px solid var(--line);padding:18px 0}.hz-faq summary{cursor:pointer;font-weight:700;font-size:17px;list-style-position:inside}.hz-faq details p{padding:12px 0 0 20px}.hz-sources{border-top:1px solid var(--line);padding-top:40px}.hz-sources h2{font-size:20px}.hz-sources ul{padding-left:20px;line-height:2}.hz-sources p{font-size:12px;color:#63717b;margin-top:20px!important}
-  @media(max-width:800px){.hz-hero{grid-template-columns:1fr;min-height:auto;padding-top:65px;padding-bottom:80px}.hz-hero__art{min-height:270px;grid-row:2}.hz-plate{width:min(65vw,300px)}.hz-hero__foot{bottom:15px}.hz-intro{grid-template-columns:1fr;gap:10px}.hz-varieties{grid-template-columns:repeat(2,minmax(0,1fr))}.hz-places{grid-template-columns:1fr}.hz-hero__lead{margin:20px 0!important}}
-  @media(max-width:560px){.hz-hero{padding-left:22px;padding-right:22px}.hz h1{font-size:clamp(40px,11vw,58px)}.hz-secondary{display:block;margin:18px 0 0}.hz-hero__art{min-height:230px}.hz-section{padding:68px 20px}.hz-options{grid-template-columns:1fr;gap:9px}.hz-options label span{padding:13px}.hz-varieties{grid-template-columns:1fr}.hz-variety__figure{height:130px}.hz-shape-grid{grid-template-columns:1fr}.hz-quiz__form{padding:20px}.hz-marquee{font-size:10px}.hz-hero__foot{left:22px}}
-  @media(prefers-reduced-motion:reduce){.hz *{scroll-behavior:auto!important;transition:none!important}}
-</style>
 
 <style>
-/* Editorial refresh: a warm, food-led field guide, while preserving Ibatoco blue. */
-.hz-hero:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;background-image:radial-gradient(#8c6747 0.65px,transparent 0.65px);background-size:17px 17px;mask-image:linear-gradient(90deg,transparent 5%,#000 95%)}
-.hz-hero__inner{max-width:800px}.hz-hero h1{letter-spacing:-.065em}.hz-hero__art{filter:drop-shadow(0 16px 25px #74411e22)}
-.hz-variety{transition:transform .2s ease,box-shadow .2s ease;position:relative}.hz-variety:hover{transform:translateY(-4px);box-shadow:0 18px 35px #173c5914}.hz-variety__top{border-bottom:1px solid #e8ddce;padding-bottom:12px}.hz-variety__roman{font-family:Georgia,serif;letter-spacing:.21em}.hz-variety__figure{background:radial-gradient(ellipse at center,#f7e7cc 0%,transparent 65%);margin:12px 0}
-.hz-quiz__form{border:1px solid #c8d7db}.hz-result{background:linear-gradient(135deg,#173c59,#245d75)}.hz-shape-grid article{background:#fffaf2;border-color:#d9c9b4}.hz-primary:focus-visible,.hz-secondary:focus-visible,.hz-result__actions a:focus-visible,.hz-result__actions button:focus-visible{outline:3px solid #b76c3b;outline-offset:4px}
-@media(prefers-reduced-motion:reduce){.hz-variety{transition:none}.hz-variety:hover{transform:none}}
-</style>
+  /* 扉の中の目次（品種へ・診断へ） */
+  .hz-jump { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
+  .hz-jump li { border-bottom: 1px solid var(--fg-line); max-width: none; }
+  .hz-jump a { display: flex; justify-content: space-between; align-items: center; min-height: 48px; text-decoration: none; font-weight: 700; color: var(--fg-navy); }
+  .hz-jump a::after { content: '↓'; font-weight: 400; color: var(--fg-soil); }
+  .hz-jump a:hover { text-decoration: underline; }
 
-<style>
-/* Stronger editorial hierarchy: distinct from event promotion, optimized for mobile. */
-.hz-hero__stamp{display:inline-flex;align-items:baseline;gap:8px;color:#173c59;border-top:1px solid #a48e78;border-bottom:1px solid #a48e78;padding:8px 0;margin-top:24px!important;font-family:Georgia,serif;letter-spacing:.13em}
-.hz-hero__stamp strong{font-size:32px;line-height:1;color:#a5673b}.hz-hero__stamp span{font-size:10px;font-weight:700}
-.hz-variety:nth-child(4n+1){border-top:4px solid #a5673b}.hz-variety:nth-child(4n+2){border-top:4px solid #173c59}.hz-variety:nth-child(4n+3){border-top:4px solid #a1a08a}.hz-variety:nth-child(4n){border-top:4px solid #7b513e}
-.hz-variety h3{overflow-wrap:anywhere}.hz-places span{border:1px solid #c8d8db}.hz-faq summary:focus-visible{outline:3px solid #a5673b;outline-offset:4px}
-@media(max-width:560px){.hz-hero__stamp{margin-top:18px!important}.hz-hero__stamp strong{font-size:27px}}
-</style>
-
-<style>
-/* V2 art direction: editorial typography and negative space, not decorative UI. */
-.hz-hero--editorial{position:relative;min-height:660px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);align-items:center;overflow:hidden;background:#f5f0e8;color:#1d313b;border-bottom:1px solid #d9d1c4}
-.hz-hero--editorial:before{display:none}
-.hz-hero--editorial .hz-hero__inner{max-width:720px;position:relative;z-index:2;padding:clamp(70px,8vw,132px) 0 clamp(100px,10vw,150px) clamp(28px,7vw,116px)}
-.hz-hero--editorial .hz-kicker{color:#536875;letter-spacing:.22em;font-size:10px;border-bottom:1px solid #b9b3a8;padding-bottom:20px;margin-bottom:clamp(45px,6vw,85px)}
-.hz-hero--editorial .hz-eyebrow{font-size:clamp(13px,1.2vw,16px);letter-spacing:.25em;color:#7c6046;margin:0 0 24px}
-.hz-hero--editorial h1{font-family:"Noto Serif JP","Yu Mincho",serif!important;font-size:clamp(40px,4.6vw,78px)!important;line-height:1.38!important;letter-spacing:-.055em!important;font-weight:600!important;color:#1b3544!important;margin:0 0 32px!important}
-.hz-hero--editorial h1 em{font-style:normal;white-space:nowrap}
-.hz-hero--editorial .hz-hero__lead{font-size:clamp(13px,1.3vw,17px);line-height:2.15;letter-spacing:.045em;color:#44565e;margin-bottom:36px}
-.hz-hero--editorial .hz-hero__actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap}
-.hz-hero--editorial .hz-primary{border-radius:0;background:#173c59;box-shadow:none;padding:16px 30px}
-.hz-hero--editorial .hz-secondary{border-radius:0;border:0;border-bottom:1px solid #6d787d;padding:10px 0;background:transparent;color:#1b3544}
-.hz-hero--editorial .hz-hero__art{height:100%;min-height:620px;position:relative;inset:auto!important;display:grid;place-items:center;background:radial-gradient(circle at 52% 47%,#e7c49a 0%,#d9b48c 38%,#b98058 100%);overflow:hidden;filter:none}
-.hz-hero--editorial .hz-hero__art:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#f5f0e822,transparent 24%),repeating-linear-gradient(0deg,#fff2 0px,transparent 1px,transparent 6px);opacity:.22}
-.hz-hero--editorial .hz-plate{transform:scale(1.1) rotate(-10deg);filter:drop-shadow(18px 30px 20px #482c2340)}
-.hz-hero--editorial .hz-art-label{position:absolute;bottom:70px;right:40px;font:500 11px/1.8 Georgia,serif;letter-spacing:.22em;color:#fffaf2;text-align:right}
-.hz-hero--editorial .hz-hero__folio{position:absolute;left:clamp(28px,7vw,116px);right:clamp(28px,7vw,116px);bottom:28px;display:flex;justify-content:space-between;gap:20px;color:#536875;font:11px Georgia,serif;letter-spacing:.17em;z-index:3}
-.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:40%}
-.hz-variety{border-top:1px solid #cfc5b7!important;border-radius:0!important;box-shadow:none!important;background:#fcfaf6!important}
-.hz-variety:hover{transform:none!important;box-shadow:none!important}
-.hz-variety__figure{border-radius:0!important}
-@media(max-width:900px){.hz-hero--editorial{grid-template-columns:1fr;min-height:0}.hz-hero--editorial .hz-hero__inner{padding:68px 26px 58px}.hz-hero--editorial .hz-kicker{margin-bottom:42px}.hz-hero--editorial .hz-hero__art{min-height:330px;height:330px;grid-row:2}.hz-hero--editorial .hz-plate{transform:scale(.8) rotate(-10deg)}.hz-hero--editorial .hz-hero__folio{position:relative;left:auto;right:auto;bottom:auto;padding:20px 26px;grid-row:3}.hz-hero--editorial .hz-hero__folio span:last-child{margin-right:0}}
-@media(max-width:420px){.hz-hero--editorial h1{font-size:clamp(34px,9vw,42px)!important}.hz-hero--editorial h1 em{white-space:normal}.hz-hero--editorial .hz-hero__actions{gap:18px}}
-</style>
-
-<style>
-/* No pseudo-food illustration: a deliberately typographic placeholder until rights-cleared photography. */
-.hz-hero--editorial .hz-hero__art--type{background:#d3b08c!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;filter:none!important}
-.hz-hero--editorial .hz-hero__art--type:after{display:none}
-.hz-hero__edition{font:12px Georgia,serif;letter-spacing:.35em;color:#47372e}
-.hz-hero__kanji{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:clamp(76px,8vw,128px);font-weight:600;line-height:1.05;letter-spacing:.15em;color:#fffaf2;text-shadow:1px 1px 0 #fff4}
-.hz-variety__figure--type{height:105px!important;display:flex!important;align-items:center;justify-content:space-between;padding:8px 18px!important;background:#f2eee7!important;border-top:1px solid #ded5c9;border-bottom:1px solid #ded5c9;margin:18px 0!important}
-.hz-variety__index{font:italic 72px/.95 Georgia,serif;color:#c3ae94;letter-spacing:-.09em}.hz-variety__glyph{font-family:"Noto Serif JP","Yu Mincho",serif;font-size:12px;letter-spacing:.23em;color:#6d645b;writing-mode:vertical-rl}
-@media(max-width:900px){.hz-hero__kanji{font-size:80px}.hz-hero--editorial .hz-hero__art--type{min-height:330px}}
-</style>
-
-<style>
-.hz-hero--editorial .hz-hero__art--photo{margin:0!important;min-width:0;position:relative;display:block!important;background:#d3b08c!important;overflow:hidden}
-.hz-hero--editorial .hz-hero__art--photo:after{display:none}
-.hz-hero__art--photo img{display:block;width:100%;height:100%;min-height:620px;object-fit:cover;object-position:50% 50%;filter:none}
-.hz-hero__art--photo figcaption{position:absolute;bottom:0;left:0;right:0;padding:18px 22px;background:linear-gradient(transparent,#17252fc9);color:#fff;font-size:10px;line-height:1.8;text-align:right}
-.hz-hero__art--photo figcaption a{color:inherit;text-decoration:underline;text-underline-offset:2px}
-@media(max-width:900px){.hz-hero__art--photo img{min-height:330px;height:330px}}
+  /* 診断：罫で区切った設問と、四角い選択肢。結果は濃紺の面 */
+  .hz-quiz__form { max-width: 860px; border-top: 1px solid var(--fg-ink); }
+  .hz-quiz fieldset { border: 0; margin: 0; padding: 22px 0; min-width: 0; border-bottom: 1px solid var(--fg-line); }
+  .hz-quiz legend { padding: 0; font-family: var(--font-brand-display); font-weight: 600; font-size: 20px; color: var(--fg-navy); display: flex; align-items: baseline; gap: 12px; }
+  .hz-quiz__q { font-family: var(--font-brand-serif-latin); font-weight: 400; font-size: 15px; color: var(--fg-accent); }
+  .hz-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 14px; }
+  .hz-options label { position: relative; cursor: pointer; }
+  .hz-options input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .hz-options label span { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 12px; border: 1px solid var(--fg-line-strong); background: var(--fg-paper); font-weight: 700; text-align: center; }
+  .hz-options label:hover span { border-color: var(--fg-navy); }
+  .hz-options input:checked + span { border: 2px solid var(--fg-navy); background: var(--fg-paper-deep); color: var(--fg-navy); }
+  .hz-options input:focus-visible + span { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
+  .hz-result { margin-top: 28px !important; padding: clamp(22px, 4vw, 36px); background: var(--fg-navy); color: var(--fg-paper); border-top: 3px solid var(--fg-accent); }
+  .hz-result__label { font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 700; letter-spacing: .14em; color: #d9cbb4; }
+  .hz-result strong { display: block; margin-top: 6px; font-family: var(--font-brand-display); font-weight: 600; font-size: clamp(30px, 4vw, 44px); line-height: 1.3; color: #fff; }
+  .hz-result__note { margin-top: 10px !important; font-size: 13px; line-height: 1.85; color: #d9cbb4; max-width: none !important; }
+  .hz-result__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .hz-result__actions a, .hz-result__actions button { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; font: inherit; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid var(--fg-paper); }
+  .hz-result__actions a { background: var(--fg-paper); color: var(--fg-navy); }
+  .hz-result__actions a:hover { color: var(--fg-navy); text-decoration: underline; }
+  .hz-result__actions button { background: transparent; color: var(--fg-paper); }
+  .hz-result__actions button:hover { background: rgba(246, 241, 232, .12); }
+  .hz-result__actions :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  #hz-share-status { display: block; margin-top: 8px; font-size: 12.5px; color: #d9cbb4; min-height: 1.4em; }
+  @media (min-width: 560px) {
+    .hz-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
 </style>
