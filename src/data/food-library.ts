@@ -254,7 +254,7 @@ export const FOOD_GUIDES: FoodGuide[] = [
   {
     slug: 'hoshiimo', path: '/hoshiimo/', title: '干し芋図鑑', name: '干し芋',
     catch: '同じ干し芋でも、品種で甘さも色も食感も違う。',
-    standing: 'ほしいもの全国シェアは9割を超える（茨城をたべよう）',
+    standing: '茨城の冬の味覚。主な産地はひたちなか市・東海村・那珂市',
     months: [], peakMonths: [],
     seasonNote: '出回りの時期は、商品や生産者によって違います。',
     areas: [area('hitachinaka', 'ひたちなか市'), area('tokai', '東海村'), area('naka', '那珂市')],
