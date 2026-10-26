@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261027-events-hananuki-shuttle-official',
+    date: '2026-10-27',
+    url: '/events/hananuki-gorge-autumn-2026/',
+    kind: 'on-page',
+    change: '高萩市の10月21日更新ページに合わせ、2026年の高萩駅〜花貫渓谷シャトルバス運行日と公式ダイヤPDFへの導線を確定情報として反映',
+    queries: ['花貫渓谷 バス', '花貫渓谷 シャトルバス', '花貫渓谷 アクセス'],
+    commit: 'PENDING',
+    note: '読者から実際に公共交通の分かりにくさが寄せられたため、前年情報を使わず公式一次情報だけで更新',
+    experimentType: 'fact',
+  },
+  {
     id: '20261025-events-illumination-kawachi-official',
     date: '2026-10-25',
     url: '/events/ibaraki-illumination-2026/',
