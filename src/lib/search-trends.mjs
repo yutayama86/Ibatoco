@@ -250,7 +250,7 @@ export function trendsDecisions({ summary = [], data = null, snapshot = null, ob
       keywords,
       url: `https://trends.google.co.jp/trends/explore?date=${encodeURIComponent(data?.timeframe ?? 'today 5-y')}&geo=${data?.geo ?? 'JP'}&q=${keywords.map(encodeURIComponent).join(',')}&hl=ja`,
     })),
-    howTo: '各URLの「人気度の動向」右上の↓でCSVを保存し、Claude Code が npm run trends:import -- <CSV…> で取り込む',
+    howTo: '各URLの「人気度の動向」右上の↓でCSVを保存し、開発担当が npm run trends:import -- <CSV…> で取り込む',
   } : null;
 
   // ページ別の GSC（28日）

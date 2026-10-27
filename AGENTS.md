@@ -1,6 +1,42 @@
 # イバトコ実装・公開ルール
 
-このファイルを、両ツール共通の品質・実装・公開判断の正本とする。Claude固有差分だけをCLAUDE.mdに置く。
+このファイルを、開発を担当するすべてのツール（ChatGPT・Claude Code・Codex・人）に共通の品質・実装・公開判断の正本とする。ツール固有の差分だけを各ツールの設定（Claude は CLAUDE.md）に置く。
+
+## 開発の入口（最初に読む）
+
+- 構成と主要ファイルの責務：[docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md)（「正本の地図」でどの文書を読むか分かる）
+- 作業の手順（記事・UI・SEO・収益・データ・依存更新・CI が落ちたとき・GitHub で必要な権限）：[docs/DEVELOPMENT_PLAYBOOK.md](docs/DEVELOPMENT_PLAYBOOK.md)
+- 本番の取り消し：[docs/ROLLBACK_RUNBOOK.md](docs/ROLLBACK_RUNBOOK.md)
+- 現状の監査（維持・改善・廃止候補・未確認）：[docs/CHATGPT_MIGRATION_AUDIT.md](docs/CHATGPT_MIGRATION_AUDIT.md)
+- 依頼は Issue テンプレート「開発依頼」、PR は `.github/pull_request_template.md` を使う
+
+## 開発の原則
+
+- 最新の main を正本とする。着手前に main と開いている PR を確認し、同じ変更を重複して作らない。
+- すべての変更は 作業ブランチ → Draft PR → CI → オーナー承認 → マージ → GitHub Actions「Deploy production」。main へ直接 push しない。
+- 1つの PR に1つの目的。公開対象と関係のない差分を混ぜない。大規模なリファクタリングを目的にしない。
+- 既存の機能・URL・SEO（title・canonical・構造化データ・サイトマップ）・計測（GA4 イベント）・収益導線を壊さない。
+- 事実は一次情報で確認する。確認できないことは書かないか「未確認」と書く。取得できない数値は 0 で埋めず null や「未取得」とする。
+- 売上・推定収益・発生成果・確定報酬・入金を混同しない（docs/REVENUE_OS.md）。
+- 実行できなかった検証は成功扱いにせず「未実施」と報告する。
+
+## 変更してはいけないもの（オーナーの個別承認が必要）
+
+- 本番デプロイの経路と `scripts/deploy-guard.mjs`、`.github/workflows/`、main のルールセット、CodeQL・Dependabot・依存の監査
+- Cloudflare・GitHub の Secret・Variable・Environment・トークン（値を出力・保存・送信もしない）
+- `/control/` の認証（`worker/index.js`）と `wrangler.jsonc` の `run_worker_first`、`public/_headers` の CSP を弱める変更
+- GA4・GSC の計測設定、`scripts/data-audit.mjs` の `ALLOWED_EVENTS` を増やす以外の計測の変更
+- 既存 URL・TOP の必須構成・44市町村の地図データ
+- 有料サービス・有料 API・従量課金の追加、提携・広告の契約
+- 削除（記事・ブランチ・Environment・PR のクローズ）とマージ
+
+## 検証の手順
+
+1. `npm ci`
+2. `npm run verify`（事実ガード・型・ビルド・Index Health・品質/技術/セキュリティ/データ/計測の監査・観測窓（PR）・単体テスト・鮮度・画面検査）。手元で実行できない場合は PR の Validate site の結果で確認する
+3. 記事は `npm run verify:article -- <slug>`、日付を扱う変更は `npm run date:check`
+4. PR の必須チェック `build`・`Analyze JavaScript/TypeScript` の成功を確認する（`Workers Builds: ibatoco` の失敗は既知で必須ではない）
+5. マージ後は Deploy production の成功と `https://ibatoco.jp/build.json` の commit を確認し、公開 URL で中身を確かめる
 
 ## ニュース公開の安全基準
 
@@ -90,10 +126,11 @@ TOP専用の挙動は`HomeAreaExplorer.astro`、下層・一覧用の二段階�
 
 - 情報監視・記事判断・SEO設計・完成原稿と、通常の実装・PR作成はChatGPT側が担当する。Claude Codeは、大規模なAstro改修・複雑な不具合修正・多数のファイルを対象とする変更・高負荷/長時間の開発のうち、ChatGPTまたはオーナーから明示的に依頼されたものだけを実装する（2026-10-25 オーナー決定）。
 - Claude Codeを定期的・自動的に起動しない。毎朝の自動実装（daily-claude）は運用を中止した。
+- Claude Code の運用を止めるときの手順と、止めても動き続けるもの・代わりが必要なものは `docs/CLAUDE_EXIT_RUNBOOK.md` を正本とする。
 - `data/editorial/event-registry.json` の未掲載候補を、記事化しないことを理由に削除しない。
 - Claude Codeが実装するのは、`data/editorial/action-queue.json` で `status: "ready"` の案件か、ChatGPT/オーナーの明示的な依頼だけ。
 - `ready` の正本は `docs/editorial/specs/` の指定ファイル。正本にない調査・構成・本文・URL変更を独自に追加しない。
-- Claude Codeが ready 案件を実装するときは、実装前に `npm run editorial:daily` を実行し、`reports/editorial/claude-implementation-brief.md` を確認する。
+- ready 案件を実装するときは、実装前に `npm run editorial:daily` を実行し、`reports/editorial/implementation-brief.md` を確認する（毎朝の Validate site の artifact にも入る。旧名 `claude-implementation-brief.md` も当面は同じ内容で出る）。
 - 新しいイベント記事を追加したら `npm run editorial:sync` で台帳へ同期する。
 - 詳細は `docs/EDITORIAL_OS.md` を正本とする。
 
