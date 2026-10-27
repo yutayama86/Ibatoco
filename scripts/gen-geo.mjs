@@ -1,9 +1,11 @@
 /**
  * 茨城県 市町村境界 → SVGパス生成（トポロジー保持簡略化）。
- * 生データ（niiyz/JapanCityGeoJson の5桁コード別GeoJSON）はスクラッチパッドに取得済み。
+ * 生データは niiyz/JapanCityGeoJson の5桁コード別GeoJSON（例：08201.json）。リポジトリには入れない。
  * 隣接境界を共有アーク（TopoJSON）として一度だけ簡略化するので、隙間や重なりが出ない。
  *
- * 実行: node scripts/gen-geo.mjs
+ * 実行: node scripts/gen-geo.mjs --geo-dir <GeoJSONを置いたフォルダ>
+ *   （環境変数 GEO_DIR でもよい）。出力は src/data/ibaraki-geo.ts を上書きする。
+ *   境界は中核資産（AGENTS.md「地図の保護」）なので、作り直したら差分と地図の表示を必ず確認する。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,7 +13,12 @@ import { topology } from 'topojson-server';
 import { presimplify, simplify } from 'topojson-simplify';
 import { feature } from 'topojson-client';
 
-const GEO_DIR = '/private/tmp/claude-501/-Users-yamanobeyuuta-Desktop-Ibatoco/e6eb1c37-d974-49cd-973f-ab61cfde13cc/scratchpad/geo';
+const geoDirArg = process.argv.indexOf('--geo-dir');
+const GEO_DIR = geoDirArg >= 0 ? process.argv[geoDirArg + 1] : process.env.GEO_DIR;
+if (!GEO_DIR || !fs.existsSync(GEO_DIR)) {
+  console.error('GeoJSON のフォルダを --geo-dir <フォルダ>（または環境変数 GEO_DIR）で指定してください。');
+  process.exit(1);
+}
 const OUT = new URL('../src/data/ibaraki-geo.ts', import.meta.url).pathname;
 
 const SLUG_CODE = {
