@@ -40,7 +40,7 @@
 | frontmatter | スキーマは `src/content.config.ts`。`sourceUrls` は `{label, url, accessedAt}` のオブジェクト。作成時は `draft: true`・`reviewed: false` | 公開するときだけ `draft: false`＋`reviewed: true`（未確認のまま true にしない） |
 | イベントの日付 | `eventInfo`（開始・終了）を必ず入れる | 無いと台帳の日付が null になり、終了判定が効かない |
 | ニュースの OG 画像 | `public/images/news/<slug>.svg`（手書きの SVG。第三者の写真・ロゴは使わない） | XML コメントに `--` を書くと壊れる |
-| 一覧カード画像 | `public/images/card/<slug>-<hash>.png` と `src/data/card-images.ts` は `npm run og:cards` が生成する | **コミットし忘れると CI が「記事カードのコミット漏れ」で失敗**。Node を実行できない場合は「Prepare generated files」ワークフロー（#440。マージ後に使える）か、オーナーが手元で生成 |
+| 一覧カード画像 | `public/images/card/<slug>-<hash>.png` と `src/data/card-images.ts` は `npm run og:cards` が生成する | **コミットし忘れると CI が「記事カードのコミット漏れ」で失敗**。Node を実行できない場合は「Prepare generated files」ワークフロー（Actions の画面で作業ブランチを選んで Run workflow）か、オーナーが手元で生成 |
 | 台帳 | イベント記事は `npm run editorial:sync` で `data/editorial/event-registry.json` へ同期 | 手で追記するときは、その1件だけ足す（並べ替えで差分を膨らませない） |
 | 内部リンク | `relatedArticleUrls` は実在するページだけ。文言は `src/data/internal-links.ts` に登録 | 未登録だと「関連情報」という汎用ラベルになる |
 | 検証 | `npm run verify:article -- <slug>`、`npm run verify` | 日付を扱うなら `npm run date:check` |
@@ -166,7 +166,7 @@ ChatGPT の接続で実際にどの操作ができるかは、接続の設定し
 | # | 作業 | 手順（この文書の節） | ChatGPT に要る操作 | Actions がすること | 状態 | 制約・残る手作業 |
 |---|---|---|---|---|---|---|
 | 1 | 新しいイベント記事 | 2. | ブランチ作成・ファイル追加・PR | Validate site で全検査 | **手順あり・未検証**（ChatGPT による新規イベント記事の PR はまだ無い） | カード画像（#2）と台帳の同期が必要 |
-| 2 | 記事カード画像の生成 | 2.・11. | ワークフローの手動実行（Actions: write） | Prepare generated files（#440）が生成・検査・コミットし、必須チェックを起動 | **未検証**（#440 は main へのマージ後にしか起動できない） | マージ後、記事を1本足したブランチで1回試す |
+| 2 | 記事カード画像の生成 | 2.・11. | ワークフローの手動実行（Actions: write） | Prepare generated files（#440）が生成・検査・コミットし、必須チェックを起動 | **実績あり**（2026-10-28。テスト用ブランチでカード画像を1枚消して実行し、ボットが main と同じ画像を作り直してコミット、Validate site・CodeQL が成功。初回は生成ステップの不具合で失敗し、修正後に再実行） | 起動はオーナーか Actions: write を持つ連携。ボットのコミット後、必須チェックが同じブランチで走り終わるまで待ってからマージ |
 | 3 | 既存記事の SEO 改善 | 4. | 記事と `seo-changes.ts` の編集・PR | 観測窓ガード・品質監査 | **実績あり**（#434・#437：`chatgpt/` ブランチの PR。seo-changes の記録を含む） | `seo:seal` の代わりに PENDING を手で SHA に置き換える |
 | 4 | 共通 UI コンポーネントの改修 | 3. | 部品の編集・PR | ui-smoke（11幅）・Visual Regression（PR のみ・判定しない）・本番の UI 検査 | **手順あり・未検証** | マージ前に画面を目で見る手段が無い（PR プレビューは本番へ 301）。最終確認はオーナーのスマホ |
 | 5 | 収益導線の改修 | 5. | `affiliates.ts`・記事の `booking`・部品の編集・PR | ui-smoke の送客イベント検査、毎朝の収益レポート（#439） | **手順あり・未検証** | 提携の申請・契約はオーナー |

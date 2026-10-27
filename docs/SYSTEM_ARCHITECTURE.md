@@ -87,7 +87,7 @@ Cloudflare Workers（ibatoco.jp）
 | Validate site（`validate.yml`） | PR・main・毎朝。`npm audit` と `npm run verify`。毎朝は日次レポートも作る | `build` |
 | CodeQL（`codeql.yml`） | コードの脆弱性検査 | `Analyze JavaScript/TypeScript` |
 | Deploy production（`deploy.yml`） | 唯一の本番デプロイ。main の Validate 成功で自動。手動は main だけ。毎朝 06:30 の定期実行は日付で決まる表示の切り替え用（#441 で計測データから切り離し） | — |
-| Prepare generated files（`prepare-generated-files.yml`・#440 で追加予定） | 作業ブランチで記事カード画像を生成してコミット（手動） | — |
+| Prepare generated files（`prepare-generated-files.yml`） | 作業ブランチで記事カード画像を生成してコミット（手動） | — |
 | Read-only GA4 and GSC（`google-analytics-daily.yml`） | GA4/GSC を読み、スナップショット更新の PR を作る | — |
 | Dependency security audit | 週次の `npm audit` | — |
 | Public security smoke monitor | 毎朝、本番の応答とセキュリティヘッダー | — |
