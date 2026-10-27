@@ -16,7 +16,7 @@
 |---|---|---|
 | 大規模な Astro 改修・複雑な不具合修正（明示依頼のもの） | Claude Code | ChatGPT（GitHub 経由）または人。手元で検証できないため、CI の結果に頼る比率が上がる |
 | 手元での `npm run verify` と、ブラウザでの4幅の画面確認 | Claude | CI の Validate site（同じ検査＋11幅の画面検査）。マージ前に PR のブランチを画面で見る手段は無い（PR プレビューは本番へ 301 される） |
-| カード画像の生成（`npm run og:cards`） | Claude が手元で生成してコミット | 「Prepare generated files」ワークフロー（別 PR で追加予定）またはオーナーが手元で |
+| カード画像の生成（`npm run og:cards`） | Claude が手元で生成してコミット | 「Prepare generated files」ワークフロー（#440）またはオーナーが手元で |
 | `npm run editorial:sync`・`seo:seal` | Claude | ChatGPT が手で記録を足す（DEVELOPMENT_PLAYBOOK の 2.・4.） |
 | Actions のログを API で読む・Commons の API で写真の権利を調べる | Claude | GitHub の画面・コネクタ、ChatGPT の閲覧 |
 | `reports/editorial/claude-implementation-brief.md` | Claude が実装前に読む | `implementation-brief.md`（同じ内容。旧名は停止後に消してよい） |
@@ -115,8 +115,8 @@ Claude の停止と一緒に止めたり消したりしない。
 - [ ] この PR（移管の文書）がマージされている
 - [ ] ChatGPT が、作業ブランチ → PR → CI → オーナー承認 → マージ → 本番確認 を Claude なしで1回以上完了している（7.）
 - [ ] GA4/GSC 日次同期の扱いを決めた（9.）
-- [ ] 新しい記事のカード画像を作る方法が決まっている（「Prepare generated files」ワークフローのマージ、またはオーナーの手元）
-- [ ] 収益監査の不具合修正（PHASE 4 の PR）が判断済み
+- [ ] 新しい記事のカード画像を作る方法が決まっている（「Prepare generated files」ワークフロー（#440）のマージ、またはオーナーの手元）
+- [ ] 収益監査の不具合修正（#439）が判断済み
 
 **ステップ1：Claude への依頼をやめる**
 - [ ] AGENTS.md の「編集OSと実装分担」から Claude Code の役割を外す PR（ChatGPT が作成）

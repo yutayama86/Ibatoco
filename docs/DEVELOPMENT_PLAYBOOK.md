@@ -40,7 +40,7 @@
 | frontmatter | スキーマは `src/content.config.ts`。`sourceUrls` は `{label, url, accessedAt}` のオブジェクト。作成時は `draft: true`・`reviewed: false` | 公開するときだけ `draft: false`＋`reviewed: true`（未確認のまま true にしない） |
 | イベントの日付 | `eventInfo`（開始・終了）を必ず入れる | 無いと台帳の日付が null になり、終了判定が効かない |
 | ニュースの OG 画像 | `public/images/news/<slug>.svg`（手書きの SVG。第三者の写真・ロゴは使わない） | XML コメントに `--` を書くと壊れる |
-| 一覧カード画像 | `public/images/card/<slug>-<hash>.png` と `src/data/card-images.ts` は `npm run og:cards` が生成する | **コミットし忘れると CI が「記事カードのコミット漏れ」で失敗**。Node を実行できない場合は「Prepare generated files」ワークフロー（別 PR で追加予定。下の 9.）か、オーナーが手元で生成 |
+| 一覧カード画像 | `public/images/card/<slug>-<hash>.png` と `src/data/card-images.ts` は `npm run og:cards` が生成する | **コミットし忘れると CI が「記事カードのコミット漏れ」で失敗**。Node を実行できない場合は「Prepare generated files」ワークフロー（#440。マージ後に使える）か、オーナーが手元で生成 |
 | 台帳 | イベント記事は `npm run editorial:sync` で `data/editorial/event-registry.json` へ同期 | 手で追記するときは、その1件だけ足す（並べ替えで差分を膨らませない） |
 | 内部リンク | `relatedArticleUrls` は実在するページだけ。文言は `src/data/internal-links.ts` に登録 | 未登録だと「関連情報」という汎用ラベルになる |
 | 検証 | `npm run verify:article -- <slug>`、`npm run verify` | 日付を扱うなら `npm run date:check` |
@@ -152,7 +152,7 @@ ChatGPT の GitHub コネクタで何ができるかは接続の設定で変わ�
 | 手元のブラウザで画面確認（4幅） | CI の ui-smoke（11幅）と Visual Regression。最終確認はオーナーのスマホ |
 | 一次情報の確認（公式サイトをブラウザで読む） | ChatGPT の閲覧。開けない公式は「未確認」と書く |
 | Commons などの写真のライセンス確認 | ChatGPT の閲覧でファイルページを確認し、作者・ライセンス・撮影地を記録 |
-| `npm run og:cards`（カード画像の生成） | 「Prepare generated files」ワークフロー（別 PR で追加予定）／オーナーが手元で |
+| `npm run og:cards`（カード画像の生成） | 「Prepare generated files」ワークフロー（#440）／オーナーが手元で |
 | `npm run editorial:sync` | 手で1件追加（形式は既存の記録に合わせる）。CI の editorial:check が検査 |
 | `npm run seo:log`・`seo:seal` | 4. の手順で手書き |
 | `npm run trends:import`・`revenue:import` | オーナーが手元で実行（CSV を Git に入れない） |

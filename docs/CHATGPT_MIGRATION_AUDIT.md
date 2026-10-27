@@ -28,7 +28,7 @@
 
 1. **GA4/GSC の日次同期が、毎日 PR を作れずに失敗している。** `google-analytics-daily.yml` の最後のステップが `GitHub Actions is not permitted to create or approve pull requests` で落ちる（10/25・10/26 の定期実行で確認）。リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」がオフのため。ブランチ `bot/google-analytics-daily-<run>` だけが残り（いま3本）、`data/editorial/performance-snapshot.json` は 2026-10-21 のまま止まっている
 2. 1 の結果、**06:30 の定期 Deploy production が毎日失敗する**（「当日の確定指標がない」ので止まる設計どおりの動き）。main へのマージで動く本番デプロイは正常（#431 と #437 は本番反映を確認：Deploy production の workflow_run が success）。影響：イベントの「終了しました」「開催中」や月別一覧のように**ビルド時の日付で決まる表示は、マージが無い日は切り替わらない**
-3. **収益リンク監査（`monetization-audit.mjs`）が提携リンクを1本も数えていない。** frontmatter の字下げが変わり、正規表現が合わなくなった。79記事に予約リンクがあるのに「Bookingリンク総数 0」と出る。「提携済みなのに収益化されていないリンク」の検出が止まっている → 別 PR（PHASE 4）で修正
+3. **収益リンク監査（`monetization-audit.mjs`）が提携リンクを1本も数えていない。** frontmatter の字下げが変わり、正規表現が合わなくなった。79記事に予約リンクがあるのに「Bookingリンク総数 0」と出る。「提携済みなのに収益化されていないリンク」の検出が止まっている → #439 で修正（partner-opportunity にも同じ不具合と、終了判定の不具合があった）
 4. Claude に依存する箇所は**コードに4か所だけ**（下の 3. 参照）。本番デプロイ・CI・計測は Claude に依存していない
 5. 本番デプロイの経路（PR → Validate site → main → Deploy production → build.json の SHA 照合）は、すでに AI に依存しない形で完成している。**維持**
 6. `daily-claude` Environment と `automation/daily-briefs` ブランチ、PR #383 が残っている（オーナー判断待ち。Claude の停止手順に含めた）
@@ -149,15 +149,15 @@ main にあるワークフローは6本。
 | Growth Engine | `src/lib/growth-engine.mjs`・`growth-os.mjs`・`scripts/growth-engine.mjs` | growth-target.md・/control/ | 維持 | 11月10万 Views。予測と実測を分ける |
 | Discovery | `discovery-coverage.mjs`・`discovery-priority.mjs`・`discovery-gate` | discovery-*.md | 維持 | |
 | Revenue Engine | `scripts/revenue-engine.mjs` | revenue-engine.md | **改善** | 確定売上が未記録でも「¥0」と出る。GA4 上位リストに無いページを 0 Views と扱う |
-| Monetization Audit | `scripts/monetization-audit.mjs` | monetization-audit.md | **改善（不具合）** | 提携リンクを数えられていない（重要な発見 3）→ PHASE 4 の PR で直す |
-| Partner Opportunity | `scripts/partner-opportunity.mjs` | partner-opportunities.md | 維持 | 追加費用のかかる提携は対象外 |
+| Monetization Audit | `scripts/monetization-audit.mjs` | monetization-audit.md | **改善（不具合）** | 提携リンクを数えられていない（重要な発見 3）→ #439 で修正 |
+| Partner Opportunity | `scripts/partner-opportunity.mjs` | partner-opportunities.md | **改善（不具合）** | 同じ読み取りの不具合で候補を出せず、終了したイベントも除外できていなかった → #439 で修正 |
 | Booking 実験 | `scripts/booking-experiment.mjs` | booking-experiment.md | **改善** | A/B のイベントが届いていないのに「0 views」と書く。未取得と書くべき |
 | Revenue Yield | `scripts/revenue-yield.mjs` | revenue-yield.md/json | 維持 | 確定売上 0 の間は「クリック代理指標」で並べる（明記されている） |
 | Revenue Funnel | `src/lib/revenue-funnel.mjs`・`local-revenue.mjs` | Growth Engine・/control/ | 維持 | 発生・未確定・確定を分ける |
 | Operator OS | `scripts/operator-os.mjs`（上の全レポートを束ねる） | operator-brief.md | 維持 | データが2日以上古いと「ブロッカー」に出す（いまは出る状態） |
 | Control Center | `/control/`（`src/pages/control/`・`components/control/`） | ブラウザで見る | 維持 | オーナー専用 |
 
-レポートは Validate site の定期実行（05:45）で作られ、Job Summary と artifact（30日）に出る。**新しいダッシュボードは作らない**。どのレポートが何に答えるかは `docs/REVENUE_OS.md`「どのレポートで何を見るか」（PHASE 4 の PR で追加）にまとめる。
+レポートは Validate site の定期実行（05:45）で作られ、Job Summary と artifact（30日）に出る。**新しいダッシュボードは作らない**。どのレポートが何に答えるかは `docs/REVENUE_OS.md`「どのレポートで何を見るか」（#439 で追加）にまとめる。
 
 ## 8. テスト・監査・セキュリティ
 
@@ -176,7 +176,7 @@ main にあるワークフローは6本。
 依頼の「重点対象」はすべて既存の検査で覆われている（対応表は `docs/DEVELOPMENT_PLAYBOOK.md`「検証の地図」）。**誤検知の多い検査は足さない**判断をした。足りないのは次の2点で、どちらも検査ではなくデータの問題：
 
 - 計測スナップショットが古いことを CI は止めない（operator-os が警告するだけ）。止めると公開が全部止まるので、警告のままにする
-- 収益リンク監査の不具合（上記）
+- 収益リンク監査の不具合（上記。#439）
 
 | セキュリティ | 現状 | 分類 |
 |---|---|---|
