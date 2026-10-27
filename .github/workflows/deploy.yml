@@ -5,9 +5,10 @@ on:
     workflows: ["Validate site"]
     types: [completed]
   workflow_dispatch:
-  # GITHUB_TOKEN scheduled metric commits do not fire downstream push workflows.
+  # 毎朝、ビルド時の日付で決まる表示（イベントの終了・開催中・月別一覧）を切り替える。
+  # GA4/GSC の確定値が古くても止めない（計測の失敗とサイトの日付更新を分ける。古いときは警告だけ）。
   schedule:
-    - cron: '30 21 * * *' # 06:30 JST, after 05:30 metric sync
+    - cron: '30 21 * * *' # 06:30 JST, after 05:45 Validate site
 
 concurrency:
   group: production-deploy
@@ -16,6 +17,8 @@ concurrency:
 
 permissions:
   contents: read
+  # 対象コミットの Validate site の成否を読むため（読み取りだけ）
+  actions: read
 
 jobs:
   deploy:
@@ -52,6 +55,27 @@ jobs:
           fi
           echo "Target matches latest main: $TARGET_SHA"
 
+      # 定期実行・手動実行では、出す版（最新の main）が Validate site に合格していることを確かめる。
+      # workflow_run は Validate site の成功が起動条件なので、ここでは確かめ直さない。
+      - name: Require successful validation of the target commit
+        if: github.event_name != 'workflow_run'
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # 空や短い SHA だと API が絞り込みを無視して全件を返すので、形を確かめ、一致した実行だけを数える
+          [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::対象コミットが読めない（$TARGET_SHA）"; exit 1; }
+          count="$(gh api "repos/$REPOSITORY/actions/workflows/validate.yml/runs?head_sha=$TARGET_SHA&branch=main&status=success&per_page=20" \
+            --jq '[.workflow_runs[] | select(.head_sha == $ENV.TARGET_SHA and .head_branch == "main" and .conclusion == "success")] | length')"
+          if [ "${count:-0}" -lt 1 ]; then
+            echo "::error::$TARGET_SHA は Validate site（main）に合格していないため本番へ出さない。Validate site の完了を待つか、原因を直す"
+            exit 1
+          fi
+          echo "Validate site passed for $TARGET_SHA"
+
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ steps.ref.outputs.sha }}
@@ -62,16 +86,9 @@ jobs:
           node-version: 22.23.4
           cache: npm
 
-      - name: Require current-day verified metrics for scheduled deployment
-        if: github.event_name == 'schedule'
-        run: |
-          node --input-type=module -e '
-            import {readFileSync} from "node:fs";
-            const s=JSON.parse(readFileSync("data/editorial/performance-snapshot.json","utf8"));
-            const age=Date.now()-Date.parse(s.source?.lastConfirmedAt??0);
-            if(s.source?.status!=="google-api-daily-confirmed" || !Number.isFinite(age) || age<0 || age>3*3600000)
-              throw new Error("Verified daily metric sync has not completed recently; scheduled deploy blocked");
-          '
+      # 計測データ（GA4/GSC の確定値）が古いときは警告だけ出す。デプロイは止めない。データは読むだけで作らない
+      - name: Report analytics data freshness (warning only)
+        run: node scripts/deploy-preflight.mjs
       - name: Check Cloudflare credentials
         shell: bash
         env:
