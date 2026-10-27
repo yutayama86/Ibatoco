@@ -9,6 +9,8 @@ name: Prepare generated files
 # - 書き込み権限のジョブは、生成物を検査してコピーするだけで、ブランチのコードを実行しない
 # - コミットするのは public/images/card/*.png と src/data/card-images.ts（選べば data/editorial/event-registry.json）だけ
 # - GITHUB_TOKEN の push では CI が起動しないため、必須チェック（Validate site・CodeQL）を同じブランチで起動する
+# - 生成した時点のコミットの上に積む。実行中にブランチへ別の push があったら、上書きせずに失敗する（もう一度実行する）
+# - 起動できるのは、このリポジトリへの書き込み権限（Actions: write）を持つ人・連携だけ
 
 on:
   workflow_dispatch:
@@ -75,6 +77,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
+          # 生成ジョブと同じコミット。ブランチがその後に進んでいたら push が non-fast-forward で拒否される
+          ref: ${{ github.sha }}
           persist-credentials: false
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -102,12 +106,23 @@ jobs:
           assert m, '一覧の書式が想定と違う'
           data = json.loads(m.group(1))
           files = set(os.listdir(sys.argv[2]))
+          referenced = set()
           for slug, url in data.items():
               assert re.fullmatch(r'[a-z0-9-]+', slug), f'slug が不正: {slug}'
               name = url.removeprefix('/images/card/')
               assert url.startswith('/images/card/') and name in files, f'一覧の画像が無い: {url}'
+              referenced.add(name)
+          orphans = files - referenced
+          assert not orphans, f'一覧に無い画像がある: {sorted(orphans)[:5]}'
           print(f'カード {len(files)} 枚・一覧 {len(data)} 件')
           PY
+          # 生成の失敗で既存のカードを大量に消さない（いまの枚数の半分未満なら止める）
+          now=$(find public/images/card -maxdepth 1 -name '*.png' | wc -l | tr -d ' ')
+          made=$(find "$gen/card" -maxdepth 1 -name '*.png' | wc -l | tr -d ' ')
+          if [ "$made" -lt 1 ] || [ $((made * 2)) -lt "$now" ]; then
+            echo "::error::生成されたカードが少なすぎる（生成 ${made} 枚・ブランチ ${now} 枚）。生成ジョブのログを確認する"
+            exit 1
+          fi
           if [ "$SYNC" = "true" ]; then
             python3 -c "import json,sys; d=json.load(open(sys.argv[1], encoding='utf-8')); assert d.get('schemaVersion') == 1 and isinstance(d.get('events'), list)" "$gen/event-registry.json"
           fi
@@ -138,7 +153,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore(generated): 記事カード画像を生成（Prepare generated files）"
-          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:refs/heads/$BRANCH"
+          if ! git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:refs/heads/$BRANCH"; then
+            echo "::error::$BRANCH へ push できなかった。実行中にブランチへ別のコミットが積まれた可能性がある。最新のブランチでもう一度実行する"
+            exit 1
+          fi
           # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する
           gh workflow run validate.yml --ref "$BRANCH"
           gh workflow run codeql.yml --ref "$BRANCH"
