@@ -80,7 +80,7 @@ Claude の停止と一緒に止めたり消したりしない。
 3. `https://ibatoco.jp/build.json` の `commit` がそのマージコミットになる
 4. 翌朝 06:20 の Public security smoke monitor が成功する
 
-2026-10-26 時点の実績：#431（`2b114b1`）と #437（`ca25381`）は、マージ後の Deploy production が成功している。06:30 の定期 Deploy production は、GA4/GSC の確定値が当日分でないため毎日失敗している（下の 8. の「GA4/GSC 日次同期」）。
+2026-10-26 時点の実績：#431（`2b114b1`）と #437（`ca25381`）は、マージ後の Deploy production が成功している。06:30 の定期 Deploy production は、GA4/GSC の確定値が当日分でないため毎日失敗している。#441 をマージすると、計測が古くても警告だけになり、Validate 合格済みの最新 main を毎朝出す。
 
 ## 8. 移行後の定期点検
 
@@ -102,7 +102,7 @@ Claude の停止と一緒に止めたり消したりしない。
 |---|---|---|
 | PR の CI が落ちる | 失敗したステップの `::error` | DEVELOPMENT_PLAYBOOK の 9.（観測窓・カード画像・台帳・eventInfo・seo-changes の競合） |
 | 本番がおかしい | `/build.json`、Deploy production のログ | [ROLLBACK_RUNBOOK.md](ROLLBACK_RUNBOOK.md)（revert が基本、緊急時はオーナーが Cloudflare で戻す） |
-| GA4/GSC 日次同期が失敗 | ジョブ「Publish verified daily metrics」の「Propose verified snapshot through protected PR」 | 「GitHub Actions is not permitted to create or approve pull requests」なら、オーナーがリポジトリ設定（Settings → Actions → General → Workflow permissions）の「Allow GitHub Actions to create and approve pull requests」を有効にするか判断する。有効にしない場合は、残ったブランチ `bot/google-analytics-daily-<run>` から人が PR を作る |
+| GA4/GSC 日次同期が失敗・PR が無い | ジョブ「Publish verified daily metrics」の「Propose verified snapshot through protected PR」と Job Summary | `docs/GA4_GSC_DAILY_SYNC.md`（#442）。設定がオフのままなら、Job Summary のリンクから同期 PR を1回開く（以後は同じ PR が毎日更新される）。設定をオンにするかはリスクを読んでオーナーが判断 |
 | 終わったイベントが「これから」に残る | 最後の Deploy production の日時 | 日付で決まる表示（終了・開催中・月別一覧）は**ビルド時に決まる**。定期デプロイが止まっている間は、何か1件マージすれば切り替わる |
 | `/control/` が 503 | Cloudflare の Worker の Secret | `CONTROL_PASSWORD`（20字以上）・`CONTROL_SESSION_SECRET`（32字以上）をオーナーが確認 |
 | ページが 429 | Cloudflare の Worker の実行回数 | 無料枠は1日10万回。自動アクセス（本番 QA など）を増やしていないか |
@@ -114,7 +114,8 @@ Claude の停止と一緒に止めたり消したりしない。
 **ステップ0（前提の確認）**
 - [ ] この PR（移管の文書）がマージされている
 - [ ] ChatGPT が、作業ブランチ → PR → CI → オーナー承認 → マージ → 本番確認 を Claude なしで1回以上完了している（7.）
-- [ ] GA4/GSC 日次同期の扱いを決めた（9.）
+- [ ] GA4/GSC 日次同期の扱いを決めた（#442 のマージと、設定 A/B の選択。`docs/GA4_GSC_DAILY_SYNC.md`）
+- [ ] 定期デプロイの切り離し（#441）を判断した
 - [ ] 新しい記事のカード画像を作る方法が決まっている（「Prepare generated files」ワークフロー（#440）のマージ、またはオーナーの手元）
 - [ ] 収益監査の不具合修正（#439）が判断済み
 

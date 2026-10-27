@@ -38,7 +38,8 @@ revert でまとめて戻るもの：記事の Markdown、カード画像とそ�
 - Deploy production が失敗しても、本番は前の版のまま（`/build.json` で確認）
 - ログの失敗したステップで原因を確かめる。よくある原因：
   - 「Superseded deployment skipped」「Main advanced during build」：より新しい main がある。新しい方の Deploy が走るので待つ（失敗ではない）
-  - 06:30 の定期実行の「Verified daily metric sync has not completed recently」：当日の確定指標が無い。マージで動くデプロイには関係しない
+  - 06:30 の定期実行の「Verified daily metric sync has not completed recently」：当日の確定指標が無い（#441 のマージ前だけ。マージ後は警告になり止まらない）。マージで動くデプロイには関係しない
+  - 「… は Validate site（main）に合格していないため本番へ出さない」（#441 のマージ後）：その版の Validate site の完了を待つか、失敗の原因を直す
   - 監査・ビルドの失敗：main の内容に問題がある → A か B
 - 一時的な失敗（ネットワークなど）なら、Actions の画面で Deploy production を **main で** 再実行（Run workflow / Re-run）
 

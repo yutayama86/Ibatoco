@@ -26,8 +26,8 @@
 
 ## 最初に読む：重要な発見
 
-1. **GA4/GSC の日次同期が、毎日 PR を作れずに失敗している。** `google-analytics-daily.yml` の最後のステップが `GitHub Actions is not permitted to create or approve pull requests` で落ちる（10/25・10/26 の定期実行で確認）。リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」がオフのため。ブランチ `bot/google-analytics-daily-<run>` だけが残り（いま3本）、`data/editorial/performance-snapshot.json` は 2026-10-21 のまま止まっている
-2. 1 の結果、**06:30 の定期 Deploy production が毎日失敗する**（「当日の確定指標がない」ので止まる設計どおりの動き）。main へのマージで動く本番デプロイは正常（#431 と #437 は本番反映を確認：Deploy production の workflow_run が success）。影響：イベントの「終了しました」「開催中」や月別一覧のように**ビルド時の日付で決まる表示は、マージが無い日は切り替わらない**
+1. **GA4/GSC の日次同期が、毎日 PR を作れずに失敗している。** `google-analytics-daily.yml` の最後のステップが `GitHub Actions is not permitted to create or approve pull requests` で落ちる（10/25・10/26 の定期実行で確認）。リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」がオフのため（API でも `can_approve_pull_request_reviews: false` を確認）。ブランチ `bot/google-analytics-daily-<run>` だけが残り（いま3本）、`data/editorial/performance-snapshot.json` は 2026-10-21 のまま止まっている → **#442**（設定を変えなくても止まらない形・PR の重複防止・35日の取り直し。設定の比較は `docs/GA4_GSC_DAILY_SYNC.md`）
+2. 1 の結果、**06:30 の定期 Deploy production が毎日失敗する**（「当日の確定指標がない」ので止まる設計どおりの動き）。main へのマージで動く本番デプロイは正常（#431 と #437 は本番反映を確認：Deploy production の workflow_run が success）。影響：イベントの「終了しました」「開催中」や月別一覧のように**ビルド時の日付で決まる表示は、マージが無い日は切り替わらない** → **#441**（計測が古くても警告だけにし、代わりに Validate 合格済みの main だけを出す）
 3. **収益リンク監査（`monetization-audit.mjs`）が提携リンクを1本も数えていない。** frontmatter の字下げが変わり、正規表現が合わなくなった。79記事に予約リンクがあるのに「Bookingリンク総数 0」と出る。「提携済みなのに収益化されていないリンク」の検出が止まっている → #439 で修正（partner-opportunity にも同じ不具合と、終了判定の不具合があった）
 4. Claude に依存する箇所は**コードに4か所だけ**（下の 3. 参照）。本番デプロイ・CI・計測は Claude に依存していない
 5. 本番デプロイの経路（PR → Validate site → main → Deploy production → build.json の SHA 照合）は、すでに AI に依存しない形で完成している。**維持**
@@ -216,3 +216,28 @@ main にあるワークフローは6本。
 | 読み取り専用の GitHub API | ルールセット・Environment・Secret と Variable の名前・実行履歴・ブランチ・PR を確認。何も変更していない |
 | 収益レポート（書き込みなし） | revenue-engine・monetization-audit・booking-experiment・revenue-yield・partner-opportunity を実行し、出力を確認（上の改善点） |
 | 実施していないこと | Cloudflare・GA4・GSC・ASP・Google Cloud の管理画面の確認／本番への書き込み／Secret の値の確認 |
+
+## 運用の簡素化（提案・オーナー承認待ち。この PR では何も止めていない）
+
+| 対象 | 重複・不要の理由 | 提案 | 止めたときの影響 |
+|---|---|---|---|
+| `dependency-audit.yml` | Validate site が PR・main・毎朝の定期実行で同じ2つの `npm audit` を実行している | 削除してよい（Dependabot と CodeQL は残す） | なし（同じ検査が毎日走る） |
+| `booking-experiment` のレポート | **削除候補ではない。** 実験は有効（`src/data/experiments.ts` の `enabled: true`）で、BookingGuide は `booking_guide_view_a/_b`・`outbound_booking_click_a/_b` を送っている。ところがスナップショットの取得対象（`conversionDetail.recent7`）に A/B のキーが無く、判定できない（#439 で `no-data` と表示） | ChatGPT の日次取得（Windsor）に A/B の4イベントを加えるか、実験を止めるかをオーナーが決める | 取得しないままだと、実験を続けても勝ち負けが出ない |
+| `reports/editorial/growth-target.md` | `reports/editorial/` は .gitignore だが、このファイルだけ追跡されていて、レポートを作るたびに差分が出る | 追跡を外す（`git rm --cached`） | なし（CI の artifact に残る） |
+| Workers Builds（Cloudflare の Git 連携） | ビルドは停止済みで、PR ごとに失敗のチェックだけが出る | Cloudflare で Git 連携を外す（オーナー） | なし（必須チェックではない） |
+| 一時ワークフローだけが残る古いブランチ（`*-temp.yml` など5本） | Actions の一覧に出続ける | ブランチの整理で消す | なし |
+| `bot/google-analytics-daily-<run>`（3本） | #442 後は固定ブランチ1本になる | 削除 | なし（データは Google 側と次の同期にある） |
+| Decap CMS（`public/admin/`） | OAuth 未設定で使っていない | 削除 | `/admin/` が 404 になる |
+| `claude-implementation-brief.md`・`CLAUDE.md`・`.claude/launch.json` | Claude 停止後は不要 | `docs/CLAUDE_EXIT_RUNBOOK.md` のステップ5で削除 | なし |
+
+**残すもの（依頼どおり）**：SEO・記事品質検査（verify の各監査）、セキュリティ監査（security-audit・CodeQL・公開監視）、GA4/GSC 計測（日次同期）、予約・購買導線の計測（ALLOWED_EVENTS・ui-smoke の送客検査）、Revenue Engine、Growth OS、Cloudflare デプロイ、公開後の動作検証。
+
+## 後続の PR（2026-10-27）
+
+| PR | 内容 |
+|---|---|
+| #439 | 収益レポートが予約リンクを数えられない不具合・未取得を 0 とする表示 |
+| #440 | 記事カード画像を GitHub 上で生成する手動ワークフロー（ChatGPT が新しい記事を出す前提） |
+| #441 | 定期デプロイを計測データの鮮度から切り離し、Validate 合格済みの main だけを出す |
+| #442 | GA4/GSC 日次同期：PR を作れない設定でも止まらない・PR を増やさない・35日の取り直し |
+

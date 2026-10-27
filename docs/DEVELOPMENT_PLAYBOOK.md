@@ -78,7 +78,7 @@
 
 | データ | 更新方法 | 注意 |
 |---|---|---|
-| GA4・GSC の確定値（`performance-snapshot.json`） | GitHub Actions「Read-only GA4 and GSC」が PR を作る。ChatGPT の日次処理（Windsor.ai）が更新することもある | 2026-10-27 時点で Actions の PR 作成が権限設定で失敗中（[CHATGPT_MIGRATION_AUDIT.md](CHATGPT_MIGRATION_AUDIT.md)）。暫定値と確定値を混ぜない |
+| GA4・GSC の確定値（`performance-snapshot.json`） | GitHub Actions「Read-only GA4 and GSC」が同期 PR を作る（設定がオフなら Job Summary のリンクから開く。#442・`docs/GA4_GSC_DAILY_SYNC.md`）。ChatGPT の日次処理（Windsor.ai）が更新することもある | 同期が動いている間、日別の GA4/GSC はこの同期を正とする。暫定値と確定値を混ぜない |
 | 計測障害（`measurement-incidents.json`） | 期間と根拠を記録 | 部分回復を完全復旧としない |
 | ASP 実績（`asp-results.json`） | オーナーの報告（管理画面）を記録 | 期間が ASP ごとに違う。率を ASP 間で比べない |
 | 確定売上（`revenue-ledger.json`） | 確定した成果だけ。CSV は `npm run revenue:import`（生データは `data/revenue-imports/private/`・Git に入れない） | クリックや推定を売上にしない |
@@ -158,3 +158,22 @@ ChatGPT の GitHub コネクタで何ができるかは接続の設定で変わ�
 | `npm run trends:import`・`revenue:import` | オーナーが手元で実行（CSV を Git に入れない） |
 | フォント（`scripts/build-web-fonts.py`）の作り直し | まれ。OG 画像に無い字が出たときだけ。オーナーが手元で（Python と fonttools が必要） |
 | Actions のログを API で読む | GitHub の画面、またはコネクタの Actions: Read |
+
+## 12. ChatGPT と GitHub Actions だけで続けられるか（移管テスト・2026-10-27）
+
+ChatGPT の接続で実際にどの操作ができるかは、接続の設定しだいで、ここでは**成功扱いにしない**。「実績」は GitHub の記録で確かめられたものだけ。いずれの操作も GitHub の画面上はオーナーのアカウント名義になるため、ChatGPT が自分で行ったか、オーナーが画面で行ったかは記録から区別できない。
+
+| # | 作業 | 手順（この文書の節） | ChatGPT に要る操作 | Actions がすること | 状態 | 制約・残る手作業 |
+|---|---|---|---|---|---|---|
+| 1 | 新しいイベント記事 | 2. | ブランチ作成・ファイル追加・PR | Validate site で全検査 | **手順あり・未検証**（ChatGPT による新規イベント記事の PR はまだ無い） | カード画像（#2）と台帳の同期が必要 |
+| 2 | 記事カード画像の生成 | 2.・11. | ワークフローの手動実行（Actions: write） | Prepare generated files（#440）が生成・検査・コミットし、必須チェックを起動 | **未検証**（#440 は main へのマージ後にしか起動できない） | マージ後、記事を1本足したブランチで1回試す |
+| 3 | 既存記事の SEO 改善 | 4. | 記事と `seo-changes.ts` の編集・PR | 観測窓ガード・品質監査 | **実績あり**（#434・#437：`chatgpt/` ブランチの PR。seo-changes の記録を含む） | `seo:seal` の代わりに PENDING を手で SHA に置き換える |
+| 4 | 共通 UI コンポーネントの改修 | 3. | 部品の編集・PR | ui-smoke（11幅）・Visual Regression（PR のみ・判定しない）・本番の UI 検査 | **手順あり・未検証** | マージ前に画面を目で見る手段が無い（PR プレビューは本番へ 301）。最終確認はオーナーのスマホ |
+| 5 | 収益導線の改修 | 5. | `affiliates.ts`・記事の `booking`・部品の編集・PR | ui-smoke の送客イベント検査、毎朝の収益レポート（#439） | **手順あり・未検証** | 提携の申請・契約はオーナー |
+| 6 | 自動テスト | 8. | CI の結果を読む（Checks: Read） | `npm run verify` を PR ごとに実行 | **実績あり**（どの PR でも CI が走る） | ChatGPT は手元でテストを実行できない。CI の結果がすべて |
+| 7 | Draft PR の作成 | 0. | Pull requests: write | — | **実績あり**（#434 は Draft） | — |
+| 8 | オーナー承認後のマージ | 0. | マージ（Contents・Pull requests: write） | — | **実績あり（操作者は未確認）**（#437 は `chatgpt/` ブランチでマージ済み。名義はオーナー） | 承認が前提。承認が無ければしない |
+| 9 | Cloudflare への本番反映 | 0. | なし（マージで自動） | Deploy production（main の Validate 成功で起動） | **実績あり**（#431・#437 のマージ後に成功） | 定期デプロイの計測依存は #441 で外す |
+| 10 | 公開後の動作確認 | 0. | 公開 URL と `/build.json` を閲覧で確認 | Deploy production 内の本番検証・UI 検査・SHA 照合、毎朝の公開監視 | **可能**（自動の確認は実績あり） | キャッシュで旧版が返ることがある。新版にしかない文字列で確かめる |
+
+**ChatGPT だけでは完結しない操作（オーナーが行う）**：リポジトリ設定・Secret・Environment・ルールセット、Cloudflare の画面、ASP の申請と CSV、Google Trends の CSV、フォントの作り直し、緊急時の Cloudflare での巻き戻し、ブランチや Environment の削除。
