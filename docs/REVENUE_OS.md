@@ -302,3 +302,21 @@ ASP の管理画面は自動で取得できない（API・権限なし）。オ�
 
 楽天トラベルの成果条件（楽天トラベル アフィリエイト仕様、2026-10-13 確認）：利用金額の1%（レンタカー・観光体験は2%）。Cookie は30日で、**リンク先と違う商品（高速バスなど）の予約も成果になる**。予約日の翌々月末までに利用が完了したものが対象。したがって発生した成果の商品から、読者が押したリンクやページを決めつけない。
 
+
+## どのレポートで何を見るか（2026-10-27）
+
+新しいダッシュボードは作らない。毎朝の Validate site（05:45）が下のレポートを作り、Job Summary と artifact（`reports/editorial/`・30日）に出す。`/control/` は同じデータをオーナー向けに表示する。
+
+| 知りたいこと | 見るレポート | 注意 |
+|---|---|---|
+| 流入ページ別の収益化状況 | `revenue-yield.md`（伸ばすべきページ TOP15）・`revenue-engine.md`（今日の収益機会 TOP10） | 確定売上が0のあいだは、クリック・購入意図の代理指標で並べる（レポートに明記される） |
+| 予約・購買 CTA のクリック | `revenue-engine.md`「収益の段階」（CTA表示 → CTAクリック → 提携リンクのクリック）・`monetization-audit.md`（提供元別のクリック） | GA4 の直近7日。クリックは売上ではない |
+| 提携済みだが収益化されていないリンク | `monetization-audit.md`（提携済みだがURL未マッピング・Activeだが未収益化click・最優先ギャップ） | 終了したイベントのリンクは除外する |
+| 新しく提携を検討する提供元 | `partner-opportunities.md` | 実クリック需要を優先。終了したイベントは使わない。費用のかかる提携は対象外 |
+| 発生成果と確定収益の区別 | `revenue-engine.md`「収益の段階」（発生成果・確定成果・Revenue・未確定報酬）、`/control/` の Revenue Funnel | 発生・未確定は ASP 報告（期間は ASP ごと）、確定は `revenue-ledger.json`、入金はこのリポジトリでは記録しない |
+| 改善対象ページの優先順位 | `operator-brief.md`（全レポートの要約と今日の実行候補） | 計測データが2日以上古いと「要対応ブロッカー」に出る |
+| 集客増加と収益改善の期待効果 | 集客：`growth-target.md`（11月100kの差・ページ予測・Demand Radar）。収益：`revenue-yield.md`（Monetized Click / 1,000PV）・`revenue-engine.md` | 予測は「推定」と明記されたものだけ。実測と混ぜない |
+| データ欠損・計測異常 | `growth-target.md` の「計測の健全性」（GA4 日別 × GSC 日別）、`operator-brief.md` のブロッカー、`data/editorial/measurement-incidents.json` | 欠損日を 0 Views として扱わない |
+| CTA の A/B 実験 | `booking-experiment.md` | A/B のイベントがスナップショットに無いときは `no-data`（0件ではない） |
+
+レポートの共通ルール（`scripts/lib/report-data.mjs`）：記事の frontmatter は YAML として読む（正規表現で読まない）／GA4 上位ページに無いページの Views は「上位外」（0 ではない）／計測データの基準日を必ず先頭に出す。テストは `scripts/report-data.test.mjs`（`npm run verify` で実行）。
