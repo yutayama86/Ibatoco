@@ -4,7 +4,8 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
-import { googleDailyRange } from '../src/lib/ga4-daily.mjs';
+import { BOOKING_CTA_AB_EVENTS, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
+import { addDays } from '../src/lib/growth-engine.mjs';
 
 const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
@@ -52,12 +53,23 @@ const gscDaily = (gsc.rows ?? []).map(r => ({
   date: r.keys[0], clicks: r.clicks, impressions: r.impressions, position: r.position
 }));
 if (!gscDaily.length) throw new Error('GSC response empty; do not publish zero-filled data');
+// 予約ボタンの A/B 実験の4イベント（直近7日・確定日まで）。行の無いイベントは null のまま（0 で埋めない）
+const abPeriod = { start: addDays(through, -6), end: through };
+const abReport = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+  dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
+  dimensions: [{ name: 'eventName' }],
+  metrics: [{ name: 'eventCount' }],
+  dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: BOOKING_CTA_AB_EVENTS } } },
+  limit: '100',
+});
+const bookingCtaExperiment = bookingCtaAbCounts(abReport.rows, abPeriod);
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
   confirmedThrough: through,
   daily: [...dailyMap.values()].sort((a,b)=>a.date.localeCompare(b.date)),
-  gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily }
+  gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
+  bookingCtaExperiment,
 };
 writeFileSync(env.OUTPUT_PATH || '/tmp/ibatoco-google-daily.json', JSON.stringify(output, null, 2) + '\n');
 console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates. No snapshot modified.`);

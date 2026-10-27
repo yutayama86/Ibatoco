@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bookingAbCounts } from './lib/report-data.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PERF = join(ROOT, 'data/editorial/performance-snapshot.json');
@@ -14,16 +15,15 @@ if (!existsSync(PERF)) {
 }
 
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
-const recent7 = performance.conversionDetail?.recent7 ?? {};
 
-// A/B のイベントがスナップショットに無いときは「0件」ではなく「未取得」。判定もしない（下の「ルール」）
-const AB_KEYS = ['booking_guide_view_a', 'booking_guide_view_b', 'outbound_booking_click_a', 'outbound_booking_click_b'];
-const missingKeys = AB_KEYS.filter((key) => recent7[key] == null || !Number.isFinite(Number(recent7[key])));
-const hasData = missingKeys.length === 0;
-const aViews = hasData ? Number(recent7.booking_guide_view_a) : 0;
-const bViews = hasData ? Number(recent7.booking_guide_view_b) : 0;
-const aClicks = hasData ? Number(recent7.outbound_booking_click_a) : 0;
-const bClicks = hasData ? Number(recent7.outbound_booking_click_b) : 0;
+// A/B のイベントがそろっていないときは「0件」ではなく「未取得」。判定もしない（下の「ルール」）
+// 公式 API の同期（windows.ga4.bookingCtaExperiment）を優先し、無ければ conversionDetail.recent7
+const ab = bookingAbCounts(performance);
+const { missingKeys, hasData } = ab;
+const aViews = hasData ? ab.counts.booking_guide_view_a : 0;
+const bViews = hasData ? ab.counts.booking_guide_view_b : 0;
+const aClicks = hasData ? ab.counts.outbound_booking_click_a : 0;
+const bClicks = hasData ? ab.counts.outbound_booking_click_b : 0;
 
 const minViews = 200;
 const minClicks = 8;
@@ -44,7 +44,7 @@ let reason = '必要サンプル数に未到達。実験を継続する。';
 
 if (!hasData) {
   decision = 'no-data';
-  reason = `GA4スナップショット（conversionDetail.recent7）に A/B のイベントが無い（${missingKeys.join('・')}）。実験が動いているか、取得の対象に入っているかを先に確認する。`;
+  reason = `A/B のイベントがそろっていない（${missingKeys.join('・')}／読んだ場所：${ab.source}）。公式 API の同期で取得される。行の無いイベントは0件か未計測かを区別できないため、そろうまで判定しない。`;
 } else if (enoughData) {
   if (!confidenceQualified) {
     decision = 'inconclusive';
@@ -68,6 +68,7 @@ const lines = [
     `- A: ${aViews} views / ${aClicks} clicks / CTR ${(aCtr * 100).toFixed(2)}%`,
     `- B: ${bViews} views / ${bClicks} clicks / CTR ${(bCtr * 100).toFixed(2)}%`,
   ] : ['- A・B: **未取得**（0件ではない）']),
+  `- 計測の出典: ${ab.source}（${ab.period.start ?? '—'}〜${ab.period.end ?? '—'}）`,
   `- 判定: **${decision}**`,
   `- z-score: **${hasData ? zScore.toFixed(2) : '未計算'}**`,
   `- 理由: ${reason}`,

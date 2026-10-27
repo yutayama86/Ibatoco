@@ -664,3 +664,16 @@ test('GA4/GSC 日次同期：PR は固定ブランチ1本、作れない設定�
   const api = readFileSync('scripts/google-api-daily.mjs', 'utf8');
   assert.match(api, /googleDailyRange\(Date\.now\(\)\)/);
 });
+
+test('予約ボタンの A/B：GA4 の行を4イベントの件数にし、行の無いイベントは null（0 で埋めない）', async () => {
+  const { bookingCtaAbCounts, BOOKING_CTA_AB_EVENTS } = await import('../src/lib/ga4-daily.mjs');
+  const row = (name, n) => ({ dimensionValues: [{ value: name }], metricValues: [{ value: String(n) }] });
+  const r = bookingCtaAbCounts([row('booking_guide_view_a', 120), row('booking_guide_view_b', 0), row('page_view', 999)], { start: '2026-10-19', end: '2026-10-25' });
+  assert.equal(r.counts.booking_guide_view_a, 120);
+  assert.equal(r.counts.booking_guide_view_b, 0);
+  assert.equal(r.counts.outbound_booking_click_a, null);
+  assert.deepEqual(r.missingEvents, ['outbound_booking_click_a', 'outbound_booking_click_b']);
+  assert.equal(Object.keys(r.counts).length, BOOKING_CTA_AB_EVENTS.length);
+  assert.equal(r.end, '2026-10-25');
+  assert.throws(() => bookingCtaAbCounts([row('booking_guide_view_a', -1)], { start: 'a', end: 'b' }));
+});
