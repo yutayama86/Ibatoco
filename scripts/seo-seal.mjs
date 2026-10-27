@@ -41,7 +41,7 @@ const subject = git('git log -1 --format=%s');
 
 writeFileSync(file, src.replaceAll("commit: 'PENDING'", `commit: '${head}'`), 'utf8');
 git('git add src/data/seo-changes.ts');
-git(`git commit -m "chore(seo): 変更履歴の参照コミットを ${head} で確定" -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"`);
+git(`git commit -m "chore(seo): 変更履歴の参照コミットを ${head} で確定"`);
 
 console.log(`PENDING ${pending}件 を ${head} で確定しました。`);
 console.log(`  参照先: ${head}  ${subject}`);

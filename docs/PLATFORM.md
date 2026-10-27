@@ -119,6 +119,8 @@ partnerType   editorial（既定）/ partner / pr
 
 ## 5. GA4 イベント
 
+> 2026-10-27 注記：下の「7つ」は 2026-09 時点の記述。現在の許可リストは `scripts/data-audit.mjs` の `ALLOWED_EVENTS`（23種。送客の `booking_guide_view`・`paid_booking_click`、協賛の `sponsor_*`、`module_*` などを追加）が正本。
+
 **この7つ以外を送らない。** 増やすときは `scripts/data-audit.mjs` の
 `ALLOWED_EVENTS` も直す（名前のゆらぎを防ぐため）。
 
