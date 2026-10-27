@@ -1,0 +1,145 @@
+name: Prepare generated files
+
+# 新しい記事の一覧カード画像（npm run og:cards の生成物）を、作業ブランチで作ってコミットする。
+# Node を実行できない担当（ChatGPT の GitHub 連携・ブラウザだけの人）が記事を追加するときに使う。
+# docs/DEVELOPMENT_PLAYBOOK.md「2. 新しい記事」。
+#
+# - 手動実行（Run workflow で作業ブランチを選ぶ）だけ。main では動かない
+# - 生成（依存のインストールとスクリプトの実行）は読み取り専用の権限で行う
+# - 書き込み権限のジョブは、生成物を検査してコピーするだけで、ブランチのコードを実行しない
+# - コミットするのは public/images/card/*.png と src/data/card-images.ts（選べば data/editorial/event-registry.json）だけ
+# - GITHUB_TOKEN の push では CI が起動しないため、必須チェック（Validate site・CodeQL）を同じブランチで起動する
+
+on:
+  workflow_dispatch:
+    inputs:
+      sync_registry:
+        description: 'イベント台帳（data/editorial/event-registry.json）も npm run editorial:sync で同期する'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prepare-generated-files-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    name: Generate (read-only)
+    if: github.ref != 'refs/heads/main' && startsWith(github.ref, 'refs/heads/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+          cache: npm
+      - run: npm ci
+      - name: Generate article cards
+        run: npm run og:cards
+      - name: Sync event registry
+        if: inputs.sync_registry
+        run: npm run editorial:sync
+      - name: Package generated files
+        shell: bash
+        env:
+          SYNC: ${{ inputs.sync_registry }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/generated"
+          mkdir -p "$out/card"
+          cp public/images/card/*.png "$out/card/"
+          cp src/data/card-images.ts "$out/card-images.ts"
+          if [ "$SYNC" = "true" ]; then cp data/editorial/event-registry.json "$out/event-registry.json"; fi
+          ls "$out/card" | wc -l
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: generated-files-${{ github.run_id }}
+          path: ${{ runner.temp }}/generated/
+          retention-days: 1
+
+  commit:
+    name: Commit generated files
+    needs: generate
+    if: github.ref != 'refs/heads/main' && startsWith(github.ref, 'refs/heads/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: generated-files-${{ github.run_id }}
+          path: ${{ runner.temp }}/generated
+      - name: Check generated files
+        shell: bash
+        env:
+          SYNC: ${{ inputs.sync_registry }}
+        run: |
+          set -euo pipefail
+          gen="$RUNNER_TEMP/generated"
+          # カード画像：<slug>-<8桁のハッシュ>.png で、中身が PNG であること
+          for f in "$gen"/card/*; do
+            name="$(basename "$f")"
+            [[ "$name" =~ ^[a-z0-9-]+-[0-9a-f]{8}\.png$ ]] || { echo "::error::想定外のファイル名: $name"; exit 1; }
+            [ "$(head -c 8 "$f" | od -An -tx1 | tr -d ' \n')" = "89504e470d0a1a0a" ] || { echo "::error::PNG ではない: $name"; exit 1; }
+          done
+          # 一覧：生成スクリプトの書式（先頭のコメントと、slug → /images/card/<名前>.png の対応だけ）
+          python3 - "$gen/card-images.ts" "$gen/card" <<'PY'
+          import json, os, re, sys
+          src = open(sys.argv[1], encoding='utf-8').read()
+          assert src.startswith('// 自動生成（scripts/build-og-backdrop.mjs）'), '一覧の先頭が生成スクリプトの書式ではない'
+          m = re.search(r'export const CARD_IMAGES: Record<string, string> = (\{[\s\S]*\});\s*$', src)
+          assert m, '一覧の書式が想定と違う'
+          data = json.loads(m.group(1))
+          files = set(os.listdir(sys.argv[2]))
+          for slug, url in data.items():
+              assert re.fullmatch(r'[a-z0-9-]+', slug), f'slug が不正: {slug}'
+              name = url.removeprefix('/images/card/')
+              assert url.startswith('/images/card/') and name in files, f'一覧の画像が無い: {url}'
+          print(f'カード {len(files)} 枚・一覧 {len(data)} 件')
+          PY
+          if [ "$SYNC" = "true" ]; then
+            python3 -c "import json,sys; d=json.load(open(sys.argv[1], encoding='utf-8')); assert d.get('schemaVersion') == 1 and isinstance(d.get('events'), list)" "$gen/event-registry.json"
+          fi
+      - name: Commit and push to the working branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SYNC: ${{ inputs.sync_registry }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          gen="$RUNNER_TEMP/generated"
+          # 生成物で置き換える（使われなくなった古いカード画像は消える。生成スクリプトと同じ動き）
+          find public/images/card -maxdepth 1 -name '*.png' -delete
+          cp "$gen"/card/*.png public/images/card/
+          cp "$gen/card-images.ts" src/data/card-images.ts
+          paths=(public/images/card src/data/card-images.ts)
+          if [ "$SYNC" = "true" ]; then
+            cp "$gen/event-registry.json" data/editorial/event-registry.json
+            paths+=(data/editorial/event-registry.json)
+          fi
+          git add -A -- "${paths[@]}"
+          if git diff --cached --quiet; then
+            echo "::notice::生成物はブランチと同じでした。コミットしません。"
+            exit 0
+          fi
+          git diff --cached --stat
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(generated): 記事カード画像を生成（Prepare generated files）"
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:refs/heads/$BRANCH"
+          # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する
+          gh workflow run validate.yml --ref "$BRANCH"
+          gh workflow run codeql.yml --ref "$BRANCH"
+          echo "::notice::生成物をコミットし、Validate site と CodeQL を $BRANCH で起動しました。"
