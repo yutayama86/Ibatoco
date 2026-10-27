@@ -27,7 +27,7 @@
 ## 最初に読む：重要な発見
 
 1. **GA4/GSC の日次同期が、毎日 PR を作れずに失敗している。** `google-analytics-daily.yml` の最後のステップが `GitHub Actions is not permitted to create or approve pull requests` で落ちる（10/25・10/26 の定期実行で確認）。リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」がオフのため。ブランチ `bot/google-analytics-daily-<run>` だけが残り（いま3本）、`data/editorial/performance-snapshot.json` は 2026-10-21 のまま止まっている
-2. 1 の結果、**06:30 の定期 Deploy production が毎日失敗する**（「当日の確定指標がない」ので止まる設計どおりの動き）。main へのマージで動く本番デプロイは正常（#431 と #437 は本番反映を確認：Deploy production の workflow_run が success）
+2. 1 の結果、**06:30 の定期 Deploy production が毎日失敗する**（「当日の確定指標がない」ので止まる設計どおりの動き）。main へのマージで動く本番デプロイは正常（#431 と #437 は本番反映を確認：Deploy production の workflow_run が success）。影響：イベントの「終了しました」「開催中」や月別一覧のように**ビルド時の日付で決まる表示は、マージが無い日は切り替わらない**
 3. **収益リンク監査（`monetization-audit.mjs`）が提携リンクを1本も数えていない。** frontmatter の字下げが変わり、正規表現が合わなくなった。79記事に予約リンクがあるのに「Bookingリンク総数 0」と出る。「提携済みなのに収益化されていないリンク」の検出が止まっている → 別 PR（PHASE 4）で修正
 4. Claude に依存する箇所は**コードに4か所だけ**（下の 3. 参照）。本番デプロイ・CI・計測は Claude に依存していない
 5. 本番デプロイの経路（PR → Validate site → main → Deploy production → build.json の SHA 照合）は、すでに AI に依存しない形で完成している。**維持**
