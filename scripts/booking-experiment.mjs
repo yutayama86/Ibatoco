@@ -16,10 +16,14 @@ if (!existsSync(PERF)) {
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
 const recent7 = performance.conversionDetail?.recent7 ?? {};
 
-const aViews = Number(recent7.booking_guide_view_a ?? 0);
-const bViews = Number(recent7.booking_guide_view_b ?? 0);
-const aClicks = Number(recent7.outbound_booking_click_a ?? 0);
-const bClicks = Number(recent7.outbound_booking_click_b ?? 0);
+// A/B のイベントがスナップショットに無いときは「0件」ではなく「未取得」。判定もしない（下の「ルール」）
+const AB_KEYS = ['booking_guide_view_a', 'booking_guide_view_b', 'outbound_booking_click_a', 'outbound_booking_click_b'];
+const missingKeys = AB_KEYS.filter((key) => recent7[key] == null || !Number.isFinite(Number(recent7[key])));
+const hasData = missingKeys.length === 0;
+const aViews = hasData ? Number(recent7.booking_guide_view_a) : 0;
+const bViews = hasData ? Number(recent7.booking_guide_view_b) : 0;
+const aClicks = hasData ? Number(recent7.outbound_booking_click_a) : 0;
+const bClicks = hasData ? Number(recent7.outbound_booking_click_b) : 0;
 
 const minViews = 200;
 const minClicks = 8;
@@ -38,7 +42,10 @@ const confidenceQualified = Math.abs(zScore) >= minZ;
 let decision = 'collect';
 let reason = '必要サンプル数に未到達。実験を継続する。';
 
-if (enoughData) {
+if (!hasData) {
+  decision = 'no-data';
+  reason = `GA4スナップショット（conversionDetail.recent7）に A/B のイベントが無い（${missingKeys.join('・')}）。実験が動いているか、取得の対象に入っているかを先に確認する。`;
+} else if (enoughData) {
   if (!confidenceQualified) {
     decision = 'inconclusive';
     reason = `サンプル数は満たしたが統計的な差が弱い（|z|=${Math.abs(zScore).toFixed(2)} < ${minZ}）。実験継続。`;
@@ -57,10 +64,12 @@ if (enoughData) {
 const lines = [
   '# Booking CTA Experiment',
   '',
-  `- A: ${aViews} views / ${aClicks} clicks / CTR ${(aCtr * 100).toFixed(2)}%`,
-  `- B: ${bViews} views / ${bClicks} clicks / CTR ${(bCtr * 100).toFixed(2)}%`,
+  ...(hasData ? [
+    `- A: ${aViews} views / ${aClicks} clicks / CTR ${(aCtr * 100).toFixed(2)}%`,
+    `- B: ${bViews} views / ${bClicks} clicks / CTR ${(bCtr * 100).toFixed(2)}%`,
+  ] : ['- A・B: **未取得**（0件ではない）']),
   `- 判定: **${decision}**`,
-  `- z-score: **${zScore.toFixed(2)}**`,
+  `- z-score: **${hasData ? zScore.toFixed(2) : '未計算'}**`,
   `- 理由: ${reason}`,
   '',
   '## 勝者判定条件',

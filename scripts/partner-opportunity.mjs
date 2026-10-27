@@ -2,6 +2,8 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bookingItems, isEventEnded, isPublished, lookup, orZero, readFrontmatter, viewsByPath, dataFreshness } from './lib/report-data.mjs';
+import { todayJst } from '../src/lib/growth-engine.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const EVENTS = join(ROOT, 'src/content/events');
@@ -21,52 +23,14 @@ for (const path of [EVENTS, PERF, AFFILIATES]) {
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
 const affiliates = readFileSync(AFFILIATES, 'utf8');
 
-function fm(raw) {
-  return raw.match(/^---\s*\n([\s\S]*?)\n---/)?.[1] ?? '';
-}
-function scalar(front, key) {
-  const m = front.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
-  return m ? m[1].trim().replace(/^['"]|['"]$/g, '') : null;
-}
-function bool(front, key) {
-  const value = scalar(front, key);
-  return value === 'true' ? true : value === 'false' ? false : null;
-}
-function block(front, key) {
-  const lines = front.split('\n');
-  const start = lines.findIndex((line) => new RegExp(`^${key}:\\s*$`).test(line));
-  if (start < 0) return '';
-  const out = [];
-  for (let i = start + 1; i < lines.length; i += 1) {
-    if (/^[A-Za-z][A-Za-z0-9]*:\s*/.test(lines[i])) break;
-    out.push(lines[i]);
-  }
-  return out.join('\n');
-}
-function nestedBools(front, key) {
-  return Object.fromEntries(
-    [...block(front, key).matchAll(/^\s{2}([A-Za-z]+):\s*(true|false)$/gm)]
-      .map((m) => [m[1], m[2] === 'true'])
-  );
-}
-function bookingItems(front) {
-  const b = block(front, 'booking');
-  const chunks = b.split(/^\s{4}-\s+/m).slice(1);
-  return chunks.map((chunk) => ({
-    provider: /^provider:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim() ?? '',
-    label: /^label:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim() ?? '',
-    url: /^\s{2}url:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim() ?? '',
-    kind: /^\s{2}kind:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim() ?? 'official',
-  })).filter((x) => x.provider && x.url);
-}
-
 const providerStatus = new Map(
   [...affiliates.matchAll(/^\s{2}['"]?([a-z0-9-]+)['"]?:\s*\{[^{}]*status:\s*'([^']+)'/gm)]
     .map((m) => [m[1], m[2]])
 );
 
-const ga7 = new Map((performance.ga4TopPages?.recent7 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
-const ga28 = new Map((performance.ga4TopPages?.recent28 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
+// GA4 上位ページに無いページは 0 ではなく「値なし」。合算・スコアのときだけ 0 として扱う
+const ga7 = viewsByPath(performance.ga4TopPages?.recent7);
+const ga28 = viewsByPath(performance.ga4TopPages?.recent28);
 const gsc = new Map();
 for (const f of performance.gscDiscovery?.findings ?? []) {
   if (!f.page) continue;
@@ -88,7 +52,9 @@ for (const row of performance.conversionDetail?.byProviderPage ?? []) {
   const key = `${row.path}::${row.link_provider}`;
   actualCandidateClicks.set(key, (actualCandidateClicks.get(key) ?? 0) + Number(row.event_count ?? 0));
 }
-const basisDate = performance.asOf ?? new Date().toISOString().slice(0, 10);
+// 終了判定は「今日」（日本時間）で行う。計測データの基準日が古くても、終わったイベントは終わっている
+const today = todayJst();
+const freshness = dataFreshness(performance.asOf, today);
 
 const categoryMeta = {
   parking: { label: '駐車場', value: 4 },
@@ -101,20 +67,19 @@ const categoryMeta = {
 const pages = [];
 for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.startsWith('_'))) {
   const raw = readFileSync(join(EVENTS, file), 'utf8');
-  const front = fm(raw);
-  if (bool(front, 'draft') !== false || bool(front, 'reviewed') !== true || bool(front, 'noindex') === true) continue;
+  const data = readFrontmatter(raw);
+  if (!isPublished(data)) continue;
 
   const path = `/events/${basename(file, '.md')}/`;
-  const title = scalar(front, 'title') ?? path;
-  const intents = nestedBools(front, 'businessIntent');
-  const endDate = scalar(front, 'endDate');
-  const isEnded = Boolean(endDate && endDate < basisDate);
-  const items = bookingItems(front);
+  const title = data.title ?? path;
+  const intents = Object.fromEntries(Object.entries(data.businessIntent ?? {}).filter(([, v]) => v === true));
+  const isEnded = isEventEnded(data, today);
+  const items = bookingItems(data);
   const nonActive = items.filter((item) => !['official', ''].includes(item.provider) && providerStatus.get(item.provider) !== 'active');
   const active = items.filter((item) => providerStatus.get(item.provider) === 'active');
   const g = gsc.get(path) ?? { impressions: 0, clicks: 0 };
-  const views7 = ga7.get(path) ?? 0;
-  const views28 = ga28.get(path) ?? 0;
+  const views7 = orZero(lookup(ga7, path));
+  const views28 = orZero(lookup(ga28, path));
 
   const funnel = pageFunnel.get(path) ?? { bookingClicks: 0, monetizedClicks: 0 };
   pages.push({
@@ -223,7 +188,9 @@ const state = {
 const lines = [
   '# Partner Opportunity Engine',
   '',
-  `- 基準日: ${performance.asOf ?? 'unknown'}`,
+  freshness.line,
+  `- 終了判定の基準: 今日（${today}・日本時間）。終了したイベントは候補から外す`,
+  '- Views の合計は GA4 上位ページに入ったページの分だけ（上位外は値が無いので足していない）',
   '- 方針: 実需要が見えるまで新規提携を増やさない。追加費用がかかる提携・SaaSは対象外。',
   '',
   '## 新規提携を検討する提供元',
