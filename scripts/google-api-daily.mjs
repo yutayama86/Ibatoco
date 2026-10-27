@@ -4,15 +4,12 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
+import { googleDailyRange } from '../src/lib/ga4-daily.mjs';
 
 const env = process.env;
-const day = (offset) => {
-  const d = new Date(Date.now() + 9 * 3600000);
-  d.setUTCDate(d.getUTCDate() + offset);
-  return d.toISOString().slice(0, 10);
-};
-const through = day(-3); // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
-const from = day(-34);
+// Allow both GA4 and GSC processing lag; do not infer missing days are zero.
+// 35 days so the 28+7 day windows never depend on rows left over from an earlier (possibly failed) sync.
+const { from, through } = googleDailyRange(Date.now());
 const token = env.GOOGLE_ACCESS_TOKEN;
 const property = env.GA4_PROPERTY_ID;
 const site = env.GSC_SITE_URL;

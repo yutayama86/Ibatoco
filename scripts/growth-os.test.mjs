@@ -640,3 +640,27 @@ test('計測の健全性：GA4 だけが消え GSC が保たれた日は「計�
   assert.match(errs, /clicks（5）が impressions（3）より大きい/);
   assert.match(errs, /確定日（2026-10-07）より後/);
 });
+
+// ── GA4/GSC 日次同期の取得範囲と、同期 PR の重複防止（2026-10-27） ──
+test('Google 日次の取得範囲：確定日は今日（日本時間）の3日前、35日の窓を API だけで埋める', async () => {
+  const { googleDailyRange, GA4_DAILY_MAX_DAYS } = await import('../src/lib/ga4-daily.mjs');
+  // 2026-10-28 05:30 JST（日次同期の時刻）
+  const r = googleDailyRange(Date.parse('2026-10-27T20:30:00Z'));
+  assert.deepEqual(r, { from: '2026-09-21', through: '2026-10-25' });
+  assert.equal(daysBetween(r.from, r.through) + 1, GA4_DAILY_MAX_DAYS);
+  // 日本時間の日付で切り替わる（UTC の日付ではない）
+  assert.equal(googleDailyRange(Date.parse('2026-10-27T14:59:00Z')).through, '2026-10-24');
+  assert.equal(googleDailyRange(Date.parse('2026-10-27T15:00:00Z')).through, '2026-10-25');
+});
+
+test('GA4/GSC 日次同期：PR は固定ブランチ1本、作れない設定では失敗せずに知らせる', () => {
+  const workflow = readFileSync('.github/workflows/google-analytics-daily.yml', 'utf8');
+  assert.match(workflow, /branch="bot\/google-analytics-daily"$/m, '同期ブランチは固定（毎日新しいブランチ・PR を作らない）');
+  assert.doesNotMatch(workflow, /bot\/google-analytics-daily-\$RUN_ID/);
+  assert.match(workflow, /gh pr list --repo "\$REPOSITORY" --head "\$branch" --base main --state open/, '開いている同期 PR があれば更新する');
+  assert.match(workflow, /not permitted to create or approve pull requests/, 'PR 作成の権限が無いときは警告に切り替える');
+  assert.match(workflow, /gh workflow run validate\.yml --ref "\$branch"/);
+  assert.doesNotMatch(workflow, /git push[^\n]*refs\/heads\/main/, 'main へ直接 push しない');
+  const api = readFileSync('scripts/google-api-daily.mjs', 'utf8');
+  assert.match(api, /googleDailyRange\(Date\.now\(\)\)/);
+});
