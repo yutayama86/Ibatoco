@@ -89,10 +89,14 @@ jobs:
           node scripts/ga4-daily.mjs --check
           npm run verify
       # Branch protection requires a PR. Never push directly to main.
+      # 同期 PR は1本にまとめる：bot 専用の固定ブランチを毎回 main から作り直し、開いている PR があれば更新する。
+      # PR を作れない設定（Allow GitHub Actions to create and approve pull requests がオフ）のときは失敗にせず、
+      # データをブランチに残して警告と作成用のリンクを出す（人が PR を開く）。docs/GA4_GSC_DAILY_SYNC.md
       - name: Propose verified snapshot through protected PR
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
@@ -100,16 +104,38 @@ jobs:
             echo "No changes in confirmed metrics."
             exit 0
           fi
-          branch="bot/google-analytics-daily-$RUN_ID"
+          branch="bot/google-analytics-daily"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch -c "$branch"
+          git switch -C "$branch"
           git add data/editorial/performance-snapshot.json
-          git commit -m "chore(metrics): propose verified Google daily analytics"
-          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:refs/heads/$branch"
-          gh pr create --base main --head "$branch" \
-            --title "metrics: verified GA4/GSC daily snapshot (run $RUN_ID)" \
-            --body "Official Google API daily sync. Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only the performance snapshot. Review and required checks before merge. No direct protected-branch write."
+          git commit -m "chore(metrics): propose verified Google daily analytics (run $RUN_ID)"
+          # bot 専用のブランチ。人はコミットしない。毎回「最新の main ＋ 当日のスナップショット」の1コミットに置き換える
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin "HEAD:refs/heads/$branch"
+          existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          title="metrics: verified GA4/GSC daily snapshot"
+          body="Official Google API daily sync (latest run $RUN_ID). Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only data/editorial/performance-snapshot.json and is refreshed in place by each daily run (one PR, no duplicates). Review and required checks before merge. No direct protected-branch write."
+          if [ -n "$existing" ]; then
+            # 中身はブランチの push で更新済み。題名・本文の更新が権限で断られても失敗にしない
+            gh pr edit "$existing" --repo "$REPOSITORY" --title "$title" --body "$body" || echo "::warning::PR #$existing の題名・本文は更新できなかった（中身は更新済み）"
+            echo "::notice::既存の同期 PR #$existing を更新しました。"
+          elif gh pr create --repo "$REPOSITORY" --base main --head "$branch" --title "$title" --body "$body" 2> "$RUNNER_TEMP/pr-create.err"; then
+            echo "::notice::同期 PR を作成しました。"
+          elif grep -q "not permitted to create or approve pull requests" "$RUNNER_TEMP/pr-create.err"; then
+            compare="https://github.com/$REPOSITORY/compare/main...$branch?expand=1"
+            echo "::warning title=同期 PR を自動作成できません::GitHub Actions に PR 作成の権限が無い設定です。データはブランチ $branch に保存済み。PR は手で開く：$compare"
+            {
+              echo "### GA4/GSC 日次同期：PR を自動作成できませんでした"
+              echo ""
+              echo "- データはブランチ \`$branch\` に保存済み（失われていない）"
+              echo "- PR を開く：$compare"
+              echo "- 自動で作るには、リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」が必要（docs/GA4_GSC_DAILY_SYNC.md）"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            cat "$RUNNER_TEMP/pr-create.err" >&2
+            exit 1
+          fi
+          # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する（PR が無くても、後で開いたときに結果が揃う）
           gh workflow run validate.yml --ref "$branch"
           gh workflow run codeql.yml --ref "$branch"
-          echo "::notice::Snapshot PR opened; required validations dispatched. Protected main unchanged pending checks and merge."
+          echo "::notice::Required validations dispatched on $branch. Protected main unchanged pending checks and merge."

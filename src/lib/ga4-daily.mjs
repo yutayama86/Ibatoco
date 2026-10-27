@@ -13,6 +13,22 @@
 import { addDays, daysBetween } from './growth-engine.mjs';
 
 export const GA4_DAILY_MAX_DAYS = 35;
+
+/** GA4・GSC の処理の遅れ。確定日は「今日（日本時間）の3日前」 */
+export const GOOGLE_CONFIRM_LAG_DAYS = 3;
+
+/**
+ * Google 公式 API から取る日別データの範囲（日本時間の暦日）。
+ * 直近28日＋前7日の窓（35日）を API の結果だけで埋められるようにする。前回の同期が何日失敗していても、
+ * リポジトリに残っている古い行に頼らずに取り戻せる（2026-10-27 まで 32日分しか取っておらず、長い失敗の後は窓が欠けた）。
+ * @param {number} nowMs
+ */
+export function googleDailyRange(nowMs) {
+  const jst = new Date(nowMs + 9 * 3600000);
+  const today = jst.toISOString().slice(0, 10);
+  const through = addDays(today, -GOOGLE_CONFIRM_LAG_DAYS);
+  return { from: addDays(through, -(GA4_DAILY_MAX_DAYS - 1)), through };
+}
 const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
 
