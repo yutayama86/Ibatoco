@@ -79,6 +79,8 @@ data.windows.ga4={...data.windows.ga4,daily:ga,dailyMeta:{
   recent7VsPrevious7:{usersPct:null,sessionsPct:pct(recent7.sessions,previous7.sessions),
     viewsPct:pct(recent7.views,previous7.views),
     comparability:'raw equal 7-day windows; known GA4 CSP incident 2026-10-08..10 can affect comparison'}};
+// 予約ボタンの A/B（取得できたときだけ置き換える。行の無いイベントは null のまま）
+if(input.bookingCtaExperiment) data.windows.ga4.bookingCtaExperiment={...input.bookingCtaExperiment,source:'Google official GA4 Data API',fetchedAt:input.fetchedAt};
 data.windows.gsc={...data.windows.gsc,daily:gs,dailyMeta:{source:'Google official Search Console API',
   fetchedAt:input.fetchedAt,confirmedThrough:gsEnd,rows:gs.length},latestDay:gsWindow(gsEnd,1),
   recent7:gRecent7,previous7:gPrevious7,recent28:gRecent28,

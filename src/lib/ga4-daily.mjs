@@ -174,3 +174,31 @@ export function checkDaily(daily, { confirmedThrough = null, incidents = null } 
   if (daily.length >= 2 && daysBetween(daily[0].date, daily.at(-1).date) > GA4_DAILY_MAX_DAYS - 1) errors.push('windows.ga4.daily が35日の範囲を超えている');
   return errors;
 }
+
+/** 予約ボタンの A/B 実験（src/data/experiments.ts の booking-cta-clarity-v1）で判定に使う4イベント */
+export const BOOKING_CTA_AB_EVENTS = ['booking_guide_view_a', 'booking_guide_view_b', 'outbound_booking_click_a', 'outbound_booking_click_b'];
+
+/**
+ * GA4 Data API（dimensions: eventName・metrics: eventCount）の行を、A/B の4イベントの件数にする。
+ * API は件数0のイベントの行を返さないため、行が無いイベントは「0件か未計測か区別できない」として null にする（0 で埋めない）。
+ * @param {Array<{dimensionValues: {value: string}[], metricValues: {value: string}[]}>} rows
+ * @param {{ start: string, end: string }} period
+ */
+export function bookingCtaAbCounts(rows, period) {
+  const counts = Object.fromEntries(BOOKING_CTA_AB_EVENTS.map((name) => [name, null]));
+  for (const row of rows ?? []) {
+    const name = row?.dimensionValues?.[0]?.value;
+    if (!Object.hasOwn(counts, name)) continue;
+    const value = Number(row.metricValues?.[0]?.value);
+    if (!Number.isInteger(value) || value < 0) throw new Error(`Invalid GA4 eventCount for ${name}`);
+    counts[name] = value;
+  }
+  return {
+    start: period.start,
+    end: period.end,
+    counts,
+    missingEvents: BOOKING_CTA_AB_EVENTS.filter((name) => counts[name] == null),
+    note: 'GA4 Data API の eventCount（直近7日・確定日まで）。行が無いイベントは null（0件か未計測かを区別できないため 0 にしない）',
+  };
+}
+

@@ -24,6 +24,12 @@ if (input.confirmedThrough && input.gsc?.confirmedThrough) {
   inspect('GSC', input.gsc.daily, ['clicks','impressions','position'], input.gsc.confirmedThrough);
 }
 for (const err of checkDaily(input.daily, { confirmedThrough: input.confirmedThrough })) fail.push('GA4: '+err);
+// 予約ボタンの A/B（任意）。件数は 0 以上の整数か null（未取得）。期間は確定日までの7日
+const ab = input.bookingCtaExperiment;
+if (ab != null) {
+  if (!validDate(ab.start) || ab.end !== input.confirmedThrough) fail.push('A/B: period must end at confirmedThrough');
+  for (const [k, v] of Object.entries(ab.counts ?? {})) if (v !== null && (!Number.isInteger(v) || v < 0)) fail.push('A/B: invalid '+k);
+}
 for (const err of checkGscDaily(input.gsc?.daily, { confirmedThrough: input.gsc?.confirmedThrough })) fail.push('GSC: '+err);
 if (fail.length) { for (const e of fail) console.error('::error::'+e); process.exit(1); }
 const coverage = dailyCoverage(input.daily, input.confirmedThrough);
