@@ -27,20 +27,14 @@ Owner-only dashboard at `/control/`.
 
 Never commit any of these values.
 
-From a machine authenticated to the production Cloudflare account:
+The owner configures these in the Cloudflare dashboard (Workers & Pages → `ibatoco` → Settings → Variables and Secrets, type **Secret**). Do not run `wrangler login` or `wrangler secret` locally.
 
-~~~bash
-npx wrangler secret put CONTROL_PASSWORD
-npx wrangler secret put CONTROL_SESSION_SECRET
-~~~
+- `CONTROL_PASSWORD`
+- `CONTROL_SESSION_SECRET`
 
-Use a unique 20+ character password. `CONTROL_SESSION_SECRET` should be a separate random value of at least 32 characters. The old `CONTROL_TOTP_SECRET` is no longer read by the Worker and can be deleted (`npx wrangler secret delete CONTROL_TOTP_SECRET`).
+Use a unique 20+ character password. `CONTROL_SESSION_SECRET` should be a separate random value of at least 32 characters. The old `CONTROL_TOTP_SECRET` is no longer read by the Worker.
 
-Then deploy:
-
-~~~bash
-npm run deploy
-~~~
+Code changes reach production only by merging a reviewed PR into `main`; GitHub Actions "Deploy production" publishes after validation. Do not run `npm run deploy` locally.
 
 Until **both** secrets are valid, `/control/` intentionally returns **503**.
 

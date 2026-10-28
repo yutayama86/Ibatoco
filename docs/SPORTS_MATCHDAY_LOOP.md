@@ -45,11 +45,14 @@ npm run sports:status
 
 ```bash
 npm run verify
-git add src/data/sports/matches/<team>.json
+git switch -c fact/<日付>-sports-<team>
+git add src/data/sports/matches/<team>.json src/data/seo-changes.ts
 git commit
-# 反映はユーザーが実行（git push では本番に出ない）
-cd /Users/yamanobeyuuta/Desktop/Ibatoco && npm run deploy
+git push -u origin fact/<日付>-sports-<team>
+
 ```
+
+PRのCI（Validate site・CodeQL・観測窓ガード）が成功し、承認されたらmainへマージする。本番公開はGitHub Actionsの「Deploy production」が行う。手元から `npm run deploy` はしない（docs/SECURE_DEPLOYMENT_POLICY.md）。
 
 静的サイトなので、試合日を過ぎても再ビルドするまで表示は変わらない。更新のたびに反映する。
 

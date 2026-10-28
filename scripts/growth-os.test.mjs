@@ -640,3 +640,68 @@ test('計測の健全性：GA4 だけが消え GSC が保たれた日は「計�
   assert.match(errs, /clicks（5）が impressions（3）より大きい/);
   assert.match(errs, /確定日（2026-10-07）より後/);
 });
+
+// ── 確定日の4か所をそろえる（2026-10-28・#445：最上位だけ 10/19・10/18 のまま残った） ──
+test('確定日：日別・source.freshness・source・最上位が食い違えば検出する', async () => {
+  const { confirmedDateMismatches } = await import('../src/lib/ga4-daily.mjs');
+  const snap = (top) => ({
+    ga4LatestConfirmedDate: top.ga4, gscLatestConfirmedDate: top.gsc,
+    windows: { ga4: { dailyMeta: { confirmedThrough: '2026-10-25' } }, gsc: { dailyMeta: { confirmedThrough: '2026-10-25' } } },
+    source: { ga4LatestConfirmedDate: '2026-10-25', gscLatestConfirmedDate: '2026-10-25',
+      freshness: { ga4LatestConfirmedDate: '2026-10-25', gscLatestConfirmedDate: '2026-10-25' } },
+  });
+  assert.deepEqual(confirmedDateMismatches(snap({ ga4: '2026-10-25', gsc: '2026-10-25' })), []);
+  const errs = confirmedDateMismatches(snap({ ga4: '2026-10-19', gsc: '2026-10-18' }));
+  assert.equal(errs.length, 2);
+  assert.match(errs[0], /^GA4 の確定日が食い違う：.*ga4LatestConfirmedDate=2026-10-19/);
+  assert.match(errs[1], /^GSC の確定日が食い違う：.*gscLatestConfirmedDate=2026-10-18/);
+  // 無い場所は比べない（日別がまだ無い古い形式でも落とさない）
+  assert.deepEqual(confirmedDateMismatches({ ga4LatestConfirmedDate: '2026-10-19', source: { freshness: { ga4LatestConfirmedDate: '2026-10-19' } } }), []);
+  // リポジトリのスナップショットはそろっている
+  assert.deepEqual(confirmedDateMismatches(JSON.parse(readFileSync('data/editorial/performance-snapshot.json', 'utf8'))), []);
+});
+
+test('GA4/GSC 日次同期：最上位の確定日も更新し、食い違えば書き込まない', () => {
+  const sync = readFileSync('scripts/google-analytics-sync.mjs', 'utf8');
+  assert.match(sync, /^data\.ga4LatestConfirmedDate=gaEnd;$/m);
+  assert.match(sync, /^data\.gscLatestConfirmedDate=gsEnd;$/m);
+  assert.match(sync, /confirmedDateMismatches\(data\)[\s\S]*throw new Error\('Confirmed dates disagree/);
+  assert.ok(sync.indexOf('confirmedDateMismatches(data)') < sync.indexOf('writeFileSync(path'), '検査してから書き込む');
+});
+
+// ── GA4/GSC 日次同期の取得範囲と、同期 PR の重複防止（2026-10-27） ──
+test('Google 日次の取得範囲：確定日は今日（日本時間）の3日前、35日の窓を API だけで埋める', async () => {
+  const { googleDailyRange, GA4_DAILY_MAX_DAYS } = await import('../src/lib/ga4-daily.mjs');
+  // 2026-10-28 05:30 JST（日次同期の時刻）
+  const r = googleDailyRange(Date.parse('2026-10-27T20:30:00Z'));
+  assert.deepEqual(r, { from: '2026-09-21', through: '2026-10-25' });
+  assert.equal(daysBetween(r.from, r.through) + 1, GA4_DAILY_MAX_DAYS);
+  // 日本時間の日付で切り替わる（UTC の日付ではない）
+  assert.equal(googleDailyRange(Date.parse('2026-10-27T14:59:00Z')).through, '2026-10-24');
+  assert.equal(googleDailyRange(Date.parse('2026-10-27T15:00:00Z')).through, '2026-10-25');
+});
+
+test('GA4/GSC 日次同期：PR は固定ブランチ1本、作れない設定では失敗せずに知らせる', () => {
+  const workflow = readFileSync('.github/workflows/google-analytics-daily.yml', 'utf8');
+  assert.match(workflow, /branch="bot\/google-analytics-daily"$/m, '同期ブランチは固定（毎日新しいブランチ・PR を作らない）');
+  assert.doesNotMatch(workflow, /bot\/google-analytics-daily-\$RUN_ID/);
+  assert.match(workflow, /gh pr list --repo "\$REPOSITORY" --head "\$branch" --base main --state open/, '開いている同期 PR があれば更新する');
+  assert.match(workflow, /not permitted to create or approve pull requests/, 'PR 作成の権限が無いときは警告に切り替える');
+  assert.match(workflow, /gh workflow run validate\.yml --ref "\$branch"/);
+  assert.doesNotMatch(workflow, /git push[^\n]*refs\/heads\/main/, 'main へ直接 push しない');
+  const api = readFileSync('scripts/google-api-daily.mjs', 'utf8');
+  assert.match(api, /googleDailyRange\(Date\.now\(\)\)/);
+});
+
+test('予約ボタンの A/B：GA4 の行を4イベントの件数にし、行の無いイベントは null（0 で埋めない）', async () => {
+  const { bookingCtaAbCounts, BOOKING_CTA_AB_EVENTS } = await import('../src/lib/ga4-daily.mjs');
+  const row = (name, n) => ({ dimensionValues: [{ value: name }], metricValues: [{ value: String(n) }] });
+  const r = bookingCtaAbCounts([row('booking_guide_view_a', 120), row('booking_guide_view_b', 0), row('page_view', 999)], { start: '2026-10-19', end: '2026-10-25' });
+  assert.equal(r.counts.booking_guide_view_a, 120);
+  assert.equal(r.counts.booking_guide_view_b, 0);
+  assert.equal(r.counts.outbound_booking_click_a, null);
+  assert.deepEqual(r.missingEvents, ['outbound_booking_click_a', 'outbound_booking_click_b']);
+  assert.equal(Object.keys(r.counts).length, BOOKING_CTA_AB_EVENTS.length);
+  assert.equal(r.end, '2026-10-25');
+  assert.throws(() => bookingCtaAbCounts([row('booking_guide_view_a', -1)], { start: 'a', end: 'b' }));
+});

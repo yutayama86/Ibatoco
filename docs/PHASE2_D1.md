@@ -71,3 +71,6 @@ Phase2は大きいので、価値の出る順に小さく載せる。各ステ�
 - `features`/`genres`/`sns`/`payload`/`photos` は JSON文字列で保持（D1=SQLiteのため）。
 - 承認フロー：`reviews.status` `leads.status` で pending→published/handled。公開だけを静的側に出す。
 - 行動ログ `analytics_events` は将来のデータ提供／AIモデルコースの燃料。
+
+
+> 注意：本書の `wrangler d1 execute --remote` は本番DBへの書き込みです。実施する場合は、手元のWranglerではなくGitHub Actionsの承認付きワークフローとしてPRで用意してください（docs/SECURE_DEPLOYMENT_POLICY.md）。

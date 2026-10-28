@@ -1,0 +1,52 @@
+---
+/**
+ * 品種・銘柄の目録。カードを並べず、標本の台帳のように罫で区切って組む。
+ * 各行は「名前・読み → 時期などの属性 → 説明」。id は図鑑内・親ページからのアンカー。
+ */
+export interface VarietyItem {
+  id: string;
+  name: string;
+  reading?: string;
+  /** 時期・区分などの短い属性 */
+  meta?: string[];
+  text: string;
+  /** 出典の短い表記 */
+  source?: string;
+}
+
+interface Props { items: VarietyItem[] }
+const { items } = Astro.props;
+---
+
+<ol class="fg-varieties">
+  {items.map((item) => (
+    <li id={item.id}>
+      <div class="fg-varieties__name">
+        <h3>{item.name}</h3>
+        {item.reading && <p class="fg-varieties__reading">{item.reading}</p>}
+      </div>
+      <div class="fg-varieties__body">
+        {item.meta && item.meta.length > 0 && <p class="fg-varieties__meta">{item.meta.map((m) => <span>{m}</span>)}</p>}
+        <p>{item.text}</p>
+        {item.source && <p class="fg-varieties__source">出典：{item.source}</p>}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .fg-varieties { list-style: none; padding: 0; border-top: 1px solid var(--fg-ink, #1f2b31); max-width: 980px; }
+  /* 章の本文の行長（li は 40em まで）を外し、行の中の説明文だけを 38em に収める */
+  .fg-varieties > li { max-width: none; }
+  .fg-varieties li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 22px 0; border-bottom: 1px solid var(--fg-line, #d6cdbf); scroll-margin-top: calc(var(--site-header-height, 80px) + 16px); }
+  h3 { margin: 0 !important; font-size: clamp(22px, 2.4vw, 28px); line-height: 1.4; }
+  .fg-varieties__reading { margin: 2px 0 0; font-size: 12.5px; letter-spacing: .12em; color: var(--fg-mute, #59656a); }
+  .fg-varieties__body p { margin: 0; max-width: 38em; }
+  .fg-varieties__body p + p { margin-top: 8px; }
+  .fg-varieties__meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--fg-soil, #6f6354); }
+  .fg-varieties__meta span { padding-left: 10px; border-left: 2px solid var(--fg-accent, #4f6d78); }
+  .fg-varieties__source { font-size: 12px; color: var(--fg-mute, #59656a); }
+  @media (min-width: 760px) {
+    .fg-varieties li { grid-template-columns: minmax(0, 13em) minmax(0, 1fr); gap: 24px; }
+  }
+</style>

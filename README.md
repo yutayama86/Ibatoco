@@ -4,14 +4,15 @@
 
 Astro 製の静的サイトです。現地取材、関係性の開示、事実確認、訂正履歴をコンテンツ構造に組み込んでいます。
 
-> 日々の更新、細かな文言調整、公開前確認は [`docs/UPDATE_GUIDE.md`](docs/UPDATE_GUIDE.md) を最初に参照してください。
+> 開発を始めるときは [`AGENTS.md`](AGENTS.md)（ルールの正本）→ [`docs/SYSTEM_ARCHITECTURE.md`](docs/SYSTEM_ARCHITECTURE.md)（構成）→ [`docs/DEVELOPMENT_PLAYBOOK.md`](docs/DEVELOPMENT_PLAYBOOK.md)（手順）の順に読んでください。
+> 日々の更新、細かな文言調整は [`docs/UPDATE_GUIDE.md`](docs/UPDATE_GUIDE.md) も参照してください。
 
 ---
 
 ## 🚀 すぐ動かす
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -21,7 +22,8 @@ npm run dev
 | --- | --- |
 | `npm run dev` | 開発サーバー起動（ホットリロード） |
 | `npm run build` | 本番ビルド（`dist/` に出力） |
-| `npm run check` | 型確認＋本番ビルド。公開前に必ず実行 |
+| `npm run check` | 型確認＋本番ビルド |
+| `npm run verify` | 公開前の全検査（PR の CI でも必ず実行される） |
 | `npm run preview` | ビルド結果をローカルで確認 |
 
 ---
@@ -83,6 +85,8 @@ featured: true           # トップの特集に出す
 
 ### B. Decap CMS（編集部・非エンジニア向け）
 
+> 2026-10 時点で OAuth が未設定のため使っていません。編集は GitHub の PR で行います（廃止候補：`docs/CHATGPT_MIGRATION_AUDIT.md`）。
+
 `/admin/` にアクセスすると、ブラウザ上のUIで記事・店舗を追加できます。
 初期設定は [`public/admin/config.yml`](public/admin/config.yml) の冒頭コメントを参照してください（GitHubリポジトリ名とOAuthの設定が必要）。
 
@@ -90,19 +94,21 @@ featured: true           # トップの特集に出す
 
 ## 🌐 公開手順（Cloudflare Workers）
 
-### 1. 初回ログイン
+### 1. 本番公開は GitHub Actions だけ
 
-```bash
-npx wrangler login
-```
+本番へ出す経路は、GitHub Actions の「Deploy production」だけです（[docs/SECURE_DEPLOYMENT_POLICY.md](docs/SECURE_DEPLOYMENT_POLICY.md)）。手元で `npx wrangler login`・`npm run deploy`・`npx wrangler deploy` は実行しません。
 
-### 2. 監査してデプロイ
+1. 作業ブランチで変更し、`npm run verify` を通す
+2. PRを作り、CI（Validate site・CodeQL・観測窓ガード）の成功を確認する
+3. 承認後にmainへマージする
+4. 「Validate site」が成功すると「Deploy production」が自動で本番へ出す
+5. `https://ibatoco.jp/build.json` のコミットがマージコミットと一致することを確かめる
 
-```bash
-npm run deploy
-```
+緊急時も、同じ「Deploy production」を main で手動実行（workflow_dispatch）して復旧します。
 
-`npm run deploy` は本番ビルドと品質監査に合格した場合だけ `npx wrangler deploy` を実行します。設定は [`wrangler.jsonc`](wrangler.jsonc)、配信対象は `dist/` です。
+### 2. Deploy production の中身
+
+ワークフローは `npm run deploy` を実行します。先頭の `scripts/deploy-guard.mjs` がGitHub Actionsの「Deploy production」（main）以外では停止します。監査に合格した場合のみ `npx wrangler deploy` を実行します。設定は `wrangler.jsonc`、配信対象は `dist/` です。
 
 ### 3. 独自ドメイン（ibatoco.jp）
 
@@ -141,10 +147,8 @@ cp .env.example .env
 # .env を編集：PUBLIC_GA_ID=G-XXXXXXXXXX など
 ```
 
-**本番（Cloudflare）で設定** … ビルド環境変数として登録（コードに直書きしない）
-1. Cloudflare → **Workers & Pages** → 対象プロジェクト → **Settings → 変数とシークレット（Build 用の環境変数）**
-2. `PUBLIC_GA_ID`（必要なら `PUBLIC_GSC_VERIFICATION`）を追加
-3. 再デプロイ（`PUBLIC_` 変数はビルド時に埋め込まれるため、**設定後の再ビルドが必要**）
+**本番で設定** … 本番のビルドは GitHub Actions「Deploy production」が行い、リポジトリの Actions Variable `PUBLIC_GA_ID`・`PUBLIC_GSC_VERIFICATION` を渡す（2026-10 時点で Variable は未設定。未設定のときは `src/data/site.ts` の `gaMeasurementId` が使われる）。
+変更はオーナーが GitHub の Settings → Secrets and variables → Actions で行い、次のデプロイで反映される（`PUBLIC_` 変数はビルド時に埋め込まれる）。Cloudflare のビルド変数は使っていない（Workers Builds は停止済み）。
 
 > ⚠️ GA4 は Cookie を使用します。導入時は [`/privacy/`](src/pages/privacy.astro) のプライバシーポリシー（Cookie/アクセス解析の項）が実態と一致しているか確認してください（本リポジトリでは記載済み）。
 > なお Cloudflare Web Analytics（Cookie不要）と併用も可能です。
@@ -192,4 +196,4 @@ cp .env.example .env
 
 ---
 
-技術スタック：**Astro 5** / TypeScript / Content Collections / `@astrojs/sitemap` / `@astrojs/rss` — 依存は最小限、ランタイムJSもごく僅か。表示は爆速です。
+技術スタック：**Astro 7** / TypeScript / Content Collections / 自前の `sitemap.xml.ts` / `@astrojs/rss` / Cloudflare Workers — 依存は最小限、ランタイムJSもごく僅か。

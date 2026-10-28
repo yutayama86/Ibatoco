@@ -1,0 +1,210 @@
+---
+/**
+ * 干し芋図鑑（/hoshiimo/）。「茨城のおいしい図鑑」シリーズの1冊として、ほかの図鑑と同じ外枠・部品で組む。
+ * URL・title・description・品種のアンカー（#beniharuka など）・診断（#diagnosis）は、TOPや外部からの導線のため変えない。
+ */
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('hoshiimo')!;
+const title = '茨城の干し芋図鑑｜8品種の違い・産地・選び方 | イバトコ';
+const description = 'べにはるか・シルクスイート・玉豊・いずみ・ほしこがねなど8品種を比較。ひたちなか・東海・那珂の産地、平干し・丸干しの違いもわかる茨城の干し芋図鑑。';
+
+const varieties = [
+  { id: 'beniharuka', name: 'べにはるか', ruby: 'BENIHARUKA', lead: '甘く、しっとり。黄金色の定番。', taste: '濃厚な甘み', texture: 'しっとり柔らか', story: '近年、茨城の干し芋の主流になった品種。黄金色の美しい仕上がりも魅力です。', tag: '濃厚派' },
+  { id: 'silksweet', name: 'シルクスイート', ruby: 'SILK SWEET', lead: '絹のように、なめらか。', taste: '上品な甘み', texture: 'なめらか', story: 'すっきりした甘みと、名前の通りのなめらかな舌ざわりを楽しめます。', tag: 'なめらか派' },
+  { id: 'tamayutaka', name: '玉豊', ruby: 'TAMAYUTAKA', lead: '懐かしさを噛みしめる。', taste: '素朴な甘み', texture: '噛むほど味わい', story: '産地の歴史を支えた伝統品種。昔ながらの干し芋を探している人に。', tag: '伝統派' },
+  { id: 'izumi', name: 'いずみ', ruby: 'IZUMI 13', lead: '手間をかけて育つ、希少な味。', taste: 'コクのある甘み', texture: '柔らかく粘りがある', story: '栽培と加工に手間がかかる希少品種。濃い飴色とコクが特徴です。', tag: '探究派' },
+  { id: 'hoshikogane', name: 'ほしこがね', ruby: 'HOSHIKOGANE', lead: '芋そのものの風味を。', taste: '上品な甘み', texture: '製品によって異なる', story: '上品な甘みと、さつまいもらしい風味を楽しめる品種です。', tag: '風味派' },
+  { id: 'hoshikirari', name: 'ほしキラリ', ruby: 'HOSHI KIRARI', lead: '干し芋のために生まれた、期待の品種。', taste: '糖化しやすく甘みが出やすい', texture: '加工条件により異なる', story: '農研機構が育成した干し芋加工用品種。白く硬い部分「シロタ」が発生しにくく、淡黄色の仕上がりが特徴です。', tag: '加工専用品種', source: '農研機構' },
+  { id: 'hoshiakane', name: 'ほしあかね', ruby: 'HOSHI AKANE', lead: 'ほんのり橙色、色から楽しむ。', taste: '加工条件により異なる', texture: '加工条件により異なる', story: '農研機構が育成した干し芋加工用品種。カロテン由来の淡い橙色と透明感のある仕上がりが特徴です。', tag: '橙色の干し芋', source: '農研機構' },
+  { id: 'tamaotome', name: 'タマオトメ', ruby: 'TAMAOTOME', lead: '加工しやすさにも理由がある。', taste: '製品によって異なる', texture: '製品によって異なる', story: '農研機構が育成した蒸切干向け品種。繊維が少なく、皮がむきやすいことや、黄色い仕上がりが特徴です。', tag: '加工用品種', source: '農研機構' },
+];
+
+const sources = [
+  { label: '農研機構「ほしキラリ」研究紹介', url: 'https://www.naro.go.jp/publicity_report/press/laboratory/nics/013141.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしあかね」研究成果', url: 'https://www.naro.go.jp/publicity_report/press/laboratory/nics/137043.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「タマオトメ」', url: 'https://www.naro.go.jp/collab/breed/0100/0102/001435.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしキラリ」', url: 'https://www.naro.go.jp/collab/breed/0100/0102/001573.html', accessedAt: '2026-10-25' },
+  { label: '農研機構「ほしあかね」', url: 'https://www.naro.go.jp/project/results/4th_laboratory/nics/2020/nics20_s07.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '砂糖は入っていますか？', a: 'さつまいもだけで作られる干し芋が一般的ですが、購入する商品の原材料表示を確認してください。' },
+  { q: 'どこで買えますか？', a: '産地の直売所や生産者のオンライン販売などで購入できます。品種、在庫、配送方法は販売元の最新情報をご確認ください。' },
+  { q: '保存はどうすればいいですか？', a: '商品によって賞味期限や保存温度が異なります。パッケージの表示を優先し、開封後は指定された方法で保存してください。' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城の干し芋図鑑｜8品種の違い・産地・選び方" faq={faq} sources={sources} photos={[FOOD_PHOTOS.hoshiimo]}>
+  <FoodHero
+    guide={guide}
+    lines={['干し芋を、', 'もっと好きになる。']}
+    lead="同じ干し芋でも、甘さも、色も、食感も違う。茨城の風土から生まれた、8品種の物語。"
+    position="50% 55%"
+    facts={[
+      { label: '紹介する品種', value: 'べにはるか・玉豊・いずみなど8品種' },
+      { label: '主な産地', value: 'ひたちなか市・東海村・那珂市' },
+      { label: '形', value: '平干しと丸干し' },
+    ]}
+  >
+    <ul slot="actions" class="hz-jump" aria-label="このページの中を探す">
+      <li><a href="#varieties">品種を知る</a></li>
+      <li><a href="#diagnosis">好みから探す（2問の診断）</a></li>
+    </ul>
+  </FoodHero>
+
+  <section class="fg-section" aria-labelledby="hz-story">
+    <div class="fg-section__label"><p>品種で違う</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-story">同じ干し芋なのに、<span>こんなに違う。</span></h2>
+      <p class="fg-lead">ひとくちに「干し芋」といっても、品種が違えば甘みも香りも、歯ざわりも変わります。茨城の干し芋は、産地の風土と作り手の手仕事が生み出す、食べ比べるほど奥深い食文化です。</p>
+    </div>
+  </section>
+
+  <section class="fg-section hz-quiz" id="diagnosis" aria-labelledby="quiz-heading">
+    <div class="fg-section__label"><p>好みから探す</p></div>
+    <div class="fg-section__body">
+      <h2 id="quiz-heading">あなたは、<span>何派？</span></h2>
+      <p>たった2問で、好みに合いそうな品種を見つけよう。</p>
+      <form class="hz-quiz__form" id="hz-quiz">
+        <fieldset>
+          <legend><span class="hz-quiz__q">Q1</span>好きな甘さは？</legend>
+          <div class="hz-options">
+            <label><input type="radio" name="taste" value="rich" checked /><span>濃厚な甘さ</span></label>
+            <label><input type="radio" name="taste" value="refined" /><span>上品な甘さ</span></label>
+            <label><input type="radio" name="taste" value="nostalgic" /><span>昔ながらの味</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend><span class="hz-quiz__q">Q2</span>好きな食感は？</legend>
+          <div class="hz-options">
+            <label><input type="radio" name="texture" value="soft" checked /><span>しっとり</span></label>
+            <label><input type="radio" name="texture" value="smooth" /><span>なめらか</span></label>
+            <label><input type="radio" name="texture" value="chewy" /><span>噛み応え</span></label>
+          </div>
+        </fieldset>
+        <div class="hz-result" aria-live="polite">
+          <p class="hz-result__label">あなたにおすすめの候補</p>
+          <strong id="hz-result-name">べにはるか</strong>
+          <p class="hz-result__note">好みに合わせた編集上の提案です。実際の食感や甘さは商品・加工方法によって異なります。</p>
+          <div class="hz-result__actions">
+            <a id="hz-result-link" href="#beniharuka">この品種を詳しく見る</a>
+            <button id="hz-share" type="button">結果をコピー</button>
+          </div>
+          <span id="hz-share-status" role="status"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="fg-section" id="varieties" aria-labelledby="hz-varieties">
+    <div class="fg-section__label"><p>品種</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-varieties">八つの個性を、<span>味わう。</span></h2>
+      <p>数値のランキングではなく、品種ごとの魅力で選ぶ図鑑です。</p>
+      <VarietyList items={varieties.map((v) => ({
+        id: v.id,
+        name: v.name,
+        reading: v.ruby,
+        meta: [v.tag, `甘み：${v.taste}`, `食感：${v.texture}`],
+        text: `${v.lead}${v.story}`,
+        source: v.source,
+      }))} />
+      <p class="fg-note">品種の特徴は一般的な傾向です。製品ごとの仕上がりは異なります。品種ごとの実物の写真は、撮影と使用の許諾を確認してから掲載します。原料のさつまいもの品種は、<a href="/food-library/satsumaimo/#varieties">さつまいも図鑑</a>でも紹介しています。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" id="origin" aria-labelledby="hz-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-origin">海と大地が育む、<span>干し芋のふるさと。</span></h2>
+      <p class="fg-lead">ひたちなか市、東海村、那珂市。火山灰由来の水はけのよい土壌、潮風、冬の晴天。茨城の干し芋は、この土地の条件と「蒸す・切る・乾燥させる」手仕事によって育まれてきました。</p>
+      <OriginMap guide={guide} caption="色の付いた市町村が、干し芋の主な産地です。" />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hz-shapes">
+    <div class="fg-section__label"><p>選ぶ</p></div>
+    <div class="fg-section__body">
+      <h2 id="hz-shapes">平干し、それとも<span>丸干し？</span></h2>
+      <div class="fg-pair">
+        <div>
+          <h3>平干し</h3>
+          <p>スライスして乾燥させた定番の形。食べやすく、噛むほどに味わいが広がります。</p>
+        </div>
+        <div>
+          <h3>丸干し</h3>
+          <p>小さな芋を切らずに乾燥。しっとりした食感と食べ応えを楽しめます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<script>
+  const quiz = document.querySelector<HTMLFormElement>('#hz-quiz');
+  const name = document.querySelector<HTMLElement>('#hz-result-name');
+  const link = document.querySelector<HTMLAnchorElement>('#hz-result-link');
+  const share = document.querySelector<HTMLButtonElement>('#hz-share');
+  const status = document.querySelector<HTMLElement>('#hz-share-status');
+  const result = () => {
+    if (!quiz) return;
+    const data = new FormData(quiz);
+    const t = data.get('taste'), x = data.get('texture');
+    const item = t === 'nostalgic' ? ['玉豊', 'tamayutaka'] : t === 'refined' ? (x === 'smooth' ? ['シルクスイート', 'silksweet'] : ['ほしこがね', 'hoshikogane']) : (x === 'smooth' ? ['シルクスイート', 'silksweet'] : ['べにはるか', 'beniharuka']);
+    if (name) name.textContent = item[0];
+    if (link) link.href = '#' + item[1];
+  };
+  quiz?.addEventListener('change', result);
+  result();
+  share?.addEventListener('click', async () => {
+    const message = '私の推し干し芋候補は「' + (name?.textContent || 'べにはるか') + '」！あなたは何派？ #イバトコ #干し芋図鑑 ' + window.location.href;
+    try {
+      await navigator.clipboard.writeText(message);
+      if (status) status.textContent = 'コピーしました';
+    } catch {
+      if (status) status.textContent = 'コピーできませんでした。';
+    }
+  });
+</script>
+
+<style>
+  /* 扉の中の目次（品種へ・診断へ） */
+  .hz-jump { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
+  .hz-jump li { border-bottom: 1px solid var(--fg-line); max-width: none; }
+  .hz-jump a { display: flex; justify-content: space-between; align-items: center; min-height: 48px; text-decoration: none; font-weight: 700; color: var(--fg-navy); }
+  .hz-jump a::after { content: '↓'; font-weight: 400; color: var(--fg-soil); }
+  .hz-jump a:hover { text-decoration: underline; }
+
+  /* 診断：罫で区切った設問と、四角い選択肢。結果は濃紺の面 */
+  .hz-quiz__form { max-width: 860px; border-top: 1px solid var(--fg-ink); }
+  .hz-quiz fieldset { border: 0; margin: 0; padding: 22px 0; min-width: 0; border-bottom: 1px solid var(--fg-line); }
+  .hz-quiz legend { padding: 0; font-family: var(--font-brand-display); font-weight: 600; font-size: 20px; color: var(--fg-navy); display: flex; align-items: baseline; gap: 12px; }
+  .hz-quiz__q { font-family: var(--font-brand-serif-latin); font-weight: 400; font-size: 15px; color: var(--fg-accent); }
+  .hz-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 14px; }
+  .hz-options label { position: relative; cursor: pointer; }
+  .hz-options input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .hz-options label span { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 12px; border: 1px solid var(--fg-line-strong); background: var(--fg-paper); font-weight: 700; text-align: center; }
+  .hz-options label:hover span { border-color: var(--fg-navy); }
+  .hz-options input:checked + span { border: 2px solid var(--fg-navy); background: var(--fg-paper-deep); color: var(--fg-navy); }
+  .hz-options input:focus-visible + span { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
+  .hz-result { margin-top: 28px !important; padding: clamp(22px, 4vw, 36px); background: var(--fg-navy); color: var(--fg-paper); border-top: 3px solid var(--fg-accent); }
+  .hz-result__label { font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 700; letter-spacing: .14em; color: #d9cbb4; }
+  .hz-result strong { display: block; margin-top: 6px; font-family: var(--font-brand-display); font-weight: 600; font-size: clamp(30px, 4vw, 44px); line-height: 1.3; color: #fff; }
+  .hz-result__note { margin-top: 10px !important; font-size: 13px; line-height: 1.85; color: #d9cbb4; max-width: none !important; }
+  .hz-result__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .hz-result__actions a, .hz-result__actions button { display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px; font: inherit; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid var(--fg-paper); }
+  .hz-result__actions a { background: var(--fg-paper); color: var(--fg-navy); }
+  .hz-result__actions a:hover { color: var(--fg-navy); text-decoration: underline; }
+  .hz-result__actions button { background: transparent; color: var(--fg-paper); }
+  .hz-result__actions button:hover { background: rgba(246, 241, 232, .12); }
+  .hz-result__actions :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  #hz-share-status { display: block; margin-top: 8px; font-size: 12.5px; color: #d9cbb4; min-height: 1.4em; }
+  @media (min-width: 560px) {
+    .hz-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

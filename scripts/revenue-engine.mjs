@@ -2,12 +2,17 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dataFreshness, formatCount, lookup, orZero, viewsByPath } from './lib/report-data.mjs';
+import { revenueFunnel } from '../src/lib/revenue-funnel.mjs';
+import { todayJst } from '../src/lib/growth-engine.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const EVENTS_DIR = join(ROOT, 'src/content/events');
 const PERF = join(ROOT, 'data/editorial/performance-snapshot.json');
 const REVENUE = join(ROOT, 'data/editorial/revenue-opportunities.json');
 const AFFILIATES = join(ROOT, 'src/data/affiliates.ts');
+const LEDGER = join(ROOT, 'data/editorial/revenue-ledger.json');
+const ASP = join(ROOT, 'data/editorial/asp-results.json');
 const AUTO_MONETIZATION = join(ROOT, 'src/lib/auto-monetization.ts');
 const REPORT = join(ROOT, 'reports/editorial/revenue-engine.md');
 const write = process.argv.includes('--write');
@@ -21,6 +26,10 @@ for (const path of [EVENTS_DIR, PERF, REVENUE, AFFILIATES, AUTO_MONETIZATION]) {
 
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
 const revenue = JSON.parse(readFileSync(REVENUE, 'utf8'));
+const readJson = (path) => (existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : null);
+// クリック・発生成果・未確定報酬・確定売上を分けて出す（既存の Revenue Funnel をそのまま使う）
+const funnel = revenueFunnel({ snapshot: performance, ledger: readJson(LEDGER), asp: readJson(ASP) });
+const freshness = dataFreshness(performance.asOf, todayJst());
 const affiliatesSource = readFileSync(AFFILIATES, 'utf8');
 const autoMonetizationSource = readFileSync(AUTO_MONETIZATION, 'utf8');
 const autoLodgingMunicipalities = new Set(
@@ -74,8 +83,9 @@ for (const m of affiliatesSource.matchAll(/^\s{2}['"]?([a-z0-9-]+)['"]?:\s*\{[\s
   providerStatuses.set(m[1], m[2]);
 }
 
-const gaRecent7 = new Map((performance.ga4TopPages?.recent7 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
-const gaRecent28 = new Map((performance.ga4TopPages?.recent28 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
+// GA4 上位ページに無いページは 0 ではなく「値なし」。点数の計算のときだけ 0 として扱う
+const gaRecent7 = viewsByPath(performance.ga4TopPages?.recent7);
+const gaRecent28 = viewsByPath(performance.ga4TopPages?.recent28);
 const gscByPage = new Map();
 for (const f of performance.gscDiscovery?.findings ?? []) {
   if (!f.page) continue;
@@ -99,7 +109,8 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
   const providers = listProviders(fm);
   const kinds = listKinds(fm);
   const activeProviders = providers.filter((p) => providerStatuses.get(p) === 'active');
-  const nonActiveProviders = providers.filter((p) => providerStatuses.get(p) !== 'active');
+  // 公式・主催者のリンクは提携の対象ではない（収益の損失として数えない。docs/REVENUE_OS.md）
+  const nonActiveProviders = providers.filter((p) => p !== 'official' && providerStatuses.get(p) !== 'active');
   const hasBooking = /^booking:\s*$/m.test(fm);
   const municipalityList = municipalities(fm);
   const hasAutoBooking = !hasBooking
@@ -112,8 +123,10 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
   const keyword = scalar(fm, 'keyword') ?? '';
   const searchIntent = scalar(fm, 'searchIntent') ?? '';
   const gsc = gscByPage.get(path) ?? { impressions: 0, clicks: 0, bestPosition: 99, signals: [] };
-  const views7 = gaRecent7.get(path) ?? 0;
-  const views28 = gaRecent28.get(path) ?? 0;
+  const views7 = lookup(gaRecent7, path);
+  const views28 = lookup(gaRecent28, path);
+  const v7 = orZero(views7);
+  const v28 = orZero(views28);
 
   const purchaseIntent = [
     intents.booking,
@@ -128,7 +141,7 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
     commercialPriority === 'medium' ? 2 :
     commercialPriority === 'low' ? 1 : 0;
 
-  const trafficScore = views7 >= 500 ? 5 : views7 >= 100 ? 4 : views7 >= 30 ? 3 : views28 >= 100 ? 2 : views28 > 0 ? 1 : 0;
+  const trafficScore = v7 >= 500 ? 5 : v7 >= 100 ? 4 : v7 >= 30 ? 3 : v28 >= 100 ? 2 : v28 > 0 ? 1 : 0;
   const searchScore = gsc.impressions >= 1000 ? 5 : gsc.impressions >= 300 ? 4 : gsc.impressions >= 100 ? 3 : gsc.impressions >= 30 ? 2 : gsc.impressions > 0 ? 1 : 0;
   const intentScore = Math.min(5, purchaseIntent + (effectiveHasBooking ? 2 : 0));
   const monetizationGap =
@@ -152,7 +165,7 @@ for (const file of readdirSync(EVENTS_DIR).filter((x) => x.endsWith('.md') && !x
   });
 }
 
-pages.sort((a, b) => b.score - a.score || b.views7 - a.views7 || b.gscImpressions - a.gscImpressions);
+pages.sort((a, b) => b.score - a.score || orZero(b.views7) - orZero(a.views7) || b.gscImpressions - a.gscImpressions);
 
 const opportunities = pages.filter((p) => p.monetizationGap > 0 || p.score >= 14).slice(0, 20);
 
@@ -169,16 +182,19 @@ function actionFor(p) {
 const lines = [
   '# Ibatoco Revenue Engine',
   '',
-  `- 基準日: ${performance.asOf ?? 'unknown'}`,
+  freshness.line,
   `- 公開イベント/ガイド評価数: **${pages.length}件**`,
-  `- 直近7日予約クリック: **${performance.conversionDetail?.recent7?.outbound_booking_click ?? 'unknown'}**`,
-  `- 直近7日Booking Guide view: **${performance.conversionDetail?.recent7?.booking_guide_view ?? 'unknown'}**`,
-  `- 確定売上: **¥${revenue.current?.confirmedAffiliateRevenueYen ?? 0}**`,
+  '',
+  '## 収益の段階（クリックは売上ではない）',
+  '',
+  ...funnel.stages.map((s) => `- ${s.label}: **${formatCount(s.value)}**（${s.period ?? '期間不明'}・${s.source}）`),
+  `- 未確定報酬: **${funnel.metrics.pendingRewardYen == null ? '未取得' : `¥${funnel.metrics.pendingRewardYen}`}**（売上ではない。ASPごとに期間が違う）`,
+  '- 入金: このリポジトリでは記録していない（確定売上と入金は別）',
   '',
   '## 今日の収益機会 TOP10',
   '',
   ...opportunities.slice(0, 10).map((p, i) =>
-    `${i + 1}. **${p.title}** — Score ${p.score}\n   - URL: ${p.path}\n   - 直近7日Views: ${p.views7} / 28日Views: ${p.views28} / GSC表示: ${p.gscImpressions}\n   - 意図: ${Object.entries(p.intents).filter(([,v]) => v).map(([k]) => k).join(', ') || '未設定'}\n   - Booking: ${p.hasBooking ? '手動' : p.hasAutoBooking ? '自動' : 'なし'} / Active: ${p.activeProviders.join(', ') || (p.hasAutoBooking ? '既存承認済み自動ルート' : 'なし')} / 未提携: ${p.nonActiveProviders.join(', ') || 'なし'}\n   - 次アクション: ${actionFor(p)}`
+    `${i + 1}. **${p.title}** — Score ${p.score}\n   - URL: ${p.path}\n   - 直近7日Views: ${formatCount(p.views7, '上位外')} / 28日Views: ${formatCount(p.views28, '上位外')} / GSC表示: ${p.gscImpressions}\n   - 意図: ${Object.entries(p.intents).filter(([,v]) => v).map(([k]) => k).join(', ') || '未設定'}\n   - Booking: ${p.hasBooking ? '手動' : p.hasAutoBooking ? '自動' : 'なし'} / Active: ${p.activeProviders.join(', ') || (p.hasAutoBooking ? '既存承認済み自動ルート' : 'なし')} / 未提携: ${p.nonActiveProviders.join(', ') || 'なし'}\n   - 次アクション: ${actionFor(p)}`
   ),
   '',
   '## 収益化ギャップ',

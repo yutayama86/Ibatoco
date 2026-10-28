@@ -1,0 +1,189 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import VarietyList from '../../components/food/VarietyList.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('melon')!;
+const title = '茨城のメロン図鑑｜鉾田・八千代の品種と出荷の順番、網目のわけ、食べごろの見分け方 | イバトコ';
+const description = '生産量27年連続全国1位（作物統計 平成10年産〜令和6年産）の茨城のメロン。4月上旬のオトメから、県オリジナルのイバラキング、7月中旬からのアールスまで、品種ごとの出荷の順番と特徴、網目ができるわけ、追熟と食べごろの見分け方を県・市の資料で整理しました。';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「メロン」', url: 'https://www.ibaraki-shokusai.net/brand/melon/', accessedAt: '2026-10-25' },
+  { label: '鉾田市「農産物のご紹介」', url: 'https://www.city.hokota.lg.jp/page/page004753.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城のメロンは日本一ですか？', a: '茨城県の「茨城をたべよう」によると、茨城県のメロンの生産量は27年連続で全国1位です（農林水産省 作物統計 平成10年産〜令和6年産）。' },
+  { q: '茨城のメロンの旬はいつですか？', a: '品種によって出荷の始まりが違います。4月上旬のオトメに始まり、5月上旬にイバラキング・アンデス・クインシー、6月上旬にタカミ、7月中旬からはアールスが10月にかけて出荷されます（茨城をたべよう）。' },
+  { q: 'イバラキングとはどんなメロンですか？', a: '茨城県が育成したオリジナル品種で、果肉は緑色です。高級なアールス系の品種を父に、10年以上かけて約4万の個体から選んだ母を組み合わせ、約400通り以上の組み合わせから生まれました。日持ちがよく、春のメロンより1割以上大きく育ちます（茨城をたべよう）。' },
+  { q: 'メロンの食べごろはどう見分けますか？', a: '店頭のメロンは未熟なことが多いため、20〜25℃くらいの日の当たらない場所に置いて追熟させます。おしりに少し弾力が出てきたら食べごろです。やわらかすぎたり、香りが強すぎたりするものは熟しすぎの可能性があります。食べる2時間ほど前に冷蔵庫で冷やします（茨城をたべよう）。' },
+  { q: '「メロンの日」はいつですか？', a: '毎月6日です。2016年（平成28年）6月4日に鉾田市で開かれた「第2回全国メロンサミットinほこた」で、全国19の産地が制定しました（茨城をたべよう）。' },
+];
+
+/** 出荷が始まる順（茨城をたべようの品種紹介から）。本当に順番のある情報なので番号付きで並べる */
+const starts = [
+  { when: '4月上旬', names: ['オトメ'] },
+  { when: '5月上旬', names: ['イバラキング', 'アンデス', 'クインシー'] },
+  { when: '6月上旬', names: ['タカミ'] },
+  { when: '7月中旬', names: ['アールス'] },
+];
+
+const varieties = [
+  { id: 'otome', name: 'オトメ', meta: ['緑肉', '4月上旬から'],
+    text: '県内でいちばん早く出荷が始まるメロンです。茨城で栽培試験が行われ、2000年（平成12年）から出荷されています。薄い緑色の皮に細かな網目、果肉はホワイトグリーン。', source: '茨城をたべよう' },
+  { id: 'ibaraking', name: 'イバラキング', meta: ['緑肉', '茨城県オリジナル', '5月上旬から'],
+    text: '高級なアールス系の品種を父に、10年以上かけて約4万の個体から選んだ母を組み合わせ、約400通り以上の組み合わせから生まれた茨城県のオリジナル品種です。日持ちがよく、春のメロンより1割以上大きく育ちます。2011年（平成23年）に栽培が始まりました。天候の影響を受けやすく、作るのが難しい品種でもあります。', source: '茨城をたべよう（出荷は4月下旬ごろからとする記載もあり）' },
+  { id: 'andes', name: 'アンデス', meta: ['緑肉', '5月上旬から'],
+    text: '果肉が緑色のメロンです。名前は「安心ですメロン」に由来します。', source: '茨城をたべよう' },
+  { id: 'quincy', name: 'クインシー', meta: ['赤肉', '5月上旬から'],
+    text: '果肉がオレンジ色の、網目のある赤肉メロンです。名前は、Queen（女王）とHealthy（健康）を合わせたものです。', source: '茨城をたべよう' },
+  { id: 'takami', name: 'タカミ', meta: ['6月上旬から'],
+    text: 'やや縦長の形をしたメロンで、漢字では「貴味」と書きます。日持ちがよく、輸送にも向いています。', source: '茨城をたべよう' },
+  { id: 'earls', name: 'アールス', meta: ['緑肉', '7月中旬〜10月'],
+    text: '夏から秋のメロンです。茨城では7月中旬から10月にかけて出荷されます。', source: '茨城をたべよう、鉾田市' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城のメロン図鑑｜品種と出荷の順番、網目のわけ、食べごろの見分け方" faq={faq} sources={sources} photos={[FOOD_PHOTOS.melonHokota]}>
+  <FoodHero
+    guide={guide}
+    lines={['オトメで始まり、', 'アールスで終わる。']}
+    lead="茨城のメロンの季節は長い。春の終わりに淡い緑のオトメが出て、初夏には県オリジナルのイバラキングや赤肉のクインシーが並び、夏から秋はアールスへ。27年続けて生産量全国一の産地を、品種の順番と、家で食べごろを見極めるコツから案内します。"
+    position="50% 50%"
+    facts={[
+      { label: '茨城の位置づけ', value: '生産量 27年連続 全国1位（作物統計 平成10年産〜令和6年産）' },
+      { label: '出回る時期', value: '4月上旬〜10月（品種ごとに入れ替わる）' },
+      { label: '主な産地', value: '鉾田市・八千代町・茨城町' },
+      { label: '産地のはじまり', value: '1962年（昭和37年）、プリンスメロンの導入' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="melon-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-origin">雪と台風が少なく、<span>水はけのよい土地。</span></h2>
+      <p class="fg-lead">茨城がメロンの産地になったのは、1962年（昭和37年）。旭村（いまの鉾田市）と八千代町で、プリンスメロンを導入したのが始まりです（茨城をたべよう）。</p>
+      <p>積雪や台風などの気象災害が少なく、温暖で、水はけのよい土地が、メロンづくりを支えています。品種の改良と栽培技術の進歩で、ガラス温室でなくパイプハウスでも育てられるようになり、メロンは手に取りやすい果物になりました。いまは鉾田市・八千代町・茨城町を中心に、県内の各地で作られています（茨城をたべよう）。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように中心的な産地として載っている市町村です。"
+        notes={{
+          hokota: '旧旭村で1962年にプリンスメロンを導入。光センサーで全玉を選果する「プレミアムメロン」（JA茨城旭村）',
+          yachiyo: '旧旭村と同じ1962年に、プリンスメロンを導入',
+          'ibaraki-machi': '涸沼の近くで「ひぬまの恵み 愛ちゃんメロン」（JA水戸）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-order">
+    <div class="fg-section__label"><p>出荷の順番</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-order">春のメロンから、<span>夏秋のアールスへ。</span></h2>
+      <p>茨城では、4月から10月まで、時期ごとに旬のメロンが入れ替わります。茨城をたべようが紹介する品種を、出荷が始まる順に並べました。</p>
+      <ol class="melon-starts" aria-label="品種ごとの出荷が始まる時期">
+        {starts.map((s) => (
+          <li>
+            <span class="melon-starts__when">{s.when}</span>
+            <span class="melon-starts__names">{s.names.map((name, i) => <>{i > 0 && <span class="melon-starts__sep" aria-hidden="true">・</span>}<a href={`#${varieties.find((v) => v.name === name)?.id}`}>{name}</a></>)}</span>
+          </li>
+        ))}
+      </ol>
+      <SeasonTable
+        caption="鉾田市のメロンの出荷時期"
+        rows={[
+          { label: '春から初夏のメロン', note: 'オトメ・アンデス・クインシー・イバラキングなど', months: [4, 5, 6] },
+          { label: 'アールス', note: '7月中旬から', months: [7, 8, 9, 10] },
+        ]}
+        note="出典：鉾田市「農産物のご紹介」、茨城をたべよう（茨城県）。品種・作型・年によって前後します。"
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-varieties">
+    <div class="fg-section__label"><p>品種</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-varieties">緑の果肉か、<span>オレンジの果肉か。</span></h2>
+      <p>果肉の色で、緑色の「緑肉（青肉）」と、オレンジ色の「赤肉」に分けられます。</p>
+      <VarietyList items={varieties} />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-net">
+    <div class="fg-section__label"><p>網目</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-net">網目は、<span>中身が育ったあと。</span></h2>
+      <p>メロンの実は、皮よりも中身のほうが速く大きくなります。そのため皮にひびが入り、そこから染み出した果汁が固まったものが、表面の網目になります。プリンスメロンのように、網目のないメロンもあります（茨城をたべよう）。</p>
+      <p class="fg-pull">盛り上がって、<br />均一な網目のものを。</p>
+      <p>店先で選ぶときは、表面に傷がなく、ヘタがしおれていないもの。網目のあるメロンは、網目が盛り上がって均一なもの、網目のないメロンは、変色や斑点のないものを選び、持ったときに重みのあるものが目安です（茨城をたべよう）。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-ripe">
+    <div class="fg-section__label"><p>食べごろ</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-ripe">買ってきた日が、<span>食べごろとは限らない。</span></h2>
+      <p>店頭に並ぶメロンは、まだ熟していないことが多いもの。家で食べごろを迎えるまでの手順です（茨城をたべよう）。</p>
+      <ol class="fg-steps">
+        <li>常温（室温20〜25℃が目安）の、日の当たらない場所に置いて追熟させる。</li>
+        <li>おしりを軽く押して、少し弾力が出てきたら食べごろ。やわらかすぎるもの、香りが強すぎるものは、熟しすぎの可能性がある。</li>
+        <li>食べる2時間ほど前に冷蔵庫へ。冷やしすぎない。</li>
+        <li>くし形に切り、ツルの側からおしりに向かって食べる。おしりの側のほうが甘い。</li>
+      </ol>
+      <p>いちばん甘いのは中心の種のまわりですが、種の部分は食べられません。残ったメロンは種を取ってラップで包み、冷蔵庫へ。熟れすぎたものや食べきれない果肉は、冷凍してシャーベットにできます。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-brands">
+    <div class="fg-section__label"><p>産地のこだわり</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-brands">糖度を測るJA、<span>土からつくる部会。</span></h2>
+      <div class="fg-pair">
+        <div>
+          <h3>プレミアムメロン<span class="melon-pair__where">JA茨城旭村（鉾田市）</span></h3>
+          <p>オトメ・クインシー・アンデスを、4月中旬から出荷します。すべてのメロンを光センサーで選果し、糖度18度以上のうち、見た目のよいものだけを選んでいます。QRコードで、品種・検査日・糖度・生産者・出荷日を確かめられます。</p>
+        </div>
+        <div>
+          <h3>ひぬまの恵み 愛ちゃんメロン<span class="melon-pair__where">JA水戸 茨城町メロン部会</span></h3>
+          <p>部会の「こだわりメロン研究部」が、イバラキング・アンデス1号・レノンを5月下旬から出荷します。有機質肥料を中心に使い、農薬の使用量を慣行の半分以下に抑え、太陽熱で土を消毒しています。いばらきエコ農産物（特別栽培農産物）です。</p>
+        </div>
+      </div>
+      <p class="fg-note">出典：茨城をたべよう</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="melon-visit">
+    <div class="fg-section__label"><p>味わう</p></div>
+    <div class="fg-section__body">
+      <h2 id="melon-visit">毎月6日は、<span>メロンの日。</span></h2>
+      <p>2016年（平成28年）6月4日、鉾田市で開かれた「第2回全国メロンサミットinほこた」で、全国19の産地が毎月6日を「メロンの日」と定めました。茨城のメロンは、鉾田市・水戸市・茨城町・鹿嶋市・八千代町などの直売所やスーパーで買えます。メロン狩りの情報は、鉾田市観光物産協会が出しています（茨城をたべよう）。</p>
+      <ul class="fg-list">
+        <li><strong><a href="/events/fukasaku-noen-guide/">深作農園（鉾田市）の場所と時期</a></strong>イバトコの案内。メロン狩りは初夏、直売所とカフェは通年</li>
+        <li><strong><a href="/news/shimotsuma-keisui-melon-ginza-2026/">下妻産の恵水梨・アールスメロン、銀座で限定販売</a></strong>イバトコの記事。県西のアールスメロン</li>
+        <li><strong><a href="/area/hokota/">鉾田市のページ</a></strong>メロン、さつまいも、いちごの産地</li>
+        <li><strong><a href="/area/yachiyo/">八千代町のページ</a></strong>メロンと白菜の町</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  .melon-starts { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--fg-ink); display: grid; grid-template-columns: minmax(0, 1fr); max-width: 980px; }
+  .melon-starts li { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .melon-starts__when { font-family: var(--font-brand-meta); font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--fg-soil); font-variant-numeric: tabular-nums; }
+  .melon-starts__names { font-family: var(--font-brand-display); font-weight: 600; font-size: 19px; line-height: 1.6; color: var(--fg-navy); }
+  .melon-starts__names a { color: inherit; text-decoration: none; }
+  .melon-starts__names a:hover { text-decoration: underline; }
+  .melon-starts__sep { color: var(--fg-line-strong); }
+  .melon-pair__where { display: block; margin-top: 2px; font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 400; letter-spacing: .08em; color: var(--fg-soil); }
+  @media (min-width: 760px) {
+    /* 横一列の時間軸。左から右へ、出荷が始まる順に */
+    .melon-starts { grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 0; }
+    .melon-starts li { grid-template-columns: minmax(0, 1fr); gap: 6px; align-content: start; padding: 0 16px 18px 0; border-bottom: 0; border-top: 2px solid var(--fg-accent); position: relative; }
+    .melon-starts li::before { content: ''; position: absolute; top: -7px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--fg-paper); border: 2px solid var(--fg-accent); }
+    .melon-starts__when { padding-top: 16px; }
+  }
+</style>

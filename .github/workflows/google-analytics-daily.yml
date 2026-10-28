@@ -1,0 +1,164 @@
+name: Read-only GA4 and GSC via Google API
+on:
+  workflow_dispatch:
+  schedule:
+    # 05:30 JST; read-only, does not commit or deploy.
+    - cron: '30 20 * * *'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  fetch:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Validate configuration
+        env:
+          WIF_PROVIDER: ${{ vars.GOOGLE_WIF_PROVIDER }}
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+        run: |
+          test -n "$WIF_PROVIDER" || { echo "::error::Set GOOGLE_WIF_PROVIDER repository variable"; exit 1; }
+          test -n "$GA4_PROPERTY_ID" || { echo "::error::Set GA4_PROPERTY_ID repository variable"; exit 1; }
+          test -n "$GSC_SITE_URL" || { echo "::error::Set GSC_SITE_URL repository variable"; exit 1; }
+      - name: Authenticate without persistent keys
+        id: auth
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2
+        with:
+          workload_identity_provider: ${{ vars.GOOGLE_WIF_PROVIDER }}
+          service_account: ibatoco-analytics-reader@ibatoco-seo.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/webmasters.readonly
+          create_credentials_file: false
+      - name: Retrieve confirmed analytics (no repository writes)
+        env:
+          GOOGLE_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL }}
+          OUTPUT_PATH: /tmp/ibatoco-google-daily.json
+        run: node scripts/google-api-daily.mjs
+      - name: Validate daily data before import
+        run: node scripts/google-daily-preflight.mjs /tmp/ibatoco-google-daily.json
+      - name: Upload short-lived diagnostic artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: google-analytics-daily-${{ github.run_id }}
+          path: /tmp/ibatoco-google-daily.json
+          retention-days: 1
+
+  sync:
+    name: Publish verified daily metrics (no Google credentials)
+    needs: fetch
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      actions: write
+      pull-requests: write
+    concurrency:
+      group: google-analytics-daily-sync
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          # 同期ブランチと main の共通の祖先を求める（scripts/sync-branch-guard.mjs）。リポジトリは小さいので全履歴
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: google-analytics-daily-${{ github.run_id }}
+          path: /tmp/ibatoco-google-verified
+      - name: Revalidate output in isolated write job
+        run: node scripts/google-daily-preflight.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
+      - name: Install locked dependencies for post-sync verification
+        run: npm ci
+      - name: Integrate verified rolling metrics
+        run: |
+          node scripts/google-analytics-sync.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
+          node scripts/ga4-daily.mjs --check
+          npm run verify
+      # Branch protection requires a PR. Never push directly to main.
+      # 同期 PR は1本にまとめる：bot 専用の固定ブランチを毎回 main から作り直し、開いている PR があれば更新する。
+      # PR を作れない設定（Allow GitHub Actions to create and approve pull requests がオフ）のときは失敗にせず、
+      # データをブランチに残して警告と作成用のリンクを出す（人が PR を開く）。docs/GA4_GSC_DAILY_SYNC.md
+      - name: Propose verified snapshot through protected PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/editorial/performance-snapshot.json; then
+            echo "No changes in confirmed metrics."
+            exit 0
+          fi
+          branch="bot/google-analytics-daily"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 人が同期 PR に足した修正を、下の強制 push で消さない（#445）。main に入っていない変更があれば止める
+          set +e
+          git ls-remote --exit-code --heads origin "$branch" >/dev/null
+          remote_status=$?
+          set -e
+          if [ "$remote_status" -ne 0 ] && [ "$remote_status" -ne 2 ]; then
+            echo "::error::同期ブランチ $branch の有無を確かめられないため、上書きしません（git ls-remote: $remote_status）"
+            exit 1
+          fi
+          if [ "$remote_status" -eq 0 ]; then
+            git fetch --quiet --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            if ! node scripts/sync-branch-guard.mjs HEAD "origin/$branch"; then
+              {
+                echo "### GA4/GSC 日次同期：同期ブランチを上書きしませんでした"
+                echo ""
+                echo "- \`$branch\` に main へ入っていない変更がある（上書きすると消える）"
+                echo "- 同期 PR をマージするか、変更を別の PR へ移してから、このワークフローを再実行する（docs/GA4_GSC_DAILY_SYNC.md）"
+              } >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+          fi
+          git switch -C "$branch"
+          git add data/editorial/performance-snapshot.json
+          git commit -m "chore(metrics): propose verified Google daily analytics (run $RUN_ID)"
+          # bot 専用のブランチ。人はコミットしない。毎回「最新の main ＋ 当日のスナップショット」の1コミットに置き換える
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin "HEAD:refs/heads/$branch"
+          existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          title="metrics: verified GA4/GSC daily snapshot"
+          body="Official Google API daily sync (latest run $RUN_ID). Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only data/editorial/performance-snapshot.json and is refreshed in place by each daily run (one PR, no duplicates). Review and required checks before merge. No direct protected-branch write."
+          if [ -n "$existing" ]; then
+            # 中身はブランチの push で更新済み。題名・本文の更新が権限で断られても失敗にしない
+            gh pr edit "$existing" --repo "$REPOSITORY" --title "$title" --body "$body" || echo "::warning::PR #$existing の題名・本文は更新できなかった（中身は更新済み）"
+            echo "::notice::既存の同期 PR #$existing を更新しました。"
+          elif gh pr create --repo "$REPOSITORY" --base main --head "$branch" --title "$title" --body "$body" 2> "$RUNNER_TEMP/pr-create.err"; then
+            echo "::notice::同期 PR を作成しました。"
+          elif grep -q "not permitted to create or approve pull requests" "$RUNNER_TEMP/pr-create.err"; then
+            compare="https://github.com/$REPOSITORY/compare/main...$branch?expand=1"
+            echo "::warning title=同期 PR を自動作成できません::GitHub Actions に PR 作成の権限が無い設定です。データはブランチ $branch に保存済み。PR は手で開く：$compare"
+            {
+              echo "### GA4/GSC 日次同期：PR を自動作成できませんでした"
+              echo ""
+              echo "- データはブランチ \`$branch\` に保存済み（失われていない）"
+              echo "- PR を開く：$compare"
+              echo "- 自動で作るには、リポジトリ設定の「Allow GitHub Actions to create and approve pull requests」が必要（docs/GA4_GSC_DAILY_SYNC.md）"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            cat "$RUNNER_TEMP/pr-create.err" >&2
+            exit 1
+          fi
+          # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する（PR が無くても、後で開いたときに結果が揃う）
+          gh workflow run validate.yml --ref "$branch"
+          gh workflow run codeql.yml --ref "$branch"
+          echo "::notice::Required validations dispatched on $branch. Protected main unchanged pending checks and merge."

@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-21",
+  "updatedAt": "2026-10-24",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-20",
-    "ga4Through": "2026-10-18",
-    "gscThrough": "2026-10-17",
-    "referenceRunRate30": 18291,
-    "referenceGapViews": 81709,
-    "officialRawRunRate30": 18291,
-    "latest3RawRunRate30": 19130,
+    "asOf": "2026-10-24",
+    "ga4Through": "2026-10-19",
+    "gscThrough": "2026-10-18",
+    "referenceRunRate30": 18570,
+    "referenceGapViews": 81430,
+    "officialRawRunRate30": 18570,
+    "latest3RawRunRate30": 19330,
     "incidentAdjustedLatest3ReferenceRunRate30": null,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 4268,
-    "recent7DailyAverage": 609.7142857142857,
-    "recent3Views": 1913,
-    "recent3DailyAverage": 637.6666666666666,
+    "recent7Views": 4333,
+    "recent7DailyAverage": 619,
+    "recent3Views": 1933,
+    "recent3DailyAverage": 644.3333333333334,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。需要portfolioは重複排除・確度補正の根拠不足でnull。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。10/24もWindsor.aiの期間指定が無視され、GA4・GSCとも指定範囲外の2026-10-23・0値1行だけを返したため不採用。GA4 10/19・GSC 10/18までの最終確定値を保持し、需要portfolioは重複排除・確度補正の根拠不足でnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -146,26 +146,28 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-21",
+    "date": "2026-10-24",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
     "factsReleased": [
-      "鷲子山上神社の公式発表に基づき、道路工事の終了予定を10月21日から10月30日へ更新",
-      "10月20日で終了したMIRAI Music Fes無料席追加抽選と日立建機フェス事前登録を4ページで終了表記へ更新"
+      "/events/kasama-kiku-matsuri-2026/ の公式パンフレット差分（周遊バス毎日運行・一部有料エリア・夜祭り・交通規制）",
+      "/news/ibaraki-airport-winter-schedule-2026/ の石岡駅行き予約制乗合タクシー"
     ],
     "incrementalViewsObserved": null,
-    "growthImplementations": 2,
-    "growthImplementation": "鷲子山上神社の道路工事延長を1ページ、期限終了した抽選・事前登録を4ページへ反映。いずれも必要な公式事実更新で、expectedPvImpactは算定不能のため獲得PVに計上しない。",
-    "expectedPvImpact": null,
-    "expectedPvImpactConfidence": "none",
-    "observationWindow": "事実訂正は即時。metadata/internal links 14日、本文28日の既存窓は維持。",
+    "growthImplementations": 1,
+    "growthImplementation": "笠間の菊まつり既存ページに、第119回公式パンフレットで確定した料金・会期中毎日運行・夜祭り・交通規制を反映。空港記事は必要な公式事実更新だが、期待PVの再現根拠がないためGrowth獲得施策には数えない。データ同期・技術監査も獲得PVに計上しない。",
+    "expectedPvImpact": 105,
+    "expectedPvImpactConfidence": "medium",
+    "observationWindow": "公式事実は即時確認。笠間本文更新は2026-11-21まで28日観測し、季節案件は会期内のGSC/GA4立ち上がりを優先して途中点検。空港の事実更新は即時確認。",
     "blockers": [
       "需要根拠付きconfidence-adjusted portfolio未成立",
-      "土浦花火等の進行中観測窓"
+      "Windsor.aiが指定期間を無視した0値1行を返し、10/24も新しい確定値を採用できない",
+      "土浦花火・水戸ホーリーホック等の進行中観測窓",
+      "公式一次情報で確認した未露出需要に期待PVを置ける実測が乏しく、+105 Viewsでは81,430 ViewsのGapを埋められない"
     ],
-    "nextConcreteAction": "10/22は大洗あんこう・紅葉・土浦花火のGSC検索意図差分を再確認し、観測窓外で実行できる需要獲得施策を再選別。鷲子山の工事終了予定は10/30以降に再確認。",
+    "nextConcreteAction": "10/25に空港駐車場の正式時間と、11月大型需要の一次情報更新を再確認。Windsor.ai復旧後にGA4/GSC欠損日をバックフィルし、10/26 checkpointで需要配分・未露出需要・残差を再判定。",
     "nextDemandCheckpoint": "2026-10-26"
   }
 }

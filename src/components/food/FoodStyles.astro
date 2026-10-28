@@ -1,0 +1,151 @@
+---
+/**
+ * 茨城のおいしい図鑑の共通スタイル（.fg の内側だけに効く）。
+ * 個別の図鑑（FoodGuideLayout）と親ページ（/food-library/）の両方で読み込む。
+ */
+---
+
+<style is:global>
+  /*
+   * 茨城のおいしい図鑑（/food-library/）の共通スタイル。.fg の内側だけに効く。
+   * 生成りの紙・濃紺の文字・食材ごとの差し色（--fg-accent）を、細い罫と旬の帯にだけ使う。
+   * 角丸・影・グラデーションは使わない（docs/design/food-library.md）。
+   * breakpoint は 560 / 760 / 900 / 1180（docs/UI_TOKENS.md）。
+   */
+  .fg {
+    --fg-paper: #f6f1e8;
+    --fg-paper-deep: #ece4d6;
+    --fg-ink: #1f2b31;
+    --fg-navy: #173c59;
+    --fg-mute: #59656a;
+    --fg-soil: #6f6354;
+    --fg-line: #d6cdbf;
+    --fg-line-strong: #b9ad9b;
+    --fg-gutter: clamp(20px, 5vw, 72px);
+    --fg-measure: 40em;
+    position: relative;
+    display: block;
+    background: var(--fg-paper);
+    color: var(--fg-ink);
+    font-family: var(--font-brand-body);
+    font-size: 16.5px;
+    line-height: 1.95;
+    letter-spacing: .02em;
+    overflow-x: clip;
+  }
+  .fg *, .fg *::before, .fg *::after { box-sizing: border-box; }
+  .fg :where(h1, h2, h3, h4, p, ol, ul, dl, dd, figure, table) { margin: 0; }
+  .fg :where(h1, h2, h3) {
+    font-family: var(--font-brand-display);
+    font-weight: 600;
+    color: var(--fg-navy);
+    letter-spacing: .01em;
+    text-wrap: balance;
+  }
+  .fg a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .28em; }
+  .fg a:hover { color: var(--fg-navy); text-decoration-color: var(--fg-accent); }
+  .fg a:focus-visible, .fg summary:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
+
+  /* 章：左に小さな見出し札、右に本文。スマホでは縦に積む */
+  .fg-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: clamp(56px, 8vw, 112px) var(--fg-gutter);
+    border-top: 1px solid var(--fg-line);
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .fg-section__label p {
+    font-family: var(--font-brand-meta);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    color: var(--fg-soil);
+    padding-top: 6px;
+    border-top: 2px solid var(--fg-accent);
+    display: inline-block;
+  }
+  .fg-section__body { min-width: 0; }
+  .fg-section__body > * + * { margin-top: 1.25em; }
+  .fg-section h2 {
+    font-size: clamp(26px, 3.3vw, 44px);
+    line-height: 1.45;
+    max-width: 18em;
+  }
+  .fg-section h2 span { display: inline-block; }
+  .fg-section h3 { font-size: clamp(19px, 2vw, 23px); line-height: 1.55; margin-top: 2em; }
+  .fg-section p, .fg-section li { max-width: var(--fg-measure); }
+  .fg-lead { font-size: clamp(17px, 1.7vw, 19.5px); line-height: 2; color: var(--fg-ink); }
+  .fg-note { font-size: 13px; line-height: 1.85; color: var(--fg-mute); }
+  .fg-source-ref { font-size: 12.5px; color: var(--fg-mute); white-space: nowrap; }
+
+  /* 箇条書きは罫で区切る（記号の丸は使わない） */
+  .fg-list { list-style: none; padding: 0; border-top: 1px solid var(--fg-line); }
+  .fg-list > li { padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .fg-list > li > strong { display: block; font-family: var(--font-brand-display); font-weight: 600; color: var(--fg-navy); font-size: 17.5px; }
+
+  /* 手順（順番に意味があるものだけ番号を出す） */
+  .fg-steps { list-style: none; padding: 0; counter-reset: fg-step; border-top: 1px solid var(--fg-line); }
+  .fg-steps > li { counter-increment: fg-step; display: grid; grid-template-columns: 2.6em minmax(0, 1fr); gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .fg-steps > li::before { content: counter(fg-step); font-family: var(--font-brand-serif-latin); font-size: 22px; line-height: 1.4; color: var(--fg-accent); }
+
+  /* 引き立てる一文（数値や結論） */
+  .fg-pull {
+    font-family: var(--font-brand-display);
+    font-size: clamp(21px, 2.4vw, 30px);
+    line-height: 1.7;
+    color: var(--fg-navy);
+    padding-left: 18px;
+    border-left: 2px solid var(--fg-accent);
+    max-width: 22em;
+  }
+
+  /* 2列の比較（秋冬と春、など） */
+  .fg-pair { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--fg-line); }
+  .fg-pair > div { padding: 22px 0; border-bottom: 1px solid var(--fg-line); }
+  .fg-pair h3 { margin-top: 0; }
+  .fg-pair p { margin-top: .6em; }
+
+  /* よくある質問 */
+  .fg-faq details { border-bottom: 1px solid var(--fg-line); padding: 16px 0; max-width: 46em; }
+  .fg-faq details:first-of-type { border-top: 1px solid var(--fg-line); }
+  .fg-faq summary { cursor: pointer; font-weight: 700; font-size: 16.5px; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: baseline; }
+  .fg-faq summary::-webkit-details-marker { display: none; }
+  .fg-faq summary::after { content: '＋'; color: var(--fg-accent); font-weight: 400; }
+  .fg-faq details[open] summary::after { content: '－'; }
+  .fg-faq details p { margin-top: 10px; color: var(--fg-ink); }
+
+  /* 出典・写真・編集方針 */
+  .fg-colophon {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    padding: clamp(48px, 7vw, 88px) var(--fg-gutter);
+    background: var(--fg-paper-deep);
+    border-top: 1px solid var(--fg-line);
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--fg-mute);
+  }
+  .fg-colophon h2 { font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 700; letter-spacing: .16em; color: var(--fg-soil); margin-bottom: 12px; }
+  .fg-sources, .fg-credits { padding-left: 1.4em; }
+  .fg-sources li + li, .fg-credits li + li { margin-top: 6px; }
+  .fg-sources a { color: var(--fg-ink); }
+  .fg-sources span { overflow-wrap: break-word; }
+  .fg-credits a { color: var(--fg-ink); }
+
+  @media (min-width: 900px) {
+    /* 章の札を左の狭い列に置く */
+    .fg-section { grid-template-columns: 188px minmax(0, 1fr); gap: 0 clamp(32px, 4vw, 72px); }
+    .fg-section__label { position: relative; }
+    .fg-section__label p { position: sticky; top: calc(var(--site-header-height, 80px) + 24px); }
+    .fg-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; border-top: 0; }
+    .fg-pair > div { border-top: 1px solid var(--fg-line); }
+    .fg-colophon { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 36px 56px; }
+    .fg-colophon__policy { grid-column: 1 / -1; max-width: 62em; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fg * { scroll-behavior: auto !important; transition: none !important; }
+  }
+</style>

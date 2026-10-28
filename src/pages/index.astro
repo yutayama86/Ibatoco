@@ -10,6 +10,7 @@ import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
 import NewsCard from '../components/NewsCard.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
+import { FOOD_GUIDES, FOOD_PHOTOS, licenseUrl } from '../data/food-library';
 
 // 終わった催しのニュースはTOPに出さない（/news/ の一覧と記事URLには残る）
 const latestNews = (await getIndexableNews()).filter((item) => isWorthLinking(lifecycleOf(item))).slice(0, 3);
@@ -147,6 +148,28 @@ const heroSlides = [
   <div id="discover-now"><HomeNow /></div>
   {/* 日付から入る枠。該当が無ければブロックごと出ない */}
   <div data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
+
+  <section class="hoshiimo-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
+    <div class="bp-wrap hoshiimo-home__inner">
+      <div class="hoshiimo-home__copy">
+        <p class="home-section-label">茨城のおいしい図鑑</p>
+        <h2 id="hoshiimo-home-title">あなたの<span>推し干し芋</span>、<br />どの品種？</h2>
+        <p class="hoshiimo-home__lead">ねっとり派？ 昔ながら派？ 8品種の図鑑から、あなた好みの干し芋を見つけよう。</p>
+        <div class="hoshiimo-home__actions">
+          <a class="hoshiimo-home__cta" href="/hoshiimo/#diagnosis">30秒で干し芋診断 <span aria-hidden="true">→</span></a>
+          <a class="hoshiimo-home__sub" href="/hoshiimo/#varieties">8品種の図鑑を見る →</a>
+        </div>
+        <nav class="hoshiimo-home__series" aria-labelledby="hoshiimo-home-series">
+          <p id="hoshiimo-home-series"><a href="/food-library/">茨城のおいしい図鑑をすべて見る →</a></p>
+          <ul>{FOOD_GUIDES.filter((g) => g.slug !== 'hoshiimo').map((g) => <li><a href={g.path}>{g.name}</a></li>)}</ul>
+        </nav>
+      </div>
+      <figure class="hoshiimo-home__photo">
+        <img {...wikimediaImage(FOOD_PHOTOS.hoshiimo.src, [500, 960])} sizes="(min-width: 760px) 40vw, 100vw" width="960" height="720" loading="lazy" decoding="async" alt={FOOD_PHOTOS.hoshiimo.alt} />
+        <figcaption>{FOOD_PHOTOS.hoshiimo.place}・{FOOD_PHOTOS.hoshiimo.taken}撮影。写真：<a href={FOOD_PHOTOS.hoshiimo.page} target="_blank" rel="noopener noreferrer">{FOOD_PHOTOS.hoshiimo.author} / Wikimedia Commons</a>（<a href={licenseUrl(FOOD_PHOTOS.hoshiimo.license)} target="_blank" rel="noopener noreferrer license">{FOOD_PHOTOS.hoshiimo.license}</a>）</figcaption>
+      </figure>
+    </div>
+  </section>
 
   <section class="brand-origin" data-module="home_origin">
     <div class="origin-sky" aria-hidden="true"></div>
@@ -333,4 +356,45 @@ const heroSlides = [
   .november-now__list a:hover,.november-now__list a:focus-visible{background:#fff}.november-now__text{display:grid;gap:.32rem}.november-now__text small{color:#718292;font-size:.7rem}.november-now__text strong{font:600 clamp(1.05rem,1.7vw,1.3rem)/1.5 var(--font-brand-display)}.november-now__text em{font-style:normal;color:var(--color-soil);font-size:.72rem}.november-now__list b{font-weight:400;color:#8395a6}
 
   @media(max-width:720px){.editorial-note__inner{grid-template-columns:minmax(0,1fr);gap:.35rem}.editorial-note strong{white-space:normal}.editorial-note small{grid-column:auto}.home-intent__head{grid-template-columns:minmax(0,1fr);gap:.8rem}.home-intent__grid{grid-template-columns:minmax(0,1fr)}.home-intent__grid a:nth-child(odd),.home-intent__grid a:nth-child(even){padding-inline:.1rem;border-right:0}.november-now__head{grid-template-columns:minmax(0,1fr);align-items:start}.november-now__list{grid-template-columns:minmax(0,1fr)}.november-now__list li:nth-child(odd){border-right:0}.november-now__list a{min-height:0}}
+</style>
+
+<style>
+  /* 茨城のおいしい図鑑への入口（干し芋の診断）。図鑑と同じ生成りの紙・明朝・実物の写真で組む。食べ物の絵は描かない */
+  .hoshiimo-home{background:#f6f1e8;border-top:1px solid #d6cdbf;border-bottom:1px solid #d6cdbf;padding:clamp(48px,6vw,88px) 0;color:#1f2b31}
+  .hoshiimo-home__inner{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:center}
+  .hoshiimo-home h2{margin:12px 0 0;font:600 clamp(30px,3.6vw,48px)/1.42 var(--font-brand-display);letter-spacing:.01em;color:#173c59}
+  .hoshiimo-home h2 span{color:#94592f}
+  .hoshiimo-home__lead{margin:16px 0 0;font-size:15.5px;line-height:1.95;max-width:32em}
+  .hoshiimo-home__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:24px}
+  .hoshiimo-home__cta{display:inline-flex;align-items:center;gap:16px;min-height:48px;padding:0 22px;background:#173c59;color:#fff!important;text-decoration:none;font-weight:700}
+  .hoshiimo-home__cta:hover{background:#275a7c}
+  .hoshiimo-home__sub{display:inline-flex;align-items:center;min-height:44px;color:#173c59;font-size:14px;font-weight:700;text-underline-offset:4px}
+  .hoshiimo-home__series{margin-top:28px;padding-top:16px;border-top:1px solid #d6cdbf}
+  .hoshiimo-home__series p{margin:0}
+  .hoshiimo-home__series p a{display:inline-flex;align-items:center;min-height:40px;font-weight:700;color:#173c59;text-underline-offset:4px}
+  .hoshiimo-home__series ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:0 18px}
+  .hoshiimo-home__series li a{display:inline-flex;align-items:center;min-height:36px;font-size:14px;color:#59656a;text-decoration:none}
+  .hoshiimo-home__series li a:hover{color:#173c59;text-decoration:underline}
+  .hoshiimo-home__photo{margin:0;order:-1}
+  .hoshiimo-home__photo img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:50% 55%;background:#ece4d6}
+  .hoshiimo-home__photo figcaption{margin-top:8px;font-size:11.5px;line-height:1.7;color:#59656a}
+  .hoshiimo-home__photo figcaption a{color:inherit}
+  @media(min-width:760px){.hoshiimo-home__inner{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(40px,6vw,96px)}.hoshiimo-home__photo{order:0}}
+
+  /* 紙面の共通リズム。情報量と既存の導線を保ったまま、装飾と余白を整える。 */
+  .discover,.area-home,.home-news,.process-home,.partner{background:var(--color-paper)}
+  .discover::before,.discover::after,.area-home::before,.area-home::after,.home-news::before,.home-news::after,.process-home::before,.process-home::after,.partner::before,.partner::after{content:none}
+  .home-news,.discover,.area-home{padding-block:clamp(3rem,5vw,5rem)}
+  .home-news__head,.discover-head{padding-bottom:1.5rem;border-bottom:1px solid var(--color-line)}
+  .home-news__head h2,.discover-head h2{font-size:clamp(1.8rem,2.8vw,2.75rem);line-height:1.45}
+  .home-news__grid{gap:1.4rem}
+  .hoshiimo-home{padding-block:clamp(3.5rem,6vw,6rem);background:#f0eae0}
+  .hoshiimo-home h2{font-size:clamp(2rem,3.2vw,3.1rem);line-height:1.6;letter-spacing:.03em}
+  .hoshiimo-home__photo img{border-radius:var(--radius-xs)}
+  .hoshiimo-home__lead{font-size:.94rem;line-height:1.95}
+  .home-intent__grid a{border-radius:var(--radius-xs);box-shadow:none}
+  .november-now__list a{border-radius:var(--radius-xs);box-shadow:none}
+  .partner{padding-block:clamp(4rem,6vw,6rem);border-top:1px solid var(--color-line)}
+  .partner-storyboard figure{clip-path:none;border-radius:var(--radius-xs);box-shadow:none}
+  @media(max-width:760px){.home-news__grid{gap:1.1rem}.hoshiimo-home h2{font-size:clamp(1.85rem,7.5vw,2.5rem)}}
 </style>

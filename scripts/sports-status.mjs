@@ -102,5 +102,5 @@ for (const file of files) {
   }
 }
 
-console.log('\n更新したら updatedAt を今日にし、npm run verify → コミット → 反映（npm run deploy）の順で。');
+console.log('\n更新したら updatedAt を今日にし、npm run verify → 作業ブランチでコミット → PR → CI確認 → 承認後に main へマージ（本番公開は GitHub Actions）の順で。');
 if (strict && problems > 0) process.exit(1);

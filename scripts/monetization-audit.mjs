@@ -2,6 +2,8 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bookingItems, dataFreshness, formatCount, isEventEnded, isPublished, lookup, orZero, readFrontmatter, viewsByPath } from './lib/report-data.mjs';
+import { todayJst } from '../src/lib/growth-engine.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const EVENTS = join(ROOT, 'src/content/events');
@@ -34,42 +36,11 @@ const providers = new Map(providerIds.map((id) => {
   return [id, { status, mapped }];
 }));
 
-function fm(raw) { return raw.match(/^---\s*\n([\s\S]*?)\n---/)?.[1] ?? ''; }
-function scalar(front, key) {
-  const m = front.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
-  return m ? m[1].trim().replace(/^['"]|['"]$/g, '') : null;
-}
-function bool(front, key) {
-  const v = scalar(front, key);
-  return v === 'true' ? true : v === 'false' ? false : null;
-}
-function bookingBlock(front) {
-  const lines = front.split('\n');
-  const start = lines.findIndex((line) => /^booking:\s*$/.test(line));
-  if (start < 0) return '';
-  const out = [];
-  for (let i = start + 1; i < lines.length; i += 1) {
-    if (/^[A-Za-z][A-Za-z0-9]*:\s*/.test(lines[i])) break;
-    out.push(lines[i]);
-  }
-  return out.join('\n');
-}
-function bookingItems(front) {
-  const b = bookingBlock(front);
-  const rows = [];
-  const itemChunks = b.split(/^\s{4}-\s+/m).slice(1);
-  for (const chunk of itemChunks) {
-    const provider = /^provider:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim();
-    const url = /^\s{2}url:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim();
-    const label = /^label:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim();
-    const kind = /^\s{2}kind:\s*['"]?([^'"\n]+)['"]?/m.exec(chunk)?.[1]?.trim();
-    if (provider && url) rows.push({ provider, url, label: label ?? '', kind: kind ?? 'official' });
-  }
-  return rows;
-}
-
-const ga7 = new Map((performance.ga4TopPages?.recent7 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
-const ga28 = new Map((performance.ga4TopPages?.recent28 ?? []).map((x) => [x.path, Number(x.views ?? 0)]));
+// GA4 上位ページ・ページ別ファネルに無いページは「0」ではなく「値なし」（null）。並べ替えのときだけ 0 として扱う
+const ga7 = viewsByPath(performance.ga4TopPages?.recent7);
+const ga28 = viewsByPath(performance.ga4TopPages?.recent28);
+const today = todayJst();
+const freshness = dataFreshness(performance.asOf, today);
 const pageFunnel = new Map(
   (performance.conversionDetail?.byPage ?? []).map((row) => [row.path, {
     bookingGuideViews: Number(row.booking_guide_view ?? 0),
@@ -98,12 +69,14 @@ const commercialMonetizedShare = activePartnerClickCount > 0
 const rows = [];
 for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.startsWith('_'))) {
   const raw = readFileSync(join(EVENTS, file), 'utf8');
-  const front = fm(raw);
-  if (bool(front, 'draft') !== false || bool(front, 'reviewed') !== true || bool(front, 'noindex') === true) continue;
-  const items = bookingItems(front);
+  const data = readFrontmatter(raw);
+  if (!isPublished(data)) continue;
+  const items = bookingItems(data);
   if (!items.length) continue;
   const path = `/events/${basename(file, '.md')}/`;
-  const title = scalar(front, 'title') ?? path;
+  const title = data.title ?? path;
+  const funnel = pageFunnel.get(path) ?? null;
+  const ended = isEventEnded(data, today);
 
   for (const item of items) {
     const provider = providers.get(item.provider);
@@ -116,16 +89,14 @@ for (const file of readdirSync(EVENTS).filter((f) => f.endsWith('.md') && !f.sta
       title,
       ...item,
       state,
+      ended,
       providerStatus: provider?.status ?? 'none',
-      views7: ga7.get(path) ?? 0,
-      views28: ga28.get(path) ?? 0,
-      bookingGuideViews: pageFunnel.get(path)?.bookingGuideViews ?? 0,
-      bookingClicks: pageFunnel.get(path)?.bookingClicks ?? 0,
-      monetizedClicks: pageFunnel.get(path)?.monetizedClicks ?? 0,
-      nonMonetizedClicks: Math.max(
-        0,
-        (pageFunnel.get(path)?.bookingClicks ?? 0) - (pageFunnel.get(path)?.monetizedClicks ?? 0),
-      ),
+      views7: lookup(ga7, path),
+      views28: lookup(ga28, path),
+      bookingGuideViews: funnel ? funnel.bookingGuideViews : null,
+      bookingClicks: funnel ? funnel.bookingClicks : null,
+      monetizedClicks: funnel ? funnel.monetizedClicks : null,
+      nonMonetizedClicks: funnel ? Math.max(0, funnel.bookingClicks - funnel.monetizedClicks) : null,
     });
   }
 }
@@ -135,12 +106,13 @@ const counts = Object.fromEntries(['paid','active-unmapped','non-partner','offic
 ]));
 
 const rankedGaps = rows
-  .filter((r) => r.state === 'active-unmapped' || r.state === 'non-partner')
+  // 終了したイベントは、これから収益化できないので優先ギャップに入れない
+  .filter((r) => !r.ended && (r.state === 'active-unmapped' || r.state === 'non-partner'))
   .sort((a, b) => {
     const aPriority = a.state === 'active-unmapped' ? 1000 : 0;
     const bPriority = b.state === 'active-unmapped' ? 1000 : 0;
-    const aDemand = a.nonMonetizedClicks * 500 + a.bookingClicks * 50 + a.views7 * 10 + a.views28;
-    const bDemand = b.nonMonetizedClicks * 500 + b.bookingClicks * 50 + b.views7 * 10 + b.views28;
+    const aDemand = orZero(a.nonMonetizedClicks) * 500 + orZero(a.bookingClicks) * 50 + orZero(a.views7) * 10 + orZero(a.views28);
+    const bDemand = orZero(b.nonMonetizedClicks) * 500 + orZero(b.bookingClicks) * 50 + orZero(b.views7) * 10 + orZero(b.views28);
     return (bPriority + bDemand) - (aPriority + aDemand);
   });
 
@@ -165,7 +137,8 @@ const totalNonMonetizedClicks = activeUnmappedClickCount;
 const lines = [
   '# Monetization Link Audit',
   '',
-  `- Bookingリンク総数: **${rows.length}**`,
+  freshness.line,
+  `- Bookingリンク総数: **${rows.length}**（公開中のイベント記事 ${new Set(rows.map((r) => r.path)).size}本の booking.items）`,
   `- 実際に収益化されるリンク: **${counts.paid}**`,
   `- 提携済みだがURL未マッピング: **${counts['active-unmapped']}**`,
   `- 未提携リンク: **${counts['non-partner']}**`,
@@ -206,8 +179,10 @@ const lines = [
   '',
   '## 最優先ギャップ',
   '',
+  `- 対象：開催中・これからのイベント（今日 ${today} の時点。終了したイベントのリンク ${rows.filter((r) => r.ended).length}本は除外）`,
+  '',
   ...(rankedGaps.length ? rankedGaps.slice(0, 20).map((r, i) =>
-    `${i + 1}. **${r.title}**｜${r.state}\n   - ${r.path}\n   - provider: ${r.provider} / kind: ${r.kind}\n   - 7日Views: ${r.views7} / 28日Views: ${r.views28}\n   - 元URL: ${r.url}`
+    `${i + 1}. **${r.title}**｜${r.state}\n   - ${r.path}\n   - provider: ${r.provider} / kind: ${r.kind}\n   - 7日Views: ${formatCount(r.views7, '上位外')} / 28日Views: ${formatCount(r.views28, '上位外')} / 予約クリック: ${formatCount(r.bookingClicks)}\n   - 元URL: ${r.url}`
   ) : ['- 収益化ギャップはありません。']),
   '',
   '## 計測',

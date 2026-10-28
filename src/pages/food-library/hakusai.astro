@@ -1,0 +1,139 @@
+---
+import FoodGuideLayout from '../../components/food/FoodGuideLayout.astro';
+import FoodHero from '../../components/food/FoodHero.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import OriginMap from '../../components/food/OriginMap.astro';
+import { FOOD_BY_SLUG, FOOD_PHOTOS } from '../../data/food-library';
+
+const guide = FOOD_BY_SLUG.get('hakusai')!;
+const title = '茨城の白菜図鑑｜八千代町など県西の産地、秋冬白菜と春白菜の違い、霜と甘み、選び方 | イバトコ';
+const description = '11〜1月に東京都中央卸売市場へ入る白菜の9割近くが茨城県産（茨城をたべよう）。八千代町・結城市・古河市など県西10市町の産地、8月に始まる秋冬白菜と寒い時期に植える春白菜の違い、霜で甘くなるわけ、選び方と出荷規格を、県と八千代町の資料で整理しました。';
+
+const sources = [
+  { label: '茨城をたべよう（茨城県）「はくさい」', url: 'https://www.ibaraki-shokusai.net/brand/napa-cabbage/', accessedAt: '2026-10-25' },
+  { label: '八千代町「【八千代町の特産品】白菜」', url: 'https://www.town.ibaraki-yachiyo.lg.jp/page/page011477.html', accessedAt: '2026-10-25' },
+];
+
+const faq = [
+  { q: '茨城の白菜の旬はいつですか？', a: '茨城では10月中旬から翌年6月中旬まで出荷され、冬場の生産量が特に多くなります（茨城をたべよう）。11月から1月に東京都中央卸売市場へ出荷される白菜の9割近くが茨城県産です。' },
+  { q: '茨城の白菜はどこで作られていますか？', a: '県西地域が中心です。茨城をたべようは、八千代町、結城市、古河市、坂東市、つくば市、常総市、境町、下妻市、筑西市、牛久市を主な生産地に挙げています。' },
+  { q: '秋冬白菜と春白菜はどう違いますか？', a: '秋冬白菜は夏の終わりに栽培を始め、寒さのなかで育つため、葉が締まって甘みが強くなります。鍋や煮込みに向きます。春白菜は11〜12月の寒い時期に植え、暖かくなるなかで育つため、みずみずしく葉がやわらかく、サラダや漬物に向きます（茨城をたべよう、八千代町）。' },
+  { q: '冬の白菜が甘いのはなぜですか？', a: '八千代町によると、霜が降りる季節になると、白菜が葉に蓄えた養分が糖に変わり、やわらかく甘みのある白菜になります。' },
+  { q: 'おいしい白菜の選び方は？', a: '葉が生き生きとした緑色で、巻きがしっかりしていて、持つと重量感のあるもの。芯の切り口が白く、みずみずしいものを選びます（八千代町）。' },
+];
+---
+
+<FoodGuideLayout guide={guide} title={title} description={description} headline="茨城の白菜図鑑｜県西の産地、秋冬白菜と春白菜、霜と甘み、選び方" faq={faq} sources={sources} photos={[FOOD_PHOTOS.hakusaiHarvest]}>
+  <FoodHero
+    guide={guide}
+    lines={['霜が降りると、', '白菜は甘くなる。']}
+    lead="冬の東京の市場に並ぶ白菜は、そのほとんどが茨城から届きます。産地の中心は県西。平らで肥えた畑に霜が降りるころ、白菜は葉に蓄えた養分を糖に変え、やわらかく甘くなる。真夏に始まる秋冬白菜と、寒さのなかで植える春白菜。二つの白菜の一年をたどります。"
+    position="50% 55%"
+    caption="4月のつくば市の白菜畑。春白菜の収穫の時期にあたる。"
+    facts={[
+      { label: '茨城の位置づけ', value: '11〜1月の東京都中央卸売市場の白菜の9割近く（茨城をたべよう）' },
+      { label: '出回る時期', value: '10月中旬〜翌6月中旬。冬場が特に多い' },
+      { label: '主な産地', value: '八千代町・結城市・古河市など県西の10市町' },
+      { label: '二つの作型', value: '秋冬白菜と春白菜' },
+    ]}
+  />
+
+  <section class="fg-section" aria-labelledby="hakusai-origin">
+    <div class="fg-section__label"><p>産地</p></div>
+    <div class="fg-section__body">
+      <h2 id="hakusai-origin">平らで肥えた、<span>県西の畑。</span></h2>
+      <p class="fg-lead">茨城の白菜は、県西地域を中心に、主に冬から春にかけて作られています。県西地域は平地が多く、土が肥えていて、日本有数の白菜の産地です（茨城をたべよう）。</p>
+      <p>なかでも八千代町は、大正時代から白菜を作ってきた町です。1966年（昭和41年）に国の指定産地になってから、栽培が本格的に広がりました（八千代町）。</p>
+      <OriginMap
+        guide={guide}
+        caption="色の付いた市町村が、茨城をたべように白菜の主な生産地として載っている市町村です。"
+        notes={{
+          yachiyo: '大正時代から栽培。1966年に国の指定産地（八千代町）',
+        }}
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hakusai-season">
+    <div class="fg-section__label"><p>旬</p></div>
+    <div class="fg-section__body">
+      <h2 id="hakusai-season">秋から初夏まで、<span>二つの白菜でつなぐ。</span></h2>
+      <p>茨城の白菜は、10月中旬から翌年6月中旬まで出荷されます。冬場の生産量が圧倒的に多く、11月から1月に東京都中央卸売市場へ出荷される白菜の9割近くを、茨城県産が占めています（茨城をたべよう）。</p>
+      <SeasonTable
+        caption="茨城の白菜の収穫・出荷の時期"
+          inLabel="収穫・出荷の時期"
+        rows={[
+          { label: '秋冬白菜の収穫', note: '八千代町', months: [10, 11, 12, 1, 2, 3] },
+          { label: '春白菜の収穫', note: '県・八千代町', months: [3, 4, 5] },
+          { label: '出荷', note: '県全体（10月中旬〜6月中旬）', months: guide.months },
+        ]}
+        note="出典：茨城をたべよう（茨城県）、八千代町。秋冬白菜の収穫は「10月〜翌年3月頃」（八千代町）。作型・産地・年によって前後します。"
+      />
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hakusai-two">
+    <div class="fg-section__label"><p>秋冬と春</p></div>
+    <div class="fg-section__body">
+      <h2 id="hakusai-two">寒さのなかで締まる白菜、<span>暖かさのなかでほどける白菜。</span></h2>
+      <div class="fg-pair hakusai-pair">
+        <div id="autumn-winter">
+          <p class="hakusai-pair__kicker">秋冬白菜</p>
+          <h3>鍋と煮込みに</h3>
+          <p>8月の暑さのなかで栽培が始まり、種をまいてから2か月ほど育てて収穫に入ります。収穫は3月ごろまで続きます（茨城をたべよう）。</p>
+          <p>秋に畑へ植え、寒さのなかで育つうちに糖度が増し、葉が締まって歯ごたえがよく、甘みの強い白菜になります（八千代町）。</p>
+        </div>
+        <div id="spring">
+          <p class="hakusai-pair__kicker">春白菜</p>
+          <h3>サラダと漬物に</h3>
+          <p>11月から12月の寒い時期に畑へ植え、3月から5月に収穫します（茨城をたべよう）。</p>
+          <p>暖かくなっていくなかで育つため、みずみずしく、秋冬白菜より葉がやわらかくなります。サラダなど生で食べるほか、漬物にも向きます（茨城をたべよう、八千代町）。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hakusai-frost">
+    <div class="fg-section__label"><p>霜と甘み</p></div>
+    <div class="fg-section__body">
+      <h2 id="hakusai-frost">霜が降りると、<span>養分が糖に変わる。</span></h2>
+      <p>八千代町の白菜も、冬場の生産量が圧倒的に多くなります。町によると、霜が降りる季節になると、白菜が葉に蓄えた養分が糖に変わり、やわらかく甘みのある白菜になります。</p>
+      <p class="fg-pull">冬の白菜の甘さは、<br />霜の季節がつくる。</p>
+      <p>2019年（令和元年）11月、天皇陛下の即位にともなう大嘗祭では、全国の都道府県の特産物を供える「庭積の机代物（にわづみのつくえしろもの）」として、八千代町の白菜が納められました（八千代町）。</p>
+    </div>
+  </section>
+
+  <section class="fg-section" aria-labelledby="hakusai-choose">
+    <div class="fg-section__label"><p>選ぶ</p></div>
+    <div class="fg-section__body">
+      <h2 id="hakusai-choose">巻きがかたく、<span>持って重いもの。</span></h2>
+      <ul class="fg-list">
+        <li><strong>葉の色</strong>生き生きとした緑色のもの</li>
+        <li><strong>巻きと重さ</strong>巻きがしっかりしていて、持つと重量感のあるもの</li>
+        <li><strong>芯の切り口</strong>白くて、みずみずしいもの</li>
+      </ul>
+      <p class="fg-note">出典：八千代町</p>
+      <h3>出荷の規格</h3>
+      <p>産地から出荷される白菜の、1玉あたりの重さの規格です（茨城をたべよう）。</p>
+      <dl class="hakusai-grades">
+        <div><dt>2L</dt><dd>3.5〜2.5kg</dd></div>
+        <div><dt>L</dt><dd>2.2〜1.9kg</dd></div>
+      </dl>
+      <ul class="fg-list">
+        <li><strong><a href="/area/yachiyo/">八千代町のページ</a></strong>白菜とメロンの町</li>
+        <li><strong><a href="/area/yuki/">結城市のページ</a></strong>県西の白菜の産地のひとつ</li>
+        <li><strong><a href="/area/koga/">古河市のページ</a></strong>県西の白菜の産地のひとつ</li>
+      </ul>
+    </div>
+  </section>
+</FoodGuideLayout>
+
+<style>
+  .hakusai-pair__kicker { font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 700; letter-spacing: .14em; color: var(--fg-soil); }
+  .hakusai-pair h3 { margin-top: 4px !important; }
+  .hakusai-pair > div { scroll-margin-top: calc(var(--site-header-height, 80px) + 16px); }
+  .hakusai-grades { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; border-top: 1px solid var(--fg-line); max-width: 420px; }
+  .hakusai-grades > div { padding: 12px 0; border-bottom: 1px solid var(--fg-line); display: flex; gap: 14px; align-items: baseline; }
+  .hakusai-grades dt { font-family: var(--font-brand-serif-latin); font-size: 20px; color: var(--fg-navy); min-width: 1.6em; }
+  .hakusai-grades dd { margin: 0; font-variant-numeric: tabular-nums; }
+</style>

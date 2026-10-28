@@ -4,7 +4,7 @@
  *
  * sync      公開コンテンツからイベント台帳を同期する（手入力の未掲載候補は保持）
  * check     台帳・実装キュー・パフォーマンス入力の整合性を検証する
- * daily     同期・検証後、日次ブリーフとClaude向け実装指示を生成する（--weekly で週次棚卸しも出す。月曜は自動で出す）
+ * daily     同期・検証後、日次ブリーフと実装指示（implementation-brief.md）を生成する（--weekly で週次棚卸しも出す。月曜は自動で出す）
  * inventory コンテンツ在庫をJSONで出力する
  *
  * 外部情報を推測で補完しない。検索需要・来訪規模・収益性は、人またはChatGPTが
@@ -20,6 +20,7 @@ import {
 import { basename, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { discoveryGate, discoveryMarkdown, parseRegions, validateDiscovery } from './lib/discovery-gate.mjs';
+import { GOOGLE_CONFIRM_LAG_DAYS } from '../src/lib/ga4-daily.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = join(ROOT, 'data/editorial');
@@ -279,14 +280,15 @@ function validate(registry, actions, performance, inventory) {
   if (performance.asOf && !dateValue(performance.asOf)) errors.push('performance-snapshot.asOfはYYYY-MM-DDで指定');
   if (!performance.asOf) warnings.push('GA4/GSCスナップショットが未入力。順位・流入・CVに基づく優先度判定はできません。');
   else {
+    // asOf は確定日（Google の処理の遅れで今日の3日前）。同期が毎日成功していても3日前になるので、それより古いときだけ警告する
     const age = dateDiff(performance.asOf, tokyoDate());
-    if (age > 2) warnings.push(`GA4/GSCスナップショットが${age}日前です。推測で数値を補わないでください。`);
+    if (age > GOOGLE_CONFIRM_LAG_DAYS) warnings.push(`GA4/GSCスナップショットが${age}日前です。推測で数値を補わないでください。`);
   }
   // 人気ページ（TOPの「いま読まれている」と GrowthNextReads の補完に使う）は日次で Growth Director が更新する。
   // 10/10〜10/17 に更新が止まっても気づけなかったため、GA4 の確定日より2日以上古ければ警告する（自動では書き換えない）
   const popular = existsSync(POPULAR) ? readJson(POPULAR) : null;
   const popularEnd = popular?.source?.period?.end;
-  const ga4Latest = performance.ga4LatestConfirmedDate;
+  const ga4Latest = performance.source?.freshness?.ga4LatestConfirmedDate ?? performance.ga4LatestConfirmedDate;
   if (!dateValue(popularEnd)) warnings.push('人気ページ（popular-pages.json）の集計期間が読めません。');
   else if (dateValue(ga4Latest) && dateDiff(popularEnd, ga4Latest) >= 2) {
     warnings.push(`人気ページ（popular-pages.json）の集計期間が${popularEnd}までで、GA4の確定日（${ga4Latest}）より${dateDiff(popularEnd, ga4Latest)}日古いです。直近7日の実測で更新してください（選定は Growth Director）。`);
@@ -430,7 +432,7 @@ function reportMarkdown({ registry, inventory, actions, performance, validation,
     '',
     '## 4. 実装キュー',
     '',
-    ...(ready.length ? ready.map((action) => `- [実装可] ${action.title}｜${action.kind}｜${action.specPath}`) : ['- 実装可の案件なし。Claudeへ調査・執筆を丸投げしない。']),
+    ...(ready.length ? ready.map((action) => `- [実装可] ${action.title}｜${action.kind}｜${action.specPath}`) : ['- 実装可の案件なし。実装担当へ調査・執筆を丸投げしない。']),
     ...scheduled.map((action) => `- [予約・${action.notBefore}から実装可] ${action.title}｜${action.kind}｜${action.specPath}`),
     '',
     '## 5. 改善待ち',
@@ -449,16 +451,17 @@ function reportMarkdown({ registry, inventory, actions, performance, validation,
   return lines.join('\n');
 }
 
-function claudeBrief(actions) {
+/** 実装担当（ChatGPT・人・ほかのAI）向けの実装指示。どのツールが実装しても同じ内容 */
+function implementationBrief(actions) {
   const ready = actions.actions.filter((action) => readyNow(action)).sort((a, b) => actionPriority(b) - actionPriority(a));
   const scheduled = actions.actions.filter((action) => readyScheduled(action)).sort((a, b) => a.notBefore.localeCompare(b.notBefore));
   if (!ready.length) {
     const later = scheduled.length ? `\n## 予約済み（着手日まで実装しない）\n\n${scheduled.map((action) => `- ${action.notBefore}から：${action.title}（${action.specPath}）`).join('\n')}\n` : '';
-    return `# Claude Code 実装指示｜${tokyoDate()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n${later}`;
+    return `# 実装指示｜${tokyoDate()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n${later}`;
   }
   const action = ready[0];
   return [
-    `# Claude Code 実装指示｜${tokyoDate()}`,
+    `# 実装指示｜${tokyoDate()}`,
     '',
     `対象: ${action.title}`,
     `種別: ${action.kind}`,
@@ -541,6 +544,9 @@ writeJson(join(REPORT_DIR, 'daily-brief.json'), {
   scheduledActions: actions.actions.filter((action) => readyScheduled(action)),
 });
 writeFileSync(join(REPORT_DIR, 'daily-brief.md'), reportMarkdown({ registry, inventory, actions, performance, validation, gate }), 'utf8');
-writeFileSync(join(REPORT_DIR, 'claude-implementation-brief.md'), claudeBrief(actions), 'utf8');
+const brief = implementationBrief(actions);
+writeFileSync(join(REPORT_DIR, 'implementation-brief.md'), brief, 'utf8');
+// 旧名。Claude Code 停止後に削除してよい（docs/CLAUDE_EXIT_RUNBOOK.md）
+writeFileSync(join(REPORT_DIR, 'claude-implementation-brief.md'), brief, 'utf8');
 console.log(`日次ブリーフを生成：${relative(ROOT, REPORT_DIR)}`);
 console.log(`Discovery Gate：新規${gate.counts.newlyDiscovered}・重要未掲載${gate.counts.importantUnlisted}・7日以内未掲載${gate.counts.urgent7}・判断待ち${gate.counts.decisionPending}・未検証${gate.counts.unverified}・確認期限${gate.counts.recheckDue}・重複${gate.duplicates.length}組${gate.weeklyInventory ? '（週次棚卸しあり）' : ''}`);
