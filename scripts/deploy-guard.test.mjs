@@ -7,7 +7,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 
 const run = (vars) => {
   const env = { ...process.env };
@@ -84,4 +84,19 @@ test('Deploy production：計測で止めず、検証済みの最新 main だけ
   assert.match(workflow, /name: Confirm deployed SHA and current main/);
   assert.match(workflow, /Production SHA mismatch/);
   assert.doesNotMatch(workflow, /^\s+(contents|actions|pull-requests|id-token): write/m, 'Deploy production に書き込み権限を足さない');
+});
+
+// 外部の Action はタグ（@v4 など）ではなくコミット SHA で固定する（#392）。タグは書き換えられるため。
+// 2026-10-28 に GA4 同期（#446）と依存監査のワークフローがタグ指定のまま残っていたので、全ワークフローを検査する
+test('すべてのワークフロー：外部の Action はコミット SHA で固定されている', () => {
+  const dir = '.github/workflows';
+  const files = readdirSync(dir).filter((name) => /\.ya?ml$/.test(name));
+  assert.ok(files.length > 0);
+  for (const name of files) {
+    for (const line of readFileSync(`${dir}/${name}`, 'utf8').split('\n')) {
+      const m = line.match(/^\s*-?\s*uses:\s*([^\s#]+)/);
+      if (!m || m[1].startsWith('./') || m[1].startsWith('docker://')) continue;
+      assert.match(m[1], /@[0-9a-f]{40}$/, `${name}：SHA で固定されていない ${m[1]}`);
+    }
+  }
 });
