@@ -5,7 +5,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { addDays } from '../src/lib/growth-engine.mjs';
-import { checkDaily } from '../src/lib/ga4-daily.mjs';
+import { checkDaily, confirmedDateMismatches } from '../src/lib/ga4-daily.mjs';
 import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
 
 const inputPath = process.argv[2];
@@ -79,6 +79,8 @@ data.windows.ga4={...data.windows.ga4,daily:ga,dailyMeta:{
   recent7VsPrevious7:{usersPct:null,sessionsPct:pct(recent7.sessions,previous7.sessions),
     viewsPct:pct(recent7.views,previous7.views),
     comparability:'raw equal 7-day windows; known GA4 CSP incident 2026-10-08..10 can affect comparison'}};
+// 予約ボタンの A/B（取得できたときだけ置き換える。行の無いイベントは null のまま）
+if(input.bookingCtaExperiment) data.windows.ga4.bookingCtaExperiment={...input.bookingCtaExperiment,source:'Google official GA4 Data API',fetchedAt:input.fetchedAt};
 data.windows.gsc={...data.windows.gsc,daily:gs,dailyMeta:{source:'Google official Search Console API',
   fetchedAt:input.fetchedAt,confirmedThrough:gsEnd,rows:gs.length},latestDay:gsWindow(gsEnd,1),
   recent7:gRecent7,previous7:gPrevious7,recent28:gRecent28,
@@ -92,9 +94,15 @@ data.northStar={...data.northStar,current:recent28.views,progress:recent28.views
  requiredDailyAverage:current/30,requiredUpliftVsRecent7:recent7.views?current/30/(recent7.views/7):null,
  status:recent7.views*4>=current?'on-pace':'below-pace'};
 data.asOf=gaEnd;
-data.source={...data.source,primary:'Google official APIs (verified daily)',ga4:'Google Analytics Data API',
+// 最上位の確定日は editorial-os が読む（Windsor 時代の項目）。source 側だけ更新すると古い日付が残る（#445）
+data.ga4LatestConfirmedDate=gaEnd;
+data.gscLatestConfirmedDate=gsEnd;
+// 確定日より前の日の「暫定値の再確認」は、確定した日別に置き換わったので残さない（「10/19を最新確定日とする」等の古い説明が残る）
+const {latestDateRecheck,...sourceRest}=data.source??{};
+data.source={...(latestDateRecheck?.date && latestDateRecheck.date>gaEnd?{...sourceRest,latestDateRecheck}:sourceRest),
+ primary:'Google official APIs (verified daily)',ga4:'Google Analytics Data API',
  gsc:'Search Console Search Analytics API',checkedAt:input.fetchedAt,lastConfirmedAt:input.fetchedAt,
- status:'google-api-daily-confirmed',
+ updatedAt:input.fetchedAt,status:'google-api-daily-confirmed',
  freshness:{basisDateAsiaTokyo:gaEnd,ga4LatestConfirmedDate:gaEnd,gscLatestConfirmedDate:gsEnd,
  todayRefreshSucceeded:true},ga4LatestConfirmedDate:gaEnd,gscLatestConfirmedDate:gsEnd,
  warnings:[...(data.source?.warnings??[]).filter(x=>!x.includes('Windsor')&&!x.includes('確定')),
@@ -102,5 +110,7 @@ data.source={...data.source,primary:'Google official APIs (verified daily)',ga4:
  '2026-10-08..10 GA4 CSP incident: raw measurements retained; do not interpret as a genuine audience drop.']};
 const result=JSON.stringify(data);
 if(!result.includes('"google-api-daily-confirmed"'))throw new Error('Source invariant failed');
+const dateIssues=confirmedDateMismatches(data);
+if(dateIssues.length)throw new Error('Confirmed dates disagree: '+dateIssues.join(' | '));
 writeFileSync(path,raw.trimEnd().includes('\n')?JSON.stringify(data,null,2)+'\n':result+'\n');
 console.log('Verified Google official daily metrics synced through '+gaEnd+'; GA4 28d views='+recent28.views+'; GSC 28d clicks='+gRecent28.clicks);

@@ -121,3 +121,17 @@ test('実際のイベント記事：予約リンクを持つ公開記事を1本�
   assert.equal(pagesCounted, pagesWithBookingKey, 'booking.items があるのに数えられない記事がある');
   assert.ok(items >= pagesCounted);
 });
+
+test('予約ボタンの A/B：公式 API の件数を優先し、4件そろうまでは判定しない', async () => {
+  const { bookingAbCounts } = await import('./lib/report-data.mjs');
+  const full = { booking_guide_view_a: 210, booking_guide_view_b: 205, outbound_booking_click_a: 9, outbound_booking_click_b: 12 };
+  const official = bookingAbCounts({ windows: { ga4: { bookingCtaExperiment: { start: '2026-10-19', end: '2026-10-25', counts: full } } }, conversionDetail: { recent7: {} } });
+  assert.equal(official.hasData, true);
+  assert.match(official.source, /Google 公式 API/);
+  const partial = bookingAbCounts({ windows: { ga4: { bookingCtaExperiment: { counts: { ...full, outbound_booking_click_b: null } } } } });
+  assert.equal(partial.hasData, false);
+  assert.deepEqual(partial.missingKeys, ['outbound_booking_click_b']);
+  const legacy = bookingAbCounts({ conversionDetail: { recent7: { booking_guide_view: 562 } } });
+  assert.equal(legacy.hasData, false);
+  assert.equal(legacy.source, 'conversionDetail.recent7');
+});

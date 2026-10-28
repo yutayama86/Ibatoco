@@ -93,6 +93,26 @@ export function dailyCoverage(daily = [], confirmedThrough) {
 }
 
 /**
+ * スナップショットの確定日は、GA4・GSC それぞれ4か所にある（日別の dailyMeta.confirmedThrough・source.freshness・source・最上位）。
+ * 読む側が場所ごとに違う（最上位は editorial-os、source.freshness は growth-engine や管理画面）ので、すべて同じ日付でなければならない。
+ * 2026-10-27 の公式 API 同期で、最上位だけが Windsor 時代の 10/19・10/18 のまま残った（#445）。
+ * @returns {string[]} 食い違い（無い場所は比べない）
+ */
+export function confirmedDateMismatches(snapshot) {
+  const errors = [];
+  for (const [label, win, key] of [['GA4', 'ga4', 'ga4LatestConfirmedDate'], ['GSC', 'gsc', 'gscLatestConfirmedDate']]) {
+    const places = [
+      [`windows.${win}.dailyMeta.confirmedThrough`, snapshot?.windows?.[win]?.dailyMeta?.confirmedThrough],
+      [`source.freshness.${key}`, snapshot?.source?.freshness?.[key]],
+      [`source.${key}`, snapshot?.source?.[key]],
+      [key, snapshot?.[key]],
+    ].filter(([, v]) => v != null);
+    if (new Set(places.map(([, v]) => v)).size > 1) errors.push(`${label} の確定日が食い違う：${places.map(([k, v]) => `${k}=${v}`).join('・')}`);
+  }
+  return errors;
+}
+
+/**
  * 整合の確認：集計（windows.ga4 の recent7・previous7・recent28・recent3・latestDay）と、同じ期間の日別の合計を比べる。
  * 期間の日が日別にすべてある集計だけを比べる（欠けた日がある期間は uncovered）。取得時点が違うと GA4 側の再集計で差が出ることがあるため、検査では止めず報告に出す
  */
@@ -154,3 +174,31 @@ export function checkDaily(daily, { confirmedThrough = null, incidents = null } 
   if (daily.length >= 2 && daysBetween(daily[0].date, daily.at(-1).date) > GA4_DAILY_MAX_DAYS - 1) errors.push('windows.ga4.daily が35日の範囲を超えている');
   return errors;
 }
+
+/** 予約ボタンの A/B 実験（src/data/experiments.ts の booking-cta-clarity-v1）で判定に使う4イベント */
+export const BOOKING_CTA_AB_EVENTS = ['booking_guide_view_a', 'booking_guide_view_b', 'outbound_booking_click_a', 'outbound_booking_click_b'];
+
+/**
+ * GA4 Data API（dimensions: eventName・metrics: eventCount）の行を、A/B の4イベントの件数にする。
+ * API は件数0のイベントの行を返さないため、行が無いイベントは「0件か未計測か区別できない」として null にする（0 で埋めない）。
+ * @param {Array<{dimensionValues: {value: string}[], metricValues: {value: string}[]}>} rows
+ * @param {{ start: string, end: string }} period
+ */
+export function bookingCtaAbCounts(rows, period) {
+  const counts = Object.fromEntries(BOOKING_CTA_AB_EVENTS.map((name) => [name, null]));
+  for (const row of rows ?? []) {
+    const name = row?.dimensionValues?.[0]?.value;
+    if (!Object.hasOwn(counts, name)) continue;
+    const value = Number(row.metricValues?.[0]?.value);
+    if (!Number.isInteger(value) || value < 0) throw new Error(`Invalid GA4 eventCount for ${name}`);
+    counts[name] = value;
+  }
+  return {
+    start: period.start,
+    end: period.end,
+    counts,
+    missingEvents: BOOKING_CTA_AB_EVENTS.filter((name) => counts[name] == null),
+    note: 'GA4 Data API の eventCount（直近7日・確定日まで）。行が無いイベントは null（0件か未計測かを区別できないため 0 にしない）',
+  };
+}
+

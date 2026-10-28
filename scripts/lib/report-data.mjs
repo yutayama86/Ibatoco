@@ -99,3 +99,22 @@ export function dataFreshness(asOf, today, { maxAgeDays = 2 } = {}) {
   const line = `- 計測データの基準日: **${a}**（${ageDays}日前${stale ? '。古いので、数値は判断に使う前に最新の取得を確認する' : ''}）`;
   return { asOf: a, ageDays, stale, line };
 }
+
+/**
+ * 予約ボタンの A/B の件数。Google 公式 API の同期（windows.ga4.bookingCtaExperiment）を優先し、無ければ
+ * ChatGPT の日次取得（conversionDetail.recent7）を見る。4件そろわないうちは hasData: false（判定しない）。
+ */
+export function bookingAbCounts(performance) {
+  const keys = ['booking_guide_view_a', 'booking_guide_view_b', 'outbound_booking_click_a', 'outbound_booking_click_b'];
+  const official = performance?.windows?.ga4?.bookingCtaExperiment;
+  const source = official?.counts ? 'windows.ga4.bookingCtaExperiment（Google 公式 API）' : 'conversionDetail.recent7';
+  const raw = official?.counts ?? performance?.conversionDetail?.recent7 ?? {};
+  const period = official?.counts ? { start: official.start ?? null, end: official.end ?? null } : { start: performance?.conversionDetail?.recent7?.start ?? null, end: performance?.conversionDetail?.recent7?.end ?? null };
+  const counts = Object.fromEntries(keys.map((k) => {
+    const v = raw[k];
+    return [k, v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v)];
+  }));
+  const missingKeys = keys.filter((k) => counts[k] == null);
+  return { counts, missingKeys, hasData: missingKeys.length === 0, source, period };
+}
+
