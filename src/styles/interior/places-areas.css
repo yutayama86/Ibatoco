@@ -24,8 +24,8 @@ body.interior-site :is(.ag-head, .area-head) {
 body.interior-site .place-head > div:first-child {
   padding: clamp(2rem, 4.5vw, 3.7rem);
   border: 1px solid rgba(31, 99, 191, .12);
-  border-radius: 1.25rem;
-  background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(238,246,255,.88));
+  border-radius: var(--radius-xs);
+  background: var(--color-white);
   box-shadow: 0 18px 55px rgba(36, 77, 110, .065);
 }
 
@@ -140,7 +140,7 @@ body.interior-site .place-grid > aside {
   top: calc(var(--site-header-height) + 1.5rem);
   padding: 1.35rem;
   border: 1px solid var(--interior-line);
-  border-radius: 1rem;
+  border-radius: var(--radius-xs);
   background: rgba(255,255,255,.8);
 }
 
@@ -165,7 +165,7 @@ body.interior-site .tg-head {
   overflow: hidden;
   border: 0;
   border-radius: 0;
-  background: linear-gradient(132deg, rgba(255,255,255,.98), rgba(239,247,255,.94));
+  background: var(--color-paper);
   box-shadow: none;
 }
 
@@ -248,7 +248,7 @@ body.interior-site .tg-hero img {
 body.interior-site :is(.tg-card, .hanabi-card) {
   overflow: hidden;
   border: 1px solid rgba(31, 99, 191, .11);
-  border-radius: 1rem;
+  border-radius: var(--radius-xs);
   box-shadow: 0 12px 34px rgba(25,55,88,.055);
   transition: transform .28s ease, box-shadow .28s ease;
 }
@@ -261,7 +261,7 @@ body.interior-site :is(.tg-card, .hanabi-card):hover {
 body.interior-site .tg-info {
   overflow: hidden;
   border: 0;
-  border-radius: 1.25rem;
+  border-radius: var(--radius-xs);
   background:
     radial-gradient(circle at 92% 4%, rgba(111, 178, 239, .20), transparent 35%),
     linear-gradient(145deg, #09223b, #071744);
@@ -277,7 +277,7 @@ body.interior-site .area-index-main > .bp-wrap:last-child {
   margin-top: 1.2rem;
   padding: clamp(1.35rem, 4vw, 3.5rem);
   border: 1px solid rgba(31, 99, 191, .12);
-  border-radius: 1.4rem;
+  border-radius: var(--radius-xs);
   background: rgba(255,255,255,.73);
   box-shadow: var(--interior-shadow);
 }

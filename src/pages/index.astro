@@ -380,4 +380,21 @@ const heroSlides = [
   .hoshiimo-home__photo figcaption{margin-top:8px;font-size:11.5px;line-height:1.7;color:#59656a}
   .hoshiimo-home__photo figcaption a{color:inherit}
   @media(min-width:760px){.hoshiimo-home__inner{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(40px,6vw,96px)}.hoshiimo-home__photo{order:0}}
+
+  /* 紙面の共通リズム。情報量と既存の導線を保ったまま、装飾と余白を整える。 */
+  .discover,.area-home,.home-news,.process-home,.partner{background:var(--color-paper)}
+  .discover::before,.discover::after,.area-home::before,.area-home::after,.home-news::before,.home-news::after,.process-home::before,.process-home::after,.partner::before,.partner::after{content:none}
+  .home-news,.discover,.area-home{padding-block:clamp(3rem,5vw,5rem)}
+  .home-news__head,.discover-head{padding-bottom:1.5rem;border-bottom:1px solid var(--color-line)}
+  .home-news__head h2,.discover-head h2{font-size:clamp(1.8rem,2.8vw,2.75rem);line-height:1.45}
+  .home-news__grid{gap:1.4rem}
+  .hoshiimo-home{padding-block:clamp(3.5rem,6vw,6rem);background:#f0eae0}
+  .hoshiimo-home h2{font-size:clamp(2rem,3.2vw,3.1rem);line-height:1.6;letter-spacing:.03em}
+  .hoshiimo-home__photo img{border-radius:var(--radius-xs)}
+  .hoshiimo-home__lead{font-size:.94rem;line-height:1.95}
+  .home-intent__grid a{border-radius:var(--radius-xs);box-shadow:none}
+  .november-now__list a{border-radius:var(--radius-xs);box-shadow:none}
+  .partner{padding-block:clamp(4rem,6vw,6rem);border-top:1px solid var(--color-line)}
+  .partner-storyboard figure{clip-path:none;border-radius:var(--radius-xs);box-shadow:none}
+  @media(max-width:760px){.home-news__grid{gap:1.1rem}.hoshiimo-home h2{font-size:clamp(1.85rem,7.5vw,2.5rem)}}
 </style>

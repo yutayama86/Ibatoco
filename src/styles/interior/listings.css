@@ -31,10 +31,10 @@ body.interior-site :is(
  * 枠線・角丸・影は下の --card-* を共有する（見た目の定義は1か所）。
  */
 body.interior-site {
-  --card-border: 1px solid rgba(23, 79, 153, .12);
-  --card-radius: 1rem;
-  --card-surface: rgba(255, 255, 255, .94);
-  --card-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+  --card-border: 1px solid rgba(23, 43, 53, .14);
+  --card-radius: var(--radius-xs);
+  --card-surface: var(--color-white);
+  --card-shadow: var(--brand-shadow-card);
 }
 
 body.interior-site .bp-cards {
@@ -164,10 +164,10 @@ body.interior-site.route-news .news-index__list .news-grid {
 
 body.interior-site .news-card {
   overflow: hidden;
-  border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--card-surface);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
@@ -182,7 +182,7 @@ body.interior-site .news-card__image {
 }
 
 body.interior-site .news-card__body {
-  padding: clamp(1.2rem, 2.2vw, 1.55rem);
+  padding: clamp(1.15rem, 1.8vw, 1.5rem);
 }
 
 body.interior-site .news-card__meta {
@@ -200,9 +200,9 @@ body.interior-site .bsc {
   height: 100%;
   overflow: hidden;
   border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
+  border-radius: var(--card-radius);
   background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
@@ -230,16 +230,16 @@ body.interior-site .bsc-read {
 }
 
 body.interior-site .bsc.is-featured {
-  border-radius: 1.35rem;
+  border-radius: var(--card-radius);
 }
 
 body.interior-site .card-link {
   gap: 0;
   overflow: hidden;
   border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
+  border-radius: var(--card-radius);
   background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease;
 }
 
