@@ -6,6 +6,10 @@
  * ニュースとイベントの両方から参照するので、ここを唯一の置き場にする。
  */
 export const INTERNAL_LINK_LABELS: Record<string, string> = {
+  '/area/tsukubamirai/': 'つくばみらい市の観光・おでかけガイド',
+  '/news/tx-matsuri-moriya-no-reservation-2026/': 'TXまつり2026（申込不要の守谷会場と総合基地の参加条件）',
+  '/news/night-park-oarai-2026-guide/': 'Night Park OARAI 2026（10月30日〜11月1日・入場とアクセス）',
+  '/news/mitsukaido-rail-yard-event-2026/': '水海道車両基地公開イベント2026（11月3日・参加条件）',
   '/news/': '茨城ニュース解説の新着記事',
   '/news/ibaraki-airport-busan-air-busan-charter-2026/': '茨城空港に初の「釜山便」（解説）',
   '/news/mito-hollyhock-soccer-tourism-2026/': '水戸ホーリーホックのサッカーツーリズム（解説）',
