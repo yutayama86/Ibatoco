@@ -46,3 +46,42 @@ test('ワークフローと npm スクリプトが、ガードの前提と一致
   const { scripts } = JSON.parse(readFileSync('package.json', 'utf8'));
   assert.match(scripts.deploy, /^node scripts\/deploy-guard\.mjs && /, 'npm run deploy の先頭でガードを実行する');
 });
+
+// ── 定期デプロイと計測データの分離（2026-10-27） ──
+import { analyticsFreshness, STALE_AFTER_HOURS } from './deploy-preflight.mjs';
+
+const NOW = Date.parse('2026-10-27T21:30:00Z');
+const snap = (hoursAgo, extra = {}) => ({
+  asOf: '2026-10-24',
+  source: { status: 'google-api-daily-confirmed', lastConfirmedAt: new Date(NOW - hoursAgo * 3600000).toISOString(), ...extra },
+});
+
+test('計測データの鮮度：48時間以内は ok、それを超えたら stale、読めなければ unknown', () => {
+  assert.equal(analyticsFreshness(snap(4), NOW).level, 'ok');
+  assert.equal(analyticsFreshness(snap(STALE_AFTER_HOURS), NOW).level, 'ok');
+  const stale = analyticsFreshness(snap(24 * 6), NOW);
+  assert.equal(stale.level, 'stale');
+  assert.match(stale.message, /6日前/);
+  assert.equal(analyticsFreshness({ asOf: '2026-10-21' }, NOW).level, 'unknown');
+  assert.equal(analyticsFreshness(null, NOW).level, 'unknown');
+  assert.equal(analyticsFreshness(snap(-5), NOW).level, 'unknown');
+});
+
+test('計測データが古くても・読めなくても、鮮度の確認はデプロイを止めない（終了コード0）', () => {
+  const r = spawnSync(process.execPath, ['scripts/deploy-preflight.mjs'], { encoding: 'utf8', env: { ...process.env, GITHUB_STEP_SUMMARY: '' } });
+  assert.equal(r.status, 0, r.stderr);
+});
+
+test('Deploy production：計測で止めず、検証済みの最新 main だけを出し、公開後の SHA 照合を残す', () => {
+  const workflow = readFileSync('.github/workflows/deploy.yml', 'utf8');
+  assert.doesNotMatch(workflow, /scheduled deploy blocked/, '計測データの古さで定期デプロイを止めない');
+  assert.match(workflow, /run: node scripts\/deploy-preflight\.mjs$/m);
+  assert.match(workflow, /name: Require successful validation of the target commit\n\s+if: github\.event_name != 'workflow_run'/);
+  assert.match(workflow, /actions\/workflows\/validate\.yml\/runs\?head_sha=\$TARGET_SHA&branch=main&status=success/);
+  assert.match(workflow, /select\(\.head_sha == \$ENV\.TARGET_SHA/, 'API が絞り込みを無視しても、一致した実行だけを数える');
+  assert.match(workflow, /name: Reject superseded deployment/);
+  assert.match(workflow, /name: Check latest main before deployment/);
+  assert.match(workflow, /name: Confirm deployed SHA and current main/);
+  assert.match(workflow, /Production SHA mismatch/);
+  assert.doesNotMatch(workflow, /^\s+(contents|actions|pull-requests|id-token): write/m, 'Deploy production に書き込み権限を足さない');
+});
