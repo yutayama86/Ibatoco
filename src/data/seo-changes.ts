@@ -49,6 +49,26 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261029-news-tx-matsuri-moriya-no-reservation-20',
+    date: '2026-10-29',
+    url: '/news/tx-matsuri-moriya-no-reservation-2026/',
+    kind: 'new-article',
+    change: 'TXまつりの申込不要会場と事前応募会場の条件を案内',
+    queries: ['つくばエクスプレスまつり 2026', 'TXまつり 予約なし'],
+    commit: '02b80cc',
+    note: '公式と鉄道専門媒体を照合。総合基地の受付終了と守谷会場の申込不要を区別。',
+  },
+  {
+    id: '20261029-news-night-park-oarai-2026-guide',
+    date: '2026-10-29',
+    url: '/news/night-park-oarai-2026-guide/',
+    kind: 'new-article',
+    change: 'Night Park OARAIの開催期間・入場条件・交通確認を一次情報で案内',
+    queries: ['Night Park OARAI 2026', 'ナイトパーク大洗 2026'],
+    commit: '02b80cc',
+    note: '開催前の実用ガイド。写真・ロゴを使わない専用図版。シャトルは公式内の記載不一致のため確定案内しない。',
+  },
+  {
     id: '20261027-events-hananuki-shuttle-official',
     date: '2026-10-27',
     url: '/events/hananuki-gorge-autumn-2026/',
