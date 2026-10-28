@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-24",
+  "updatedAt": "2026-10-28",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -75,7 +75,7 @@
       "discoveredAt": "2026-09-22",
       "verifiedAt": "2026-09-22",
       "articleUrl": "/events/hitachi-seaside-kochia-carnival-2026/",
-      "articleUpdatedAt": "2026-09-30",
+      "articleUpdatedAt": "2026-10-23",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -892,7 +892,7 @@
       "discoveredAt": "2026-09-23",
       "verifiedAt": "2026-09-30",
       "articleUrl": "/events/mito-komon-marathon-2026/",
-      "articleUpdatedAt": "2026-09-30",
+      "articleUpdatedAt": "2026-10-23",
       "status": "published",
       "importance": "large",
       "signals": {
@@ -1090,7 +1090,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-10-06",
       "articleUrl": "/events/tsuchiura-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-17",
+      "articleUpdatedAt": "2026-10-23",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1135,7 +1135,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-09-20",
       "articleUrl": "/events/oarai-ankou-matsuri-2026/",
-      "articleUpdatedAt": "2026-10-12",
+      "articleUpdatedAt": "2026-10-23",
       "status": "published",
       "importance": "normal",
       "signals": {
