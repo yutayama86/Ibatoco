@@ -116,7 +116,7 @@ Claude の停止と一緒に止めたり消したりしない。
 **ステップ0（前提の確認）**
 - [x] この PR（移管の文書）がマージされている（#438）
 - [ ] ChatGPT が、作業ブランチ → PR → CI → オーナー承認 → マージ → 本番確認 を Claude なしで1回以上完了している（7.。#437 は `chatgpt/` ブランチの PR だが、操作者は記録から区別できない）
-- [ ] GA4/GSC 日次同期の扱いを決めた（#442 はマージ済み。設定は B（オフのまま）で動いている。同期の修正 #446 と同期 PR #445 のマージが残る）
+- [x] GA4/GSC 日次同期の扱いを決めた（#442・#446 はマージ済み。設定は B（オフのまま）で動いている。同期 PR #445 は毎朝更新される）
 - [x] 定期デプロイの切り離し（#441）を判断した（マージ済み・10/28 の定期実行は成功）
 - [x] 新しい記事のカード画像を作る方法が決まっている（#440・#444。実機で生成・台帳同期とも成功）
 - [x] 収益監査の不具合修正（#439）が判断済み（マージ済み）
@@ -159,10 +159,10 @@ Claude の停止と一緒に止めたり消したりしない。
 | 1 | ChatGPT からの GitHub 開発・PR 作成 | 手順あり・一部実績 | PR テンプレート・Issue テンプレート・PLAYBOOK 0〜10。`chatgpt/` ブランチの PR（#434・#437）あり。操作者が ChatGPT かオーナーかは記録から区別できない |
 | 2 | GitHub Actions の自動テスト | 確認済み | PR ごとに Validate site（`npm audit`・`npm run verify`）と CodeQL。必須チェックは `build`・`Analyze JavaScript/TypeScript` |
 | 3 | 記事カード画像の生成 | 確認済み | Prepare generated files（#440・#444）。生成・コミット・必須チェックの起動、台帳同期（`sync_registry`）とも実機で成功 |
-| 4 | GA4/GSC 同期 | 動作確認済み・マージ待ち | 公式 API で35日を取得（0 埋め無し）。PR は人が開く（設定 B）。確定日の不整合と強制 push の上書きは #446 で修正（承認待ち）。データは #445 |
-| 5 | Revenue Engine | 確認済み | Validate site の定期実行（毎朝）が `revenue:engine:write`・送客監査・A/B 判定を作り Job Summary に出す。A/B の4イベントの取得は #443（承認待ち） |
+| 4 | GA4/GSC 同期 | 確認済み | 公式 API で35日を取得（0 埋め無し）。確定日の4か所の一致と、同期ブランチの上書き防止は #446（マージ済み・10/28 の手動実行で動作確認）。PR は人が開く（設定 B）。ボットの push 後はオーナーが「Approve workflows to run」 |
+| 5 | Revenue Engine | 確認済み | Validate site の定期実行（毎朝）が `revenue:engine:write`・送客監査・A/B 判定を作り Job Summary に出す。A/B の4イベントは #443（マージ済み）で公式 API から取得。10/28 の同期で4件とも取得（10/19〜25：表示 A 93・B 114、クリック A 1・B 2）→ 判定は collect（サンプル不足で優劣を決めない） |
 | 6 | Cloudflare 本番公開 | 確認済み | main への マージ → Deploy production（検証済みの SHA だけ・公開後に SHA 照合）。手元からのデプロイは `deploy-guard` で止まる |
-| 7 | SEO・セキュリティ検査 | 確認済み・一部残り | verify の品質・技術・セキュリティ監査、CodeQL、Public security smoke monitor（毎朝成功）。`dependency-audit.yml` だけ Action がタグ指定のまま（SHA 固定は #392 の方針。GA4 同期は #446 で固定） |
+| 7 | SEO・セキュリティ検査 | 確認済み・一部残り | verify の品質・技術・セキュリティ監査、CodeQL、Public security smoke monitor（毎朝成功）。GA4 同期の Action は #446 で SHA 固定。`dependency-audit.yml` だけタグ指定のまま（別の Draft PR で固定） |
 | 8 | Claude 固有のワークフロー・認証情報 | ワークフロー・Secret は0件 | 残るのは手元の gh の OAuth トークン（Claude が使用）、wrangler のログイン、Environment `daily-claude`（空）、Claude の GitHub App（入っている可能性が高い）。6. と 10. の手順でオーナーが外す |
 | 9 | 古い自動化・不要な設定 | 残っている | ブランチ約440本（`automation/*`・`codex/*`・`bot/google-analytics-daily-<番号>`・`test/20261028-card-generation-check` など）、main に無い一時ワークフロー（`*-temp.yml` 等。各ブランチ上にだけ残り、定期実行はされない）、Claude アプリの予定タスク5件（すべて無効）、Claude が作って開いたままの Draft PR。削除はすべてオーナー承認 |
 | 10 | 移管後にオーナーが行う操作 | — | 下の一覧 |
