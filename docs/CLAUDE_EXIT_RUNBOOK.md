@@ -42,7 +42,7 @@
 | フォントの作り直し（`scripts/build-web-fonts.py`） | OG 画像に無い字が出たときだけ | Python と fonttools |
 | 市町村の境界の作り直し（`scripts/gen-geo.mjs --geo-dir …`） | ほぼ無い（市町村合併など） | Node と元の GeoJSON |
 | Cloudflare・GitHub の設定、Secret、トークンの管理 | 必要なとき | オーナーの権限 |
-| カード画像の生成 | 新しい記事のたび | 「Prepare generated files」ワークフローが入るまでは、Node |
+| カード画像の生成 | 新しい記事のたび | 通常は「Prepare generated files」ワークフロー（手動実行）。使えないときは Node |
 
 ## 5. 止めてはいけないもの
 

@@ -43,7 +43,9 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Generate article cards
-        run: npm run og:cards
+        # build-og-backdrop.mjs は GITHUB_ACTIONS=true のとき「コミット漏れ」として失敗する（verify・deploy 用の検査）。
+        # ここは生成そのものが目的なので、このステップだけ外す。生成物は commit ジョブで検査する
+        run: env -u GITHUB_ACTIONS npm run og:cards
       - name: Sync event registry
         if: inputs.sync_registry
         run: npm run editorial:sync
