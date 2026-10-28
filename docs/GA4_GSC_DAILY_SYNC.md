@@ -1,6 +1,6 @@
 # GA4/GSC 日次同期（Read-only GA4 and GSC via Google API）
 
-最終確認：2026-10-27。ワークフローは `.github/workflows/google-analytics-daily.yml`、計測の設計は [GA4_MEASUREMENT.md](GA4_MEASUREMENT.md)・[GROWTH_ENGINE.md](GROWTH_ENGINE.md)。
+最終確認：2026-10-28。ワークフローは `.github/workflows/google-analytics-daily.yml`、計測の設計は [GA4_MEASUREMENT.md](GA4_MEASUREMENT.md)・[GROWTH_ENGINE.md](GROWTH_ENGINE.md)。
 
 ## 仕組み
 
@@ -65,6 +65,16 @@
 6. **翌日もう一度実行され、PR が増えずに同じ PR が更新されること**（重複防止の確認）
 7. PR をマージ → Deploy production 成功 → `/control/` と日次レポートの基準日が更新されること
 8. 古いブランチ `bot/google-analytics-daily-40139261083`・`-40241362496`・`-40423209048` は役目を終えている。削除はオーナー承認後
+
+## 同期 PR（#445）を運用して分かったこと（2026-10-28）
+
+- **CI の「承認待ち（action_required）」**：ボットの push で PR の `pull_request` の CI は承認待ちになる（GitHub の仕様。[DEVELOPMENT_PLAYBOOK.md](DEVELOPMENT_PLAYBOOK.md) 末尾の注）。その間、PR は BLOCKED と表示され、ブランチで起動した Validate site・CodeQL の成功が PR の必須チェックに反映されない。マージの前に、オーナーが PR の「Approve workflows to run」を押して CI を走らせる
+- **同期ブランチはデータ専用**：05:30 の同期は `bot/google-analytics-daily` を「最新の main ＋ 当日のスナップショット」に強制 push する。コードや文書の修正は同期 PR に足さず、main からの別の PR にする
+- **人の修正を消さない検査**：強制 push の前に `scripts/sync-branch-guard.mjs` がブランチを調べ、スナップショット以外で main と中身が違うファイルがあれば、上書きせずに失敗する（Job Summary に理由）。同期 PR をマージするか、修正を別の PR へ移してから再実行する。squash でマージ済みの修正や、main を取り込んだマージコミットでは止まらない
+- **確定日は4か所**：`windows.<ga4|gsc>.dailyMeta.confirmedThrough`・`source.freshness`・`source`・最上位の `ga4LatestConfirmedDate`/`gscLatestConfirmedDate`。最上位だけ更新されず 10/19・10/18 のまま残った不具合を直し、食い違いは `npm run verify`（`ga4-daily --check`）と同期の両方で止める
+- **「スナップショットが○日前」の警告**：確定日は今日の3日前なので、`editorial:check` は3日より古いときだけ警告する（以前は2日で、同期が成功していても毎日出ていた）
+- **使う Action は SHA で固定**：このワークフローだけタグ指定（`@v4`・`@v2`）のままだったので、#392 と同じくコミット SHA に固定した（版は変えていない）
+- **人気ページの警告**：確定日が正しくなったことで、`editorial:check` が「人気ページ（popular-pages.json）が GA4 の確定日より古い」と警告するようになった。人気ページは Growth Director の日次の手更新で、自動では書き換えない
 
 ## ChatGPT の日次運用（Windsor.ai）との関係
 

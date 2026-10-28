@@ -41,7 +41,7 @@
 | イベントの日付 | `eventInfo`（開始・終了）を必ず入れる | 無いと台帳の日付が null になり、終了判定が効かない |
 | ニュースの OG 画像 | `public/images/news/<slug>.svg`（手書きの SVG。第三者の写真・ロゴは使わない） | XML コメントに `--` を書くと壊れる |
 | 一覧カード画像 | `public/images/card/<slug>-<hash>.png` と `src/data/card-images.ts` は `npm run og:cards` が生成する | **コミットし忘れると CI が「記事カードのコミット漏れ」で失敗**。Node を実行できない場合は「Prepare generated files」ワークフロー（Actions の画面で作業ブランチを選んで Run workflow）か、オーナーが手元で生成 |
-| 台帳 | イベント記事は `npm run editorial:sync` で `data/editorial/event-registry.json` へ同期 | 手で追記するときは、その1件だけ足す（並べ替えで差分を膨らませない） |
+| 台帳 | イベント記事は `npm run editorial:sync` で `data/editorial/event-registry.json` へ同期。Node を実行できない場合は「Prepare generated files」で `sync_registry` をオンにする | 手で追記するときは、その1件だけ足す（並べ替えで差分を膨らませない） |
 | 内部リンク | `relatedArticleUrls` は実在するページだけ。文言は `src/data/internal-links.ts` に登録 | 未登録だと「関連情報」という汎用ラベルになる |
 | 検証 | `npm run verify:article -- <slug>`、`npm run verify` | 日付を扱うなら `npm run date:check` |
 | 公開後 | `npm run verify:article -- <slug> --prod`、または公開 URL・一覧・OG 画像の HTTP 200 を確認 | 反映直後は旧版がキャッシュで返る。新版にしかない文字列で確かめる |
@@ -166,7 +166,7 @@ ChatGPT の接続で実際にどの操作ができるかは、接続の設定し
 | # | 作業 | 手順（この文書の節） | ChatGPT に要る操作 | Actions がすること | 状態 | 制約・残る手作業 |
 |---|---|---|---|---|---|---|
 | 1 | 新しいイベント記事 | 2. | ブランチ作成・ファイル追加・PR | Validate site で全検査 | **手順あり・未検証**（ChatGPT による新規イベント記事の PR はまだ無い） | カード画像（#2）と台帳の同期が必要 |
-| 2 | 記事カード画像の生成 | 2.・11. | ワークフローの手動実行（Actions: write） | Prepare generated files（#440）が生成・検査・コミットし、必須チェックを起動 | **実績あり**（2026-10-28。テスト用ブランチでカード画像を1枚消して実行し、ボットが main と同じ画像を作り直してコミット、Validate site・CodeQL が成功。初回は生成ステップの不具合で失敗し、修正後に再実行） | 起動はオーナーか Actions: write を持つ連携。ボットのコミット後、必須チェックが同じブランチで走り終わるまで待ってからマージ |
+| 2 | 記事カード画像の生成 | 2.・11. | ワークフローの手動実行（Actions: write） | Prepare generated files（#440）が生成・検査・コミットし、必須チェックを起動 | **実績あり**（2026-10-28。テスト用ブランチでカード画像を1枚消して実行し、ボットが main と同じ画像を作り直してコミット、Validate site・CodeQL が成功。初回は生成ステップの不具合で失敗し、修正後に再実行） | 起動はオーナーか Actions: write を持つ連携。ボットのコミット後、必須チェックが同じブランチで走り終わるまで待ってからマージ。PR を開いたブランチでは、ボットの push による PR の CI が「承認待ち（action_required）」になり、PR が BLOCKED と表示される → オーナーが PR の「Approve workflows to run」を押す（下の注）。台帳の同期（`sync_registry`）も 2026-10-28 に実行して成功 |
 | 3 | 既存記事の SEO 改善 | 4. | 記事と `seo-changes.ts` の編集・PR | 観測窓ガード・品質監査 | **実績あり**（#434・#437：`chatgpt/` ブランチの PR。seo-changes の記録を含む） | `seo:seal` の代わりに PENDING を手で SHA に置き換える |
 | 4 | 共通 UI コンポーネントの改修 | 3. | 部品の編集・PR | ui-smoke（11幅）・Visual Regression（PR のみ・判定しない）・本番の UI 検査 | **手順あり・未検証** | マージ前に画面を目で見る手段が無い（PR プレビューは本番へ 301）。最終確認はオーナーのスマホ |
 | 5 | 収益導線の改修 | 5. | `affiliates.ts`・記事の `booking`・部品の編集・PR | ui-smoke の送客イベント検査、毎朝の収益レポート（#439） | **手順あり・未検証** | 提携の申請・契約はオーナー |
@@ -177,3 +177,9 @@ ChatGPT の接続で実際にどの操作ができるかは、接続の設定し
 | 10 | 公開後の動作確認 | 0. | 公開 URL と `/build.json` を閲覧で確認 | Deploy production 内の本番検証・UI 検査・SHA 照合、毎朝の公開監視 | **可能**（自動の確認は実績あり） | キャッシュで旧版が返ることがある。新版にしかない文字列で確かめる |
 
 **ChatGPT だけでは完結しない操作（オーナーが行う）**：リポジトリ設定・Secret・Environment・ルールセット、Cloudflare の画面、ASP の申請と CSV、Google Trends の CSV、フォントの作り直し、緊急時の Cloudflare での巻き戻し、ブランチや Environment の削除。
+
+**注：ボット（GitHub Actions）の push と PR の CI（2026-10-28 確認）**
+- GitHub の仕様（2026年6月の変更）で、`GITHUB_TOKEN` による push や PR では、PR の `pull_request` の CI が自動では走らず「承認待ち（action_required）」になる。Actions の一覧では失敗に似た表示だが、失敗ではない
+- このとき PR の必須チェック欄にはその承認待ちが出て、同じコミットで起動した `workflow_dispatch` の成功が反映されず、PR が BLOCKED になる（#445 で観測）
+- 解消：オーナー（書き込み権限のある人）が PR の画面で「Approve workflows to run」を押す。または人がそのブランチへ1コミット足す（その push で CI が普通に走る）
+- 対象：Prepare generated files（記事カード・台帳）と GA4/GSC 日次同期のボットのコミット
