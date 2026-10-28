@@ -17,15 +17,14 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <header class="news-index__head bp-wrap">
     <nav aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span aria-current="page">茨城ニュース解説</span></nav>
-    <p class="bp-kicker">IBARAKI NEWS EXPLAINED</p>
     <h1>茨城ニュース解説</h1>
-    <p>街の変化から、次の休日まで。<br />茨城のニュースを、暮らしに役立つ視点で読み解きます。</p>
+    <p>茨城のニュースを、暮らしに役立つ視点で読み解きます。</p>
   </header>
 
   <NewsCategoryNav />
 
   <section class="news-index__list bp-wrap" aria-labelledby="news-latest">
-    <div class="news-index__section-head"><p class="bp-kicker">LATEST</p><h2 id="news-latest">新着の解説</h2></div>
+    <div class="news-index__section-head"><h2 id="news-latest">新着の解説</h2></div>
     {news.length > 0
       ? <div class="news-grid">{news.map((item, index) => <NewsCard item={item} featured={index === 0} />)}</div>
       : <p class="news-empty">公開準備中です。確認を終えたニュースから掲載します。</p>}

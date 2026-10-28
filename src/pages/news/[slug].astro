@@ -75,7 +75,17 @@ const tocItems = guide
       ...(data.faq.length > 0 ? [{ id: 'faq', label: 'FAQ' }] : []),
       { id: 'sources', label: '情報源' },
     ]
-  : null;
+  : [
+      { id: 'conclusion', label: '結論' },
+      { id: 'points', label: 'この記事でわかること' },
+      { id: 'what-happened', label: '何が起きた？' },
+      { id: 'changes', label: changesHeading },
+      { id: 'analysis', label: '編集部の解説' },
+      { id: 'impact', label: '地域への影響' },
+      { id: 'business', label: '地域事業者への示唆' },
+      ...(data.faq.length > 0 ? [{ id: 'faq', label: 'FAQ' }] : []),
+      { id: 'sources', label: '情報源' },
+    ];
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 /**
  * cta の実際の行き先。広告リンクが登録されていればそちらへ差し替える。
@@ -192,8 +202,12 @@ if (data.faq.length > 0) jsonLd.push({
     </header>
 
     <div class="news-detail__layout bp-wrap">
-      <aside class="news-detail__toc" aria-label="この記事の目次"><p>この記事の構成</p>{tocItems ? <ol>{tocItems.map((entry) => <li><a href={`#${entry.id}`}>{entry.label}</a></li>)}</ol> : <ol><li><a href="#conclusion">結論</a></li><li><a href="#points">この記事でわかること</a></li><li><a href="#what-happened">何が起きた？</a></li><li><a href="#changes">{changesHeading}</a></li><li><a href="#analysis">編集部の解説</a></li><li><a href="#impact">地域への影響</a></li><li><a href="#business">地域事業者への示唆</a></li><li><a href="#faq">FAQ</a></li><li><a href="#sources">情報源</a></li></ol>}</aside>
+      <aside class="news-detail__toc" aria-label="この記事の目次"><p>この記事の構成</p><ol>{tocItems.map((entry) => <li><a href={`#${entry.id}`}>{entry.label}</a></li>)}</ol></aside>
       <div class="news-detail__body">
+        <details class="news-detail__mobile-toc">
+          <summary>この記事の目次</summary>
+          <nav aria-label="この記事の目次"><ol>{tocItems.map((entry) => <li><a href={`#${entry.id}`}>{entry.label}</a></li>)}</ol></nav>
+        </details>
         {/* 冒頭画像は本文カラムの先頭に置く（見出しと本文のあいだで浮かせない） */}
         {visualImagePath && <figure class="news-detail__hero"><img src={visualImagePath} alt={data.ogImageAlt} loading="eager" width="1200" height="630" />{data.imageCredit && <figcaption>写真：<a href={data.imageCreditUrl} target="_blank" rel="noopener noreferrer">{data.imageCredit}</a>{data.imageLicense && <> / <a href={data.imageLicenseUrl} target="_blank" rel="noopener noreferrer">{data.imageLicense}</a></>}</figcaption>}</figure>}
 
@@ -305,7 +319,7 @@ if (data.faq.length > 0) jsonLd.push({
   .news-detail__meta>span:first-child{flex:0 0 auto;white-space:nowrap}
   .news-detail__meta>span+span{flex:1 1 20rem;min-width:0}.news-detail__head h1{max-width:19em;margin-top:1rem;font:600 clamp(2rem,4vw,3.35rem)/1.38 var(--font-brand-display);color:var(--color-ink)}.news-detail__deck{max-width:46rem;margin-top:1.3rem;color:var(--color-soil);font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.9}.news-detail__tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;list-style:none}.news-detail__tags a{display:block;padding:.4rem .7rem;background:color-mix(in srgb,var(--color-tide) 8%,var(--color-white));color:var(--color-tide);font-size:.72rem;transition:background-color .2s,color .2s}.news-detail__tags a:hover,.news-detail__tags a:focus-visible{background:var(--color-tide);color:var(--color-white)}.news-detail__dates{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;margin-top:1.25rem;color:var(--color-soil);font-size:.72rem}.news-detail__hero{margin-top:3rem}.news-detail__hero img{width:100%;aspect-ratio:1.9/1;object-fit:cover}.news-detail__hero figcaption{margin-top:.55rem;color:var(--color-soil);font-size:.68rem;text-align:right}.news-detail__hero figcaption a{text-decoration:underline;text-underline-offset:.15em}
   .news-detail__layout{display:grid;grid-template-columns:210px minmax(0,700px);justify-content:center;gap:clamp(2rem,6vw,5rem);padding-block:clamp(3.5rem,7vw,6rem)}.news-detail__toc{position:sticky;top:1rem;align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}.news-detail__toc>p{padding-bottom:.65rem;border-bottom:1px solid var(--color-mist);font-weight:700;color:var(--color-ink)}.news-detail__toc ol{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;margin-top:.75rem;list-style:decimal;padding-left:1.2rem}.news-detail__toc a:hover{color:var(--color-tide)}
-  .news-detail__body section{scroll-margin-top:1rem}.news-detail__body section+section{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--color-mist)}.section-number{color:var(--color-tide);font:.68rem var(--font-brand-meta);letter-spacing:.12em}.news-detail__body h2{margin-top:.6rem;font:600 clamp(1.55rem,3vw,2.25rem)/1.4 var(--font-brand-display);color:var(--color-ink)}.news-detail__body h2+p,.news-detail__body h2+ul,.news-faq,.source-list{margin-top:1.3rem}.news-detail__body p,.news-detail__body li,.news-detail__body dd{color:var(--color-charcoal);font-size:1rem;line-height:2}.news-detail__body ul:not(.source-list){display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem}.news-detail__body ul:not(.source-list) li{position:relative;padding-left:1.1rem}.news-detail__body ul:not(.source-list) li:before{content:'';position:absolute;left:0;top:.9em;width:5px;height:5px;background:var(--color-tide)}.news-conclusion{padding:1.5rem!important;background:var(--color-white);border:1px solid var(--color-mist)!important}
+  .news-detail__body section{scroll-margin-top:calc(var(--site-header-height) + 1rem)}.news-detail__body section+section{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--color-mist)}.section-number{color:var(--color-tide);font:.68rem var(--font-brand-meta);letter-spacing:.12em}.news-detail__body h2{margin-top:.6rem;font:600 clamp(1.55rem,3vw,2.25rem)/1.4 var(--font-brand-display);color:var(--color-ink)}.news-detail__body h2+p,.news-detail__body h2+ul,.news-faq,.source-list{margin-top:1.3rem}.news-detail__body p,.news-detail__body li,.news-detail__body dd{color:var(--color-charcoal);font-size:1rem;line-height:2}.news-detail__body ul:not(.source-list){display:grid;grid-template-columns:minmax(0,1fr);gap:.65rem}.news-detail__body ul:not(.source-list) li{position:relative;padding-left:1.1rem}.news-detail__body ul:not(.source-list) li:before{content:'';position:absolute;left:0;top:.9em;width:5px;height:5px;background:var(--color-tide)}.news-conclusion{padding:1.5rem!important;background:var(--color-white);border:1px solid var(--color-mist)!important}
   .access-guide{display:grid;gap:1px;margin-top:2rem;background:var(--color-mist);border:1px solid var(--color-mist)}.access-guide>div{padding:1.25rem;background:var(--color-white)}.access-guide h3{font:600 1.15rem/1.5 var(--font-brand-display);color:var(--color-ink)}.access-guide dl{display:grid;grid-template-columns:minmax(7rem,.7fr) minmax(0,2fr);gap:.65rem 1rem;margin-top:1rem}.access-guide dt{font-weight:700;color:var(--color-tide)}.access-guide dd{margin:0}.access-guide h3+p{margin-top:.75rem}
   /* 一覧記事の表。左が市町村などのまとまり、右がその中身 */
   .ref-list{margin-top:2rem;padding:1.35rem 1.5rem;border:1px solid var(--color-mist);background:var(--color-white)}
@@ -378,4 +392,114 @@ if (data.faq.length > 0) jsonLd.push({
   @media(max-width:560px){.guide-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.guide-cards li:last-child:nth-child(odd){grid-column:1/-1}}
   /* 360px未満は2列だと1枚の幅が約110pxしかなく、日時が5行に折れていた（2026-10-04）。1列にする */
   @media(max-width:359px){.guide-cards{grid-template-columns:minmax(0,1fr)}}
+.news-detail__mobile-toc { display: none; }
+
+/* PCの固定目次を隠す幅でも、記事内の移動手段を残す。JSなしで開閉できる。 */
+@media (max-width: 900px) {
+  :global(body.interior-site) .news-detail__mobile-toc {
+    display: block;
+    margin-bottom: 1.5rem;
+    border-block: 1px solid var(--interior-line);
+  }
+  .news-detail__mobile-toc summary {
+    min-height: 48px;
+    padding-block: .75rem;
+    color: var(--color-ink);
+    font-size: .9375rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .news-detail__mobile-toc ol {
+    margin: 0;
+    padding: 0 0 .75rem;
+    list-style: none;
+  }
+  :global(body.interior-site) .news-detail__mobile-toc li {
+    font-size: .9375rem;
+    line-height: 1.6;
+  }
+  .news-detail__mobile-toc a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: .5rem;
+    color: var(--color-tide);
+  }
+  .news-detail__mobile-toc :is(summary, a):focus-visible {
+    outline: 2px solid var(--color-tide);
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: 560px) {
+  :global(body.interior-site) .news-detail { padding-top: 0; }
+  :global(body.interior-site) .news-detail__head .crumbs {
+    margin-bottom: 1rem;
+    font-size: .75rem;
+  }
+  :global(body.interior-site) .news-detail__meta {
+    align-items: baseline;
+    gap: .35rem .75rem;
+    font-size: .8125rem;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+  :global(body.interior-site) .news-detail__meta > span + span { flex: 0 1 auto; }
+  :global(body.interior-site) .news-detail__head h1 {
+    margin-top: .75rem;
+    font-size: clamp(1.5rem, 6.7vw, 1.8rem) !important;
+    line-height: 1.5 !important;
+    word-break: normal;
+    line-break: strict;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
+  :global(body.interior-site) .news-detail__dates { font-size: .75rem; }
+  :global(body.interior-site) .news-detail__tags { gap: .25rem .75rem; }
+  :global(body.interior-site) .news-detail__tags a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: .35rem 0;
+    background: transparent;
+    font-size: .8125rem;
+  }
+  :global(body.interior-site) .news-detail__tags a:is(:hover, :focus-visible) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+  /* 要点はラベルと値を横に並べる。日時や地名を小さなカードへ押し込まない。 */
+  :global(body.interior-site) .guide-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-block: 1px solid var(--interior-line);
+  }
+  :global(body.interior-site) .guide-cards li {
+    grid-template-columns: 5.25rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: .75rem;
+    padding: .8rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--interior-line);
+    border-radius: 0;
+    background: transparent;
+  }
+  :global(body.interior-site) .guide-cards li:last-child { border-bottom: 0; }
+  :global(body.interior-site) .guide-cards span {
+    font-size: .8125rem;
+    line-height: 1.7;
+    letter-spacing: 0;
+  }
+  :global(body.interior-site) .guide-cards strong {
+    font-size: 1rem;
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+  :global(body.interior-site) .news-detail__body .news-conclusion {
+    padding: 1.25rem !important;
+  }
+}
+
+
 </style>
