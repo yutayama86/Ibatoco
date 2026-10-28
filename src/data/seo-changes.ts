@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261029-news-kashima-pohang-acle-guide-2026-10-2',
+    date: '2026-10-29',
+    url: '/news/kashima-pohang-acle-guide-2026-10-28/',
+    kind: 'on-page',
+    experimentType: 'fact',
+    change: '10月28日向けの観戦ガイドを過去の記録と明示し、販売中という現在形を解消',
+    queries: [],
+    commit: '027c9bf',
+    note: 'fact: 10/29に公式の試合日を再確認。試合結果は追記せず、次の日程は公式へ案内。',
+  },
+  {
+    id: '20261029-news-mitsukaido-rail-yard-event-2026',
+    date: '2026-10-29',
+    url: '/news/mitsukaido-rail-yard-event-2026/',
+    kind: 'on-page',
+    experimentType: 'fact',
+    change: '10月26日の申込期限経過を明記し、購入済み参加者向けの当日案内へ更新',
+    queries: [],
+    commit: '027c9bf',
+    note: 'fact: 10/29に主催者の申込期間を再確認。追加販売や当日券の有無は推測しない。',
+  },
+  {
     id: '20261029-news-tx-matsuri-moriya-no-reservation-20',
     date: '2026-10-29',
     url: '/news/tx-matsuri-moriya-no-reservation-2026/',
