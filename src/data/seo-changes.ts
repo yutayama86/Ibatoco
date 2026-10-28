@@ -56,7 +56,7 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
     change: '10月28日向けの観戦ガイドを過去の記録と明示し、販売中という現在形を解消',
     queries: [],
-    commit: 'PENDING',
+    commit: '027c9bf',
     note: 'fact: 10/29に公式の試合日を再確認。試合結果は追記せず、次の日程は公式へ案内。',
   },
   {
@@ -67,7 +67,7 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
     change: '10月26日の申込期限経過を明記し、購入済み参加者向けの当日案内へ更新',
     queries: [],
-    commit: 'PENDING',
+    commit: '027c9bf',
     note: 'fact: 10/29に主催者の申込期間を再確認。追加販売や当日券の有無は推測しない。',
   },
   {
