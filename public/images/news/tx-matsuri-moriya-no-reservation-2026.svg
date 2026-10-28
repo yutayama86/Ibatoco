@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f6f2e9"/>
+  <g font-family="sans-serif">
+    <text x="64" y="64" fill="#315c68" font-size="18" letter-spacing="4">IBATOCO / LOCAL NEWS</text>
+    <path d="M64 93H1136" stroke="#d9d0c0"/>
+    <text x="64" y="183" fill="#172b35" font-size="60" font-weight="700">11.03 TXまつり</text>
+    <text x="64" y="228" fill="#75695a" font-size="24">2会場で違う、参加の条件。</text>
+    <rect x="64" y="275" width="518" height="245" rx="4" fill="#315c68"/>
+    <rect x="602" y="275" width="534" height="245" rx="4" fill="#fffdf8" stroke="#d9d0c0"/>
+    <text x="96" y="322" fill="#dce6e2" font-size="20">第2会場 / 10:00 — 16:00</text>
+    <text x="96" y="372" fill="#fffdf8" font-size="29" font-weight="700">ブランチパーク守谷</text>
+    <text x="96" y="464" fill="#fffdf8" font-size="56" font-weight="700">申込不要</text>
+    <text x="636" y="322" fill="#75695a" font-size="20">第1会場 / 10:00 — 15:00</text>
+    <text x="636" y="372" fill="#172b35" font-size="29" font-weight="700">TX総合基地</text>
+    <text x="636" y="444" fill="#172b35" font-size="42" font-weight="700">事前応募制</text>
+    <text x="636" y="484" fill="#75695a" font-size="22">応募受付は終了しています</text>
+    <text x="64" y="590" fill="#315c68" font-size="19">2026年11月3日（火・祝）</text>
+    <text x="1136" y="590" fill="#75695a" font-size="16" text-anchor="end">イバトコ編集部による案内図版</text>
+  </g>
+</svg>
