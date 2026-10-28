@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
       - name: Validate configuration
@@ -32,7 +32,7 @@ jobs:
           test -n "$GSC_SITE_URL" || { echo "::error::Set GSC_SITE_URL repository variable"; exit 1; }
       - name: Authenticate without persistent keys
         id: auth
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2
         with:
           workload_identity_provider: ${{ vars.GOOGLE_WIF_PROVIDER }}
           service_account: ibatoco-analytics-reader@ibatoco-seo.iam.gserviceaccount.com
@@ -49,7 +49,7 @@ jobs:
       - name: Validate daily data before import
         run: node scripts/google-daily-preflight.mjs /tmp/ibatoco-google-daily.json
       - name: Upload short-lived diagnostic artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: google-analytics-daily-${{ github.run_id }}
           path: /tmp/ibatoco-google-daily.json
@@ -69,13 +69,15 @@ jobs:
       group: google-analytics-daily-sync
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+          # 同期ブランチと main の共通の祖先を求める（scripts/sync-branch-guard.mjs）。リポジトリは小さいので全履歴
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: google-analytics-daily-${{ github.run_id }}
           path: /tmp/ibatoco-google-verified
@@ -107,6 +109,27 @@ jobs:
           branch="bot/google-analytics-daily"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 人が同期 PR に足した修正を、下の強制 push で消さない（#445）。main に入っていない変更があれば止める
+          set +e
+          git ls-remote --exit-code --heads origin "$branch" >/dev/null
+          remote_status=$?
+          set -e
+          if [ "$remote_status" -ne 0 ] && [ "$remote_status" -ne 2 ]; then
+            echo "::error::同期ブランチ $branch の有無を確かめられないため、上書きしません（git ls-remote: $remote_status）"
+            exit 1
+          fi
+          if [ "$remote_status" -eq 0 ]; then
+            git fetch --quiet --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            if ! node scripts/sync-branch-guard.mjs HEAD "origin/$branch"; then
+              {
+                echo "### GA4/GSC 日次同期：同期ブランチを上書きしませんでした"
+                echo ""
+                echo "- \`$branch\` に main へ入っていない変更がある（上書きすると消える）"
+                echo "- 同期 PR をマージするか、変更を別の PR へ移してから、このワークフローを再実行する（docs/GA4_GSC_DAILY_SYNC.md）"
+              } >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+          fi
           git switch -C "$branch"
           git add data/editorial/performance-snapshot.json
           git commit -m "chore(metrics): propose verified Google daily analytics (run $RUN_ID)"
