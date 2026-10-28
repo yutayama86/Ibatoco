@@ -69,7 +69,9 @@ Claude の停止と一緒に止めたり消したりしない。
 | wrangler の OAuth ログイン | この Mac（`~/Library/Preferences/.wrangler/`） | 使っていない（手元からのデプロイは禁止） | ターミナルで `npx wrangler logout`（Claude のサンドボックスからは実行できなかった） |
 | Cloudflare の旧トークン `GitHub Ibatoco Deploy`・`ibatoco build token` | Cloudflare | 使っていないはず（docs と作業記録で状態が食い違う） | Cloudflare の API Tokens 画面で状態を確認し、使っていなければ失効。最終使用日だけで判断しない（[SECURE_DEPLOYMENT_POLICY.md](SECURE_DEPLOYMENT_POLICY.md)） |
 | GitHub Environment `daily-claude` | GitHub | 使っていない（Secret 0件・Variable 0件、10/27 確認） | Settings → Environments で削除 |
-| Claude の GitHub App | **このリポジトリに入っている可能性が高い**（2026-10-28、#445 のコミットに app `claude` の check suite が作られていた。同様に `cursor` も） | 使っていない（ワークフロー・Secret に Claude・Anthropic の参照は0件） | GitHub の Settings → Applications → Installed GitHub Apps で確認し、不要ならアンインストール（`cursor` も同じく判断） |
+| Claude の GitHub App（`claude`・発行元 anthropics） | **入っている**（2026-10-28、コミットの check suite で確認）。権限：contents・pull_requests・actions・workflows・repository_hooks・issues が書き込み | 使っていない（ワークフロー・Secret に Claude・Anthropic の参照は0件） | Settings → Applications → Installed GitHub Apps でアンインストール（オーナー） |
+| Cursor の GitHub App（`cursor`） | **入っている**（同上）。contents・actions・checks・issues が書き込み | 使っていない | 使っていなければアンインストール（オーナー） |
+| Cloudflare Workers and Pages の GitHub App | **入っている**。main 以外の push のたびに「Workers Builds」を作って失敗している（必須チェックではない） | 本番公開には使っていない（本番は Actions の API トークン） | 外すかどうかは Cloudflare 側の Workers Builds の設定を確かめてからオーナーが判断。外しても Actions のデプロイには影響しない |
 | Anthropic の API キー | Secret には無い（Secret は Cloudflare の2件だけ、2026-10-28 確認） | — | Anthropic のコンソールで、イバトコ用に作ったキーがあれば失効 |
 | `IBATOCO Workers Deploy v2` | Actions の Secret | Deploy production | **残す** |
 
@@ -163,7 +165,7 @@ Claude の停止と一緒に止めたり消したりしない。
 | 5 | Revenue Engine | 確認済み | Validate site の定期実行（毎朝）が `revenue:engine:write`・送客監査・A/B 判定を作り Job Summary に出す。A/B の4イベントは #443（マージ済み）で公式 API から取得。10/28 の同期で4件とも取得（10/19〜25：表示 A 93・B 114、クリック A 1・B 2）→ 判定は collect（サンプル不足で優劣を決めない） |
 | 6 | Cloudflare 本番公開 | 確認済み | main への マージ → Deploy production（検証済みの SHA だけ・公開後に SHA 照合）。手元からのデプロイは `deploy-guard` で止まる |
 | 7 | SEO・セキュリティ検査 | 確認済み・一部残り | verify の品質・技術・セキュリティ監査、CodeQL、Public security smoke monitor（毎朝成功）。GA4 同期の Action は #446 で SHA 固定。`dependency-audit.yml` だけタグ指定のまま（別の Draft PR で固定） |
-| 8 | Claude 固有のワークフロー・認証情報 | ワークフロー・Secret は0件 | 残るのは手元の gh の OAuth トークン（Claude が使用）、wrangler のログイン、Environment `daily-claude`（空）、Claude の GitHub App（入っている可能性が高い）。6. と 10. の手順でオーナーが外す |
+| 8 | Claude 固有のワークフロー・認証情報 | ワークフロー・Secret は0件 | 残るのは手元の gh の OAuth トークン（Claude が使用）、wrangler のログイン、Environment `daily-claude`（空）、Claude の GitHub App（入っている・書き込み権限あり）。6. と 10. の手順でオーナーが外す |
 | 9 | 古い自動化・不要な設定 | 残っている | ブランチ約440本（`automation/*`・`codex/*`・`bot/google-analytics-daily-<番号>`・`test/20261028-card-generation-check` など）、main に無い一時ワークフロー（`*-temp.yml` 等。各ブランチ上にだけ残り、定期実行はされない）、Claude アプリの予定タスク5件（すべて無効）、Claude が作って開いたままの Draft PR。削除はすべてオーナー承認 |
 | 10 | 移管後にオーナーが行う操作 | — | 下の一覧 |
 
