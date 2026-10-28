@@ -1,13 +1,13 @@
 # Claude Code の運用停止手順（Exit Runbook）
 
-作成：2026-10-27（Claude Code が作成）。現状の監査は [CHATGPT_MIGRATION_AUDIT.md](CHATGPT_MIGRATION_AUDIT.md)、これからの開発手順は [DEVELOPMENT_PLAYBOOK.md](DEVELOPMENT_PLAYBOOK.md)。
+作成：2026-10-27、最終監査：2026-10-28（いずれも Claude Code）。現状の監査は [CHATGPT_MIGRATION_AUDIT.md](CHATGPT_MIGRATION_AUDIT.md)、これからの開発手順は [DEVELOPMENT_PLAYBOOK.md](DEVELOPMENT_PLAYBOOK.md)。
 
 > **この文書を作った PR では、何も停止・削除していない。** 下の「停止の手順」は、移行の確認（ステップ0）が終わってから、オーナーの承認を受けて別に行う。
 
 ## 1. 結論
 
 - **本番の公開・CI・計測の取得は、Claude に依存していない。** Claude を止めても、PR → Validate site → main → Deploy production はそのまま動く
-- Claude が止まると困るのは、**手元で Node を実行していた作業**（カード画像の生成など）と、**Claude だけが持っている作業の知識**。前者は代わりの方法を用意し（下の 3・4）、後者はこの文書の 9. と DEVELOPMENT_PLAYBOOK に移した
+- Claude が止まると困るのは、**手元で Node を実行していた作業**（カード画像の生成など）と、**Claude だけが持っている作業の知識**。前者は代わりの方法を用意し（下の 3・4）、後者はこの文書の 12. と DEVELOPMENT_PLAYBOOK に移した
 - Claude の停止に伴って失効させる認証情報は、この Mac の `gh` のログインと wrangler のログイン。どちらもオーナーの操作が必要
 
 ## 2. Claude を止めると動かなくなるもの
@@ -17,7 +17,8 @@
 | 大規模な Astro 改修・複雑な不具合修正（明示依頼のもの） | Claude Code | ChatGPT（GitHub 経由）または人。手元で検証できないため、CI の結果に頼る比率が上がる |
 | 手元での `npm run verify` と、ブラウザでの4幅の画面確認 | Claude | CI の Validate site（同じ検査＋11幅の画面検査）。マージ前に PR のブランチを画面で見る手段は無い（PR プレビューは本番へ 301 される） |
 | カード画像の生成（`npm run og:cards`） | Claude が手元で生成してコミット | 「Prepare generated files」ワークフロー（#440）またはオーナーが手元で |
-| `npm run editorial:sync`・`seo:seal` | Claude | ChatGPT が手で記録を足す（DEVELOPMENT_PLAYBOOK の 2.・4.） |
+| `npm run editorial:sync` | Claude | 「Prepare generated files」で `sync_registry` をオン（2026-10-28 に実行して成功）。または ChatGPT が1件だけ手で足す |
+| `npm run seo:seal` | Claude | ChatGPT が手で記録を足す（DEVELOPMENT_PLAYBOOK の 4.） |
 | Actions のログを API で読む・Commons の API で写真の権利を調べる | Claude | GitHub の画面・コネクタ、ChatGPT の閲覧 |
 | `reports/editorial/claude-implementation-brief.md` | Claude が実装前に読む | `implementation-brief.md`（同じ内容。旧名は停止後に消してよい） |
 
@@ -29,7 +30,7 @@
 | 全検査 | PR の Validate site（`npm audit` → `npm run verify`）と CodeQL |
 | 本番デプロイと本番確認 | main へのマージで Deploy production が自動。`/build.json` で確認 |
 | 日次レポート（成長・収益・編集・実装指示） | Validate site の定期実行（05:45）が作り、Job Summary と artifact（30日）に出す |
-| GA4・GSC の取得 | Actions「Read-only GA4 and GSC」（PR 作成の権限問題を解決したあと）、または ChatGPT の Windsor.ai 経由の日次処理 |
+| GA4・GSC の取得 | Actions「Read-only GA4 and GSC」（毎朝。データは同期ブランチへ。PR は人が1回開けば以後は同じ PR が更新される）。Windsor.ai でしか取れない項目は ChatGPT の日次処理 |
 | 一次情報・写真の権利の確認 | ChatGPT の閲覧 |
 | 依存の更新 | Dependabot の PR を ChatGPT が確認 |
 
@@ -68,7 +69,10 @@ Claude の停止と一緒に止めたり消したりしない。
 | wrangler の OAuth ログイン | この Mac（`~/Library/Preferences/.wrangler/`） | 使っていない（手元からのデプロイは禁止） | ターミナルで `npx wrangler logout`（Claude のサンドボックスからは実行できなかった） |
 | Cloudflare の旧トークン `GitHub Ibatoco Deploy`・`ibatoco build token` | Cloudflare | 使っていないはず（docs と作業記録で状態が食い違う） | Cloudflare の API Tokens 画面で状態を確認し、使っていなければ失効。最終使用日だけで判断しない（[SECURE_DEPLOYMENT_POLICY.md](SECURE_DEPLOYMENT_POLICY.md)） |
 | GitHub Environment `daily-claude` | GitHub | 使っていない（Secret 0件・Variable 0件、10/27 確認） | Settings → Environments で削除 |
-| Anthropic の API キー・Claude の GitHub App | 未確認（毎朝の自動実装 #421 の準備で作った可能性） | — | GitHub の Settings → Applications（Installed GitHub Apps）と Anthropic のコンソールで確認し、あれば削除・失効 |
+| Claude の GitHub App（`claude`・発行元 anthropics） | **入っている**（2026-10-28、コミットの check suite で確認）。権限：contents・pull_requests・actions・workflows・repository_hooks・issues が書き込み | 使っていない（ワークフロー・Secret に Claude・Anthropic の参照は0件） | Settings → Applications → Installed GitHub Apps でアンインストール（オーナー） |
+| Cursor の GitHub App（`cursor`） | **入っている**（同上）。contents・actions・checks・issues が書き込み | 使っていない | 使っていなければアンインストール（オーナー） |
+| Cloudflare Workers and Pages の GitHub App | **入っている**。main 以外の push のたびに「Workers Builds」を作って失敗している（必須チェックではない） | 本番公開には使っていない（本番は Actions の API トークン） | 外すかどうかは Cloudflare 側の Workers Builds の設定を確かめてからオーナーが判断。外しても Actions のデプロイには影響しない |
+| Anthropic の API キー | Secret には無い（Secret は Cloudflare の2件だけ、2026-10-28 確認） | — | Anthropic のコンソールで、イバトコ用に作ったキーがあれば失効 |
 | `IBATOCO Workers Deploy v2` | Actions の Secret | Deploy production | **残す** |
 
 ## 7. 本番公開が続くことの確認
@@ -80,14 +84,14 @@ Claude の停止と一緒に止めたり消したりしない。
 3. `https://ibatoco.jp/build.json` の `commit` がそのマージコミットになる
 4. 翌朝 06:20 の Public security smoke monitor が成功する
 
-2026-10-26 時点の実績：#431（`2b114b1`）と #437（`ca25381`）は、マージ後の Deploy production が成功している。06:30 の定期 Deploy production は、GA4/GSC の確定値が当日分でないため毎日失敗している。#441 をマージすると、計測が古くても警告だけになり、Validate 合格済みの最新 main を毎朝出す。
+2026-10-28 時点の実績：#439〜#444 のマージ後の Deploy production はすべて成功し、`/build.json` が各マージコミットと一致した。06:30 の定期 Deploy production も #441 のマージ後は成功している（10/28）。
 
 ## 8. 移行後の定期点検
 
 | 頻度 | 見るもの | 見る場所 |
 |---|---|---|
 | 毎朝 | Validate site（05:45）の成功と Job Summary（operator brief・実装指示・収益レポート） | Actions |
-| 毎朝 | Read-only GA4 and GSC（05:30）の成功、スナップショット PR の有無 | Actions・PR |
+| 毎朝 | Read-only GA4 and GSC（05:30。GitHub の都合で数時間遅れることがある）の成功、同期 PR の有無。ボットの push 後は PR の CI が承認待ちになるので、マージ前にオーナーが「Approve workflows to run」 | Actions・PR |
 | 毎朝 | Deploy production（マージ後・06:30）の成功、`/build.json` | Actions・本番 |
 | 毎朝 | Public security smoke monitor（06:20） | Actions |
 | 毎週 | Dependabot の PR、Dependency security audit、CodeQL のアラート | PR・Security タブ |
@@ -112,12 +116,12 @@ Claude の停止と一緒に止めたり消したりしない。
 ## 10. 停止の手順（順番どおりに。各段でオーナー承認）
 
 **ステップ0（前提の確認）**
-- [ ] この PR（移管の文書）がマージされている
-- [ ] ChatGPT が、作業ブランチ → PR → CI → オーナー承認 → マージ → 本番確認 を Claude なしで1回以上完了している（7.）
-- [ ] GA4/GSC 日次同期の扱いを決めた（#442 のマージと、設定 A/B の選択。`docs/GA4_GSC_DAILY_SYNC.md`）
-- [ ] 定期デプロイの切り離し（#441）を判断した
-- [ ] 新しい記事のカード画像を作る方法が決まっている（「Prepare generated files」ワークフロー（#440）のマージ、またはオーナーの手元）
-- [ ] 収益監査の不具合修正（#439）が判断済み
+- [x] この PR（移管の文書）がマージされている（#438）
+- [ ] ChatGPT が、作業ブランチ → PR → CI → オーナー承認 → マージ → 本番確認 を Claude なしで1回以上完了している（7.。#437 は `chatgpt/` ブランチの PR だが、操作者は記録から区別できない）
+- [x] GA4/GSC 日次同期の扱いを決めた（#442・#446 はマージ済み。設定は B（オフのまま）で動いている。同期 PR #445 は毎朝更新される）
+- [x] 定期デプロイの切り離し（#441）を判断した（マージ済み・10/28 の定期実行は成功）
+- [x] 新しい記事のカード画像を作る方法が決まっている（#440・#444。実機で生成・台帳同期とも成功）
+- [x] 収益監査の不具合修正（#439）が判断済み（マージ済み）
 
 **ステップ1：Claude への依頼をやめる**
 - [ ] AGENTS.md の「編集OSと実装分担」から Claude Code の役割を外す PR（ChatGPT が作成）
@@ -148,7 +152,39 @@ Claude の停止と一緒に止めたり消したりしない。
 - [ ] 7. の手順で本番公開が続くことを確認
 - [ ] 1週間、8. の定期点検で異常が無いこと
 
-## 11. Claude の作業記録から引き継ぐ知識
+## 11. 最終監査（2026-10-28）
+
+正本：AGENTS.md・DEVELOPMENT_PLAYBOOK.md・この文書。状態は「動作を確認した」ものだけ「確認済み」と書く。
+
+| # | 項目 | 状態 | 根拠・残り |
+|---|---|---|---|
+| 1 | ChatGPT からの GitHub 開発・PR 作成 | 手順あり・一部実績 | PR テンプレート・Issue テンプレート・PLAYBOOK 0〜10。`chatgpt/` ブランチの PR（#434・#437）あり。操作者が ChatGPT かオーナーかは記録から区別できない |
+| 2 | GitHub Actions の自動テスト | 確認済み | PR ごとに Validate site（`npm audit`・`npm run verify`）と CodeQL。必須チェックは `build`・`Analyze JavaScript/TypeScript` |
+| 3 | 記事カード画像の生成 | 確認済み | Prepare generated files（#440・#444）。生成・コミット・必須チェックの起動、台帳同期（`sync_registry`）とも実機で成功 |
+| 4 | GA4/GSC 同期 | 確認済み | 公式 API で35日を取得（0 埋め無し）。確定日の4か所の一致と、同期ブランチの上書き防止は #446（マージ済み・10/28 の手動実行で動作確認）。PR は人が開く（設定 B）。ボットの push 後はオーナーが「Approve workflows to run」 |
+| 5 | Revenue Engine | 確認済み | Validate site の定期実行（毎朝）が `revenue:engine:write`・送客監査・A/B 判定を作り Job Summary に出す。A/B の4イベントは #443（マージ済み）で公式 API から取得。10/28 の同期で4件とも取得（10/19〜25：表示 A 93・B 114、クリック A 1・B 2）→ 判定は collect（サンプル不足で優劣を決めない） |
+| 6 | Cloudflare 本番公開 | 確認済み | main への マージ → Deploy production（検証済みの SHA だけ・公開後に SHA 照合）。手元からのデプロイは `deploy-guard` で止まる |
+| 7 | SEO・セキュリティ検査 | 確認済み・一部残り | verify の品質・技術・セキュリティ監査、CodeQL、Public security smoke monitor（毎朝成功）。GA4 同期の Action は #446 で SHA 固定。`dependency-audit.yml` だけタグ指定のまま（別の Draft PR で固定） |
+| 8 | Claude 固有のワークフロー・認証情報 | ワークフロー・Secret は0件 | 残るのは手元の gh の OAuth トークン（Claude が使用）、wrangler のログイン、Environment `daily-claude`（空）、Claude の GitHub App（入っている・書き込み権限あり）。6. と 10. の手順でオーナーが外す |
+| 9 | 古い自動化・不要な設定 | 残っている | ブランチ約440本（`automation/*`・`codex/*`・`bot/google-analytics-daily-<番号>`・`test/20261028-card-generation-check` など）、main に無い一時ワークフロー（`*-temp.yml` 等。各ブランチ上にだけ残り、定期実行はされない）、Claude アプリの予定タスク5件（すべて無効）、Claude が作って開いたままの Draft PR。削除はすべてオーナー承認 |
+| 10 | 移管後にオーナーが行う操作 | — | 下の一覧 |
+
+**移管後にオーナーだけが行う操作**
+- PR のマージの承認
+- ボットの push の後の「Approve workflows to run」（同期 PR・カード生成）
+- Actions の手動実行（Prepare generated files・GA4 同期の再実行）。Actions: write を持つ連携に任せることもできる
+- リポジトリ設定・ルールセット・Secret・Environment・GitHub App の変更
+- Cloudflare の画面での操作（緊急時の戻し、トークンの棚卸し）
+- 手元の認証の失効（gh・wrangler）
+- ASP の CSV の取り込み（`revenue:import`）とフォントの作り直し（Node・Python が要る）
+
+**Claude に依存して残るもの**：無い（手元でしかできない作業は 4. のとおりオーナーの手元で行う）。
+
+**ChatGPT へ移せていないもの**
+- マージ前に PR のブランチを画面で見る手段（PR プレビューは本番へ 301 される）
+- 手元での `npm run verify`（CI の結果に頼る）
+
+## 12. Claude の作業記録から引き継ぐ知識
 
 Claude は作業中に気づいたことを手元の記録に残していた（リポジトリの外）。開発に効くものをここに移す。
 
