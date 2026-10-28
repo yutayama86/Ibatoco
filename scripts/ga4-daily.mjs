@@ -15,7 +15,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { channelTotalsGap, checkDaily, compareWindows, dailyCoverage, joinWindsorDaily, mergeDaily, GA4_DAILY_MAX_DAYS } from '../src/lib/ga4-daily.mjs';
+import { channelTotalsGap, checkDaily, compareWindows, confirmedDateMismatches, dailyCoverage, joinWindsorDaily, mergeDaily, GA4_DAILY_MAX_DAYS } from '../src/lib/ga4-daily.mjs';
 import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
 
@@ -92,6 +92,7 @@ const line = `GA4 日別：${coverage.rows} 日（${coverage.from}〜${coverage.
 if (args.includes('--check')) {
   const gscErrors = checkGscDaily(snapshot.windows?.gsc?.daily, { confirmedThrough: snapshot.windows?.gsc?.dailyMeta?.confirmedThrough ?? null });
   for (const e of gscErrors) errors.push(`（GSC）${e}`);
+  for (const e of confirmedDateMismatches(snapshot)) errors.push(e);
   if (errors.length) { for (const e of errors) console.error(`  [error] windows.ga4.daily：${e}`); process.exit(1); }
   console.log(`${line} の形式 OK｜${windowsLine(ga4)}`);
   process.exit(0);
