@@ -1,16 +1,14 @@
 <section class="ep">
   <div class="ep-stage">
     <header class="ep-card">
-      <p class="ep-kicker">EDITORIAL STANDARD</p>
+      <p class="ep-kicker">取材と編集</p>
       <h2>現地でしか、<br />わからないことを書く。</h2>
       <p class="ep-intro">会って、聞いて、確かめる。公開したあとも、変化を追う。</p>
       <a href="/about/editorial-policy/">編集方針を読む <span aria-hidden="true">↗</span></a>
-      <p class="ep-sign" aria-hidden="true"><span>IBATOCO</span><b>FIELD NOTES</b></p>
     </header>
 
     <figure class="ep-visual">
       <img src="/images/area/hitachi/station.jpg" alt="日立駅の大きな窓越しに太平洋を眺める人々" loading="lazy" decoding="async" width="1280" height="853" />
-      <span class="ep-place" aria-hidden="true"><b>FIELD NOTE 01</b>HITACHI / IBARAKI</span>
       <figcaption><a href="https://commons.wikimedia.org/wiki/File:Hitachi_Station,_Ibaraki_01.jpg" target="_blank" rel="license noopener">写真：Σ64 / CC BY 4.0</a></figcaption>
     </figure>
   </div>
@@ -35,28 +33,23 @@
 </section>
 
 <style>
-  .ep{position:relative;padding-block:clamp(6.5rem,10vw,9rem);color:var(--color-deep-blue)}
-  .ep-stage{position:relative;display:grid;grid-template-columns:minmax(23rem,.84fr) minmax(0,1.16fr);align-items:center;min-height:42rem}
-  .ep-card{position:relative;z-index:2;min-height:32rem;margin-right:-4.5rem;padding:clamp(3rem,5vw,5rem);overflow:hidden;background:linear-gradient(145deg,#0b2638 0%,#071744 100%);box-shadow:0 2.5rem 6rem rgba(7,23,68,.2);color:#fff}
-  .ep-card::before{content:'';position:absolute;right:-8rem;bottom:-7rem;width:26rem;height:18rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#9ecff4;opacity:.11;transform:rotate(7deg)}
-  .ep-card::after{content:'';position:absolute;right:-5rem;top:-6rem;width:14rem;height:14rem;border-radius:48% 52% 58% 42%;background:rgba(139,196,238,.08)}
-  .ep-kicker{position:relative;font:700 .62rem/1 var(--font-brand-meta);letter-spacing:.22em;color:#9ecff4}
-  .ep h2{position:relative;max-width:35rem;margin-top:2rem;font:600 clamp(2.35rem,3.8vw,4rem)/1.5 var(--font-brand-display);letter-spacing:.025em;color:#fff}
-  .ep-intro{position:relative;max-width:27rem;margin-top:2rem;font-size:.88rem;line-height:2;color:rgba(255,255,255,.72)}
-  .ep-card>a{position:relative;display:inline-flex;align-items:center;gap:1.4rem;margin-top:1.65rem;padding-bottom:.45rem;border-bottom:1px solid rgba(255,255,255,.65);font-size:.78rem;font-weight:700}.ep-card>a span{color:#9ecff4;transition:transform .2s ease}.ep-card>a:hover span,.ep-card>a:focus-visible span{transform:translate(.2rem,-.2rem)}
-  .ep-sign{position:absolute;right:2.2rem;bottom:2rem;display:flex;align-items:center;gap:.75rem;writing-mode:vertical-rl;font:700 .48rem/1 var(--font-brand-meta);letter-spacing:.2em;color:rgba(255,255,255,.4)}.ep-sign b{color:#9ecff4}
-  .ep-visual{position:relative;min-height:42rem;margin:0;overflow:hidden;background:#dceaf4;clip-path:polygon(4% 0,100% 0,100% 94%,0 100%);box-shadow:0 2rem 5rem rgba(50,88,116,.16)}
-  .ep-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,23,68,.16),transparent 35%),linear-gradient(0deg,rgba(7,23,68,.46),transparent 35%);pointer-events:none}
-  .ep-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.76) contrast(1.03)}
-  .ep-place{position:absolute;z-index:2;left:clamp(3rem,7vw,7rem);bottom:3.2rem;display:grid;gap:.35rem;font:700 .58rem/1.4 var(--font-brand-meta);letter-spacing:.19em;color:#fff}.ep-place b{font-size:.5rem;color:#b9dcf8}
-  .ep-visual figcaption{position:absolute;z-index:2;right:1rem;bottom:1rem;font-size:.55rem}.ep-visual figcaption a{color:rgba(255,255,255,.7);text-shadow:0 1px 8px rgba(0,0,0,.4)}
-  .ep-notes{position:relative;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:-4.5rem clamp(1.2rem,4vw,4.5rem) 0;background:rgba(255,255,255,.96);box-shadow:0 1.75rem 5rem rgba(41,76,103,.13);backdrop-filter:blur(12px)}
-  .ep-notes article{min-height:17rem;padding:1.8rem clamp(1.4rem,2.5vw,2.4rem) 2rem;border-right:1px solid rgba(7,23,68,.12)}.ep-notes article:last-child{border-right:0}
-  .ep-number{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:1.15rem;border-bottom:1px solid rgba(7,23,68,.13);color:var(--color-brand-blue)}.ep-number b{font:400 2.2rem/1 var(--font-brand-serif-latin)}.ep-number span{font:700 .56rem/1 var(--font-brand-meta);letter-spacing:.2em}
-  .ep-notes h3{margin-top:2rem;font:600 clamp(1.35rem,2vw,1.75rem)/1.45 var(--font-brand-display);letter-spacing:.025em;color:var(--color-deep-blue)}.ep-notes article>p:last-child{max-width:21rem;margin-top:1rem;font-size:.78rem;line-height:1.9;color:var(--color-soil)}
-  @media(max-width:1020px){.ep-stage{grid-template-columns:minmax(19rem,.9fr) minmax(0,1.1fr)}.ep-card{margin-right:-1.75rem;padding:3rem}.ep-notes{margin-inline:1rem}}
-  /* 3列を保てるのは本文が1行20字くらい入る幅まで。768pxでは1枚235px・本文189px
-     （1行約11字）になっていた。3項目は保ったまま、この幅から縦に積む */
-  @media(max-width:1140px){.ep-notes{grid-template-columns:minmax(0,1fr);margin:1rem 1rem 0;box-shadow:none}.ep-notes article{min-height:0;border-right:0;border-bottom:1px solid rgba(7,23,68,.12)}.ep-notes article:last-child{border-bottom:0}}
-  @media(max-width:700px){.ep{padding-block:4.75rem}.ep-stage{grid-template-columns:minmax(0,1fr);min-height:0}.ep-card{min-height:0;margin:0;padding:3rem 1.35rem 3.5rem}.ep h2{font-size:clamp(2.05rem,10vw,3rem)}.ep-sign{display:none}.ep-visual{min-height:22rem;margin-top:1rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.ep-place{left:1.2rem;bottom:2rem}.ep-notes{grid-template-columns:minmax(0,1fr);margin:1rem 0 0;box-shadow:none}.ep-notes article{min-height:0;padding:1.5rem 1rem 2rem;border-right:0;border-bottom:1px solid rgba(7,23,68,.12)}.ep-notes article:last-child{border-bottom:0}.ep-notes h3{margin-top:1.5rem}}
+  .ep { padding-block: clamp(3rem, 6vw, 5.5rem); color: var(--color-ink); }
+  .ep-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+  .ep-card { min-width: 0; }
+  .ep-kicker { font: 700 .8125rem/1.6 var(--font-brand-meta); color: var(--color-tide); }
+  .ep h2 { margin-top: 1rem; color: var(--color-ink); font: 600 clamp(1.8rem, 3vw, 2.75rem)/1.55 var(--font-brand-display); letter-spacing: .02em; }
+  .ep-intro { max-width: 28rem; margin-top: 1.25rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.95; }
+  .ep-card > a { display: inline-flex; gap: 1.5rem; align-items: center; min-height: 44px; margin-top: 1.25rem; color: var(--color-tide); font-size: .9375rem; text-decoration: underline; text-underline-offset: .3em; }
+  .ep-visual { margin: 0; min-width: 0; }
+  .ep-visual img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; }
+  .ep-visual figcaption { margin-top: .5rem; font-size: .75rem; line-height: 1.7; color: var(--color-soil); }
+  .ep-visual figcaption a { text-decoration: underline; text-underline-offset: .2em; }
+  .ep-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; margin-top: 2.75rem; }
+  .ep-notes article { padding-top: 1rem; border-top: 1px solid var(--color-line); }
+  .ep-number { display: flex; align-items: baseline; justify-content: space-between; color: var(--color-soil); font: 500 .75rem/1.6 var(--font-brand-meta); letter-spacing: .04em; }
+  .ep-number b { color: var(--color-tide); font-size: 1rem; font-weight: 500; }
+  .ep-notes h3 { margin-top: .9rem; color: var(--color-ink); font: 600 1.25rem/1.6 var(--font-brand-display); }
+  .ep-notes article > p:last-child { margin-top: .65rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.95; }
+  .ep a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
+  @media (max-width: 760px) { .ep-stage { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; } .ep-notes { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-top: 2rem; } .ep-number span { display: none; } .ep-notes h3 { margin-top: .5rem; } }
 </style>

@@ -1,6 +1,6 @@
 ---
 /**
- * 記事を読み終える前に置く「次に読む」枠。
+ * 記事の本文・情報源を読んだあとに置く「次に読む」枠。
  *
  * ## なぜ人気順だけにしないか
  * 以前は popular-pages.json の全体人気を、どのページでも同じ3本出していた。
@@ -23,8 +23,6 @@ import popular from '../../data/editorial/popular-pages.json';
 import { getEvents, getNews } from '../lib/content';
 import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
-import TocoCard from './TocoCard.astro';
-import { thumbImageOf } from '../lib/card-image';
 import { MUNI_BY_SLUG } from '../data/areas';
 
 interface Props {
@@ -95,14 +93,7 @@ const hasItems = items.length > 0;
     data-page-type={pageType}
     data-current-path={currentPath}
   >
-    {/*
-      見出しは選び方に合わせる。人気順だけで並べていたころの
-      「いま読まれている」「直近7日の閲覧データから」は、
-      文脈で選ぶようになった時点で事実と違う。
-    */}
-    <p class="growth-next__kicker">NEXT DISCOVERY</p>
-    <h2 id="growth-next-title">このあと、どこ行く？</h2>
-    <p class="growth-next__lead">いま見ている場所・目的につながる、次の候補を3つだけ選びました。</p>
+    <h2 id="growth-next-title">あわせて読みたい</h2>
     <ol>
       {items.map((item) => {
         const event = eventByPath.get(item.path);
@@ -110,24 +101,13 @@ const hasItems = items.length > 0;
         // 市町村は slug（例 oarai）ではなく名前で出す
         const firstTown = entry?.data.municipalities?.[0];
         const area = event?.data.eventInfo?.venue ?? (firstTown ? MUNI_BY_SLUG.get(firstTown)?.name : undefined);
-        // 細い縦長の枠なので、文字の無い地図カードを使う（src/lib/card-image.ts）
-        const image = entry ? thumbImageOf(entry) : undefined;
-        const reasons = event?.data.eventInfo
-          ? [event.data.eventInfo.fee === '無料' ? '無料' : '', event.data.eventInfo.parking ? '駐車場情報あり' : ''].filter(Boolean)
-          : [];
         return (
           <li data-growth-next-link data-rank={String(item.rank)} data-target-path={item.path}>
-            <TocoCard
-              href={item.path}
-              title={item.title}
-              area={area}
-              image={image?.src}
-              imageAlt={image?.alt}
-              reasons={reasons}
-              tags={event?.data.tags ?? []}
-              rank={item.rank}
-              targetPath={item.path}
-            />
+            <a href={item.path}>
+              <span class="growth-next__meta">{event ? 'イベント・おでかけ' : 'ニュース解説'}{area && <span>／ {area}</span>}</span>
+              <strong>{item.title}</strong>
+              <span class="growth-next__arrow" aria-hidden="true">→</span>
+            </a>
           </li>
         );
       })}
@@ -181,12 +161,35 @@ const hasItems = items.length > 0;
 </script>
 
 <style>
-  .growth-next{margin:2rem 0 2.5rem;padding:1.15rem 1.2rem;border:1px solid var(--interior-line,var(--color-mist));border-radius:1rem;background:linear-gradient(180deg,var(--interior-sky-soft,#eef6ff),var(--color-white))}
-  .growth-next__kicker{margin:0;color:var(--interior-blue,var(--color-tide));font:700 .66rem var(--font-brand-meta);letter-spacing:.14em}
-  .growth-next h2{margin:.35rem 0 0;font:600 clamp(1.12rem,2vw,1.35rem)/1.5 var(--font-brand-display);color:var(--color-ink)}
-  .growth-next__lead{margin:.4rem 0 0;color:var(--color-soil);font-size:.78rem;line-height:1.7}
-  .growth-next ol{display:grid;grid-template-columns:minmax(0,1fr);gap:.55rem;margin:1rem 0 0;padding:0;list-style:none}
-  .growth-next li{margin:0;padding:0}
-  .growth-next li::before{content:none}
-  @media(max-width:520px){.growth-next{padding:1rem}}
+  /* 本文と同じ読み幅。画像や大きなボタンで読了後の候補を押し広げない。 */
+  :global(body.interior-site) .growth-next {
+    margin: 3rem 0;
+    padding: 1.5rem 0 0;
+    border-top: 2px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+  :global(body.interior-site) .growth-next h2 {
+    margin: 0;
+    padding: 0;
+    font: 600 1.35rem/1.6 var(--font-brand-display);
+    color: var(--color-ink);
+  }
+  .growth-next ol { margin: 1rem 0 0; padding: 0; list-style: none; }
+  :global(body.interior-site) .growth-next li { margin: 0; padding: 0; border-bottom: 1px solid var(--interior-line); }
+  :global(body.interior-site) .growth-next li::before { content: none; }
+  .growth-next a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.25rem;
+    gap: .35rem 1rem;
+    align-items: center;
+    min-height: 44px;
+    padding: 1.15rem 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  .growth-next__meta { grid-column: 1; color: var(--color-soil); font: 500 .8125rem/1.65 var(--font-brand-meta); }
+  .growth-next strong { grid-column: 1; font: 600 1.0625rem/1.75 var(--font-brand-display); word-break: normal; overflow-wrap: anywhere; line-break: strict; }
+  .growth-next__arrow { grid-column: 2; grid-row: 1 / 3; color: var(--color-tide); }
+  .growth-next a:hover strong { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
+  .growth-next a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
 </style>
