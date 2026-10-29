@@ -10,6 +10,7 @@ import {
   dateOnlyFromCoercedDate,
   dateOnlyFromInstant,
   dateOnlyWeekday,
+  formatJapaneseDate,
   parseDateOnly,
 } from '../src/lib/date-only.js';
 import {
@@ -24,6 +25,19 @@ const expect = (actual, expected, label) => {
   if (actual !== expected) errors.push(`${label}: expected ${expected}, got ${actual}`);
 };
 const iso = (value) => value.toISOString().slice(0, 10);
+// 本番で使う表示関数を、日付境界とビルド環境の両方を変えて確認する。
+const originalTimezone = process.env.TZ;
+try {
+  for (const timezone of ['UTC', 'Asia/Tokyo', 'America/Los_Angeles']) {
+    process.env.TZ = timezone;
+    expect(formatJapaneseDate(new Date('2026-10-29T00:00:00Z')), '2026年10月29日', `${timezone}: 公開日の表示`);
+    expect(formatJapaneseDate(new Date('2026-10-28T15:00:00Z')), '2026年10月29日', `${timezone}: 日本時間の午前0時`);
+    expect(formatJapaneseDate(new Date('2026-10-28T14:59:59Z')), '2026年10月28日', `${timezone}: 日本時間の午前0時直前`);
+  }
+} finally {
+  if (originalTimezone === undefined) delete process.env.TZ;
+  else process.env.TZ = originalTimezone;
+}
 const ja = new Intl.DateTimeFormat('ja-JP', {
   month: 'long',
   day: 'numeric',

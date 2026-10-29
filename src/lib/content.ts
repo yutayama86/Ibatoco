@@ -248,13 +248,7 @@ export async function getAreaSummary(slug: string): Promise<AreaSummary> {
   };
 }
 
-export function formatDate(d: Date): string {
-  return new Intl.DateTimeFormat('ja-JP', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(d);
-}
+export { formatJapaneseDate as formatDate } from './date-only.js';
 
 /**
  * スポーツ記事。sportsTeam が指定された公開記事だけを新しい順で返す。
