@@ -145,4 +145,4 @@ jobs:
       - name: Verify production
         shell: bash
         run: |
-          node scripts/wait-deploy.mjs /events/fukuroda-falls-autumn-2026/ "このあと、どこ行く？" --timeout 300
+          node scripts/verify-production.mjs --wait --timeout 300
