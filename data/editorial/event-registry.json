@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-28",
+  "updatedAt": "2026-10-30",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -955,6 +955,27 @@
       ]
     },
     {
+      "id": "kasama-akiichi-2026",
+      "name": "笠間焼 秋市2026",
+      "municipality": "kasama",
+      "startDate": "2026-10-31",
+      "endDate": "2026-11-03",
+      "officialUrl": "https://kasamayaki.or.jp/akiichi/",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-10-30",
+      "articleUrl": "/events/kasama-akiichi-2026/",
+      "articleUpdatedAt": "2026-10-30",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "nakaminato-kaijo-hanabi-2026",
       "name": "第37回那珂湊海上花火大会",
       "municipality": "hitachinaka",
@@ -997,6 +1018,27 @@
       "notes": "潮来市公式で、令和8年10月31日（土）開会・花火打上18:30〜、会場は北利根川特設会場（水郷北斎公園）、当日13:00に開催判断、荒天時は11月1日（日）に延期・両日不可なら中止、主催は水郷潮来花火大会実行委員会（共催：潮来市・水郷潮来観光協会・潮来市商工会）を確認。有料桟敷席あり（今年は優良席以外が自由席。料金・販売場所は公式の表を確認すること）。イバトコには記事・まとめ掲載とも無し。"
     },
     {
+      "id": "kasama-toutokurashi-2026",
+      "name": "陶と暮らし。KASAMA2026",
+      "municipality": "kasama",
+      "startDate": "2026-10-31",
+      "endDate": "2026-11-03",
+      "officialUrl": "https://toutokurashi.com/",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-10-30",
+      "articleUrl": "/events/kasama-toutokurashi-2026/",
+      "articleUpdatedAt": "2026-10-30",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "ibaraki-machi-matsuri-hanabi-2026",
       "name": "いばらきまつり フィナーレ花火（茨城町）",
       "municipality": "ibaraki-machi",
@@ -1037,6 +1079,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "観光いばらきで、11月1日（日）〜11月25日（水）、会場は大宝八幡宮（下妻市大宝667）、主催は下妻市菊花会（後援：下妻市・下妻市観光協会）を確認。2026-10-05時点で大宝八幡宮の公式サイトには2026年の告知が未掲載。"
+    },
+    {
+      "id": "tsukuba-touki-matsuri-2026",
+      "name": "全国陶器まつり2026 つくば会場",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-01",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.touki-matsuri.com/",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-10-30",
+      "articleUrl": "/events/tsukuba-touki-matsuri-2026/",
+      "articleUpdatedAt": "2026-10-30",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
       "id": "mitsukaido-rail-yard-event-2026",
