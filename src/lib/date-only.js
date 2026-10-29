@@ -56,6 +56,18 @@ export function dateOnlyFromInstant(value, timeZone = 'Asia/Tokyo') {
   return parseDateOnly(`${pick('year')}-${pick('month')}-${pick('day')}`);
 }
 
+/** 公開日・更新日・出典確認日の共通表示。実行環境のタイムゾーンに依存させない。
+ * @param {Date} value
+ */
+export function formatJapaneseDate(value) {
+  return new Intl.DateTimeFormat('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(value);
+}
+
 /** @param {Date} value @param {number} amount */
 export function addDateOnlyDays(value, amount) {
   const result = new Date(value.valueOf());

@@ -11,6 +11,7 @@ const total = categories.reduce((sum, [, count]) => sum + count, 0);
 ---
 
 <nav class="news-categories bp-wrap" aria-label="ニュースのカテゴリ">
+  <p class="news-categories__label">カテゴリから探す</p>
   <ul data-xscroll>
     <li><a href="/news/" aria-current={current === 'all' ? 'page' : undefined}>すべて<span>{total}</span></a></li>
     {categories.map(([key, count]) => (
@@ -20,6 +21,7 @@ const total = categories.reduce((sum, [, count]) => sum + count, 0);
 </nav>
 
 <style>
+  .news-categories__label{display:none}
   .news-categories ul{display:flex;gap:clamp(1rem,2.2vw,2rem);overflow-x:auto;padding-block:.65rem;border-block:1px solid var(--color-line);scrollbar-width:thin}
   li{flex:none}
   a{display:flex;align-items:center;gap:.6rem;min-height:44px;padding:.35rem .1rem;border-bottom:2px solid transparent;color:var(--color-soil);font-size:.8rem;font-weight:700;white-space:nowrap}
@@ -28,8 +30,12 @@ const total = categories.reduce((sum, [, count]) => sum + count, 0);
   span{font:.66rem var(--font-brand-meta);font-variant-numeric:tabular-nums;color:var(--color-soil)}
   /* スマホでは全カテゴリを見せる。横に隠れた項目を探す操作を不要にする。 */
   @media(max-width:560px){
-    .news-categories ul{flex-wrap:wrap;gap:0 .5rem;overflow-x:visible;padding-block:.35rem}
-    a{gap:.4rem;font-size:.875rem}
-    span{font-size:.75rem}
+    .news-categories__label{display:block;margin-bottom:.65rem;color:var(--color-ink);font-size:.8125rem;font-weight:700}
+    .news-categories ul{flex-wrap:wrap;gap:.5rem .375rem;overflow-x:visible;padding:0;border:0}
+    a{justify-content:center;min-width:44px;min-height:44px;padding:.45rem .4375rem;border:1px solid color-mix(in srgb,var(--color-ink) 25%,transparent);border-radius:var(--radius-xs);background:var(--color-white);color:var(--color-ink);font-size:.875rem;line-height:1.5}
+    a:hover{border-color:var(--color-ink);background:var(--color-mist)}
+    a[aria-current="page"]{border-color:var(--color-ink);background:var(--color-ink);color:var(--color-white)}
+    a:focus-visible{outline-offset:2px}
+    span{display:none}
   }
 </style>
