@@ -21,6 +21,15 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
     <p>茨城のニュースを、暮らしに役立つ視点で読み解きます。</p>
   </header>
 
+  <nav class="news-index__discover bp-wrap" aria-label="今知りたい茨城の情報">
+    <p>今、知りたい茨城へ</p>
+    <div class="news-index__discover-links">
+      <a href="/events/">今週末のイベント <span aria-hidden="true">→</span></a>
+      <a href="/kouyou/">紅葉・見頃 <span aria-hidden="true">→</span></a>
+      <a href="/hanabi/">花火大会 <span aria-hidden="true">→</span></a>
+    </div>
+  </nav>
+
   <NewsCategoryNav />
 
   <section class="news-index__list bp-wrap" aria-labelledby="news-latest">
@@ -39,5 +48,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
   .news-index__section-head{align-items:center;flex-direction:row-reverse;justify-content:flex-end;gap:1rem;padding-bottom:.8rem}
   .news-index__section-head h2{margin:0;font-size:1.3rem}
   .news-index__section-head .bp-kicker{font-size:.6rem}
+  .news-index__discover{padding-block:1.25rem .75rem}.news-index__discover>p{margin:0 0 .65rem;font-size:.8rem;font-weight:700;color:var(--color-soil)}.news-index__discover-links{display:flex;flex-wrap:wrap;gap:.6rem}.news-index__discover-links a{display:inline-flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:44px;padding:.65rem .85rem;border:1px solid var(--color-line);border-radius:4px;background:var(--color-white);font-size:.9rem;font-weight:700;color:var(--color-ink);text-decoration:none}.news-index__discover-links a:hover{border-color:var(--color-tide)}.news-index__discover-links a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  @media(max-width:600px){.news-index__discover-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.news-index__discover-links a{min-width:0}}
   @media(max-width:900px){.news-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:600px){.news-index__head{padding-top:2rem}}
 </style>
