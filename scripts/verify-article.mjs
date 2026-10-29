@@ -225,7 +225,7 @@ if (checkProd && !isDraft) {
     console.log(`    記事ページ        200`);
     console.log(`    title            ${prodTitle.slice(0, 46)}…`);
     const ogLocal = ogLocalPath;
-    for (const path of [ogLocal, `/og/news/${slug}.png`].filter(Boolean)) {
+    for (const path of [ogLocal, `/og/${route}/${slug}.png`].filter(Boolean)) {
       const r = await fetch(`${SITE}${path}`, { method: 'HEAD' }).catch(() => null);
       const label = path.endsWith('.svg') ? 'OG画像(SVG)' : 'OG画像(PNG)';
       if (!r || !r.ok) fail(`${label} が ${r ? r.status : '取得失敗'} です: ${path}`);
