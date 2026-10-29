@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '陶と暮らし。2026の日程・工芸の丘会場・駐車場・芸術の森公園線のバス停休止を案内し、秋市との会場の違いを明記',
     queries: ['陶と暮らし 2026', '笠間 陶器市 2026 秋'],
-    commit: 'PENDING',
+    commit: '031ed9c8cc3b2e1d80fbd38e3f505b57f75047ca',
     note: '主催者・共催施設・交通事業者の公式情報を確認。11月まとめと地域ページから案内。',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '笠間焼 秋市2026の時間・イベント広場会場・無料入場・路線バス変更を案内し、陶と暮らし。と相互リンク',
     queries: ['笠間 秋市 2026', '笠間 陶器市 2026 秋'],
-    commit: 'PENDING',
+    commit: '031ed9c8cc3b2e1d80fbd38e3f505b57f75047ca',
     note: '主催者・笠間市の2026年10月26日配信・茨城交通で照合。',
   },
   {
@@ -75,7 +75,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: 'つくばの全国陶器まつり2026を主催者発表に基づいて案内。つくば西店の場所と、全国大陶器市との名称・主催者の違いを整理',
     queries: ['つくば 陶器まつり 2026', 'つくば 陶器市 11月'],
-    commit: 'PENDING',
+    commit: '031ed9c8cc3b2e1d80fbd38e3f505b57f75047ca',
     note: '日程・料金等は全国陶器祭り振興会に帰属。会場住所はコメリ公式で照合。販売点数・未確認の駐車条件は掲載しない。',
   },
   {
@@ -86,7 +86,7 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'fact',
     change: '11月まとめに未掲載だった笠間2件・つくば1件の陶器市を追加。冒頭・候補・関連記事から個別の会場と交通案内へ接続',
     queries: ['茨城 11月 イベント 2026'],
-    commit: 'PENDING',
+    commit: '031ed9c8cc3b2e1d80fbd38e3f505b57f75047ca',
     note: '公式で2026年の開催が確認できた催しの追加。既存イベントの案内とURLを維持。',
   },
   {
