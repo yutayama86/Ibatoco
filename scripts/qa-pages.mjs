@@ -81,13 +81,13 @@ export function qaPages(root = process.cwd()) {
       name: `重点イベント ${path}`,
       path,
       canonical: path,
-      required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['[data-booking-guide]', 1], ['#sources a[href^="http"]', 1]],
+      required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['#booking[data-booking-guide]', 1], ['.ev-head__quick a[href="#booking"]', 1], ['.ev-toc a[href="#booking"]', 1], ['#sources a[href^="http"]', 1]],
     })),
     ...SEASONAL_GUIDE_PATHS.map((path) => ({
       name: `季節の重点 ${path}`,
       path,
       canonical: path,
-      required: [['h1', 1], ['[data-growth-next] a[href^="/"]', 1], ['[data-booking-guide]', 1], ['#sources a[href^="http"]', 1]],
+      required: [['h1', 1], ['[data-growth-next] a[href^="/"]', 1], ['#booking[data-booking-guide]', 1], ['.ev-head__quick a[href="#booking"]', 1], ['.ev-toc a[href="#booking"]', 1], ['#sources a[href^="http"]', 1]],
     })),
     {
       name: 'テーマ（紅葉）',

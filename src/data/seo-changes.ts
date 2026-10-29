@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261017-events-all-toc-booking-jump',
+    date: '2026-10-29',
+    url: '/events/*',
+    kind: 'internal-link',
+    experimentType: 'ui',
+    change: 'イベント記事の冒頭・目次から開催情報と公式・予約の確認先へ移動できる案内を追加。固定ヘッダーによる目次・移動先の隠れを解消し、記事内の暦日表示を日本時間に固定',
+    queries: [],
+    commit: 'ef93b3eb3a4bee26c3892eb08a598787c3995049',
+    note: 'PR #324を最新mainへ更新。10/19の予約MVP判定完了後、10/29に再開。記事本文・日程データ・予約案内の中身・外部リンク・広告表示は変更なし。既存のnext_action_clickでevent_intro / event_tocを区別する。公開前後の効果は未確認。',
+  },
+  {
     id: '20261029-news-kashima-pohang-acle-guide-2026-10-2',
     date: '2026-10-29',
     url: '/news/kashima-pohang-acle-guide-2026-10-28/',
