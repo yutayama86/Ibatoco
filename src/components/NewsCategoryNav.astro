@@ -26,4 +26,10 @@ const total = categories.reduce((sum, [, count]) => sum + count, 0);
   a:hover,a[aria-current="page"]{border-bottom-color:var(--color-ink);color:var(--color-ink)}
   a:focus-visible{outline:2px solid var(--color-tide);outline-offset:-2px}
   span{font:.66rem var(--font-brand-meta);font-variant-numeric:tabular-nums;color:var(--color-soil)}
+  /* スマホでは全カテゴリを見せる。横に隠れた項目を探す操作を不要にする。 */
+  @media(max-width:560px){
+    .news-categories ul{flex-wrap:wrap;gap:0 .5rem;overflow-x:visible;padding-block:.35rem}
+    a{gap:.4rem;font-size:.875rem}
+    span{font-size:.75rem}
+  }
 </style>
