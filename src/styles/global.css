@@ -39,7 +39,7 @@
   --color-ink: #172b35;       /* 主要文字・ロゴ・濃色面 */
   --color-tide: #315c68;      /* リンク・選択状態・図表（アクセント。橙赤CTAの置換） */
   --color-mist: #dce6e2;      /* 補助面・地図・区切り */
-  --color-paper: #f6f2e9;     /* 基本背景 */
+  --color-paper: #f8f6f0;     /* 基本背景 */
   --color-white: #fffdf8;     /* カード・記事本文面 */
   --color-charcoal: #292c2b;  /* 長文本文 */
   --color-soil: #75695a;      /* 補助文字・自然系図版 */
@@ -114,10 +114,10 @@
   --brand-cobalt-deep: #284766;
   --brand-navy: #090a37;
   --brand-ink: #102f3d;
-  --brand-radius-card: 22px;
+  --brand-radius-card: 8px;
   --brand-radius-pill: 999px;
-  --brand-shadow-card: 0 12px 32px rgba(16,47,61,.075);
-  --brand-shadow-lift: 0 20px 44px rgba(16,47,61,.13);
+  --brand-shadow-card: 0 2px 8px rgba(16,47,61,.025);
+  --brand-shadow-lift: 0 8px 24px rgba(16,47,61,.065);
 }
 
 @media (max-width: 1180px) {

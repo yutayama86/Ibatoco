@@ -1,0 +1,275 @@
+---
+/**
+ * 茨城のおいしい図鑑（/food-library/）。シリーズの目次と、旬・産地・品種からの索引。
+ * 中身はすべて src/data/food-library.ts の台帳から組む（図鑑を足せば、ここにも自動で並ぶ）。
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import FoodStyles from '../../components/food/FoodStyles.astro';
+import SeasonTable from '../../components/food/SeasonTable.astro';
+import { FOOD_GUIDES, licenseUrl } from '../../data/food-library';
+import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../../data/areas';
+import { wikimediaImage } from '../../lib/wikimedia-image';
+import { parseDateOnly } from '../../lib/date-only.js';
+
+const title = '茨城のおいしい図鑑｜れんこん・栗・さつまいも・メロン・白菜・いちご・常陸秋そば・干し芋 | イバトコ';
+const description = '茨城でとれる8つの食べものを、産地・旬・品種・歴史から読み解く図鑑のシリーズ。霞ヶ浦のれんこん、笠間の栗、行方のさつまいも、鉾田のメロン、県西の白菜、いばらキッス、常陸秋そば、干し芋を、旬・産地の市町村・品種から探せます。';
+
+const site = Astro.site!;
+const url = new URL('/food-library/', site).href;
+const updatedAt = FOOD_GUIDES.map((g) => g.updatedAt).sort().at(-1)!;
+const publishedAt = FOOD_GUIDES.map((g) => g.publishedAt).sort()[0];
+const fmt = (iso: string) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${y}年${m}月${d}日`;
+};
+const monthRange = (months: number[]) => {
+  if (months.length === 0) return '商品ごと';
+  if (months.length === 12) return '一年じゅう';
+  const start = months.find((m) => !months.includes(m === 1 ? 12 : m - 1)) ?? months[0];
+  const end = months.find((m) => !months.includes(m === 12 ? 1 : m + 1)) ?? months[months.length - 1];
+  return `${start}〜${end}月`;
+};
+
+/** 産地から探す：図鑑に出てくる市町村を、5地域ごとに */
+const byArea = new Map<string, typeof FOOD_GUIDES>();
+for (const guide of FOOD_GUIDES) {
+  for (const area of guide.areas) byArea.set(area.slug, [...(byArea.get(area.slug) ?? []), guide]);
+}
+const regions = REGION_ORDER.map((key) => ({
+  key,
+  label: REGIONS[key].label,
+  places: MUNICIPALITIES.filter((m) => m.region === key && byArea.has(m.slug)).map((m) => ({ ...m, guides: byArea.get(m.slug)! })),
+})).filter((r) => r.places.length > 0);
+
+const photos = FOOD_GUIDES.flatMap((g) => (g.hero ? [g.hero] : []));
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '茨城のおいしい図鑑',
+    description,
+    url,
+    inLanguage: 'ja',
+    datePublished: publishedAt,
+    dateModified: updatedAt,
+    publisher: { '@type': 'Organization', name: 'イバトコ', url: new URL('/', site).href },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: FOOD_GUIDES.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.title, url: new URL(g.path, site).href })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', site).href },
+      { '@type': 'ListItem', position: 2, name: '茨城のおいしい図鑑', item: url },
+    ],
+  },
+];
+---
+
+<BrandBase title={title} description={description} updatedAt={parseDateOnly(updatedAt)} jsonLd={jsonLd}>
+  <div class="fg fl" style="--fg-accent:#173c59">
+    <header class="fl-hero">
+      <nav class="fl-hero__crumbs" aria-label="パンくずリスト">
+        <ol>
+          <li><a href="/">ホーム</a></li>
+          <li aria-current="page">茨城のおいしい図鑑</li>
+        </ol>
+      </nav>
+      <div class="fl-hero__body">
+        <h1><span>茨城の</span><span>おいしい図鑑</span></h1>
+        <div class="fl-hero__side">
+          <p class="fl-hero__lead">霞ヶ浦のれんこん、笠間の栗、行方のさつまいも、鉾田のメロン、県西の白菜、いばらキッス、金砂郷から生まれた常陸秋そば、ひたちなかの干し芋。茨城でとれる食べものを、産地・旬・品種・歴史から一冊ずつ読み解く、図鑑のシリーズです。</p>
+          <ul class="fl-hero__jump" aria-label="このページの索引">
+            <li><a href="#season">旬から探す</a></li>
+            <li><a href="#origin">産地から探す</a></li>
+            <li><a href="#varieties">品種から探す</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <section class="fg-section" id="guides" aria-labelledby="fl-guides">
+      <div class="fg-section__label"><p>図鑑一覧</p></div>
+      <div class="fg-section__body">
+        <h2 id="fl-guides">八つの食べもの、<span>八冊の図鑑。</span></h2>
+        <ul class="fl-guides">
+          {FOOD_GUIDES.map((guide) => {
+            const img = guide.hero ? wikimediaImage(guide.hero.src, [500]) : null;
+            return (
+              <li style={`--fl-accent:${guide.accent}`}>
+                <a href={guide.path} class="fl-guides__link">
+                  <span class="fl-guides__text">
+                    <span class="fl-guides__title">{guide.title}</span>
+                    <span class="fl-guides__catch">{guide.catch}</span>
+                    <span class="fl-guides__meta">
+                      <span>{guide.standing}</span>
+                      <span>旬：{monthRange(guide.months)}</span>
+                    </span>
+                  </span>
+                  <span class="fl-guides__visual">
+                    {img ? (
+                      <img src={img.src} srcset={img.srcset} sizes="(min-width: 900px) 220px, 112px" width="500" height="375" loading="lazy" decoding="async" alt={guide.hero!.alt} style={`object-position:50% 50%`} />
+                    ) : (
+                      <span class="fl-guides__glyph" aria-hidden="true">{guide.name.slice(0, 1)}</span>
+                    )}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+
+    <section class="fg-section" id="season" aria-labelledby="fl-season">
+      <div class="fg-section__label"><p>旬から探す</p></div>
+      <div class="fg-section__body">
+        <h2 id="fl-season">一月から十二月まで、<span>何かが旬。</span></h2>
+        <p>それぞれの図鑑の出荷時期を、ひとつの表に重ねました。色の濃い帯は、出荷量が特に多い時期です。今月の列には色を付けています。</p>
+        <SeasonTable
+          caption="茨城のおいしい図鑑の旬（出荷の時期）"
+          accent="#173c59"
+          rows={FOOD_GUIDES.filter((g) => g.months.length > 0).map((g) => ({ label: g.title, months: g.months, peak: g.peakMonths, href: g.path }))}
+          note="出典：茨城をたべよう（茨城県）の出荷カレンダーほか、各図鑑に記した資料。品種・作型・産地・年によって前後します。干し芋は商品や生産者によって出回る時期が違うため、表に入れていません。"
+        />
+      </div>
+    </section>
+
+    <section class="fg-section" id="origin" aria-labelledby="fl-origin">
+      <div class="fg-section__label"><p>産地から探す</p></div>
+      <div class="fg-section__body">
+        <h2 id="fl-origin">霞ヶ浦のまわりから、<span>県北の山あいまで。</span></h2>
+        <p>図鑑に主な産地として出てくる市町村を、5つの地域に分けて並べました。市町村の名前から、その街のページへ移れます。</p>
+        <div class="fl-origin">
+          <figure class="fl-origin__map">
+            <img src="/food-library/map/all.svg" width="519" height="660" loading="lazy" decoding="async"
+              alt={`茨城県の地図。図鑑に産地として出てくる${byArea.size}市町村を色で示している`} />
+            <figcaption>色の付いた市町村が、図鑑に主な産地として出てくる市町村です。地図の境界は国土数値情報（行政区域）をもとにしています。</figcaption>
+          </figure>
+          <div class="fl-origin__regions">
+            {regions.map((region) => (
+              <section class="fl-region" aria-labelledby={`fl-region-${region.key}`}>
+                <h3 id={`fl-region-${region.key}`}>{region.label}</h3>
+                <ul>
+                  {region.places.map((place) => (
+                    <li>
+                      <a class="fl-region__place" href={`/area/${place.slug}/`}>{place.name}</a>
+                      <span class="fl-region__guides">
+                        {place.guides.map((g, i) => <>{i > 0 && <span class="fl-sep" aria-hidden="true">・</span>}<a href={g.path}>{g.name}</a></>)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fg-section" id="varieties" aria-labelledby="fl-varieties">
+      <div class="fg-section__label"><p>品種から探す</p></div>
+      <div class="fg-section__body">
+        <h2 id="fl-varieties">名前を知ると、<span>選ぶのが楽しくなる。</span></h2>
+        <p>図鑑で紹介している品種・銘柄・作型です。名前から、図鑑の該当する箇所へ移れます。</p>
+        <dl class="fl-varieties">
+          {FOOD_GUIDES.map((guide) => (
+            <div>
+              <dt><a href={guide.path}>{guide.title}</a></dt>
+              <dd>
+                {guide.varieties.map((v, i) => <>{i > 0 && <span class="fl-sep" aria-hidden="true">・</span>}<a href={`${guide.path}#${v.id}`}>{v.name}</a></>)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <footer class="fg-colophon">
+      <section class="fg-colophon__block fg-colophon__policy" aria-labelledby="fl-policy">
+        <h2 id="fl-policy">この図鑑のつくり方</h2>
+        <p>茨城県の「茨城をたべよう」をはじめ、市町村・JA・農研機構などが公開している資料をもとに、イバトコ編集部がまとめています。出典と確認した日は、それぞれの図鑑の最後に載せています。生産者への取材や現地での撮影は、まだ行っていません。取材ができたものから、生産者の話や直売所の情報を加えていきます。最終確認日：{fmt(updatedAt)}。<a href="/about/editorial-policy/">編集方針</a>／<a href="/about/corrections/">訂正のご連絡</a></p>
+      </section>
+      <section class="fg-colophon__block" aria-labelledby="fl-credits">
+        <h2 id="fl-credits">写真</h2>
+        <ul class="fg-credits">
+          {photos.map((p) => (
+            <li>{p.place}・{p.taken}撮影。<a href={p.page} target="_blank" rel="noopener noreferrer">{p.author} / Wikimedia Commons</a>（<a href={licenseUrl(p.license)} target="_blank" rel="noopener noreferrer license">{p.license}</a>）</li>
+          ))}
+        </ul>
+        <p>枠に合わせて切り抜いて表示しています。栗図鑑は、権利を確認できる茨城県内の写真が見つかるまで、写真を載せていません。</p>
+      </section>
+    </footer>
+  </div>
+  <FoodStyles />
+</BrandBase>
+
+<style>
+  .fl-hero { max-width: 1440px; margin: 0 auto; padding: clamp(20px, 3.4vw, 44px) var(--fg-gutter) clamp(48px, 7vw, 96px); }
+  .fl-hero__crumbs { font-family: var(--font-brand-meta); font-size: 12.5px; letter-spacing: .1em; padding-bottom: 14px; border-bottom: 1px solid var(--fg-line); }
+  .fl-hero__crumbs ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; }
+  .fl-hero__crumbs li + li::before { content: '／'; margin: 0 .5em; color: var(--fg-line-strong); }
+  .fl-hero__crumbs a { text-decoration: none; color: var(--fg-mute); }
+  .fl-hero__crumbs a:hover { text-decoration: underline; color: var(--fg-navy); }
+  .fl-hero__crumbs [aria-current] { color: var(--fg-soil); font-weight: 700; }
+  .fl-hero__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: clamp(32px, 6vw, 88px); }
+  .fl-hero h1 { font-size: clamp(44px, 8.4vw, 124px); line-height: 1.14; letter-spacing: .02em; }
+  .fl-hero h1 span { display: block; }
+  .fl-hero h1 span + span { padding-left: .9em; }
+  .fl-hero__lead { font-size: clamp(16px, 1.55vw, 18.5px); line-height: 2.05; max-width: 30em; }
+  .fl-hero__jump { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
+  .fl-hero__jump li { border-bottom: 1px solid var(--fg-line); }
+  .fl-hero__jump a { display: flex; justify-content: space-between; align-items: center; min-height: 48px; text-decoration: none; font-weight: 700; color: var(--fg-navy); }
+  .fl-hero__jump a::after { content: '↓'; font-weight: 400; color: var(--fg-soil); }
+  .fl-hero__jump a:hover { text-decoration: underline; }
+
+  .fl-guides { list-style: none; padding: 0; border-top: 1px solid var(--fg-ink); max-width: 1080px; }
+  .fl-guides li { border-bottom: 1px solid var(--fg-line); max-width: none; }
+  .fl-guides__link { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 16px; padding: 20px 0; text-decoration: none; align-items: start; }
+  .fl-guides__text { display: grid; gap: 6px; min-width: 0; }
+  .fl-guides__title { font-family: var(--font-brand-display); font-weight: 600; font-size: clamp(22px, 2.5vw, 32px); line-height: 1.35; color: var(--fg-navy); padding-top: 8px; border-top: 2px solid var(--fl-accent); justify-self: start; }
+  .fl-guides__catch { font-size: 15px; line-height: 1.85; color: var(--fg-ink); }
+  .fl-guides__meta { display: grid; gap: 2px; font-size: 12.5px; line-height: 1.75; color: var(--fg-mute); }
+  .fl-guides__meta span:last-child { color: var(--fg-soil); font-weight: 700; }
+  .fl-guides__visual { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--fg-paper-deep); }
+  .fl-guides__visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .fl-guides__glyph { display: grid; place-items: center; width: 100%; height: 100%; font-family: var(--font-brand-display); font-weight: 600; font-size: clamp(44px, 6vw, 88px); color: var(--fg-navy); border-top: 2px solid var(--fl-accent); }
+  .fl-guides__link:hover .fl-guides__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+
+  .fl-origin { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; }
+  .fl-origin__map { margin: 0; max-width: min(340px, 82%); }
+  .fl-origin__map img { display: block; width: 100%; height: auto; }
+  .fl-origin__map figcaption { margin-top: 8px; font-size: 12px; line-height: 1.8; color: var(--fg-mute); }
+  .fl-origin__regions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .fl-region h3 { margin: 0 !important; font-size: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--fg-ink); }
+  .fl-region ul { list-style: none; padding: 0; }
+  .fl-region li { max-width: none; display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--fg-line); }
+  .fl-region__place { font-family: var(--font-brand-display); font-weight: 600; font-size: 16.5px; color: var(--fg-navy); }
+  .fl-region__guides { font-size: 14px; line-height: 1.8; }
+  .fl-sep { color: var(--fg-line-strong); }
+
+  .fl-varieties { border-top: 1px solid var(--fg-ink); max-width: 980px; }
+  .fl-varieties > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
+  .fl-varieties dt a { font-family: var(--font-brand-display); font-weight: 600; font-size: 17px; color: var(--fg-navy); }
+  .fl-varieties dd { margin: 0; font-size: 15px; line-height: 1.95; }
+
+  .fl .fg-colophon p { max-width: 62em; }
+  .fl .fg-colophon p + p, .fl .fg-credits + p { margin-top: 10px; }
+
+  @media (min-width: 760px) {
+    .fl-guides__link { grid-template-columns: minmax(0, 1fr) 220px; gap: 32px; padding: 26px 0; }
+    .fl-region li { grid-template-columns: 9em minmax(0, 1fr); }
+    .fl-varieties > div { grid-template-columns: 11em minmax(0, 1fr); gap: 20px; align-items: baseline; }
+  }
+  @media (min-width: 900px) {
+    .fl-hero__body { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: clamp(40px, 5vw, 88px); align-items: end; }
+    .fl-origin { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; }
+  }
+  @media (min-width: 1180px) {
+    .fl-origin__regions { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; }
+  }
+</style>

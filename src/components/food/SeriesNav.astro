@@ -1,0 +1,59 @@
+---
+/**
+ * 図鑑シリーズの目次（各図鑑の末尾）。いま開いている図鑑は外し、旬の月を添える。
+ */
+import { FOOD_GUIDES, type FoodSlug } from '../../data/food-library';
+
+interface Props { current?: FoodSlug }
+const { current } = Astro.props;
+const others = FOOD_GUIDES.filter((guide) => guide.slug !== current);
+const monthRange = (months: number[]) => {
+  if (months.length === 0) return '商品ごと';
+  if (months.length === 12) return '通年';
+  // 年をまたぐ並び（例：10〜6月）も、先頭の月から順に書く
+  const start = months.find((m) => !months.includes(m === 1 ? 12 : m - 1)) ?? months[0];
+  const end = months.find((m) => !months.includes(m === 12 ? 1 : m + 1)) ?? months[months.length - 1];
+  return `${start}〜${end}月`;
+};
+---
+
+<nav class="fg-series" aria-labelledby="fg-series-title">
+  <div class="fg-series__head">
+    <p class="fg-series__kicker">シリーズ</p>
+    <h2 id="fg-series-title"><a href="/food-library/">茨城のおいしい図鑑</a></h2>
+  </div>
+  <ul>
+    {others.map((guide) => (
+      <li>
+        <a href={guide.path}>
+          <span class="fg-series__name">{guide.title}</span>
+          <span class="fg-series__months">{monthRange(guide.months)}</span>
+          <span class="fg-series__catch">{guide.catch}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .fg-series { padding: clamp(48px, 7vw, 88px) var(--fg-gutter, 24px); border-top: 1px solid var(--fg-line, #d6cdbf); background: var(--fg-paper, #f6f1e8); }
+  .fg-series__kicker { font-family: var(--font-brand-meta); font-size: 12.5px; font-weight: 700; letter-spacing: .16em; color: var(--fg-soil, #6f6354); }
+  h2 { font-size: clamp(24px, 2.8vw, 34px); margin-top: 6px !important; }
+  h2 a { text-decoration: none; }
+  h2 a:hover { text-decoration: underline; }
+  ul { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--fg-ink, #1f2b31); }
+  li { border-bottom: 1px solid var(--fg-line, #d6cdbf); }
+  li a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; padding: 14px 0; text-decoration: none; min-height: 44px; }
+  .fg-series__name { font-family: var(--font-brand-display); font-weight: 600; font-size: 18px; color: var(--fg-navy, #173c59); }
+  .fg-series__months { font-size: 12.5px; color: var(--fg-soil, #6f6354); align-self: center; font-variant-numeric: tabular-nums; }
+  .fg-series__catch { grid-column: 1 / -1; font-size: 13.5px; line-height: 1.75; color: var(--fg-mute, #59656a); }
+  li a:hover .fg-series__name { text-decoration: underline; text-decoration-color: var(--fg-accent, #4f6d78); }
+  @media (min-width: 760px) {
+    ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-top: 0; }
+    li:nth-child(-n+2) { border-top: 1px solid var(--fg-ink, #1f2b31); }
+  }
+  @media (min-width: 1180px) {
+    ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    li:nth-child(3) { border-top: 1px solid var(--fg-ink, #1f2b31); }
+  }
+</style>

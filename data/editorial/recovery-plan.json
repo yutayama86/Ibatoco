@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-17",
+  "updatedAt": "2026-10-24",
   "mode": "100k-recovery",
   "targetMonth": "2026-11",
   "targetViews": 100000,
   "currentEvidence": {
-    "asOf": "2026-10-17",
-    "ga4Through": "2026-10-15",
-    "gscThrough": "2026-10-14",
-    "referenceRunRate30": 17172,
-    "referenceGapViews": 82828,
-    "officialRawRunRate30": 12699,
-    "latest3RawRunRate30": 17840,
-    "incidentAdjustedLatest3ReferenceRunRate30": 17840,
+    "asOf": "2026-10-24",
+    "ga4Through": "2026-10-19",
+    "gscThrough": "2026-10-18",
+    "referenceRunRate30": 18570,
+    "referenceGapViews": 81430,
+    "officialRawRunRate30": 18570,
+    "latest3RawRunRate30": 19330,
+    "incidentAdjustedLatest3ReferenceRunRate30": null,
     "portfolioExpectedViews": null,
     "confidenceAdjustedExpectedViews": null,
     "coverage": null,
     "unfilledViews": null,
     "paceStatus": "off-pace",
-    "recent7Views": 2963,
-    "recent7DailyAverage": 423.2857142857143,
-    "recent3Views": 1784,
-    "recent3DailyAverage": 594.6666666666666,
+    "recent7Views": 4333,
+    "recent7DailyAverage": 619,
+    "recent3Views": 1933,
+    "recent3DailyAverage": 644.3333333333334,
     "requiredDailyAverage": 3333.3333333333335,
-    "basis": "30日換算と需要積上げ予測を区別。最新3日と障害日除外7日は回復後の横ばいを示すが、11月需要を重複なく積み上げたportfolioは未確定。"
+    "basis": "30日換算と需要積上げ予測を区別。最新3日は7日平均を上回るが、10万Viewsに対して大幅off-pace。10/24もWindsor.aiの期間指定が無視され、GA4・GSCとも指定範囲外の2026-10-23・0値1行だけを返したため不採用。GA4 10/19・GSC 10/18までの最終確定値を保持し、需要portfolioは重複排除・確度補正の根拠不足でnull。"
   },
   "principle": "不足分を推測で埋めず、実測できる需要・順位・CTR・回遊の改善だけを積み上げて100,000 Views到達確率を最大化する。",
   "priorities": [
@@ -129,7 +129,16 @@
     },
     {
       "date": "2026-10-19",
-      "criterion": "ページ別GSCの前後同日数・Views・配信実績で勝ち筋を再判定。不足を埋める根拠が無ければ小改善の連打を止め、需要クラスターと配信へ資源を移す。"
+      "criterion": "ページ別GSCの前後同日数・Views・配信実績で勝ち筋を再判定。不足を埋める根拠が無ければ小改善の連打を止め、需要クラスターと配信へ資源を移す。",
+      "status": "completed",
+      "completedAt": "2026-10-19",
+      "evidence": {
+        "ga4": "10/11〜17は4,129 Views、589.9/日。最新3日は625/日（+5.96%）だが30日換算18,750は参考値",
+        "gsc": "10/10〜16は32,840表示・1,747クリック・CTR5.32%・平均順位6.41。大洗あんこう祭が最大、紅葉は花貫・袋田・竜神が露出開始",
+        "reallocation": "小改善連打を止め、大洗あんこう防衛・紅葉一次情報/回遊・土浦花火観測窓を優先。竜神峡の公式発表矛盾だけ即修正",
+        "revenue": "予約MVP7日窓は341表示・paid3（0.88%）・outbound24（7.04%）・確定売上0円。CTA増量せず商材一致を点検",
+        "forecast": "需要積上げ予測はnull。現状7日ランレート基準Gap82,304 Viewsを埋めたとは判断しない"
+      }
     },
     {
       "date": "2026-10-26",
@@ -137,23 +146,28 @@
     }
   ],
   "lastExecution": {
-    "date": "2026-10-17",
+    "date": "2026-10-24",
     "pr": null,
     "productionCommit": null,
     "productionQaRun": null,
     "productionQa": "pending",
-    "factsReleased": [],
-    "incrementalViewsObserved": null,
-    "growthImplementations": 0,
-    "growthImplementation": "なし（予約MVPと重点季節ページが観測窓中。実測同期・CTR校正は獲得PVに計上しない）",
-    "expectedPvImpact": 0,
-    "expectedPvImpactConfidence": "none",
-    "observationWindow": "予約MVP 2026-10-11..17、10/17確定後に評価",
-    "blockers": [
-      "予約MVPの10/16〜17が未確定",
-      "土浦花火は10/18の公式再確認・観測解除待ち"
+    "factsReleased": [
+      "/events/kasama-kiku-matsuri-2026/ の公式パンフレット差分（周遊バス毎日運行・一部有料エリア・夜祭り・交通規制）",
+      "/news/ibaraki-airport-winter-schedule-2026/ の石岡駅行き予約制乗合タクシー"
     ],
-    "nextConcreteAction": "10/18に土浦花火の一次情報と最新GSCを再確認し、検索意図不足の最小改善を実装候補へ再選別する。10/19に予約MVP7日窓と需要配分をcheckpoint評価する。",
-    "nextDemandCheckpoint": "2026-10-19"
+    "incrementalViewsObserved": null,
+    "growthImplementations": 1,
+    "growthImplementation": "笠間の菊まつり既存ページに、第119回公式パンフレットで確定した料金・会期中毎日運行・夜祭り・交通規制を反映。空港記事は必要な公式事実更新だが、期待PVの再現根拠がないためGrowth獲得施策には数えない。データ同期・技術監査も獲得PVに計上しない。",
+    "expectedPvImpact": 105,
+    "expectedPvImpactConfidence": "medium",
+    "observationWindow": "公式事実は即時確認。笠間本文更新は2026-11-21まで28日観測し、季節案件は会期内のGSC/GA4立ち上がりを優先して途中点検。空港の事実更新は即時確認。",
+    "blockers": [
+      "需要根拠付きconfidence-adjusted portfolio未成立",
+      "Windsor.aiが指定期間を無視した0値1行を返し、10/24も新しい確定値を採用できない",
+      "土浦花火・水戸ホーリーホック等の進行中観測窓",
+      "公式一次情報で確認した未露出需要に期待PVを置ける実測が乏しく、+105 Viewsでは81,430 ViewsのGapを埋められない"
+    ],
+    "nextConcreteAction": "10/25に空港駐車場の正式時間と、11月大型需要の一次情報更新を再確認。Windsor.ai復旧後にGA4/GSC欠損日をバックフィルし、10/26 checkpointで需要配分・未露出需要・残差を再判定。",
+    "nextDemandCheckpoint": "2026-10-26"
   }
 }

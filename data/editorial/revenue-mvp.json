@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-11",
+  "updatedAt": "2026-10-19",
   "id": "bookable-ibatoco-mvp-20261008",
-  "status": "running",
+  "status": "evaluated",
   "objective": "既存検索流入を、公式情報を損なわず予約・宿泊等の送客へ変換できるかを最小検証する",
   "observationDays": 7,
   "successHypothesis": {
@@ -60,7 +60,9 @@
     "start": "2026-10-11",
     "end": "2026-10-17",
     "evaluateAfter": "GA4 の 2026-10-17 が確定した後（10/19 目安）",
-    "basis": "Growth Director 最終判断 2026-10-10：当初の 10/8〜10/14 は GA4 の計測障害（10/8〜10/10）と重なるため取り直す"
+    "basis": "Growth Director 最終判断 2026-10-10：当初の 10/8〜10/14 は GA4 の計測障害（10/8〜10/10）と重なるため取り直す",
+    "status": "complete",
+    "evaluatedAt": "2026-10-19"
   },
   "primaryKpi": {
     "name": "提携送客率",
@@ -75,5 +77,52 @@
     "booking_guide_view > 0 のページだけ率を出す（0 や未取得は null。0% と書かない）",
     "二重送信：本番 QA・CI の「送客イベント」検査で、提携リンク1クリック＝outbound 1回・paid 1回、公式リンク1クリック＝outbound 1回・paid 0回、表示は1ページ1回であること（scripts/ui-smoke.mjs）",
     "期間：分子・分母とも 10/11〜10/17 の確定日だけ。障害日（10/8〜10/10）を含めない"
-  ]
+  ],
+  "result": {
+    "period": {
+      "start": "2026-10-11",
+      "end": "2026-10-17",
+      "daysConfirmed": 7
+    },
+    "pages": [
+      {
+        "path": "/events/oarai-ankou-matsuri-2026/",
+        "booking_guide_view": 324,
+        "outbound_booking_click": 15,
+        "paid_booking_click": 3,
+        "paidRate": 0.009259259259259259,
+        "outboundRate": 0.046296296296296294,
+        "consistency": "pass"
+      },
+      {
+        "path": "/events/oarai-ankou-nabe-guide/",
+        "booking_guide_view": 15,
+        "outbound_booking_click": 9,
+        "paid_booking_click": 0,
+        "paidRate": 0,
+        "outboundRate": 0.6,
+        "consistency": "pass"
+      },
+      {
+        "path": "/events/tsuchiura-hanabi-2026/",
+        "booking_guide_view": 2,
+        "outbound_booking_click": 0,
+        "paid_booking_click": 0,
+        "paidRate": 0,
+        "outboundRate": 0,
+        "consistency": "pass"
+      }
+    ],
+    "totals": {
+      "bookingGuideViews": 341,
+      "outboundBookingClicks": 24,
+      "paidBookingClicks": 3,
+      "paidRate": 0.008797653958944282,
+      "outboundRate": 0.07038123167155426,
+      "confirmedRevenueYen": 0
+    },
+    "verdict": "review-offer-intent-fit",
+    "reason": "主KPI0.88%は1%未満の見直し基準。全送客率7.04%は行動需要を示すが、paid clickは売上ではない。",
+    "nextAction": "CTAを増やさず、送客先・商材の意図一致とASPの発生・確定成果を継続確認"
+  }
 }

@@ -31,10 +31,10 @@ body.interior-site :is(
  * 枠線・角丸・影は下の --card-* を共有する（見た目の定義は1か所）。
  */
 body.interior-site {
-  --card-border: 1px solid rgba(23, 79, 153, .12);
-  --card-radius: 1rem;
-  --card-surface: rgba(255, 255, 255, .94);
-  --card-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+  --card-border: 1px solid rgba(23, 43, 53, .14);
+  --card-radius: var(--radius-xs);
+  --card-surface: var(--color-white);
+  --card-shadow: var(--brand-shadow-card);
 }
 
 body.interior-site .bp-cards {
@@ -164,10 +164,10 @@ body.interior-site.route-news .news-index__list .news-grid {
 
 body.interior-site .news-card {
   overflow: hidden;
-  border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .06);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--card-surface);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
@@ -182,7 +182,7 @@ body.interior-site .news-card__image {
 }
 
 body.interior-site .news-card__body {
-  padding: clamp(1.2rem, 2.2vw, 1.55rem);
+  padding: clamp(1.15rem, 1.8vw, 1.5rem);
 }
 
 body.interior-site .news-card__meta {
@@ -195,14 +195,88 @@ body.interior-site .news-card h3 {
   text-wrap: pretty;
 }
 
+/* ニュースはスマホでも見出しから読める密度に。本文を小さくして詰めない。 */
+@media (max-width: 560px) {
+  body.interior-site.route-news .news-index__head {
+    padding-block: 1.25rem 1.5rem !important;
+  }
+  body.interior-site.route-news .news-index__head nav {
+    margin-bottom: .75rem;
+    font-size: .75rem;
+  }
+  body.interior-site.route-news .news-index__head h1 {
+    margin-top: 0;
+    font-size: clamp(1.65rem, 7vw, 2rem) !important;
+    line-height: 1.4 !important;
+    word-break: normal;
+    text-wrap: pretty;
+  }
+  body.interior-site.route-news .news-index__head > p:last-of-type {
+    margin-top: .75rem;
+    font-size: .9375rem;
+  }
+  body.interior-site.route-news .news-index__list {
+    padding-top: 1.5rem;
+  }
+  body.interior-site.route-news .news-index__section-head {
+    align-items: baseline;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: .75rem;
+  }
+  body.interior-site.route-news .news-index__section-head h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  body.interior-site.route-news .news-grid {
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+  }
+  body.interior-site.route-news .news-card {
+    border: 0;
+    border-bottom: 1px solid var(--color-line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+  body.interior-site.route-news .news-card__body {
+    padding: 1rem 0 1.25rem;
+  }
+  body.interior-site.route-news .news-card__meta,
+  body.interior-site.route-news .news-card__dates {
+    font-size: .75rem;
+  }
+  body.interior-site.route-news .news-card h3 {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    word-break: normal;
+    line-break: strict;
+  }
+  body.interior-site.route-news .news-card.featured h3 {
+    font-size: 1.25rem;
+  }
+  body.interior-site.route-news .news-card p {
+    font-size: .9375rem;
+    line-height: 1.85;
+  }
+  body.interior-site.route-news .news-card__dates {
+    padding-top: 1rem;
+  }
+  body.interior-site.route-news .news-card__arrow {
+    display: none;
+  }
+}
+
 body.interior-site .bsc {
   gap: 0;
   height: 100%;
   overflow: hidden;
   border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
+  border-radius: var(--card-radius);
   background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
@@ -230,16 +304,16 @@ body.interior-site .bsc-read {
 }
 
 body.interior-site .bsc.is-featured {
-  border-radius: 1.35rem;
+  border-radius: var(--card-radius);
 }
 
 body.interior-site .card-link {
   gap: 0;
   overflow: hidden;
   border: 1px solid rgba(23, 79, 153, .12);
-  border-radius: 1rem;
+  border-radius: var(--card-radius);
   background: rgba(255, 255, 255, .94);
-  box-shadow: 0 12px 34px rgba(25, 55, 88, .055);
+  box-shadow: var(--card-shadow);
   transition: transform .28s ease, box-shadow .28s ease;
 }
 

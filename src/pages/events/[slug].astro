@@ -40,7 +40,7 @@ const info = d.eventInfo;
 const facetTitleByPath = new Map((await getAllFacets()).map((f) => [f.path, f.title.split('｜')[0]]));
 const pickLabel = (url: string) => INTERNAL_LINK_LABELS[url] ?? facetTitleByPath.get(url) ?? '編集部がつないだ次の候補';
 
-const fmtDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
+const fmtDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 
 /**
  * 日付を YYYY-MM-DD にする。
@@ -208,6 +208,12 @@ if (d.faq.length > 0) {
     {lifecycle === 'ended' && d.supersededBy && (
       <p class="ev-status__next"><a href={d.supersededBy}>最新の回の記事を見る →</a></p>
     )}
+    {(factRows.length > 0 || effectiveBooking) && (
+      <nav class="ev-head__quick" aria-label="この記事の確認先">
+        {factRows.length > 0 && <a href="#facts">開催情報 <span aria-hidden="true">↓</span></a>}
+        {effectiveBooking && <a href="#booking" data-booking-jump="event_intro">公式・予約の確認先 <span aria-hidden="true">↓</span></a>}
+      </nav>
+    )}
     <p class="ev-lead">{d.summary}</p>
     {effectiveBooking && hasPaidLink(effectiveBooking.items) && <p class="ad-disclosure"><span class="ad-disclosure__tag">#アフィリエイト広告</span>この記事にはアフィリエイト広告を含みます。</p>}
     <p class="ev-meta">
@@ -231,9 +237,7 @@ if (d.faq.length > 0) {
     <aside class="ev-toc" aria-label="この記事の目次">
       <p>この記事の構成</p>
       <ol>{sections.map((s) => <li><a href={`#${s.id}`}>{s.label}</a></li>)}</ol>
-      {/* 予約・確認先はスマホで記事の7割ほど下（大洗あんこう祭で約10画面目）。目次から直接飛べるようにする。
-          番号つきの本文セクションではないので、番号の一覧には入れない（目次と見出しの番号がずれるため） */}
-      {effectiveBooking && <p class="ev-toc__jump"><a href="#booking" data-toc-target="booking">予約・確認先へ <span aria-hidden="true">↓</span></a></p>}
+      {effectiveBooking && <p class="ev-toc__jump"><a href="#booking" data-booking-jump="event_toc">公式・予約の確認先 <span aria-hidden="true">↓</span></a></p>}
     </aside>
 
     <div class="ev-body">
@@ -263,8 +267,6 @@ if (d.faq.length > 0) {
       <ul class="ev-points">{d.keyPoints.map((p) => <li>{p}</li>)}</ul>
     </section>
   )}
-
-  <GrowthNextReads currentPath={`/events/${entry.id.split('/').pop()}/`} pageType="events" />
 
   {d.highlights.length > 0 && (
     <section id="highlights" aria-labelledby="ev-high">
@@ -309,7 +311,7 @@ if (d.faq.length > 0) {
     </section>
   )}
 
-  {effectiveBooking && <BookingGuide booking={effectiveBooking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} anchorId="booking" />}
+  {effectiveBooking && <BookingGuide anchorId="booking" booking={effectiveBooking} pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />}
   <SponsorSlots path={`/events/${entry.id.split('/').pop()}/`} pageType="events" municipality={d.municipalities[0]} />
 
   <section id="sources" aria-labelledby="ev-src">
@@ -320,6 +322,7 @@ if (d.faq.length > 0) {
     ))}</ul>
     <p class="ev-caution">開催内容・日程・料金・交通は変更されることがあります。お出かけ前に必ず公式の最新情報をご確認ください。</p>
   </section>
+  <GrowthNextReads currentPath={`/events/${entry.id.split('/').pop()}/`} pageType="events" />
   {/* 本文を読み終えた位置に、地域事業者向けの導線を1つだけ置く */}
   <BusinessCta pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />
     </div>
@@ -355,13 +358,12 @@ if (d.faq.length > 0) {
   )}
   <script>
     import { commonParams, trackEvent } from '../../lib/analytics-events';
-    // 目次から予約・確認先へ飛んだ数。既存の next_action_click（登録済みのパラメータ）で数える
-    for (const link of document.querySelectorAll<HTMLAnchorElement>('.ev-toc a[data-toc-target="booking"]')) {
+    for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-booking-jump]')) {
       link.addEventListener('click', () => {
         trackEvent('next_action_click', {
           ...commonParams({ page_type: 'events' }),
           destination_type: 'booking_guide',
-          action_source: 'event_toc',
+          action_source: link.dataset.bookingJump ?? 'event_toc',
           destination_url: '#booking',
         });
       });
@@ -406,13 +408,17 @@ if (d.faq.length > 0) {
 
   /* ニュース記事（.news-detail__layout）と同じ作り。左に目次、右に本文。 */
   .ev-layout{display:grid;grid-template-columns:210px minmax(0,700px);justify-content:center;gap:clamp(2rem,6vw,5rem);padding-block:clamp(3.5rem,7vw,6rem)}
-  .ev-toc{position:sticky;top:calc(var(--site-header-height,0px) + 1rem);align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}
+  .ev-toc{position:sticky;top:calc(var(--site-header-height) + 1rem);align-self:start;padding-top:.5rem;color:var(--color-soil);font-size:.72rem}
   .ev-toc>p{padding-bottom:.65rem;border-bottom:1px solid var(--color-mist);font-weight:700;color:var(--color-ink)}
   .ev-toc ol{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;margin-top:.75rem;padding-left:1.2rem;list-style:decimal}
   .ev-toc a:hover{color:var(--color-tide)}
-  .ev-toc__jump{margin-top:.75rem;padding-top:.65rem;border-top:1px solid var(--color-mist)}
-  .ev-toc__jump a{font-weight:700;color:var(--color-ink)}
-  .ev-body section{scroll-margin-top:calc(var(--site-header-height,0px) + 1rem)}
+  .ev-toc__jump{margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--color-mist)}
+  .ev-toc__jump a{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;font-size:.875rem;line-height:1.7;font-weight:700;color:var(--color-tide)}
+  .ev-head__quick{display:flex;flex-wrap:wrap;gap:0 1.5rem;margin-top:1.25rem;padding-block:.25rem;border-block:1px solid var(--color-line)}
+  .ev-head__quick a{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;color:var(--color-tide);font-size:.875rem;line-height:1.7;font-weight:700;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.25em}
+  .ev-head__quick a:hover,.ev-toc__jump a:hover{color:var(--color-ink)}
+  .ev-head__quick a:focus-visible,.ev-toc a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .ev-body section{scroll-margin-top:calc(var(--site-header-height) + 1rem)}
   .ev-body section+section{margin-top:4rem;padding-top:3rem;border-top:1px solid var(--color-mist)}
   .ev-body h2{margin-top:.6rem}
   @media(max-width:760px){.ev-layout{grid-template-columns:minmax(0,1fr)}.ev-toc{position:static}}

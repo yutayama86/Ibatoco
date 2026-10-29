@@ -3,17 +3,12 @@ import BrandBase from '../../layouts/BrandBase.astro';
 import type { Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import NewsCard from '../../components/NewsCard.astro';
-import { getNews, getNewsCategoryCounts } from '../../lib/content';
-import { NEWS_CATEGORIES, type NewsCategoryKey } from '../../data/news';
+import { getNews } from '../../lib/content';
+import NewsCategoryNav from '../../components/NewsCategoryNav.astro';
 
 const news = await getNews();
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュース解説' }];
 
-// 記事が1本以上あるカテゴリだけ、多い順に。ヘッダーのプルダウンと同じ条件
-const categories = [...(await getNewsCategoryCounts()).entries()]
-  .filter(([, count]) => count > 0)
-  .sort((a, b) => b[1] - a[1])
-  .map(([key, count]) => ({ key, count, label: NEWS_CATEGORIES[key as NewsCategoryKey]?.label ?? key }));
 ---
 
 <BrandBase
@@ -22,25 +17,16 @@ const categories = [...(await getNewsCategoryCounts()).entries()]
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <header class="news-index__head bp-wrap">
     <nav aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span aria-current="page">茨城ニュース解説</span></nav>
-    <p class="bp-kicker">IBARAKI NEWS EXPLAINED</p>
     <h1>茨城ニュース解説</h1>
-    <p>茨城県の自治体、観光、地域経済、交通、スポーツ、DX、スタートアップなどの重要ニュースを、イバトコ編集部が地域への影響とともに解説します。</p>
+    <p>茨城のニュースを、暮らしに役立つ視点で読み解きます。</p>
   </header>
 
-  {categories.length > 0 && (
-    <nav class="news-cats bp-wrap" aria-label="カテゴリから探す">
-      <ul>
-        {categories.map((c) => (
-          <li><a href={`/news/category/${c.key}/`}>{c.label}<span>{c.count}</span></a></li>
-        ))}
-      </ul>
-    </nav>
-  )}
+  <NewsCategoryNav />
 
   <section class="news-index__list bp-wrap" aria-labelledby="news-latest">
-    <div class="news-index__section-head"><p class="bp-kicker">LATEST</p><h2 id="news-latest">新着の解説</h2></div>
+    <div class="news-index__section-head"><h2 id="news-latest">新着の解説</h2></div>
     {news.length > 0
-      ? <div class="news-grid">{news.map((item) => <NewsCard item={item} />)}</div>
+      ? <div class="news-grid">{news.map((item, index) => <NewsCard item={item} featured={index === 0} />)}</div>
       : <p class="news-empty">公開準備中です。確認を終えたニュースから掲載します。</p>}
   </section>
 </BrandBase>
@@ -50,11 +36,8 @@ const categories = [...(await getNewsCategoryCounts()).entries()]
   .news-index__head h1{font-family:var(--font-brand-display);color:var(--color-ink)}.news-index__head>p:last-child{color:var(--color-soil);line-height:2}
   .news-index__section-head{display:flex;align-items:end;justify-content:space-between;gap:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(23,43,53,.15)}.news-index__section-head h2{margin-top:.6rem;font:600 clamp(1.6rem,3vw,2.4rem) var(--font-brand-display);color:var(--color-ink)}
   .news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin-top:1.8rem}.news-empty{margin-top:2rem;padding:2rem;background:var(--color-white);color:var(--color-soil)}
-  /* カテゴリの導線。カテゴリページ側と同じ見た目にそろえている */
-  .news-cats{margin-bottom:2.5rem}
-  .news-cats ul{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;padding:0}
-  .news-cats a{display:flex;align-items:center;gap:.6rem;min-height:44px;padding:.4rem 1rem;border:1px solid var(--color-mist);color:var(--color-ink);font-size:.86rem;font-weight:700}
-  .news-cats a:hover{border-color:var(--interior-blue,#174f99);color:var(--interior-blue,#174f99)}
-  .news-cats span{color:var(--color-soil);font:.72rem var(--font-brand-meta)}
+  .news-index__section-head{align-items:center;flex-direction:row-reverse;justify-content:flex-end;gap:1rem;padding-bottom:.8rem}
+  .news-index__section-head h2{margin:0;font-size:1.3rem}
+  .news-index__section-head .bp-kicker{font-size:.6rem}
   @media(max-width:900px){.news-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:600px){.news-index__head{padding-top:2rem}}
 </style>

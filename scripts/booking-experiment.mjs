@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bookingAbCounts } from './lib/report-data.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PERF = join(ROOT, 'data/editorial/performance-snapshot.json');
@@ -14,12 +15,15 @@ if (!existsSync(PERF)) {
 }
 
 const performance = JSON.parse(readFileSync(PERF, 'utf8'));
-const recent7 = performance.conversionDetail?.recent7 ?? {};
 
-const aViews = Number(recent7.booking_guide_view_a ?? 0);
-const bViews = Number(recent7.booking_guide_view_b ?? 0);
-const aClicks = Number(recent7.outbound_booking_click_a ?? 0);
-const bClicks = Number(recent7.outbound_booking_click_b ?? 0);
+// A/B のイベントがそろっていないときは「0件」ではなく「未取得」。判定もしない（下の「ルール」）
+// 公式 API の同期（windows.ga4.bookingCtaExperiment）を優先し、無ければ conversionDetail.recent7
+const ab = bookingAbCounts(performance);
+const { missingKeys, hasData } = ab;
+const aViews = hasData ? ab.counts.booking_guide_view_a : 0;
+const bViews = hasData ? ab.counts.booking_guide_view_b : 0;
+const aClicks = hasData ? ab.counts.outbound_booking_click_a : 0;
+const bClicks = hasData ? ab.counts.outbound_booking_click_b : 0;
 
 const minViews = 200;
 const minClicks = 8;
@@ -38,7 +42,10 @@ const confidenceQualified = Math.abs(zScore) >= minZ;
 let decision = 'collect';
 let reason = '必要サンプル数に未到達。実験を継続する。';
 
-if (enoughData) {
+if (!hasData) {
+  decision = 'no-data';
+  reason = `A/B のイベントがそろっていない（${missingKeys.join('・')}／読んだ場所：${ab.source}）。公式 API の同期で取得される。行の無いイベントは0件か未計測かを区別できないため、そろうまで判定しない。`;
+} else if (enoughData) {
   if (!confidenceQualified) {
     decision = 'inconclusive';
     reason = `サンプル数は満たしたが統計的な差が弱い（|z|=${Math.abs(zScore).toFixed(2)} < ${minZ}）。実験継続。`;
@@ -57,10 +64,13 @@ if (enoughData) {
 const lines = [
   '# Booking CTA Experiment',
   '',
-  `- A: ${aViews} views / ${aClicks} clicks / CTR ${(aCtr * 100).toFixed(2)}%`,
-  `- B: ${bViews} views / ${bClicks} clicks / CTR ${(bCtr * 100).toFixed(2)}%`,
+  ...(hasData ? [
+    `- A: ${aViews} views / ${aClicks} clicks / CTR ${(aCtr * 100).toFixed(2)}%`,
+    `- B: ${bViews} views / ${bClicks} clicks / CTR ${(bCtr * 100).toFixed(2)}%`,
+  ] : ['- A・B: **未取得**（0件ではない）']),
+  `- 計測の出典: ${ab.source}（${ab.period.start ?? '—'}〜${ab.period.end ?? '—'}）`,
   `- 判定: **${decision}**`,
-  `- z-score: **${zScore.toFixed(2)}**`,
+  `- z-score: **${hasData ? zScore.toFixed(2) : '未計算'}**`,
   `- 理由: ${reason}`,
   '',
   '## 勝者判定条件',

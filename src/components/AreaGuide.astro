@@ -7,11 +7,14 @@
  * 阿見町・東海村（sensitive）は評価語を避け、「PLACES／この街にある場所。」の中立見出しにする。
  */
 import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import CityEditorialHero from './CityEditorialHero.astro';
 import type { AreaGuide } from '../data/area-guides';
 
 interface Props { slug: string; guide: AreaGuide; }
 const { slug, guide } = Astro.props;
 const municipality = MUNI_BY_SLUG.get(slug)!;
+// リニューアル試作は高萩市に限定。共通ガイドの文章と検索情報は変更しない。
+
 const region = REGIONS[municipality.region];
 const placesKicker = guide.sensitive ? 'PLACES' : 'HIGHLIGHTS';
 const placesHeading = guide.sensitive ? 'この街にある場所。' : 'この街で、訪ねたい場所。';
@@ -27,16 +30,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
 ---
 
 <article class="area-guide">
-  <header class="ag-head">
-    <div class="ag-head-copy bp-wrap">
-      <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/area/">エリア</a><span>/</span><span>{region.label}</span></nav>
-      <p class="bp-kicker">{region.label} / IBARAKI</p>
-      <h1>{municipality.name}</h1>
-      <p class="ag-catch">{guide.catch}</p>
-      <div class="ag-lead">{guide.lead.map((p) => <p>{p}</p>)}</div>
-      <a class="map-back" href="/area/">44市町村の地図に戻る →</a>
-    </div>
-  </header>
+  <CityEditorialHero slug={slug} catchCopy={guide.catch} lead={guide.lead} relatedSpots={guide.highlights.map((spot) => spot.title)} photo={slug === "hitachinaka" ? { src: "/images/theme/nemophila-hitachi-seaside-park.jpg", alt: "国営ひたち海浜公園のみはらしの丘に咲くネモフィラ", credit: "写真：イバトコ編集部" } : undefined} />
 
   {jump.length > 1 && (
     <nav class="ag-jump" aria-label={`${municipality.name}のページ内ナビゲーション`}>
@@ -120,7 +114,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
 </article>
 
 <style>
-  .area-guide{padding-top:clamp(3rem,7vw,6rem)}
+  .area-guide{padding-top:0}
   .ag-head{padding-bottom:clamp(2.5rem,6vw,5rem)}.crumbs{display:flex;gap:.55rem;margin-bottom:2.5rem;color:var(--color-soil);font-size:.78rem}.crumbs a{border-bottom:1px solid transparent}.crumbs a:hover{border-color:var(--color-tide)}
   .ag-head h1{margin-top:1rem;font:600 clamp(3.4rem,8vw,6.5rem)/1 var(--font-brand-display);color:var(--color-ink)}
   .ag-catch{margin-top:1.6rem;font:600 clamp(1.5rem,2.6vw,2.4rem)/1.5 var(--font-brand-display);color:var(--color-ink);max-width:12em}
@@ -150,5 +144,6 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
   .source-note h2{margin-top:.8rem;font:600 1.4rem var(--font-brand-display)}.source-note p{margin-top:1rem;line-height:1.8}.source-note>div:last-child p{font-size:.85rem}
   .ag-sources{margin-top:1rem;border-top:1px solid rgba(255,255,255,.2)}.ag-sources li a{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.2);color:var(--color-white);font-size:.82rem}
   @media(max-width:900px){.ag-grid-3{grid-template-columns:minmax(0,1fr)}.route-section ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:640px){.area-guide{padding-top:2.5rem}.ag-head h1{font-size:3.2rem}.ag-grid,.season-grid{grid-template-columns:minmax(0,1fr)}.route-section ol{grid-template-columns:minmax(0,1fr)}.route-section li{border-right:0;border-bottom:1px solid var(--color-mist)}.route-extra,.source-note{grid-template-columns:minmax(0,1fr)}}
+  @media(max-width:640px){.area-guide{padding-top:0}.ag-head h1{font-size:3.2rem}.ag-grid,.season-grid{grid-template-columns:minmax(0,1fr)}.route-section ol{grid-template-columns:minmax(0,1fr)}.route-section li{border-right:0;border-bottom:1px solid var(--color-mist)}.route-extra,.source-note{grid-template-columns:minmax(0,1fr)}}
+
 </style>

@@ -5,18 +5,25 @@ on:
     workflows: ["Validate site"]
     types: [completed]
   workflow_dispatch:
+  # 毎朝、ビルド時の日付で決まる表示（イベントの終了・開催中・月別一覧）を切り替える。
+  # GA4/GSC の確定値が古くても止めない（計測の失敗とサイトの日付更新を分ける。古いときは警告だけ）。
+  schedule:
+    - cron: '30 21 * * *' # 06:30 JST, after 05:45 Validate site
 
 concurrency:
   group: production-deploy
-  # 条件不一致でskipされる後発workflow_runが、有効な本番Deployを巻き添えでcancelしないようにする\n  cancel-in-progress: false
+  # 条件不一致でskipされる後発workflow_runが、有効な本番Deployを巻き添えでcancelしないようにする
+  cancel-in-progress: false
 
 permissions:
   contents: read
+  # 対象コミットの Validate site の成否を読むため（読み取りだけ）
+  actions: read
 
 jobs:
   deploy:
     if: >-
-      (github.event_name == 'workflow_dispatch') ||
+      ((github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') && github.ref == 'refs/heads/main') ||
       (github.event.workflow_run.event == 'push' &&
        github.event.workflow_run.head_branch == 'main' &&
        github.event.workflow_run.conclusion == 'success')
@@ -33,16 +40,55 @@ jobs:
             echo "sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - name: Reject superseded deployment
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::notice::Superseded deployment skipped: target $TARGET_SHA, latest main $latest_sha"
+            exit 1
+          fi
+          echo "Target matches latest main: $TARGET_SHA"
+
+      # 定期実行・手動実行では、出す版（最新の main）が Validate site に合格していることを確かめる。
+      # workflow_run は Validate site の成功が起動条件なので、ここでは確かめ直さない。
+      - name: Require successful validation of the target commit
+        if: github.event_name != 'workflow_run'
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # 空や短い SHA だと API が絞り込みを無視して全件を返すので、形を確かめ、一致した実行だけを数える
+          [[ "$TARGET_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::対象コミットが読めない（$TARGET_SHA）"; exit 1; }
+          count="$(gh api "repos/$REPOSITORY/actions/workflows/validate.yml/runs?head_sha=$TARGET_SHA&branch=main&status=success&per_page=20" \
+            --jq '[.workflow_runs[] | select(.head_sha == $ENV.TARGET_SHA and .head_branch == "main" and .conclusion == "success")] | length')"
+          if [ "${count:-0}" -lt 1 ]; then
+            echo "::error::$TARGET_SHA は Validate site（main）に合格していないため本番へ出さない。Validate site の完了を待つか、原因を直す"
+            exit 1
+          fi
+          echo "Validate site passed for $TARGET_SHA"
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ steps.ref.outputs.sha }}
           persist-credentials: false
 
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
-          node-version: 22
+          node-version: 22.23.4
           cache: npm
 
+      # 計測データ（GA4/GSC の確定値）が古いときは警告だけ出す。デプロイは止めない。データは読むだけで作らない
+      - name: Report analytics data freshness (warning only)
+        run: node scripts/deploy-preflight.mjs
       - name: Check Cloudflare credentials
         shell: bash
         env:
@@ -54,6 +100,20 @@ jobs:
 
       - run: npm ci
 
+      - name: Check latest main before deployment
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::error::Main advanced during build; refusing stale deployment: $TARGET_SHA != $latest_sha"
+            exit 1
+          fi
+
       - name: Audit and deploy to Cloudflare Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -61,6 +121,26 @@ jobs:
           PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
           PUBLIC_GSC_VERIFICATION: ${{ vars.PUBLIC_GSC_VERIFICATION }}
         run: npm run deploy
+
+      - name: Confirm deployed SHA and current main
+        shell: bash
+        env:
+          TARGET_SHA: ${{ steps.ref.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          latest_sha="$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [ "$TARGET_SHA" != "$latest_sha" ]; then
+            echo "::error::Main advanced during deployment: published target $TARGET_SHA; current main $latest_sha. A newer deploy must run."
+            exit 1
+          fi
+          live_sha="$(curl --fail --silent --show-error --retry 3 --retry-delay 2 -H 'Cache-Control: no-cache' "https://ibatoco.jp/build.json?verify=$GITHUB_RUN_ID" | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).commit")"
+          if [ "$live_sha" != "$TARGET_SHA" ]; then
+            echo "::error::Production SHA mismatch: live $live_sha, expected $TARGET_SHA"
+            exit 1
+          fi
+          echo "Production SHA verified: $live_sha"
 
       - name: Verify production
         shell: bash

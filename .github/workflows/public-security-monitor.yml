@@ -1,0 +1,39 @@
+name: Public security smoke monitor
+
+on:
+  schedule:
+    - cron: '20 21 * * *' # 06:20 JST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify public endpoints safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /control/; do
+            response=$(curl -sS -L --max-time 15 --max-redirs 3 -o /dev/null -w '%{http_code} %{url_effective}' "https://ibatoco.jp${path}")
+            code="${response%% *}"
+            final_url="${response#* }"
+            echo "${path}: HTTP ${code}, final=${final_url}"
+            case "${path}" in
+              /control/)
+                # Login is expected to be accessible, never check secrets or submit passwords.
+                [[ "${code}" == 200 || "${code}" == 403 ]] || exit 1 ;;
+              *)
+                [[ "${code}" == 200 ]] || exit 1 ;;
+            esac
+            [[ "${final_url}" == https://ibatoco.jp/* || "${final_url}" == https://ibatoco.jp ]] || exit 1
+          done
+          header_file=$(mktemp)
+          curl -fsSI --max-time 15 https://ibatoco.jp/ > "${header_file}"
+          grep -qi '^x-content-type-options: nosniff' "${header_file}" || { echo 'Missing nosniff'; exit 1; }
+          grep -qi '^content-security-policy:' "${header_file}" || { echo 'Missing CSP'; exit 1; }
+          grep -qi '^strict-transport-security:' "${header_file}" || { echo 'Missing HSTS'; exit 1; }
+          rm -f "${header_file}"

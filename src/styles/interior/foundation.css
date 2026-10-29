@@ -7,17 +7,17 @@
 body.interior-site {
   --interior-blue: #174f99;
   --interior-blue-deep: #071c4c;
-  --interior-sky: #dcecff;
-  --interior-sky-soft: #eef6ff;
+  --interior-sky: var(--color-sky); /* ブランド共通値へ集約（同一色・見た目は不変） */
+  --interior-sky-soft: #f1f4f3;
   --interior-moss: #bdca8e;
   --interior-paper: #fbfaf6;
   --interior-line: rgba(23, 43, 53, .13);
-  --interior-shadow: 0 20px 56px rgba(25, 55, 88, .085);
-  --interior-shadow-hover: 0 24px 58px rgba(25, 55, 88, .125);
-  --interior-title-xl: clamp(2.2rem, 3.45vw, 3.6rem);
-  --interior-title-lg: clamp(1.95rem, 2.8vw, 2.85rem);
-  --interior-hero-y: clamp(1.9rem, 3.1vw, 3rem);
-  --interior-section-y: clamp(2.75rem, 5vw, 5rem);
+  --interior-shadow: 0 3px 14px rgba(25, 55, 88, .035);
+  --interior-shadow-hover: 0 8px 24px rgba(25, 55, 88, .07);
+  --interior-title-xl: clamp(2rem, 3.1vw, 3.1rem);
+  --interior-title-lg: clamp(1.85rem, 2.7vw, 2.65rem);
+  --interior-hero-y: clamp(1.75rem, 2.8vw, 2.65rem);
+  --interior-section-y: clamp(2.5rem, 4.5vw, 4.25rem);
   /*
    * 本文カラムの左端までの距離。下層の .bp-wrap は
    *   width: min(100% - clamp(2rem, 7vw, 7.5rem), 1280px)
@@ -47,9 +47,7 @@ body.interior-site #main-content::before {
   z-index: -2;
   inset: 0 0 auto;
   height: clamp(18rem, 35vw, 30rem);
-  background:
-    radial-gradient(ellipse at 84% 2%, rgba(113, 179, 239, .18), transparent 42%),
-    linear-gradient(180deg, #f7fbff 0%, rgba(246, 242, 233, 0) 100%);
+  background: var(--color-paper);
   pointer-events: none;
 }
 
@@ -213,13 +211,11 @@ body.interior-site :is(
   z-index: -1;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 90% 14%, rgba(121, 183, 239, .23), transparent 29%),
-    linear-gradient(132deg, rgba(255, 255, 255, .98), rgba(239, 247, 255, .94));
+  background: var(--color-paper);
   /* 標準プロパティを後に置く。逆にすると minifier が -webkit- だけを残し、
      Chrome では効かなくなる（ヘッダーで実際に起きた） */
-  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
-  mask-image: linear-gradient(180deg, #000 calc(100% - 5rem), transparent 100%);
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 /*
@@ -386,3 +382,18 @@ body.interior-site .category-head nav:not(.crumbs) a:hover {
   }
 }
 
+
+/* ニュースの見出しは一覧と左端を揃え、最初の記事が1画面目に届く密度にする。 */
+body.interior-site.route-news .news-index__head {
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: start;
+  row-gap: 0;
+}
+body.interior-site.route-news .news-index__head nav { margin-bottom: 1.6rem; }
+body.interior-site.route-news .news-index__head h1 { margin-top: .65rem; }
+body.interior-site.route-news .news-index__head > p:last-of-type {
+  max-width: 40em;
+  margin-top: 1rem;
+  font-size: .93rem;
+  line-height: 1.85;
+}

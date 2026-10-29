@@ -52,6 +52,8 @@ const manifest = JSON.stringify(candidates.map((item) => ({
   ongoing: item.ongoing,
 }))).replace(/</g, '\\u003c');
 
+const HOME_PREVIEW_LIMIT = 3;
+const isHomeEditorial = pageType === 'home';
 const KIND_LABEL: Record<HappeningKind, string> = {
   event: 'イベント',
   sports: '試合',
@@ -60,18 +62,19 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 ---
 
 {candidates.length > 0 && (
-  <section class="tw" aria-labelledby="tw-title" data-this-week data-page-type={pageType} hidden={displayBoard.length === 0}>
+  <section class:list={['tw', { 'tw--home-editorial': isHomeEditorial }]} aria-labelledby="tw-title" data-this-week data-page-type={pageType} hidden={displayBoard.length === 0}>
     <div class="bp-wrap">
       <div class="tw__head">
-        <h2 id="tw-title" class="tw__title">{heading}</h2>
+        {isHomeEditorial && <span class="tw__eyebrow">EXPLORE IBARAKI / EVENTS</span>}
+        <h2 id="tw-title" class="tw__title">{isHomeEditorial ? '今、茨城で楽しめるイベント' : heading}</h2>
         {moreHref && <a class="tw__more" href={moreHref} data-week-kind="hub" data-week-bucket="more">{moreLabel}<span aria-hidden="true">&nbsp;→</span></a>}
       </div>
-      <p class="tw__lead">{lead}</p>
+      <p class="tw__lead">{isHomeEditorial ? '今行ける催しや、週末のイベント。日付から次のおでかけを探す。' : lead}</p>
 
       <div class="tw__groups">
         {displayBoard.map((group) => (
           <div class:list={['tw__group', `is-${group.bucket}`]}>
-            <p class="tw__when">{group.label}</p>
+            <div class="tw__group-head"><p class="tw__when">{group.label}</p>{isHomeEditorial && <span class="tw__group-note">{group.bucket === 'active' ? 'いま行ける' : group.bucket === 'tomorrow' ? '明日のおでかけ' : group.bucket === 'weekend' ? '週末に行きたい' : '近日開催'}</span>}</div>
             <ul class="tw__list">
               {group.items.map((item) => (
                 <li>
@@ -86,6 +89,11 @@ const KIND_LABEL: Record<HappeningKind, string> = {
                 </li>
               ))}
             </ul>
+            {isHomeEditorial && group.items.length > HOME_PREVIEW_LIMIT && (
+              <button class="tw__expand" type="button" aria-expanded="false" data-week-expand>
+                ほかの{group.items.length - HOME_PREVIEW_LIMIT}件を見る <span aria-hidden="true">→</span>
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -125,6 +133,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
     thisWeek: 'この先1週間',
   } as const;
   const bucketOrder = ['active', 'today', 'tomorrow', 'weekend', 'thisWeek'] as const;
+  const HOME_PREVIEW_LIMIT = 3;
 
   const appendTextElement = (parent: Element, tag: string, text: string, className?: string) => {
     const element = document.createElement(tag);
@@ -161,7 +170,12 @@ const KIND_LABEL: Record<HappeningKind, string> = {
       if (!entries?.length) continue;
       const group = document.createElement('div');
       group.className = `tw__group is-${bucket}`;
-      appendTextElement(group, 'p', bucketLabel[bucket], 'tw__when');
+      const isHome = block.dataset.pageType === 'home';
+      const head = document.createElement('div');
+      head.className = 'tw__group-head';
+      appendTextElement(head, 'p', bucketLabel[bucket], 'tw__when');
+      if (isHome) appendTextElement(head, 'span', bucket === 'active' ? 'いま行ける' : bucket === 'tomorrow' ? '明日のおでかけ' : bucket === 'weekend' ? '週末に行きたい' : '近日開催', 'tw__group-note');
+      group.append(head);
       const list = document.createElement('ul');
       list.className = 'tw__list';
       for (const { item, start, end } of entries) {
@@ -183,6 +197,15 @@ const KIND_LABEL: Record<HappeningKind, string> = {
         list.append(li);
       }
       group.append(list);
+      if (isHome && entries.length > HOME_PREVIEW_LIMIT) {
+        const button = document.createElement('button');
+        button.className = 'tw__expand';
+        button.type = 'button';
+        button.dataset.weekExpand = '';
+        button.setAttribute('aria-expanded', 'false');
+        button.textContent = `ほかの${entries.length - HOME_PREVIEW_LIMIT}件を見る →`;
+        group.append(button);
+      }
       groups.append(group);
     }
     block.hidden = groups.childElementCount === 0;
@@ -195,6 +218,16 @@ const KIND_LABEL: Record<HappeningKind, string> = {
     renderCurrentWeek(block);
     const pageType = block.dataset.pageType ?? 'home';
     block.addEventListener('click', (event) => {
+      const expand = (event.target as Element).closest<HTMLButtonElement>('[data-week-expand]');
+      if (expand) {
+        const group = expand.closest<HTMLElement>('.tw__group');
+        if (!group) return;
+        const expanded = group.classList.toggle('is-expanded');
+        expand.setAttribute('aria-expanded', String(expanded));
+        if (expanded) expand.textContent = '閉じる ↑';
+        else expand.textContent = `ほかの${Math.max(0, group.querySelectorAll('.tw__list > li').length - HOME_PREVIEW_LIMIT)}件を見る →`;
+        return;
+      }
       const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-week-kind]');
       if (!link) return;
       trackEvent('next_action_click', {
@@ -213,7 +246,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw{position:relative;overflow:hidden;padding-block:clamp(4.8rem,7vw,6.8rem);background:#f7f8f6}
   .tw::after{content:"";position:absolute;right:-5rem;bottom:-4rem;width:25rem;height:14rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;opacity:.045;pointer-events:none}
   .tw>.bp-wrap{position:relative;z-index:1}
-  .tw__title{font:600 clamp(2rem,3.6vw,2.9rem)/1.3 var(--font-brand-display);color:var(--brand-navy);text-wrap:balance}
+  .tw__title{scroll-margin-top:calc(var(--site-header-height) + 1.5rem);font:600 clamp(2rem,3.6vw,2.9rem)/1.3 var(--font-brand-display);color:var(--brand-navy);text-wrap:balance}
   .tw__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.35rem 1.5rem}
   .tw__head .tw__title{min-width:0}
   .tw__more{flex:none;color:var(--color-brand-blue);font:700 .84rem var(--font-brand-meta);letter-spacing:.02em;white-space:nowrap;text-decoration:none}
@@ -240,4 +273,33 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw__list a:focus-visible{outline:2px solid var(--color-brand-blue);outline-offset:3px;border-radius:8px}
   @media(max-width:980px){.tw__groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:620px){.tw__groups{grid-template-columns:minmax(0,1fr)}.tw__group{padding:1rem}.tw__title{font-size:1.8rem}}
+
+  /* TOP限定：イベントは3件ずつ編集して見せ、必要な人だけ展開。
+     日付によってイベント数が変わっても1列だけ下に伸びない。 */
+  .tw--home-editorial{padding-block:clamp(3rem,5vw,4.5rem);background:var(--color-paper);border-block:1px solid var(--color-line)}
+  .tw--home-editorial .tw__head{display:flex;align-items:baseline;justify-content:space-between;gap:.65rem 2rem;text-align:left}.tw--home-editorial .tw__eyebrow{flex-basis:100%}
+  .tw--home-editorial .tw__eyebrow{font:700 .69rem/1.4 var(--font-brand-meta);letter-spacing:.23em;color:var(--color-brand-blue)}
+  .tw--home-editorial .tw__title{font-size:clamp(1.7rem,2.8vw,2.5rem);letter-spacing:.02em}
+  .tw--home-editorial .tw__more{margin-top:.35rem}
+  .tw--home-editorial .tw__lead{max-width:var(--measure);margin-top:.65rem;text-align:left;font-size:clamp(.85rem,1.2vw,1rem)}
+  .tw--home-editorial .tw__groups{align-items:start;gap:clamp(.8rem,1.5vw,1.5rem);margin-top:clamp(2rem,4vw,3rem)}
+  .tw--home-editorial .tw__group{display:flex;flex-direction:column;min-width:0;padding:1.25rem 0 0;border:0;border-top:2px solid var(--color-ink);border-radius:0;background:transparent;box-shadow:none}
+  .tw--home-editorial .tw__group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;padding:0 0 1rem;border-bottom:1px solid #e4ebec}
+  .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:var(--color-deep-blue);font:600 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
+  .tw--home-editorial .tw__group-note{color:#77848b;font-size:.73rem;letter-spacing:.02em}
+  .tw--home-editorial .tw__list{display:grid;align-content:start;gap:0;margin:0}
+  .tw--home-editorial .tw__list li{min-width:0;border-bottom:1px solid #edf0f1}
+  .tw--home-editorial .tw__list li:nth-child(n+4){display:none}
+  .tw--home-editorial .tw__group.is-expanded .tw__list li:nth-child(n+4){display:list-item}
+  .tw--home-editorial .tw__list a{display:grid;gap:.18rem;padding:1rem .1rem;border:0;min-height:0}
+  .tw--home-editorial .tw__list strong{margin:0;font-size:clamp(.91rem,1.14vw,1.07rem);line-height:1.55;overflow-wrap:anywhere}
+  .tw--home-editorial .tw__meta{font-size:.7rem}
+  .tw--home-editorial .tw__kind{display:inline-flex;align-items:center;padding:.18rem .5rem;border-radius:100px;background:var(--tw-bg);font-size:.65rem}
+  .tw--home-editorial .tw__place{font-size:.75rem;line-height:1.4}
+  .tw--home-editorial .tw__expand{display:block;align-self:stretch;min-height:44px;margin-top:.75rem;padding:.65rem .8rem;border:1px solid var(--color-line);border-radius:var(--radius-xs);background:var(--color-white);color:#174f99;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .18s ease}
+  .tw--home-editorial .tw__expand:hover{background:#d7eaf8}
+  .tw--home-editorial .tw__expand:focus-visible{outline:2px solid #174f99;outline-offset:2px}
+  .tw--home-editorial .tw__expand span{margin-left:.3rem}
+  @media(max-width:980px){.tw--home-editorial .tw__groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:620px){.tw--home-editorial .tw__groups{grid-template-columns:minmax(0,1fr)}.tw--home-editorial .tw__group{border-radius:0}.tw--home-editorial .tw__list a{min-height:0}.tw--home-editorial .tw__head{gap:.55rem}.tw--home-editorial .tw__title{font-size:1.9rem}}
 </style>
