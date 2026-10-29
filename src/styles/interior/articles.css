@@ -127,48 +127,39 @@ body.interior-site .area-themes__eki {
   background: rgba(255, 255, 255, .75);
 }
 
-body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note {
-  border: 0;
-  border-radius: 1rem;
-  background:
-    radial-gradient(circle at 96% 0%, rgba(111, 178, 239, .18), transparent 34%),
-    linear-gradient(145deg, #09243c, #071744);
-  color: #fff;
-  box-shadow: var(--interior-shadow);
-}
-
-body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note :is(h2, h3, p, li, small, a) {
-  color: rgba(255, 255, 255, .88);
-}
-
+/* 情報源は本文の続きとして読める、静かな注記にする。 */
+body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note,
 body.interior-site .news-detail__body #sources {
-  margin-inline: clamp(-2rem, -2vw, -1.2rem);
-  padding: clamp(1.7rem, 4vw, 2.7rem);
-  border: 0;
+  margin-inline: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--interior-line);
   border-radius: var(--radius-xs);
-  background: var(--color-ink);
-  color: #fff;
-  box-shadow: var(--interior-shadow);
+  background: var(--color-white);
+  color: var(--color-ink);
+  box-shadow: none;
 }
 
-body.interior-site .news-detail__body #sources :is(h2, p, li, small, a) {
-  color: rgba(255,255,255,.88);
+body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note :is(h2, h3),
+body.interior-site .news-detail__body #sources h2 { color: var(--color-ink); }
+
+body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note :is(p, li, small),
+body.interior-site .news-detail__body #sources :is(p, li, small) { color: var(--color-soil); }
+
+body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide) .source-note a,
+body.interior-site .news-detail__body #sources a {
+  color: var(--color-tide);
+  text-decoration: underline;
+  text-underline-offset: .25em;
 }
 
-body.interior-site .news-detail__body #sources h2 {
-  color: #fff;
-}
-
-body.interior-site .news-detail__body #sources .section-number {
-  color: #9ecff4;
-}
-
+body.interior-site .news-detail__body #sources .section-number { color: var(--color-tide); }
+body.interior-site .news-detail__body #sources .source-list small { font-size: .75rem; }
 body.interior-site .news-detail__body #sources .source-note {
-  border-color: rgba(255,255,255,.16);
-  background: rgba(255,255,255,.07);
+  margin-top: 1.25rem;
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--interior-line);
+  background: transparent;
+  font-size: .875rem !important;
+  line-height: 1.9;
 }
-
-body.interior-site :is(.news-related, .story + .bp-section) {
-  background: linear-gradient(180deg, rgba(238, 246, 255, .55), rgba(246, 242, 233, 0));
-}
-
+body.interior-site :is(.news-related, .story + .bp-section) { background: var(--color-paper); }

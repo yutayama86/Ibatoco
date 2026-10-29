@@ -16,8 +16,7 @@ const themes = [
           <span class="tn-meta"><b>0{i + 1}</b><small>{theme.en}</small></span>
           <span class="tn-title">{theme.label}</span>
           <span class="tn-desc">{theme.desc}</span>
-          <span class="tn-cta">{theme.cta}<b aria-hidden="true">→</b></span>
-          <span class="tn-watermark" aria-hidden="true">{theme.en}</span>
+          <span class="tn-cta"><span>{theme.cta}</span><b aria-hidden="true">→</b></span>
         </a>
       </li>
     ))}
@@ -25,20 +24,27 @@ const themes = [
 </nav>
 
 <style>
-  .theme-nav{overflow:hidden}
-  .theme-nav ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem;padding:0;background:transparent}
-  .theme-nav li{min-width:0;background:transparent}
-  .theme-nav a{position:relative;isolation:isolate;display:flex;min-height:17rem;flex-direction:column;overflow:hidden;padding:1.75rem 1.8rem 1.55rem;border:1px solid rgba(76,105,136,.13);border-radius:var(--radius-xs);background:#fff;color:var(--color-deep-blue);box-shadow:none;transition:transform .24s ease,background-color .22s ease,box-shadow .22s ease,border-color .22s ease}
-  .theme-nav a::before{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(155deg,#fbfcfe 0%,#eef2f5 100%);opacity:0;transition:opacity .22s ease}
-  .tn-meta{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-bottom:1.15rem;border-bottom:1px solid rgba(7,23,68,.16)}.tn-meta b{font:500 .65rem/1 var(--font-brand-meta);letter-spacing:.08em}.tn-meta small{font:700 .58rem/1 var(--font-brand-meta);letter-spacing:.22em;color:var(--color-brand-blue)}
-  .tn-title{margin-top:2rem;font:600 clamp(1.65rem,2.25vw,2.25rem)/1.3 var(--font-brand-display);letter-spacing:.025em;transition:color .22s ease}
-  .tn-desc{max-width:18rem;margin-top:.75rem;font-size:.8rem;line-height:1.85;color:var(--color-soil)}
-  .tn-cta{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:auto;padding-top:1.5rem;font-size:.72rem;font-weight:700}.tn-cta b{display:grid;width:2rem;height:2rem;place-items:center;border:1px solid rgba(7,23,68,.25);border-radius:50%;font-weight:400;transition:transform .22s ease,background-color .22s ease,border-color .22s ease,color .22s ease}
-  .tn-watermark{position:absolute;z-index:-2;right:-.2rem;bottom:-.65rem;font:700 clamp(3.4rem,6vw,6.3rem)/1 var(--font-brand-meta);letter-spacing:-.07em;color:rgba(31,99,191,.038);pointer-events:none;white-space:nowrap}
-  .theme-nav a:focus-visible{outline:2px solid var(--color-brand-blue);outline-offset:-2px;background:#f1f7fb}.theme-nav a:focus-visible::before{opacity:1}.theme-nav a:focus-visible .tn-title{color:var(--color-brand-blue)}.theme-nav a:focus-visible .tn-cta b{border-color:var(--color-deep-blue);background:var(--color-deep-blue);color:#fff;transform:translateX(.15rem)}
-  @media(hover:hover) and (pointer:fine){.theme-nav a:hover{transform:translateY(-5px);background:#f6f8fa;border-color:rgba(76,105,136,.22);box-shadow:0 18px 38px rgba(76,105,136,.1)}.theme-nav a:hover::before{opacity:1}.theme-nav a:hover .tn-title{color:var(--color-brand-blue)}.theme-nav a:hover .tn-cta b{border-color:var(--color-deep-blue);background:var(--color-deep-blue);color:#fff;transform:translateX(.15rem)}}
-  @media(min-width:1180px){.theme-nav ol{grid-template-columns:repeat(6,minmax(0,1fr));gap:.65rem}.theme-nav a{min-height:16rem;padding:1.2rem .95rem}.tn-title{font-size:1.45rem;margin-top:1.35rem}.tn-desc{font-size:.74rem}.tn-meta{gap:.4rem}.tn-meta small{font-size:.5rem}.tn-cta{font-size:.66rem;gap:.25rem}.tn-cta b{width:1.65rem;height:1.65rem}.tn-watermark{display:none}}
-  @media(max-width:900px){.theme-nav ol{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-nav a{min-height:16rem}}
-  @media(max-width:560px){.theme-nav ol{grid-template-columns:minmax(0,1fr);gap:.7rem;padding:0;border:0;background:transparent}.theme-nav li+li{border-top:0}.theme-nav a{min-height:12rem;padding:1.35rem 1rem}.tn-title{margin-top:1.25rem}.tn-cta{padding-top:1rem}}
-  @media(prefers-reduced-motion:reduce){.theme-nav a,.theme-nav a::before,.tn-title,.tn-cta b{transition:none}.theme-nav a:hover .tn-cta b,.theme-nav a:focus-visible .tn-cta b{transform:none}}
+  .theme-nav ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--color-line); }
+  .theme-nav li { min-width: 0; border-bottom: 1px solid var(--color-line); }
+  .theme-nav a { display: flex; flex-direction: column; height: 100%; min-height: 14rem; padding: 1.5rem 1.2rem; color: var(--color-ink); text-decoration: none; }
+  .tn-meta { display: flex; justify-content: space-between; gap: .5rem; color: var(--color-soil); font: 500 .75rem/1.5 var(--font-brand-meta); letter-spacing: .03em; }
+  .tn-meta b { font-weight: 500; }
+  .tn-meta small { font-size: .75rem; }
+  .tn-title { margin-top: 1.3rem; font: 600 1.55rem/1.5 var(--font-brand-display); }
+  .tn-desc { margin-top: .65rem; color: var(--color-soil); font-size: .875rem; line-height: 1.85; }
+  .tn-cta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: auto; padding-top: 1.3rem; font-size: .8125rem; font-weight: 700; color: var(--color-tide); }
+  .tn-cta b { font-size: 1.1rem; font-weight: 400; }
+  .theme-nav a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: -2px; }
+  @media (hover: hover) { .theme-nav a:hover { background: var(--color-white); } .theme-nav a:hover .tn-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; } }
+  /* 6テーマを同じ行で見渡せる横幅では、従来どおり横一列にする。 */
+  @media (min-width: 1180px) { .theme-nav ol { grid-template-columns: repeat(6, minmax(0, 1fr)); } .theme-nav li + li { border-left: 1px solid var(--color-line); } .theme-nav a { min-height: 16rem; padding-inline: .9rem; } .tn-title { font-size: 1.3rem; } }
+  @media (max-width: 700px) {
+    .theme-nav ol { grid-template-columns: minmax(0, 1fr); }
+    .theme-nav a { display: grid; grid-template-columns: minmax(0, 1fr) 1.25rem; gap: .3rem 1rem; min-height: 0; padding: 1.2rem 0; }
+    .tn-meta { display: none; }
+    .tn-title { grid-column: 1; margin: 0; font-size: 1.25rem; }
+    .tn-desc { grid-column: 1; margin: 0; font-size: .875rem; }
+    .tn-cta { grid-column: 2; grid-row: 1 / 3; margin: 0; padding: 0; }
+    .tn-cta > span { display: none; }
+  }
 </style>

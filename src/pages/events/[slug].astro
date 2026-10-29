@@ -261,8 +261,6 @@ if (d.faq.length > 0) {
     </section>
   )}
 
-  <GrowthNextReads currentPath={`/events/${entry.id.split('/').pop()}/`} pageType="events" />
-
   {d.highlights.length > 0 && (
     <section id="highlights" aria-labelledby="ev-high">
       <p class="section-number">{no('highlights')} / DETAILS</p>
@@ -317,6 +315,7 @@ if (d.faq.length > 0) {
     ))}</ul>
     <p class="ev-caution">開催内容・日程・料金・交通は変更されることがあります。お出かけ前に必ず公式の最新情報をご確認ください。</p>
   </section>
+  <GrowthNextReads currentPath={`/events/${entry.id.split('/').pop()}/`} pageType="events" />
   {/* 本文を読み終えた位置に、地域事業者向けの導線を1つだけ置く */}
   <BusinessCta pageType="events" municipality={d.municipalities[0]} contentCategory={d.articleType} />
     </div>
