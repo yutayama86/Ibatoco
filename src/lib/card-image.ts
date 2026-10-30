@@ -38,9 +38,13 @@ const RASTER = /\.(png|jpe?g|webp)$/i;
 /** 横長の一覧カード用の画像（画像全体が見える枠） */
 export function listImageOf(entry: Entry): CardImage {
   const slug = slugOf(entry);
-  if (entry.data.ogImage) return { src: entry.data.ogImage, alt: entry.data.ogImageAlt ?? '', source: 'visual' };
+  const visual = entry.data.ogImage ? { src: entry.data.ogImage, alt: entry.data.ogImageAlt ?? '', source: 'visual' as const } : null;
+  // 切り抜くと文字やQRが欠ける提供画像（news の ogImageNoCrop）は、16:9 の枠では地図カードを先に使う
+  const noCrop = 'ogImageNoCrop' in entry.data && Boolean(entry.data.ogImageNoCrop);
+  if (visual && !noCrop) return visual;
   const card = CARD_IMAGES[slug];
   if (card) return { src: card, alt: '', source: 'card' };
+  if (visual) return visual;
   return { src: generatedOg(entry.collection, slug), alt: '', source: 'generated-og' };
 }
 

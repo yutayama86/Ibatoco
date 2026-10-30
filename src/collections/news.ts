@@ -57,6 +57,13 @@ export const news = defineCollection({
     imageCreditUrl: z.url().optional(),
     imageLicense: z.string().optional(),
     imageLicenseUrl: z.url().optional(),
+    /**
+     * 記事のビジュアルを切り抜かずに見せるときの実寸。文字やQRの入った提供画像（告知ビジュアルなど）向け。
+     * 指定すると、記事冒頭は元の比率のまま全体を出し、一覧の枠（16:9 で切り抜く）では文字の無い地図カードを使う。
+     */
+    ogImageNoCrop: z.object({ width: z.number().int().positive(), height: z.number().int().positive() }).optional(),
+    /** 冒頭画像の説明。指定すると「写真：」の表記ではなく、この文をそのまま画像の下に出す（写真ではない提供画像など） */
+    imageCaption: z.string().min(1).optional(),
     conclusion: z.string().min(1),
     /**
      * keyPoints / whatHappened / whatChanges / editorialAnalysis / regionalImpact / businessImplications は、

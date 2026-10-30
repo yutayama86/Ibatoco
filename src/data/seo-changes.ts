@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261030-news-yokota-iin-haikyo-tour',
+    date: '2026-10-30',
+    url: '/news/yokota-iin-haikyo-tour-2026/',
+    kind: 'new-article',
+    change: 'つくば・横田医院の廃墟ツアー（11月22日）を、建物の活用の取り組みと全7回の時間・参加条件・チケット販売期間とともに案内',
+    queries: ['横田医院 最恐廃墟ツアー', '横田医院 つくば'],
+    commit: 'd58c6b6e2ae80618583c0f17ff7ffde65377903d',
+    note: '主催者公式・LivePocket・主催者プレスリリース・つくば市Story.8資料（2026年1月9日）で照合。10月30日時点のチケットは販売前。予約操作・現地訪問・取材はしていない。提供画像は告知ビジュアル（イメージ）として表示。',
+  },
+  {
     id: '20261030-news-license-reservation',
     date: '2026-10-30',
     url: '/news/ibaraki-license-renewal-reservation-2026/',

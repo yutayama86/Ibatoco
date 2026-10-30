@@ -1297,6 +1297,27 @@
       "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
     },
     {
+      "id": "yokota-iin-haikyo-tour-2026",
+      "name": "横田医院 最恐廃墟ツアー",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-22",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://occult666love.wixsite.com/yokotahaunted",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-10-30",
+      "articleUrl": "/news/yokota-iin-haikyo-tour-2026/",
+      "articleUpdatedAt": "2026-10-30",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "主催者公式（Wix）・LivePocket・主催者プレスリリース・つくば市Story.8資料（2026年1月9日）で照合（10月30日）。チケットはLivePocketで11月1日20:00から先着、10月30日時点は販売前。全7回・各回最大6人・4,500円。需要・来場実績は未確認のためunknown。記事はニュース（/news/）で、/events/には作らない。"
+    },
+    {
       "id": "tsukuba-marathon-2026",
       "name": "第46回つくばマラソン",
       "municipality": "tsukuba",

@@ -79,6 +79,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-gatepark-parking-nov3-2026": "/images/card/tsukuba-gatepark-parking-nov3-2026-866134fe.png",
   "tsukuba-personal-food-recommend-2026": "/images/card/tsukuba-personal-food-recommend-2026-866134fe.png",
   "tx-matsuri-moriya-no-reservation-2026": "/images/card/tx-matsuri-moriya-no-reservation-2026-4c8cbdb8.png",
+  "yokota-iin-haikyo-tour-2026": "/images/card/yokota-iin-haikyo-tour-2026-866134fe.png",
   "amabiki-kannon-guide": "/images/card/amabiki-kannon-guide-09465f76.png",
   "ami-premium-outlets-guide": "/images/card/ami-premium-outlets-guide-aa8ca6d9.png",
   "aquaworld-oarai-guide": "/images/card/aquaworld-oarai-guide-7e5f8ef8.png",
