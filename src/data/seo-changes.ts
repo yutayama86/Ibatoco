@@ -49,6 +49,37 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261030-news-license-reservation',
+    date: '2026-10-30',
+    url: '/news/ibaraki-license-renewal-reservation-2026/',
+    kind: 'new-article',
+    change: '12月1日の免許更新予約制を案内。対象・例外・ネットと電話の手順を既存ガイド機能で整理',
+    queries: ['茨城 免許更新 予約 12月1日', '茨城 免許更新 電話予約'],
+    commit: 'PENDING',
+    note: '県警・予約システム・高萩市配信で照合。予約操作・利用枠の確認はしていない。',
+  },
+  {
+    id: '20261030-news-soyora-tsukuba',
+    date: '2026-10-30',
+    url: '/news/soyora-tsukuba-gakuennomori-open-2026/',
+    kind: 'new-article',
+    change: 'そよらつくば学園の森の開業を案内。売場別の時間・専門店・所在地・駐車台数を整理',
+    queries: ['そよら つくば 学園の森 営業時間', 'そよら つくば 専門店'],
+    commit: 'PENDING',
+    note: 'イオン発表・店舗公式・Impress Watchを照合。専門店の時刻・駐車料金・現地体験は補わない。',
+  },
+  {
+    id: '20261030-news-mitogo-resumption',
+    date: '2026-10-30',
+    url: '/news/mito-go-bus-suspension-october-2026/',
+    kind: 'on-page',
+    experimentType: 'fact',
+    change: '10月30日の続報に基づき、みと号の11月9日運休便再開予定を反映。旧URLを保持し毎日便と土休日便を区別',
+    queries: ['みと号 運休 再開 11月9日'],
+    commit: 'PENDING',
+    note: '茨城交通・JRバス関東の対象時刻と運行区分を照合。再開前なので運行実績とは扱わない。',
+  },
+  {
     id: '20261030-events-kasama-toutokurashi-2026',
     date: '2026-10-30',
     url: '/events/kasama-toutokurashi-2026/',

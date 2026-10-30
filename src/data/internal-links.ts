@@ -6,6 +6,11 @@
  * ニュースとイベントの両方から参照するので、ここを唯一の置き場にする。
  */
 export const INTERNAL_LINK_LABELS: Record<string, string> = {
+  '/news/category/government/': '自治体・行政のニュース',
+  '/news/category/economy/': '地域経済・新店のニュース',
+  '/news/mito-go-bus-suspension-october-2026/': 'みと号の運休便は11月9日再開へ（水戸・東京の対象時刻）',
+  '/news/ibaraki-license-renewal-reservation-2026/': '茨城の免許更新は12月1日から予約制（対象者・予約方法）',
+  '/news/soyora-tsukuba-gakuennomori-open-2026/': 'そよらつくば学園の森が開業（営業時間・専門店・行き方）',
   '/area/tsukubamirai/': 'つくばみらい市の観光・おでかけガイド',
   '/news/tx-matsuri-moriya-no-reservation-2026/': 'TXまつり2026（申込不要の守谷会場と総合基地の参加条件）',
   '/news/night-park-oarai-2026-guide/': 'Night Park OARAI 2026（10月30日〜11月1日・入場とアクセス）',

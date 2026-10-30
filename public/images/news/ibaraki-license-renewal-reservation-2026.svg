@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="茨城の免許更新。2026年12月1日から事前予約制">
+  <rect width="1200" height="630" fill="#f6f2e9"/>
+  <path d="M72 76H1128M72 554H1128" stroke="#d9d0c0" stroke-width="2"/>
+  <text x="74" y="123" fill="#315c68" font-family="'Source Sans 3',sans-serif" font-size="22" letter-spacing="3">IBATOCO · 暮らしのニュース</text>
+  <text x="74" y="244" fill="#172b35" font-family="'Shippori Mincho',serif" font-size="72" font-weight="700">茨城の免許更新</text>
+  <text x="74" y="365" fill="#a63f32" font-family="'Source Sans 3',sans-serif" font-size="96" font-weight="700">12/1</text>
+  <text x="345" y="361" fill="#172b35" font-family="'Shippori Mincho',serif" font-size="61" font-weight="700">から予約制</text>
+  <path d="M78 424H710" stroke="#315c68" stroke-width="3"/>
+  <text x="76" y="484" fill="#75695a" font-family="'Source Sans 3',sans-serif" font-size="30">対象者と予約方法を、更新前に確認。</text>
+  <g transform="translate(857 214)" stroke="#315c68" fill="none" stroke-width="4">
+    <rect x="0" y="0" width="230" height="224" rx="3"/>
+    <path d="M0 55H230M57-19V20M173-19V20"/>
+    <path d="M63 140l35 34 70-78" stroke-width="7"/>
+  </g>
+  <text x="76" y="593" fill="#75695a" font-family="'Source Sans 3',sans-serif" font-size="18">2026年12月1日からの変更 / 出典：茨城県警察 / 図版：イバトコ編集部</text>
+</svg>
