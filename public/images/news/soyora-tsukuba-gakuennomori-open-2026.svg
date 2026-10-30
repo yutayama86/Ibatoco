@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="そよらつくば学園の森。2026年10月25日オープン。営業時間は売場・店舗ごとに異なる">
+  <rect width="1200" height="630" fill="#f6f2e9"/>
+  <path d="M72 76H1128M72 554H1128" stroke="#d9d0c0" stroke-width="2"/>
+  <text x="74" y="123" fill="#315c68" font-family="'Source Sans 3',sans-serif" font-size="22" letter-spacing="3">IBATOCO · つくばの新しい店</text>
+  <text x="74" y="235" fill="#172b35" font-family="'Shippori Mincho',serif" font-size="75" font-weight="700">そよら</text>
+  <text x="74" y="330" fill="#172b35" font-family="'Shippori Mincho',serif" font-size="65" font-weight="700">つくば学園の森</text>
+  <path d="M78 388H710" stroke="#315c68" stroke-width="3"/>
+  <text x="76" y="467" fill="#a63f32" font-family="'Source Sans 3',sans-serif" font-size="58" font-weight="700">10.25 OPEN</text>
+  <g transform="translate(856 225)" stroke="#315c68" fill="none" stroke-width="4">
+    <path d="M0 36h236v174H0zM-13 36h262L224 0H12zM0 112h236M116 36v174"/>
+    <path d="M26 64h58M26 86h58M148 64h58M148 86h58M26 143h58M26 169h58M148 143h58M148 169h58" stroke="#d9d0c0"/>
+  </g>
+  <text x="76" y="593" fill="#75695a" font-family="'Source Sans 3',sans-serif" font-size="18">2026年開業 / 出典：イオンリテール・イオン公式 / 図版：イバトコ編集部</text>
+</svg>

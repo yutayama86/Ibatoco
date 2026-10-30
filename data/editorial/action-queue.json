@@ -1,7 +1,76 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-27",
+  "updatedAt": "2026-10-30",
   "actions": [
+    {
+      "id": "20261030-ibako-november-timetable-discovery",
+      "title": "11月1日の茨城交通ダイヤ改正：平日利用者向けの掲載判断",
+      "kind": "new-article",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-10-30",
+      "dueDate": "2026-10-31",
+      "confidence": "high",
+      "effort": "S",
+      "source": "茨城交通10月27日発表（10月30日に本文確認）",
+      "reason": "改正日が2日後。34系統などの平日一部便変更。新しい時刻の詳細は公式検索・バス停案内と照合が必要。みと号の再開とは別の話題として残す。",
+      "primarySourceUrls": [
+        "https://www.ibako.co.jp/contents/newsrelease/2026/10/32658.html"
+      ],
+      "nextAction": "11月2日以降に利用する平日の時刻を公式検索で確認。掲載価値を判断し、実用情報が揃えば記事化。取得できなければ未確認のまま残す。"
+    },
+    {
+      "id": "20261030-tsukuba-cablecar-last-run-discovery",
+      "title": "筑波山5代目ケーブルカーのラストラン：11月1日開始の企画を確認",
+      "kind": "new-article",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-10-30",
+      "dueDate": "2026-10-31",
+      "confidence": "high",
+      "effort": "S",
+      "source": "京成電鉄10月30日発表・同社配信のリリースを確認",
+      "reason": "現行車両の最終運行は2027年1月11日。キャンペーンは11月1日から。紅葉記事の既存読者にも関わるため、独立記事または公式事実追記を比較する。",
+      "primarySourceUrls": [
+        "https://www.keisei.co.jp/news/detail.php?CN=8103",
+        "https://prtimes.jp/main/html/rd/p/000000104.000164008.html"
+      ],
+      "nextAction": "公式PDFで企画別期間と条件を確認し、筑波山紅葉記事・11月まとめ・PRの重複を再照合。新車両の2027年2月は予定を維持。"
+    },
+    {
+      "id": "20261030-nakanishi-natsuyuki-exhibition-discovery",
+      "title": "茨城県近代美術館・中西夏之展（11月12日開始）の掲載判断",
+      "kind": "event",
+      "status": "candidate",
+      "priority": "medium",
+      "createdAt": "2026-10-30",
+      "dueDate": "2026-11-02",
+      "confidence": "medium",
+      "effort": "S",
+      "source": "茨城県近代美術館の公式企画展ページを検索結果で確認（本文・PDFの精査待ち）",
+      "reason": "文化分野の未掲載候補。11月12日〜2027年1月17日の展覧会。料金区分、無料日、祝日と年末年始の休館を確認してから判断する。",
+      "primarySourceUrls": [
+        "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517"
+      ],
+      "nextAction": "本文・PDFを開き、料金内訳と休館日を確認。イベント台帳・既存記事との重複を確認し、記事化判断まで台帳に保持。"
+    },
+    {
+      "id": "20261030-antlers-yokohama-tickets-discovery",
+      "title": "鹿島・横浜FM戦（11月15日）のチケット発売案内を確認",
+      "kind": "sports",
+      "status": "candidate",
+      "priority": "medium",
+      "createdAt": "2026-10-30",
+      "dueDate": "2026-10-31",
+      "confidence": "medium",
+      "effort": "S",
+      "source": "鹿島アントラーズ公式ニュース一覧の10月30日付見出しを検索で確認（詳細未確認）",
+      "reason": "鹿行・スポーツ分野の候補。発売日時と対象者をまだ本文で確認していないため、価格・開始時刻は確定情報として掲載しない。",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/ja-world/blogs/news"
+      ],
+      "nextAction": "公式の個別記事を特定し、対象席・価格・会員区分・発売段階を確認。既存の試合記事があれば更新を優先。"
+    },
     {
       "id": "20261027-hananuki-shuttle-official",
       "title": "花貫渓谷紅葉記事：2026年シャトルバス公式ダイヤ公開を反映",
