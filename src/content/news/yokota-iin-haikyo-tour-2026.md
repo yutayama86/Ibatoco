@@ -34,7 +34,7 @@ guide:
     - label: "体験時間・定員"
       value: "各回50分・最大6人"
     - label: "参加条件"
-      value: "18歳以上・事前確認必須"
+      value: "18歳以上 ※事前確認必須"
     - label: "チケット販売"
       value: "11月1日 20:00販売開始"
       emphasis: true
