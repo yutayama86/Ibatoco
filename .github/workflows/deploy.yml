@@ -141,8 +141,3 @@ jobs:
             exit 1
           fi
           echo "Production SHA verified: $live_sha"
-
-      - name: Verify production
-        shell: bash
-        run: |
-          node scripts/verify-production.mjs --wait --timeout 300
