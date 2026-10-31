@@ -29,6 +29,7 @@ export const GET: APIRoute = async () => {
     { path: '/contact/' },
     { path: '/news/' },
     { path: '/events/' },
+    { path: '/access/hananuki/' },
     { path: '/sports/' },
   ];
 

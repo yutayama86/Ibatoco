@@ -138,6 +138,7 @@ sourceUrls:
     url: "https://www.ibako.co.jp/contents/newsrelease/2025/10/30655.html"
     accessedAt: 2026-09-27
 relatedArticleUrls:
+  - "/access/hananuki/"
   - "/kouyou/"
   - "/area/takahagi/"
 ---

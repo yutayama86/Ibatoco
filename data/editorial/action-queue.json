@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-10-31",
   "actions": [
     {
       "id": "20261030-ibako-november-timetable-discovery",
@@ -78,7 +78,7 @@
       "targetUrl": "/events/hananuki-gorge-autumn-2026/",
       "targetFile": "src/content/events/hananuki-gorge-autumn-2026.md",
       "priority": "high",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-27",
       "dueDate": "2026-10-31",
       "confidence": "high",
@@ -96,7 +96,9 @@
         "前年時刻・運賃を2026年情報として流用していない",
         "title・URL・canonical・画像・見頃の未確認表現を変更していない",
         "npm run date:check、npm run audit:freshness、npm run verifyが成功する"
-      ]
+      ],
+      "completedAt": "2026-10-31",
+      "executionNote": "既存記事の公式運行日・PDF案内はPR #451で本番反映済み。10/31にソース再照合。独立アクセスガイドは今回の未完了PR整理で公開確認する。"
     },
     {
       "id": "20261025-tsuchiura-sangyosai-confirmed",
@@ -105,7 +107,7 @@
       "targetUrl": "/events/tsuchiura-curry-festival-2026/",
       "targetFile": "src/content/events/tsuchiura-curry-festival-2026.md",
       "priority": "medium",
-      "status": "ready",
+      "status": "in-progress",
       "createdAt": "2026-10-25",
       "dueDate": "2026-11-14",
       "confidence": "high",
@@ -123,7 +125,9 @@
         "title・description・URL・canonical・画像は変わっていない",
         "src/data/seo-changes.ts の先頭に id 20261025-events-tsuchiura-curry-sangyosai-confirmed（experimentType: fact）の記録が1件ある",
         "npm run date:check と npm run verify が成功する"
-      ]
+      ],
+      "startedAt": "2026-10-31",
+      "executionNote": "最新mainの10/27確定カレー情報を維持し、産業祭の3会場と市営駐車場を最新公式案内で再確認して反映。公開後にdoneへ更新。"
     },
     {
       "id": "20261022-autumn-official-refresh",

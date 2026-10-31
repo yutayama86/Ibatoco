@@ -51,6 +51,12 @@ export function qaPages(root = process.cwd()) {
   const latest = latestNewsPath(root);
   const pages = [
     {
+      name: '花貫渓谷アクセスガイド',
+      path: '/access/hananuki/',
+      canonical: '/access/hananuki/',
+      required: [['h1', 1], ['#bus', 1], ['#route', 1], ['a[href="https://www.city.takahagi.ibaraki.jp/data/doc/1792473350_doc_19_0.pdf"]', 1]],
+    },
+    {
       name: 'TOP',
       path: '/',
       canonical: '/',

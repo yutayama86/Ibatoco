@@ -6,6 +6,7 @@
  * ニュースとイベントの両方から参照するので、ここを唯一の置き場にする。
  */
 export const INTERNAL_LINK_LABELS: Record<string, string> = {
+  '/access/hananuki/': '花貫渓谷への行き方（高萩駅発シャトルバス・2026年公式時刻表）',
   '/news/category/government/': '自治体・行政のニュース',
   '/news/category/economy/': '地域経済・新店のニュース',
   '/news/mito-go-bus-suspension-october-2026/': 'みと号の運休便は11月9日再開へ（水戸・東京の対象時刻）',
