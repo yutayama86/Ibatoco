@@ -133,9 +133,9 @@ body.interior-site .crumbs a:focus-visible {
 body.interior-site :is(
   .news-index__head, .category-head, .about-head, .biz-head, .places-head,
   .hanabi-head, .person-head, .sp-head, .tm-head, .ev-head,
-  .news-detail__head, .story-head, .ag-head-copy, .guide-index-head, .tag-hero
+  .news-detail__head, .story-head, .guide-index-head, .tag-hero
 ),
-body.interior-site :is(.area-head, .ok-head, .me-head, .rp-hero) > .bp-wrap {
+body.interior-site :is(.ok-head, .me-head, .rp-hero) > .bp-wrap {
   display: grid;
   grid-template-columns: minmax(0, var(--reading-col));
   justify-content: center;
@@ -148,7 +148,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .tg-head__copy,
   .hanabi-head,
   .ok-head,
@@ -199,7 +198,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .hanabi-head,
   .ok-head,
   .person-head,
@@ -219,7 +217,7 @@ body.interior-site :is(
 }
 
 /*
- * .area-head と .ok-head は内側に自前の .bp-wrap を持つ。
+ * .ok-head は内側に自前の .bp-wrap を持つ。
  * バンド側でも左右paddingを入れると二重にインデントされるので、内側に任せる。
  */
 body.interior-site :is(
@@ -228,7 +226,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .tg-head__copy,
   .hanabi-head,
   .ok-head,
@@ -249,7 +246,6 @@ body.interior-site :is(main, article, section, header, div):has(> :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .hanabi-head,
   .ok-head,
   .person-head,
@@ -286,7 +282,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .tg-head__copy,
   .hanabi-head,
   .ok-head,
@@ -303,7 +298,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .tg-head__copy,
   .hanabi-head,
   .ok-head,
@@ -325,7 +319,6 @@ body.interior-site :is(
   .about-head,
   .biz-head,
   .places-head,
-  .area-head,
   .tg-head__copy,
   .hanabi-head,
   .ok-head,
