@@ -193,6 +193,20 @@ export function inspectPage(options) {
     const h1s = [...document.querySelectorAll('h1')].filter((el) => !el.closest('[hidden]'));
     if (h1s.length !== 1) issues.push({ type: 'h1-count', detail: `h1 が ${h1s.length} 個（1個にする）` });
 
+    // ニュース見出しが共通の読みカラムに狭められていないか（PCの実効幅）。
+    if (W >= 1180 && body.classList.contains('route-news')) {
+      const head = document.querySelector('.news-detail__head');
+      const title = head?.querySelector('h1');
+      if (head && title) {
+        const style = getComputedStyle(head);
+        const expected = head.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        const actual = title.getBoundingClientRect().width;
+        if (actual < expected - 2) {
+          issues.push({ type: 'news-title-column-width', detail: `h1 ${Math.round(actual)}px < header content ${Math.round(expected)}px` });
+        }
+      }
+    }
+
     // 7) 主要CTAの欠損
     const counts = {};
     for (const [selector] of options.required) counts[selector] = document.querySelectorAll(selector).length;

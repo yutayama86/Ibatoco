@@ -98,7 +98,7 @@
         "npm run date:check、npm run audit:freshness、npm run verifyが成功する"
       ],
       "completedAt": "2026-10-31",
-      "executionNote": "既存記事の公式運行日・PDF案内はPR #451で本番反映済み。10/31にソース再照合。独立アクセスガイドは今回の未完了PR整理で公開確認する。"
+      "executionNote": "既存記事はPR #451で公開済み。独立アクセスガイドはPR #470へ取り込み。mainへの本記録の取り込みは、公式PDF導線・公開URLの本番確認を必須条件とする。"
     },
     {
       "id": "20261025-tsuchiura-sangyosai-confirmed",
@@ -107,7 +107,7 @@
       "targetUrl": "/events/tsuchiura-curry-festival-2026/",
       "targetFile": "src/content/events/tsuchiura-curry-festival-2026.md",
       "priority": "medium",
-      "status": "in-progress",
+      "status": "done",
       "createdAt": "2026-10-25",
       "dueDate": "2026-11-14",
       "confidence": "high",
@@ -127,7 +127,9 @@
         "npm run date:check と npm run verify が成功する"
       ],
       "startedAt": "2026-10-31",
-      "executionNote": "最新mainの10/27確定カレー情報を維持し、産業祭の3会場と市営駐車場を最新公式案内で再確認して反映。公開後にdoneへ更新。"
+      "executionNote": "PR #470で最新のカレーフェス情報を維持し、産業祭の3会場・市営駐車場を反映。mainへの本記録の取り込みは、c2b7fa5以降のDeploy成功・本番実画面確認を必須条件とする。",
+      "completedAt": "2026-10-31",
+      "releaseCommit": "c2b7fa5992b2090cac9488954ce69f9c88dbc9b4"
     },
     {
       "id": "20261022-autumn-official-refresh",

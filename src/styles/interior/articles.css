@@ -13,6 +13,11 @@ body.interior-site :is(.news-detail__head, .story-head) {
   padding-block: clamp(1.8rem, 3vw, 2.75rem);
 }
 
+/* ニュースの見出しは本文用 --reading-col に絞らず、960pxの外枠全体を使う。 */
+body.interior-site.route-news .news-detail__head {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 body.interior-site :is(.news-detail__head, .story-head) h1 {
   max-width: 18em;
   color: var(--color-deep-blue);
