@@ -84,6 +84,7 @@ sourceUrls:
     accessedAt: 2026-10-23
 relatedArticleUrls:
   - "/events/ibaraki-hanabi-2026/"
+  - "/events/nakaminato-osakana-ichiba-guide/"
   - "/events/ibaraki-events-october-2026/"
   - "/events/ibaraki-events-november-2026/"
   - "/hanabi/"
