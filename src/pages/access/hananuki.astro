@@ -1,6 +1,7 @@
 ---
 import BrandBase from '../../layouts/BrandBase.astro';
 import { parseDateOnly } from '../../lib/date-only.js';
+import { breadcrumbJsonLd } from '../../lib/seo';
 const title = '花貫渓谷への行き方｜高萩駅からのシャトルバス・車・2026年紅葉まつり | イバトコ';
 const description = '花貫渓谷へ公共交通機関で行く方法を案内。2026年紅葉まつりの高萩駅発シャトルバス運行日、公式時刻表、車でのアクセス、帰りの注意点をまとめました。';
 const updatedAt = parseDateOnly('2026-10-31');
@@ -8,11 +9,11 @@ const official = 'https://www.city.takahagi.ibaraki.jp/kankou/news/page008436.ht
 const tourism = 'https://www.ibarakiguide.jp/spot.php?code=236&mode=detail';
 const jsonLd = [
   { '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, dateModified: '2026-10-31', url: new URL('/access/hananuki/', Astro.site).href },
-  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).href },
-    { '@type': 'ListItem', position: 2, name: '高萩市', item: new URL('/area/takahagi/', Astro.site).href },
-    { '@type': 'ListItem', position: 3, name: '花貫渓谷への行き方', item: new URL('/access/hananuki/', Astro.site).href },
-  ] },
+  breadcrumbJsonLd([
+    { name: 'ホーム', href: '/' },
+    { name: '高萩市', href: '/area/takahagi/' },
+    { name: '花貫渓谷への行き方', href: '/access/hananuki/' },
+  ], Astro.site),
 ];
 ---
 <BrandBase title={title} description={description} updatedAt={updatedAt} jsonLd={jsonLd}>

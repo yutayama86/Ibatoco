@@ -2,14 +2,9 @@
 import BrandBase from '../layouts/BrandBase.astro';
 import ThemeGuide from '../components/ThemeGuide.astro';
 import { THEMES } from '../data/themes';
+import { breadcrumbJsonLd } from '../lib/seo';
 const theme = THEMES.umi;
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).href },
-    { '@type': 'ListItem', position: 2, name: theme.title, item: new URL('/umi/', Astro.site).href },
-  ],
-};
+const jsonLd = breadcrumbJsonLd([{ name: 'ホーム', href: '/' }, { name: theme.title, href: '/umi/' }], Astro.site);
 ---
 <BrandBase title={theme.metaTitle} description={theme.metaDescription} jsonLd={jsonLd}>
   <ThemeGuide theme={theme} />

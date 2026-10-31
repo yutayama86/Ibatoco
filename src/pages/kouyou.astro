@@ -2,27 +2,13 @@
 import BrandBase from '../layouts/BrandBase.astro';
 import ThemeGuide from '../components/ThemeGuide.astro';
 import { THEMES } from '../data/themes';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 const theme = THEMES.kouyou;
-const breadcrumb = {
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).href },
-    { '@type': 'ListItem', position: 2, name: theme.title, item: new URL('/kouyou/', Astro.site).href },
-  ],
-};
 // FAQは画面に出している内容とそろえる。片方だけ足したり消したりしない。
-const faqLd = theme.faq && theme.faq.length > 0 ? {
-  '@type': 'FAQPage',
-  mainEntity: theme.faq.map((f) => ({
-    '@type': 'Question',
-    name: f.question,
-    acceptedAnswer: { '@type': 'Answer', text: f.answer },
-  })),
-} : null;
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': faqLd ? [breadcrumb, faqLd] : [breadcrumb],
-};
+const jsonLd = [
+  breadcrumbJsonLd([{ name: 'ホーム', href: '/' }, { name: theme.title, href: '/kouyou/' }], Astro.site),
+  ...(theme.faq && theme.faq.length > 0 ? [faqPageJsonLd(theme.faq)] : []),
+];
 ---
 <BrandBase title={theme.metaTitle} description={theme.metaDescription} jsonLd={jsonLd}>
   <ThemeGuide theme={theme} />

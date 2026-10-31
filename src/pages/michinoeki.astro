@@ -7,7 +7,7 @@
  */
 import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
-import { breadcrumbJsonLd } from '../lib/seo';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 import { MICHINOEKI, michinoekiByRegion, michinoekiAreaSlugs, MICHINOEKI_SOURCES, MICHINOEKI_CHECKED_AT } from '../data/michinoeki';
 import { MUNI_BY_SLUG } from '../data/areas';
 
@@ -33,15 +33,11 @@ const jsonLd = [
       name: `道の駅 ${eki.name}`,
     })),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      { q: '茨城県に道の駅はいくつありますか？', a: `茨城県公式および関東「道の駅」公式の一覧によると、${total}駅です（${MICHINOEKI_CHECKED_AT}時点）。` },
-      { q: '道の駅の営業時間や定休日はどこで確認できますか？', a: '営業時間・定休日・施設内容は駅ごとに異なり、季節や行事でも変わります。各道の駅の公式情報でご確認ください。このページでは掲載していません。' },
-      { q: '道の駅が多いのはどのエリアですか？', a: `${groups.map((g) => `${g.label}が${g.items.length}駅`).join('、')}です。なお、つくば市や土浦市を含む県南には登録された道の駅がありません。` },
-    ].map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-  },
+  faqPageJsonLd([
+    { q: '茨城県に道の駅はいくつありますか？', a: `茨城県公式および関東「道の駅」公式の一覧によると、${total}駅です（${MICHINOEKI_CHECKED_AT}時点）。` },
+    { q: '道の駅の営業時間や定休日はどこで確認できますか？', a: '営業時間・定休日・施設内容は駅ごとに異なり、季節や行事でも変わります。各道の駅の公式情報でご確認ください。このページでは掲載していません。' },
+    { q: '道の駅が多いのはどのエリアですか？', a: `${groups.map((g) => `${g.label}が${g.items.length}駅`).join('、')}です。なお、つくば市や土浦市を含む県南には登録された道の駅がありません。` },
+  ].map((f) => ({ question: f.q, answer: f.a }))),
 ];
 ---
 

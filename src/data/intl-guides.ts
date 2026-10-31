@@ -10,6 +10,7 @@
  *  - 直訳はしない。市場ごとに導入・見出し・FAQ・強調点を変える。
  */
 import { LOCALE_META, type Locale } from './i18n';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 
 export interface GuideSection {
   id: string;
@@ -461,23 +462,7 @@ export function guideJsonLd(guide: IntlGuide, locale: Exclude<Locale, 'ja'>, sit
       url: guide.place.url,
       inLanguage: LOCALE_META[locale].htmlLang,
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'IBATOCO', item: home },
-        { '@type': 'ListItem', position: 2, name: guide.h1, item: url },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      inLanguage: LOCALE_META[locale].htmlLang,
-      mainEntity: guide.faq.map((f) => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
-    },
+    breadcrumbJsonLd([{ name: 'IBATOCO', href: home }, { name: guide.h1, href: url }], site),
+    faqPageJsonLd(guide.faq.map((f) => ({ question: f.q, answer: f.a })), { inLanguage: LOCALE_META[locale].htmlLang }),
   ];
 }
