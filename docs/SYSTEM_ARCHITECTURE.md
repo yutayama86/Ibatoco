@@ -1,6 +1,6 @@
 # イバトコのシステム構成と、主要ファイルの責務
 
-最終確認：2026-10-27（main `ca25381` 時点）。開発のルールは [AGENTS.md](../AGENTS.md)、作業手順は [DEVELOPMENT_PLAYBOOK.md](DEVELOPMENT_PLAYBOOK.md)。
+最終確認：2026-10-31（main `d017b18` に #474〜#477 を取り込んだ状態）。開発のルールは [AGENTS.md](../AGENTS.md)、作業手順は [DEVELOPMENT_PLAYBOOK.md](DEVELOPMENT_PLAYBOOK.md)。
 この文書は「どこに何があり、何を壊すと何が止まるか」を、初めて触る担当（ChatGPT・人・ほかのAI）が Claude に聞かずに分かるように書く。
 
 ## 全体の流れ
@@ -37,16 +37,37 @@ Cloudflare Workers（ibatoco.jp）
 | `src/layouts/` | `BrandBase.astro`（全公開ページの外枠：head・SEO・JSON-LD・GA4・`<main>`）、`ControlBase.astro`（/control/）、`PreviewBrand.astro` | BrandBase は全ページに効く。変えたら verify と画面検査 |
 | `src/components/` | 部品。TOP 専用は `Home*`、送客は `BookingGuide`・`BusinessCta`・`SponsorSlots`、図鑑は `food/` | 送客部品は計測と一体（GA4 イベント） |
 | `src/data/` | サイト設定と台帳：`site.ts`（サイト名・GA4 の既定 ID・フォーム送信先）、`areas.ts`（44市町村と5地域）、`ibaraki-geo.ts`（市町村の境界）、`affiliates.ts`（提携先と成果リンク）、`internal-links.ts`（内部リンクの文言）、`seo-changes.ts`（SEO 変更履歴）、`food-library.ts`（食の図鑑） | `ibaraki-geo.ts`・`areas.ts` は中核資産 |
-| `src/lib/` | 共通ロジック。`date-only.js`（日本時間の暦日）、`analytics-events.ts`（GA4 送信）、`growth-engine.mjs`・`growth-os.mjs`（成長の計算）、`revenue-funnel.mjs`（収益の段階）、`measurement-monitor.mjs`（計測の健全性）、`wikimedia-image.ts`（Commons 画像の srcset） | `.mjs` の多くは scripts と Control Center の両方から使う |
+| `src/lib/` | 共通ロジック。`date-only.js`（日本時間の暦日・日付の書式・「今日」）、`seo.ts`（パンくず・FAQ の構造化データ）、`analytics-events.ts`（GA4 送信）、`growth-engine.mjs`・`growth-os.mjs`（成長の計算）、`revenue-funnel.mjs`（収益の段階）、`measurement-monitor.mjs`（計測の健全性）、`wikimedia-image.ts`（Commons 画像の srcset） | `.mjs` の多くは scripts と Control Center の両方から使う |
 | `src/styles/` | `global.css`（色・余白のトークン）、`interior.css`（記事本文）、`fonts.generated.css` | トークンは `docs/UI_TOKENS.md` |
 | `worker/index.js` | Cloudflare Worker：/control/ の認証、www・http の 301、メンテナンス用 Basic 認証 | 認証は `scripts/control-auth.test.mjs` が守る |
 | `wrangler.jsonc` | Worker 名・配信フォルダ・Worker を通す範囲（`run_worker_first`） | /control/ を除外しない（security-audit が検査） |
 | `public/` | そのまま配信：`_headers`（CSP など）、`_redirects`、`robots.txt`、画像、フォント、OG の既定画像 | CSP を変えるときは GA4 の送信先（analytics-audit） |
-| `scripts/` | 検査・レポート・取り込みの Node スクリプト（57本）。`npm run` から呼ぶ | 下の「npm スクリプト」 |
+| `scripts/` | 検査・レポート・取り込みの Node スクリプト（60本＋`scripts/lib/` 4本）。`npm run` から呼ぶ | 下の「npm スクリプト」 |
 | `data/editorial/` | 編集・成長・収益の台帳（JSON）。下の「データ台帳」 | 取得できない値は `null`。0 で埋めない |
 | `docs/` | 方針と手順。下の「正本の地図」 | |
 | `.github/workflows/` | CI と本番デプロイ。下の「GitHub Actions」 | 変更はオーナー承認が必要（AGENTS.md） |
 | `reports/editorial/` | 日次レポートの出力先（Git には入れない。CI の artifact に残る） | |
+
+## 表示・処理の管理箇所（何を変えるならどこを直すか）
+
+同じ役割の表示・処理は1か所で持つ。下の場所以外（ページ側）に同じものを書き足さない。判断の経緯と残した課題は [CODE_STRUCTURE_AUDIT_20261031.md](CODE_STRUCTURE_AUDIT_20261031.md)。
+
+| 変えたいもの | 直す場所 | 効く範囲 |
+|---|---|---|
+| 日付の書式（「2026年10月31日」「10月31日(土)」「10/31(土)」）・YYYY-MM-DD・日本時間の「今日」 | `src/lib/date-only.js`（`formatJapaneseDate` など5つ・`toDateOnlyString`・`todayDateOnlyString`） | 全ページ・scripts。`src` で `Intl.DateTimeFormat` を組むと `npm run date:check` が止める（例外は TOP の `HomeNow` のインラインスクリプト） |
+| パンくず・FAQ の構造化データ | `src/lib/seo.ts`（`breadcrumbJsonLd`・`faqPageJsonLd`） | 全ページ。記事固有の Article・Event・NewsArticle は各テンプレート |
+| 画面のパンくず | `src/components/Breadcrumbs.astro`（約40ページ）。見た目は `interior/foundation.css` の `.crumbs` | about・ニュース・テーマなど約11ページは手書きのまま（課題） |
+| 記事本文の幅・目次の幅・ニュースの外枠 | `src/styles/global.css` の `--content-reading`（700）・`--toc-width`（210）・`--content-article`（960） | ニュース詳細・イベント詳細 |
+| 下層ページの見出しの読みカラム | `src/styles/interior/foundation.css` の `--reading-col`（780） | 下層の見出し全般。ニュース詳細は自分の要素で `--content-article` に置き換える |
+| ニュース詳細の見出し（h1）・「結論／概要」の枠 | `src/pages/news/[slug].astro` | ニュース詳細（共通 CSS からは上書きしない） |
+| ニュース詳細のガイド型 CTA（行き先・広告リンクへの差し替え・rel・計測の印） | `src/components/news/GuideCta.astro` | ガイド型ニュースの冒頭・各節・最後。検査は `scripts/data-audit.mjs` |
+| 「#アフィリエイト広告」の表記 | `src/components/AdDisclosure.astro` | ニュース詳細・イベント詳細 |
+| 予約・確認の案内（BookingGuide）・協賛枠・事業者向け導線・次に読む | `BookingGuide`・`SponsorSlots`・`BusinessCta`・`GrowthNextReads`・`ArticleNextSteps`（`docs/ARTICLE_ACTIONS.md`） | ニュース・イベント詳細 |
+| 一覧のカード画像 | `src/lib/card-image.ts` | 一覧・次に読む・OG |
+| 催しの開催状態（開催前・開催中・終了） | `src/lib/lifecycle.ts`・`lifecycle-dates.js` | TOP・一覧・関連・次に読む |
+| 情報源の一覧の見た目 | ニュースは `news/[slug].astro`＋`interior/articles.css` の情報源パネル（市町村ガイドと共有）、イベントは `events/[slug].astro` | 見た目が系統ごとに違う（意図して分けている） |
+| 図鑑の共通の見た目・パンくず・出典 | `src/components/food/FoodStyles.astro`・`FoodGuideLayout.astro` | 図鑑8ページと一覧 |
+| 市町村ページ | 一般型は `AreaGuide.astro`（データは `src/data/area-guides.ts`）、日立・大子は専用の部品、見出しは `CityEditorialHero.astro` | 44市町村 |
 
 ## npm スクリプト（よく使うもの）
 
@@ -100,7 +121,7 @@ main のルールセット：PR 必須、必須チェック2本、直線履歴�
 2. quality-audit（h1・description・canonical・JSON-LD・alt・リンク切れ・禁止語）
 3. tech-audit（重複・OGP・重い画像）・security-audit・data-audit（GA4 イベント名）・repository-audit・analytics-audit（CSP と GA4）
 4. editorial:check・observation-guard（PR のときだけ。観測窓）
-5. 単体テスト（node --test 7本）
+5. 単体テスト（node --test 9本）
 6. search-trends と GA4 日別の形式・freshness-guard（年度違いは失敗、期限切れ表現は警告）・city-hero 監査
 7. ui-smoke（画面検査）・visual-diff（参考）— CI で必須。手元で Chrome が起動しない環境では警告を出して飛ばす
 
@@ -131,4 +152,4 @@ main のルールセット：PR 必須、必須チェック2本、直線履歴�
 | 事故対応 | [SECURITY_INCIDENT_RESPONSE.md](SECURITY_INCIDENT_RESPONSE.md) |
 | 現状の監査と、Claude の停止 | [CHATGPT_MIGRATION_AUDIT.md](CHATGPT_MIGRATION_AUDIT.md)・[CLAUDE_EXIT_RUNBOOK.md](CLAUDE_EXIT_RUNBOOK.md) |
 
-記録として残っているだけの文書（現在の手順ではない）：`TOMORROW_LAUNCH.md`・`PRELAUNCH_AUDIT.md`・`growth-rebuild-audit.md`・`revenue-growth-audit.md`・`SITE_STABILIZATION_AUDIT_20261019.md`。
+記録として残っているだけの文書（現在の手順ではない）：`CODE_STRUCTURE_AUDIT_20261031.md`（コード整理の判断と残した課題）・`TOMORROW_LAUNCH.md`・`PRELAUNCH_AUDIT.md`・`growth-rebuild-audit.md`・`revenue-growth-audit.md`・`SITE_STABILIZATION_AUDIT_20261019.md`。

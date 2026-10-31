@@ -49,7 +49,7 @@
 ## 3. 画面（UI）の改修
 
 1. 対象のテンプレート・部品を特定する（[SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md)）。TOP は固定版（AGENTS.md）なので、必須構成（FV3枚・テーマ6件・地図44件・取材と編集3件・事業者導線）を残す
-2. 色・余白は `src/styles/global.css` のトークンと `docs/UI_TOKENS.md` の breakpoint（560/760/900/1180）に従う。1列のグリッドは `minmax(0,1fr)`
+2. 色・余白は `src/styles/global.css` のトークンと `docs/UI_TOKENS.md` の breakpoint（560/760/900/1180）に従う。1列のグリッドは `minmax(0,1fr)`。日付の書式（`src/lib/date-only.js`）・パンくずと FAQ の構造化データ（`src/lib/seo.ts`）・記事の幅のトークンなど、共通の管理箇所があるものはページで組み直さない（[SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md)「表示・処理の管理箇所」）
 3. 送客部品（BookingGuide など）を触るなら、GA4 イベントの送信回数を変えない（6. 計測）
 4. 検証：`npm run verify`（CI の ui-smoke が 11幅で横スクロール・はみ出し・画像・JS エラー・44px 未満のボタンを検査）。Visual Regression の差が5%を超えたページは、意図した変更か PR に書く
 5. 既存ページの見た目を広く変える改修は、オーナー（クリエイティブの判断者）の承認を先にとる
