@@ -10,7 +10,6 @@ import { addDays } from './growth-engine.mjs';
 
 const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const fin = (v) => (Number.isFinite(v) ? v : null);
-const mean = (xs) => (xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : null);
 const median = (xs) => {
   if (!xs.length) return null;
   const s = [...xs].sort((a, b) => a - b);

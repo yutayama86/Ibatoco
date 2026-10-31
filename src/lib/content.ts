@@ -12,10 +12,6 @@ export async function getArticlesByCategory(category: string) {
   return (await getArticles()).filter((a) => a.data.category === category);
 }
 
-export async function getFeatured() {
-  return (await getArticles()).filter((a) => a.data.featured);
-}
-
 export async function getPlaces(): Promise<CollectionEntry<'places'>[]> {
   const all = await getCollection('places', ({ data }) => !data.draft && data.reviewed);
   return all.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
@@ -132,10 +128,6 @@ export async function getPublishedStores(): Promise<Store[]> {
   });
 }
 
-export async function getStoresByArea(slug: string): Promise<Store[]> {
-  return (await getStores()).filter((s) => areaToSlug(s.data.area) === slug);
-}
-
 /** 市町村slugごとの記事・店舗件数（コンテンツのある市町村を把握） */
 export async function getAreaCounts(): Promise<Map<string, number>> {
   const [articles, stores] = await Promise.all([getArticles(), getStores()]);
@@ -191,17 +183,9 @@ export function tagToSlug(tag: string): string {
   return `t-${Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')}`;
 }
 
-export async function getArticlesByArea(slug: string) {
-  return (await getArticles()).filter((a) => areaToSlug(a.data.area) === slug);
-}
-
 /** 指定レポーター（表示名）が取材した記事 */
 export async function getArticlesByReporter(name: string) {
   return (await getArticles()).filter((a) => a.data.reporter === name);
-}
-
-export async function getPlacesByArea(slug: string) {
-  return (await getPlaces()).filter((p) => areaToSlug(p.data.area) === slug);
 }
 
 // === 2026 Renewal：市町村 ↔ Story / Person / Place を接続するデータ構造 ===

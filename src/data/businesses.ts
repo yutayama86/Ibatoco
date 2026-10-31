@@ -124,11 +124,6 @@ export const BUSINESS_BY_ID: ReadonlyMap<string, Business> = new Map(
   BUSINESSES.map((b) => [b.id, b]),
 );
 
-/** ID の形が規約どおりか。登録時の取り違えを防ぐ */
-export function isValidBusinessId(id: string): boolean {
-  return /^[a-z-]+-[a-z]+-\d{3}$/.test(id);
-}
-
 export function businessesInMunicipality(slug: string): Business[] {
   return BUSINESSES.filter((b) => b.municipality === slug);
 }

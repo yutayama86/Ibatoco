@@ -32,9 +32,6 @@ export const LOCALE_META: Record<Locale, LocaleMeta> = {
   ko: { label: '한국어', htmlLang: 'ko', hreflang: 'ko', ogLocale: 'ko_KR', prefix: '/ko' },
 };
 
-/** 海外向け（日本語以外）の言語一覧。トップや切替UIの並び順もこれに従う。 */
-export const INTL_LOCALES: Locale[] = ['en', 'zh-tw', 'ko'];
-
 /**
  * translationKey ごとの、実在する各言語ページのパス。
  * ここに書いたURLだけが hreflang / 言語切替の対象になる。

@@ -143,7 +143,3 @@ export function autoBookingForEvent(input: AutoBookingInput): AutoBooking | unde
     note: 'イバトコは宿泊予約を受け付けていません。料金・空室・キャンセル規定は各予約サイトで確認してください。',
   };
 }
-
-export function hasAutoLodgingCoverage(municipality?: string): boolean {
-  return Boolean(municipality && LODGING_BY_MUNICIPALITY[municipality]);
-}

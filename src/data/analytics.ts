@@ -1,5 +1,6 @@
 /**
- * GA4計測の対象判定と、流入元の分類。
+ * GA4計測の対象判定と、流入元の分類に使う設定値。
+ * 判定そのものは src/layouts/BrandBase.astro のインラインスクリプトが、ここの値を受け取って行う。
  *
  * 設計方針：
  *  - **推測で分類しない。** referrer か utm_source で発信元が特定できたものだけを
@@ -49,69 +50,3 @@ export const AI_REFERRAL_HOSTS: Record<string, string> = {
   'chat.deepseek.com': 'deepseek',
   'chat.mistral.ai': 'mistral',
 };
-
-/** 開発・ローカル環境と判定するホスト名のパターン */
-export const LOCAL_HOST_PATTERNS = [
-  'localhost',
-  '127.0.0.1',
-  '0.0.0.0',
-  '::1',
-] as const;
-
-export type TrafficKind = 'ai_referral' | 'search' | 'other_referral' | 'direct';
-
-export interface TrafficClassification {
-  /** GA4へ送る流入区分 */
-  trafficKind: TrafficKind;
-  /** AI流入のときだけ入る識別子（chatgpt / claude など） */
-  aiSource?: string;
-  /** 判定に使ったホスト名（デバッグ・検証用） */
-  matchedHost?: string;
-}
-
-/**
- * referrer と utm_source から流入を分類する。
- * サーバー側・テスト側からも同じ結果が得られるよう、純関数にしてある。
- */
-export function classifyTraffic(referrer: string, utmSource: string | null): TrafficClassification {
-  const normalize = (value: string): string | null => {
-    if (!value) return null;
-    try {
-      // utm_source は「chatgpt.com」のようにホスト名だけで来ることが多い
-      const withScheme = value.includes('://') ? value : `https://${value}`;
-      return new URL(withScheme).hostname.toLowerCase().replace(/^www\./, '');
-    } catch {
-      return null;
-    }
-  };
-
-  const match = (host: string | null): { source: string; host: string } | null => {
-    if (!host) return null;
-    const direct = AI_REFERRAL_HOSTS[host];
-    if (direct) return { source: direct, host };
-    // サブドメイン一致（例：foo.perplexity.ai）
-    for (const known of Object.keys(AI_REFERRAL_HOSTS)) {
-      if (host.endsWith(`.${known}`)) return { source: AI_REFERRAL_HOSTS[known]!, host };
-    }
-    return null;
-  };
-
-  // utm_source を優先する。AI側がリンクに付けてくるため referrer より確実
-  const fromUtm = match(normalize(utmSource ?? ''));
-  if (fromUtm) return { trafficKind: 'ai_referral', aiSource: fromUtm.source, matchedHost: fromUtm.host };
-
-  const refHost = normalize(referrer);
-  const fromRef = match(refHost);
-  if (fromRef) return { trafficKind: 'ai_referral', aiSource: fromRef.source, matchedHost: fromRef.host };
-
-  // referrer が無い＝Direct。ここをAIに寄せると実態と乖離するので寄せない
-  if (!refHost) return { trafficKind: 'direct' };
-
-  // 検索エンジン。AI Overviews 経由もここに入るが、区別できないので search のまま
-  const SEARCH = ['google.com', 'google.co.jp', 'bing.com', 'yahoo.co.jp', 'search.yahoo.co.jp', 'duckduckgo.com', 'ecosia.org', 'brave.com'];
-  if (SEARCH.some((s) => refHost === s || refHost.endsWith(`.${s}`))) {
-    return { trafficKind: 'search', matchedHost: refHost };
-  }
-
-  return { trafficKind: 'other_referral', matchedHost: refHost };
-}

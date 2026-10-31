@@ -6,7 +6,7 @@
  * 情報量の少ない街は見どころ2〜3項目のまま、無理にセクションを増やさない。
  * 阿見町・東海村（sensitive）は評価語を避け、「PLACES／この街にある場所。」の中立見出しにする。
  */
-import { MUNI_BY_SLUG, REGIONS } from '../data/areas';
+import { MUNI_BY_SLUG } from '../data/areas';
 import CityEditorialHero from './CityEditorialHero.astro';
 import type { AreaGuide } from '../data/area-guides';
 
@@ -15,7 +15,6 @@ const { slug, guide } = Astro.props;
 const municipality = MUNI_BY_SLUG.get(slug)!;
 // リニューアル試作は高萩市に限定。共通ガイドの文章と検索情報は変更しない。
 
-const region = REGIONS[municipality.region];
 const placesKicker = guide.sensitive ? 'PLACES' : 'HIGHLIGHTS';
 const placesHeading = guide.sensitive ? 'この街にある場所。' : 'この街で、訪ねたい場所。';
 

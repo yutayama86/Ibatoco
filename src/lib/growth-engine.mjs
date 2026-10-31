@@ -296,7 +296,7 @@ export function searchUpside(row, { config, activeDays, viewsPerSession }) {
   return { views: Math.round(clicks * (viewsPerSession ?? 1)), targetPosition, goalCtr: goal };
 }
 
-export function seoOpportunities({ snapshot, config, seasons, inbound, focusPaths, observation, month, today }) {
+export function seoOpportunities({ snapshot, config, seasons, inbound, focusPaths, observation, month }) {
   const t = config.seo;
   const viewsPerSession = num(snapshot?.windows?.ga4?.recent7?.viewsPerSession) ?? 1;
   const observingPaths = new Map(observation.filter((o) => o.status === 'observing').map((o) => [o.path, o]));
@@ -498,7 +498,7 @@ export function scoreActions({ actions, seasons, today }) {
 }
 
 /** 今日もっとも Gap を縮める施策 TOP3（スコア済みの施策と、エンジンが見つけた伸びしろから） */
-export function growthBatch({ scoredActions, forecasts, opportunities, limit = 3 }) {
+export function growthBatch({ scoredActions, forecasts, limit = 3 }) {
   const candidates = [];
   for (const a of scoredActions) {
     if (a.score == null) continue;
