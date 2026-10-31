@@ -12,11 +12,7 @@ tags:
   - "2026年11月"
   - "週末イベント"
 prefecture: "茨城県"
-municipalities:
-  - hitachinaka
-  - kasama
-  - tsukuba
-  - naka
+municipalities: []
 featured: false
 draft: false
 reviewed: true
