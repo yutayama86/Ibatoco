@@ -13,12 +13,8 @@ body.interior-site :is(.news-detail__head, .story-head) {
   padding-block: clamp(1.8rem, 3vw, 2.75rem);
 }
 
-/* ニュースの見出しは本文用 --reading-col に絞らず、960pxの外枠全体を使う。 */
-body.interior-site.route-news .news-detail__head {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-body.interior-site :is(.news-detail__head, .story-head) h1 {
+/* ニュース詳細の h1 は src/pages/news/[slug].astro が持つ（ここから上書きしない） */
+body.interior-site .story-head h1 {
   max-width: 18em;
   color: var(--color-deep-blue);
   font-size: var(--interior-title-lg) !important;
@@ -104,15 +100,6 @@ body.interior-site .news-detail__body h2,
 body.interior-site .prose h2 {
   color: var(--color-deep-blue);
   text-wrap: balance;
-}
-
-body.interior-site .news-conclusion {
-  padding: clamp(1.5rem, 4vw, 2.4rem) !important;
-  border: 1px solid var(--interior-line) !important;
-  border-left: 3px solid var(--color-tide) !important;
-  border-radius: var(--radius-xs);
-  background: var(--color-white);
-  box-shadow: none;
 }
 
 body.interior-site .news-detail__body li::before,

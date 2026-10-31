@@ -131,18 +131,27 @@ if (!relExpr) {
   }
 }
 
-// ガイド記事の cta も広告リンクになる（src/pages/news/[slug].astro の linkAttrs）。
+// ガイド記事の cta も広告リンクになる（src/components/news/GuideCta.astro）。
 // BookingGuide と同じ条件を満たしているかを、こちらでも見る。
 // 一番押される導線なので、ここが素のリンクや noreferrer 付きに戻ると取りこぼす。
-const newsPage = readFileSync('src/pages/news/[slug].astro', 'utf8');
-const ctaRel = newsPage.match(/rel:\s*paid\s*\?\s*'([^']*)'\s*:\s*'([^']*)'/);
+const guideCta = readFileSync('src/components/news/GuideCta.astro', 'utf8');
+const ctaRel = guideCta.match(/rel:\s*paid\s*\?\s*'([^']*)'\s*:\s*'([^']*)'/);
 if (!ctaRel) {
-  add('error', 'affiliate-rel', 'news/[slug].astro の cta の rel の出し分けを確認できませんでした');
+  add('error', 'affiliate-rel', 'GuideCta.astro の rel の出し分けを確認できませんでした');
 } else if (ctaRel[1] !== 'nofollow sponsored noopener') {
   add('error', 'affiliate-rel', `ガイド記事 cta の広告リンクの rel が想定と違います: ${ctaRel[1]}`);
 }
-if (!/const ctaHref = \(href: string\) => paidLinkFor\(href\)\?\.href \?\? href;/.test(newsPage)) {
-  add('error', 'affiliate-rel', 'ガイド記事の cta が広告リンクへ差し替わらなくなっています（ctaHref を確認）');
+if (!/const paid = paidLinkFor\(cta\.href\);/.test(guideCta) || !/href=\{paid\?\.href \?\? cta\.href\}/.test(guideCta)) {
+  add('error', 'affiliate-rel', 'ガイド記事の cta が広告リンクへ差し替わらなくなっています（GuideCta.astro の paidLinkFor を確認）');
+}
+// 冒頭・各節・最後の3か所とも GuideCta を通す（素の <a> に戻すと rel と計測の印が外れる）
+const newsPage = readFileSync('src/pages/news/[slug].astro', 'utf8');
+for (const [label, pattern] of [
+  ['冒頭', /\{guide\.cta && <GuideCta /],
+  ['各節', /\{section\.cta && <GuideCta /],
+  ['最後', /\{guide\.bottomCta && <GuideCta /],
+]) {
+  if (!pattern.test(newsPage)) add('error', 'affiliate-rel', `news/[slug].astro の${label}の cta が GuideCta を通っていません`);
 }
 
 // ---- 収益化クリック計測の整合 ----

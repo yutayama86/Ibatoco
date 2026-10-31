@@ -57,7 +57,7 @@ body.interior-site .wrap {
 }
 
 body.interior-site .bp-reading {
-  width: min(calc(100% - 2rem), 780px);
+  width: min(calc(100% - 2rem), var(--reading-col));
 }
 
 body.interior-site .bp-kicker,
