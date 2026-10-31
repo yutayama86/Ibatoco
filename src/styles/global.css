@@ -57,7 +57,9 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --content-wide: 1200px;
-  --content-reading: 700px;
+  --content-reading: 700px;   /* 記事本文のカラム（ニュース・イベント詳細の右側） */
+  --content-article: 960px;   /* ニュース詳細の見出しと関連情報の外枠 */
+  --toc-width: 210px;         /* ニュース・イベント詳細の左の目次 */
 
   /* 新ブランドのフォント指定（トークンとして定義。実フォント読込は新UIレンダ時。
      現行 coming-soon ページの Core Web Vitals を守るため全ページ一律読込はしない） */

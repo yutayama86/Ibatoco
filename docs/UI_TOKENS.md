@@ -8,7 +8,7 @@
 |---|---|---|
 | 文字サイズ | `--step--2` 〜 `--step-5`（clamp） | 新しいCSSはこれを使う |
 | 余白 | `--gutter`、`--discovery-gap` | ページ左右は `--gutter` |
-| 幅 | `--maxw` 1240px、`--content-wide` 1200px、`--content-reading` 700px | |
+| 幅 | `--maxw` 1240px、`--content-wide` 1200px、`--content-reading` 700px（記事本文のカラム）、`--content-article` 960px（ニュース詳細の見出し・関連情報の外枠）、`--toc-width` 210px（ニュース・イベント詳細の目次）。下層の見出しの読みカラムは `--reading-col` 780px（`interior/foundation.css`。ニュース詳細の見出しは自分の要素で `--content-article` に置き換える） | 記事の幅を変えるときはこのトークンだけを直す（ページ側に px を書かない。2026-10-31） |
 | 角丸 | `--radius` 2px／`--radius-xs` 4px・`--radius-sm` 8px／`--discovery-radius-sm/md/lg` 12・16・20px／`--brand-radius-card` 22px・`--brand-radius-pill` 999px | **3系統が並存**（旧編集デザイン／Discovery v1／Brand v2） |
 | 影 | `--shadow-sm/--shadow/--shadow-lg`／`--discovery-shadow(-hover)`／`--brand-shadow-card/-lift` | 同じく3系統 |
 | 動き | `--ease`、`--dur` | reduced-motion は各部品で無効化 |
