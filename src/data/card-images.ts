@@ -32,6 +32,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-kome-kiwami-contest-2026": "/images/card/ibaraki-kome-kiwami-contest-2026-4c8cbdb8.png",
   "ibaraki-license-renewal-reservation-2026": "/images/card/ibaraki-license-renewal-reservation-2026-4c8cbdb8.png",
   "ibaraki-location-support-2025-record": "/images/card/ibaraki-location-support-2025-record-4c8cbdb8.png",
+  "ibaraki-marche-november-2026": "/images/card/ibaraki-marche-november-2026-4c8cbdb8.png",
   "ibaraki-native-communication-supporter-801-2026": "/images/card/ibaraki-native-communication-supporter-801-2026-4c8cbdb8.png",
   "ibaraki-natto-nihonichi-project-2026": "/images/card/ibaraki-natto-nihonichi-project-2026-6c5eb34d.png",
   "ibaraki-outsourced-email-leak-2026": "/images/card/ibaraki-outsourced-email-leak-2026-4c8cbdb8.png",
