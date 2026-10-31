@@ -142,7 +142,7 @@ sourceUrls:
     url: "https://ikinamarket.com/tsukunomi/"
     accessedAt: 2026-11-01
   - label: "ミネラルマルシェ｜つくば"
-    url: "https://www.mineralshow.net/marche/%E7%AC%AC2%E5%9B%9E3%E3%81%A4%E3%81%8F%E3%81%B0%E3%83%9F%E3%83%8D%E3%83%A9%E3%83%AB%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7/"
+    url: "https://www.mineralshow.net/marche/%E7%AC%AC2%E5%9B%9E%E3%81%A4%E3%81%8F%E3%81%B0%E3%83%9F%E3%83%8D%E3%83%A9%E3%83%AB%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7/"
     accessedAt: 2026-11-01
   - label: "いぃ那珂マルシェ"
     url: "https://marumachi.org/events/7178"
