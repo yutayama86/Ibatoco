@@ -250,7 +250,6 @@ body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(3
 
 /* --- Layout primitives --------------------------------------- */
 .wrap { width: min(100% - 2 * var(--gutter), var(--maxw)); margin-inline: auto; }
-.wrap-wide { width: min(100% - 2 * var(--gutter), 1440px); margin-inline: auto; }
 .stack > * + * { margin-top: var(--flow, 1rem); }
 
 /* --- Type helpers -------------------------------------------- */
@@ -297,7 +296,6 @@ body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(3
   border-color: var(--line-strong);
 }
 .btn--ghost:hover { --bg: var(--ink); --fg: var(--paper); }
-.btn--lg { padding: 1.15em 2.2em; font-size: var(--step-0); }
 
 /* --- Tag / chip ---------------------------------------------- */
 .chip {

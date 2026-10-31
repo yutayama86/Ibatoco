@@ -131,8 +131,6 @@ const funnelRows = [...pageFunnel.entries()]
   );
 
 const totalBookingClicks = funnelRows.reduce((sum, row) => sum + row.bookingClicks, 0);
-const totalMonetizedClicks = paidClickCount || funnelRows.reduce((sum, row) => sum + row.monetizedClicks, 0);
-const totalNonMonetizedClicks = activeUnmappedClickCount;
 
 const lines = [
   '# Monetization Link Audit',
