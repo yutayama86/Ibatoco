@@ -120,10 +120,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
           PUBLIC_GSC_VERIFICATION: ${{ vars.PUBLIC_GSC_VERIFICATION }}
-        run: |
-          node scripts/deploy-guard.mjs
-          npm run audit:site
-          npx wrangler deploy
+        run: npm run deploy
 
       - name: Confirm deployed SHA and current main
         shell: bash
@@ -144,9 +141,3 @@ jobs:
             exit 1
           fi
           echo "Production SHA verified: $live_sha"
-
-      - name: Verify production
-        shell: bash
-        run: |
-          node scripts/verify-production.mjs --wait --timeout 300
-          node scripts/ui-smoke.mjs --production
