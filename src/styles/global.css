@@ -215,8 +215,7 @@ body {
  * 最小幅で幅が決まる枠（grid の auto トラック等）が長い文節で押し広げられる問題は、
  * 各部品で minmax(0,1fr) を指定して防ぐ（2026-10-03、320pxで全477ページを検査して修正）。
  */
-h1, h2, h3, h4, .bp-section-title, .bp-kicker, li, dt, figcaption, .btn-primary, .btn-ghost,
-.ag-catch {
+h1, h2, h3, h4, .bp-section-title, .bp-kicker, li, dt, figcaption, .btn-primary, .btn-ghost {
   word-break: auto-phrase;
   overflow-wrap: break-word;
 }
@@ -291,7 +290,6 @@ body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(3
 .btn .arw { transition: transform 0.4s var(--ease); }
 .btn:hover .arw { transform: translateX(4px); }
 .btn--shu { --bg: var(--shu); --fg: #fff; }
-.btn--ai { --bg: var(--ai); --fg: #fff; }
 .btn--ghost {
   --bg: transparent; --fg: var(--ink);
   border-color: var(--line-strong);
@@ -315,7 +313,6 @@ body{background-color:var(--brand-cream);background-image:radial-gradient(rgba(3
   transition: background 0.25s, color 0.25s, border-color 0.25s;
 }
 .chip[data-accent] { border-color: color-mix(in srgb, var(--_a) 55%, transparent); color: var(--_a); }
-.chip--solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .chip--link:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); transform: translateY(-1px); }
 
 /* --- Section heading ----------------------------------------- */

@@ -4,7 +4,7 @@ body.interior-site .place-head {
   align-items: center;
 }
 
-body.interior-site :is(.place-head h1, .ag-head h1, .ig-head h1) {
+body.interior-site :is(.place-head h1, .ig-head h1) {
   max-width: 15em;
   color: var(--color-deep-blue);
   font-size: var(--interior-title-xl) !important;
@@ -15,10 +15,6 @@ body.interior-site :is(.place-head h1, .ag-head h1, .ig-head h1) {
 
 body.interior-site :is(.area-guide, .daigo-guide, .hitachi-guide, .ig) {
   padding-top: clamp(1.5rem, 3vw, 2.75rem);
-}
-
-body.interior-site :is(.ag-head, .area-head) {
-  padding-bottom: clamp(2rem, 4vw, 3.5rem);
 }
 
 body.interior-site .place-head > div:first-child {

@@ -334,8 +334,7 @@ const jsonLd: Record<string, unknown>[] = [
   .area-biz__list a{display:inline-flex;align-items:center;min-height:44px;padding:.5rem 1rem;border-radius:999px;background:var(--interior-sky-soft,#eef6ff);color:var(--color-tide);font-size:.85rem;font-weight:700;text-decoration:none;white-space:nowrap}
   .area-biz__list a:hover,.area-biz__list a:focus-visible{background:var(--color-tide);color:#fff}
 
-  .area-page{padding-top:0}.area-head{padding-bottom:clamp(4rem,8vw,7rem);border-bottom:1px solid var(--color-mist)}.crumbs{display:flex;gap:.55rem;margin-bottom:2.5rem;color:var(--color-soil);font-size:.78rem}.crumbs a{border-bottom:1px solid transparent}.crumbs a:hover{border-color:var(--color-tide)}
-  .area-head h1{margin-top:1rem;font:600 clamp(4rem,12vw,10rem)/1 var(--font-brand-display);letter-spacing:.03em;color:var(--color-ink)}.area-lead{max-width:var(--measure);margin-top:2rem;font:500 clamp(1rem,1.7vw,1.25rem)/2 var(--font-brand-display);color:var(--color-soil)}.map-back{display:inline-block;margin-top:2rem;color:var(--color-tide);border-bottom:1px solid}
+  .area-page{padding-top:0}
   .area-content{display:grid;gap:clamp(5rem,10vw,9rem);padding-block:clamp(4rem,9vw,8rem)}.area-content h2{margin-top:.7rem}.story-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;margin-top:2rem}
   .place-list{margin-top:2rem;border-top:1px solid var(--color-mist)}.place-list a{display:flex;justify-content:space-between;gap:2rem;padding-block:1.4rem;border-bottom:1px solid var(--color-mist);color:var(--color-ink)}.place-list a>span:first-child{display:grid;gap:.25rem}.place-list small{color:var(--color-tide);font:.68rem var(--font-brand-meta);letter-spacing:.1em}.place-list strong{font:600 1.3rem var(--font-brand-display)}.place-list strong+span{color:var(--color-soil);font-size:.85rem}
   .area-empty{padding-block:clamp(5rem,11vw,9rem)}.area-empty h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.3 var(--font-brand-display);color:var(--color-ink)}.area-empty>p:not(.bp-kicker){margin-top:1.5rem;line-height:2;color:var(--color-soil)}.area-empty a{display:inline-block;margin-top:2rem;color:var(--color-tide);border-bottom:1px solid}
@@ -351,7 +350,6 @@ const jsonLd: Record<string, unknown>[] = [
   @media(max-width:1000px){.area-cards{grid-template-columns:1fr 1fr}}
   @media(max-width:640px){.area-cards{grid-template-columns:minmax(0,1fr)}}
   .area-news__more a{color:var(--color-tide)}
-  @media(prefers-reduced-motion:reduce){}
 
   .area-themes{padding-block:clamp(2.5rem,4vw,4rem);border-top:1px solid var(--color-mist)}
   .area-themes h2{margin-top:.8rem;font:600 clamp(1.55rem,2.5vw,2.45rem) var(--font-brand-display);color:var(--color-ink)}
@@ -368,5 +366,5 @@ const jsonLd: Record<string, unknown>[] = [
   .neighbors{padding-block:clamp(4rem,8vw,6rem);background:var(--color-white)}/* 節の見出しはサイト共通の .bp-section-title と同じ大きさにする。
      以前は .neighbors だけ3.3rem（53px）、他が2.6rem（42px）、AreaGuide側が2.45rem（39px）と3種類あった */
   .neighbors h2{margin-top:.8rem;font:600 clamp(1.55rem,2.5vw,2.45rem) var(--font-brand-display);color:var(--color-ink)}.neighbors ul{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;margin-top:2rem}.neighbors a{color:var(--color-soil);border-bottom:1px solid var(--color-mist);padding-bottom:.2rem}.neighbors a:hover{color:var(--color-tide);border-color:var(--color-tide)}
-  @media(max-width:800px){.story-grid{grid-template-columns:minmax(0,1fr)}.area-head h1{font-size:clamp(3.5rem,20vw,6rem)}}
+  @media(max-width:800px){.story-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
