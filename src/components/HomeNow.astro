@@ -122,6 +122,8 @@ const seasonal = (await getHappenings(new Date(), 60))
 
 <script>
   // 日本時間の今日に開催中・見頃のものだけを見せる（最大4件）
+  // 「今日」は date-only.js の todayDateOnlyString() と同じ計算。TOP の初回表示で外部 JS を増やさない
+  // （import するとインラインで出せず、表示が遅れて枠が後から現れる）ため、ここだけ直接書く
   const block = document.querySelector<HTMLElement>('[data-home-season]');
   if (block) {
     const parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());

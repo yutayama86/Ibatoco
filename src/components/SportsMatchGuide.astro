@@ -7,23 +7,20 @@
  * 項目の中身は src/data/sports/matches/*.json の guide が持つ。
  */
 import type { MatchGuide } from '../data/sports-schedule';
+import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
 
 interface Props {
   guide: MatchGuide;
 }
 
 const { guide } = Astro.props;
-const fmt = (ymd: string) => {
-  const [y, m, d] = ymd.split('-').map(Number);
-  return `${y}年${m}月${d}日`;
-};
 const hostOf = (url: string) => {
   try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
 };
 ---
 
 <div class="mg">
-  <p class="mg__verified">公式情報を確認した日：<time datetime={guide.verifiedAt}>{fmt(guide.verifiedAt)}</time>。各項目の「出典」から、確認したページを開けます。日時や運用は変わることがあるため、お出かけ前に公式の発表もご確認ください。</p>
+  <p class="mg__verified">公式情報を確認した日：<time datetime={guide.verifiedAt}>{formatJapaneseDate(parseDateOnly(guide.verifiedAt))}</time>。各項目の「出典」から、確認したページを開けます。日時や運用は変わることがあるため、お出かけ前に公式の発表もご確認ください。</p>
   <div class="mg__grid">
     {guide.sections.map((section) => (
       <section class="mg__sec" data-key={section.key} aria-label={section.title}>

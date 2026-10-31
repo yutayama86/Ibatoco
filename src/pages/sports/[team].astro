@@ -33,6 +33,7 @@ import {
 import { scheduleUpdatedAt, type SportsSource } from '../../data/sports-schedule';
 import { MUNICIPALITIES } from '../../data/areas';
 import { getSportsNews, getSportsNewsByKeyword, getIndexableNews } from '../../lib/content';
+import { formatJapaneseDate, formatMonthDayWithWeekday, parseDateOnly, toDateOnlyString, todayDateOnlyString } from '../../lib/date-only.js';
 import {
   getTeamMatches, pickNextMatch, pickLatestResult, pickRecentForm, pickUpcoming,
   competitionLabel, sportsEventJsonLd,
@@ -57,16 +58,11 @@ const matchDay = nextMatch?.matchDay;
  * 日付は必ず見出しに入れる（翌日に再ビルドされないまま見られても、何日の話か分かるように）。
  * 試合が終わって score を入れれば nextMatch が次の試合に移り、この枠ごと入れ替わる。
  */
-const JST_YMD = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
-const isMatchDayToday = Boolean(nextMatch) && JST_YMD.format(nextMatch!.date) === JST_YMD.format(new Date());
+const isMatchDayToday = Boolean(nextMatch) && toDateOnlyString(nextMatch!.date) === todayDateOnlyString();
 const GUIDE_ANCHOR = 'match-guide';
 
 /** データを公式情報で確認・更新した日。ビルド日ではない（更新していない日に更新したと見せない） */
 const updatedAt = scheduleUpdatedAt(team.slug);
-const fmtYmd = (ymd: string) => {
-  const [y, m, d] = ymd.split('-').map(Number);
-  return `${y}年${m}月${d}日`;
-};
 
 // 日程・結果の出典。ページに出した試合のぶんだけ、重複を除いて並べる
 const shownMatches = [nextMatch, latestResult, ...recentForm, ...upcoming].filter((m): m is NonNullable<typeof m> => Boolean(m));
@@ -86,7 +82,6 @@ const articles = [...tagged, ...legacy].filter((item) => {
 }).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
-const fmt = (d: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 /** 種類ごとに束ねる。分類が未設定の既存記事は「関連記事」へ寄せる。 */
 const byType = new Map<SportsContentType, typeof articles>();
@@ -165,12 +160,11 @@ const pageUrl = new URL(`/sports/${team.slug}/`, Astro.site).href;
  * 試合単体の検索には、次戦を入れた description と、ガイドの見出しで答える。
  * 試合データの無いチームは従来の title・description のまま。
  */
-const mdw = (d: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' }).format(d);
 const pageTitle = updatedAt
   ? `${team.name}｜次の試合・結果・観戦ガイド｜イバトコ`
   : `${team.name}｜試合と観戦、その周りのこと｜イバトコ`;
 const pageDescription = nextMatch
-  ? `${team.name}の次の試合は${mdw(nextMatch.date)}${nextMatch.kickoff ? ` ${nextMatch.kickoff}` : ''}、${competitionLabel(nextMatch) ? `${competitionLabel(nextMatch)}の` : ''}${nextMatch.opponent}戦${nextMatch.venue ? `（${nextMatch.venue}）` : ''}。直近の結果と今後の日程${guide ? '、チケットやアクセスなどの観戦ガイド' : ''}を、公式情報で確かめてまとめています。`
+  ? `${team.name}の次の試合は${formatMonthDayWithWeekday(nextMatch.date)}${nextMatch.kickoff ? ` ${nextMatch.kickoff}` : ''}、${competitionLabel(nextMatch) ? `${competitionLabel(nextMatch)}の` : ''}${nextMatch.opponent}戦${nextMatch.venue ? `（${nextMatch.venue}）` : ''}。直近の結果と今後の日程${guide ? '、チケットやアクセスなどの観戦ガイド' : ''}を、公式情報で確かめてまとめています。`
   : `${team.name}（${team.sport}）に関する記事、試合の情報、観戦と遠征の手引きをまとめています。${team.venue ? `本拠地は${team.venue}。` : ''}確かめられたことだけを載せます。`;
 
 const jsonLd = [
@@ -209,7 +203,7 @@ const jsonLd = [
     )}
     {updatedAt && (
       <p class="tm-updated">
-        <strong>最終更新：<time datetime={updatedAt}>{fmtYmd(updatedAt)}</time></strong>
+        <strong>最終更新：<time datetime={updatedAt}>{formatJapaneseDate(parseDateOnly(updatedAt))}</time></strong>
         <span>試合の前後に公式情報を確認し、次の試合・結果・観戦ガイドを更新しています。</span>
       </p>
     )}
@@ -224,7 +218,7 @@ const jsonLd = [
   {nextMatch && guide && guide.keyFacts.length > 0 && (
     <section class="tm-block bp-wrap tm-keyfacts" aria-labelledby="tm-keyfacts">
       <p class="tm-eyebrow">{isMatchDayToday ? 'MATCH DAY TODAY' : 'MATCH DAY ESSENTIALS'}</p>
-      <h2 id="tm-keyfacts" class="tm-title">{mdw(nextMatch.date)} {nextMatch.opponent}戦{isMatchDayToday ? ' 当日に確認すること' : 'で押さえること'}</h2>
+      <h2 id="tm-keyfacts" class="tm-title">{formatMonthDayWithWeekday(nextMatch.date)} {nextMatch.opponent}戦{isMatchDayToday ? ' 当日に確認すること' : 'で押さえること'}</h2>
       <ul class="tm-keylist">{guide.keyFacts.map((fact) => <li>{fact}</li>)}</ul>
       <p class="tm-keylinks">
         <a href={`#${GUIDE_ANCHOR}`}>観戦ガイドの詳細（出典つき）→</a>
@@ -282,7 +276,7 @@ const jsonLd = [
           <img src={thumbOf(item)} alt="" loading="lazy" decoding="async" width="1200" height="630" />
           <span class="bp-card__meta">
             {typeLabelOf(item) && <em>{typeLabelOf(item)}</em>}
-            <time datetime={item.data.pubDate.toISOString()}>{fmt(item.data.pubDate)}</time>
+            <time datetime={item.data.pubDate.toISOString()}>{formatJapaneseDate(item.data.pubDate)}</time>
           </span>
           <strong>{item.data.title}</strong>
         </a></li>
@@ -299,7 +293,7 @@ const jsonLd = [
           <img src={thumbOf(item)} alt="" loading="lazy" decoding="async" width="1200" height="630" />
           <span class="bp-card__meta">
             {typeLabelOf(item) && <em>{typeLabelOf(item)}</em>}
-            <time datetime={item.data.pubDate.toISOString()}>{fmt(item.data.pubDate)}</time>
+            <time datetime={item.data.pubDate.toISOString()}>{formatJapaneseDate(item.data.pubDate)}</time>
           </span>
           <strong>{item.data.title}</strong>
         </a></li>
@@ -325,7 +319,7 @@ const jsonLd = [
           <img src={thumbOf(item)} alt="" loading="lazy" decoding="async" width="1200" height="630" />
           <span class="bp-card__meta">
             {typeLabelOf(item) && <em>{typeLabelOf(item)}</em>}
-            <time datetime={item.data.pubDate.toISOString()}>{fmt(item.data.pubDate)}</time>
+            <time datetime={item.data.pubDate.toISOString()}>{formatJapaneseDate(item.data.pubDate)}</time>
           </span>
           <strong>{item.data.title}</strong>
         </a></li>

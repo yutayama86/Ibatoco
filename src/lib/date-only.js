@@ -39,33 +39,79 @@ export function dateOnlyFromCoercedDate(value) {
   return parseDateOnly(value.toISOString().slice(0, 10));
 }
 
+/** @type {Map<string, Intl.DateTimeFormat>} */
+const CALENDAR_PARTS = new Map();
+/** @param {string} timeZone */
+function calendarParts(timeZone) {
+  let format = CALENDAR_PARTS.get(timeZone);
+  if (!format) {
+    format = new Intl.DateTimeFormat('en', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' });
+    CALENDAR_PARTS.set(timeZone, format);
+  }
+  return format;
+}
+
 /**
  * ある瞬間を指定タイムゾーンの暦日に変換する。
  * @param {Date} value
  * @param {string} [timeZone]
  */
 export function dateOnlyFromInstant(value, timeZone = 'Asia/Tokyo') {
-  const parts = new Intl.DateTimeFormat('en', {
-    timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(value);
+  const parts = calendarParts(timeZone).formatToParts(value);
   /** @param {string} type */
   const pick = (type) => parts.find((part) => part.type === type)?.value;
   return parseDateOnly(`${pick('year')}-${pick('month')}-${pick('day')}`);
 }
 
-/** 公開日・更新日・出典確認日の共通表示。実行環境のタイムゾーンに依存させない。
+/**
+ * ある瞬間、または date-only の Date を、日本時間の暦日 YYYY-MM-DD にする。
+ * 構造化データの日付・data 属性・文字列での比較に使う。toISOString() は UTC の日付になるので使わない。
+ * @param {Date} value
+ */
+export function toDateOnlyString(value) {
+  return dateOnlyFromInstant(value).toISOString().slice(0, 10);
+}
+
+/** 日本時間の今日（YYYY-MM-DD）。ブラウザ・ビルド・scripts のどこから呼んでも同じ日付になる */
+export function todayDateOnlyString() {
+  return toDateOnlyString(new Date());
+}
+
+/*
+ * 画面に出す日付。どれも日本時間で書く（実行環境のタイムゾーンに依存させない）。
+ * 書式を変えるときはここだけを直す。ページ側で Intl.DateTimeFormat を組まない。
+ */
+const JAPANESE_DATE = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric' });
+const JAPANESE_DATE_WEEKDAY = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' });
+const MONTH_DAY_WEEKDAY = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' });
+const NUMERIC_MONTH_DAY_WEEKDAY = new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'numeric', day: 'numeric', weekday: 'short' });
+
+/** 「2026年10月31日」。公開日・更新日・出典確認日の共通表示
  * @param {Date} value
  */
 export function formatJapaneseDate(value) {
-  return new Intl.DateTimeFormat('ja-JP', {
-    timeZone: 'Asia/Tokyo',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(value);
+  return JAPANESE_DATE.format(value);
+}
+
+/** 「2026年10月31日(土)」。開催日など、曜日が要る日付
+ * @param {Date} value
+ */
+export function formatJapaneseDateWithWeekday(value) {
+  return JAPANESE_DATE_WEEKDAY.format(value);
+}
+
+/** 「10月31日(土)」。年が文脈で分かる一覧・カード
+ * @param {Date} value
+ */
+export function formatMonthDayWithWeekday(value) {
+  return MONTH_DAY_WEEKDAY.format(value);
+}
+
+/** 「10/31(土)」。幅の狭い表（試合結果など）
+ * @param {Date} value
+ */
+export function formatNumericMonthDayWithWeekday(value) {
+  return NUMERIC_MONTH_DAY_WEEKDAY.format(value);
 }
 
 /** @param {Date} value @param {number} amount */

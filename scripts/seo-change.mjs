@@ -14,6 +14,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { execSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { todayDateOnlyString } from '../src/lib/date-only.js';
 
 const root = dirname(fileURLToPath(new URL('../package.json', import.meta.url)));
 const FILE = join(root, 'src/data/seo-changes.ts');
@@ -60,7 +61,7 @@ if (!url.startsWith('/') && url !== '*') {
   process.exit(1);
 }
 
-const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }); // YYYY-MM-DD
+const today = todayDateOnlyString();
 
 // --date は「後から過去の変更を記録する」ためだけに使う。
 // 変更日がずれると GSC の比較期間（変更前7日／変更後7日・28日）ごとずれるので、

@@ -4,15 +4,13 @@
  * 年間日程のデータから、日付・時刻・会場が確定しているものだけが並ぶ。
  */
 import { HOME_AWAY_LABEL, competitionLabel, type ResolvedMatch } from '../lib/sports';
+import { formatMonthDayWithWeekday, toDateOnlyString } from '../lib/date-only.js';
 
 interface Props {
   matches: ResolvedMatch[];
 }
 
 const { matches } = Astro.props;
-const TZ = { timeZone: 'Asia/Tokyo' } as const;
-const md = (d: Date) => new Intl.DateTimeFormat('ja-JP', { ...TZ, month: 'long', day: 'numeric', weekday: 'short' }).format(d);
-const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { ...TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 ---
 
 {matches.length > 0 && (
@@ -20,7 +18,7 @@ const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { ...TZ, year: 'numeri
     {matches.map((m) => (
       <li>
         <p class="up__when">
-          <time datetime={iso(m.date)}>{md(m.date)}</time>
+          <time datetime={toDateOnlyString(m.date)}>{formatMonthDayWithWeekday(m.date)}</time>
           {m.kickoff && <span>{m.kickoff}{m.kickoffNote && `（${m.kickoffNote}）`}</span>}
         </p>
         <div class="up__body">

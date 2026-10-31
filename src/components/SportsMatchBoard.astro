@@ -9,6 +9,7 @@
 import {
   HOME_AWAY_LABEL, competitionLabel, pkText, resultLabel, type ResolvedMatch,
 } from '../lib/sports';
+import { formatJapaneseDate, formatJapaneseDateWithWeekday, toDateOnlyString } from '../lib/date-only.js';
 
 interface Story {
   href: string;
@@ -28,12 +29,6 @@ interface Props {
 const { next, latest, stories, guideAnchor } = Astro.props;
 const hasAnything = Boolean(next) || Boolean(latest) || stories.length > 0;
 
-const TZ = { timeZone: 'Asia/Tokyo' } as const;
-const fullDate = (d: Date) =>
-  new Intl.DateTimeFormat('ja-JP', { ...TZ, year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(d);
-const shortDate = (d: Date) =>
-  new Intl.DateTimeFormat('ja-JP', { ...TZ, year: 'numeric', month: 'long', day: 'numeric' }).format(d);
-const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { ...TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 const withNote = (value?: string, note?: string) => (value ? (note ? `${value}（${note}）` : value) : undefined);
 ---
 
@@ -49,7 +44,7 @@ const withNote = (value?: string, note?: string) => (value ? (note ? `${value}�
             vs {next.opponent}
           </p>
           <dl class="mb__facts">
-            <div><dt>日付</dt><dd><time datetime={iso(next.date)}>{fullDate(next.date)}</time></dd></div>
+            <div><dt>日付</dt><dd><time datetime={toDateOnlyString(next.date)}>{formatJapaneseDateWithWeekday(next.date)}</time></dd></div>
             {next.kickoff && <div><dt>開始</dt><dd>{withNote(next.kickoff, next.kickoffNote)}</dd></div>}
             {next.openTime && <div><dt>開場</dt><dd>{withNote(next.openTime, next.openTimeNote)}</dd></div>}
             {next.venue && <div><dt>会場</dt><dd>{next.venue}</dd></div>}
@@ -80,7 +75,7 @@ const withNote = (value?: string, note?: string) => (value ? (note ? `${value}�
             </p>
           )}
           <dl class="mb__facts">
-            <div><dt>試合日</dt><dd><time datetime={iso(latest.date)}>{shortDate(latest.date)}</time></dd></div>
+            <div><dt>試合日</dt><dd><time datetime={toDateOnlyString(latest.date)}>{formatJapaneseDate(latest.date)}</time></dd></div>
             {latest.venue && <div><dt>会場</dt><dd>{latest.venue}</dd></div>}
           </dl>
           {latest.community && (
@@ -102,7 +97,7 @@ const withNote = (value?: string, note?: string) => (value ? (note ? `${value}�
               <li>
                 <a href={s.href}>
                   <span class="mb__meta">
-                    <time datetime={iso(s.date)}>{shortDate(s.date)}</time>
+                    <time datetime={toDateOnlyString(s.date)}>{formatJapaneseDate(s.date)}</time>
                     {s.typeLabel && <b>{s.typeLabel}</b>}
                   </span>
                   <strong>{s.title}</strong>

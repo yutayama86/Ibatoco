@@ -2,14 +2,7 @@
  * 「今週できること」の日付表示・区分を、実行環境に依存せず決める。
  * Date は date-only.js と同じく UTC 00:00 の暦日として扱う。
  */
-import { addDateOnlyDays, dateOnlyWeekday } from './date-only.js';
-
-const JP_DATE = new Intl.DateTimeFormat('ja-JP', {
-  month: 'long',
-  day: 'numeric',
-  weekday: 'short',
-  timeZone: 'Asia/Tokyo',
-});
+import { addDateOnlyDays, dateOnlyWeekday, formatMonthDayWithWeekday } from './date-only.js';
 
 /** @param {Date} start @param {Date} end @param {Date} today */
 export function isHappeningActive(start, end, today) {
@@ -55,11 +48,11 @@ export function happeningDateLabel(start, end, today, startTime = undefined) {
   const multiDay = end > start;
   const active = isHappeningActive(start, end, today);
 
-  if (active && start < today && multiDay) return `開催中｜${JP_DATE.format(end)}まで`;
-  if (active && start.valueOf() === today.valueOf() && multiDay) return `本日開始｜${JP_DATE.format(end)}まで`;
+  if (active && start < today && multiDay) return `開催中｜${formatMonthDayWithWeekday(end)}まで`;
+  if (active && start.valueOf() === today.valueOf() && multiDay) return `本日開始｜${formatMonthDayWithWeekday(end)}まで`;
   if (active && start.valueOf() === today.valueOf()) return startTime ? `本日 ${startTime}` : '本日';
-  if (multiDay) return `${JP_DATE.format(start)} 〜 ${JP_DATE.format(end)}`;
-  return startTime ? `${JP_DATE.format(start)} ${startTime}` : JP_DATE.format(start);
+  if (multiDay) return `${formatMonthDayWithWeekday(start)} 〜 ${formatMonthDayWithWeekday(end)}`;
+  return startTime ? `${formatMonthDayWithWeekday(start)} ${startTime}` : formatMonthDayWithWeekday(start);
 }
 
 /**

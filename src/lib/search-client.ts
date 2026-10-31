@@ -3,7 +3,7 @@
  * 索引は /search-index.json（src/pages/search-index.json.ts）。
  * 日付は日本時間の暦日（YYYY-MM-DD の文字列）で比べる。new Date('YYYY-MM-DD') は使わない。
  */
-import { addDateOnlyDays, dateOnlyWeekday, parseDateOnly } from './date-only.js';
+import { addDateOnlyDays, dateOnlyWeekday, formatMonthDayWithWeekday, parseDateOnly } from './date-only.js';
 
 export interface Row {
   t: string;
@@ -43,13 +43,6 @@ export function normalize(value: string): string {
     .trim();
 }
 
-/** 日本時間の今日（YYYY-MM-DD） */
-export function todayJst(): string {
-  const parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
-  const pick = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
-  return `${pick('year')}-${pick('month')}-${pick('day')}`;
-}
-
 /** YYYY-MM-DD に日数を足す */
 export function addDays(value: string, amount: number): string {
   return addDateOnlyDays(parseDateOnly(value), amount).toISOString().slice(0, 10);
@@ -64,12 +57,7 @@ export function weekendRange(today: string): { start: string; end: string } {
   return { start: addDays(today, toSaturday), end: addDays(today, toSaturday + 1) };
 }
 
-const WEEK = ['日', '月', '火', '水', '木', '金', '土'];
-function label(value: string): string {
-  const date = parseDateOnly(value);
-  const [, month, day] = value.split('-').map(Number);
-  return `${month}月${day}日(${WEEK[dateOnlyWeekday(date)]})`;
-}
+const label = (value: string): string => formatMonthDayWithWeekday(parseDateOnly(value));
 
 /** 「11月7日(土)」「9月18日(金)〜11月3日(火)」 */
 export function formatRange(start?: string, end?: string): string {

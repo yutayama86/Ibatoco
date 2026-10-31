@@ -12,11 +12,11 @@ import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
 import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
 import { getAreaSummary } from '../lib/content';
+import { formatJapaneseDate } from '../lib/date-only.js';
 
 const { w: W, h: H } = GEO_VIEW;
 
 const summaries = await Promise.all(MUNICIPALITIES.map((m) => getAreaSummary(m.slug)));
-const fmt = (d: Date | null) => (d ? new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d) : null);
 
 // クライアントのパネル描画用データ（架空を出さない：実データが無ければ空）
 const panelData = Object.fromEntries(
@@ -26,7 +26,7 @@ const panelData = Object.fromEntries(
       name: s.name,
       region: s.region,
       href: `/area/${s.slug}/`,
-      lastUpdated: fmt(s.lastUpdated),
+      lastUpdated: s.lastUpdated ? formatJapaneseDate(s.lastUpdated) : null,
       stories: s.stories.slice(0, 3).map((a) => ({ title: a.data.title, href: `/${a.data.category}/${a.id.split('/').pop()}/` })),
       places: s.places.slice(0, 3).map((p) => ({ name: p.data.name, href: `/place/${p.id}/` })),
       people: s.people.slice(0, 3).map((p) => ({ name: p.name, href: `/reporter/${p.slug}/` })),

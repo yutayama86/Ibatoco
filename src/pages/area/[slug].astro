@@ -20,6 +20,7 @@ import { businessesInMunicipality } from '../../data/businesses';
 import { michinoekiForArea } from '../../data/michinoeki';
 import { foodGuidesForArea } from '../../data/food-library';
 import { areaToSlug } from '../../data/areas';
+import { formatMonthDayWithWeekday } from '../../lib/date-only.js';
 
 export const getStaticPaths = (() => MUNICIPALITIES.map((municipality) => ({ params: { slug: municipality.slug } }))) satisfies GetStaticPaths;
 
@@ -52,7 +53,6 @@ const areaEvents = (await getEventsByMunicipality(slug!))
   .sort((a, b) => a.data.municipalities.length - b.data.municipalities.length)
   .slice(0, 6);
 const eventPath = (id: string) => `/events/${id.split('/').pop()}/`;
-const eventDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 // ニュース解説もこの街の記録に数える。数えないと、記事があるのに
 // 「まだありません」と出てしまう。
 const hasContent = articles.length + stores.length + areaNews.length + areaEvents.length > 0;
@@ -232,7 +232,7 @@ const jsonLd: Record<string, unknown>[] = [
         <ul class="bp-cards">{areaEvents.map((e) => (
           <li><a href={eventPath(e.id)}>
             <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
-            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{eventDate(e.data.eventInfo.startDate)}</time></span>}
+            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{formatMonthDayWithWeekday(e.data.eventInfo.startDate)}</time></span>}
             <strong>{e.data.title}</strong>
           </a></li>
         ))}</ul>

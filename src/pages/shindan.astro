@@ -92,7 +92,8 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
 </style>
 
 <script>
-  import { addDays, escapeHtml, loadIndex, monthsBetween, overlaps, rowHtml, todayJst, weekendRange, type Row } from '../lib/search-client';
+  import { addDays, escapeHtml, loadIndex, monthsBetween, overlaps, rowHtml, weekendRange, type Row } from '../lib/search-client';
+  import { todayDateOnlyString } from '../lib/date-only.js';
   import { bindModuleTracking } from '../lib/module-tracking';
 
   const root = document.querySelector<HTMLElement>('[data-shindan]');
@@ -143,7 +144,7 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
   async function show(answer: Answer) {
     if (!result || !list || !note || !heading) return;
     const rows = await loadIndex();
-    const { picks, relaxed } = recommend(rows, answer, todayJst());
+    const { picks, relaxed } = recommend(rows, answer, todayDateOnlyString());
     result.hidden = false;
     note.textContent = picks.length === 0
       ? '条件に合う行き先が見つかりませんでした。「どこでも」や別の目的でも試してください。'

@@ -4,14 +4,19 @@
  * ビルド環境がUTC/JST/米国時間のどれでも、公式日付と表示日付が一致することを
  * npm run check の最初に検査する。
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   addDateOnlyDays,
   dateOnlyFromCoercedDate,
   dateOnlyFromInstant,
   dateOnlyWeekday,
   formatJapaneseDate,
+  formatJapaneseDateWithWeekday,
+  formatMonthDayWithWeekday,
+  formatNumericMonthDayWithWeekday,
   parseDateOnly,
+  toDateOnlyString,
 } from '../src/lib/date-only.js';
 import {
   dedupeSeasonHappenings,
@@ -33,6 +38,11 @@ try {
     expect(formatJapaneseDate(new Date('2026-10-29T00:00:00Z')), '2026年10月29日', `${timezone}: 公開日の表示`);
     expect(formatJapaneseDate(new Date('2026-10-28T15:00:00Z')), '2026年10月29日', `${timezone}: 日本時間の午前0時`);
     expect(formatJapaneseDate(new Date('2026-10-28T14:59:59Z')), '2026年10月28日', `${timezone}: 日本時間の午前0時直前`);
+    expect(formatJapaneseDateWithWeekday(new Date('2026-10-28T15:00:00Z')), '2026年10月29日(木)', `${timezone}: 曜日つきの日付`);
+    expect(formatMonthDayWithWeekday(parseDateOnly('2026-11-22')), '11月22日(日)', `${timezone}: 月日と曜日`);
+    expect(formatNumericMonthDayWithWeekday(parseDateOnly('2026-11-22')), '11/22(日)', `${timezone}: 数字の月日と曜日`);
+    expect(toDateOnlyString(parseDateOnly('2026-11-22')), '2026-11-22', `${timezone}: 暦日の YYYY-MM-DD`);
+    expect(toDateOnlyString(new Date('2026-10-28T15:00:00Z')), '2026-10-29', `${timezone}: 日本時間の午前0時の YYYY-MM-DD`);
   }
 } finally {
   if (originalTimezone === undefined) delete process.env.TZ;
@@ -113,6 +123,24 @@ for (const file of criticalFiles) {
     if (rule.pattern.test(source)) {
       errors.push(`${file}: 暦日処理に ${rule.label} を使わず date-only.js を使用してください`);
     }
+  }
+}
+
+// 日付の書式は date-only.js の1か所で持つ。ページや部品で Intl.DateTimeFormat を組むと、
+// タイムゾーンの書き忘れ（米国時間のビルドで1日ずれる）と、同じ書式の重複が起きる（2026-10-31 に約25か所を集約）
+const FORMAT_OWNERS = new Set([
+  'src/lib/date-only.js',
+  // TOP の初回表示で外部 JS を増やさないため、インラインのスクリプトで「今日」を計算している（理由はファイル内）
+  'src/components/HomeNow.astro',
+]);
+const walk = (dir) => readdirSync(dir).flatMap((name) => {
+  const path = join(dir, name);
+  return statSync(path).isDirectory() ? walk(path) : [path];
+});
+for (const file of walk('src').filter((path) => /\.(astro|ts|js|mjs)$/.test(path))) {
+  if (FORMAT_OWNERS.has(file)) continue;
+  if (/new Intl\.DateTimeFormat\(/.test(readFileSync(file, 'utf8'))) {
+    errors.push(`${file}: 日付の書式は src/lib/date-only.js の関数（formatJapaneseDate など）を使ってください`);
   }
 }
 

@@ -4,12 +4,11 @@
  * 誤りを隠さず、いつ何を直したかを残すことで信頼を担保する。
  */
 import { SITE_CONFIG } from '../data/site';
+import { formatJapaneseDate, toDateOnlyString } from '../lib/date-only.js';
 interface Props {
   corrections?: Array<{ date: Date; note: string }>;
 }
 const { corrections = [] } = Astro.props;
-const fmt = (d: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
-const iso = (d: Date) => d.toISOString().slice(0, 10);
 const contactHref = `mailto:${SITE_CONFIG.contactEmail}?subject=${encodeURIComponent('【訂正のお申し出】')}`;
 ---
 
@@ -19,7 +18,7 @@ const contactHref = `mailto:${SITE_CONFIG.contactEmail}?subject=${encodeURICompo
     <ol class="corrections__list">
       {corrections.map((c) => (
         <li class="corrections__item">
-          <time datetime={iso(c.date)}>{fmt(c.date)}</time>
+          <time datetime={toDateOnlyString(c.date)}>{formatJapaneseDate(c.date)}</time>
           <span>{c.note}</span>
         </li>
       ))}

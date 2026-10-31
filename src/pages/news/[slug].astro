@@ -16,6 +16,7 @@ import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
 import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink, paidLinkFor } from '../../data/affiliates';
+import { toDateOnlyString } from '../../lib/date-only.js';
 
 export const getStaticPaths = (async () => (await getNews()).map((item) => ({
   params: { slug: item.id.split('/').pop() },
@@ -155,16 +156,14 @@ const jsonLd: Record<string, unknown>[] = [
 // Event の日時は日本時間で組み立てる。news の event は日付だけを持ち時刻を
 // 持たないため、toISOString() を使うと 2026-10-10T00:00:00.000Z のように
 // UTCの真夜中＝日本時間の午前9時を主張してしまう。日付だけを出力する。
-const eventDay = (x: Date) =>
-  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(x);
 // location（placeName）が無い Event は Google の必須項目を満たさないため出力しない
 if (data.event && data.event.placeName) jsonLd.push({
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: data.event.name,
   description: data.description,
-  startDate: eventDay(data.event.startDate),
-  ...(data.event.endDate ? { endDate: eventDay(data.event.endDate) } : {}),
+  startDate: toDateOnlyString(data.event.startDate),
+  ...(data.event.endDate ? { endDate: toDateOnlyString(data.event.endDate) } : {}),
   ...(data.event.url ? { url: data.event.url } : {}),
   location: {
     '@type': 'Place',
