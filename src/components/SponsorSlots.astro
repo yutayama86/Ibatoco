@@ -11,7 +11,7 @@
  *   協賛先が自分のアクセス解析でイバトコからの流入を確かめられるようにするため
  */
 import { sponsorsForPage } from '../data/sponsors';
-import { dateOnlyFromInstant } from '../lib/date-only.js';
+import { todayDateOnlyString } from '../lib/date-only.js';
 
 interface Props {
   path: string;
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const { path, pageType, municipality } = Astro.props;
-const today = dateOnlyFromInstant(new Date()).toISOString().slice(0, 10);
+const today = todayDateOnlyString();
 const slots = sponsorsForPage(path, today);
 ---
 
@@ -46,13 +46,10 @@ const slots = sponsorsForPage(path, today);
 
 <script>
   import { commonParams, trackEvent } from '../lib/analytics-events';
+  import { todayDateOnlyString } from '../lib/date-only.js';
 
   /** 日本時間の今日（YYYY-MM-DD）。new Date('YYYY-MM-DD') の解釈には頼らない */
-  const todayJst = (() => {
-    const parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
-    const pick = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
-    return `${pick('year')}-${pick('month')}-${pick('day')}`;
-  })();
+  const todayJst = todayDateOnlyString();
 
   for (const block of document.querySelectorAll<HTMLElement>('[data-sponsor-block]')) {
     const pageType = block.dataset.pageType ?? '';

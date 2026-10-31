@@ -11,7 +11,7 @@
 import type { GetStaticPaths } from 'astro';
 import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
-import { breadcrumbJsonLd } from '../../lib/seo';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../../lib/seo';
 import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
@@ -24,6 +24,7 @@ import { shareImageOf } from '../../lib/card-image';
 import { getAllFacets } from '../../lib/taxonomy';
 import { INTERNAL_LINK_LABELS } from '../../data/internal-links';
 import { autoBookingForEvent } from '../../lib/auto-monetization';
+import { formatJapaneseDateWithWeekday, toDateOnlyString } from '../../lib/date-only.js';
 
 export const getStaticPaths = (async () => {
   const events = await getEvents();
@@ -40,25 +41,15 @@ const info = d.eventInfo;
 const facetTitleByPath = new Map((await getAllFacets()).map((f) => [f.path, f.title.split('｜')[0]]));
 const pickLabel = (url: string) => INTERNAL_LINK_LABELS[url] ?? facetTitleByPath.get(url) ?? '編集部がつないだ次の候補';
 
-const fmtDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
-
-/**
- * 日付を YYYY-MM-DD にする。
- * toISOString() はUTCへ寄せるため、日本時間の日付とズレることがある。
- * frontmatter の日付は日本のイベントの日付なので、日本時間で組み立てる。
- */
-const iso = (x: Date) =>
-  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(x);
-
 /**
  * schema.org の日時。時刻が分かっているときだけ +09:00 付きの
  * ISO 8601 にする。分からなければ日付だけを返す（推測で 00:00 を足さない）。
  */
-const isoDateTime = (x: Date, time?: string) => (time ? `${iso(x)}T${time}:00+09:00` : iso(x));
+const isoDateTime = (x: Date, time?: string) => (time ? `${toDateOnlyString(x)}T${time}:00+09:00` : toDateOnlyString(x));
 
 /** 実務情報の行。値が無い項目は行ごと出さない */
 const factRows = info ? ([
-  ['開催日', info.endDate ? `${fmtDate(info.startDate)} 〜 ${fmtDate(info.endDate)}` : fmtDate(info.startDate)],
+  ['開催日', info.endDate ? `${formatJapaneseDateWithWeekday(info.startDate)} 〜 ${formatJapaneseDateWithWeekday(info.endDate)}` : formatJapaneseDateWithWeekday(info.startDate)],
   ['時間', info.time],
   ['会場', info.venue],
   ['住所', info.address],
@@ -133,8 +124,8 @@ if (d.articleType === 'guide') {
     '@type': 'Article',
     headline: d.title,
     description: d.description,
-    datePublished: iso(d.pubDate),
-    dateModified: iso(d.updatedDate ?? d.pubDate),
+    datePublished: toDateOnlyString(d.pubDate),
+    dateModified: toDateOnlyString(d.updatedDate ?? d.pubDate),
     mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
     ...(d.ogImage ? { image: new URL(d.ogImage, Astro.site).toString() } : {}),
     author: { '@type': 'Organization', name: 'イバトコ' },
@@ -180,12 +171,7 @@ if (info && canEmitEvent) {
     description: d.description,
   });
 }
-if (d.faq.length > 0) {
-  jsonLd.push({
-    '@context': 'https://schema.org', '@type': 'FAQPage',
-    mainEntity: d.faq.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
-  });
-}
+if (d.faq.length > 0) jsonLd.push(faqPageJsonLd(d.faq));
 ---
 
 <BrandBase
@@ -217,13 +203,13 @@ if (d.faq.length > 0) {
     <p class="ev-lead">{d.summary}</p>
     {effectiveBooking && hasPaidLink(effectiveBooking.items) && <p class="ad-disclosure"><span class="ad-disclosure__tag">#アフィリエイト広告</span>この記事にはアフィリエイト広告を含みます。</p>}
     <p class="ev-meta">
-      <time datetime={d.pubDate.toISOString()}>公開 {fmtDate(d.pubDate)}</time>
-      {d.updatedDate && <> ／ <time datetime={d.updatedDate.toISOString()}>更新 {fmtDate(d.updatedDate)}</time></>}
+      <time datetime={d.pubDate.toISOString()}>公開 {formatJapaneseDateWithWeekday(d.pubDate)}</time>
+      {d.updatedDate && <> ／ <time datetime={d.updatedDate.toISOString()}>更新 {formatJapaneseDateWithWeekday(d.updatedDate)}</time></>}
     </p>
     <aside class="ev-check" aria-label="この記事の確認状況">
       <div class="ev-check__verified">
         <span aria-hidden="true">✓</span>
-        <div><strong>公式情報を確認済み</strong><small>{fmtDate(verifiedAt)}時点</small></div>
+        <div><strong>公式情報を確認済み</strong><small>{formatJapaneseDateWithWeekday(verifiedAt)}時点</small></div>
       </div>
       {decisionChips.length > 0 && (
         <dl class="ev-check__chips">
@@ -318,7 +304,7 @@ if (d.faq.length > 0) {
     <p class="section-number">{no('sources')} / SOURCES</p>
     <h2 id="ev-src" class="bp-section-title">情報源</h2>
     <ul class="ev-sources">{d.sourceUrls.map((s) => (
-      <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}&nbsp;↗</a>{s.accessedAt && <small>（{fmtDate(s.accessedAt)}確認）</small>}</li>
+      <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}&nbsp;↗</a>{s.accessedAt && <small>（{formatJapaneseDateWithWeekday(s.accessedAt)}確認）</small>}</li>
     ))}</ul>
     <p class="ev-caution">開催内容・日程・料金・交通は変更されることがあります。お出かけ前に必ず公式の最新情報をご確認ください。</p>
   </section>

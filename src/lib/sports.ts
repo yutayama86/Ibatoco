@@ -20,7 +20,7 @@ import {
   SPORTS_MATCHES, type MatchDayPlan, type MatchGuide, type SportsMatch, type SportsSource,
 } from '../data/sports-schedule';
 import { getSportsNews } from './content';
-import { dateOnlyFromInstant, parseDateOnly } from './date-only.js';
+import { dateOnlyFromInstant, parseDateOnly, toDateOnlyString } from './date-only.js';
 
 type Score = { own: number; opponent: number };
 
@@ -253,9 +253,6 @@ export function competitionShort(match: ResolvedMatch): string {
   return match.kind === 'league' ? 'リーグ' : '杯';
 }
 
-const JST_DATE = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
-export const ymd = (d: Date) => JST_DATE.format(d);
-
 /**
  * SportsEvent の構造化データ。キックオフ時刻と会場が確認できている、これからの試合だけ出す。
  * 未確定の値は入れない（住所は確認していないので載せない）。
@@ -270,7 +267,7 @@ export function sportsEventJsonLd(team: SportsTeam, match: ResolvedMatch): Recor
     '@type': 'SportsEvent',
     name: `${homeTeam.name} vs ${awayTeam.name}`,
     ...(competitionLabel(match) ? { description: competitionLabel(match) } : {}),
-    startDate: `${ymd(match.date)}T${match.kickoff}:00+09:00`,
+    startDate: `${toDateOnlyString(match.date)}T${match.kickoff}:00+09:00`,
     eventStatus: 'https://schema.org/EventScheduled',
     sport: team.sport,
     location: { '@type': 'Place', name: match.venue },

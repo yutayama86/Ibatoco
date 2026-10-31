@@ -13,6 +13,7 @@ import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import PersonCard from '../components/PersonCard.astro';
 import { VISIBLE_REPORTERS } from '../data/reporters';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 
 const CTA_EDITOR = `/contact/?subject=${encodeURIComponent('ローカルエディター')}`;
 const CTA_TIP = `/contact/?subject=${encodeURIComponent('取材・掲載相談')}&detail=${encodeURIComponent('街の“いいとこ”を教えたいです。（場所・お店・季節の風景など、ひとことでも大丈夫です）')}`;
@@ -62,15 +63,12 @@ const faq = [
   { q: 'ノルマや締め切りはありますか？', a: 'ありません。本数の約束もしていません。書ける時に、書けるぶんだけで大丈夫です。しばらく間が空いても、こちらから催促はしません。' },
 ];
 
+// 現在地にも href を付ける（構造化データに URL を出すため。Breadcrumbs は最後の項目をリンクにしない）
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'ローカルエディター（協力者）', href: '/reporters/' }];
 const jsonLd = [
-  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).href },
-    { '@type': 'ListItem', position: 2, name: 'ローカルエディター（協力者）', item: new URL('/reporters/', Astro.site).href },
-  ] },
-  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({
-    '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  breadcrumbJsonLd(crumbs, Astro.site),
+  faqPageJsonLd(faq.map((f) => ({ question: f.q, answer: f.a }))),
 ];
-const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'ローカルエディター（協力者）' }];
 ---
 
 <BrandBase

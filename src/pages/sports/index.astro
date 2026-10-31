@@ -14,6 +14,7 @@ import { SPORTS_TEAMS, SPORTS_CONTENT_TYPES, primaryTowns } from '../../data/spo
 import { MUNICIPALITIES } from '../../data/areas';
 import { getSportsNews, getSportsNewsByKeyword } from '../../lib/content';
 import { getTeamMatches } from '../../lib/sports';
+import { formatJapaneseDate } from '../../lib/date-only.js';
 
 /** カードの1行。1市町村なら数ではなく市町村名を出す（「1市町村」は読みにくい） */
 const townLabel = (group: { label: string; slugs: string[] }) => {
@@ -43,7 +44,6 @@ const articles = [...tagged, ...legacy].filter((item) => {
 }).slice(0, 6);
 
 const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
-const fmt = (d: Date) => new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
@@ -118,7 +118,7 @@ const jsonLd = [
         <li>
           <a href={newsPath(item.id)}>
             <img src={listImageOf(item).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
-            <span class="bp-card__meta"><time datetime={item.data.pubDate.toISOString()}>{fmt(item.data.pubDate)}</time></span>
+            <span class="bp-card__meta"><time datetime={item.data.pubDate.toISOString()}>{formatJapaneseDate(item.data.pubDate)}</time></span>
             <strong>{item.data.title}</strong>
           </a>
         </li>

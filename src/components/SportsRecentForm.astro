@@ -8,15 +8,13 @@
 import {
   HOME_AWAY_LABEL, competitionLabel, competitionShort, formMark, pkText, type ResolvedMatch,
 } from '../lib/sports';
+import { formatNumericMonthDayWithWeekday, toDateOnlyString } from '../lib/date-only.js';
 
 interface Props {
   matches: ResolvedMatch[];
 }
 
 const { matches } = Astro.props;
-const TZ = { timeZone: 'Asia/Tokyo' } as const;
-const md = (d: Date) => new Intl.DateTimeFormat('ja-JP', { ...TZ, month: 'numeric', day: 'numeric', weekday: 'short' }).format(d);
-const iso = (d: Date) => new Intl.DateTimeFormat('en-CA', { ...TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 const hasPk = matches.some((m) => m.pk);
 ---
 
@@ -33,7 +31,7 @@ const hasPk = matches.some((m) => m.pk);
           </span>
           <span class="rf__body">
             <span class="rf__meta">
-              <time datetime={iso(m.date)}>{md(m.date)}</time>
+              <time datetime={toDateOnlyString(m.date)}>{formatNumericMonthDayWithWeekday(m.date)}</time>
               <em title={competitionLabel(m)}>{competitionShort(m)}{m.round && ` ${m.round}`}</em>
               <b>{HOME_AWAY_LABEL[m.homeAway]}</b>
             </span>

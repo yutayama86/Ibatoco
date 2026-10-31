@@ -11,6 +11,7 @@ import type { Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 import { getIndexableEvents } from '../lib/content';
 import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
+import { formatMonthDayWithWeekday } from '../lib/date-only.js';
 
 // 今年の日程を書いた記事があるものを、常緑の一覧より前に出す。
 // このページ自体は「例年◯月」の常緑ページなので、日付が要る人を先に送る。
@@ -18,7 +19,6 @@ import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
 const hanabiEvents = (await getIndexableEvents()).filter((e) =>
   e.data.tags.includes('花火大会') && e.data.articleType === 'event' && isWorthLinking(lifecycleOf(e)));
 const evPath = (id: string) => `/events/${id.split('/').pop()}/`;
-const evDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 
 interface Hanabi {
   name: string;
@@ -123,7 +123,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城の花
         <ul class="bp-cards">{hanabiEvents.map((e) => (
           <li><a href={evPath(e.id)}>
             <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
-            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{evDate(e.data.eventInfo.startDate)}</time></span>}
+            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{formatMonthDayWithWeekday(e.data.eventInfo.startDate)}</time></span>}
             <strong>{e.data.eventInfo?.name ?? e.data.title}</strong>
           </a></li>
         ))}</ul>

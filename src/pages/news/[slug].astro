@@ -16,6 +16,8 @@ import ArticleNextSteps from '../../components/ArticleNextSteps.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
 import SponsorSlots from '../../components/SponsorSlots.astro';
 import { hasPaidLink, paidLinkFor } from '../../data/affiliates';
+import { toDateOnlyString } from '../../lib/date-only.js';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../../lib/seo';
 
 export const getStaticPaths = (async () => (await getNews()).map((item) => ({
   params: { slug: item.id.split('/').pop() },
@@ -142,29 +144,23 @@ const jsonLd: Record<string, unknown>[] = [
     keywords: data.tags.join(', '),
     inLanguage: 'ja-JP',
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'ホーム', item: absolute('/') },
-      { '@type': 'ListItem', position: 2, name: '茨城ニュース解説', item: absolute('/news/') },
-      { '@type': 'ListItem', position: 3, name: data.title, item: canonical },
-    ],
-  },
+  breadcrumbJsonLd([
+    { name: 'ホーム', href: '/' },
+    { name: '茨城ニュース解説', href: '/news/' },
+    { name: data.title, href: canonical },
+  ], Astro.site),
 ];
 // Event の日時は日本時間で組み立てる。news の event は日付だけを持ち時刻を
 // 持たないため、toISOString() を使うと 2026-10-10T00:00:00.000Z のように
 // UTCの真夜中＝日本時間の午前9時を主張してしまう。日付だけを出力する。
-const eventDay = (x: Date) =>
-  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(x);
 // location（placeName）が無い Event は Google の必須項目を満たさないため出力しない
 if (data.event && data.event.placeName) jsonLd.push({
   '@context': 'https://schema.org',
   '@type': 'Event',
   name: data.event.name,
   description: data.description,
-  startDate: eventDay(data.event.startDate),
-  ...(data.event.endDate ? { endDate: eventDay(data.event.endDate) } : {}),
+  startDate: toDateOnlyString(data.event.startDate),
+  ...(data.event.endDate ? { endDate: toDateOnlyString(data.event.endDate) } : {}),
   ...(data.event.url ? { url: data.event.url } : {}),
   location: {
     '@type': 'Place',
@@ -173,15 +169,7 @@ if (data.event && data.event.placeName) jsonLd.push({
   },
 });
 if (data.place) jsonLd.push({ '@context': 'https://schema.org', '@type': 'Place', name: data.place.name, ...(data.place.address ? { address: data.place.address } : {}), ...(data.place.url ? { url: data.place.url } : {}) });
-if (data.faq.length > 0) jsonLd.push({
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: data.faq.map((item) => ({
-    '@type': 'Question',
-    name: plain(item.question),
-    acceptedAnswer: { '@type': 'Answer', text: plain(item.answer) },
-  })),
-});
+if (data.faq.length > 0) jsonLd.push(faqPageJsonLd(data.faq.map((item) => ({ question: plain(item.question), answer: plain(item.answer) }))));
 ---
 
 <BrandBase title={`${data.title}｜イバトコ`} description={data.description} image={imagePath} imageAlt={data.ogImageAlt} type="article" publishedAt={data.pubDate} updatedAt={data.updatedDate ?? data.pubDate} jsonLd={jsonLd} noindex={data.noindex}>

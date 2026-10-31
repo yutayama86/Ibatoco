@@ -20,6 +20,8 @@ import { businessesInMunicipality } from '../../data/businesses';
 import { michinoekiForArea } from '../../data/michinoeki';
 import { foodGuidesForArea } from '../../data/food-library';
 import { areaToSlug } from '../../data/areas';
+import { formatMonthDayWithWeekday } from '../../lib/date-only.js';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../../lib/seo';
 
 export const getStaticPaths = (() => MUNICIPALITIES.map((municipality) => ({ params: { slug: municipality.slug } }))) satisfies GetStaticPaths;
 
@@ -52,7 +54,6 @@ const areaEvents = (await getEventsByMunicipality(slug!))
   .sort((a, b) => a.data.municipalities.length - b.data.municipalities.length)
   .slice(0, 6);
 const eventPath = (id: string) => `/events/${id.split('/').pop()}/`;
-const eventDate = (x: Date) => new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 // ニュース解説もこの街の記録に数える。数えないと、記事があるのに
 // 「まだありません」と出てしまう。
 const hasContent = articles.length + stores.length + areaNews.length + areaEvents.length > 0;
@@ -136,16 +137,14 @@ const daigoFaq: [string, string][] = [
 const attractionNames = isHitachi ? hitachiHighlights : isDaigo ? daigoHighlights : (guide?.highlights.map((h) => h.title) ?? []);
 const routeSteps: [string, string][] = isHitachi ? hitachiRoute : isDaigo ? daigoRoute : (guide?.route?.map((r) => [r.time, r.place] as [string, string]) ?? []);
 const routeName = isHitachi ? '海から高台へ、半日の歩き方。' : isDaigo ? '滝から、山里へ。' : guide?.routeTitle;
-const homeUrl = new URL('/', Astro.site).href;
-const areaUrl = new URL('/area/', Astro.site).href;
 const pageUrl = new URL(`/area/${slug}/`, Astro.site).href;
 const jsonLd: Record<string, unknown>[] = [
-  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'ホーム', item: homeUrl },
-    { '@type': 'ListItem', position: 2, name: 'エリア', item: areaUrl },
-    { '@type': 'ListItem', position: 3, name: region.label },
-    { '@type': 'ListItem', position: 4, name: municipality.name, item: pageUrl },
-  ] },
+  breadcrumbJsonLd([
+    { name: 'ホーム', href: '/' },
+    { name: 'エリア', href: '/area/' },
+    { name: region.label },
+    { name: municipality.name, href: `/area/${slug}/` },
+  ], Astro.site),
   { '@context': 'https://schema.org', '@type': 'TouristDestination', name: `茨城県${municipality.name}`, description: metaDescription, url: pageUrl,
     containedInPlace: { '@type': 'AdministrativeArea', name: '茨城県' },
     ...(isDaigo ? { image: new URL('/images/area/daigo/cover.jpg', Astro.site).href } : {}),
@@ -153,8 +152,7 @@ const jsonLd: Record<string, unknown>[] = [
   },
   ...(routeSteps.length ? [{ '@context': 'https://schema.org', '@type': 'ItemList', name: routeName,
     itemListElement: routeSteps.map(([t, p], i) => ({ '@type': 'ListItem', position: i + 1, name: `${t} ${p}` })) }] : []),
-  ...(isDaigo ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: daigoFaq.map(([q, a]) => ({
-    '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) }] : []),
+  ...(isDaigo ? [faqPageJsonLd(daigoFaq.map(([question, answer]) => ({ question, answer })))] : []),
 ];
 ---
 
@@ -232,7 +230,7 @@ const jsonLd: Record<string, unknown>[] = [
         <ul class="bp-cards">{areaEvents.map((e) => (
           <li><a href={eventPath(e.id)}>
             <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
-            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{eventDate(e.data.eventInfo.startDate)}</time></span>}
+            {e.data.eventInfo?.startDate && <span class="bp-card__meta"><time datetime={e.data.eventInfo.startDate.toISOString()}>{formatMonthDayWithWeekday(e.data.eventInfo.startDate)}</time></span>}
             <strong>{e.data.title}</strong>
           </a></li>
         ))}</ul>

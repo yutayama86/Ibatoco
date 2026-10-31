@@ -21,6 +21,7 @@ import { basename, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { discoveryGate, discoveryMarkdown, parseRegions, validateDiscovery } from './lib/discovery-gate.mjs';
 import { GOOGLE_CONFIRM_LAG_DAYS } from '../src/lib/ga4-daily.mjs';
+import { todayDateOnlyString } from '../src/lib/date-only.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = join(ROOT, 'data/editorial');
@@ -55,14 +56,6 @@ function readJson(path) {
 function writeJson(path, value) {
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
-}
-
-function tokyoDate() {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).formatToParts(new Date());
-  const get = (type) => parts.find((part) => part.type === type)?.value;
-  return `${get('year')}-${get('month')}-${get('day')}`;
 }
 
 function stripQuotes(value) {
@@ -216,7 +209,7 @@ function syncRegistry(inventory, persist) {
     ...manual,
     ...generated.map((event) => mergeEvent(existingByArticle.get(event.articleUrl) ?? existingById.get(event.id), event)),
   ].sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999') || a.name.localeCompare(b.name, 'ja'));
-  const next = { schemaVersion: 1, updatedAt: tokyoDate(), events };
+  const next = { schemaVersion: 1, updatedAt: todayDateOnlyString(), events };
   if (persist) writeJson(EVENT_REGISTRY, next);
   return next;
 }
@@ -281,7 +274,7 @@ function validate(registry, actions, performance, inventory) {
   if (!performance.asOf) warnings.push('GA4/GSCスナップショットが未入力。順位・流入・CVに基づく優先度判定はできません。');
   else {
     // asOf は確定日（Google の処理の遅れで今日の3日前）。同期が毎日成功していても3日前になるので、それより古いときだけ警告する
-    const age = dateDiff(performance.asOf, tokyoDate());
+    const age = dateDiff(performance.asOf, todayDateOnlyString());
     if (age > GOOGLE_CONFIRM_LAG_DAYS) warnings.push(`GA4/GSCスナップショットが${age}日前です。推測で数値を補わないでください。`);
   }
   // 人気ページ（TOPの「いま読まれている」と GrowthNextReads の補完に使う）は日次で Growth Director が更新する。
@@ -301,7 +294,7 @@ function signalScore(value) {
 }
 
 function coverageCandidates(registry) {
-  const today = tokyoDate();
+  const today = todayDateOnlyString();
   return registry.events
     .filter((event) => !event.articleUrl && !['ended', 'rejected'].includes(event.status))
     .map((event) => {
@@ -318,7 +311,7 @@ function coverageCandidates(registry) {
 }
 
 function improvementWatchlist() {
-  const today = tokyoDate();
+  const today = todayDateOnlyString();
   return parseSeoChanges().map((change) => {
     const ageDays = dateDiff(change.date, today);
     return {
@@ -330,7 +323,7 @@ function improvementWatchlist() {
 }
 
 function newsDeskStatus(inventory) {
-  const today = tokyoDate();
+  const today = todayDateOnlyString();
   const publishedNews = inventory
     .filter((item) => item.type === 'news' && !item.draft && item.reviewed && item.pubDate && item.pubDate <= today)
     .sort((a, b) => b.pubDate.localeCompare(a.pubDate) || (b.updatedDate ?? '').localeCompare(a.updatedDate ?? ''));
@@ -364,11 +357,11 @@ function newsDeskStatus(inventory) {
  * ready のうち、今日実装してよいもの。notBefore（YYYY-MM-DD・日本の暦日）があれば、その日まで待つ
  * （観測窓の明け・公式発表の予定日など。仕様は先に確定し、着手日だけを予約する）
  */
-function readyNow(action, today = tokyoDate()) {
+function readyNow(action, today = todayDateOnlyString()) {
   return action.status === 'ready' && (!action.notBefore || action.notBefore <= today);
 }
 
-function readyScheduled(action, today = tokyoDate()) {
+function readyScheduled(action, today = todayDateOnlyString()) {
   return action.status === 'ready' && Boolean(action.notBefore) && action.notBefore > today;
 }
 
@@ -385,9 +378,9 @@ function reportMarkdown({ registry, inventory, actions, performance, validation,
   const scheduled = actions.actions.filter((action) => readyScheduled(action)).sort((a, b) => a.notBefore.localeCompare(b.notBefore));
   const published = inventory.filter((item) => !item.draft && item.reviewed);
   const newsDesk = newsDeskStatus(inventory);
-  const within120 = registry.events.filter((event) => event.startDate && dateDiff(tokyoDate(), event.startDate) >= 0 && dateDiff(tokyoDate(), event.startDate) <= 120);
+  const within120 = registry.events.filter((event) => event.startDate && dateDiff(todayDateOnlyString(), event.startDate) >= 0 && dateDiff(todayDateOnlyString(), event.startDate) <= 120);
   const lines = [
-    `# イバトコ日次編集ブリーフ｜${tokyoDate()}`,
+    `# イバトコ日次編集ブリーフ｜${todayDateOnlyString()}`,
     '',
     '## 1. データ品質',
     '',
@@ -457,11 +450,11 @@ function implementationBrief(actions) {
   const scheduled = actions.actions.filter((action) => readyScheduled(action)).sort((a, b) => a.notBefore.localeCompare(b.notBefore));
   if (!ready.length) {
     const later = scheduled.length ? `\n## 予約済み（着手日まで実装しない）\n\n${scheduled.map((action) => `- ${action.notBefore}から：${action.title}（${action.specPath}）`).join('\n')}\n` : '';
-    return `# 実装指示｜${tokyoDate()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n${later}`;
+    return `# 実装指示｜${todayDateOnlyString()}\n\n本日は実装可の案件がありません。\n\n- 調査、SEO判断、記事構成、本文作成を独自に開始しない\n- \`data/editorial/event-registry.json\` の未掲載候補を削除しない\n- 完成仕様が追加され、\`data/editorial/action-queue.json\` のstatusが \`ready\` になるまで待つ\n${later}`;
   }
   const action = ready[0];
   return [
-    `# 実装指示｜${tokyoDate()}`,
+    `# 実装指示｜${todayDateOnlyString()}`,
     '',
     `対象: ${action.title}`,
     `種別: ${action.kind}`,
@@ -501,7 +494,7 @@ const inventory = contentInventory();
 
 if (command === 'inventory') {
   const output = join(REPORT_DIR, 'content-inventory.json');
-  writeJson(output, { generatedAt: tokyoDate(), items: inventory });
+  writeJson(output, { generatedAt: todayDateOnlyString(), items: inventory });
   console.log(relative(ROOT, output));
   process.exit(0);
 }
@@ -527,14 +520,14 @@ if (command !== 'daily') {
 if (validation.errors.length) process.exit(1);
 
 const gate = discoveryGate(registry, {
-  today: tokyoDate(),
+  today: todayDateOnlyString(),
   regions: parseRegions(readFileSync(AREAS, 'utf8')),
   weekly: process.argv.includes('--weekly'),
 });
 mkdirSync(REPORT_DIR, { recursive: true });
-writeJson(join(REPORT_DIR, 'content-inventory.json'), { generatedAt: tokyoDate(), items: inventory });
+writeJson(join(REPORT_DIR, 'content-inventory.json'), { generatedAt: todayDateOnlyString(), items: inventory });
 writeJson(join(REPORT_DIR, 'daily-brief.json'), {
-  generatedAt: tokyoDate(),
+  generatedAt: todayDateOnlyString(),
   dataQuality: { performanceAsOf: performance.asOf, warnings: validation.warnings },
   newsDesk: newsDeskStatus(inventory),
   coverageCandidates: coverageCandidates(registry),

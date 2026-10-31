@@ -9,7 +9,8 @@
  */
 import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
-import { breadcrumbJsonLd } from '../lib/seo';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
+import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
 import { getEvents, getNews } from '../lib/content';
 import snapshot from '../../data/editorial/performance-snapshot.json';
 import { SPONSOR_PLANS, MONITOR_OFFER, MEMBER_DISCOUNT, memberDiscountText, yen } from '../data/sponsorship';
@@ -24,8 +25,7 @@ const channels = ga4.channelRecent7 as { channel: string; sessions: number }[];
 const totalSessions = channels.reduce((sum, row) => sum + row.sessions, 0);
 const organic = channels.find((row) => row.channel === 'Organic Search')?.sessions ?? 0;
 const organicShare = totalSessions > 0 ? Math.round((organic / totalSessions) * 100) : null;
-const [asOfYear, asOfMonth, asOfDay] = snapshot.asOf.split('-').map(Number);
-const asOfLabel = `${asOfYear}年${asOfMonth}月${asOfDay}日`;
+const asOfLabel = formatJapaneseDate(parseDateOnly(snapshot.asOf));
 const growth = gsc.recent7VsPrevious7.impressionsPct;
 
 const stats = [
@@ -56,11 +56,7 @@ const faq = [
 
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
-  },
+  faqPageJsonLd(faq.map((item) => ({ question: item.q, answer: item.a }))),
 ];
 ---
 <BrandBase title="協賛のご案内｜イバトコ" description="茨城へ行く前に調べる人へ届ける、イバトコの協賛・広告のご案内。イベント協賛枠、PR記事、シーズン協賛の内容と料金、PRの表示方針、実測の数字を掲載しています。" jsonLd={jsonLd}>

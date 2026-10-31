@@ -3,10 +3,11 @@ import type { GetStaticPaths } from 'astro';
 import BrandBase from '../../../layouts/BrandBase.astro';
 import ArticleCard from '../../../components/ArticleCard.astro';
 import { MUNICIPALITIES, MUNI_BY_SLUG } from '../../../data/areas';
-import { CATEGORIES, CATEGORY_LIST, CATEGORY_PAGE_META, SITE_CONFIG } from '../../../data/site';
+import { CATEGORIES, CATEGORY_LIST, CATEGORY_PAGE_META } from '../../../data/site';
 import { getArticles, getStores } from '../../../lib/content';
 import { areaToSlug } from '../../../data/areas';
 import type { CategoryKey } from '../../../content.config';
+import { breadcrumbJsonLd } from '../../../lib/seo';
 
 export const getStaticPaths = (async () => {
   const [articles, places] = await Promise.all([getArticles(), getStores()]);
@@ -41,22 +42,18 @@ const otherCats = CATEGORY_LIST.filter((c) => {
   return arts + plcs > 0;
 });
 
-const abs = (p: string) => new URL(p, Astro.site ?? SITE_CONFIG.domain).href;
 const jsonLd = [
   {
     '@context': 'https://schema.org', '@type': 'CollectionPage',
     name: `${muni.name}の${cat.label}`, description: meta.lead(muni.name),
     about: { '@type': 'Place', name: `茨城県${muni.name}` },
   },
-  {
-    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'ホーム', item: abs('/') },
-      { '@type': 'ListItem', position: 2, name: 'エリア', item: abs('/area/') },
-      { '@type': 'ListItem', position: 3, name: muni.name, item: abs(`/area/${muniSlug}/`) },
-      { '@type': 'ListItem', position: 4, name: cat.label },
-    ],
-  },
+  breadcrumbJsonLd([
+    { name: 'ホーム', href: '/' },
+    { name: 'エリア', href: '/area/' },
+    { name: muni.name, href: `/area/${muniSlug}/` },
+    { name: cat.label },
+  ], Astro.site),
 ];
 ---
 

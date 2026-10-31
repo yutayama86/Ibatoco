@@ -5,6 +5,7 @@ import { VISIBLE_GUIDES as GUIDES, GUIDE_BY_SLUG } from '../../data/guides';
 import { getStores, getAllTags, tagToSlug } from '../../lib/content';
 import { CATEGORIES, SITE_CONFIG } from '../../data/site';
 import { MUNI_BY_SLUG } from '../../data/areas';
+import { breadcrumbJsonLd } from '../../lib/seo';
 
 export const getStaticPaths = (async () => {
   return GUIDES.map((g) => ({ params: { topic: g.slug }, props: { slug: g.slug } }));
@@ -42,15 +43,7 @@ const jsonLd = [
       ...(st.placeId && storeById.has(st.placeId) ? { url: abs(`/place/${st.placeId}/`) } : {}),
     })),
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'ホーム', item: abs('/') },
-      { '@type': 'ListItem', position: 2, name: 'まとめ', item: abs('/guide/') },
-      { '@type': 'ListItem', position: 3, name: guide.title },
-    ],
-  },
+  breadcrumbJsonLd([{ name: 'ホーム', href: '/' }, { name: 'まとめ', href: '/guide/' }, { name: guide.title }], Astro.site),
 ];
 ---
 

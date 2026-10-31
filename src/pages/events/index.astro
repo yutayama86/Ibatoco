@@ -19,7 +19,7 @@ import ThisWeek from '../../components/ThisWeek.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { getIndexableEvents } from '../../lib/content';
 import { MUNI_BY_SLUG, REGIONS, REGION_ORDER } from '../../data/areas';
-import { dateOnlyFromCoercedDate } from '../../lib/date-only.js';
+import { dateOnlyFromCoercedDate, formatMonthDayWithWeekday } from '../../lib/date-only.js';
 import { lifecycleOf } from '../../lib/lifecycle';
 
 const all = await getIndexableEvents();
@@ -84,7 +84,6 @@ const GENRES: { label: string; href: string; note: string }[] = [
 ];
 
 const path = (e: (typeof all)[number]) => `/events/${e.id.split('/').pop()}/`;
-const fmt = (x: Date) => new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', month: 'long', day: 'numeric', weekday: 'short' }).format(x);
 /**
  * カードの札に出す市町村。全部並べると3市町村を超えたところで札が2行になり、
  * 同じ行のカードで見出しが最大31pxずれた。NewsCard と同じく3件までにする。
@@ -188,7 +187,7 @@ const jsonLd = [
             <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
             <span class="bp-card__meta">
               {/* ガイドの startDate は情報の基準日なので、開催日のように見せない */}
-              {e.data.eventInfo?.startDate && lifecycleById.get(e.id) !== 'evergreen' && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
+              {e.data.eventInfo?.startDate && lifecycleById.get(e.id) !== 'evergreen' && <time datetime={e.data.eventInfo.startDate.toISOString()}>{formatMonthDayWithWeekday(e.data.eventInfo.startDate)}</time>}
               {townNames(e) && <b>{townNames(e)}</b>}
             </span>
             <strong>{e.data.title}</strong>
@@ -211,7 +210,7 @@ const jsonLd = [
         <li><a href={path(e)}>
           <img src={listImageOf(e).src} alt="" loading="lazy" decoding="async" width="1200" height="630" />
           <span class="bp-card__meta">
-            {e.data.eventInfo?.startDate && <time datetime={e.data.eventInfo.startDate.toISOString()}>{fmt(e.data.eventInfo.startDate)}</time>}
+            {e.data.eventInfo?.startDate && <time datetime={e.data.eventInfo.startDate.toISOString()}>{formatMonthDayWithWeekday(e.data.eventInfo.startDate)}</time>}
             {townNames(e) && <b>{townNames(e)}</b>}
           </span>
           <strong>{e.data.title}</strong>

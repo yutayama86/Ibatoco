@@ -11,15 +11,14 @@
  */
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { todayDateOnlyString } from '../src/lib/date-only.js';
 
 const DIR = 'src/data/sports/matches';
 const args = process.argv.slice(2);
 const argOf = (name) => (args.includes(`--${name}`) ? args[args.indexOf(`--${name}`) + 1] : undefined);
 const strict = args.includes('--strict');
 
-const today = argOf('date') ?? new Intl.DateTimeFormat('en-CA', {
-  timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
-}).format(new Date());
+const today = argOf('date') ?? todayDateOnlyString();
 if (!/^\d{4}-\d{2}-\d{2}$/.test(today)) {
   console.error(`--date は YYYY-MM-DD で指定してください: ${today}`);
   process.exit(1);

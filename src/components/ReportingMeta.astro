@@ -4,6 +4,8 @@
  * Editorial Contract：取材日・公開日・最終更新日・現地取材の有無・
  * 情報提供/費用負担/招待の有無を明示する。
  */
+import { formatJapaneseDate, toDateOnlyString } from '../lib/date-only.js';
+
 interface Props {
   publishedAt: Date;
   updatedAt?: Date;
@@ -12,27 +14,23 @@ interface Props {
   disclosureNote?: string;
 }
 const { publishedAt, updatedAt, reportingDate, onSiteReporting = false, disclosureNote } = Astro.props;
-
-const fmt = (d: Date) =>
-  new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
-const iso = (d: Date) => d.toISOString().slice(0, 10);
 ---
 
 <dl class="reporting-meta">
   {reportingDate && (
     <div class="rm-row">
       <dt>取材日</dt>
-      <dd><time datetime={iso(reportingDate)}>{fmt(reportingDate)}</time></dd>
+      <dd><time datetime={toDateOnlyString(reportingDate)}>{formatJapaneseDate(reportingDate)}</time></dd>
     </div>
   )}
   <div class="rm-row">
     <dt>公開日</dt>
-    <dd><time datetime={iso(publishedAt)}>{fmt(publishedAt)}</time></dd>
+    <dd><time datetime={toDateOnlyString(publishedAt)}>{formatJapaneseDate(publishedAt)}</time></dd>
   </div>
   {updatedAt && (
     <div class="rm-row">
       <dt>最終更新</dt>
-      <dd><time datetime={iso(updatedAt)}>{fmt(updatedAt)}</time></dd>
+      <dd><time datetime={toDateOnlyString(updatedAt)}>{formatJapaneseDate(updatedAt)}</time></dd>
     </div>
   )}
   <div class="rm-row">
