@@ -144,7 +144,8 @@ A-06 の対策案（費用ゼロを優先）：Cloudflare の Rate Limiting ル�
 
 `Workers Builds: ibatoco`（アプリ `cloudflare-workers-and-pages`）が、直近 25 コミットのうち 11 件に **failure** のチェックを付けている。対象は 10/30 の d81fd8e から 10/31 の b8310bf まで。
 
-- 記憶上の運用（10/23）は「Workers Builds 停止済み」だが、少なくとも GitHub 連携は残っているように見える
+- この監査の文書だけの PR（#481）でも、ブランチを push した直後に `Workers Builds: ibatoco` が走って失敗した。PR ブランチの push でも Cloudflare 側のビルドが動いている
+- 記憶上の運用（10/23）は「Workers Builds 停止済み」だが、少なくとも GitHub 連携は残っている
 - 今は失敗しているので本番に出ていない。しかし原因（例えばビルド環境の Node が古いこと）が解消されると、**Actions のガード（最新の main の確認・公開後の画面検査）を通らない経路で本番に出る可能性がある**
 - #379 の記録では、権限の広い旧トークン「ibatoco build token」を Workers Builds が使っている可能性があり、失効が保留されている
 - **オーナー確認事項**
