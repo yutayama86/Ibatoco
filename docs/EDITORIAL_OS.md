@@ -186,11 +186,13 @@ URL変更/削除/統合、広告/契約/権利、計測ID、大規模IA/デザ�
 npm run editorial:sync
 npm run editorial:check
 npm run editorial:daily
+npm run editorial:staleness
 ```
 
 - `editorial:sync`：公開イベント記事を台帳へ同期。未掲載の手入力候補は保持
 - `editorial:check`：台帳と実装キューを検証
 - `editorial:daily`：同期・検証・在庫集計・日次ブリーフ生成
+- `editorial:staleness`：日付を過ぎたのに「予定」「現在」「行われます」のまま残っている記述の候補を、記事ごとにまとめて点数順に出す（既定は優先度の高い記事だけ、`-- --all` で全件、`-- 2026-11-01` で基準日指定）。候補の抽出だけで記事は書き換えない。直すのは一次情報で確認してから
 
 ## イベント台帳の追加例
 
