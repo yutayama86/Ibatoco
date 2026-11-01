@@ -71,10 +71,11 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     // 「(2026 Guide)」は年が古びるうえ、狙うクエリ（train / bus）と一致する語がない。
     // 主要クエリ "how to get to ... from Tokyo" を保ったまま、交通手段を明示する。
     title: 'Hitachi Seaside Park from Tokyo (2026): Train, Bus & Travel Time',
-    description: 'Travel from Tokyo to Hitachi Seaside Park by train and bus via Katsuta. Route, admission fees, and the park’s 2026 autumn kochia forecast and seasonal fee dates.',
+    description: 'Travel from Tokyo to Hitachi Seaside Park by train and bus via Katsuta: route, travel time and admission fees, plus what to expect in November as the kochia season ends on November 3.',
     h1: 'How to Get to Hitachi Seaside Park from Tokyo',
     lead: [
-      'The hill covered in millions of sky-blue nemophila flowers is one of the most photographed places in Japan — and it sits in Ibaraki, roughly two hours from central Tokyo.',
+      'Hitachi Seaside Park is known for its seasonal flower hill — sky-blue nemophila in spring and red kochia in autumn — and it sits in Ibaraki, roughly two hours from central Tokyo.',
+      'Planning a November visit? The park says the kochia passed its peak colour in late October, and the hill can be viewed only until November 3. The plants are removed on November 4 so the hill can be prepared for spring. After that, the park’s staff blog points visitors to the autumn roses in the Hitachi Rose Garden.',
       'This guide covers how to actually get there without a car, what it costs, and when to go. We are a local media team based in Ibaraki, and we only publish what we can confirm with official sources.',
     ],
     heroImage: {
@@ -99,8 +100,8 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
       { q: 'Where is it?', a: 'Hitachinaka City, Ibaraki Prefecture, on the Pacific coast northeast of Tokyo.' },
       { q: 'How far from Tokyo?', a: 'About 85 minutes from Tokyo Station to Katsuta Station by JR Joban Line limited express, then about 15 minutes by bus.' },
       { q: 'Do I need a car?', a: 'No. Train plus a direct bus from Katsuta Station works well.' },
-      { q: 'How much is admission?', a: '¥450 for adults in normal season, ¥800 during the spring and autumn flower seasons.' },
-      { q: 'When is the 2026 autumn season?', a: 'The seasonal admission surcharge applies from October 9 to November 3. In its September 6 forecast, the park expects kochia to reach peak autumn colour around October 15; weather may change this forecast.' },
+      { q: 'How much is admission?', a: '¥450 for adults. During the spring and autumn flower seasons a ¥350 surcharge applies (¥800 for adults); the autumn 2026 surcharge ends on November 3.' },
+      { q: 'Can I still see the kochia in November?', a: 'Only until November 3, 2026. On October 31 the park said the peak colour had passed, leaving brown, red and some golden plants. The kochia on Miharashi Hill is removed on November 4 to prepare for spring.' },
       { q: 'How long should I stay?', a: 'Half a day is enough for the flower areas; a full day if you want the whole park.' },
     ],
     sections: [
@@ -143,8 +144,9 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: 'Best time to visit',
         body: [
           'The park is built around seasons rather than a single highlight. The blue nemophila hill peaks in spring, and the same hill turns deep red with kochia in autumn — the park applies its seasonal admission rate during both.',
-          'The published spring season for 2026 runs from April 3 to May 6. For autumn 2026, the park has announced a ¥350 seasonal admission surcharge from October 9 to November 3. These are fee dates, not a guarantee that kochia will be at its peak throughout that period.',
-          'In its forecast dated September 6, 2026, the park expects kochia to begin changing colour around October 10 and reach peak autumn colour around October 15. The park notes that the peak usually lasts about one week to ten days, and that weather may change the forecast. Check its latest updates before choosing your travel date.',
+          'In 2026, the spring season ran from April 3 to May 6, and the autumn seasonal surcharge of ¥350 applies from October 9 to November 3. These are fee dates, not a guarantee that the flowers are at their best throughout that period.',
+          'Autumn 2026: the park announced that the kochia on Miharashi Hill had reached peak autumn colour as of October 10. On October 31 it said the peak had passed, leaving a gradient of brown (amber) and red, with some plants turning gold. Viewing ends on November 3, and the kochia is removed on November 4, a closed day, to prepare the hill for spring.',
+          'Later in November, the park’s staff blog recommends the autumn roses in the Hitachi Rose Garden, which is closest to the Central Gate. For spring, see our nemophila guide linked below.',
         ],
       },
       {
@@ -180,11 +182,13 @@ export const HITACHI_SEASIDE_PARK: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
       { label: 'Hitachi Seaside Park — Access by train and bus (official)', url: PARK_ACCESS_URL },
       { label: 'Hitachi Seaside Park — Autumn 2026 seasonal surcharge dates (official; checked September 9)', url: 'https://www.hitachikaihin.jp/news/park/page001038.html' },
       { label: 'Hitachi Seaside Park — Kochia colour forecast as of September 6, 2026 (official; checked September 9)', url: 'https://www.hitachikaihin.jp/news/park/page001040.html' },
+      { label: 'Hitachi Seaside Park — Kochia viewing ends November 3 (official press release, October 31, 2026; in Japanese)', url: 'https://www.hitachikaihin.jp/news/press-release/page001129.html' },
+      { label: 'Hitachi Seaside Park — Staff blog on the last days of kochia and the autumn roses (official; in Japanese)', url: 'https://www.hitachikaihin.jp/park-blog/page001127.html' },
       { label: 'Ibaraki Kotsu — Bus route and fare search (official)', url: 'https://bus.ibako.co.jp/route/' },
       { label: 'JR East — English site (train routes and fares)', url: 'https://www.jreast.co.jp/multi/en/' },
     ],
     updatedLabel: 'Last updated',
-    updatedDate: '2026-09-10',
+    updatedDate: '2026-11-01',
     authorLabel: 'Written by',
     author: 'IBATOCO Editorial Team',
     disclaimer: 'Fees, opening hours and transport schedules change. Always confirm on the official website before you travel.',
