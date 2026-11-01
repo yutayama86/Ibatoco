@@ -374,7 +374,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
           { spot: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', usual: '11月ごろ', now: '色づき速報で男体山・月待の滝とも「青葉」（大子町観光協会・10月6日時点）', confirmed: false },
           { spot: '竜神峡・竜神大吊橋', area: '常陸太田市', areaSlug: 'hitachiota', usual: '11月ごろ', now: '第37回竜神峡紅葉まつりは11月1日（日）〜30日（月）、物産市は9:00〜16:00（常陸太田市観光物産協会・10月16日発表）。見頃の予想は未発表（10月12日確認）', confirmed: true },
           { spot: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', usual: '11月ごろ', now: '紅葉まつり10月31日（土）〜11月30日（月）、ライトアップ11月7日（土）〜23日（月・祝）日没〜19:00（高萩市の市報10月号、高萩市観光協会・10月8日）。駐車場は期間中有料で予約不可。見頃の予想は未発表', confirmed: true },
-          { spot: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', usual: '11月ごろ', now: '見頃予想・秋の夜間運行は未発表（10月12日確認）。ケーブルカーは9月25日から当面運休、ロープウェイは通常運行（筑波観光鉄道）', confirmed: false },
+          { spot: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', usual: '11月ごろ', now: '秋の夜間運行は公式案内を確認。ケーブルカーは10月24日始発から運行再開（筑波観光鉄道10月23日発表）', confirmed: false },
           { spot: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', usual: '11月ごろ', now: '未確認', confirmed: false },
         ],
       },
@@ -406,7 +406,7 @@ export const THEMES: Record<Theme['slug'], Theme> = {
       { name: '花貫渓谷・汐見滝吊り橋', area: '高萩市', areaSlug: 'takahagi', desc: '汐見滝吊り橋のあたりで、赤や黄に色づいた木々が橋を包む「紅葉のトンネル」になります。2026年は高萩市の市報で、紅葉まつり10月31日（土）〜11月30日（月）、ライトアップ11月7日（土）〜23日（月・祝）の日没〜19:00が予定されています。', detailUrl: '/events/hananuki-gorge-autumn-2026/' },
       { name: '御前山（関東の嵐山）', area: '常陸大宮市', areaSlug: 'hitachiomiya', desc: '「関東の嵐山」と呼ばれる、茨城百景のひとつ。那珂川ごしに見る紅葉が知られます。' },
       { name: '奥久慈（男体山・月待の滝）', area: '大子町', areaSlug: 'daigo', desc: '奥久慈男体山の岩山や、裏側から眺められる月待の滝など、奥久慈一帯が色づきます。' },
-      { name: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', desc: '日本百名山で最も低い筑波山も、秋には山肌が色づきます。ケーブルカーは2026年9月25日から安全確認のため当面運休で、ロープウェイは通常運行です（筑波観光鉄道・10月10日確認）。', mapQuery: '筑波山', detailUrl: '/events/tsukuba-autumn-2026/' },
+      { name: '筑波山', area: 'つくば市', areaSlug: 'tsukuba', desc: '日本百名山で最も低い筑波山も、秋には山肌が色づきます。ケーブルカーは2026年10月24日始発から運行を再開しました（筑波観光鉄道・10月23日発表）。当日の運行状況は公式で確認してください。', mapQuery: '筑波山', detailUrl: '/events/tsukuba-autumn-2026/' },
     ],
     practical: [
       ['見頃', 'コキアは公園公式の予想で10月10日頃が見頃（10月2日時点）。渓谷や滝は、いずれも例年11月ごろが見頃で、袋田の滝は10月6日時点で「青葉」です（大子町観光協会）。標高や年で前後するため、各公式・観光いばらきの紅葉情報を確認してください。'],
