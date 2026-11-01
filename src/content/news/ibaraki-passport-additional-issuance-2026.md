@@ -2,7 +2,7 @@
 title: "IBARAKI PASSPORT追加交付｜初回落選11/10・追加申請11/24と12/14から"
 description: "IBARAKI PASSPORTの追加交付日程を更新。初回落選者は再申請不要で11/10から、10/3〜7の追加申請者は11/24、10/8〜16は12/14から。再追加申請は10/30受付開始・12/17から順次交付。"
 pubDate: 2026-10-02
-updatedDate: 2026-10-16
+updatedDate: 2026-11-01
 author: "イバトコ編集部"
 category: tourism
 tags:
@@ -118,6 +118,9 @@ faq:
   - question: "県外在住でも申請できますか？"
     answer: "茨城県公式観光Xでは、茨城県民・県外在住者の双方に応募を呼びかけていました。追加申請は2026年10月16日（金）18:00で終了しています。"
 sourceUrls:
+  - label: "観光いばらき公式｜IBARAKI PASSPORT（2026年10月30日更新）"
+    url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
+    accessedAt: 2026-11-01
   - label: "観光いばらき公式｜IBARAKI PASSPORT 追加交付開始（2026年10月2日）"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
     accessedAt: 2026-10-03
