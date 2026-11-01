@@ -1026,8 +1026,8 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/kashima/",
+          "label": "鹿島アントラーズ公式｜試合日程・結果",
+          "url": "https://www.antlers.co.jp/blogs/games",
           "accessedAt": "2026-11-01"
         }
       ],
@@ -1047,12 +1047,22 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/j1/tv/search-list/?club=kashima&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "label": "鹿島アントラーズ公式｜ルヴァンカップ準々決勝日程",
+          "url": "https://www.antlers.co.jp/blogs/news/261029h59m63",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "横浜F・マリノス公式｜放送・配信情報",
+          "url": "https://www.f-marinos.com/news/match/10783",
           "accessedAt": "2026-11-01"
         }
       ],
-      "venue": "日産スタジアム"
+      "venue": "日産スタジアム",
+      "broadcast": [
+        "フジテレビNEXT（録画放送）",
+        "スカパー！",
+        "スカパー！動画ストア"
+      ]
     },
     {
       "id": "kashima-antlers-2026-11-15-levain-2",
@@ -1067,10 +1077,20 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/j1/tv/search-list/?club=kashima&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "label": "鹿島アントラーズ公式｜ルヴァンカップ準々決勝日程",
+          "url": "https://www.antlers.co.jp/blogs/news/261029h59m63",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "横浜F・マリノス公式｜放送・配信情報",
+          "url": "https://www.f-marinos.com/news/match/10783",
           "accessedAt": "2026-11-01"
         }
+      ],
+      "broadcast": [
+        "フジテレビNEXT（録画放送）",
+        "スカパー！",
+        "スカパー！動画ストア"
       ]
     },
     {
@@ -1086,8 +1106,8 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/kashima/",
+          "label": "鹿島アントラーズ公式｜試合日程・結果",
+          "url": "https://www.antlers.co.jp/blogs/games",
           "accessedAt": "2026-11-01"
         }
       ],
@@ -1127,8 +1147,8 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/kashima/",
+          "label": "鹿島アントラーズ公式｜試合日程・結果",
+          "url": "https://www.antlers.co.jp/blogs/games",
           "accessedAt": "2026-11-01"
         }
       ],
