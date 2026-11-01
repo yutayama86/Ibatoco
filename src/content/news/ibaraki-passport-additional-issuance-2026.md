@@ -124,9 +124,6 @@ sourceUrls:
   - label: "観光いばらき公式｜IBARAKI PASSPORT 追加交付開始（2026年10月2日）"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/info/page002309.html"
     accessedAt: 2026-10-03
-  - label: "観光いばらき公式｜IBARAKI PASSPORT"
-    url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
-    accessedAt: 2026-10-16
   - label: "いばらき電子申請・届出サービス｜「IBARAKI PASSPORT」追加交付申請受付（10月16日夜に「申込期間ではありません」と表示）"
     url: "https://apply.e-tumo.jp/pref-ibaraki-u/offer/offerList_detail?tempSeq=94822"
     accessedAt: 2026-10-16
