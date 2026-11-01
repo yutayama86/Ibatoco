@@ -484,14 +484,20 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/mito/",
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
           "accessedAt": "2026-11-01"
         }
       ],
       "broadcast": [
         "DAZN"
-      ]
+      ],
+      "venue": "フクダ電子アリーナ"
     },
     {
       "id": "mito-hollyhock-2026-11-20-j1-15",
@@ -505,14 +511,20 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/mito/",
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
           "accessedAt": "2026-11-01"
         }
       ],
       "broadcast": [
         "DAZN"
-      ]
+      ],
+      "venue": "ノエビアスタジアム神戸"
     },
     {
       "id": "mito-hollyhock-2026-11-25-j1-16",
@@ -527,8 +539,13 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/mito/",
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
           "accessedAt": "2026-11-01"
         }
       ],
@@ -549,8 +566,13 @@
       "status": "scheduled",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜試合日程・放送",
-          "url": "https://www.jleague.jp/club/mito/",
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
           "accessedAt": "2026-11-01"
         }
       ],
