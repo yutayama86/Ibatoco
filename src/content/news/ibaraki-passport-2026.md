@@ -2,7 +2,7 @@
 title: "茨城パスポート2026｜申請区分別の交付日程・再追加申請と44市町村スタンプ"
 description: "IBARAKI PASSPORTの交付は初回当選10/10、初回落選11/10、追加申請は申請日別に11/24・12/14から。10/30開始の再追加申請は12/17から順次交付。44市町村のスタンプ設置場所も案内。"
 pubDate: 2026-09-14
-updatedDate: 2026-10-16
+updatedDate: 2026-11-01
 author: "イバトコ編集部"
 category: "tourism"
 tags:
@@ -19,7 +19,7 @@ reviewed: true
 sample: false
 noindex: false
 ogImage: "/images/news/ibaraki-passport-2026.svg"
-ogImageAlt: "イバトコ編集部が作成した図版。「茨城パスポート 2026」「追加申請 10/3〜16」「追加交付 11/10から」の文字と、5エリア44市町村のスタンプを表す円"
+ogImageAlt: "イバトコ編集部が作成した図版。「茨城パスポート 2026」「再追加申請 10/30〜」「交付日程は区分別」の文字と、5エリア44市町村のスタンプを表す円"
 conclusion: "IBARAKI PASSPORT（茨城パスポート）は、茨城県が作成したパスポート型のパンフレットです。初回申請で落選した人は再申請不要で追加交付の対象です。10月3日〜16日の追加申請は終了しましたが、10月30日から再追加申請を受け付けています。交付開始は初回当選者10月10日、初回落選者11月10日、追加申請者は申請日により11月24日または12月14日、再追加申請者は12月17日から順次です。交付終了は2027年3月31日。県内44市町村のスタンプ設置場所もこの記事で確認できます。"
 guide:
   summaryCards:
@@ -236,6 +236,9 @@ faq:
   - question: "パスポートは郵送してもらえますか？"
     answer: "公式Q&Aでは、郵送での配布は行っていないと案内されています。当選メールの画面を交付窓口（10月10日〜12日は県三の丸庁舎の特設窓口、10月13日からは茨城県庁と茨城県東京渉外局）で見せて受け取ります。"
 sourceUrls:
+  - label: "観光いばらき公式｜IBARAKI PASSPORT（2026年10月30日更新）"
+    url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
+    accessedAt: 2026-11-01
   - label: "観光いばらき｜IBARAKI PASSPORT（申請方法・交付窓口・スタンプ設置場所）"
     url: "https://www.ibarakiguide.jp/special/ibaraki_passport/passport.html"
     accessedAt: 2026-10-16
