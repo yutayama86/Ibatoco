@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261101-kouyou-hub-november-metadata',
+    date: '2026-11-01',
+    url: '/kouyou/',
+    kind: 'on-page',
+    change: 'metaTitle・metaDescription・導入文を、コキアの10月予想から11月の渓谷と山（袋田の滝・花貫渓谷・竜神峡・筑波山）中心に変更（#487）',
+    queries: [],
+    commit: '4e460f0',
+    note: 'metadata実験・14日（11/1〜11/15）。コキアのページで内部リンクの実験（20261023-events-kochia-status-kouyou-relay、10/23〜11/6、コキアから /kouyou/ への導線）が続いているため、/kouyou/ への流入はその影響も受ける。【11/01 追記】同じ日に、状況欄・スポット一覧・名所・見頃・FAQ・出典を11月1日確認の公式発表に合わせる事実の更新を行った（title・description は変えていない）。観測窓を切らないよう、事実の更新は別の記録にしていない。',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261101-q1q3-tsukuba-cablecar-ropeway-guide-metadata',
     date: '2026-11-01',
     url: '/events/tsukuba-cablecar-ropeway-guide/',
