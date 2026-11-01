@@ -10,6 +10,7 @@ import {
   HOME_AWAY_LABEL, competitionLabel, pkText, resultLabel, type ResolvedMatch,
 } from '../lib/sports';
 import { formatJapaneseDate, formatJapaneseDateWithWeekday, toDateOnlyString } from '../lib/date-only.js';
+import { matchOverAt } from '../lib/match-timing.js';
 
 interface Story {
   href: string;
@@ -30,6 +31,9 @@ const { next, latest, stories, guideAnchor } = Astro.props;
 const hasAnything = Boolean(next) || Boolean(latest) || stories.length > 0;
 
 const withNote = (value?: string, note?: string) => (value ? (note ? `${value}（${note}）` : value) : undefined);
+// 当日の朝にビルドしたページは、試合が終わっても次のビルドまでこの試合を出し続ける。
+// キックオフから3時間を過ぎたら、ブラウザ側で一文だけ知らせる（結果は推測で書かない）
+const nextOverAt = next ? matchOverAt(next.date, next.kickoff)?.toISOString() : undefined;
 ---
 
 {hasAnything && (
@@ -50,6 +54,9 @@ const withNote = (value?: string, note?: string) => (value ? (note ? `${value}�
             {next.venue && <div><dt>会場</dt><dd>{next.venue}</dd></div>}
             {next.broadcast && <div><dt>中継</dt><dd>{next.broadcast.join('、')}</dd></div>}
           </dl>
+          {nextOverAt && (
+            <p class="mb__recap" data-match-over-at={nextOverAt} hidden>キックオフから3時間を過ぎました。試合結果はクラブ公式で確認してください。このページには、公式の結果を確認してから反映します。</p>
+          )}
           {(guideAnchor || next.articleUrl) && (
             <p class="mb__links">
               {guideAnchor && <a class="mb__link" href={`#${guideAnchor}`}>観戦情報を見る →</a>}
@@ -110,6 +117,16 @@ const withNote = (value?: string, note?: string) => (value ? (note ? `${value}�
     </div>
   </section>
 )}
+
+<script>
+  const DAY_MS = 86_400_000;
+  for (const note of document.querySelectorAll<HTMLElement>('[data-match-over-at]')) {
+    const wait = Date.parse(note.dataset.matchOverAt ?? '') - Date.now();
+    if (Number.isNaN(wait)) continue;
+    if (wait <= 0) note.hidden = false;
+    else if (wait < DAY_MS) setTimeout(() => { note.hidden = false; }, wait);
+  }
+</script>
 
 <style>
   .mb{padding-block:clamp(1.6rem,3vw,2.4rem)}

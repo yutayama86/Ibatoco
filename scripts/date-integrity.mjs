@@ -24,6 +24,7 @@ import {
   happeningDateLabel,
 } from '../src/lib/happening-schedule.js';
 import { lifecycleForDates } from '../src/lib/lifecycle-dates.js';
+import { isAwaitingResult, matchOverAt } from '../src/lib/match-timing.js';
 
 const errors = [];
 const expect = (actual, expected, label) => {
@@ -43,6 +44,7 @@ try {
     expect(formatNumericMonthDayWithWeekday(parseDateOnly('2026-11-22')), '11/22(日)', `${timezone}: 数字の月日と曜日`);
     expect(toDateOnlyString(parseDateOnly('2026-11-22')), '2026-11-22', `${timezone}: 暦日の YYYY-MM-DD`);
     expect(toDateOnlyString(new Date('2026-10-28T15:00:00Z')), '2026-10-29', `${timezone}: 日本時間の午前0時の YYYY-MM-DD`);
+    expect(matchOverAt(parseDateOnly('2026-11-04'), '21:15')?.toISOString(), '2026-11-04T15:15:00.000Z', `${timezone}: 日本時間21:15キックオフの3時間後`);
   }
 } finally {
   if (originalTimezone === undefined) delete process.env.TZ;
@@ -101,11 +103,20 @@ expect(
   '日本時間の0時を過ぎたら当日（UTCでは前日）',
 );
 
+// 試合が終わったはずの判定（src/lib/match-timing.js）。当日の朝のビルドで、終わった試合を NEXT MATCH に残さない
+const md4 = { date: d('2026-11-04'), kickoff: '21:15' };
+expect(isAwaitingResult(md4, new Date('2026-11-04T15:14:59Z')), false, '試合：キックオフから3時間たつ直前は次の試合のまま');
+expect(isAwaitingResult(md4, new Date('2026-11-04T15:15:00Z')), true, '試合：キックオフから3時間で結果待ち');
+expect(isAwaitingResult({ ...md4, score: { own: 1, opponent: 0 } }, new Date('2026-11-05T00:00:00Z')), false, '試合：結果が入っていれば結果待ちではない');
+expect(isAwaitingResult({ date: d('2026-11-04') }, new Date('2026-11-05T00:00:00Z')), false, '試合：キックオフ時刻が無ければ判定しない');
+expect(matchOverAt(d('2026-11-04'), '9:00'), undefined, '試合：HH:MM 以外のキックオフは判定しない');
+
 const criticalFiles = [
   'src/lib/happenings.ts',
   'src/lib/lifecycle.ts',
   'src/lib/lifecycle-dates.js',
   'src/lib/sports.ts',
+  'src/lib/match-timing.js',
   'src/pages/events/index.astro',
   'src/pages/hanabi.astro',
 ];

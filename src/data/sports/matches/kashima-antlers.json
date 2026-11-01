@@ -1155,6 +1155,34 @@
       "broadcast": [
         "DAZN"
       ]
+    },
+    {
+      "id": "kashima-antlers-2026-12-02-acle-md6",
+      "date": "2026-12-02",
+      "kickoff": "21:15",
+      "kickoffNote": "日本時間（公式の発表は現地時間19:15）",
+      "competition": "AFCチャンピオンズリーグElite 2026/27",
+      "round": "リーグステージ MD6",
+      "kind": "continental",
+      "opponent": "ポートFC",
+      "homeAway": "away",
+      "venue": "タマサートスタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
+          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "鹿島アントラーズ公式｜試合日程・結果（日時は日本時間）",
+          "url": "https://www.antlers.co.jp/blogs/games",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ]
     }
   ]
 }

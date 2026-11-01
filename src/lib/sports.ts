@@ -21,6 +21,7 @@ import {
 } from '../data/sports-schedule';
 import { getSportsNews } from './content';
 import { dateOnlyFromInstant, parseDateOnly, toDateOnlyString } from './date-only.js';
+import { isAwaitingResult } from './match-timing.js';
 
 type Score = { own: number; opponent: number };
 
@@ -181,10 +182,13 @@ export async function getTeamMatches(team: SportsTeamSlug): Promise<ResolvedMatc
 /** 基準日（ビルドした日、日本時間）の暦日。静的サイトなので、試合日を過ぎても再ビルドまで表示は変わらない */
 const startOfDay = (now: Date) => dateOnlyFromInstant(now, 'Asia/Tokyo');
 
-/** 次の試合。当日の試合は、結果が入るまで「次の試合」に残す */
+/**
+ * 次の試合。当日の試合は、キックオフから3時間たつまで（その前に結果が入ればそこまで）「次の試合」に残す。
+ * 3時間を過ぎて結果の無い試合は、公式の結果を入れるまで NEXT にも LAST にも出さない（match-timing.js）。
+ */
 export function pickNextMatch(matches: ResolvedMatch[], now = new Date()): ResolvedMatch | undefined {
   const today = startOfDay(now);
-  return matches.find((m) => m.date >= today && !m.score);
+  return matches.find((m) => m.date >= today && !m.score && !isAwaitingResult(m, now));
 }
 
 /** 直近の結果。スコアが入っているものだけを「結果」として扱う */
@@ -202,7 +206,7 @@ export function pickUpcoming(
   matches: ResolvedMatch[], next: ResolvedMatch | undefined, n = 5, now = new Date(),
 ): ResolvedMatch[] {
   const today = startOfDay(now);
-  return matches.filter((m) => m !== next && m.date >= today && !m.score).slice(0, n);
+  return matches.filter((m) => m !== next && m.date >= today && !m.score && !isAwaitingResult(m, now)).slice(0, n);
 }
 
 export const HOME_AWAY_LABEL: Record<ResolvedMatch['homeAway'], string> = {
