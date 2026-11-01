@@ -1,6 +1,6 @@
 {
   "team": "kashima-antlers",
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-11-01",
   "matches": [
     {
       "id": "kashima-antlers-2026-08-07-j1-01",
@@ -898,17 +898,21 @@
       "opponent": "京都サンガF.C.",
       "homeAway": "away",
       "venue": "サンガスタジアム by KYOCERA",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
       "sources": [
         {
-          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
-          "url": "https://www.jleague.jp/club/kashima/day/",
-          "accessedAt": "2026-10-18"
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
         }
-      ]
+      ],
+      "score": {
+        "own": 2,
+        "opponent": 2
+      }
     },
     {
       "id": "kashima-antlers-2026-10-24-j1-12",
@@ -920,17 +924,21 @@
       "opponent": "柏レイソル",
       "homeAway": "home",
       "venue": "メルカリスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
       "sources": [
         {
-          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
-          "url": "https://www.jleague.jp/club/kashima/day/",
-          "accessedAt": "2026-10-18"
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
         }
-      ]
+      ],
+      "score": {
+        "own": 2,
+        "opponent": 3
+      }
     },
     {
       "id": "kashima-antlers-2026-10-28-acle-md3",
@@ -942,28 +950,22 @@
       "opponent": "浦項スティーラーズ",
       "homeAway": "home",
       "venue": "カシマサッカースタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
       "officialUrl": "https://www.antlers.co.jp/pages/mdp-2026-27-acle03",
       "sources": [
         {
-          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
-          "url": "https://www.jleague.jp/club/kashima/day/",
-          "accessedAt": "2026-10-18"
-        },
-        {
-          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
-          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
-          "accessedAt": "2026-10-18"
-        },
-        {
-          "label": "鹿島アントラーズ公式｜ACL Elite 2026/27 MD3 浦項スティーラーズ戦 観戦ガイド",
-          "url": "https://www.antlers.co.jp/pages/mdp-2026-27-acle03",
-          "accessedAt": "2026-10-18"
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
         }
-      ]
+      ],
+      "score": {
+        "own": 3,
+        "opponent": 0
+      }
     },
     {
       "id": "kashima-antlers-2026-10-31-j1-13",
@@ -975,17 +977,21 @@
       "opponent": "セレッソ大阪",
       "homeAway": "home",
       "venue": "メルカリスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "broadcast": [
         "DAZN"
       ],
       "sources": [
         {
-          "label": "Ｊリーグ公式｜鹿島アントラーズの試合日程・結果（10月18日確認：結果・放送）",
-          "url": "https://www.jleague.jp/club/kashima/day/",
-          "accessedAt": "2026-10-18"
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
         }
-      ]
+      ],
+      "score": {
+        "own": 4,
+        "opponent": 1
+      }
     },
     {
       "id": "kashima-antlers-2026-11-04-acle-md4",
@@ -1008,6 +1014,87 @@
       ]
     },
     {
+      "id": "kashima-antlers-2026-11-07-j1-14",
+      "date": "2026-11-07",
+      "kickoff": "15:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第14節",
+      "kind": "league",
+      "opponent": "FC東京",
+      "homeAway": "away",
+      "venue": "味の素スタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・放送",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-11-levain-1",
+      "date": "2026-11-11",
+      "kickoff": "19:00",
+      "competition": "Ｊリーグ YBC ルヴァンカップ",
+      "round": "準々決勝 第1戦",
+      "kind": "cup",
+      "opponent": "横浜F・マリノス",
+      "homeAway": "away",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・放送",
+          "url": "https://www.jleague.jp/j1/tv/search-list/?club=kashima&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-15-levain-2",
+      "date": "2026-11-15",
+      "kickoff": "15:00",
+      "competition": "Ｊリーグ YBC ルヴァンカップ",
+      "round": "準々決勝 第2戦",
+      "kind": "cup",
+      "opponent": "横浜F・マリノス",
+      "homeAway": "home",
+      "venue": "メルカリスタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・放送",
+          "url": "https://www.jleague.jp/j1/tv/search-list/?club=kashima&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-20-j1-15",
+      "date": "2026-11-20",
+      "kickoff": "19:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第15節",
+      "kind": "league",
+      "opponent": "清水エスパルス",
+      "homeAway": "home",
+      "venue": "メルカリスタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・放送",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ]
+    },
+    {
       "id": "kashima-antlers-2026-11-25-acle-md5",
       "date": "2026-11-25",
       "kickoff": "19:00",
@@ -1024,6 +1111,28 @@
           "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
           "accessedAt": "2026-10-18"
         }
+      ]
+    },
+    {
+      "id": "kashima-antlers-2026-11-28-j1-17",
+      "date": "2026-11-28",
+      "kickoff": "15:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第17節",
+      "kind": "league",
+      "opponent": "ファジアーノ岡山",
+      "homeAway": "home",
+      "venue": "メルカリスタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・放送",
+          "url": "https://www.jleague.jp/club/kashima/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
       ]
     }
   ]
