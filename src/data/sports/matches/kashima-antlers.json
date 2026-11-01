@@ -1039,7 +1039,7 @@
       "id": "kashima-antlers-2026-11-11-levain-1",
       "date": "2026-11-11",
       "kickoff": "19:00",
-      "competition": "Ｊリーグ YBC ルヴァンカップ",
+      "competition": "Ｊリーグ ヤマザキビスケット ルヴァンカップ",
       "round": "準々決勝 第1戦",
       "kind": "cup",
       "opponent": "横浜F・マリノス",
@@ -1051,13 +1051,14 @@
           "url": "https://www.jleague.jp/j1/tv/search-list/?club=kashima&enddate=2026-11-30&period=custom&startdate=2026-11-01",
           "accessedAt": "2026-11-01"
         }
-      ]
+      ],
+      "venue": "日産スタジアム"
     },
     {
       "id": "kashima-antlers-2026-11-15-levain-2",
       "date": "2026-11-15",
       "kickoff": "15:00",
-      "competition": "Ｊリーグ YBC ルヴァンカップ",
+      "competition": "Ｊリーグ ヤマザキビスケット ルヴァンカップ",
       "round": "準々決勝 第2戦",
       "kind": "cup",
       "opponent": "横浜F・マリノス",
