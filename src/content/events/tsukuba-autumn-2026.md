@@ -2,7 +2,7 @@
 title: "筑波山の紅葉2026｜見頃・駐車場・混雑"
 description: "筑波山の紅葉2026を一次情報で整理。もみじまつりは10月24日〜11月30日、夜間運行は土日祝などに予定。10月24日に運行再開したケーブルカー、ロープウェイ、駐車場、混雑対策もまとめます。"
 pubDate: 2026-09-27
-updatedDate: 2026-10-22
+updatedDate: 2026-11-01
 articleType: "guide"
 searchIntent: "筑波山の紅葉を2026年に見に行くため、見頃・ケーブルカー・ロープウェイ・夜間運行・駐車場・混雑を確認したい"
 keyword: "筑波山 紅葉 2026"
@@ -103,6 +103,9 @@ businessIntent:
 commercialPriority: "high"
 evergreen: false
 sourceUrls:
+  - label: "筑波観光鉄道公式｜ケーブルカー10月24日始発から運行再開（10月23日発表）"
+    url: "https://mt-tsukuba.com/筑波山ケーブルカー-運行再開につきまして/"
+    accessedAt: 2026-11-01
   - label: "つくば観光コンベンション協会｜秋の筑波山（第22回筑波山もみじまつり・夜間運行）"
     url: "https://ttca.jp/autumnmttsukuba/"
     accessedAt: 2026-10-22
