@@ -25,10 +25,9 @@
     <circle cx="0" cy="0" r="132" fill="none" stroke="#315c68" stroke-width="2.5" stroke-dasharray="7 7"/>
     <text x="0" y="-62" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="19" font-weight="700" fill="#172b35">無料シャトル</text>
     <g font-family="'Source Sans 3', sans-serif" font-size="18" fill="#75695a">
-      <text x="0" y="-22" text-anchor="middle">東海駅西口　約10分</text>
-      <text x="0" y="8" text-anchor="middle">東海駅東口　約15分</text>
-      <text x="0" y="38" text-anchor="middle">東海村役場　約15分</text>
-      <text x="0" y="68" text-anchor="middle">那珂市役所　約20分</text>
+      <text x="0" y="-14" text-anchor="middle">東海駅西口　約10分</text>
+      <text x="0" y="20" text-anchor="middle">東海村役場　約15分</text>
+      <text x="0" y="54" text-anchor="middle">那珂市役所　約20分</text>
     </g>
   </g>
 
