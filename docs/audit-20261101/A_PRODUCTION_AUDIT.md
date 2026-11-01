@@ -10,7 +10,7 @@
 1. **デプロイ・インデックス制御に障害はない。** 10/29〜10/31 の「失敗」通知は、すべて既知の原因か意図どおりの停止で、本番への影響はなかった（§1）。
 2. **最も重いのは、公開中ページの事実の誤り。** 筑波山ケーブルカーは 10/24 に運行を再開しているが、2ページと紅葉テーマの記述が「当面運休」のまま（P0、§4-1）。
 3. **期限・日程の古い表示が3件ある。** IBARAKI PASSPORT の交付日程（P1）、土浦花火の締切済み申込（P1、大会は 11/7）、SPORTS の試合データ（10/18 から更新なし、P1）。
-4. **運用経路の確認が要るものが1件ある。** Cloudflare Workers Builds が GitHub のコミットに失敗のチェックを付け続けている（P1・要確認、§2-5）。
+4. **運用経路の確認が要るものが1件ある。** Cloudflare Workers Builds が GitHub のコミットに失敗のチェックを付け続けている（P2・要確認、§2-5）。
 5. 表示崩れ（横スクロール・はみ出し）は、確認した 20 ページ × 6 幅で 0 件。
 
 ## 重大度の定義
@@ -30,7 +30,7 @@
 | A-02 | P1 | 事実 | IBARAKI PASSPORT の交付開始日が申請区分ごとに分かれたのに未反映。再追加申請（10/30〜）も未掲載 | §4-2 | 未修正・要承認 |
 | A-03 | P1 | 事実 | 土浦花火：締切を過ぎた申込先（10/18・10/28）を、申し込めるかのように表示 | §4-3 | 未修正・要承認 |
 | A-04 | P1 | 事実 | SPORTS 試合データが 10/18 以降未更新。鹿島は LAST MATCH が 10/17 のまま、水戸は11月の試合が0件で NEXT MATCH が出ない | §4-4 | 未修正・要承認 |
-| A-05 | P1 | 運用 | Cloudflare Workers Builds の連携が残っている可能性（失敗チェックが 10/30〜10/31 の 25 コミット中 11 件に付与） | §2-5 | オーナー確認待ち |
+| A-05 | P2 | 運用 | Cloudflare Workers Builds の GitHub 連携が残っている（失敗チェックが直近 25 コミット中 11 件と、#481 の PR ブランチに付与） | §2-5 | オーナー確認待ち |
 | A-06 | P2 | セキュリティ | `/control/login` にログイン試行の回数制限がコード上にない（#281 P0 の残り）。Cloudflare 側の設定は未確認 | §2-3 | 既知・未解決 |
 | A-07 | P2 | セキュリティ | `/admin/`（未使用の Decap CMS）が外部 CDN のスクリプトをバージョン範囲指定（`^3.3.3`）で読み込む。現在は CSP が遮断しているので動かない | §2-4 | 未修正・要承認 |
 | A-08 | P2 | 事実 | `/kouyou/` の title・description がコキアの10月予想を先頭に出したまま。英語版ひたち海浜公園ページの description も「秋のコキア予想」 | §4-5 | 未修正・要承認 |
@@ -144,15 +144,17 @@ A-06 の対策案（費用ゼロを優先）：Cloudflare の Rate Limiting ル�
 
 `Workers Builds: ibatoco`（アプリ `cloudflare-workers-and-pages`）が、直近 25 コミットのうち 11 件に **failure** のチェックを付けている。対象は 10/30 の d81fd8e から 10/31 の b8310bf まで。
 
-- この監査の文書だけの PR（#481）でも、ブランチを push した直後に `Workers Builds: ibatoco` が走って失敗した。PR ブランチの push でも Cloudflare 側のビルドが動いている
-- 記憶上の運用（10/23）は「Workers Builds 停止済み」だが、少なくとも GitHub 連携は残っている
-- 今は失敗しているので本番に出ていない。しかし原因（例えばビルド環境の Node が古いこと）が解消されると、**Actions のガード（最新の main の確認・公開後の画面検査）を通らない経路で本番に出る可能性がある**
-- #379 の記録では、権限の広い旧トークン「ibatoco build token」を Workers Builds が使っている可能性があり、失効が保留されている
+- この監査の文書だけの PR（#481）でも、ブランチを push した直後に `Workers Builds: ibatoco` が走って失敗した。PR ブランチの push でも Cloudflare 側のビルドが起動している
+- 10/23 の対応記録（Claude 側の作業メモ）では、オーナーが Workers Builds を「Disable builds」にし、旧トークン「ibatoco build token」を失効させている
+  - 失敗が続いているのは、その停止・失効の結果である可能性が高い（推測。Cloudflare 側のログは見ていない）
+  - そうであれば、Actions 以外の経路で本番に出る危険は小さい
+- それでも、GitHub 連携が残っていると次の害がある
+  - すべての PR とコミットに赤い失敗が付き、本物の障害と見分けにくい
+  - 誰かが Builds を再び有効にすると、Actions のガード（最新の main の確認・公開後の画面検査）を通らない経路が復活する
 - **オーナー確認事項**
-  1. Cloudflare の Worker `ibatoco` → Settings → Builds の Git 連携の状態
-  2. 不要なら連携を外す
-  3. GitHub の Installed GitHub Apps で「Cloudflare Workers and Pages」のリポジトリ権限を確かめる
-  4. 連携を外したあと、旧トークンの失効を判断する
+  1. Cloudflare の Worker `ibatoco` → Settings → Builds で、Git 連携そのものが残っているか確かめる
+  2. 残っていれば連携を外す
+  3. GitHub の Installed GitHub Apps で「Cloudflare Workers and Pages」のリポジトリ権限を外す
 - 私は Cloudflare と GitHub の設定を変更していない。トークンの値も見ていない
 
 ---
