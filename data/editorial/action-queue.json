@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-31",
+  "updatedAt": "2026-11-02",
   "actions": [
+    {
+      "id": "20261102-ibaraki-shirasu-fair",
+      "title": "秋のしらすフェア（11月1〜30日・県内40店超）の掲載判断",
+      "kind": "new-article",
+      "status": "candidate",
+      "priority": "medium",
+      "createdAt": "2026-11-02",
+      "dueDate": "2026-11-04",
+      "confidence": "high",
+      "effort": "M",
+      "source": "茨城県広報紙ひばり2026年11月号",
+      "reason": "県内40店舗以上で常陸乃国しらす・茨城県産生しらす料理を提供する月間企画。県内周遊と地域産業の価値があるが、参加店一覧と各店条件の確認前に薄い記事を作らない。検索需要実測が無いためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.pref.ibaraki.jp/bugai/koho/kenmin/hibari/hibari-site/hibari202611/11oshirase.html"
+      ],
+      "nextAction": "県漁政課またはフェア公式の参加店一覧を確認し、地域別に実用的な選び方を作れる場合のみ記事化。既存のしらす記事・飲食記事との重複を先に照合する。"
+    },
+    {
+      "id": "20261102-kashima-mineral-spa-close",
+      "title": "鹿島・mineral spa 嵐の11月30日閉店と営業時間変更を掲載判断",
+      "kind": "new-article",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-02",
+      "dueDate": "2026-11-03",
+      "confidence": "high",
+      "effort": "S",
+      "source": "鹿島アントラーズ公式 2026年10月29日発表",
+      "reason": "メルカリスタジアム ウェルネスプラザ内施設が11月30日に閉店。10月29日から平日の最終受付・営業終了も前倒しされ、既存利用者に直接影響する。検索需要実測が無いためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/blogs/news/261029nbotoj"
+      ],
+      "nextAction": "既存の鹿嶋市・スタジアム・温浴関連記事と重複を確認し、閉店日、平日営業時間、ホームゲーム開催日の休業を一次情報どおりに整理。独立短報ではなく周辺利用者向け実用情報として記事化可否を判断する。"
+    },
     {
       "id": "20261030-ibako-november-timetable-discovery",
       "title": "11月1日の茨城交通ダイヤ改正：平日利用者向けの掲載判断",
@@ -41,7 +75,7 @@
       "id": "20261030-nakanishi-natsuyuki-exhibition-discovery",
       "title": "茨城県近代美術館・中西夏之展（11月12日開始）の掲載判断",
       "kind": "event",
-      "status": "candidate",
+      "status": "done",
       "priority": "medium",
       "createdAt": "2026-10-30",
       "dueDate": "2026-11-02",
@@ -52,7 +86,8 @@
       "primarySourceUrls": [
         "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517"
       ],
-      "nextAction": "本文・PDFを開き、料金内訳と休館日を確認。イベント台帳・既存記事との重複を確認し、記事化判断まで台帳に保持。"
+      "nextAction": "既存記事の事実確認日は2026-09-29。11/12の再開前に公式差分がある場合のみ小規模更新する。",
+      "notes": "2026-11-02再照合：既存公開記事 /events/ibaraki-modern-art-museum-guide/ が、11/12開始の中西夏之展、料金、休館日、県民の日無料、駐車場まで既に案内済み。重複する新記事は作らず候補を完了。"
     },
     {
       "id": "20261030-antlers-yokohama-tickets-discovery",
