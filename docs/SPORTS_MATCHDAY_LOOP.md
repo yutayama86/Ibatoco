@@ -14,7 +14,7 @@
 
 チームページは次の順で組み上がる。データが無い枠は出ない。
 
-1. NEXT MATCH（次の試合）… 最初の `scheduled` の試合
+1. NEXT MATCH（次の試合）… 最初の `scheduled` の試合（キックオフから3時間を過ぎて結果の無い試合は除く）
 2. LAST MATCH（直近の試合）… 最後の `finished` の試合。`recap` と `community` を表示
 3. RECENT FORM … 結果の入った直近5試合（大会名つき）
 4. MATCH GUIDE … 次の試合の `guide`
@@ -55,6 +55,13 @@ git push -u origin fact/<日付>-sports-<team>
 PRのCI（Validate site・CodeQL・観測窓ガード）が成功し、承認されたらmainへマージする。本番公開はGitHub Actionsの「Deploy production」が行う。手元から `npm run deploy` はしない（docs/SECURE_DEPLOYMENT_POLICY.md）。
 
 静的サイトなので、試合日を過ぎても再ビルドするまで表示は変わらない。更新のたびに反映する。
+
+終わった試合を NEXT MATCH に残さないため、キックオフ（日本時間）から3時間を目安に扱う（`src/lib/match-timing.js`）。
+
+- ビルドした時点でキックオフから3時間を過ぎ、score が無い試合は NEXT MATCH・UPCOMING から外す。結果を入れるまで LAST MATCH にも出さない
+- 当日の朝（定期ビルドは6:30）に作ったページでは、キックオフから3時間を過ぎるとブラウザ側で「キックオフから3時間を過ぎました」と一文だけ出す。結果は推測で書かない
+- kickoff の無い試合はこの判定をしない（翌日のビルドで日付により外れる）
+- 結果の入れ忘れは、翌朝の `npm run sports:status` が「結果待ち」として出す。別の自動タスクは作らない
 
 ## 書いてよいこと・書かないこと
 
