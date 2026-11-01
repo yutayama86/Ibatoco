@@ -1,6 +1,6 @@
 {
   "team": "mito-hollyhock",
-  "updatedAt": "2026-10-18",
+  "updatedAt": "2026-11-01",
   "matches": [
     {
       "id": "mito-hollyhock-2026-08-08-j1-01",
@@ -12,8 +12,17 @@
       "homeAway": "away",
       "venue": "三協フロンテア柏スタジアム",
       "status": "finished",
-      "score": { "own": 1, "opponent": 2 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 1,
+        "opponent": 2
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-08-15-j1-02",
@@ -25,8 +34,17 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 1, "opponent": 1 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 1,
+        "opponent": 1
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-08-22-j1-03",
@@ -38,8 +56,17 @@
       "homeAway": "away",
       "venue": "サンガスタジアム by KYOCERA",
       "status": "finished",
-      "score": { "own": 3, "opponent": 1 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 3,
+        "opponent": 1
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-08-29-j1-04",
@@ -51,8 +78,17 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 1, "opponent": 1 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 1,
+        "opponent": 1
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-09-02-j1-05",
@@ -64,8 +100,17 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 4, "opponent": 2 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 4,
+        "opponent": 2
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-09-05-j1-06",
@@ -77,8 +122,17 @@
       "homeAway": "away",
       "venue": "ベスト電器スタジアム",
       "status": "finished",
-      "score": { "own": 1, "opponent": 1 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 1,
+        "opponent": 1
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-09-09-levain-r1",
@@ -90,9 +144,21 @@
       "homeAway": "away",
       "venue": "長野Uスタジアム",
       "status": "finished",
-      "score": { "own": 0, "opponent": 0 },
-      "pk": { "own": 4, "opponent": 1 },
-      "sources": [{ "label": "Jリーグ公式｜長野 vs 水戸 試合結果", "url": "https://www.jleague.jp/match/leaguecup/2026/090906/", "accessedAt": "2026-09-13" }]
+      "score": {
+        "own": 0,
+        "opponent": 0
+      },
+      "pk": {
+        "own": 4,
+        "opponent": 1
+      },
+      "sources": [
+        {
+          "label": "Jリーグ公式｜長野 vs 水戸 試合結果",
+          "url": "https://www.jleague.jp/match/leaguecup/2026/090906/",
+          "accessedAt": "2026-09-13"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-09-12-j1-07",
@@ -104,14 +170,32 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 0, "opponent": 1 },
+      "score": {
+        "own": 0,
+        "opponent": 1
+      },
       "recap": "水戸信用金庫スタジアムで川崎フロンターレに0-1で敗れました。この試合はイソザキ株式会社のサポートによる「イソザキサンクスマッチ」で、クラブは「笠間市・那珂市の日」として、両市に在住・在学の人向けの優待価格チケットやPR大使のサイン会、笠間市のキッチンカーブースなどを試合前に告知していました。リーグ戦は9月2日の鹿島戦（4-2）のあと、福岡戦1-1、川崎戦0-1。間の9月9日にはルヴァンカップ1回戦を長野とのPK戦で勝ち上がっています。",
-      "community": ["イソザキサンクスマッチ", "笠間市・那珂市の日"],
+      "community": [
+        "イソザキサンクスマッチ",
+        "笠間市・那珂市の日"
+      ],
       "officialUrl": "https://www.mito-hollyhock.net/lp26/20260912/",
       "sources": [
-        { "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" },
-        { "label": "水戸ホーリーホック公式｜9/12(土)川崎フロンターレ戦 試合情報", "url": "https://www.mito-hollyhock.net/lp26/20260912/", "accessedAt": "2026-09-13" },
-        { "label": "水戸ホーリーホック公式｜【9/12(土)川崎戦】「イソザキサンクスマッチ」開催のお知らせ", "url": "https://www.mito-hollyhock.net/news/p=53877/", "accessedAt": "2026-09-13" }
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "水戸ホーリーホック公式｜9/12(土)川崎フロンターレ戦 試合情報",
+          "url": "https://www.mito-hollyhock.net/lp26/20260912/",
+          "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "水戸ホーリーホック公式｜【9/12(土)川崎戦】「イソザキサンクスマッチ」開催のお知らせ",
+          "url": "https://www.mito-hollyhock.net/news/p=53877/",
+          "accessedAt": "2026-09-13"
+        }
       ]
     },
     {
@@ -127,11 +211,18 @@
       "homeAway": "away",
       "venue": "日産スタジアム",
       "status": "finished",
-      "score": { "own": 0, "opponent": 2 },
+      "score": {
+        "own": 0,
+        "opponent": 2
+      },
       "recap": "日産スタジアムで横浜F・マリノスに0-2で敗れました。9月12日の川崎フロンターレ戦（0-1）に続き、リーグ戦は2試合連続の敗戦です。次は9月29日、アウェイでルヴァンカップ1stラウンド2回戦の福島ユナイテッドFC戦に臨みます。",
       "officialUrl": "https://www.f-marinos.com/matches/20260919/event",
       "sources": [
-        { "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-19" }
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-19"
+        }
       ]
     },
     {
@@ -145,8 +236,22 @@
       "homeAway": "away",
       "venue": "とうほう・みんなのスタジアム",
       "status": "finished",
-      "score": { "own": 7, "opponent": 0 },
-      "sources": [{ "label": "水戸ホーリーホック公式｜ルヴァンカップ1stラウンド2回戦 キックオフ時刻およびスタジアムのお知らせ", "url": "https://www.mito-hollyhock.net/news/p=54452/", "accessedAt": "2026-09-13" }, { "label": "Ｊリーグ公式｜水戸 vs FC東京（2026年10月14日）見どころ（9月29日の2回戦・福島戦7-0に言及）", "url": "https://www.jleague.jp/match/leaguecup/2026/101408/", "accessedAt": "2026-10-12" }]
+      "score": {
+        "own": 7,
+        "opponent": 0
+      },
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜ルヴァンカップ1stラウンド2回戦 キックオフ時刻およびスタジアムのお知らせ",
+          "url": "https://www.mito-hollyhock.net/news/p=54452/",
+          "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸 vs FC東京（2026年10月14日）見どころ（9月29日の2回戦・福島戦7-0に言及）",
+          "url": "https://www.jleague.jp/match/leaguecup/2026/101408/",
+          "accessedAt": "2026-10-12"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-10-11-j1-09",
@@ -159,9 +264,30 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 1, "opponent": 2 },
-      "broadcast": ["DAZN"],
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }, { "label": "水戸ホーリーホック公式｜試合日程・結果（第9節 清水戦 1-2）", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-10-12" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-12" }]
+      "score": {
+        "own": 1,
+        "opponent": 2
+      },
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果（第9節 清水戦 1-2）",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-10-12"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）",
+          "url": "https://www.jleague.jp/club/mito/day/",
+          "accessedAt": "2026-10-12"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-10-14-levain-r3",
@@ -174,11 +300,34 @@
       "homeAway": "home",
       "venue": "ケーズデンキスタジアム水戸",
       "status": "finished",
-      "score": { "own": 1, "opponent": 0 },
+      "score": {
+        "own": 1,
+        "opponent": 0
+      },
       "recap": "ケーズデンキスタジアム水戸でFC東京に1-0で勝ち、ルヴァンカップの4回戦に進みました。4回戦は10月28日（水）19:00から、水戸信用金庫スタジアムでセレッソ大阪と対戦します。",
-      "broadcast": ["フジテレビNEXT（録画放送）", "スカパー！", "スカパー！動画ストア"],
+      "broadcast": [
+        "フジテレビNEXT（録画放送）",
+        "スカパー！",
+        "スカパー！動画ストア"
+      ],
       "officialUrl": "https://www.jleague.jp/match/leaguecup/2026/101408/",
-      "sources": [{ "label": "水戸ホーリーホック公式｜ルヴァンカップ1stラウンド3回戦 マッチタイトル決定のお知らせ（10月14日19:00・ケーズデンキスタジアム水戸）", "url": "https://www.mito-hollyhock.net/news/p=55174/", "accessedAt": "2026-10-12" }, { "label": "Ｊリーグ公式｜水戸 vs FC東京（2026年10月14日・テレビ放送：フジテレビNEXT(録)・スカパー！・スカパー！動画ストア）", "url": "https://www.jleague.jp/match/leaguecup/2026/101408/", "accessedAt": "2026-10-12" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-18" }]
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜ルヴァンカップ1stラウンド3回戦 マッチタイトル決定のお知らせ（10月14日19:00・ケーズデンキスタジアム水戸）",
+          "url": "https://www.mito-hollyhock.net/news/p=55174/",
+          "accessedAt": "2026-10-12"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸 vs FC東京（2026年10月14日・テレビ放送：フジテレビNEXT(録)・スカパー！・スカパー！動画ストア）",
+          "url": "https://www.jleague.jp/match/leaguecup/2026/101408/",
+          "accessedAt": "2026-10-12"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/mito/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-10-17-j1-10",
@@ -191,10 +340,31 @@
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
       "status": "finished",
-      "score": { "own": 0, "opponent": 1 },
+      "score": {
+        "own": 0,
+        "opponent": 1
+      },
       "recap": "水戸信用金庫スタジアムで浦和レッズに0-1で敗れました。",
-      "broadcast": ["DAZN"],
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-12" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-18" }]
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程・結果",
+          "url": "https://www.mito-hollyhock.net/match/games",
+          "accessedAt": "2026-09-13"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）",
+          "url": "https://www.jleague.jp/club/mito/day/",
+          "accessedAt": "2026-10-12"
+        },
+        {
+          "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）",
+          "url": "https://www.jleague.jp/club/mito/day/",
+          "accessedAt": "2026-10-18"
+        }
+      ]
     },
     {
       "id": "mito-hollyhock-2026-10-21-j1-11",
@@ -206,9 +376,21 @@
       "opponent": "ファジアーノ岡山",
       "homeAway": "away",
       "venue": "JFE晴れの国スタジアム",
-      "status": "scheduled",
-      "broadcast": ["DAZN"],
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-12" }]
+      "status": "finished",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/mito/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 2
+      }
     },
     {
       "id": "mito-hollyhock-2026-10-25-j1-12",
@@ -220,9 +402,21 @@
       "opponent": "FC東京",
       "homeAway": "away",
       "venue": "味の素スタジアム",
-      "status": "scheduled",
-      "broadcast": ["DAZN"],
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（テレビ放送・配信）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-12" }]
+      "status": "finished",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/mito/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 6
+      }
     },
     {
       "id": "mito-hollyhock-2026-10-28-levain-r4",
@@ -234,9 +428,23 @@
       "opponent": "セレッソ大阪",
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
-      "status": "scheduled",
-      "broadcast": ["フジテレビNEXT（録画放送）", "スカパー！", "スカパー！動画ストア"],
-      "sources": [{ "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-18" }]
+      "status": "finished",
+      "broadcast": [
+        "フジテレビNEXT（録画放送）",
+        "スカパー！",
+        "スカパー！動画ストア"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/mito/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "score": {
+        "own": 1,
+        "opponent": 3
+      }
     },
     {
       "id": "mito-hollyhock-2026-10-31-j1-13",
@@ -248,9 +456,129 @@
       "opponent": "サンフレッチェ広島",
       "homeAway": "home",
       "venue": "水戸信用金庫スタジアム",
+      "status": "finished",
+      "broadcast": [
+        "DAZN"
+      ],
+      "sources": [
+        {
+          "label": "Ｊリーグ公式｜試合日程・結果",
+          "url": "https://www.jleague.jp/club/mito/",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 3
+      }
+    },
+    {
+      "id": "mito-hollyhock-2026-11-08-j1-14",
+      "date": "2026-11-08",
+      "kickoff": "17:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第14節",
+      "kind": "league",
+      "opponent": "ジェフユナイテッド千葉",
+      "homeAway": "away",
       "status": "scheduled",
-      "broadcast": ["DAZN"],
-      "sources": [{ "label": "水戸ホーリーホック公式｜試合日程・結果", "url": "https://www.mito-hollyhock.net/match/games", "accessedAt": "2026-09-13" }, { "label": "Ｊリーグ公式｜水戸ホーリーホックの試合日程・結果（10月18日確認：結果・放送）", "url": "https://www.jleague.jp/club/mito/day/", "accessedAt": "2026-10-18" }]
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ],
+      "venue": "フクダ電子アリーナ"
+    },
+    {
+      "id": "mito-hollyhock-2026-11-20-j1-15",
+      "date": "2026-11-20",
+      "kickoff": "19:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第15節",
+      "kind": "league",
+      "opponent": "ヴィッセル神戸",
+      "homeAway": "away",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ],
+      "venue": "ノエビアスタジアム神戸"
+    },
+    {
+      "id": "mito-hollyhock-2026-11-25-j1-16",
+      "date": "2026-11-25",
+      "kickoff": "19:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第16節",
+      "kind": "league",
+      "opponent": "東京ヴェルディ",
+      "homeAway": "home",
+      "venue": "水戸信用金庫スタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ]
+    },
+    {
+      "id": "mito-hollyhock-2026-11-29-j1-17",
+      "date": "2026-11-29",
+      "kickoff": "14:00",
+      "competition": "明治安田J1リーグ",
+      "round": "第17節",
+      "kind": "league",
+      "opponent": "V・ファーレン長崎",
+      "homeAway": "home",
+      "venue": "水戸信用金庫スタジアム",
+      "status": "scheduled",
+      "sources": [
+        {
+          "label": "水戸ホーリーホック公式｜試合日程",
+          "url": "https://www.mito-hollyhock.net/",
+          "accessedAt": "2026-11-01"
+        },
+        {
+          "label": "Ｊリーグ公式｜11月配信日程",
+          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
+          "accessedAt": "2026-11-01"
+        }
+      ],
+      "broadcast": [
+        "DAZN"
+      ]
     }
   ]
 }
