@@ -2,7 +2,7 @@
 title: "筑波山ロープウェイ・ケーブルカーの料金と乗り方｜大人片道930円、ケーブルカーは10月24日運行再開"
 description: "筑波山ロープウェイとケーブルカーの運賃は2026年10月1日から大人片道930円・往復1,860円。ケーブルカーは9月19日からの休止を経て10月24日始発から運行再開（筑波観光鉄道10月23日発表）。ロープウェイも運行情報を当日確認してください。小児運賃、運行時間、シャトルバス、駐車場も公式情報で整理しました。"
 pubDate: 2026-09-29
-updatedDate: 2026-10-01
+updatedDate: 2026-11-01
 articleType: "guide"
 searchIntent: "筑波山ケーブルカーとロープウェイの料金、運行時間、つくば駅からの行き方、駐車場、山頂の歩き方、運休の有無を知りたい"
 keyword: "筑波山 ケーブルカー 料金"
@@ -107,6 +107,9 @@ businessIntent:
 commercialPriority: "medium"
 evergreen: true
 sourceUrls:
+  - label: "筑波観光鉄道公式｜ケーブルカー10月24日始発から運行再開（10月23日発表）"
+    url: "https://mt-tsukuba.com/筑波山ケーブルカー-運行再開につきまして/"
+    accessedAt: 2026-11-01
   - label: "筑波山ケーブルカー&ロープウェイ｜ケーブルカー運賃"
     url: "https://mt-tsukuba.com/cablecar-fare/"
     accessedAt: 2026-10-01
