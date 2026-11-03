@@ -316,3 +316,50 @@
 |---|---|
 | ホロルの湯 | 施設・町の公式ページが見つからない |
 | 浮島湿原 | 見学向けの公式情報（行き方・駐車場・見学ルール）がない |
+
+### 第3バッチ（2026-11-03、22本：すべて公開可）
+
+第2バッチ（#502）の上に積んだブランチ。#501 → #502 → このPR の順にマージする。
+
+| slug | 市町村 | 種別 |
+|---|---|---|
+| ami-premium-outlets-new-shops-202611 | 阿見 | 新店 |
+| kurito-purindo-mito-excel-open-202610 | 水戸 | 新店 |
+| cronos-mito-excel-open-202611 | 水戸 | 新店 |
+| ibasun-hall-ibaraki-machi-open-202609 | 茨城町 | 新店（公共施設） |
+| toyoko-inn-tsukuba-eki-open-202609 | つくば | 新店（宿泊） |
+| hotel-r9-the-yard-chikusei-open-202611 | 筑西 | 新店（宿泊・開業予定） |
+| hotel-r9-the-yard-hitachiomiya-open-202610 | 常陸大宮 | 新店（宿泊） |
+| hitachi-starlight-illumination-2026 | 日立 | イベント |
+| kawachi-christmas-illumination-2026 | 河内 | イベント |
+| hitachi-alps-ocean-trail-2026 | 日立 | イベント |
+| mito-nakanishi-natsuyuki-exhibition-2026 | 水戸 | イベント |
+| tsukuba-cablecar-last-run-campaign-2026 | つくば | イベント |
+| suigun-line-okukuji-guide | 水戸〜大子 | 交通 |
+| tsukubus-guide | つくば | 交通 |
+| tsukuba-go-highway-bus-guide | つくば | 交通 |
+| ibaraki-airport-parking-access-guide | 小美玉 | 交通 |
+| kasama-kanko-shuyu-bus-guide | 笠間 | 交通（大洗の循環バスの差し替え） |
+| fukuroda-falls-winter-guide | 大子 | 季節 |
+| kasama-day-trip-model-course | 笠間 | モデルコース |
+| tsukubasan-day-trip-model-course | つくば | モデルコース |
+| kashima-itako-day-trip-model-course | 鹿嶋・潮来 | モデルコース |
+| ibaraki-higaeri-onsen-roundup | 県内 | 特集 |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 水戸の梅まつり 2027・筑波山梅まつり 2027 | 2027年の日程が未発表 |
+| 古河はなももマラソン | 古河市が大会の終了を発表済み（2023年） |
+| かすみがうらマラソン 2027 | 4月開催で対象期間外、要項未発表 |
+| 初詣 2027（笠間稲荷・鹿島神宮） | 交通規制・駐車場の案内が未発表 |
+| 水郷桜イルミネーション | 既存 kasumigaura-sogo-koen-guide とほぼ同じ内容 |
+| 大洗の循環バス | 既存ニュース oarai-umimachi-line-2026 と重なる |
+| CIAOPANIC TYPY（ひたちなか） | 施設公式にフロアの記載がない |
+| イオンモール土浦・下妻 | 公式サイトがメンテナンス中で確認できない（再調査） |
+| イバライド ビッグプレイランド | 再開日が施設公式にない。既存 ibaride-guide への追記が適切 |
+
+既存記事で見つかった要確認（今回は編集していない）：
+- `/news/ibaraki-airport-winter-schedule-2026/`：description が「駐車場の時間は未発表」だが、空港公式の駐車場ページには 5:30〜24:00（夜間閉鎖）の記載がある（2026-11-03確認）
+- `/events/tsukuba-cablecar-ropeway-guide/`：2027年1月11日で現行車両が運行終了し、新車両（2027年2月予定）への工事中はケーブルカーが運休する旨の記載がない可能性
