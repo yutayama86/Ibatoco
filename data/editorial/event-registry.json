@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-03",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1347,9 +1347,9 @@
       "officialUrl": "https://www.kogakanko.jp/chochin",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/koga-chochin-saomomi-matsuri-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "draft",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -1497,9 +1497,9 @@
       "officialUrl": "https://katsutamarathon.jp/outline/",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/katsuta-marathon-2027/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "draft",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -1550,6 +1550,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "茨城県近代美術館の公式検索本文で発見。本文・PDF、料金区分、無料日、祝日・年末年始の休館日の精査待ち。20261030-nakanishi-natsuyuki-exhibition-discoveryとして11月2日までに掲載判断。記事化しない場合も候補を削除しない。"
+    },
+    {
+      "id": "hinuma-de-marche-2026",
+      "name": "ひぬまdeマルシェ",
+      "municipality": "ibaraki-machi",
+      "startDate": "2026-12-06",
+      "endDate": null,
+      "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html",
+      "discoveredAt": "2026-11-03",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/hinuma-de-marche-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     }
   ]
 }
