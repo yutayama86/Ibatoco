@@ -271,3 +271,48 @@
 | 神栖市 港公園 展望塔 | 利用休止中とされる（公式原文は未確認）。テーマとして成立しない |
 | 阿漕ヶ浦公園 | 村・観光協会の公式に施設ページがない |
 | 真岡鐵道 SLもおか | 2026年1月19日〜2027年3月末まで全面運休（真岡鐵道発表） |
+
+### 第2バッチ（2026-11-03、24本：公開可23・下書き1）
+
+第1バッチ（#501）の上に積んだブランチ。内部リンクの表示名・カード画像の追加が #501 と同じ箇所に入るため、#501 を先にマージする。
+
+公開可（draft: false / reviewed: true、確認日 2026-11-03）：
+
+| slug | 市町村 | 種別 |
+|---|---|---|
+| kobai-jinja-tone-guide | 利根 | スポット |
+| bando-masakado-yukari-guide | 坂東 | スポット |
+| sanuma-koen-shimotsuma-guide | 下妻 | スポット |
+| shikinosato-koen-moriya-guide | 守谷 | スポット |
+| ryugasaki-shinrin-koen-guide | 龍ケ崎 | スポット |
+| sora-no-eki-sorara-omitama-guide | 小美玉 | スポット |
+| michinoeki-goka-guide | 五霞 | スポット |
+| michinoeki-katsura-shirosato-guide | 城里 | スポット（ホロルの湯の差し替え） |
+| hitachi-sosha-gu-ishioka-guide | 石岡 | スポット |
+| shizumine-furusato-koen-naka-guide | 那珂 | スポット |
+| kujiragaoka-hitachiota-guide | 常陸太田 | スポット |
+| tokugawa-museum-mito-guide | 水戸 | スポット |
+| okadaira-kaizuka-miho-guide | 美浦 | スポット |
+| hitachi-gyu-gourmet | 県内 | 食 |
+| rose-pork-ibaraki-gourmet | 県内 | 食 |
+| kashimanada-hamaguri-gourmet | 鹿行 | 食 |
+| sashima-cha-gourmet | 県西 | 食 |
+| kasumigaura-wakasagi-tsukudani-gourmet | 県南・鹿行 | 食 |
+| ibaraki-rainy-day-spots | 県内 | 特集 |
+| ibaraki-free-spots | 県内 | 特集 |
+| ibaraki-museums-roundup | 県内 | 特集 |
+| mito-day-trip-model-course | 水戸 | モデルコース |
+| oarai-day-trip-model-course | 大洗 | モデルコース |
+
+下書き：
+
+| slug | 不足している公式情報 |
+|---|---|
+| bannoke-jutaku-joso-guide | 開館時間・休館日・入館料・駐車場が常総市の公式になく、県観光物産協会の情報だけ（同協会の記載は一部が古い） |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| ホロルの湯 | 施設・町の公式ページが見つからない |
+| 浮島湿原 | 見学向けの公式情報（行き方・駐車場・見学ルール）がない |
