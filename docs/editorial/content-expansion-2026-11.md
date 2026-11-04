@@ -411,3 +411,60 @@
 
 既存記事で見つかった要確認（今回は編集していない）：
 - `/events/kairakuen-guide/`：偕楽園の東門が工事で閉鎖、2026年11月6日から仮設の入園ゲート（偕楽園公式ニュース id=6041）。記載の有無を確認
+
+### 第5バッチ（2026-11-04、30本：すべて公開可）
+
+| slug | 市町村 | 区分 |
+|---|---|---|
+| ibaraki-events-december-2026 | 県内 | イベント |
+| ibaraki-christmas-events-2026 | 県内 | イベント |
+| hitachi-seaside-park-winter-2026 | ひたちなか | 季節 |
+| ibaraki-winter-flowers-spots | 県内 | 季節 |
+| ibaraki-winter-marche-2026 | 県内 | イベント（歳の市・だるま市の差し替え） |
+| rekishi-minzoku-shiryokan-sakai-guide | 境 | スポット |
+| rekishi-minzoku-shiryokan-hitachiomiya-guide | 常陸大宮 | スポット |
+| uenonuma-yasuraginosato-camp-sakuragawa-guide | 桜川 | スポット |
+| hinuma-shizen-koen-ibaraki-machi-guide | 茨城町 | スポット |
+| hikari-to-kaze-no-oka-koen-miho-guide | 美浦 | スポット |
+| itaya-hazan-kinenkan-chikusei-guide | 筑西 | スポット |
+| yuki-kurabikan-yuki-guide | 結城 | スポット |
+| furusato-rekishikan-ishioka-guide | 石岡 | スポット |
+| doubutsu-to-minna-no-ie-namegata-guide | 行方 | スポット |
+| fureai-no-sato-shirosato-guide | 城里 | スポット |
+| mito-go-highway-bus-guide | 水戸 | 交通 |
+| hitachi-takahagi-highway-bus-guide | 日立・高萩 | 交通（ひたちBRTは既存のため差し替え） |
+| tsukuba-express-ibaraki-guide | 県南 | 交通 |
+| ibaraki-bus-free-pass-roundup | 県内 | 交通 |
+| daigo-ota-highway-bus-guide | 大子・常陸太田 | 交通（水戸駅〜偕楽園は既存と重なるため差し替え） |
+| hitachi-aki-soba-gourmet | 県北 | グルメ |
+| ibaraki-hoshiimo-gourmet | ひたちなか・東海 | グルメ |
+| kasama-kuri-gourmet | 笠間 | グルメ |
+| mito-natto-gourmet | 水戸 | グルメ |
+| ibaraki-renkon-gourmet | 土浦・かすみがうら | グルメ |
+| soyora-hitachinoushiku-open-202611 | 牛久 | 新店 |
+| mito-keisei-newshops-open-202611 | 水戸 | 新店 |
+| kasumi-motoyoshida-mito-open-202611 | 水戸 | 新店 |
+| senbonmatsu-mito-uchihara-open-202609 | 水戸 | 新店 |
+| solana-smart-inn-kamisu-open-202610 | 神栖 | 新店（宿泊） |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 茨城の歳の市・だるま市 2026 | 2026年の日程が公式で1件も確認できない |
+| つくばクリスマスマーケット | 2025年版しか見つからない |
+| 冬ぼたんの公開 | 2026年度の公開を公式で確認できない |
+| イオンモール土浦・下妻、イーアスつくば | 公式サイトに接続できない（再調査） |
+| トナリエつくばスクエア | SSLエラーで開けない |
+| 桜川ショッピングセンター（仮称） | 公式の開業日が見つからない |
+| KOKO HOTEL 水戸駅前 | 2027年5月予定で、2025年の資料にしか載っていない |
+
+公式サイト内の食い違い（記事では両方を示した）：
+- かわちのクリスマスの催し：特設サイトは12月20日、観光いばらきは花火12月19日
+- 高速バス高萩・日立線：東京駅ののりば番号と学割の期間の注記
+- ふれあいの里（城里）：天文台の閉館時刻（21:45／21:30）、管理棟の時間
+- 常陸秋そばの産地：2市（茨城をたべよう）と4市（県広報紙）
+- 笠間の栗（利平）の収穫時期：県サイト内で2通り
+
+新しく見つかった公式情報：
+- ホロルの湯（城里、保留中）：ふれあいの里の公式に、2027年1月12日〜3月末の大規模修繕による休館予定（2026年9月時点）が載っている
