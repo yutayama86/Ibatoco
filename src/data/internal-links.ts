@@ -207,4 +207,5 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/hitachinokuni-long-trail-2026/': '常陸国ロングトレイル全線開通（約350km・県北6市町）',
   '/news/kasama-kogiku-meigara-sanchi-2026/': '33戸で守る「笠間の小菊」（産地を次世代へ残す）',
   '/news/ibaraki-kome-kiwami-contest-2026/': 'いばらき米の極み頂上コンテスト（審査と販路の仕組み）',
+  '/news/ibaraki-airport-sky-day-2026/': '茨城空港「空の日」イベント2026',
 };
