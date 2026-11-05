@@ -411,3 +411,105 @@
 
 既存記事で見つかった要確認（今回は編集していない）：
 - `/events/kairakuen-guide/`：偕楽園の東門が工事で閉鎖、2026年11月6日から仮設の入園ゲート（偕楽園公式ニュース id=6041）。記載の有無を確認
+
+### 第5バッチ（2026-11-04、30本：すべて公開可）
+
+| slug | 市町村 | 区分 |
+|---|---|---|
+| ibaraki-events-december-2026 | 県内 | イベント |
+| ibaraki-christmas-events-2026 | 県内 | イベント |
+| hitachi-seaside-park-winter-2026 | ひたちなか | 季節 |
+| ibaraki-winter-flowers-spots | 県内 | 季節 |
+| ibaraki-winter-marche-2026 | 県内 | イベント（歳の市・だるま市の差し替え） |
+| rekishi-minzoku-shiryokan-sakai-guide | 境 | スポット |
+| rekishi-minzoku-shiryokan-hitachiomiya-guide | 常陸大宮 | スポット |
+| uenonuma-yasuraginosato-camp-sakuragawa-guide | 桜川 | スポット |
+| hinuma-shizen-koen-ibaraki-machi-guide | 茨城町 | スポット |
+| hikari-to-kaze-no-oka-koen-miho-guide | 美浦 | スポット |
+| itaya-hazan-kinenkan-chikusei-guide | 筑西 | スポット |
+| yuki-kurabikan-yuki-guide | 結城 | スポット |
+| furusato-rekishikan-ishioka-guide | 石岡 | スポット |
+| doubutsu-to-minna-no-ie-namegata-guide | 行方 | スポット |
+| fureai-no-sato-shirosato-guide | 城里 | スポット |
+| mito-go-highway-bus-guide | 水戸 | 交通 |
+| hitachi-takahagi-highway-bus-guide | 日立・高萩 | 交通（ひたちBRTは既存のため差し替え） |
+| tsukuba-express-ibaraki-guide | 県南 | 交通 |
+| ibaraki-bus-free-pass-roundup | 県内 | 交通 |
+| daigo-ota-highway-bus-guide | 大子・常陸太田 | 交通（水戸駅〜偕楽園は既存と重なるため差し替え） |
+| hitachi-aki-soba-gourmet | 県北 | グルメ |
+| ibaraki-hoshiimo-gourmet | ひたちなか・東海 | グルメ |
+| kasama-kuri-gourmet | 笠間 | グルメ |
+| mito-natto-gourmet | 水戸 | グルメ |
+| ibaraki-renkon-gourmet | 土浦・かすみがうら | グルメ |
+| soyora-hitachinoushiku-open-202611 | 牛久 | 新店 |
+| mito-keisei-newshops-open-202611 | 水戸 | 新店 |
+| kasumi-motoyoshida-mito-open-202611 | 水戸 | 新店 |
+| senbonmatsu-mito-uchihara-open-202609 | 水戸 | 新店 |
+| solana-smart-inn-kamisu-open-202610 | 神栖 | 新店（宿泊） |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 茨城の歳の市・だるま市 2026 | 2026年の日程が公式で1件も確認できない |
+| つくばクリスマスマーケット | 2025年版しか見つからない |
+| 冬ぼたんの公開 | 2026年度の公開を公式で確認できない |
+| イオンモール土浦・下妻、イーアスつくば | 公式サイトに接続できない（再調査） |
+| トナリエつくばスクエア | SSLエラーで開けない |
+| 桜川ショッピングセンター（仮称） | 公式の開業日が見つからない |
+| KOKO HOTEL 水戸駅前 | 2027年5月予定で、2025年の資料にしか載っていない |
+
+公式サイト内の食い違い（記事では両方を示した）：
+- かわちのクリスマスの催し：特設サイトは12月20日、観光いばらきは花火12月19日
+- 高速バス高萩・日立線：東京駅ののりば番号と学割の期間の注記
+- ふれあいの里（城里）：天文台の閉館時刻（21:45／21:30）、管理棟の時間
+- 常陸秋そばの産地：2市（茨城をたべよう）と4市（県広報紙）
+- 笠間の栗（利平）の収穫時期：県サイト内で2通り
+
+新しく見つかった公式情報：
+- ホロルの湯（城里、保留中）：ふれあいの里の公式に、2027年1月12日〜3月末の大規模修繕による休館予定（2026年9月時点）が載っている
+
+### 第6バッチ（2026-11-04〜05、24本：公開可23・下書き1）
+
+| slug | 市町村 | 区分 |
+|---|---|---|
+| suigo-sakura-illumination-2026 | 土浦 | イベント |
+| nishikanasa-tozan-marathon-2026 | 常陸太田 | イベント |
+| shimotsuma-kiku-matsuri-2026 | 下妻 | イベント（終了日が公式間で食い違い、両方併記） |
+| takahagi-relay-marathon-2026 | 高萩 | イベント（台帳に新規行） |
+| kasumi-oarai-open-202609 | 大洗 | 新店 |
+| beisia-foods-park-takahagi-open-202610 | 高萩 | リニューアル |
+| namegata-satsumaimo-gourmet | 行方 | グルメ |
+| ibaraki-nashi-gourmet | 筑西・下妻・かすみがうら | グルメ |
+| hokota-melon-gourmet | 鉾田 | グルメ |
+| okukuji-shimi-konnyaku-gourmet | 常陸太田・大子 | グルメ（下書き：買える場所が公式で確認できない） |
+| oarai-ferry-sunflower-guide | 大洗 | 交通 |
+| ibaraki-sa-pa-guide | 県内 | 交通 |
+| ibaraki-highway-bus-roundup | 県内 | 交通 |
+| ibaraki-narita-haneda-airport-bus-guide | 県内 | 交通（筑波山の駐車場は既存と重なるため差し替え） |
+| ibaraki-kids-odekake-roundup | 県内 | 特集 |
+| ibaraki-camp-roundup | 県内 | 特集 |
+| ibaraki-hiking-roundup | 県内 | 特集 |
+| ibaraki-winter-odekake-2026 | 県内 | 特集 |
+| mito-oarai-1night-model-course | 水戸・大洗 | モデルコース |
+| ibaraki-michinoeki-roundup | 県西 | 特集 |
+| ibaraki-observatory-roundup | 県内 | 特集 |
+| ibaraki-jinja-meguri-roundup | 県内 | 特集 |
+| ibaraki-park-playground-roundup | 県内 | 特集 |
+| mito-station-walk-guide | 水戸 | スポット |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 茨城のいちご狩り 2026-27 | 新シーズンを公式に出している農園が1園だけ（12月に再調査） |
+| JR水戸線 | JR東日本の駅・時刻表ページが403/404で確認できない |
+| 1月のイベントまとめ 2027 | 1月開催を公式で3件確認できない |
+| 奥久慈茶の里公園 新そば収穫祭、いばらき県央ふらっとトリップ | 施設・主催者の公式に2026年の告知がない、または開けない |
+| 初詣 2027（笠間稲荷・鹿島神宮・大洗の初日の出） | 12月の公式発表待ち |
+| トライアル荒川沖・常陸太田、ホテルルートイン笠間、紫峰堂ワイナリー | 公式の開業日・所在地がそろわない |
+| 県の大店立地法届出（しまむら牛久、コメリ八郷など8件） | 開店は2027年以降の見込みで、運営会社の発表待ち |
+| 加波山、雨引観音 | 公式PDFが読めない、または公式サイトに接続できない |
+
+その他：
+- 第5・第6バッチの accessedAt と「確認」日付を、実際に確認した2026-11-04に直した。
