@@ -67,7 +67,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '筑波山ケーブルカー運行再開に伴うtitle・descriptionと本文の訂正',
     queries: [],
     commit: '36863801',
-    note: 'metadata実験・14日（11/1〜11/15）。事実訂正を優先し、既存の観測窓を打ち切らない。',
+    note: 'metadata実験・14日（11/1〜11/15）。事実訂正を優先し、既存の観測窓を打ち切らない。11/5：本文（要点・注記・FAQ）に現行車両の運行終了（2027年1月11日）と新車両（2027年2月予定）を事実として追記（title・descriptionは変更なし、#508）。',
     experimentType: 'metadata',
   },
   {
