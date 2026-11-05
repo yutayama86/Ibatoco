@@ -363,3 +363,51 @@
 既存記事で見つかった要確認（今回は編集していない）：
 - `/news/ibaraki-airport-winter-schedule-2026/`：description が「駐車場の時間は未発表」だが、空港公式の駐車場ページには 5:30〜24:00（夜間閉鎖）の記載がある（2026-11-03確認）
 - `/events/tsukuba-cablecar-ropeway-guide/`：2027年1月11日で現行車両が運行終了し、新車両（2027年2月予定）への工事中はケーブルカーが運休する旨の記載がない可能性
+
+### 第4バッチ（2026-11-04、25本：すべて公開可）
+
+| slug | 市町村 | 区分 |
+|---|---|---|
+| yachiyo-no-yu-yachiyo-guide | 八千代 | スポット（未掲載町） |
+| tsutsumi-kaikan-bbq-kawachi-guide | 河内 | スポット |
+| rekishi-minzoku-shiryokan-inashiki-guide | 稲敷 | スポット |
+| minowa-mizutori-koen-hokota-guide | 鉾田 | スポット |
+| bousai-arena-kamisu-guide | 神栖 | スポット |
+| mamiya-rinzo-kinenkan-tsukubamirai-guide | つくばみらい | スポット |
+| ushiku-shizen-kansatsu-no-mori-guide | 牛久 | スポット |
+| noguchi-ujo-kinenkan-kitaibaraki-guide | 北茨城 | スポット |
+| nagakubo-sekisui-kinenkan-takahagi-guide | 高萩 | スポット |
+| rekishi-to-mirai-no-koryukan-tokai-guide | 東海 | スポット |
+| oarai-shirasu-gourmet | 大洗 | グルメ（那珂湊は公式が見つからず大洗に限定） |
+| kitaibaraki-ankou-dobujiru-gourmet | 北茨城 | グルメ |
+| edosaki-kabocha-gourmet | 稲敷 | グルメ |
+| okukuji-cha-gourmet | 大子 | グルメ |
+| ibaraki-sakagura-roundup | 県内6蔵 | グルメ |
+| kashima-go-highway-bus-guide | 鹿嶋 | 交通 |
+| joban-line-hitachi-tokiwa-guide | 県内 | 交通 |
+| kasumigaura-yuransen-guide | 土浦 | 交通 |
+| ibaraki-rental-cycle-roundup | 県内6か所 | 交通 |
+| ibaraki-from-tokyo-by-train-roundup | 県内 | 交通 |
+| ibaraki-ume-meisho-roundup | 水戸・つくば | 特集 |
+| ibaraki-sunset-sunrise-spots | 県内 | 特集 |
+| ibaraki-dog-friendly-spots | 県内 | 特集 |
+| okukuji-daigo-1night-model-course | 大子 | モデルコース |
+| kensei-machinami-meguri-model-course | 結城・桜川・古河 | モデルコース |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 酒蔵：明利酒類・須藤本家 | 公式サイトが開けない（接続エラー） |
+| 酒蔵：府中誉・結城酒造 | 公式ドメインが見つからない |
+| 酒蔵：吉久保酒造・武勇・森島酒造・西岡本店・浦里酒造店 | 公式に見学・直売の記載がない、または見学休止中 |
+| 牛久沼・かっぱの小径、村松山虚空蔵堂 | 公式の利用案内が少なく、同じ市村の別施設に差し替え |
+| ミッドナイトかしま号の運賃 | 運行会社の2ページで額が食い違う（3,500円／3,400円） |
+
+公式サイト内の食い違い（記事では両方を示し、確認を促した）：
+- つむぎの館（結城）：休館日が「火曜」と「火・水曜」の2通り
+- 袋田の滝トンネルの子供料金：観光協会内で300円と250円の2通り
+- 牛久自然観察の森：駐車場からの距離が約400mと500mの2通り
+
+既存記事で見つかった要確認（今回は編集していない）：
+- `/events/kairakuen-guide/`：偕楽園の東門が工事で閉鎖、2026年11月6日から仮設の入園ゲート（偕楽園公式ニュース id=6041）。記載の有無を確認
