@@ -29,7 +29,7 @@ tags:
 draft: false
 reviewed: true
 noindex: false
-summary: "2026年12月の茨城は、前半に祭りと花火、後半にマルシェとクリスマスの催しが集まります。5日（土）は古河提灯竿もみまつり（第166回）、6日（日）は茨城町のひぬまdeマルシェ、12日（土）は常総新花火（17:00〜、約10,000発）。12日・13日はつくば蚤の市、19日（土）・20日（日）は土浦の水郷桜イルミネーション会場で「ほしぞらマルシェ」が開かれます。日立・土浦・河内・石岡のイルミネーションは12月を通して点灯し、土浦は12月31日（木）に翌朝まで点灯します。どれも11月3日時点の公式発表をもとにしています。"
+summary: "2026年12月の茨城は、前半に祭りと花火、後半にマルシェとクリスマスの催しが集まります。5日（土）は古河提灯竿もみまつり（第166回）、6日（日）は茨城町のひぬまdeマルシェ、12日（土）は常総新花火（17:00〜、約10,000発）。12日・13日はつくば蚤の市、19日（土）・20日（日）は土浦の水郷桜イルミネーション会場で「ほしぞらマルシェ」が開かれます。日立・土浦・河内・石岡のイルミネーションは12月を通して点灯し、土浦は12月31日（木）に翌朝まで点灯します。どれも11月4日時点の公式発表をもとにしています。"
 keyPoints:
   - "12月5日（土）第166回 古河提灯竿もみまつり｜古河市。16:10子どもパレード出発、大人部門（競技もみ）は18:00〜19:40（古河市観光協会）"
   - "12月5日（土）・6日（日）結城家物語｜結城市 健田須賀神社。土日はプロジェクションマッピングやナイトマルシェ（期間は11月30日〜12月6日）"
@@ -45,7 +45,7 @@ picks:
   - name: "古河提灯竿もみまつり（12月5日）"
     area: "古河市"
     forWhom: "冬の夜祭りを見たい人。電車で行きたい人"
-    detail: "古河市観光協会は、第166回を令和8年（2026年）12月5日（土）に開くと発表しています。予定では16:10に子どもパレードが出発し、16:40に開会式、子ども部門のあと、18:00〜19:40が大人部門の競技もみ、19:50〜20:25が自由もみ、20:30に閉会式です。JR宇都宮線の古河駅西口から徒歩約1分。当日は会場付近の道路が通行止めになります。会場図・駐車場・交通規制の詳細は、11月3日時点で「準備中」です。"
+    detail: "古河市観光協会は、第166回を令和8年（2026年）12月5日（土）に開くと発表しています。予定では16:10に子どもパレードが出発し、16:40に開会式、子ども部門のあと、18:00〜19:40が大人部門の競技もみ、19:50〜20:25が自由もみ、20:30に閉会式です。JR宇都宮線の古河駅西口から徒歩約1分。当日は会場付近の道路が通行止めになります。会場図・駐車場・交通規制の詳細は、11月4日時点で「準備中」です。"
     url: "https://www.kogakanko.jp/chochin"
   - name: "結城家物語〜健田須賀神社ライトアップ〜（11月30日〜12月6日）"
     area: "結城市"
@@ -108,8 +108,8 @@ picks:
     detail: "企画展「中西夏之 緩やかにみつめるためにいつまでも佇む、装置」は2027年1月17日（日）まで。観覧料は一般1,240円、満70歳以上620円、高校生980円、小中生550円です。土曜日は高校生以下が無料ですが、12月26日と1月2日は対象外です。月曜日と年末年始は休館です。"
     url: "/events/mito-nakanishi-natsuyuki-exhibition-2026/"
 notes:
-  - "日程はすべて11月3日時点の公式の記載です。天候や準備の都合で変わることがあるため、出かける前に各公式で確認してください"
-  - "古河提灯竿もみまつりの会場図・駐車場・交通規制は、11月3日時点で古河市観光協会のページが「準備中」です"
+  - "日程はすべて11月4日時点の公式の記載です。天候や準備の都合で変わることがあるため、出かける前に各公式で確認してください"
+  - "古河提灯竿もみまつりの会場図・駐車場・交通規制は、11月4日時点で古河市観光協会のページが「準備中」です"
   - "かわちイルミネーションのクリスマスの催しは、特設サイト（12月20日）と観光いばらき（花火は12月19日）で日付が違います。どちらかに決めず、両方を載せています"
   - "常総新花火の雨天時の扱いは、公式サイトに記載がありません"
   - "12月の夜は冷えます。花火や夜祭りは屋外で長い時間になるため、防寒具を用意してください"
@@ -125,55 +125,55 @@ faq:
 sourceUrls:
   - label: "古河市観光協会｜第166回 古河提灯竿もみまつり"
     url: "https://www.kogakanko.jp/chochin"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "観光いばらき｜結城家物語～健田須賀神社ライトアップ～"
     url: "https://www.ibarakiguide.jp/event.php?mode=detail&code=1441"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "結城市｜結城家物語"
     url: "https://www.city.yuki.lg.jp/kankou/event/yuukike/page007737.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城町｜ひぬまdeマルシェ"
     url: "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "日立アルプスOCEANトレイル2026 公式サイト"
     url: "https://hitachi-trail.com/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "常総新花火 公式サイト"
     url: "https://shin-hanabi.com/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "IKINA MARKET｜つくば蚤の市"
     url: "https://ikinamarket.com/tsukunomi/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "土浦市｜第15回光がつくる“Art”水郷桜イルミネーション(令和8年度)"
     url: "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/sangyobunkajigyodan/event-info/suigosakura-illumination/page021941.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "かわちイルミネーション 公式特設サイト"
     url: "https://kawachi-illumination.lanitech.jp/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "観光いばらき｜かわちイルミネーション2026（かわちクリスマスイルミネーション2026）"
     url: "https://www.ibarakiguide.jp/event.php?mode=detail&code=739"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "いばらきフラワーパーク｜イルミネーション Moonlight Rose Garden2026"
     url: "https://www.flowerpark.or.jp/Illumination/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "日立シビックセンター｜Hitachi Starlight Illumination 2026"
     url: "https://www.civic.jp/event.php?mode=detail&f=1&code=492"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜イベントカレンダー（2026年12月）"
     url: "https://www.hitachikaihin.jp/cal.php"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜開園日・時間"
     url: "https://www.hitachikaihin.jp/guide/schedule.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜メタセコイア（紅葉）"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/metasequoia.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜アイスチューリップ"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/icetulip.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城県近代美術館｜中西夏之 緩やかにみつめるためにいつまでも佇む、装置"
     url: "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/ibaraki-events-november-2026/"
   - "/events/ibaraki-christmas-events-2026/"

@@ -64,7 +64,7 @@ highlights:
   - title: "使えるバスが重ならない点に注意"
     detail: "1日乗車券は、それぞれ運行会社や自治体ごとの商品です。関東鉄道のIC1日乗車券は、コミュニティバス（つくバスなど）、高速バス、筑波山シャトルバスには使えません。水戸漫遊1日フリーきっぷも、決められた区間の外では使えません。乗り継ぐ予定のバスがどの会社・自治体のものかを、先に確かめておくと失敗しません。"
 notes:
-  - "料金・使える範囲・買い方は、茨城交通・関東鉄道・つくば市・笠間市の公式サイトの記載です（2026年11月3日確認）"
+  - "料金・使える範囲・買い方は、茨城交通・関東鉄道・つくば市・笠間市の公式サイトの記載です（2026年11月4日確認）"
   - "かさま観光周遊バスの「春・秋の観光シーズン」の日付は、笠間市が公開している2026年度運行スケジュールで確認してください"
   - "茨城交通の「奥久慈・大子周遊1日フリーきっぷ」（範囲の広い版）は、公式ページの本文に料金の記載がないため載せていません"
   - "関東鉄道のIC1日乗車券は払い戻しできず、障害者割引の適用もありません"
@@ -118,19 +118,19 @@ evergreen: true
 sourceUrls:
   - label: "茨城交通｜水戸漫遊1日フリーきっぷ"
     url: "https://www.ibako.co.jp/regular/ticket/mito-free.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜奥久慈・大子周遊1日フリーきっぷ"
     url: "https://www.ibako.co.jp/regular/ticket/daigo-free.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "関東鉄道｜路線バス乗車券の種類"
     url: "https://www.kantetsu.co.jp/bus/ticket"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくば市｜つくバス利用案内"
     url: "https://www.city.tsukuba.lg.jp/kurashi/kotsu/bus/1001471.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "笠間市｜かさま観光周遊バス"
     url: "https://www.city.kasama.lg.jp/page/page000356.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/kairakuen-guide/"
   - "/events/kodokan-mito-guide/"

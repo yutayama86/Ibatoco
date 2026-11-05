@@ -40,7 +40,7 @@ highlights:
   - title: "車なら境古河ICから約5分"
     detail: "車の場合は圏央道の境古河ICから約5分です。公共交通では、JR宇都宮線の古河駅、または東武伊勢崎線の東武動物公園駅からバスで約40分、終点の「境車庫」で降りて東へ徒歩15分です。町内の移動には、イバトコの道の駅さかいや自動運転バスの記事も参考になります。"
 notes:
-  - "開館時間・休館日・入館料・展示・行き方は境町の公式サイト（歴史民俗資料館）の記載です（2026年11月3日確認）。このページの更新日は2016年3月8日のため、行く前に資料館（0280-81-3353）へ確認してください"
+  - "開館時間・休館日・入館料・展示・行き方は境町の公式サイト（歴史民俗資料館）の記載です（2026年11月4日確認）。このページの更新日は2016年3月8日のため、行く前に資料館（0280-81-3353）へ確認してください"
   - "駐車場の有無と台数は、町の資料館ページに記載がありません"
   - "バスの運行会社・時刻は、町の資料館ページに記載がありません"
   - "資料館の運営には、ボランティア団体「下総さかい河岸の会」が関わっています"
@@ -83,13 +83,13 @@ evergreen: true
 sourceUrls:
   - label: "境町｜歴史民俗資料館"
     url: "https://www.town.ibaraki-sakai.lg.jp/page/page000738.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "境町｜境町歴史民俗資料館"
     url: "https://www.town.ibaraki-sakai.lg.jp/page/dir000060.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "境町｜境町歴史民俗資料館だより"
     url: "https://www.town.ibaraki-sakai.lg.jp/page/page000941.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/michinoeki-sakai-guide/"
   - "/events/sakai-jidounten-bus-guide/"

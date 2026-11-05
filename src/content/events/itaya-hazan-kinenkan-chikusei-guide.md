@@ -42,7 +42,7 @@ highlights:
   - title: "車いすの貸し出し"
     detail: "館内で使える車いすを無料で貸し出しています。台数に限りがあり、館外へは持ち出せません。受付で申し出ます。"
 notes:
-  - "料金・時間・休館日・駐車場・行き方は、板谷波山記念館の公式サイトの記載です（2026年11月3日確認）"
+  - "料金・時間・休館日・駐車場・行き方は、板谷波山記念館の公式サイトの記載です（2026年11月4日確認）"
   - "臨時休館や展示替えの休館が入ることがあります。行く前に公式サイトのお知らせとカレンダーを確認してください"
   - "企画展が終わったあと（11月24日以降）の展覧会予定は、公式サイトの「これからの展覧会」に掲載がありません"
   - "企画展のページにある過去のイベント（茶話会など）の日付の曜日は、ページ内の表記が一部食い違っています。終了済みのため、この記事には載せていません"
@@ -85,19 +85,19 @@ evergreen: true
 sourceUrls:
   - label: "板谷波山記念館｜トップページ"
     url: "https://www.itayahazan.jp/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "板谷波山記念館｜記念館について（利用案内・アクセス）"
     url: "https://www.itayahazan.jp/page/page000008.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "板谷波山記念館｜企画展「波山陶芸の魅力を探る ～陶芸家誕生 東京・田端での作陶を追って～」"
     url: "https://www.itayahazan.jp/page/page000127.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "板谷波山記念館｜無料入館日のお知らせ"
     url: "https://www.itayahazan.jp/page/page000123.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "板谷波山記念館｜車いす貸出のお知らせ"
     url: "https://www.itayahazan.jp/page/page000130.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/the-hirosawa-city-guide/"
   - "/events/michinoeki-grand-terrace-chikusei-guide/"

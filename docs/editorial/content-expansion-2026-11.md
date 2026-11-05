@@ -468,3 +468,48 @@
 
 新しく見つかった公式情報：
 - ホロルの湯（城里、保留中）：ふれあいの里の公式に、2027年1月12日〜3月末の大規模修繕による休館予定（2026年9月時点）が載っている
+
+### 第6バッチ（2026-11-04〜05、24本：公開可23・下書き1）
+
+| slug | 市町村 | 区分 |
+|---|---|---|
+| suigo-sakura-illumination-2026 | 土浦 | イベント |
+| nishikanasa-tozan-marathon-2026 | 常陸太田 | イベント |
+| shimotsuma-kiku-matsuri-2026 | 下妻 | イベント（終了日が公式間で食い違い、両方併記） |
+| takahagi-relay-marathon-2026 | 高萩 | イベント（台帳に新規行） |
+| kasumi-oarai-open-202609 | 大洗 | 新店 |
+| beisia-foods-park-takahagi-open-202610 | 高萩 | リニューアル |
+| namegata-satsumaimo-gourmet | 行方 | グルメ |
+| ibaraki-nashi-gourmet | 筑西・下妻・かすみがうら | グルメ |
+| hokota-melon-gourmet | 鉾田 | グルメ |
+| okukuji-shimi-konnyaku-gourmet | 常陸太田・大子 | グルメ（下書き：買える場所が公式で確認できない） |
+| oarai-ferry-sunflower-guide | 大洗 | 交通 |
+| ibaraki-sa-pa-guide | 県内 | 交通 |
+| ibaraki-highway-bus-roundup | 県内 | 交通 |
+| ibaraki-narita-haneda-airport-bus-guide | 県内 | 交通（筑波山の駐車場は既存と重なるため差し替え） |
+| ibaraki-kids-odekake-roundup | 県内 | 特集 |
+| ibaraki-camp-roundup | 県内 | 特集 |
+| ibaraki-hiking-roundup | 県内 | 特集 |
+| ibaraki-winter-odekake-2026 | 県内 | 特集 |
+| mito-oarai-1night-model-course | 水戸・大洗 | モデルコース |
+| ibaraki-michinoeki-roundup | 県西 | 特集 |
+| ibaraki-observatory-roundup | 県内 | 特集 |
+| ibaraki-jinja-meguri-roundup | 県内 | 特集 |
+| ibaraki-park-playground-roundup | 県内 | 特集 |
+| mito-station-walk-guide | 水戸 | スポット |
+
+保留：
+
+| 候補 | 理由 |
+|---|---|
+| 茨城のいちご狩り 2026-27 | 新シーズンを公式に出している農園が1園だけ（12月に再調査） |
+| JR水戸線 | JR東日本の駅・時刻表ページが403/404で確認できない |
+| 1月のイベントまとめ 2027 | 1月開催を公式で3件確認できない |
+| 奥久慈茶の里公園 新そば収穫祭、いばらき県央ふらっとトリップ | 施設・主催者の公式に2026年の告知がない、または開けない |
+| 初詣 2027（笠間稲荷・鹿島神宮・大洗の初日の出） | 12月の公式発表待ち |
+| トライアル荒川沖・常陸太田、ホテルルートイン笠間、紫峰堂ワイナリー | 公式の開業日・所在地がそろわない |
+| 県の大店立地法届出（しまむら牛久、コメリ八郷など8件） | 開店は2027年以降の見込みで、運営会社の発表待ち |
+| 加波山、雨引観音 | 公式PDFが読めない、または公式サイトに接続できない |
+
+その他：
+- 第5・第6バッチの accessedAt と「確認」日付を、実際に確認した2026-11-04に直した。

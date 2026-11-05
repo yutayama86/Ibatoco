@@ -37,7 +37,7 @@ highlights:
   - title: "常陸大宮駅から歩いて5分"
     detail: "JR水郡線の常陸大宮駅から徒歩5分で、市役所・文化センター・図書情報館の隣にあります。車の場合は常磐自動車道の那珂ICから約20分です。水郡線で奥久慈方面へ行く途中に立ち寄れる距離です。"
 notes:
-  - "開館時間・休館日・入館料・展示・行き方は常陸大宮市の公式サイト（歴史民俗資料館、2026年1月7日更新）の記載です（2026年11月3日確認）"
+  - "開館時間・休館日・入館料・展示・行き方は常陸大宮市の公式サイト（歴史民俗資料館、2026年1月7日更新）の記載です（2026年11月4日確認）"
   - "駐車場の有無と台数は、市の資料館ページに記載がありません"
   - "市は定休日のほかに「必要と認めた日」も休館とするため、行く前に資料館（0295-52-1450）に確認してください"
 faq:
@@ -79,7 +79,7 @@ evergreen: true
 sourceUrls:
   - label: "常陸大宮市｜歴史民俗資料館"
     url: "https://www.city.hitachiomiya.lg.jp/kankou_guide/news/page010219.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/suigun-line-okukuji-guide/"
   - "/events/michinoeki-hitachiomiya-kawaplaza-guide/"

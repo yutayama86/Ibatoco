@@ -40,7 +40,7 @@ highlights:
   - title: "雨引観音・真壁の町並みと組み合わせる"
     detail: "市のキャンプ場の案内では、キャンプ場から車で雨引観音（雨引山楽法寺）まで20分、真壁の町並みまで22分、櫻川磯部稲村神社まで16分、加波山市場まで8分としています。チェックイン前やチェックアウト後に、イバトコの雨引観音や真壁の町並みの記事を参考に回れます。"
 notes:
-  - "料金・時間・定休日・駐車場・行き方は桜川市の公式サイト（上野沼やすらぎの里キャンプ場）、予約期限・夜間体制・テントサイト拡張は同じ市のお知らせ（2026年4月1日〜8月20日更新）の記載です（2026年11月3日確認）"
+  - "料金・時間・定休日・駐車場・行き方は桜川市の公式サイト（上野沼やすらぎの里キャンプ場）、予約期限・夜間体制・テントサイト拡張は同じ市のお知らせ（2026年4月1日〜8月20日更新）の記載です（2026年11月4日確認）"
   - "テントサイト拡張の実証実験は2026年11月30日までの予定です。12月以降の区画数は市のお知らせで確認してください"
   - "ペットの同伴については、市のキャンプ場ページの本文に記載がありません。キャンプ場（0296-76-0952）に確認してください"
   - "シャワーは100円（3分）で24時間使えます。テニスコート（2面）は1面1時間600円です"
@@ -89,19 +89,19 @@ evergreen: true
 sourceUrls:
   - label: "桜川市｜上野沼やすらぎの里キャンプ場"
     url: "https://www.city.sakuragawa.lg.jp/kankou_bunka_sports/camp/camp_uenonuma/page007748.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "桜川市｜予約受付期限の変更のお知らせ"
     url: "https://www.city.sakuragawa.lg.jp/kankou_bunka_sports/camp/camp_uenonuma/news/page010345.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "桜川市｜上野沼やすらぎの里キャンプ場 夜間の管理体制変更のお知らせ"
     url: "https://www.city.sakuragawa.lg.jp/kankou_bunka_sports/camp/camp_uenonuma/news/page010236.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "桜川市｜テントサイトエリア拡張実証実験（第2弾）の期間延長"
     url: "https://www.city.sakuragawa.lg.jp/kankou_bunka_sports/camp/camp_uenonuma/news/page010447.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "桜川市｜筑波高原キャンプ場"
     url: "https://www.city.sakuragawa.lg.jp/kankou_bunka_sports/camp/camp_tsukubakougen/page007749.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/amabiki-kannon-guide/"
   - "/events/makabe-machinami-sakuragawa-guide/"

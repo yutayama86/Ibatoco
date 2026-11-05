@@ -42,7 +42,7 @@ highlights:
   - title: "車なら買い物額で駐車サービス、バスなら泉町1丁目"
     detail: "タイムズ京成百貨店本館駐車場とタイムズ水戸京成パーキングプラザは、買い物の金額に応じて駐車サービスがあります。税込1,000円以上3,000円未満で1時間30分、3,000円以上10,000円未満で2時間30分、10,000円以上50,000円未満で3時間30分、50,000円以上で4時間30分です。バスなら、JR水戸駅北口4番・5番のバス停から乗って約7分、「泉町1丁目」で降ります。運賃は片道大人190円・子ども100円です。"
 notes:
-  - "開店日・フロア・取扱いブランドは、水戸京成百貨店の公式サイトのNEW OPEN・REFRESH OPENのページと、2026年10月30日の「全館改装ニュースリリース（2026年第6弾）」の記載です（2026年11月3日確認）"
+  - "開店日・フロア・取扱いブランドは、水戸京成百貨店の公式サイトのNEW OPEN・REFRESH OPENのページと、2026年10月30日の「全館改装ニュースリリース（2026年第6弾）」の記載です（2026年11月4日確認）"
   - "ABCマートの開店日（10月30日）は公式サイトのNEW OPENのページの記載で、第6弾のニュースリリースには載っていません。サザコーヒーとReFaは第6弾のニュースリリースの記載です"
   - "公式サイトでは、今後のオープン店舗は順次公開するとしています"
   - "駐車料金は2026年9月10日から改定されています。料金の詳細と特定日の扱いは公式サイトの営業時間・アクセスのページで確認してください"
@@ -100,16 +100,16 @@ eventInfo:
 sourceUrls:
   - label: "水戸京成百貨店｜NEW OPEN・REFRESH OPEN"
     url: "https://www.mitokeisei.co.jp/event/11732/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸京成百貨店｜全館リニューアルを進めます！＜2026年 第6弾 改装のお知らせ＞"
     url: "https://www.mitokeisei.co.jp/general/26372/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸京成百貨店｜全館改装ニュースリリース（2026年第6弾）PDF"
     url: "https://www.mitokeisei.co.jp/qjmtv/wp-content/uploads/2026/10/全館改装ニュースリリース（2026年第6弾）.pdf"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸京成百貨店｜営業時間・アクセス"
     url: "https://www.mitokeisei.co.jp/access/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/art-tower-mito-guide/"
   - "/events/mito-day-trip-model-course/"

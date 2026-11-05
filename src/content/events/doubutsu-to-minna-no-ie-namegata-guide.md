@@ -46,7 +46,7 @@ highlights:
   - title: "虹の塔の「天空のねこカフェ」"
     detail: "同じ霞ケ浦ふれあいランドの虹の塔では、ねこカフェが2階へ移り、2026年10月15日（木）から新しく営業しています。平日は10時〜16時（最終受付15時30分、利用時間は無制限）、土日祝日は10時〜17時（最終受付16時30分、利用は45分）。料金（税込）は大人（高校生以上）1,540円、こども（4歳〜中学生）880円で、3歳以下は無料です。ねこカフェの利用者は虹の塔4階の展望室も利用できます。"
 notes:
-  - "料金・時間・休園日・駐車場・行き方は、霞ケ浦 どうぶつとみんなのいえの公式サイトの記載です（2026年11月3日確認）。開園の経緯は行方市の公式サイトで確認しました"
+  - "料金・時間・休園日・駐車場・行き方は、霞ケ浦 どうぶつとみんなのいえの公式サイトの記載です（2026年11月4日確認）。開園の経緯は行方市の公式サイトで確認しました"
   - "ねこカフェの定休日は、公式のお知らせに記載がありません"
   - "掲載されている動物や体験の内容は変わることがあります。行く前に公式サイトのニュースを確認してください"
 faq:
@@ -95,25 +95,25 @@ evergreen: true
 sourceUrls:
   - label: "霞ケ浦 どうぶつとみんなのいえ｜料金"
     url: "https://doubutsutominna.jp/price-p"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "霞ケ浦 どうぶつとみんなのいえ｜よくある質問"
     url: "https://doubutsutominna.jp/faq"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "霞ケ浦 どうぶつとみんなのいえ｜トップページ（営業時間・アクセス）"
     url: "https://doubutsutominna.jp/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "霞ケ浦 どうぶつとみんなのいえ｜施設概要"
     url: "https://doubutsutominna.jp/facility"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "霞ケ浦 どうぶつとみんなのいえ｜虹の塔『天空のねこカフェ』リニューアル後のご案内"
     url: "https://doubutsutominna.jp/archives/3091"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "霞ケ浦 どうぶつとみんなのいえ｜2026年度グッドデザイン賞金賞の受賞"
     url: "https://doubutsutominna.jp/archives/3093"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "行方市｜正式開園のお知らせ（霞ケ浦ふれあいランド再生整備事業）"
     url: "https://www.city.namegata.ibaraki.jp/shisei/fureailand-seibi/page013527.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/ringring-road-guide/"
   - "/events/kasumigaura-yuransen-guide/"

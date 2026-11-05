@@ -44,7 +44,7 @@ highlights:
   - title: "納豆の歴史を学ぶ"
     detail: "市の「体験する」のページは、納豆の起源や天狗納豆の由来、昔の作り方や売り場、製造道具、納豆の栄養、水戸の納豆が全国的に有名になった理由などを学べる施設として「納豆なんでも展示館」を紹介しています。開館時間や料金は市のページに書かれていないため、施設の案内で確認してください。"
 notes:
-  - "歴史・特徴・事業者・土産品・食べられる店の案内は、水戸市の「納豆のまち・水戸」の記載です（2026年11月3日確認）"
+  - "歴史・特徴・事業者・土産品・食べられる店の案内は、水戸市の「納豆のまち・水戸」の記載です（2026年11月4日確認）"
   - "市のデータのページは、総務省家計調査で2024年の水戸市の1世帯あたり納豆支出金額を6,627円、都道府県庁所在市・政令指定都市で5位としています（ページの更新日表記は2024年6月14日）。最新の順位は家計調査で確認してください"
   - "攻略ガイドの店名・店数は、市のページ本文に記載がないため書いていません"
   - "「納豆なんでも展示館」の開館時間・料金・場所は、市のページに記載がないため書いていません"
@@ -91,19 +91,19 @@ evergreen: true
 sourceUrls:
   - label: "水戸市｜水戸の納豆とは？"
     url: "https://www.city.mito.lg.jp/site/natto/75315.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸市｜納豆のまち・水戸 食べる"
     url: "https://www.city.mito.lg.jp/site/natto/75913.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸市｜納豆のまち・水戸 買う"
     url: "https://www.city.mito.lg.jp/site/natto/75917.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸市｜納豆のまち・水戸 体験する"
     url: "https://www.city.mito.lg.jp/site/natto/75918.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "水戸市｜納豆のまち・水戸 データ"
     url: "https://www.city.mito.lg.jp/site/natto/76070.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/kairakuen-guide/"
   - "/events/kodokan-mito-guide/"

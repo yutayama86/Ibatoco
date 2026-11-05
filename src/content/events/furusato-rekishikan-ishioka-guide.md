@@ -40,7 +40,7 @@ highlights:
   - title: "常陸国府の跡地で見る意味"
     detail: "歴史館が建つのは、古代の常陸国府、中世の府中城、江戸時代の府中松平家陣屋があった場所です。石岡が長く地域の中心だった場所で、その歴史を常設展示で確かめられます。"
 notes:
-  - "料金・時間・休館日・行き方・企画展は、石岡市の公式サイトの記載です（2026年11月3日確認）"
+  - "料金・時間・休館日・行き方・企画展は、石岡市の公式サイトの記載です（2026年11月4日確認）"
   - "駐車場の有無は、市の公式ページに記載がありません。車で行く場合は文化振興課（0299-43-1111 代表）または歴史館（0299-23-2398）に確認してください"
   - "展示替えなどで臨時休館することがあります"
 faq:
@@ -82,13 +82,13 @@ evergreen: true
 sourceUrls:
   - label: "石岡市｜石岡市立ふるさと歴史館"
     url: "https://www.city.ishioka.lg.jp/kosodate_kyoiku_sports/rekishi_bunka/shiryokan/ishiokashiritsuhurusatorekishikan/page001020.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "石岡市｜石岡市立ふるさと歴史館（石岡市の歴史と記憶）"
     url: "https://www.city.ishioka.lg.jp/rekishitokioku/tenjishisetsu/page001379.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "石岡市｜第46回企画展 幌獅子 成立過程を探る"
     url: "https://www.city.ishioka.lg.jp/kosodate_kyoiku_sports/rekishi_bunka/shiryokan/ishiokashiritsuhurusatorekishikan/page013070.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/hitachi-sosha-gu-ishioka-guide/"
   - "/events/hitachi-fudoki-no-oka-guide/"

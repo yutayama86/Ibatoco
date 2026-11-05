@@ -61,10 +61,10 @@ picks:
   - name: "冬の終わりは梅へ（1月下旬〜3月）"
     area: "ひたちなか市・つくば市・水戸市"
     forWhom: "2月以降に花を見に行く人"
-    detail: "国営ひたち海浜公園のウメはスイセンガーデン周辺で1月下旬〜3月中旬が鑑賞時期です。つくば観光コンベンション協会は、筑波山梅林（約1,000本）で例年2月中旬〜3月下旬に筑波山梅まつりが開かれると案内しています（2027年の会期は11月3日時点で未発表）。偕楽園・弘道館を含む梅の名所は、別の記事で比べています。"
+    detail: "国営ひたち海浜公園のウメはスイセンガーデン周辺で1月下旬〜3月中旬が鑑賞時期です。つくば観光コンベンション協会は、筑波山梅林（約1,000本）で例年2月中旬〜3月下旬に筑波山梅まつりが開かれると案内しています（2027年の会期は11月4日時点で未発表）。偕楽園・弘道館を含む梅の名所は、別の記事で比べています。"
     url: "/events/ibaraki-ume-meisho-roundup/"
 notes:
-  - "見頃はすべて、各施設の公式サイトに書かれた例年の目安です（2026年11月3日確認）。その年の気温で前後するため、直前に各施設の開花情報で確認してください"
+  - "見頃はすべて、各施設の公式サイトに書かれた例年の目安です（2026年11月4日確認）。その年の気温で前後するため、直前に各施設の開花情報で確認してください"
   - "冬ぼたんは、2026年度に県内で公開することを公式に確認できた場所がなかったため、載せていません。確認できたら追加します"
   - "国営ひたち海浜公園の100万本のスイセンは3月下旬〜4月中旬、早咲きスイセンは3月上旬〜中旬で、冬ではなく春の花です"
   - "見頃が公式に書かれていない場所（スイセンの株数だけが書かれている公園など）は載せていません"
@@ -76,41 +76,41 @@ faq:
   - question: "年末年始に見られる花は。"
     answer: "国営ひたち海浜公園のアイスチューリップ（12月下旬〜1月上旬、グラスハウス）とソシンロウバイ（12月下旬〜1月下旬）です。公園は12月25日〜30日と1月2日〜7日は毎日開き、12月31日と1月1日は休園です。"
   - question: "冬ぼたんが見られる場所はありますか。"
-    answer: "2026年度に茨城県内で冬ぼたんを公開すると公式に発表している場所は、11月3日時点で確認できていません。"
+    answer: "2026年度に茨城県内で冬ぼたんを公開すると公式に発表している場所は、11月4日時点で確認できていません。"
 sourceUrls:
   - label: "国営ひたち海浜公園｜ロウバイ"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/roubai.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜アイスチューリップ"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/icetulip.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜メタセコイア（紅葉）"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/metasequoia.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜ウメ"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/ume.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜スイセン"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/suisen.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜早咲きスイセン"
     url: "https://www.hitachikaihin.jp/flower-plant/flower/early-flowering-narcissus.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜開園日・時間"
     url: "https://www.hitachikaihin.jp/guide/schedule.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "国営ひたち海浜公園｜料金"
     url: "https://www.hitachikaihin.jp/guide/ticket.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "偕楽園（茨城県）｜偕楽園の植物図鑑"
     url: "https://ibaraki-kairakuen.jp/zukan/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "酒列磯前神社｜境内案内"
     url: "https://sakatura.org/keidaiannai/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくば観光コンベンション協会｜筑波山の四季"
     url: "https://ttca.jp/tourisminfo/mttsukuba/seasons/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/hitachi-seaside-park-winter-2026/"
   - "/events/hitachi-seaside-park-guide/"
