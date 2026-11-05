@@ -184,6 +184,9 @@ booking:
   note: "イバトコはチケット・駐車場・宿泊の予約を受け付けていません。価格・受付期間・キャンセル規定は各公式サイトで確認してください。"
 relatedBusinesses: []
 sourceUrls:
+  - label: "土浦全国花火競技大会実行委員会｜第95回大会は予定通り開催（2026年11月5日）"
+    url: "https://www.tsuchiura-hanabi.jp/page/page000342.html"
+    accessedAt: 2026-11-06
   - label: "土浦市｜第95回土浦全国花火競技大会開催に伴う霞ヶ浦総合公園ネイチャーセンターの開館時間変更（2026年11月2日）"
     url: "https://www.city.tsuchiura.lg.jp/kasumigaurasogokoen/news/page023679.html"
     accessedAt: 2026-11-04
