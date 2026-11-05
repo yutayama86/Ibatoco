@@ -39,7 +39,7 @@ highlights:
   - title: "モールの感謝デーの割引"
     detail: "モールの店舗ページでは、毎月20日・30日の「お客さま感謝デー」に、イオンカード、WAONカード、イオンペイで払うと店内の商品が5%引きになると案内しています。セール品やほかのサービスとは併用できません。"
 notes:
-  - "開店日・フロア・営業時間・電話は、イオンモール水戸内原の公式サイトの店舗ページ、値段と茨城県初出店はホウライ株式会社の2026年9月10日の発表の記載です（2026年11月3日確認）"
+  - "開店日・フロア・営業時間・電話は、イオンモール水戸内原の公式サイトの店舗ページ、値段と茨城県初出店はホウライ株式会社の2026年9月10日の発表の記載です（2026年11月4日確認）"
   - "開店記念の50円引きクーポン配布は2026年10月31日（土）で終わっています"
   - "この記事は広告ではありません。店や施設からの依頼・対価は受けていません"
 faq:
@@ -96,16 +96,16 @@ eventInfo:
 sourceUrls:
   - label: "イオンモール水戸内原｜千本松牧場（9月10日NEW OPEN）"
     url: "https://mitouchihara.aeonmall.jp/gourmet/834865b3-6694-4d8b-ae28-a3f912e17d77"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "イオンモール水戸内原｜NEW＆RENEWAL SHOP"
     url: "https://mitouchihara.aeonmall.jp/sale/3528dbdb-3918-4c17-a19b-662aa70a984a"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "イオンモール水戸内原｜アクセス"
     url: "https://mitouchihara.aeonmall.jp/access"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ホウライ株式会社｜千本松牧場イオンモール水戸内原店オープン（2026年9月10日・Digital PR Platform）"
     url: "https://digitalpr.jp/r/143178"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/mito-day-trip-model-course/"
   - "/events/kairakuen-guide/"

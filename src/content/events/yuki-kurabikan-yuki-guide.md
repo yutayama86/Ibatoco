@@ -42,7 +42,7 @@ highlights:
   - title: "駅前の観光物産センターで荷物を預ける"
     detail: "結城駅北口前の結城市観光物産センター（結城市国府町1-1-1）は、火曜日〜日曜日の午前10時〜午後4時の営業で、月曜日が定休（祝日の場合は翌日）です。営業時間内は手荷物を預けられ、料金は2026年から500円です。閉館後は返却できないため、午後4時までに戻れないときは預けられません。結城紬の機織り実演も火曜日〜日曜日の午前10時〜午後4時（正午〜午後1時を除く）に見られます。"
 notes:
-  - "料金・時間・休館日・道順は、結城市の公式サイト（結城蔵美館、観光物産センター）の記載です（2026年11月3日確認）"
+  - "料金・時間・休館日・道順は、結城市の公式サイト（結城蔵美館、観光物産センター）の記載です（2026年11月4日確認）"
   - "駐車場の位置と大型バスの連絡先は、結城市の蔵美館ページからリンクされている結城市観光協会の交通アクセスの案内です。台数・料金は記載がありません"
   - "毎月の展示内容は、市の「結城蔵美館 今月の展示内容」で確認してください"
 faq:
@@ -89,16 +89,16 @@ evergreen: true
 sourceUrls:
   - label: "結城市｜結城蔵美館"
     url: "https://www.city.yuki.lg.jp/kankou/spot/kurabikan/page000264.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "結城市｜結城蔵美館 今月の展示内容"
     url: "https://www.city.yuki.lg.jp/kankou/spot/page007599.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "結城市｜結城市観光物産センター"
     url: "https://www.city.yuki.lg.jp/kankou/spot/page000288.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "結城市観光協会｜交通アクセス"
     url: "http://yuki-kankou.com/access"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/yuki-tsumugi-guide/"
   - "/events/kensei-machinami-meguri-model-course/"

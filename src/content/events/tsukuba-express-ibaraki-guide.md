@@ -45,7 +45,7 @@ highlights:
   - title: "筑波山きっぷ・常総線への往復きっぷ"
     detail: "「筑波山きっぷ」は、発売駅〜つくばのTX往復、つくばセンター〜沼田のバス往復（筑波山シャトルバスかつくバス北部シャトル）、沼田〜つつじヶ丘のシャトルバスと筑波山ケーブルカー・ロープウェイ乗り放題がセットで、2日間有効です。茨城県内の駅からは守谷3,510円、みらい平3,310円、みどりの3,160円、万博記念公園3,010円、研究学園2,850円（秋葉原は4,670円）。ケーブルカー・ロープウェイが付かない「筑波山あるキップ」は守谷2,400円〜研究学園1,740円です。どちらもつくば駅では売っていません。秋葉原・新御徒町・北千住からは、TXと関東鉄道常総線を乗り継ぐ「TX＆常総ライン往復きっぷ」（秋葉原から下妻2,910円など、2日間有効）もあります。"
 notes:
-  - "運賃・停車駅・きっぷの内容は、つくばエクスプレス（首都圏新都市鉄道）の公式サイトと旅客運賃表の記載です（2026年11月3日確認）"
+  - "運賃・停車駅・きっぷの内容は、つくばエクスプレス（首都圏新都市鉄道）の公式サイトと旅客運賃表の記載です（2026年11月4日確認）"
   - "筑波山きっぷ・筑波山あるキップは、秋の行楽シーズンの2026年11月7日（土）・8日（日）・14日（土）・15日（日）・21日（土）・22日（日）は発売中止です"
   - "クレジットカードなどのタッチ決済乗車は全駅で使えますが、運賃は大人のきっぷ運賃（10円単位）で、こども運賃は適用されず、振替輸送の対象外です"
   - "乗り越し精算は自動精算機ではできず、ご案内カウンターで行います"
@@ -95,40 +95,40 @@ evergreen: true
 sourceUrls:
   - label: "つくばエクスプレス｜旅客運賃表（PDF）"
     url: "https://www.mir.co.jp/service/fare_regular_202603.pdf"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜年齢区分"
     url: "https://www.mir.co.jp/service/guide/age.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜運賃の適用"
     url: "https://www.mir.co.jp/service/guide/application.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜普通乗車券（片道）"
     url: "https://www.mir.co.jp/service/types/regular.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜TX！1日乗り放題きっぷ"
     url: "https://www.mir.co.jp/service/otoku/txonedayfreepass.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜筑波山きっぷ"
     url: "https://www.mir.co.jp/service/otoku/tukubasan.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜筑波山あるキップ"
     url: "https://www.mir.co.jp/service/otoku/arukippu.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜TX＆常総ライン往復きっぷ"
     url: "https://www.mir.co.jp/service/otoku/tx_jyoso.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜タッチ決済乗車サービス"
     url: "https://www.mir.co.jp/service/tap-to-ride/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜割引制度"
     url: "https://www.mir.co.jp/service/discount/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜守谷駅"
     url: "https://www.mir.co.jp/route_map/moriya/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "つくばエクスプレス｜つくば駅"
     url: "https://www.mir.co.jp/route_map/tsukuba/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/tsukubus-guide/"
   - "/events/tsukuba-go-highway-bus-guide/"

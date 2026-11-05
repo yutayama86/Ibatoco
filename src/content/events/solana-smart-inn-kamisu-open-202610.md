@@ -39,7 +39,7 @@ highlights:
   - title: "チェックインの時間と方法"
     detail: "チェックインは15:00〜24:00の好きな時間で、清掃の都合で15時より早いチェックインはできません。リモートロックを使ったスマートチェックインで、鍵の受け渡しがありません。遅いチェックアウトも受け付けていないので、遅れそうなときは問い合わせてください。"
 notes:
-  - "開業日・所在地・客室・料金・駐車場・アクセスは、Solana Smart INNの公式サイトの神栖の施設ページ、チェックインの時間はよくある質問のページの記載です（2026年11月3日確認）"
+  - "開業日・所在地・客室・料金・駐車場・アクセスは、Solana Smart INNの公式サイトの神栖の施設ページ、チェックインの時間はよくある質問のページの記載です（2026年11月4日確認）"
   - "チェックアウトの時刻と電話番号は、公式サイトの神栖の施設ページに記載がありません"
   - "この記事は広告ではありません。施設や運営会社からの依頼・対価は受けていません"
 faq:
@@ -92,13 +92,13 @@ eventInfo:
 sourceUrls:
   - label: "Solana Smart INN｜Solana Smart INN 神栖"
     url: "https://smartinn-solana.com/facility/solana-smart-innkamisu/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "Solana Smart INN｜公式サイト（お知らせ）"
     url: "https://smartinn-solana.com/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "Solana Smart INN｜よくある質問"
     url: "https://smartinn-solana.com/faq/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/kashima-jingu-guide/"
   - "/events/bousai-arena-kamisu-guide/"

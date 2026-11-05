@@ -44,7 +44,7 @@ highlights:
   - title: "行き方と、ホロルの湯の割引"
     detail: "所在地は城里町上入野4384で、常磐自動車道の水戸ICから車で10分です。近くの温泉施設「ホロルの湯」は、ふれあいの里の利用者なら日帰りでも宿泊でも通常料金の半額で使えます（割引券は利用日当日のみ有効）。ただしホロルの湯は、大規模修繕工事のため2027年1月12日〜2027年3月末に休館する予定と案内されています（2026年9月時点の目安）。"
 notes:
-  - "料金・時間・休園日・駐車場・行き方は、ふれあいの里の公式サイトの記載です（2026年11月3日確認）"
+  - "料金・時間・休園日・駐車場・行き方は、ふれあいの里の公式サイトの記載です（2026年11月4日確認）"
   - "天文台の時間は、天文台のページでは開館20:30（受付20:20〜）・閉館21:45（最終受付21:20）、冬季（12月後半〜2月）は開館19:00・閉館20:00（最終受付19:40）です。一方、2025年3月のお知らせには「通常20：30～21：30」とあり、記載が食い違っています。行く前に管理事務所で確認してください"
   - "管理棟の営業時間も、施設案内のページ（8:30〜17:15、宿泊利用がある場合は20:00まで）と、Q&Aのページ（9:00〜20:00、宿泊者が少ない場合は17:30まで）で記載が異なります"
   - "日帰りBBQ場の事前予約の要否は、公式の日帰りページに明記がありません。予約サイト（fureai.yoya-ku.com）か管理事務所で確認してください"
@@ -95,31 +95,31 @@ evergreen: true
 sourceUrls:
   - label: "ふれあいの里｜日帰りで利用する"
     url: "https://fureai.shirosatocamp.jp/info/higaeri/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜施設のご利用について（FAQ）"
     url: "https://fureai.shirosatocamp.jp/info/faq/facilities.shtml"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜Q&A【お問合せの前に】よくある質問"
     url: "https://www.shirosatocamp.jp/news/fureai/2021/20210822175136.shtml"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜ふれあい天文台"
     url: "https://fureai.shirosatocamp.jp/tenmondai/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜【2025/３月】天文台、えんにち開催時間変更のお知らせ"
     url: "http://www.shirosatocamp.jp/news/fureai/baiten/2025/20250301104928.shtml"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜【2026/12/12】『第30回ふれあいほしぞら観望会』開催のお知らせ"
     url: "http://www.shirosatocamp.jp/news/fureai/baiten/2026/20260921171215.shtml"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜日帰り温泉 ホロルの湯"
     url: "https://fureai.shirosatocamp.jp/info/hororunoyu/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "ふれあいの里｜【2027/1/12～3/31】ホロルの湯休館予定のお知らせ"
     url: "http://www.shirosatocamp.jp/news/fureai/2026/20260921153843.shtml"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "城里町｜ふれあいの里"
     url: "https://www.town.shirosato.lg.jp/kankou/kankou/camp-bbq/page000582.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/michinoeki-katsura-shirosato-guide/"
   - "/events/ibaraki-camp-autumn-festa-2026/"

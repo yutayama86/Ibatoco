@@ -40,7 +40,7 @@ highlights:
   - title: "陸平貝塚と同じ日に回る"
     detail: "村の観光案内では、光と風の丘公園と国指定史跡の陸平貝塚を美浦村の見どころとして並べて紹介しています。陸平貝塚と美浦村文化財センターの開館時間や行き方は、イバトコの陸平貝塚の記事にまとめています。"
 notes:
-  - "休園日・料金・予約方法は美浦村の公式サイト（光と風の丘公園 利用案内、2026年7月3日更新）、施設とアクセスは公園の紹介ページ（2020年7月10日更新）の記載です（2026年11月3日確認）"
+  - "休園日・料金・予約方法は美浦村の公式サイト（光と風の丘公園 利用案内、2026年7月3日更新）、施設とアクセスは公園の紹介ページ（2020年7月10日更新）の記載です（2026年11月4日確認）"
   - "駐車場の有無と台数は、村の公式サイトに記載がありません"
   - "物品販売や営利目的の撮影、競技会などで公園を独占して使う場合は、事前にクラブハウスへの問い合わせが必要です"
   - "予約状況のページは週1回の更新です。最新の空きは電話かファクスで確認してください"
@@ -84,13 +84,13 @@ evergreen: true
 sourceUrls:
   - label: "美浦村｜光と風の丘公園 利用案内"
     url: "https://www.vill.miho.lg.jp/kosodate-kyouiku/syakaitaiiku/hikaritokazenookakouen/page006724.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "美浦村｜光と風の丘公園"
     url: "https://www.vill.miho.lg.jp/kosodate-kyouiku/syakaitaiiku/hikaritokazenookakouen/page000522.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "美浦村｜自然と歴史を訪ねる ～観光～"
     url: "https://www.vill.miho.lg.jp/kankou-event/mihowotanoshimu/page000458.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/okadaira-kaizuka-miho-guide/"
   - "/area/miho/"

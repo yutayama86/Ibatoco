@@ -44,7 +44,7 @@ highlights:
   - title: "支払い方法と駐車場のある停留所"
     detail: "運賃は現金のほか、Suica・PASMOなどの交通系ICカードで払えます。クレジットカードのタッチ決済とQRコード決済（PayPayなど）は茨城交通が運行する便だけで使え、JRバス関東・関東鉄道の便では使えません。茨城交通の便では車内でICカードのチャージができません。茨城町西インター、内原（常磐道）、石岡（常磐道）の各停留所には無料駐車場があります。停留所の周りは駐停車禁止です。"
 notes:
-  - "運賃・時刻・のりば・予約方法は、茨城交通の公式サイト（みと号）の記載です（2026年11月3日確認）"
+  - "運賃・時刻・のりば・予約方法は、茨城交通の公式サイト（みと号）の記載です（2026年11月4日確認）"
   - "2026年10月5日から、JR内房線の代行バスに乗務員と車両を回すため一部の便が運休していました。茨城交通は、11月9日（月）から運休便の運行を再開すると発表しています。11月8日までと11月9日からでは時刻表が異なります"
   - "2枚つづりのツインチケット（回数乗車券）は2024年3月31日で販売を終え、現在は使えません"
   - "小学生未満でも座席を1人で使う場合は小児運賃がかかります"
@@ -95,22 +95,22 @@ evergreen: true
 sourceUrls:
   - label: "茨城交通｜みと号"
     url: "https://www.ibako.co.jp/highway/mito-tokyo/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜みと号 東京行き 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/mito-tokyo/to_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜みと号 東京発 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/mito-tokyo/from_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜みと号 乗車券のご案内"
     url: "https://www.ibako.co.jp/highway/mito-tokyo/ticket.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜11月9日より「みと号」運休便の運行を再開します"
     url: "https://www.ibako.co.jp/contents/newsrelease/2026/10/32673.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜レール＆高速バスライド"
     url: "https://www.ibako.co.jp/highway/railandbusride.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/kairakuen-guide/"
   - "/events/kodokan-mito-guide/"

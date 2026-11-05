@@ -40,7 +40,7 @@ highlights:
   - title: "キャンプ以外の見どころ"
     detail: "公園には長い桜並木（ソメイヨシノ）、園内で最も広い高台の「太陽の広場」、遊具のある芝生の「わいわい広場」、約1万株以上のあじさいが植えられた「あじさいの谷」があります。あじさいの谷では、毎年6月下旬〜7月中旬に「ひぬまあじさいまつり」が開かれます。太陽の広場は高台にあるため、雪の状況によって入れない場合があります。"
 notes:
-  - "料金・時間・予約・駐車場は茨城町の公式サイト（涸沼自然公園 キャンプ場、2026年1月9日更新）の記載です（2026年11月3日確認）"
+  - "料金・時間・予約・駐車場は茨城町の公式サイト（涸沼自然公園 キャンプ場、2026年1月9日更新）の記載です（2026年11月4日確認）"
   - "ペットの入園はできません。直火、花火、水風船も禁止です"
   - "温水シャワーは24時間使え、3分200円です。炊事棟と水洗トイレは22時30分に消灯します"
   - "公園全体の開園時間と入園料は、町の公式サイトに記載がありません"
@@ -85,19 +85,19 @@ evergreen: true
 sourceUrls:
   - label: "茨城町｜涸沼自然公園 キャンプ場"
     url: "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/koen/hinuma/001476.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城町｜涸沼自然公園"
     url: "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/koen/hinuma/index.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城町｜涸沼自然公園（所在地・アクセス）"
     url: "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/koen/hinuma/000678.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城町｜涸沼自然公園 あじさいの谷"
     url: "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/koen/hinuma/001470.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城町｜涸沼自然公園 太陽の広場"
     url: "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/koen/hinuma/001475.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/hinuma-de-marche-2026/"
   - "/events/hinuma-shijimi-gourmet/"

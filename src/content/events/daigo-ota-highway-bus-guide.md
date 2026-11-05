@@ -46,7 +46,7 @@ highlights:
   - title: "無料駐車場のある停留所"
     detail: "やみぞ前、大子町役場、袋田の滝入口、JA常陸奥久慈、常陸大宮市総合保健センター、総合センターらぽーる、常陸太田市高速バスターミナル、道の駅ひたちおおたには無料駐車場があります。停留所の周りは駐停車禁止です。東京から袋田の滝へ行く人は、袋田の滝入口で降りられる大子ルートの便を選んでください（太田ルートの便は大子町へ行きません）。"
 notes:
-  - "運賃・時刻・予約方法は、茨城交通の公式サイト（大子・太田線）の記載です（2026年11月3日確認）"
+  - "運賃・時刻・予約方法は、茨城交通の公式サイト（大子・太田線）の記載です（2026年11月4日確認）"
   - "「土日祝」の便は1月1日は運休です"
   - "小学生未満でも座席を1人で使う場合は小児運賃がかかります。ツインチケットには小児運賃・割引運賃の設定がなく、1枚で小児2人が乗れます"
   - "有効期限が2024年3月31日以降、2026年9月30日以前のツインチケットは、2027年3月31日まで使えます（払い戻し不可）"
@@ -95,19 +95,19 @@ evergreen: true
 sourceUrls:
   - label: "茨城交通｜大子・太田線"
     url: "https://www.ibako.co.jp/highway/daigo-tokyo/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜大子・太田線 東京行き 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/daigo-tokyo/to_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜大子・太田線 東京発 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/daigo-tokyo/from_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜大子・太田線 乗車券のご案内"
     url: "https://www.ibako.co.jp/highway/daigo-tokyo/ticket.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜高速バス 回数乗車券のご案内"
     url: "https://www.ibako.co.jp/highway/coupon.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/fukuroda-falls-winter-guide/"
   - "/events/suigun-line-okukuji-guide/"

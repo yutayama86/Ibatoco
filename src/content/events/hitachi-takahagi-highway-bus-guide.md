@@ -43,7 +43,7 @@ highlights:
   - title: "駐車場のある停留所とTX乗り換え"
     detail: "高萩駅（西口）、シーマークスクエア、神峰営業所、新田中内、水戸北スマートインターには駐車場があります（停留所の周りは駐停車禁止）。東京駅行きは、希望すれば八潮パーキングに停まり、歩いて約6分のつくばエクスプレス八潮駅へ乗り換えられます。乗り換えたい人は、八潮PAの手前の案内に従って降車ボタンを押します。"
 notes:
-  - "運賃・時刻・予約方法は、茨城交通の公式サイト（高萩・日立線）と運賃表PDFの記載です（2026年11月3日確認）"
+  - "運賃・時刻・予約方法は、茨城交通の公式サイト（高萩・日立線）と運賃表PDFの記載です（2026年11月4日確認）"
   - "東京駅八重洲南口ののりばは、時刻表では多くの便が2番のりばです。時刻表の注記には「16:20発（11号）は5番、20:40発（105号）は3番」とありますが、同じページの表では20:40発が107号（3番のりば）で、16:20発の便は載っていません。乗る便ののりばは乗車券や茨城交通に確認してください"
   - "運賃表PDFの学生割引の注記には「2026年1月31日乗車日分まで」とありますが、同じ資料の発売条件と茨城交通の案内では2026年12月1日〜2027年1月31日の乗車分が対象です"
   - "往復乗車券は2024年10月31日、回数券は2017年3月31日で取り扱いを終えています"
@@ -97,22 +97,22 @@ evergreen: true
 sourceUrls:
   - label: "茨城交通｜高萩・日立線"
     url: "https://www.ibako.co.jp/highway/takahagi-tokyo/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜高萩・日立線 東京行き 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/takahagi-tokyo/to_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜高萩・日立線 東京発 時刻表・運賃"
     url: "https://www.ibako.co.jp/highway/takahagi-tokyo/from_tokyo_highway.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜高萩・日立～東京駅線 運賃表（2026年11月〜12月）"
     url: "https://www.ibako.co.jp/highway/takahagi-tokyo/pdf/fare_202611-202612.pdf"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜高萩・日立線 乗車券ご予約・ご購入のご案内"
     url: "https://www.ibako.co.jp/highway/takahagi-tokyo/ticket.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "茨城交通｜レール＆高速バスライド"
     url: "https://www.ibako.co.jp/highway/railandbusride.html"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/hitachi-brt-guide/"
   - "/events/kamine-zoo-guide/"

@@ -38,7 +38,7 @@ highlights:
   - title: "行き方"
     detail: "車なら北関東自動車道の水戸南ICから10分です。電車ならJR常磐線水戸駅からタクシーで約10分。バスなら関東鉄道の「元吉田北」停留所から歩いて約2分です。"
 notes:
-  - "開店日・所在地・営業時間・駐車台数・品ぞろえは、株式会社カスミの2026年11月2日のニュースリリース「カスミ元吉田店オープンのお知らせ」の記載です（2026年11月3日確認）"
+  - "開店日・所在地・営業時間・駐車台数・品ぞろえは、株式会社カスミの2026年11月2日のニュースリリース「カスミ元吉田店オープンのお知らせ」の記載です（2026年11月4日確認）"
   - "商品の価格は、発表に記載がありません"
   - "この記事は広告ではありません。店や運営会社からの依頼・対価は受けていません"
 faq:
@@ -90,10 +90,10 @@ eventInfo:
 sourceUrls:
   - label: "株式会社カスミ｜カスミ元吉田店オープンのお知らせ（2026年11月2日）"
     url: "https://www.kasumi.co.jp/wp-content/uploads/2026/11/news1516.pdf"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
   - label: "株式会社カスミ｜公式サイト（店舗情報のお知らせ）"
     url: "https://www.kasumi.co.jp/"
-    accessedAt: 2026-11-03
+    accessedAt: 2026-11-04
 relatedArticleUrls:
   - "/events/mito-natto-gourmet/"
   - "/events/mito-day-trip-model-course/"
