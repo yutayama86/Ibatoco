@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-11-03",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1064,13 +1064,13 @@
       "name": "下妻市菊まつり",
       "municipality": "shimotsuma",
       "startDate": "2026-11-01",
-      "endDate": "2026-11-25",
-      "officialUrl": "https://www.daiho.or.jp/",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.daiho.or.jp/news/news-i637-u1.html",
       "discoveredAt": "2026-10-05",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-11-04",
+      "articleUrl": "/events/shimotsuma-kiku-matsuri-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1078,7 +1078,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "観光いばらきで、11月1日（日）〜11月25日（水）、会場は大宝八幡宮（下妻市大宝667）、主催は下妻市菊花会（後援：下妻市・下妻市観光協会）を確認。2026-10-05時点で大宝八幡宮の公式サイトには2026年の告知が未掲載。"
+      "notes": "観光いばらきで、11月1日（日）〜11月25日（水）、会場は大宝八幡宮（下妻市大宝667）、主催は下妻市菊花会（後援：下妻市・下妻市観光協会）を確認。2026-10-05時点で大宝八幡宮の公式サイトには2026年の告知が未掲載。 2026-11-04：大宝八幡宮のお知らせ（10/29）で11月23日まで、観光いばらきは11月25日までと食い違い。記事は神社の発表に合わせ、両方を併記。"
     },
     {
       "id": "tsukuba-touki-matsuri-2026",
@@ -1173,9 +1173,9 @@
       "officialUrl": "https://www.civic.jp/event.php?mode=detail&f=1&code=492",
       "discoveredAt": "2026-10-18",
       "verifiedAt": "2026-10-18",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/hitachi-starlight-illumination-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1218,9 +1218,9 @@
       "officialUrl": "https://www.kanko-hitachiota.com/page/page002128.html",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/nishikanasa-tozan-marathon-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1239,9 +1239,9 @@
       "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/sangyobunkajigyodan/event-info/suigosakura-illumination/page021941.html",
       "discoveredAt": "2026-10-18",
       "verifiedAt": "2026-10-18",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/suigo-sakura-illumination-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1347,9 +1347,9 @@
       "officialUrl": "https://www.kogakanko.jp/chochin",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/koga-chochin-saomomi-matsuri-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "draft",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -1368,9 +1368,9 @@
       "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1365&mode=detail",
       "discoveredAt": "2026-10-17",
       "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "articleUrl": "/events/hitachi-alps-ocean-trail-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1405,14 +1405,14 @@
       "id": "kawachi-christmas-illumination-2026",
       "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
       "municipality": "kawachi",
-      "startDate": "2026-12-19",
-      "endDate": null,
+      "startDate": "2026-11-03",
+      "endDate": "2027-02-14",
       "officialUrl": "https://kawachi-illumination.lanitech.jp/",
       "discoveredAt": "2026-10-05",
       "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "articleUrl": "/events/kawachi-christmas-illumination-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1497,9 +1497,9 @@
       "officialUrl": "https://katsutamarathon.jp/outline/",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "verified",
+      "articleUrl": "/events/katsuta-marathon-2027/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "draft",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -1518,9 +1518,9 @@
       "officialUrl": "https://www.keisei.co.jp/news/detail.php?CN=8103",
       "discoveredAt": "2026-10-30",
       "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "articleUrl": "/events/tsukuba-cablecar-last-run-campaign-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "urgent",
       "signals": {
         "searchDemand": "unknown",
@@ -1539,9 +1539,9 @@
       "officialUrl": "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517",
       "discoveredAt": "2026-10-30",
       "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "articleUrl": "/events/mito-nakanishi-natsuyuki-exhibition-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1550,6 +1550,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "茨城県近代美術館の公式検索本文で発見。本文・PDF、料金区分、無料日、祝日・年末年始の休館日の精査待ち。20261030-nakanishi-natsuyuki-exhibition-discoveryとして11月2日までに掲載判断。記事化しない場合も候補を削除しない。"
+    },
+    {
+      "id": "hinuma-de-marche-2026",
+      "name": "ひぬまdeマルシェ",
+      "municipality": "ibaraki-machi",
+      "startDate": "2026-12-06",
+      "endDate": null,
+      "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html",
+      "discoveredAt": "2026-11-03",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/hinuma-de-marche-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "takahagi-relay-marathon-2026",
+      "name": "第1回 高萩リレーマラソン",
+      "municipality": "takahagi",
+      "startDate": "2026-11-29",
+      "endDate": "2026-11-29",
+      "officialUrl": "https://sports-hitachi.com/takahagi-relay/",
+      "discoveredAt": "2026-11-04",
+      "verifiedAt": "2026-11-04",
+      "articleUrl": "/events/takahagi-relay-marathon-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "大会公式（主催：高萩市・高萩市教育委員会）で11月29日、さくら宇宙公園を確認。申込締切は大会サイトが11月3日に延長、市のページは10月30日と食い違い。"
     }
   ]
 }
