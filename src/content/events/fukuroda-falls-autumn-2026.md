@@ -116,6 +116,7 @@ sourceUrls:
 relatedArticleUrls:
   - "/events/daigo-ringo-gari-2026/"
   - "/kouyou/"
+  - "/events/fukuroda-falls-winter-guide/"
   - "/area/daigo/"
 ---
 本文はfrontmatterの構造化フィールドへ移送済みです。
