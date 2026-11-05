@@ -157,6 +157,7 @@ sourceUrls:
 relatedArticleUrls:
   - "/events/ibaraki-events-november-2026/"
   - "/events/kairakuen-guide/"
+  - "/events/koga-rekishi-hakubutsukan-guide/"
   - "/area/koga/"
 ---
 

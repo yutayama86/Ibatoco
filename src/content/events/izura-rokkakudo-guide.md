@@ -145,6 +145,7 @@ relatedArticleUrls:
   - "/events/ibaraki-modern-art-museum-guide/"
   - "/events/ibaraki-ceramic-art-museum-guide/"
   - "/events/ibaraki-events-november-2026/"
+  - "/events/tenshin-izura-museum-guide/"
   - "/area/kitaibaraki/"
 ---
 
