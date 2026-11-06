@@ -12,6 +12,12 @@ import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
 import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
 
+interface Props {
+  /** 見出しを差し替えるとき（/area/ では冒頭の帯に同じ文言があるため）。TOP は既定のまま */
+  heading?: { kicker: string; lines: [string, string] };
+}
+const { heading } = Astro.props;
+
 const { w: W, h: H } = GEO_VIEW;
 
 const LABEL_OVERRIDES: Partial<Record<string, { lx: number; ly: number }>> = {
@@ -53,8 +59,10 @@ const nodes = MUNICIPALITIES.map((m) => ({
     <!-- 隣接パネル（選択中の市町村の概要） -->
     <aside class="ax-panel ax-panel--integrated">
       <header class="ax-intro">
-        <p class="ax-intro-kicker">茨城のエリアガイド</p>
-        <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>
+        <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
+        {heading
+          ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
+          : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
         <h3>気になる街を、ひとつ。</h3>
         <p class="ax-intro-copy">
           <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
@@ -81,7 +89,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
         <h3 class="ax-list-head" id="ax-list-head">市町村名から選ぶ</h3>
         <nav aria-labelledby="ax-list-head">
           {REGION_ORDER.map((k) => (
-            <div class="ax-region">
+            <div class="ax-region" id={`area-${k}`}>
               <p class="ax-region-name" id={`ax-region-${k}`}><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</p>
               <ul aria-labelledby={`ax-region-${k}`}>
                 {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (

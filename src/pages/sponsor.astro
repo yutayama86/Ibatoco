@@ -60,7 +60,7 @@ const jsonLd = [
 ];
 ---
 <BrandBase title="協賛のご案内｜イバトコ" description="茨城へ行く前に調べる人へ届ける、イバトコの協賛・広告のご案内。イベント協賛枠、PR記事、シーズン協賛の内容と料金、PRの表示方針、実測の数字を掲載しています。" jsonLd={jsonLd}>
-  <header class="sp-head bp-wrap">
+  <header class="sp-head v42-hero bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">SPONSORSHIP</p>
     <h1>茨城へ行く前に、<br />調べる人へ届ける。</h1>
@@ -69,6 +69,7 @@ const jsonLd = [
       <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="head_apply">申し込む <span aria-hidden="true">→</span></a>
       <a class="sp-head__sub" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="head">まず相談する</a>
     </div>
+    <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
   </header>
 
   <section class="sp-stats bp-wrap bp-section" aria-labelledby="sp-stats-h">
@@ -144,7 +145,8 @@ const jsonLd = [
     <dl>{faq.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl>
   </section>
 
-  <section class="sp-cta bp-reading">
+  <section class="sp-cta v42-band bp-reading">
+    <img class="sp-cta__art" src="/images/v42/kasama-market-print.webp" alt="" width="960" height="640" loading="lazy" decoding="async" />
     <p class="bp-kicker">CONTACT</p>
     <h2>まずは、ご相談ください。</h2>
     <p>メニューが決まっていれば、フォームから打ち合わせなしで申し込めます。決まっていなければ、目的と時期をうかがって合う形をご提案します。媒体資料もお送りできます。</p>

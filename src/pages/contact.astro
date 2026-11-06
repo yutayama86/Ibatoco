@@ -15,6 +15,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
         <span>MAIL</span>
         <a href={`mailto:${SITE_CONFIG.contactEmail}`}>{SITE_CONFIG.contactEmail}</a>
       </div>
+      <img class="contact-intro__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
     </header>
     <form class="contact-form" method="POST" action={FORM_ENDPOINT||undefined} data-endpoint={FORM_ENDPOINT}>
       <header class="contact-form__head">
