@@ -112,10 +112,12 @@ const jsonLd = [
   description="茨城県のイベントを、今日・今週末・月別・エリア・ジャンルから探せます。花火大会、祭り、紅葉、季節のおでかけの開催日・会場・料金・駐車場・アクセスを、公式で確認できたものだけ掲載。確認できていないことは、確認できていないと書きます。"
   jsonLd={jsonLd}
 >
-  <header class="ev-head bp-wrap">
+  <header class="ev-head bp-wrap v42-hub-label">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">EVENTS &amp; OUTINGS</p>
     <h1>茨城のイベント・おでかけ</h1>
+    {/* v42 の編集見出し（COPY-LINES-v42.json：event-list.title）。H1・title は従来のまま */}
+    <p class="v42-display" data-copy-key="event-list.title">楽しみは、<br />街で待ってる。</p>
     <p>日程、会場、料金、駐車場。出かける前に知りたいことを、公式で確認できたものだけ載せています。確認できていない項目は、埋めずに「確認できていない」と書きます。</p>
   </header>
 

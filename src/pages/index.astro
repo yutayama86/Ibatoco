@@ -34,208 +34,317 @@ const homeJsonLd = [
   { '@context': 'https://schema.org', '@type': 'WebSite', name: 'イバトコ', url: siteUrl },
 ];
 
+// v42 のFV。実写のネモフィラを先頭に、3枚を5秒ごとに切り替える（操作ボタン・動きを抑える設定を引き継ぐ）。
+// 見出しの改行は COPY-LINES-v42.json（home.hero-nemophila）どおり、すべての幅で2行。
+const nemophila = {
+  src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2025_Hitachi_Seaside_Park.jpg/1280px-2025_Hitachi_Seaside_Park.jpg',
+  alt: '国営ひたち海浜公園に咲くネモフィラ',
+};
 const heroSlides = [
   {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg/1280px-Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg',
-    alt: '大洗海岸から望む日の出',
-    caption: '一日は、太平洋から始まる。',
-    place: '茨城県・大洗海岸',
-    credit: '写真：t.kunikuni / CC BY-SA 2.0',
-    position: 'center 58%',
-  },
-  {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2025_Hitachi_Seaside_Park.jpg/1280px-2025_Hitachi_Seaside_Park.jpg',
-    alt: '国営ひたち海浜公園に咲くネモフィラ',
-    caption: '四月下旬、丘が青くなる。',
-    place: '茨城県・国営ひたち海浜公園',
+    theme: 'walk',
+    href: '/area/hitachinaka/',
+    tab: '海浜公園を歩く',
+    tabShort: '海浜公園を歩く',
+    kicker: 'ひたちなか、空と花のあいだ。',
+    lines: ['この青を、', '歩きにいこう。'],
+    lead: ['一歩ずつ、好きになる。', '茨城の景色も、まちのことも。'],
+    cta: 'ひたちなかを歩く',
+    photo: { ...wikimediaImage(nemophila.src), alt: nemophila.alt, width: 1280, height: 853 },
+    place: '国営ひたち海浜公園（4月下旬）',
     credit: '写真：Kakidai / CC BY-SA 4.0',
-    position: 'center 48%',
+    creditHref: 'https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg',
+    art: '/images/v42/field-walkers.webp',
   },
   {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Fukuroda_Falls_42.jpg/1280px-Fukuroda_Falls_42.jpg',
-    alt: '大子町の袋田の滝',
-    caption: '冬、滝は凍る。',
-    place: '茨城県・袋田の滝',
-    credit: '写真：Σ64 / CC BY 3.0',
-    position: 'center 42%',
+    theme: 'food',
+    href: '/food-library/',
+    tab: '茨城のおいしい図鑑',
+    tabShort: 'おいしい図鑑',
+    kicker: '茨城のおいしい図鑑',
+    lines: ['ひと口めから、', '好きになる。'],
+    lead: ['品種も、産地も、つくる人も。', 'おいしいの向こう側を、のぞいてみよう。'],
+    cta: 'おいしい図鑑をひらく',
+    photo: { ...wikimediaImage(FOOD_PHOTOS.hoshiimo.src, [500, 960]), alt: FOOD_PHOTOS.hoshiimo.alt, width: 960, height: 540 },
+    place: `干し芋（${FOOD_PHOTOS.hoshiimo.taken}撮影）`,
+    credit: `写真：${FOOD_PHOTOS.hoshiimo.author} / ${FOOD_PHOTOS.hoshiimo.license}`,
+    creditHref: FOOD_PHOTOS.hoshiimo.page,
+    art: '/images/v42/food-vignette.webp',
   },
+  {
+    theme: 'weekend',
+    href: '/events/',
+    tab: '今週末のイベント',
+    tabShort: '今週末の予定',
+    kicker: '週末の予定、ここから。',
+    lines: ['今週末、', '茨城で', 'なにしよう。'],
+    lead: ['お祭りも、体験も、まちの催しも。', '会いに行きたい時間を見つけよう。'],
+    cta: '今週末のイベントを探す',
+    photo: { src: '/images/v42/oarai-festival.webp', alt: '2014年の大洗あんこう祭の会場風景', width: 900, height: 675 },
+    place: '大洗あんこう祭（2014年）',
+    credit: '写真：Miyuki Meinaka / CC BY-SA 4.0',
+    creditHref: 'https://commons.wikimedia.org/wiki/File:Oarai_Anglerfish_Festival_2014.jpg',
+    art: null,
+  },
+];
+
+// 今月のよりみち帖。月替わりの編集枠（季節の記事と催しの入口）。翌月は SEASON と picks を差し替える。
+const SEASON = { month: 11, year: 2026, label: '11月のおすすめ', english: 'NOV.' };
+const seasonPicks = {
+  walk: {
+    href: '/kouyou/',
+    kicker: '01 / 色づく森を歩く',
+    lines: ['足もとから、', '秋になる。'],
+    cta: '紅葉の行き先を探す',
+    place: '高萩市・花貫渓谷',
+    image: { src: '/images/v42/hananuki-season.webp', alt: '秋の花貫渓谷・汐見滝吊り橋を歩く人々', width: 800, height: 600 },
+    credit: '写真：Kanohara / Public domain',
+    creditHref: 'https://commons.wikimedia.org/wiki/File:Hananuki_valley_Shiomi-taki_bridge.jpg',
+  },
+  side: [
+    { theme: 'taste', href: '/events/oarai-ankou-nabe-guide/', kicker: '02 / あんこう鍋', lines: ['湯気まで、', 'ごちそう。'], place: '大洗町', note: '冬の味を、店と宿で。', cta: '食べられる店と宿へ', image: '/images/v42/hotpot.webp', alt: 'あんこう鍋をイメージした挿絵', w: 640, h: 427 },
+    { theme: 'night', href: '/events/ibaraki-flowerpark-illumination-2026/', kicker: '03 / 光の夜さんぽ', lines: ['光の庭で、', 'ひと寄り道。'], place: '石岡市', note: 'いばらきフラワーパーク', cta: '夜の開催情報を見る', image: '/images/v42/nightgarden.webp', alt: '灯りのともる庭の夜さんぽをイメージした挿絵。実際の会場を再現したものではありません', w: 760, h: 507 },
+  ],
+  more: { href: '/events/ibaraki-events-november-2026/', label: '11月のおすすめをもっと見る' },
+  extra: [
+    { href: '/events/tsuchiura-hanabi-2026/', label: '土浦全国花火競技大会2026', note: '土浦市｜11月7日' },
+    { href: '/events/oarai-ankou-matsuri-2026/', label: '大洗あんこう祭2026', note: '大洗町｜11月14・15日' },
+  ],
+};
+
+const matchdays = [
+  { slug: 'mito', name: '水戸ホーリーホック', kicker: '水戸の試合へ', stub: '水戸', en: 'MITO', links: [{ href: '/sports/mito-hollyhock/', label: '試合・観戦ガイド' }, { href: '/news/mito-hollyhock-new-stadium-access/', label: '会場への行き方' }] },
+  { slug: 'kashima', name: '鹿島アントラーズ', kicker: '鹿島の試合へ', stub: '鹿島', en: 'KASHIMA', links: [{ href: '/sports/kashima-antlers/', label: '試合・観戦ガイド' }, { href: '/area/kashima/', label: '鹿嶋の街ガイド' }] },
 ];
 ---
 
 <BrandBase title={pageTitle} description={pageDescription} jsonLd={homeJsonLd} translationKey="home">
-  <section class="home-hero" data-module="home_hero">
-    <div class="hero-slides" aria-live="off">
-      {heroSlides.map((slide, index) => (
-        <figure class:list={['hero-slide', { 'is-active': index === 0 }]} data-hero-slide aria-hidden={index !== 0}>
-          <img
-            {...wikimediaImage(slide.src)}
-            sizes="100vw"
-            alt={slide.alt}
-            fetchpriority={index === 0 ? 'high' : 'auto'}
-            loading={index === 0 ? 'eager' : 'lazy'}
-            decoding={index === 0 ? 'sync' : 'async'}
-            width="1280"
-            height="853"
-            style={`object-position:${slide.position}`}
-          />
-          <figcaption><strong>{slide.caption}</strong><span>{slide.place}</span><small>{slide.credit}</small></figcaption>
-        </figure>
-      ))}
-    </div>
-    <div class="bp-wrap hero-inner">
-      <div class="hero-copy">
-        <p class="bp-kicker">茨城のローカルメディア</p>
-        <h1 class="bp-title"><span>なんか茨城、</span><br /><span>いいかも。</span></h1>
-        <p class="hero-lead">
-          <span>有名な場所だけじゃない。</span>
-          <span>次の休みに行きたくなる、茨城の日常を。</span>
-        </p>
-        <div class="hero-actions">
-          <a class="hero-cta hero-primary" href="/area/"><span class="cta-label">市町村から探す<small>44の街から選ぶ</small></span><span class="cta-arrow" aria-hidden="true">→</span></a>
-          <a class="hero-cta hero-secondary" href="#discover"><span class="cta-label">テーマから探す<small>食・おでかけ・宿・暮らし</small></span><span class="cta-arrow" aria-hidden="true">→</span></a>
+  <div class="v42-home">
+    <section class="fv" data-module="home_hero" aria-label="今月のイバトコ特集" data-fv>
+      <div class="fv-intro">
+        <div class="fv-intro__brand"><span class="fv-intro__line" aria-hidden="true"></span><h1>なんか茨城、いいかも。</h1></div>
+        <p class="fv-intro__note">寄り道したくなる、茨城の話。</p>
+        <p class="fv-intro__month" aria-hidden="true"><b>{SEASON.month}</b><span>NOVEMBER<br />{SEASON.year}</span></p>
+      </div>
+
+      <div class="fv-carousel">
+        <div class="fv-stage">
+          {heroSlides.map((slide, index) => (
+            <article
+              class:list={['fv-cover', `fv-cover--${slide.theme}`]}
+              data-fv-slide={index}
+              data-pos={index === 0 ? 'active' : index === 1 ? 'next' : 'prev'}
+              aria-roledescription="スライド"
+              aria-label={`${index + 1} / ${heroSlides.length} ${slide.tab}`}
+              aria-hidden={index !== 0 ? 'true' : undefined}
+              inert={index !== 0}
+            >
+              <div class="fv-cover__paper" aria-hidden="true"></div>
+              <a class="fv-cover__link" href={slide.href}>
+                <figure class="fv-cover__visual">
+                  <img
+                    {...slide.photo}
+                    sizes={slide.theme === 'walk' ? '(min-width: 1200px) 1160px, 100vw' : '(min-width: 700px) 50vw, 100vw'}
+                    fetchpriority={index === 0 ? 'high' : 'auto'}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding={index === 0 ? 'sync' : 'async'}
+                  />
+                </figure>
+                <div class="fv-cover__copy">
+                  <p class="fv-cover__kicker">{slide.kicker}</p>
+                  <h2>{slide.lines.map((line) => <span>{line}</span>)}</h2>
+                  <p class="fv-cover__lead">{slide.lead[0]}<br />{slide.lead[1]}</p>
+                </div>
+                <span class="fv-cover__cta">{slide.cta}<span aria-hidden="true">→</span></span>
+                {slide.art && <img class="fv-cover__art" src={slide.art} alt="" width="360" height="540" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />}
+                {slide.theme === 'weekend' && <span class="fv-cover__stamp" aria-hidden="true"><small>HELLO, WEEKEND!</small><b>よりみち<br />日和。</b></span>}
+              </a>
+              <p class="fv-cover__credit">{slide.place}／<a href={slide.creditHref} target="_blank" rel="license noopener">{slide.credit}</a></p>
+            </article>
+          ))}
         </div>
+        <button class="fv-arrow fv-arrow--prev" type="button" aria-label="前の特集へ" data-fv-step="-1"><span aria-hidden="true">←</span></button>
+        <button class="fv-arrow fv-arrow--next" type="button" aria-label="次の特集へ" data-fv-step="1"><span aria-hidden="true">→</span></button>
       </div>
-      <div class="hero-controls" aria-label="FV写真を切り替える">
-        {heroSlides.map((slide, index) => (
-          <button type="button" class:list={{ 'is-active': index === 0 }} data-hero-dot={index} aria-label={`${index + 1}枚目：${slide.place}`} aria-pressed={index === 0}><span>{String(index + 1).padStart(2, '0')}</span></button>
-        ))}
-      </div>
-    </div>
-  </section>
 
-  {/* まず季節の記事と新着へ。検索・テーマ・地域の入口も続けて残す。 */}
-  <section class="editorial-note" aria-label="イバトコの編集メッセージ">
-    <div class="bp-wrap editorial-note__inner">
-      <p>茨城の“本当にいい”を、地元目線で。</p>
-      <a href="/about/">イバトコについて <span aria-hidden="true">→</span></a>
-    </div>
-  </section>
-
-  <section class="november-now" aria-labelledby="november-now-title" data-module="home_november">
-    <div class="bp-wrap">
-      <p class="home-section-label">11月のおすすめ</p>
-      <div class="november-now__head">
-        <div><h2 id="november-now-title">11月に行きたいところ</h2><p>花火、あんこう、紅葉。11月に予定を立てるならこのあたりから。</p></div>
-        <a href="/events/ibaraki-events-november-2026/">11月のイベントをまとめて見る →</a>
-      </div>
-      <ol class="november-now__list">
-        <li><a href="/events/tsuchiura-hanabi-2026/"><span class="november-now__text"><small>土浦市｜11月7日</small><strong>土浦全国花火競技大会2026</strong><em>交通・駐車場まで確認する</em></span><b aria-hidden="true">↗</b></a></li>
-        <li><a href="/events/oarai-ankou-matsuri-2026/"><span class="november-now__text"><small>大洗町｜11月14・15日</small><strong>大洗あんこう祭2026</strong><em>祭りと宿泊をまとめて見る</em></span><b aria-hidden="true">↗</b></a></li>
-        <li><a href="/kouyou/"><span class="november-now__text"><small>袋田・竜神・花貫・筑波山</small><strong>茨城の紅葉2026</strong><em>11月の見頃から選ぶ</em></span><b aria-hidden="true">↗</b></a></li>
-        <li><a href="/events/oarai-ankou-nabe-guide/"><span class="november-now__text"><small>大洗町｜11月〜3月</small><strong>大洗のあんこう鍋</strong><em>店・宿から探す</em></span><b aria-hidden="true">↗</b></a></li>
-      </ol>
-    </div>
-  </section>
-  <section class="home-news" aria-labelledby="home-news-title" data-module="home_news">
-    <div class="bp-wrap">
-      <header class="home-news__head"><div><p class="home-section-label">新着・地域の動き</p><h2 id="home-news-title" class="bp-section-title">茨城の、いまを読む。</h2></div><p>出来事の先にある、暮らしと地域への影響まで。一次情報を確かめ、編集部の視点で読み解きます。</p></header>
-      {latestNews.length > 0 ? <div class="home-news__grid">{latestNews.map((item) => <NewsCard item={item} compact />)}</div> : <div class="home-news__preparing"><p>いま、最初のニュースを確認・編集中です。</p><span>一次情報との照合を終えた解説から公開します。</span></div>}
-      <a class="home-news__link" href="/news/">編集部のニュース解説を見る →</a>
-    </div>
-  </section>
-
-  <div id="discover-now"><HomeNow /></div>
-  {/* 日付から入る枠。該当が無ければブロックごと出ない */}
-  <div data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
-
-  <section class="home-intent" aria-labelledby="home-intent-title" data-module="home_intent">
-    <div class="bp-wrap">
-      <header class="home-intent__head">
-        <div><h2 id="home-intent-title">今度の休み、どこ行く？</h2></div>
-        <p class="home-intent__lead">場所が決まっていないときは、気分や予定から探せます。</p>
-      </header>
-      <nav class="home-intent__grid" aria-label="気分と条件から探す">
-        {discoveryIntents.map((item) => <a href={item.href}><span><strong>{item.label}</strong><small>{item.note}</small></span><b aria-hidden="true">→</b></a>)}
-      </nav>
-      <div class="home-tags" aria-label="気分のタグ">
-        <span>気分でめぐる</span>
-        <a href="/kouyou/">#紅葉</a><a href="/eat/">#おいしい茨城</a><a href="/yama/">#絶景</a><a href="/sauna-play/">#温泉・サウナ</a><a href="/shindan/?who=family">#子どもと</a><a href="/area/">#ドライブ</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="hoshiimo-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
-    <div class="bp-wrap hoshiimo-home__inner">
-      <div class="hoshiimo-home__copy">
-        <p class="home-section-label">茨城のおいしい図鑑</p>
-        <h2 id="hoshiimo-home-title">あなたの<span>推し干し芋</span>、<br />どの品種？</h2>
-        <p class="hoshiimo-home__lead">ねっとり派？ 昔ながら派？ 8品種の図鑑から、あなた好みの干し芋を見つけよう。</p>
-        <div class="hoshiimo-home__actions">
-          <a class="hoshiimo-home__cta" href="/hoshiimo/#diagnosis">30秒で干し芋診断 <span aria-hidden="true">→</span></a>
-          <a class="hoshiimo-home__sub" href="/hoshiimo/#varieties">8品種の図鑑を見る →</a>
+      <div class="fv-bottom">
+        <p class="fv-count" aria-hidden="true"><b data-fv-current>01</b><span> / {String(heroSlides.length).padStart(2, '0')}</span></p>
+        <div class="fv-tabs" role="group" aria-label="特集を選ぶ">
+          {heroSlides.map((slide, index) => (
+            <button type="button" class:list={['fv-tab', { 'is-active': index === 0 }]} data-hero-dot={index} aria-pressed={index === 0 ? 'true' : 'false'} aria-label={`${index + 1}枚目：${slide.tab}`}>
+              <small>STORY 0{index + 1}</small><span class="fv-tab__long">{slide.tab}</span><span class="fv-tab__short">{slide.tabShort}</span>
+            </button>
+          ))}
         </div>
-        <nav class="hoshiimo-home__series" aria-labelledby="hoshiimo-home-series">
-          <p id="hoshiimo-home-series"><a href="/food-library/">茨城のおいしい図鑑をすべて見る →</a></p>
-          <ul>{FOOD_GUIDES.filter((g) => g.slug !== 'hoshiimo').map((g) => <li><a href={g.path}>{g.name}</a></li>)}</ul>
+        <button class="fv-play" type="button" aria-pressed="true" data-fv-play><span class="fv-play__icon" aria-hidden="true">Ⅱ</span><span data-fv-play-label>停止</span></button>
+      </div>
+      <p class="sr-only" aria-live="polite" data-fv-status></p>
+    </section>
+
+    {/* 検索・いま読まれている記事・行き先診断（HomeNow）。TOPの検索フォームは /search/ へ送る */}
+    <div id="discover-now"><HomeNow /></div>
+
+    <section class="v42-theme" id="discover" data-module="home_discover" aria-labelledby="discover-title">
+      <div class="v42-wrap">
+        <header class="v42-head">
+          <div><p class="v42-label">テーマから探す</p><h2 id="discover-title">茨城を、<br />六つの入口から。</h2></div>
+          <p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p>
+        </header>
+        <HomeThemeNav />
+        <nav class="v42-intents" aria-label="気分と条件から探す" data-module="home_intent">
+          <span>気分から探す</span>
+          {discoveryIntents.map((item) => <a href={item.href}><strong>{item.label}</strong><small>{item.note}</small></a>)}
         </nav>
       </div>
-      <figure class="hoshiimo-home__photo">
-        <img {...wikimediaImage(FOOD_PHOTOS.hoshiimo.src, [500, 960])} sizes="(min-width: 760px) 40vw, 100vw" width="960" height="720" loading="lazy" decoding="async" alt={FOOD_PHOTOS.hoshiimo.alt} />
-        <figcaption>{FOOD_PHOTOS.hoshiimo.place}・{FOOD_PHOTOS.hoshiimo.taken}撮影。写真：<a href={FOOD_PHOTOS.hoshiimo.page} target="_blank" rel="noopener noreferrer">{FOOD_PHOTOS.hoshiimo.author} / Wikimedia Commons</a>（<a href={licenseUrl(FOOD_PHOTOS.hoshiimo.license)} target="_blank" rel="noopener noreferrer license">{FOOD_PHOTOS.hoshiimo.license}</a>）</figcaption>
-      </figure>
-    </div>
-  </section>
+    </section>
 
-  <section class="discover" id="discover" data-module="home_discover">
-    <div class="bp-wrap discover-grid">
-      <header class="discover-head"><div><p class="home-section-label">テーマから探す</p><h2 class="bp-section-title">茨城を、<br />六つの入口から。</h2></div><p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p></header>
-      <HomeThemeNav />
-    </div>
-  </section>
-
-  <section class="area-home" id="area" data-module="home_area"><div class="bp-wrap"><HomeAreaExplorer /></div></section>
-
-  <section class="brand-origin" data-module="home_origin">
-    <div class="bp-wrap origin-grid">
-      <div class="origin-index">
-        <span>イバトコ<br />について</span>
-        <b>01</b>
+    <section class="season" id="season" aria-labelledby="season-title" data-module="home_november">
+      <img class="season__canopy" src="/images/v42/autumn-maple-print.webp" width="480" height="480" alt="" loading="lazy" decoding="async" />
+      <div class="v42-wrap">
+        <header class="season__head">
+          <p class="season__folio" aria-hidden="true"><span>{SEASON.english}</span><b>{SEASON.month}</b></p>
+          <div class="season__title"><p class="v42-label">{SEASON.label}</p><h2 id="season-title">今月の、<br class="v42-br-phone" />よりみち帖。</h2></div>
+          <p class="season__intro">色づく森、湯気の向こう、光の庭。<br />この季節の「行きたい」を、ひとつ。</p>
+        </header>
+        <div class="season__grid">
+          <a class="season-pick season-pick--walk" href={seasonPicks.walk.href}>
+            <figure class="season-pick__photo">
+              <img {...seasonPicks.walk.image} sizes="(min-width: 900px) 56vw, 100vw" loading="lazy" decoding="async" />
+              <span class="season-pick__place">{seasonPicks.walk.place}</span>
+            </figure>
+            <div class="season-pick__body">
+              <p class="season-pick__kicker">{seasonPicks.walk.kicker}</p>
+              <h3>{seasonPicks.walk.lines[0]}<br />{seasonPicks.walk.lines[1]}</h3>
+              <span class="season-pick__cta">{seasonPicks.walk.cta}<span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+          <div class="season__side">
+            {seasonPicks.side.map((pick) => (
+              <a class:list={['season-pick', `season-pick--${pick.theme}`]} href={pick.href}>
+                <figure class="season-pick__photo"><img src={pick.image} alt={pick.alt} width={pick.w} height={pick.h} loading="lazy" decoding="async" /><figcaption>イメージイラスト</figcaption></figure>
+                <div class="season-pick__body">
+                  <p class="season-pick__kicker">{pick.kicker}</p>
+                  <h3>{pick.lines[0]}<br />{pick.lines[1]}</h3>
+                  <p class="season-pick__meta">{pick.place}｜{pick.note}</p>
+                  <span class="season-pick__cta">{pick.cta}<span aria-hidden="true">→</span></span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+        <p class="season__credit">花貫渓谷の写真：<a href={seasonPicks.walk.creditHref} target="_blank" rel="license noopener">{seasonPicks.walk.credit}</a></p>
+        <div class="season__more">
+          <img src="/images/v42/field-reporters.webp" width="360" height="540" alt="" loading="lazy" decoding="async" />
+          <ul>{seasonPicks.extra.map((item) => <li><a href={item.href}><small>{item.note}</small>{item.label}</a></li>)}</ul>
+          <a class="v42-button" href={seasonPicks.more.href}>{seasonPicks.more.label}<span aria-hidden="true">→</span></a>
+        </div>
       </div>
-      <div class="origin-copy">
-        <p class="home-section-label">イバトコをつくった理由</p>
-        <h2 class="bp-section-title">検索では見つからない、<br />この土地の理由を。</h2>
-        {/*
-          文の切れ目で改行する。1行に流すと「現地へ／行き」のように
-          語の途中で折れて読みにくかった。文単位で分けると、狭い画面でも
-          意味の切れ目が行頭に来る。
-        */}
-        <p class="origin-lead">口コミの星の数には、その店がそこにある理由までは書かれていません。<br />現地へ行き、人に会い、確かめたことだけを書いています。</p>
-        <a href="/about/">私たちについて <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="process-home" data-module="home_process"><div class="bp-wrap"><HomeEditorialProcess /></div></section>
+    {/* 日付から入る枠。該当が無ければブロックごと出ない */}
+    <div id="events" data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
 
-  <section class="partner" data-module="home_partner">
-    <div class="bp-wrap partner-layout">
-      <div class="partner-copy">
-        <p class="home-section-label">取材・掲載について</p>
-        <h2>あなたの街の、<br /><em>まだ書かれていない</em><br />話を。</h2>
-        <p class="partner-lead">続けてきた理由。選ばれている理由。まだ言葉になっていない価値を、会って、聞いて、一緒に見つけます。</p>
-        <ul class="partner-topics" aria-label="取材対象">
-          <li>店と食</li><li>人と仕事</li><li>地域の挑戦</li>
-        </ul>
-      </div>
+    <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer /></div></section>
 
-      <div class="partner-storyboard">
-        <figure>
-          <img src="/images/area/hitachi/city-from-kamine.jpg" alt="高台から見渡す日立市街と太平洋" loading="lazy" decoding="async" width="1280" height="853" />
-          <figcaption><a href="https://commons.wikimedia.org/wiki/File:Hitachi_City_from_Kamine_Park_04.jpg" target="_blank" rel="license noopener">写真：Σ64 / CC BY 4.0</a></figcaption>
+    <section class="food-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
+      <div class="v42-wrap food-home__layout">
+        <div class="food-home__intro">
+          <p class="v42-label">旅のあとにも、読みたくなる。</p>
+          <h2 id="hoshiimo-home-title">茨城のおいしい図鑑</h2>
+          <p>あなたの推し干し芋、どの品種？ 8品種の図鑑から、好みの一本を見つけよう。</p>
+          <a class="v42-button" href="/hoshiimo/#diagnosis">30秒で干し芋診断<span aria-hidden="true">→</span></a>
+        </div>
+        <figure class="food-home__art">
+          <img src="/images/v42/hoshiimo-field-visit.webp" alt="干し芋づくりの現場を訪ねる二人を描いた版画調のイメージイラスト" width="1100" height="619" loading="lazy" decoding="async" />
+          <figcaption>干し芋づくりのイメージイラスト</figcaption>
         </figure>
-        <ol class="partner-questions" aria-label="取材で聞きたいこと">
-          <li><span>01</span><p>なぜ、この場所で<br />続けているのか。</p></li>
-          <li><span>02</span><p>誰のために、<br />つくっているのか。</p></li>
-          <li><span>03</span><p>次に、どんな景色を<br />つくりたいのか。</p></li>
-        </ol>
+        <nav class="food-home__links" aria-labelledby="hoshiimo-home-series">
+          <p id="hoshiimo-home-series" class="food-home__series-title">食の図鑑</p>
+          <a class="food-home__lead-link" href="/hoshiimo/#varieties"><span><small>8品種</small><strong>茨城の干し芋図鑑</strong></span><i aria-hidden="true">→</i></a>
+          <ul>{FOOD_GUIDES.filter((g) => g.slug !== 'hoshiimo').map((g) => <li><a href={g.path}>{g.name}</a></li>)}</ul>
+          <a class="food-home__all" href="/food-library/">茨城のおいしい図鑑をすべて見る<i aria-hidden="true">→</i></a>
+        </nav>
       </div>
+      <p class="v42-wrap food-home__credit">{FOOD_PHOTOS.hoshiimo.place}・{FOOD_PHOTOS.hoshiimo.taken}撮影の写真（FV）：<a href={FOOD_PHOTOS.hoshiimo.page} target="_blank" rel="noopener noreferrer">{FOOD_PHOTOS.hoshiimo.author} / Wikimedia Commons</a>（<a href={licenseUrl(FOOD_PHOTOS.hoshiimo.license)} target="_blank" rel="noopener noreferrer license">{FOOD_PHOTOS.hoshiimo.license}</a>）</p>
+    </section>
 
-      <div class="partner-actions">
-        <a class="partner-primary" href="/contact/"><span>まず、話を聞かせてください</span><b aria-hidden="true">↗</b></a>
-        <a class="partner-secondary" href="/biz/">取材・発信支援について →</a>
+    <section class="home-news" aria-labelledby="home-news-title" data-module="home_news">
+      <div class="v42-wrap">
+        <header class="v42-head">
+          <div><p class="v42-label">LOCAL JOURNAL ／ まちの新着</p><h2 id="home-news-title">まちの、<br class="v42-pc-br" /><br class="v42-br-narrow" />あたらしい話。</h2></div>
+          <p>出来事の先にある、暮らしと地域への影響まで。<br />一次情報を確かめ、編集部の視点で読み解きます。</p>
+        </header>
+        {latestNews.length > 0 ? <div class="home-news__grid">{latestNews.map((item) => <NewsCard item={item} compact />)}</div> : <div class="home-news__preparing"><p>いま、最初のニュースを確認・編集中です。</p><span>一次情報との照合を終えた解説から公開します。</span></div>}
+        <a class="v42-quiet-link" href="/news/">編集部のニュース解説を見る<span aria-hidden="true">&nbsp;↗</span></a>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="matchday" aria-labelledby="matchday-title" data-module="home_sports">
+      <div class="v42-wrap matchday__inner">
+        <header class="matchday__head">
+          <p class="v42-label">スポーツの休日</p>
+          <h2 id="matchday-title">観戦も、<br />旅のきっかけ。</h2>
+          <p>日程、アクセス、街の見どころ。<br />試合に行く前に、まとめて確認。</p>
+          <img src="/images/v42/matchday-supporters.webp" width="520" height="347" alt="" loading="lazy" decoding="async" />
+        </header>
+        <div class="matchday__visits">
+          {matchdays.map((club) => (
+            <article class:list={['matchday-visit', `matchday-visit--${club.slug}`]}>
+              <p class="matchday-visit__kicker">{club.kicker}</p>
+              <h3>{club.name}</h3>
+              <div class="matchday-visit__links">{club.links.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>)}</div>
+              <span class="matchday-visit__stub" aria-hidden="true"><strong>{club.stub}</strong><small>{club.en}</small></span>
+            </article>
+          ))}
+          <a class="v42-quiet-link" href="/sports/">茨城のスポーツをすべて見る<span aria-hidden="true">&nbsp;→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="brand-origin" data-module="home_origin">
+      <div class="v42-wrap origin-grid">
+        <p class="origin-index" aria-hidden="true"><span>イバトコ<br />について</span><b>01</b></p>
+        <div class="origin-copy">
+          <p class="v42-label">イバトコをつくった理由</p>
+          <h2>検索では見つからない、<br />この土地の理由を。</h2>
+          {/*
+            文の切れ目で改行する。1行に流すと「現地へ／行き」のように
+            語の途中で折れて読みにくかった。文単位で分けると、狭い画面でも
+            意味の切れ目が行頭に来る。
+          */}
+          <p class="origin-lead">口コミの星の数には、その店がそこにある理由までは書かれていません。<br />現地へ行き、人に会い、確かめたことだけを書いています。</p>
+          <a href="/about/">私たちについて<span aria-hidden="true">&nbsp;↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-home" data-module="home_process"><div class="v42-wrap"><HomeEditorialProcess /></div></section>
+
+    <section class="partner" data-module="home_partner" aria-labelledby="partner-title">
+      <div class="v42-wrap">
+        <header class="partner__head">
+          <p class="v42-label">取材・掲載・協賛について</p>
+          <h2 id="partner-title">茨城を、一緒に<br class="v42-br-phone" />おもしろく。</h2>
+          <p>続けてきた理由。選ばれている理由。<br />まだ言葉になっていない価値を、会って、聞いて、一緒に見つけます。</p>
+        </header>
+        <div class="partner__grid">
+          <div class="partner__story">
+            <ol class="partner__questions" aria-label="取材で聞きたいこと">
+              <li><span>01</span><p>なぜ、この場所で<br />続けているのか。</p></li>
+              <li><span>02</span><p>誰のために、<br />つくっているのか。</p></li>
+              <li><span>03</span><p>次に、どんな景色を<br />つくりたいのか。</p></li>
+            </ol>
+            <ul class="partner__topics" aria-label="取材対象"><li>店と食</li><li>人と仕事</li><li>地域の挑戦</li></ul>
+          </div>
+          <div class="partner__actions">
+            <a class="partner__primary" href="/contact/"><span>まず、話を聞かせてください</span><b aria-hidden="true">↗</b></a>
+            <a class="partner__slot" href="/sponsor/"><span class="partner__recruit">募集中</span><strong>協賛・パートナーのご案内</strong><small>街のいいところを、一緒に届ける</small></a>
+            <a class="v42-quiet-link" href="/biz/">取材・発信支援について<span aria-hidden="true">&nbsp;→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </BrandBase>
 
 <script>
@@ -243,236 +352,362 @@ const heroSlides = [
   // どのセクションまで読まれ、どこが押されたか（module_view / module_click）
   bindModuleTracking('home');
 
-  const hero = document.querySelector<HTMLElement>('.home-hero');
+  const hero = document.querySelector<HTMLElement>('[data-fv]');
   if (hero) {
-    const slides = [...hero.querySelectorAll<HTMLElement>('[data-hero-slide]')];
+    const slides = [...hero.querySelectorAll<HTMLElement>('[data-fv-slide]')];
     const dots = [...hero.querySelectorAll<HTMLButtonElement>('[data-hero-dot]')];
+    const counter = hero.querySelector<HTMLElement>('[data-fv-current]');
+    const status = hero.querySelector<HTMLElement>('[data-fv-status]');
+    const play = hero.querySelector<HTMLButtonElement>('[data-fv-play]');
+    const playLabel = hero.querySelector<HTMLElement>('[data-fv-play-label]');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current = 0;
     let timer: number | undefined;
-    const show = (next: number) => {
+    // 動きを抑える設定では自動再生しない。停止ボタンで止めた場合も、押し直すまで再開しない
+    let userPaused = reduced.matches;
+
+    const show = (next: number, announce = false) => {
       current = (next + slides.length) % slides.length;
       slides.forEach((slide, index) => {
-        slide.classList.toggle('is-active', index === current);
-        slide.setAttribute('aria-hidden', String(index !== current));
+        const offset = (index - current + slides.length) % slides.length;
+        const pos = offset === 0 ? 'active' : offset === 1 ? 'next' : 'prev';
+        slide.dataset.pos = pos;
+        slide.inert = pos !== 'active';
+        if (pos === 'active') slide.removeAttribute('aria-hidden');
+        else slide.setAttribute('aria-hidden', 'true');
       });
       dots.forEach((dot, index) => {
         dot.classList.toggle('is-active', index === current);
         dot.setAttribute('aria-pressed', String(index === current));
       });
+      if (counter) counter.textContent = String(current + 1).padStart(2, '0');
+      if (announce && status) status.textContent = slides[current].getAttribute('aria-label') ?? '';
     };
     const stop = () => { if (timer) window.clearInterval(timer); timer = undefined; };
     const start = () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       stop();
+      if (userPaused || reduced.matches) return;
       timer = window.setInterval(() => show(current + 1), 5000);
     };
-    dots.forEach((dot, index) => dot.addEventListener('click', () => { show(index); start(); }));
+    const syncPlay = () => {
+      play?.setAttribute('aria-pressed', String(!userPaused));
+      play?.setAttribute('aria-label', userPaused ? 'スライドの自動再生を再開' : 'スライドの自動再生を停止');
+      if (playLabel) playLabel.textContent = userPaused ? '再生' : '停止';
+      play?.querySelector('.fv-play__icon')?.replaceChildren(userPaused ? '▷' : 'Ⅱ');
+    };
+
+    dots.forEach((dot, index) => dot.addEventListener('click', () => { show(index, true); start(); }));
+    hero.querySelectorAll<HTMLButtonElement>('[data-fv-step]').forEach((button) => {
+      button.addEventListener('click', () => { show(current + Number(button.dataset.fvStep), true); start(); });
+    });
+    play?.addEventListener('click', () => { userPaused = !userPaused; syncPlay(); start(); });
+
+    // スマホの横スワイプ。縦スクロールは妨げない（touch-action: pan-y）
+    const stage = hero.querySelector<HTMLElement>('.fv-stage');
+    let startX: number | null = null;
+    stage?.addEventListener('pointerdown', (event) => { if (event.pointerType !== 'mouse') startX = event.clientX; });
+    stage?.addEventListener('pointerup', (event) => {
+      if (startX === null) return;
+      const dx = event.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 48) { show(current + (dx < 0 ? 1 : -1), true); start(); }
+    });
+
     hero.addEventListener('focusin', stop);
     hero.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    reduced.addEventListener('change', () => { if (reduced.matches) userPaused = true; syncPlay(); start(); });
+    syncPlay();
     start();
   }
 </script>
 
 <style>
-  .home-hero{position:relative;height:min(880px,calc(100svh - var(--site-header-height)));min-height:680px;display:flex;align-items:flex-end;overflow:hidden;background:#233f4a;color:#fff}
-  .hero-slides,.hero-slide,.hero-slide img{position:absolute;inset:0;width:100%;height:100%}.hero-slide{margin:0;opacity:0;visibility:hidden;transform:scale(1.018);transition:opacity 1.15s ease,visibility 1.15s ease,transform 6.5s ease}.hero-slide.is-active{opacity:1;visibility:visible;transform:scale(1)}.hero-slide img{object-fit:cover;filter:saturate(.8) contrast(1.03)}
-  .hero-slide figcaption{position:absolute;z-index:3;right:clamp(1rem,4vw,3rem);bottom:1.5rem;display:grid;text-align:right;color:rgba(255,255,255,.9);text-shadow:0 1px 8px rgba(0,0,0,.5);font-size:.72rem}.hero-slide figcaption strong{margin-bottom:.35rem;font:600 clamp(.92rem,1.4vw,1.2rem)/1.45 var(--font-brand-display);color:#fff}.hero-slide figcaption small{margin-top:.15rem;font-size:.6rem;color:rgba(255,255,255,.7)}.hero-slide figcaption{transition:opacity .35s ease}.hero-slide:not(.is-active) figcaption{opacity:0}
-  .hero-slide::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(4,24,48,.9) 0%,rgba(6,35,55,.55) 46%,rgba(5,20,30,.08) 79%),linear-gradient(0deg,rgba(4,21,35,.58),transparent 48%)}
-  .hero-inner{position:relative;z-index:2;width:min(calc(100% - clamp(3rem,14vw,17rem)),92rem);padding-block:clamp(3rem,6.5vw,5rem) 1.45rem}.hero-copy{max-width:64rem}.hero-copy .bp-kicker{font-size:clamp(.76rem,1vw,.88rem);letter-spacing:.11em;color:#fff}.hero-copy .bp-title{margin-top:1.15rem;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:clamp(3rem,5.15vw,5.25rem);font-weight:500;line-height:1.4;letter-spacing:.025em;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.22)}.hero-copy .bp-title span{white-space:nowrap}.hero-lead{margin-top:1.2rem;font-family:var(--font-brand-display);font-size:clamp(.9rem,1.12vw,1.02rem);line-height:2;color:rgba(255,255,255,.92)}.hero-lead span{display:block}
-  .hero-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.8rem}.hero-cta{position:relative;display:grid;width:17rem;height:4.9rem;grid-template-columns:minmax(0,1fr) 1.4rem;align-items:center;gap:.65rem;padding:0 1.2rem;overflow:hidden;border:1px solid #fff;font-weight:700;transition:color .3s ease,background-color .3s ease,transform .25s ease}.hero-cta::before{content:'';position:absolute;inset:0;background:var(--color-ink);transform:translateY(101%);transition:transform .3s ease}.hero-cta>*{position:relative;z-index:1}.hero-primary{background:#fff;color:var(--color-ink)!important}.hero-secondary{background:rgba(9,34,43,.3);color:#fff;backdrop-filter:blur(8px)}.hero-cta:hover,.hero-cta:focus-visible{transform:translateY(-3px);color:#fff!important}.hero-cta:hover::before,.hero-cta:focus-visible::before{transform:translateY(0)}.cta-label{display:flex;flex-direction:column;font-size:.83rem;letter-spacing:.03em}.cta-label small{margin-top:.3rem;font-size:.7rem;font-weight:500;letter-spacing:.06em;opacity:.72}.cta-arrow{justify-self:end;transition:transform .2s ease}.hero-cta:hover .cta-arrow,.hero-cta:focus-visible .cta-arrow{transform:translate(.25rem,-.15rem)}
-.hero-controls{display:flex;gap:.55rem;margin-top:2rem}.hero-controls button{width:3.6rem;padding:.55rem 0;border:0;border-top:1px solid rgba(255,255,255,.4);background:transparent;color:rgba(255,255,255,.55);cursor:pointer;text-align:left;transition:border-color .25s ease,color .25s ease}.hero-controls button:hover,.hero-controls button:focus-visible,.hero-controls button.is-active{border-color:#fff;color:#fff}.hero-controls span{font:.62rem var(--font-brand-meta)}
-  .brand-origin{position:relative;isolation:isolate;overflow:hidden;min-height:47rem;background:linear-gradient(145deg,#fff 0%,#f5f8fb 64%,#eef1ea 118%);color:var(--color-deep-blue)}
-  .origin-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-top:clamp(6.5rem,10vw,9rem);padding-bottom:17rem}.origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid rgba(7,23,68,.28);color:var(--color-brand-blue)}.origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}.origin-index b{font:500 .68rem/1 var(--font-brand-meta)}.origin-copy{max-width:57rem}.brand-origin .bp-kicker{color:var(--color-brand-blue)}.brand-origin h2{max-width:52rem;margin-top:1.05rem;font-size:clamp(2.5rem,4.4vw,4.4rem);line-height:1.42;letter-spacing:.025em;color:var(--color-deep-blue)}/*
-   * global.css は p に line-break:strict しか掛けていない（長い散文に
-   * auto-phrase を掛けると行末が波打つため）。ただしこのリードは2文だけの
-   * 見出し相当で、既定のままだと狭い画面で「書／いています」のように
-   * 語の途中で折れた。短い文字列なので、ここだけ文節で折る。
-   */
-  .origin-lead{max-width:45rem;margin-top:1.65rem;font:500 clamp(1rem,1.35vw,1.22rem)/2 var(--font-brand-body);letter-spacing:.015em;color:#33435f;word-break:auto-phrase}.origin-copy>a{display:inline-flex;align-items:center;gap:1.6rem;margin-top:2rem;padding-bottom:.45rem;border-bottom:1px solid var(--color-deep-blue);font-size:.82rem;font-weight:700;color:var(--color-deep-blue)}.origin-copy>a span{color:var(--color-brand-blue);transition:transform .2s ease}.origin-copy>a:hover span,.origin-copy>a:focus-visible span{transform:translate(.2rem,-.2rem)}
-  .home-news{position:relative;overflow:hidden;padding-block:clamp(6rem,9vw,8rem);background:#f1f7fc}.home-news::after{content:'';position:absolute;top:-5rem;right:-7rem;width:42rem;height:22rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#8fbce3;opacity:.16;transform:rotate(6deg)}.home-news>.bp-wrap{position:relative;z-index:1}.home-news .bp-kicker{color:var(--color-brand-blue)}.home-news__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.55fr);align-items:end;gap:clamp(2rem,8vw,8rem)}.home-news__head h2{margin-top:.8rem;color:var(--color-deep-blue)}.home-news__head>p{max-width:29rem;color:var(--color-soil);line-height:1.9}.home-news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.15rem;margin-top:3rem}.home-news__grid :global(.news-card){box-shadow:0 1.2rem 3rem rgba(26,65,99,.065);transition:transform .28s ease,box-shadow .28s ease}.home-news__grid :global(.news-card:hover){transform:translateY(-5px);box-shadow:0 1.7rem 3.5rem rgba(26,65,99,.12)}.home-news__preparing{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;padding:1.3rem 0;border-block:1px solid var(--color-mist);color:var(--color-soil)}.home-news__preparing p{color:var(--color-ink);font-weight:600}.home-news__preparing span{font-size:.8rem}.home-news__link{display:inline-block;margin-top:2rem;padding-bottom:.4rem;border-bottom:1px solid var(--color-deep-blue);font-size:.82rem;font-weight:700;color:var(--color-deep-blue)}
-  .discover{position:relative;overflow:hidden;background:#fbfcfe}.discover::after{content:'';position:absolute;right:-8rem;top:-7rem;width:35rem;height:18rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#8fbce3;opacity:.11;transform:rotate(6deg)}.discover-grid{position:relative;z-index:1;padding-block:clamp(6rem,9vw,8rem)}.discover-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.55fr);align-items:end;gap:clamp(2rem,8vw,8rem);margin-bottom:clamp(3rem,5vw,4.5rem)}.discover .bp-kicker{color:var(--color-brand-blue)}.discover h2{margin-top:.85rem;color:var(--color-deep-blue)}.discover-head>p{max-width:28rem;padding-bottom:.35rem;color:var(--color-soil);line-height:2}.area-home{position:relative;overflow:hidden;background:linear-gradient(180deg,#f5f8fb 0%,#eef2f3 100%);padding-block:clamp(5rem,8vw,7rem)}.area-home::before{content:'';position:absolute;left:-8rem;bottom:-7rem;width:30rem;height:18rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;opacity:.055;pointer-events:none}.area-home>.bp-wrap{position:relative;z-index:1}
-  .process-home{position:relative;overflow:hidden;background:linear-gradient(145deg,#fbfcfe 0%,#f0f4f7 62%,#eef1ea 118%)}.process-home::before{content:'';position:absolute;left:-12rem;top:-10rem;width:31rem;height:28rem;border-radius:48% 52% 61% 39%;background:rgba(141,194,237,.21);transform:rotate(14deg)}.process-home::after{content:'';position:absolute;right:-7rem;bottom:-5rem;width:42rem;height:22rem;background:url('/brand/terrain-contours.svg') center/contain no-repeat;color:#86b8df;opacity:.12;transform:rotate(6deg)}.process-home>.bp-wrap{position:relative;z-index:1}
-  .partner{position:relative;isolation:isolate;overflow:hidden;padding-block:clamp(7rem,10vw,10rem);background:linear-gradient(138deg,#fbfaf4 0%,#f6f8ec 58%,#edf6fc 100%)}.partner::before{content:'';position:absolute;z-index:-1;left:-9rem;bottom:-10rem;width:31rem;height:25rem;border-radius:48% 52% 38% 62%;background:rgba(142,194,238,.24);transform:rotate(-12deg)}.partner::after{content:'';position:absolute;z-index:-1;right:-10rem;top:-8rem;width:28rem;height:22rem;border-radius:55% 45% 66% 34%;background:rgba(188,202,137,.26);transform:rotate(8deg)}
-  .partner-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(28rem,1.1fr);grid-template-areas:"copy storyboard" "actions storyboard";grid-template-rows:auto 1fr;align-items:start;column-gap:clamp(4rem,9vw,9rem);row-gap:2.3rem}.partner-copy{position:relative;z-index:2;grid-area:copy}.partner .bp-kicker{color:#617125}.partner h2{max-width:45rem;margin-top:1.25rem;font:600 clamp(2.5rem,3.7vw,3.8rem)/1.45 var(--font-brand-display);letter-spacing:.025em;color:var(--color-deep-blue)}.partner h2 em{position:relative;display:inline-block;white-space:nowrap;font-style:normal;color:var(--color-brand-blue)}.partner h2 em::after{content:'';position:absolute;z-index:-1;left:-.1em;right:-.1em;bottom:.08em;height:.22em;background:rgba(149,199,239,.3);transform:rotate(-1deg)}.partner-lead{max-width:35rem;margin-top:1.7rem;font-size:.94rem;line-height:2;color:var(--color-soil)}
-  .partner-topics{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2rem}.partner-topics li{padding:.55rem .9rem;border:1px solid rgba(7,23,68,.15);border-radius:999px;background:rgba(255,255,255,.48);font-size:.68rem;font-weight:700;color:var(--color-deep-blue)}
-  .partner-actions{grid-area:actions;display:flex;flex-wrap:wrap;align-items:center;align-self:start;gap:1rem 1.5rem}.partner-primary{display:flex;min-width:20rem;align-items:center;justify-content:space-between;gap:2rem;padding:1.15rem 1.25rem 1.15rem 1.5rem;background:var(--color-deep-blue);box-shadow:0 1.1rem 2.8rem rgba(7,23,68,.16);color:#fff;font-size:.82rem;font-weight:700;transition:transform .25s ease,box-shadow .25s ease}.partner-primary b{display:grid;width:2rem;height:2rem;place-items:center;border:1px solid rgba(255,255,255,.45);border-radius:50%;font-weight:400;transition:transform .25s ease}.partner-primary:hover,.partner-primary:focus-visible{transform:translateY(-3px);box-shadow:0 1.5rem 3.3rem rgba(7,23,68,.22)}.partner-primary:hover b,.partner-primary:focus-visible b{transform:translate(.18rem,-.18rem)}.partner-secondary{padding-bottom:.35rem;border-bottom:1px solid var(--color-deep-blue);font-size:.72rem;font-weight:700;color:var(--color-deep-blue)}
-  .partner-storyboard{position:relative;grid-area:storyboard;align-self:center;width:100%;min-height:39rem}.partner-storyboard figure{position:absolute;inset:0 0 2.5rem 3rem;margin:0;overflow:hidden;background:#d7e8f3;clip-path:polygon(7% 0,100% 0,100% 93%,0 100%);box-shadow:0 2rem 5rem rgba(55,87,108,.14)}.partner-storyboard figure::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,23,68,.42),transparent 38%)}.partner-storyboard img{width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.02)}.partner-storyboard figcaption{position:absolute;z-index:2;right:1rem;bottom:1rem;font-size:.53rem}.partner-storyboard figcaption a{color:rgba(255,255,255,.75);text-shadow:0 1px 8px rgba(0,0,0,.5)}
-  .partner-questions{position:absolute;z-index:3;left:0;bottom:0;width:min(31rem,86%);padding:1.3rem 1.7rem;background:rgba(255,255,255,.95);box-shadow:0 1.5rem 4rem rgba(50,83,106,.16);backdrop-filter:blur(12px)}.partner-questions li{display:grid;grid-template-columns:2.2rem 1fr;align-items:center;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(7,23,68,.12)}.partner-questions li:last-child{border-bottom:0}.partner-questions span{font:600 .62rem/1 var(--font-brand-meta);letter-spacing:.1em;color:var(--color-brand-blue)}.partner-questions p{font:600 1rem/1.7 var(--font-brand-display);color:var(--color-deep-blue)}
-  @media(max-width:900px){.home-news__grid{grid-template-columns:minmax(0,1fr)}}
-  @media(max-width:960px){.partner-layout{grid-template-columns:minmax(0,.92fr) minmax(24rem,1.08fr);gap:3rem}.partner-storyboard{min-height:35rem}.partner-storyboard figure{left:1rem}}
-  @media(max-width:880px){.partner-layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "storyboard" "actions";grid-template-rows:auto;gap:2.2rem}.partner-storyboard{min-height:37rem}.partner-storyboard figure{left:2rem}.partner-actions{margin-top:.35rem}}
-  @media(max-width:800px){.discover-head,.home-news__head{grid-template-columns:minmax(0,1fr)}.origin-grid{grid-template-columns:minmax(0,1fr);padding-top:5.5rem;padding-bottom:13rem}.origin-index{display:none}.home-hero{height:calc(100svh - var(--site-header-height));min-height:680px}.hero-inner{width:min(calc(100% - 2rem),92rem)}.hero-slide::after{background:linear-gradient(rgba(9,28,35,.08) 9%,rgba(9,28,35,.48) 44%,rgba(9,28,35,.92) 100%)}.home-news__preparing{display:grid}}
-  @media(max-width:560px){.home-hero{height:calc(88svh - var(--site-header-height));min-height:590px}.hero-inner{width:min(calc(100% - 2rem),92rem);padding-block:3rem 1.15rem}.hero-copy .bp-title{font-size:clamp(2.05rem,9vw,2.6rem);line-height:1.43}.hero-lead{font-size:.78rem;line-height:1.8}.hero-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:1.3rem}.hero-cta{box-sizing:border-box;width:100%;min-width:0;height:auto;min-height:4.5rem;grid-template-columns:minmax(0,1fr) .9rem;gap:.35rem;padding:.7rem .8rem}.cta-label{min-width:0;font-size:.78rem;line-height:1.35;word-break:normal;overflow-wrap:normal}.cta-label small{font-size:.64rem;line-height:1.4;letter-spacing:0;word-break:normal;overflow-wrap:normal}.hero-controls{margin-top:1.35rem}.hero-controls button{width:2.7rem}.hero-slide figcaption{right:.75rem;bottom:.6rem;max-width:48%;font-size:.55rem}.hero-slide figcaption strong{display:none}.hero-slide figcaption small{font-size:.56rem}.brand-origin h2{font-size:clamp(2rem,10vw,3rem)}.home-news::after{right:-19rem}.partner{padding-block:5.5rem}.partner h2{font-size:clamp(2rem,8.8vw,2.35rem)}.partner-actions{display:grid;margin-top:1rem}.partner-primary{min-width:0;width:100%}.partner-storyboard{min-height:auto;display:grid;gap:.8rem}.partner-storyboard figure{position:relative;inset:auto;min-height:20rem;clip-path:polygon(0 0,100% 0,100% 93%,0 100%)}.partner-questions{position:relative;left:auto;bottom:auto;width:calc(100% - 1rem);margin:-2.8rem 0 0 1rem;padding:1rem 1.2rem}.partner-questions p{font-size:.95rem}}
-  @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide figcaption,.hero-cta,.hero-cta::before,.cta-arrow{transition:none}}
-  @media(max-width:360px){.hero-copy .bp-title{font-size:1.8rem;line-height:1.4}}
-  .home-section-label{margin:0;color:#60758a;font-size:.72rem;font-weight:700;letter-spacing:.04em}
-  .editorial-note{position:relative;margin-top:-1px;padding-block:1.1rem;background:#fff;border-bottom:1px solid rgba(76,105,136,.12);color:var(--brand-navy)}
-  .editorial-note__inner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.5rem 2rem;align-items:baseline}
-  .editorial-note p{font-size:.8rem;line-height:1.7;color:#667687}.editorial-note p span{margin-right:.9rem;font:800 .66rem var(--font-brand-meta);letter-spacing:.14em;color:var(--brand-navy)}.editorial-note strong{font:600 clamp(.95rem,1.6vw,1.18rem) var(--font-brand-display);white-space:nowrap;color:var(--brand-navy)}.editorial-note small{grid-column:2;color:#7a8793;font-size:.68rem}
+  .v42-home{--v42-paper:#f7f3e9;--v42-blue:#2c4fb5;--v42-ink:#24434a;--v42-copy:#3c5546;--v42-note:#617357;--v42-rule:#d4dcc6;--v42-gold:#a99a67;--card-w:min(1160px,calc(100vw - 200px));--card-h:510px;background:#fffefa;color:var(--v42-ink)}
+  .v42-wrap{width:min(calc(100% - 2.5rem),1160px);margin-inline:auto}
+  .v42-label{color:var(--v42-note);font:500 .75rem/1.6 var(--font-brand-body);letter-spacing:.12em}
+  .v42-label::before{content:'';display:inline-block;width:18px;height:1px;margin-right:9px;background:var(--v42-gold);vertical-align:.31em}
+  .v42-home h2{color:var(--v42-ink);font-family:var(--font-brand-display);font-weight:500;letter-spacing:.025em;line-break:strict;word-break:normal}
+  .v42-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.7fr);align-items:end;gap:1.5rem 3rem;margin-bottom:2.5rem}
+  .v42-head h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.45}
+  .v42-head>p{max-width:28rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.95}
+  .v42-button{display:inline-flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:48px;padding:.7rem 1.2rem .7rem 1.35rem;border:1px solid var(--v42-blue);border-radius:999px;background:#fffefa;color:var(--v42-blue);font-size:.8125rem;font-weight:700}
+  .v42-button:hover,.v42-button:focus-visible{background:var(--v42-blue);color:#fff}
+  .v42-quiet-link{display:inline-flex;align-items:center;min-height:44px;margin-top:1.5rem;border-bottom:1px solid currentColor;color:var(--v42-ink);font-size:.8125rem;font-weight:700}
+  .v42-pc-br{display:initial}
+  @media(max-width:920px){.v42-pc-br{display:none}}
 
-  .home-intent{position:relative;padding-block:clamp(4.6rem,7vw,7rem);background:#fff}
-  .home-intent__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(17rem,.55fr);gap:clamp(2rem,8vw,8rem);align-items:end}
-  .home-intent h2{margin-top:.65rem;font:600 clamp(2.15rem,4.2vw,3.7rem)/1.28 var(--font-brand-display);color:var(--brand-navy)}
-  .home-intent__lead{padding-bottom:.35rem;color:var(--color-soil);font-size:.9rem;line-height:1.95}
-  .home-intent__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:2.4rem;border-top:1px solid rgba(76,105,136,.17)}
-  .home-intent__grid a{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.8rem;min-height:6.2rem;padding:1rem .15rem;border-bottom:1px solid rgba(76,105,136,.17);color:var(--brand-navy);text-decoration:none;transition:padding .2s ease,color .2s ease}
-  .home-intent__grid a:nth-child(odd){padding-right:clamp(1.2rem,3vw,2.2rem);border-right:1px solid rgba(76,105,136,.17)}
-  .home-intent__grid a:nth-child(even){padding-left:clamp(1.2rem,3vw,2.2rem)}
-  .home-intent__grid a:hover,.home-intent__grid a:focus-visible{padding-left:.8rem;color:var(--color-brand-blue)}
-  
-  .home-intent__grid span{display:grid;gap:.25rem}.home-intent__grid strong{font:600 clamp(1.05rem,1.7vw,1.3rem) var(--font-brand-display)}.home-intent__grid small{color:var(--color-soil);font-size:.72rem}.home-intent__grid b{font-weight:400;color:#8799aa}
-  .home-tags{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem 1rem;margin-top:1.4rem}.home-tags>span{margin-right:.4rem;color:#7c8996;font-size:.68rem;font-weight:700}.home-tags a{padding:.15rem 0;border-bottom:1px solid rgba(76,105,136,.22);color:var(--brand-navy);font-size:.76rem;font-weight:700}.home-tags a:hover,.home-tags a:focus-visible{color:var(--color-brand-blue);border-color:currentColor}
-
-  .november-now{padding-block:clamp(4.5rem,7vw,6.5rem);background:#f6f8fa;border-block:1px solid rgba(76,105,136,.09)}
-  .november-now__head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:2rem;margin-top:.55rem}
-  .november-now__head h2{font:600 clamp(2rem,3.8vw,3.1rem)/1.28 var(--font-brand-display);color:var(--brand-navy)}
-  .november-now__head p{margin-top:.55rem;color:var(--color-soil);line-height:1.8}.november-now__head>a{padding-bottom:.3rem;border-bottom:1px solid var(--brand-navy);color:var(--brand-navy);font-size:.78rem;font-weight:700}
-  .november-now__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:2rem;border-top:1px solid rgba(76,105,136,.16);list-style:none;padding:0}
-  .november-now__list li{margin:0;border-bottom:1px solid rgba(76,105,136,.16)}.november-now__list li:nth-child(odd){border-right:1px solid rgba(76,105,136,.16)}
-  .november-now__list a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.75rem;align-items:start;min-height:9.5rem;padding:1.35rem 1.2rem;color:var(--brand-navy);text-decoration:none;transition:background .2s ease}
-  .november-now__list a:hover,.november-now__list a:focus-visible{background:#fff}.november-now__text{display:grid;gap:.32rem}.november-now__text small{color:#718292;font-size:.7rem}.november-now__text strong{font:600 clamp(1.05rem,1.7vw,1.3rem)/1.5 var(--font-brand-display)}.november-now__text em{font-style:normal;color:var(--color-soil);font-size:.72rem}.november-now__list b{font-weight:400;color:#8395a6}
-
-  @media(max-width:720px){.editorial-note__inner{grid-template-columns:minmax(0,1fr);gap:.35rem}.editorial-note strong{white-space:normal}.editorial-note small{grid-column:auto}.home-intent__head{grid-template-columns:minmax(0,1fr);gap:.8rem}.home-intent__grid{grid-template-columns:minmax(0,1fr)}.home-intent__grid a:nth-child(odd),.home-intent__grid a:nth-child(even){padding-inline:.1rem;border-right:0}.november-now__head{grid-template-columns:minmax(0,1fr);align-items:start}.november-now__list{grid-template-columns:minmax(0,1fr)}.november-now__list li:nth-child(odd){border-right:0}.november-now__list a{min-height:0}}
-</style>
-
-<style>
-  /* 茨城のおいしい図鑑への入口（干し芋の診断）。図鑑と同じ生成りの紙・明朝・実物の写真で組む。食べ物の絵は描かない */
-  .hoshiimo-home{background:#f6f1e8;border-top:1px solid #d6cdbf;border-bottom:1px solid #d6cdbf;padding:clamp(48px,6vw,88px) 0;color:#1f2b31}
-  .hoshiimo-home__inner{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:center}
-  .hoshiimo-home h2{margin:12px 0 0;font:600 clamp(30px,3.6vw,48px)/1.42 var(--font-brand-display);letter-spacing:.01em;color:#173c59}
-  .hoshiimo-home h2 span{color:#94592f}
-  .hoshiimo-home__lead{margin:16px 0 0;font-size:15.5px;line-height:1.95;max-width:32em}
-  .hoshiimo-home__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;margin-top:24px}
-  .hoshiimo-home__cta{display:inline-flex;align-items:center;gap:16px;min-height:48px;padding:0 22px;background:#173c59;color:#fff!important;text-decoration:none;font-weight:700}
-  .hoshiimo-home__cta:hover{background:#275a7c}
-  .hoshiimo-home__sub{display:inline-flex;align-items:center;min-height:44px;color:#173c59;font-size:14px;font-weight:700;text-underline-offset:4px}
-  .hoshiimo-home__series{margin-top:28px;padding-top:16px;border-top:1px solid #d6cdbf}
-  .hoshiimo-home__series p{margin:0}
-  .hoshiimo-home__series p a{display:inline-flex;align-items:center;min-height:40px;font-weight:700;color:#173c59;text-underline-offset:4px}
-  .hoshiimo-home__series ul{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:0 18px}
-  .hoshiimo-home__series li a{display:inline-flex;align-items:center;min-height:36px;font-size:14px;color:#59656a;text-decoration:none}
-  .hoshiimo-home__series li a:hover{color:#173c59;text-decoration:underline}
-  .hoshiimo-home__photo{margin:0;order:-1}
-  .hoshiimo-home__photo img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:50% 55%;background:#ece4d6}
-  .hoshiimo-home__photo figcaption{margin-top:8px;font-size:11.5px;line-height:1.7;color:#59656a}
-  .hoshiimo-home__photo figcaption a{color:inherit}
-  @media(min-width:760px){.hoshiimo-home__inner{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(40px,6vw,96px)}.hoshiimo-home__photo{order:0}}
-
-  /* 紙面の共通リズム。情報量と既存の導線を保ったまま、装飾と余白を整える。 */
-  .discover,.area-home,.home-news,.process-home,.partner{background:var(--color-paper)}
-  .discover::before,.discover::after,.area-home::before,.area-home::after,.home-news::before,.home-news::after,.process-home::before,.process-home::after,.partner::before,.partner::after{content:none}
-  .home-news,.discover,.area-home{padding-block:clamp(3rem,5vw,5rem)}
-  .home-news__head,.discover-head{padding-bottom:1.5rem;border-bottom:1px solid var(--color-line)}
-  .home-news__head h2,.discover-head h2{font-size:clamp(1.8rem,2.8vw,2.75rem);line-height:1.45}
-  .home-news__grid{gap:1.4rem}
-  .hoshiimo-home{padding-block:clamp(3.5rem,6vw,6rem);background:#f0eae0}
-  .hoshiimo-home h2{font-size:clamp(2rem,3.2vw,3.1rem);line-height:1.6;letter-spacing:.03em}
-  .hoshiimo-home__photo img{border-radius:var(--radius-xs)}
-  .hoshiimo-home__lead{font-size:.94rem;line-height:1.95}
-  .home-intent__grid a{border-radius:var(--radius-xs);box-shadow:none}
-  .november-now__list a{border-radius:var(--radius-xs);box-shadow:none}
-  .partner{padding-block:clamp(4rem,6vw,6rem);border-top:1px solid var(--color-line)}
-  .partner-storyboard figure{clip-path:none;border-radius:var(--radius-xs);box-shadow:none}
-  @media(max-width:760px){.home-news__grid{gap:1.1rem}.hoshiimo-home h2{font-size:clamp(1.85rem,7.5vw,2.5rem)}}
-
-  /* 読む順番と余白をそろえる。大きな案内カードを何画面も続けない。 */
-  .editorial-note{padding-block:1rem;background:var(--color-white)}
-  .editorial-note__inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.35rem 1.5rem}
-  .editorial-note p{color:var(--color-ink);font:500 .9375rem/1.7 var(--font-brand-display)}
-  .editorial-note a{display:inline-flex;align-items:center;gap:1rem;min-height:44px;font-size:.8125rem;color:var(--color-tide);text-decoration:underline;text-underline-offset:.25em}
-  .home-section-label{font-size:.8125rem;color:var(--color-tide);letter-spacing:.03em}
-  .november-now{padding-block:clamp(2.75rem,5vw,4.5rem);background:var(--color-paper);border:0}
-  .november-now__head{gap:1.2rem}
-  .november-now__head h2,.home-intent h2{font-size:clamp(1.65rem,2.8vw,2.6rem);line-height:1.5;color:var(--color-ink)}
-  .november-now__head p{font-size:.9375rem;line-height:1.9}
-  .november-now__head>a{display:inline-flex;align-items:center;min-height:44px;padding:0;font-size:.875rem;color:var(--color-tide);border:0;text-decoration:underline;text-underline-offset:.25em}
-  .november-now__list{margin-top:1.5rem}
-  .november-now__list a{min-height:0;padding:1.25rem 1.5rem}
-  .november-now__text{gap:.35rem}
-  .november-now__text small{font-size:.8125rem;color:var(--color-soil)}
-  .november-now__text strong{font-size:1.2rem;color:var(--color-ink)}
-  .november-now__text em{font-size:.875rem}
-  .home-news{background:var(--color-white);border-block:1px solid var(--color-line)}
-  .home-news__head,.discover-head{gap:1rem 3rem}
-  .home-news__head h2,.discover-head h2{margin-top:.65rem;color:var(--color-ink)}
-  .home-news__head>p,.discover-head>p{font-size:.9375rem;line-height:1.9}
-  .home-news__grid{margin-top:1.75rem;gap:1.5rem}
-  .home-news__grid :global(.news-card){border:0;border-radius:0;background:transparent;box-shadow:none;transition:none}
-  .home-news__grid :global(.news-card:hover){transform:none;box-shadow:none}
-  .home-news__grid :global(.news-card__body){padding:1rem 0 0}
-  .home-news__link{display:inline-flex;align-items:center;min-height:44px;margin-top:1.5rem;padding:0;font-size:.9375rem;color:var(--color-tide);border:0;text-decoration:underline;text-underline-offset:.3em}
-  .home-intent{padding-block:clamp(2.75rem,5vw,4.5rem);background:var(--color-paper)}
-  .home-intent__head{gap:1rem 3rem}
-  .home-intent__lead{font-size:.9375rem;line-height:1.9}
-  .home-intent__grid{margin-top:1.5rem}
-  .home-intent__grid a{min-height:5.5rem;border-radius:0}
-  .home-intent__grid small{font-size:.8125rem;line-height:1.6}
-  .home-tags{gap:0 1rem;margin-top:1rem}
-  .home-tags>span{font-size:.8125rem}
-  .home-tags a{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;font-size:.875rem;text-decoration:underline;text-underline-offset:.25em}
-  .discover-grid{padding-block:0}
-  #discover,#area,#discover-now{scroll-margin-top:calc(var(--site-header-height) + 1rem)}
-  .discover-head{margin-bottom:1.75rem;padding-bottom:0;border-bottom:0}
-  .brand-origin{min-height:0;background:var(--color-white);color:var(--color-ink);border-block:1px solid var(--color-line)}
-  .origin-grid{grid-template-columns:minmax(7rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,6vw,6rem);padding-block:clamp(3rem,6vw,5.5rem)}
-  .origin-index{color:var(--color-tide)}
-  .origin-index span,.origin-index b{font-size:.75rem}
-  .brand-origin h2{margin-top:.75rem;color:var(--color-ink);font-size:clamp(1.8rem,3vw,2.75rem);line-height:1.55}
-  .origin-lead{font-size:1rem;line-height:2}
-  .origin-copy>a{min-height:44px;margin-top:1.2rem;font-size:.9375rem;color:var(--color-tide);border:0;text-decoration:underline;text-underline-offset:.3em}
-  .partner{background:var(--color-white)}
-  .partner-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(2rem,6vw,5rem)}
-  .partner h2{color:var(--color-ink);font-size:clamp(1.9rem,3vw,2.8rem)}
-  .partner h2 em{color:var(--color-tide)}
-  .partner h2 em::after{content:none}
-  .partner-topics li{padding:.4rem 0;border:0;border-radius:0;background:transparent;font-size:.8125rem}
-  .partner-primary{min-width:0;box-shadow:none;font-size:.9375rem;background:var(--color-ink)}
-  .partner-primary:hover,.partner-primary:focus-visible{transform:none;box-shadow:none}
-  .partner-secondary{display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;font-size:.875rem;text-decoration:underline;text-underline-offset:.25em}
-  .partner-storyboard{display:grid;gap:1.25rem;min-height:0}
-  .partner-storyboard figure{position:relative;inset:auto;overflow:visible;min-height:0;background:transparent}
-  .partner-storyboard figure::after{content:none}
-  .partner-storyboard img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;filter:none}
-  .partner-storyboard figcaption{position:static;margin-top:.5rem;font-size:.75rem;line-height:1.7}
-  .partner-storyboard figcaption a{color:var(--color-soil);text-shadow:none;text-decoration:underline;text-underline-offset:.2em}
-  .partner-questions{position:static;width:auto;margin:0;padding:0;background:transparent;box-shadow:none;backdrop-filter:none}
-  .partner-questions li{padding:.85rem 0}
-  .partner-questions span{font-size:.75rem}
-  .partner-questions p{font-size:1rem}
-  .partner-questions br{display:none}
-  @media(max-width:880px){.partner-layout{grid-template-columns:minmax(0,1fr)}}
-  @media(max-width:800px){.origin-grid{grid-template-columns:minmax(0,1fr)}}
-  @media(max-width:720px){
-    .home-intent__grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.25rem}
-    .home-intent__grid a:nth-child(odd),.home-intent__grid a:nth-child(even){padding:.85rem 0;border-right:0}
-    .home-intent__grid strong{font-size:1.125rem}
-    .november-now__head{gap:.65rem}
-    .november-now__list a{padding:1.15rem 0}
-    .november-now__text strong{font-size:1.125rem}
+  /* ── FV：実写のネモフィラを先頭にした3枚のカード ── */
+  .fv{position:relative;overflow:hidden;padding-bottom:22px;background:linear-gradient(var(--v42-paper) 80%,#faf7ef)}
+  .fv-intro{position:relative;z-index:2;display:flex;align-items:center;gap:30px;width:var(--card-w);height:83px;margin:auto}
+  .fv-intro__brand{display:flex;align-items:center;gap:18px}
+  .fv-intro__line{width:25px;height:1px;background:#bba56e}
+  .fv-intro h1{color:var(--v42-ink);font:500 25px/1.5 var(--font-brand-display);letter-spacing:.04em}
+  .fv-intro__note{margin-left:auto;color:#6c7563;font-size:11px;letter-spacing:.065em}
+  .fv-intro__month{display:flex;align-items:center;gap:10px;padding-left:25px;border-left:1px solid #d7d5c6;color:#7d876f}
+  .fv-intro__month b{font:400 42px/1 var(--font-brand-display);letter-spacing:-.02em}
+  .fv-intro__month span{font-size:8px;line-height:1.65;letter-spacing:.1em}
+  .fv-carousel{position:relative;z-index:2;width:100%;height:calc(var(--card-h) + 52px);touch-action:pan-y}
+  .fv-stage{position:relative;height:100%}
+  .fv-cover{position:absolute;top:6px;left:calc((100% - var(--card-w))/2);z-index:2;width:var(--card-w);height:var(--card-h);isolation:isolate;transition:transform .65s cubic-bezier(.22,.75,.19,1),opacity .4s}
+  .fv-cover[data-pos=prev]{z-index:0;opacity:.65;transform:translateX(calc(-100% - 30px)) scale(.955) rotate(-1.2deg)}
+  .fv-cover[data-pos=next]{z-index:0;opacity:.65;transform:translateX(calc(100% + 30px)) scale(.955) rotate(1.2deg)}
+  .fv-cover__paper{position:absolute;inset:7px -5px -7px 5px;z-index:-1;border:1px solid #d6d7cb;background:#e8e3d7;transform:rotate(.6deg);box-shadow:0 14px 22px #34473c0b}
+  .fv-cover__link{position:relative;display:block;height:100%;overflow:hidden;border:7px solid #fffefa;background:#fffdf6;box-shadow:0 10px 30px #263b3824;color:var(--v42-ink)}
+  .fv-cover__visual{position:absolute;inset:0;z-index:0;margin:0;overflow:hidden}
+  .fv-cover__visual img{display:block;width:100%;height:100%;object-fit:cover}
+  .fv-cover__copy{position:absolute;z-index:3}
+  .fv-cover__kicker{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.08em}
+  .fv-cover__kicker::before{content:'';width:22px;height:1px;background:currentColor;opacity:.55}
+  .fv-cover h2{color:inherit;font:500 64px/1.38 var(--font-brand-display);letter-spacing:.025em}
+  .fv-cover h2>span{display:block;white-space:nowrap}
+  .fv-cover__lead{font-size:13px;line-height:2;letter-spacing:.04em}
+  .fv-cover__cta{position:absolute;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:48px;padding:10px 17px 10px 20px;border-radius:3px;background:var(--v42-blue);box-shadow:0 3px 0 #1e3d6c1a;color:#fff;font-size:13px;line-height:1.5}
+  .fv-cover__link:hover .fv-cover__cta{background:#23438e}
+  .fv-cover__art{position:absolute;z-index:5;object-fit:contain;pointer-events:none}
+  .fv-cover__credit{position:absolute;right:16px;bottom:14px;z-index:6;padding:3px 7px;background:#fffdf4ed;color:#4f5d4f;font-size:9px;line-height:1.5}
+  .fv-cover__credit a{text-decoration:underline;text-underline-offset:.15em}
+  /* 1枚目：景色に入っていくような実写 */
+  .fv-cover--walk .fv-cover__visual img{object-position:55% 52%}
+  .fv-cover--walk .fv-cover__visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#071c23b5 0%,#0b1c275c 36%,#0a192010 65%,transparent 100%),linear-gradient(0deg,#0a1a242e,transparent 35%)}
+  .fv-cover--walk .fv-cover__copy{top:50px;left:53px;color:#fffdf3}
+  .fv-cover--walk .fv-cover__kicker{color:#f8eaca}
+  .fv-cover--walk h2{margin-top:18px;font-size:76px;line-height:1.4;letter-spacing:.035em;text-shadow:0 2px 16px #06151f2b}
+  .fv-cover--walk .fv-cover__lead{margin-top:19px;color:#fcf9e7;line-height:1.9}
+  .fv-cover--walk .fv-cover__cta{left:48px;bottom:34px;min-width:230px}
+  .fv-cover--walk .fv-cover__art{left:57%;bottom:13px;width:193px;height:154px;filter:drop-shadow(0 3px 2px #081f2933)}
+  /* 2枚目：図鑑のページのように */
+  .fv-cover--food .fv-cover__link{background:#fbf5e6}
+  .fv-cover--food .fv-cover__copy{top:57px;left:53px;width:47%}
+  .fv-cover--food .fv-cover__kicker{color:#5d6b4f}
+  .fv-cover--food h2{margin-top:24px;font-size:58px}
+  .fv-cover--food .fv-cover__lead{margin-top:24px;color:#5b6553;font-size:12px}
+  .fv-cover--food .fv-cover__cta{left:53px;bottom:56px;width:258px}
+  .fv-cover--food .fv-cover__visual{inset:auto;top:22px;right:29px;width:432px;height:432px;border:9px solid #fffdf4;border-radius:50%;box-shadow:7px 9px 0 #d4c59d38;transform:rotate(3deg)}
+  .fv-cover--food .fv-cover__visual img{object-position:57% 50%}
+  .fv-cover--food .fv-cover__art{right:12px;bottom:-1px;width:330px;height:220px;filter:drop-shadow(0 4px 4px #2030401c)}
+  /* 3枚目：週末のはがき */
+  .fv-cover--weekend .fv-cover__link{background:#edf2eb}
+  .fv-cover--weekend .fv-cover__copy{top:45px;left:53px;width:43%}
+  .fv-cover--weekend .fv-cover__kicker{color:#536a5b}
+  .fv-cover--weekend h2{margin-top:17px;font-size:52px;line-height:1.35}
+  .fv-cover--weekend h2>span:first-child{font-size:67px}
+  .fv-cover--weekend .fv-cover__lead{margin-top:19px;color:#5b7062;font-size:12px}
+  .fv-cover--weekend .fv-cover__cta{left:53px;bottom:56px;width:260px}
+  .fv-cover--weekend .fv-cover__visual{inset:auto;top:67px;right:36px;width:51%;height:335px;border:12px solid #fffefa;box-shadow:7px 10px 13px #29433a21;transform:rotate(3deg)}
+  .fv-cover__stamp{position:absolute;z-index:4;top:345px;right:42px;padding:13px 19px 12px;border:5px double #b8964b;background:#e7bc5d;color:#3f4d37;text-align:center;transform:rotate(-8deg);box-shadow:3px 5px 0 #26443516}
+  .fv-cover__stamp small{display:block;font-size:8px;letter-spacing:.08em}
+  .fv-cover__stamp b{display:block;padding-top:6px;font:500 29px/1.35 var(--font-brand-display)}
+  .fv-cover[data-pos]:not([data-pos=active]) :is(.fv-cover__copy,.fv-cover__cta,.fv-cover__art,.fv-cover__stamp,.fv-cover__credit){opacity:0}
+  .fv-cover[data-pos]:not([data-pos=active]) .fv-cover__visual{inset:0;width:100%;height:100%;border:0;border-radius:0;transform:none;box-shadow:none}
+  .fv-cover[data-pos]:not([data-pos=active]) .fv-cover__visual::after{display:none}
+  .fv-arrow{position:absolute;top:calc(var(--card-h)/2 - 18px);z-index:7;display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid #e2e4da;border-radius:50%;background:#fffefaf5;box-shadow:0 5px 12px #233e391c;color:var(--v42-blue);font-size:18px;cursor:pointer}
+  .fv-arrow:hover{background:#eff3fb}
+  .fv-arrow--prev{left:calc((100% - var(--card-w))/2 - 24px)}
+  .fv-arrow--next{right:calc((100% - var(--card-w))/2 - 24px)}
+  .fv-bottom{position:relative;z-index:2;display:grid;grid-template-columns:100px minmax(0,1fr) 100px;align-items:center;gap:18px;width:var(--card-w);min-height:70px;margin:auto}
+  .fv-count{color:#7d876f;font-size:10px;letter-spacing:.09em}
+  .fv-count b{margin-right:8px;color:var(--v42-blue);font:500 25px/1 var(--font-brand-display)}
+  .fv-tabs{display:flex;align-items:stretch;justify-content:center;gap:16px}
+  .fv-tab{position:relative;display:flex;flex-direction:column;justify-content:center;gap:3px;width:220px;min-height:52px;padding:6px 11px 8px;border:0;border-bottom:1px solid #d4d6c8;background:transparent;color:#5f6b56;font:inherit;font-size:12px;text-align:left;cursor:pointer}
+  .fv-tab small{color:#8d8d78;font-size:8px;letter-spacing:.1em}
+  .fv-tab.is-active{border-bottom:2px solid var(--v42-blue);background:#fffefa8a;color:#234b9b}
+  .fv-tab__short{display:none}
+  .fv-play{display:flex;align-items:center;justify-content:center;gap:7px;justify-self:end;min-width:72px;min-height:44px;padding:0 11px;border:1px solid #c9d1c8;border-radius:999px;background:#fffefa70;color:#56694f;font:inherit;font-size:11px;cursor:pointer}
+  .fv-play__icon{color:var(--v42-blue);font-size:15px;line-height:1}
+  @media(min-width:1200px) and (max-width:1330px){.v42-home{--card-w:calc(100vw - 170px);--card-h:490px}.fv-cover--walk h2{font-size:70px}.fv-cover--food h2{font-size:52px}.fv-cover--food .fv-cover__visual{width:400px;height:400px;right:19px}}
+  @media(min-width:701px) and (max-width:1199px){
+    .v42-home{--card-w:calc(100vw - 110px);--card-h:470px}
+    .fv-intro{height:73px;gap:18px}.fv-intro h1{font-size:22px}.fv-intro__note{font-size:10px}
+    .fv-cover--walk .fv-cover__copy{top:38px;left:35px}.fv-cover--walk h2{font-size:clamp(46px,6vw,62px)}.fv-cover--walk .fv-cover__cta{left:30px;bottom:28px}.fv-cover--walk .fv-cover__art{left:auto;right:12%;width:160px;height:130px}
+    .fv-cover--food .fv-cover__copy{top:46px;left:35px}.fv-cover--food h2{font-size:clamp(32px,4.4vw,50px)}.fv-cover--food .fv-cover__visual{top:31px;right:20px;width:38vw;max-width:390px;height:38vw;max-height:390px}.fv-cover--food .fv-cover__art{right:8px;width:27vw;height:180px}.fv-cover--food .fv-cover__cta{left:35px;bottom:40px;width:230px}
+    .fv-cover--weekend .fv-cover__copy{top:40px;left:35px}.fv-cover--weekend h2{font-size:clamp(33px,4vw,46px)}.fv-cover--weekend h2>span:first-child{font-size:clamp(44px,5.3vw,59px)}.fv-cover--weekend .fv-cover__visual{top:77px;right:22px;height:290px;border-width:10px}.fv-cover--weekend .fv-cover__cta{left:35px;bottom:40px;width:235px}.fv-cover__stamp{top:313px;right:24px;padding:10px 12px}.fv-cover__stamp b{font-size:24px}
+    .fv-tabs{gap:8px}.fv-tab{flex:1;width:0}.fv-bottom{grid-template-columns:65px minmax(0,1fr) 75px;gap:11px}
   }
-  @media(max-width:560px){
-    .home-hero{height:calc(85svh - var(--site-header-height));min-height:530px}
-    .hero-copy .bp-kicker{font-size:.8125rem;letter-spacing:.06em}
-    .hero-lead{font-size:.875rem;line-height:1.9}
-    .hero-actions{margin-top:1.15rem}
-    .cta-label{font-size:.8125rem}
-    .cta-label small{font-size:.75rem;line-height:1.5}
-    .hero-controls{margin-top:1rem;padding-bottom:2.75rem}
-    .hero-controls button{min-width:44px;min-height:44px}
-    .hero-controls span{font-size:.75rem}
-    .hero-slide figcaption{left:1rem;right:1rem;bottom:.9rem;max-width:none;text-align:left;font-size:.75rem;line-height:1.6}
-    .hero-slide figcaption small{font-size:.75rem;color:rgba(255,255,255,.85)}
-    .hero-inner{padding-top:2rem;padding-bottom:1rem}
-    .editorial-note__inner{gap:0 .75rem}
-    .editorial-note a{font-size:.75rem}
-    .home-news__grid{gap:1.5rem}
-    .home-news__grid :global(.news-card){display:grid;grid-template-columns:5.5rem minmax(0,1fr);grid-template-rows:auto;gap:1rem;padding-bottom:1.5rem;border-bottom:1px solid var(--color-line)}
-    .home-news__grid :global(.news-card__image){aspect-ratio:1/1;margin-top:.2rem}
-    .home-news__grid :global(.news-card__body){padding:0}
-    .home-news__grid :global(.news-card h3){margin-top:.55rem;font-size:1.125rem;line-height:1.7}
-    .home-news__grid :global(.news-card__dates){padding-top:.75rem}
-    .home-news__grid :global(.news-card__arrow){display:none}
-    .home-news__head,.discover-head{gap:.75rem}
+  @media(min-width:701px) and (max-width:850px){.fv-intro__month{display:none}.fv-cover__lead{display:none}}
+  @media(max-width:700px){
+    .v42-home{--card-w:calc(100vw - 48px);--card-h:468px}
+    .fv{padding-bottom:12px}
+    .fv-intro{justify-content:center;gap:0;height:62px}.fv-intro__line,.fv-intro__note,.fv-intro__month{display:none}.fv-intro h1{font-size:21px;letter-spacing:.03em}
+    .fv-carousel{height:calc(var(--card-h) + 46px)}
+    .fv-cover{top:4px}
+    .fv-cover[data-pos=prev]{transform:translateX(calc(-100% - 12px)) scale(.967) rotate(-1.1deg)}
+    .fv-cover[data-pos=next]{transform:translateX(calc(100% + 12px)) scale(.967) rotate(1.1deg)}
+    .fv-cover__link{border-width:5px}
+    .fv-cover h2{font-size:33px}
+    .fv-cover__kicker{gap:11px;font-size:11px;letter-spacing:.045em}
+    .fv-cover__lead{display:none}
+    .fv-cover__cta{right:16px;left:16px!important;bottom:52px!important;width:auto!important;min-width:0!important;font-size:13px;padding:10px 15px}
+    .fv-cover__credit{left:12px;right:12px;bottom:12px;font-size:9px;text-align:center}
+    .fv-cover--walk .fv-cover__visual img{object-position:62% 47%}
+    .fv-cover--walk .fv-cover__copy{top:46px;left:23px}
+    .fv-cover--walk h2{margin-top:16px;font-size:clamp(34px,11vw,44px);line-height:1.45}
+    .fv-cover--walk .fv-cover__lead{display:block;margin-top:14px;font-size:12px}
+    .fv-cover--walk .fv-cover__art{left:auto;right:6px;bottom:108px;width:118px;height:100px}
+    .fv-cover--food .fv-cover__copy,.fv-cover--weekend .fv-cover__copy{inset:auto 22px 116px 22px;width:auto}
+    .fv-cover--food h2,.fv-cover--weekend h2{margin-top:10px;font-size:clamp(26px,8.6vw,33px);line-height:1.42;letter-spacing:.01em}
+    .fv-cover--weekend h2>span:first-child{font-size:inherit}
+    .fv-cover--weekend h2>span:nth-child(-n+2){display:inline}
+    .fv-cover--food .fv-cover__visual{top:13px;right:-7px;width:229px;height:229px;border-width:7px}
+    .fv-cover--food .fv-cover__art{right:auto;left:3px;bottom:auto;top:116px;width:170px;height:118px}
+    .fv-cover--weekend .fv-cover__visual{top:25px;right:14px;width:calc(100% - 33px);height:196px;border-width:8px}
+    .fv-cover__stamp{top:170px;right:13px;padding:6px 10px;border-width:3px}.fv-cover__stamp small{display:none}.fv-cover__stamp b{padding:0;font-size:18px;line-height:1.25}
+    .fv-arrow{top:180px;width:44px;height:44px}.fv-arrow--prev{left:3px}.fv-arrow--next{right:3px}
+    .fv-bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 44px;gap:4px 0;min-height:0}
+    .fv-tabs{grid-column:1/3;grid-row:1;gap:6px}
+    .fv-tab{flex:1;width:0;min-height:48px;padding:5px 3px 7px;font-size:12px;text-align:center}
+    .fv-tab small,.fv-tab__long{display:none}.fv-tab__short{display:block}
+    .fv-count{grid-row:2;align-self:center}.fv-play{grid-row:2;grid-column:2}
+  }
+  @media(max-width:350px){.v42-home{--card-w:calc(100vw - 40px);--card-h:448px}.fv-cover--walk h2{font-size:33px}.fv-cover--walk .fv-cover__art{width:96px;height:86px}.fv-cover--food .fv-cover__visual{width:205px;height:205px;right:-19px}.fv-tab{font-size:11px}}
+  @media(prefers-reduced-motion:reduce){.fv-cover{transition:none}}
+
+  /* ── テーマ6件（横一列）と気分の入口 ── */
+  .v42-theme{padding-block:clamp(3.5rem,7vw,6rem);background:#fffefa}
+  .v42-intents{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:2rem}
+  .v42-intents>span{margin-right:.4rem;color:var(--v42-note);font-size:.8125rem;font-weight:700}
+  .v42-intents a{display:inline-flex;align-items:baseline;gap:.5rem;min-height:44px;padding:.6rem 1rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fff;color:var(--v42-ink);font-size:.875rem}
+  .v42-intents small{color:var(--v42-note);font-size:.75rem}
+  .v42-intents a:hover,.v42-intents a:focus-visible{border-color:var(--v42-blue);color:var(--v42-blue)}
+
+  /* ── 今月の、よりみち帖 ── */
+  .season{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6.5rem);background:var(--v42-paper)}
+  .season__canopy{position:absolute;top:-40px;right:-60px;width:min(36vw,420px);height:auto;opacity:.9;pointer-events:none}
+  .season .v42-wrap{position:relative}
+  .season__head{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,.8fr);align-items:end;gap:1rem 2.5rem;margin-bottom:2.75rem}
+  .season__folio{display:grid;color:#c1ad76;line-height:1}
+  .season__folio span{font-size:.625rem;letter-spacing:.14em;color:#8d8d78}
+  .season__folio b{font:400 clamp(5rem,9vw,8rem)/.9 var(--font-brand-display);letter-spacing:-.06em}
+  .season h2{margin-top:.5rem;font-size:clamp(2rem,3.4vw,3rem);line-height:1.45}
+  .season__intro{color:var(--v42-copy);font-size:.9375rem;line-height:2}
+  .season__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem}
+  .season__side{display:grid;grid-template-columns:minmax(0,1fr);gap:1.6rem}
+  .season-pick{position:relative;display:grid;min-width:0;border:6px solid #fffefa;background:#fffdf6;box-shadow:0 10px 24px #263b3818;color:var(--v42-ink)}
+  .season-pick__photo{position:relative;margin:0;overflow:hidden}
+  .season-pick__photo img{display:block;width:100%;height:100%;object-fit:cover}
+  .season-pick__photo figcaption,.season-pick__place{position:absolute;padding:3px 7px;background:#fffdf4ed;color:#4f5d4f;font-size:10px}
+  .season-pick__photo figcaption{right:8px;bottom:8px}
+  .season-pick__place{top:10px;left:10px}
+  .season-pick__body{display:grid;gap:.5rem;padding:1.15rem 1.25rem 1.3rem}
+  .season-pick__kicker{color:var(--v42-note);font-size:.75rem;letter-spacing:.06em}
+  .season-pick h3{font:500 clamp(1.45rem,2.3vw,2rem)/1.45 var(--font-brand-display);letter-spacing:.03em}
+  .season-pick__meta{color:var(--v42-copy);font-size:.8125rem}
+  .season-pick__cta{display:inline-flex;justify-content:space-between;gap:1.5rem;align-items:center;justify-self:start;min-height:44px;padding:.55rem 1rem;border:1px solid var(--v42-blue);color:var(--v42-blue);font-size:.8125rem;font-weight:700}
+  .season-pick:hover .season-pick__cta,.season-pick:focus-visible .season-pick__cta{background:var(--v42-blue);color:#fff}
+  .season-pick--walk .season-pick__photo{aspect-ratio:4/3}
+  .season-pick--walk .season-pick__body{position:absolute;left:1.25rem;bottom:1.25rem;max-width:min(24rem,calc(100% - 2.5rem));background:#fffdf6;box-shadow:3px 5px 0 #071b2b25}
+  .season-pick--walk h3{font-size:clamp(1.8rem,3.2vw,2.6rem)}
+  .season__side .season-pick{grid-template-columns:minmax(0,.9fr) minmax(0,1fr)}
+  .season__side .season-pick__photo{min-height:180px}
+  .season-pick--night{background:#23384a;color:#f5f0dd}
+  .season-pick--night .season-pick__kicker,.season-pick--night .season-pick__meta{color:#d8d2b8}
+  .season-pick--night .season-pick__cta{border-color:#f5f0dd;color:#f5f0dd}
+  .season__credit{margin-top:.75rem;color:var(--v42-note);font-size:.6875rem}
+  .season__credit a{text-decoration:underline;text-underline-offset:.15em}
+  .season__more{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.5rem;margin-top:2.25rem;padding-top:1.5rem;border-top:1px solid var(--v42-rule)}
+  .season__more img{width:56px;height:auto}
+  .season__more ul{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;margin:0;padding:0;list-style:none}
+  .season__more li::before{content:none}
+  .season__more li a{display:grid;min-height:44px;align-content:center;color:var(--v42-ink);font-size:.9375rem;font-weight:700}
+  .season__more small{color:var(--v42-note);font-size:.75rem;font-weight:400}
+  @media(max-width:900px){.season__head{grid-template-columns:auto minmax(0,1fr)}.season__intro{grid-column:1/-1}.season__grid{grid-template-columns:minmax(0,1fr)}}
+  @media(max-width:700px){.season__canopy{width:150px;top:-10px;right:-30px}.season__folio b{font-size:5.2rem}.season__side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.8rem}.season__side .season-pick{grid-template-columns:minmax(0,1fr)}.season__side .season-pick__photo{min-height:0;aspect-ratio:4/3}.season__side .season-pick__body{padding:.9rem .85rem 1rem}.season__side .season-pick h3{font-size:1.3rem}.season__side .season-pick__meta{display:none}.season__side .season-pick__cta{justify-self:stretch;font-size:.75rem;padding-inline:.7rem}.season-pick--walk .season-pick__photo{aspect-ratio:3/4}.season__more{grid-template-columns:minmax(0,1fr)}.season__more img{display:none}.season__more .v42-button{justify-self:stretch}}
+
+  /* ── 44市町村の地図 ── */
+  .area-home{padding-block:clamp(4rem,7vw,6.5rem);background:linear-gradient(180deg,#f3f1e7,#eef1e8)}
+
+  /* ── 茨城のおいしい図鑑 ── */
+  .food-home{padding-block:clamp(4rem,7vw,6.5rem);background:#fbf5e6}
+  .food-home__layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-areas:"intro art" "links art";gap:1.5rem 3.5rem;align-items:start}
+  .food-home__intro{grid-area:intro}
+  .food-home h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.45}
+  .food-home__intro>p:not(.v42-label){margin:1rem 0 1.4rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.95}
+  .food-home__art{grid-area:art;margin:0}
+  .food-home__art img{display:block;width:100%;height:auto;border:8px solid #fffefa;box-shadow:7px 9px 0 #d4c59d38}
+  .food-home__art figcaption{margin-top:.5rem;color:var(--v42-note);font-size:.6875rem}
+  .food-home__links{grid-area:links;border-top:1px solid var(--v42-rule)}
+  .food-home__series-title{padding-top:1rem;color:var(--v42-note);font-size:.75rem;letter-spacing:.1em}
+  .food-home__lead-link,.food-home__all{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:56px;border-bottom:1px solid var(--v42-rule);color:var(--v42-ink)}
+  .food-home__lead-link span{display:grid}
+  .food-home__lead-link small{color:var(--v42-note);font-size:.75rem}
+  .food-home__lead-link strong{font:500 1.25rem/1.5 var(--font-brand-display)}
+  .food-home__links ul{display:flex;flex-wrap:wrap;gap:.25rem 1.1rem;margin:0;padding:.75rem 0;list-style:none;border-bottom:1px solid var(--v42-rule)}
+  .food-home__links li::before{content:none}
+  .food-home__links li a{display:inline-flex;align-items:center;min-height:40px;color:var(--v42-copy);font-size:.875rem;text-decoration:underline;text-underline-offset:.2em}
+  .food-home__all{font-size:.875rem;font-weight:700}
+  .food-home__credit{margin-top:1.5rem;color:var(--v42-note);font-size:.6875rem;line-height:1.8}
+  .food-home__credit a{text-decoration:underline;text-underline-offset:.15em}
+  @media(max-width:860px){.food-home__layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"intro" "art" "links"}}
+
+  /* ── まちの、あたらしい話 ── */
+  .home-news{padding-block:clamp(4rem,7vw,6.5rem);background:#fffefa}
+  .home-news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
+  .home-news__preparing{display:flex;justify-content:space-between;gap:1rem;padding:1.3rem 0;border-block:1px solid var(--v42-rule);color:var(--v42-copy)}
+  @media(max-width:860px){.home-news__grid{grid-template-columns:minmax(0,1fr)}}
+
+  /* ── 観戦も、旅のきっかけ ── */
+  .matchday{padding-block:clamp(4rem,7vw,6rem);background:#eef2ec}
+  .matchday__inner{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:2rem 4rem;align-items:center}
+  .matchday h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.45}
+  .matchday__head>p:not(.v42-label){margin-top:1rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.95}
+  .matchday__head img{display:block;width:min(260px,70%);height:auto;margin-top:1.5rem}
+  .matchday__visits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem}
+  .matchday__visits .v42-quiet-link{grid-column:1/-1;justify-self:start;margin-top:.25rem}
+  .matchday-visit{position:relative;min-width:0;padding:1.4rem 1.3rem 1.2rem;border:1px solid var(--v42-rule);background:#fffefa;box-shadow:0 8px 20px #2941370a}
+  .matchday-visit__kicker{color:var(--v42-note);font-size:.75rem}
+  .matchday-visit h3{margin-top:.35rem;font:500 1.35rem/1.5 var(--font-brand-display)}
+  .matchday-visit__links{display:grid;margin-top:.8rem}
+  .matchday-visit__links a{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;border-top:1px solid var(--v42-rule);color:var(--v42-ink);font-size:.875rem;font-weight:700}
+  .matchday-visit__stub{position:absolute;top:1rem;right:1rem;display:grid;place-items:center;width:3.4rem;height:3.4rem;border:1px dashed #b9b292;border-radius:50%;color:#8d7e52;font-size:.75rem;line-height:1.1;text-align:center}
+  .matchday-visit__stub small{font-size:.45rem;letter-spacing:.1em}
+  @media(max-width:860px){.matchday__inner{grid-template-columns:minmax(0,1fr)}.matchday__head img{display:none}}
+  @media(max-width:520px){.matchday__visits{grid-template-columns:minmax(0,1fr)}}
+
+  /* ── イバトコをつくった理由 ── */
+  .brand-origin{position:relative;overflow:hidden;background:var(--v42-paper)}
+  .origin-grid{display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-block:clamp(4.5rem,9vw,8rem)}
+  .origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid var(--v42-rule);color:var(--v42-note)}
+  .origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}
+  .origin-index b{font:500 .7rem/1 var(--font-brand-meta)}
+  .origin-copy{max-width:57rem}
+  .brand-origin h2{margin-top:.8rem;font-size:clamp(2rem,4vw,3.6rem);line-height:1.45}
+  .origin-lead{max-width:45rem;margin-top:1.5rem;color:var(--v42-copy);font:500 clamp(1rem,1.3vw,1.15rem)/2 var(--font-brand-body);word-break:auto-phrase}
+  .origin-copy>a{display:inline-flex;align-items:center;min-height:44px;margin-top:1.5rem;border-bottom:1px solid var(--v42-ink);color:var(--v42-ink);font-size:.875rem;font-weight:700}
+  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.5rem}}
+
+  /* ── 取材と編集（3項目） ── */
+  .process-home{background:#fffefa}
+
+  /* ── 茨城を、一緒におもしろく（事業者向けの導線） ── */
+  .partner{padding-block:clamp(4.5rem,8vw,7rem);background:linear-gradient(160deg,#f6f2e6,#eef2ec)}
+  .partner__head{max-width:46rem}
+  .partner h2{margin-top:.6rem;font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.45}
+  .partner__head>p:not(.v42-label){margin-top:1.1rem;color:var(--v42-copy);font-size:.9375rem;line-height:2}
+  .partner__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:2rem 4rem;margin-top:2.5rem;align-items:start}
+  .partner__questions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
+  .partner__questions li{padding-top:.8rem;border-top:1px solid var(--v42-rule)}
+  .partner__questions li::before{content:none}
+  .partner__questions span{color:var(--v42-gold);font:500 .875rem/1 var(--font-brand-display)}
+  .partner__questions p{margin-top:.5rem;color:var(--v42-ink);font:500 1.0625rem/1.75 var(--font-brand-display)}
+  .partner__topics{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0 0;padding:0;list-style:none}
+  .partner__topics li{padding:.45rem .9rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fffefa;color:var(--v42-ink);font-size:.75rem;font-weight:700}
+  .partner__topics li::before{content:none}
+  .partner__actions{display:grid;gap:1rem}
+  .partner__primary{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:56px;padding:1rem 1.25rem 1rem 1.4rem;background:var(--v42-ink);color:#fff;font-size:.875rem;font-weight:700}
+  .partner__primary b{display:grid;place-items:center;width:2rem;height:2rem;border:1px solid rgba(255,255,255,.45);border-radius:50%;font-weight:400}
+  .partner__slot{display:grid;gap:.3rem;padding:1.1rem 1.25rem;border:1px dashed #b9b292;background:#fffefa;color:var(--v42-ink)}
+  .partner__recruit{justify-self:start;padding:.15rem .55rem;border-radius:999px;background:#e7bc5d;color:#3f4d37;font-size:.6875rem;font-weight:700}
+  .partner__slot strong{font:500 1.15rem/1.5 var(--font-brand-display)}
+  .partner__slot small{color:var(--v42-note);font-size:.75rem}
+  .partner__actions .v42-quiet-link{justify-self:start;margin-top:0}
+  @media(max-width:860px){.partner__grid{grid-template-columns:minmax(0,1fr)}}
+  @media(max-width:520px){.partner__questions{grid-template-columns:minmax(0,1fr)}.partner__questions p br{display:none}}
+
+  @media(max-width:760px){
+    .v42-wrap{width:min(calc(100% - 2.5rem),1160px)}
+    .v42-head{grid-template-columns:minmax(0,1fr);gap:.8rem;margin-bottom:1.75rem}
+    .v42-head h2,.food-home h2,.matchday h2{font-size:clamp(1.75rem,7.4vw,2.2rem)}
+    .v42-head>p{font-size:.875rem}
+    .v42-head>p br{display:none}
   }
 </style>

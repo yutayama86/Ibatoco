@@ -15,9 +15,11 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
   title="茨城ニュース解説｜イバトコ"
   description="茨城県の自治体、観光、地域経済、交通、スポーツ、DX、スタートアップなどの重要ニュースを、イバトコ編集部が地域への影響とともに解説します。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <header class="news-index__head bp-wrap">
+  <header class="news-index__head bp-wrap v42-hub-label">
     <nav aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span aria-current="page">茨城ニュース解説</span></nav>
     <h1>茨城ニュース解説</h1>
+    {/* v42 の編集見出し（COPY-LINES-v42.json：news-list.title）。H1・title は従来のまま */}
+    <p class="v42-display" data-copy-key="news-list.title">まちの、<br class="v42-br-phone" />あたらしい話。</p>
     <p>茨城のニュースを、暮らしに役立つ視点で読み解きます。</p>
   </header>
 
