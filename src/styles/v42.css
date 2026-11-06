@@ -416,3 +416,13 @@ body.interior-site .sp-cta__art {
   border: 8px solid #fffefa;
   box-shadow: 0 10px 24px #263b3824;
 }
+
+/* 協賛の申し込み：見出しを v42 の配色に（フォームの項目と送信の挙動は変えない） */
+body.interior-site .apply__head h1 { color: var(--v42-ink) !important; font-weight: 500 !important; }
+body.interior-site .apply__head > p:not(.bp-kicker) { color: var(--v42-copy) !important; }
+body.interior-site .apply__head b { color: var(--v42-ink) !important; }
+
+/* 帯の中の文は挿絵の列のぶん狭くなる。最後の行が1文字だけにならないように */
+body.interior-site .v42-hero > p { text-wrap: pretty; }
+/* 市町村ページの写真の札（例「日立駅 × かみね公園」）：狭い幅で「園」だけが次の行に落ちないよう、語の区切りで折る */
+body.interior-site .city-hero__art-tag strong { word-break: keep-all; overflow-wrap: break-word; }
