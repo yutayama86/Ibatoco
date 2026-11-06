@@ -11,14 +11,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコの編集方針。現地取材主義、Editorial / Partner / PR の区分、事実と観察の分離、独立性、AIの扱いについて。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <nav class="crumbs" aria-label="パンくず">
-      <a href="/">ホーム</a><span aria-hidden="true">/</span>
-      <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-      <span>編集方針</span>
-    </nav>
-    <p class="eyebrow">Editorial Policy</p>
-    <h1 class="display policy-title">編集方針</h1>
-    <p class="policy-updated muted">最終更新：{updated}</p>
+    <header class="policy-head v42-hero v42-hero--fill">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
+        <span>編集方針</span>
+      </nav>
+      <p class="eyebrow">Editorial Policy</p>
+      <h1 class="display policy-title">編集方針</h1>
+      <p class="policy-updated muted">最終更新：{updated}</p>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <div class="policy-body prose">
       <p>イバトコは、茨城で出会った人の言葉や仕事を、あとから確かめられる形で記録します。情報の出所、取材方法、取材先との関係を隠しません。この方針は、私たちが記事をつくるときの約束です。</p>

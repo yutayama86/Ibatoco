@@ -15,7 +15,7 @@ const latestNews = articles.length === 0 ? (await getIndexableNews()).slice(0, 3
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: cat.label }];
 ---
 <BrandBase title={`${cat.label}｜茨城の物語｜イバトコ`} description={`茨城の「${cat.label}」を、現地で確かめた情報から届けます。`} noindex={articles.length === 0} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <header class="category-head bp-wrap"><Breadcrumbs items={crumbs} /><p class="bp-kicker">THEME / {cat.reading}</p><h1>{cat.label}</h1><p>茨城で見つけた「{cat.label}」を、人と営みの背景から。</p><nav aria-label="テーマ切替">{CATEGORY_LIST.map((item) => <a href={`/${item.path}/`} aria-current={item.path===category?'page':undefined}>{item.label}</a>)}</nav></header>
+  <header class="category-head v42-hero bp-wrap"><Breadcrumbs items={crumbs} /><img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" /><p class="bp-kicker">THEME / {cat.reading}</p><h1>{cat.label}</h1><p>茨城で見つけた「{cat.label}」を、人と営みの背景から。</p><nav aria-label="テーマ切替">{CATEGORY_LIST.map((item) => <a href={`/${item.path}/`} aria-current={item.path===category?'page':undefined}>{item.label}</a>)}</nav></header>
   {articles.length > 0 ? <section class="category-grid bp-wrap">{articles.map((article) => <BrandStoryCard article={article} />)}</section> : <section class="category-empty bp-reading"><p class="bp-kicker">FIELD NOTE</p><h2>確かめ終えたものから、公開します。</h2><p>架空の記事や写真で数を埋めず、現地確認と掲載許諾が終わった記事から届けます。</p><a href="/about/editorial-policy/">編集方針を読む →</a>{latestNews.length > 0 && <div class="empty-exits"><h3>いま読める記事</h3><ul>{latestNews.map((item) => <li><a href={`/news/${item.id.split('/').pop()}/`}>{item.data.title}</a></li>)}</ul><p class="empty-more"><a href="/news/">茨城ニュース解説をすべて見る →</a></p></div>}</section>}
 </BrandBase>
 <style>

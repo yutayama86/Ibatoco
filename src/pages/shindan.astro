@@ -27,10 +27,13 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
 ---
 <BrandBase title="行き先診断｜イバトコ" description="いつ・何をしたい・どのあたり、の3問に答えるだけで、茨城の行き先と記事をご案内します。" noindex>
   <section class="sd bp-wrap" data-shindan data-labels={labels}>
-    <Breadcrumbs items={crumbs} />
-    <p class="bp-kicker">FIND YOUR IBARAKI</p>
-    <h1>3つ答えるだけで、<br />行き先が決まる。</h1>
-    <p class="sd-lead">公式の情報で日程を確かめた催しと、季節のテーマ、44市町村のページから選びます。</p>
+    <header class="sd-head v42-hero v42-hero--fill">
+      <Breadcrumbs items={crumbs} />
+      <p class="bp-kicker">FIND YOUR IBARAKI</p>
+      <h1>3つ答えるだけで、<br />行き先が決まる。</h1>
+      <p class="sd-lead">公式の情報で日程を確かめた催しと、季節のテーマ、44市町村のページから選びます。</p>
+      <img class="v42-hero__art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <form class="sd-form" data-shindan-form>
       <fieldset>

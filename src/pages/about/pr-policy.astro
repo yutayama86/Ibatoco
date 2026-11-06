@@ -12,14 +12,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコのPR・広告の方針。Editorial / Partner / PR の区分、費用を伴うコンテンツの明示、契約で編集評価や掲載順位を購入できないことについて。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <nav class="crumbs" aria-label="パンくず">
-      <a href="/">ホーム</a><span aria-hidden="true">/</span>
-      <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-      <span>PR・広告の方針</span>
-    </nav>
-    <p class="eyebrow">PR &amp; Advertising Policy</p>
-    <h1 class="display policy-title">PR・広告の方針</h1>
-    <p class="policy-updated muted">最終更新：{updated}</p>
+    <header class="policy-head v42-hero v42-hero--fill">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
+        <span>PR・広告の方針</span>
+      </nav>
+      <p class="eyebrow">PR &amp; Advertising Policy</p>
+      <h1 class="display policy-title">PR・広告の方針</h1>
+      <p class="policy-updated muted">最終更新：{updated}</p>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <div class="policy-body prose">
       <p>イバトコは、広告や支援関係の有無を読者に隠しません。費用を伴うコンテンツは、色だけでなく文言で明示します。編集の独立性を守るため、次のとおり運用します。</p>

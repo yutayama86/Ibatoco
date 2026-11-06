@@ -9,9 +9,12 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'プライバ
 
 <BrandBase title="プライバシーポリシー｜イバトコ" description="イバトコのプライバシーポリシー。" noindex={true} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap pv">
-    <Breadcrumbs items={crumbs} />
-    <h1 class="display pv-title">プライバシーポリシー</h1>
-    <p class="muted">最終更新：{updated}</p>
+    <header class="policy-head v42-hero v42-hero--fill">
+      <Breadcrumbs items={crumbs} />
+      <h1 class="display pv-title">プライバシーポリシー</h1>
+      <p class="muted">最終更新：{updated}</p>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
     <div class="pv-body prose">
       <p>{SITE_CONFIG.name}（以下「当メディア」）は、ユーザーの個人情報の保護を重要と考え、以下の方針に基づき適切に取り扱います。</p>
 

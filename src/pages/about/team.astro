@@ -11,14 +11,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコの運営体制とチームの役割。編集部・ローカルエディター・撮影・編集の役割と、利益相反の開示方針について。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <nav class="crumbs" aria-label="パンくず">
-      <a href="/">ホーム</a><span aria-hidden="true">/</span>
-      <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-      <span>運営・チーム</span>
-    </nav>
-    <p class="eyebrow">Team</p>
-    <h1 class="display policy-title">運営・チーム</h1>
-    <p class="policy-updated muted">最終更新：{updated}</p>
+    <header class="policy-head v42-hero v42-hero--fill">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
+        <span>運営・チーム</span>
+      </nav>
+      <p class="eyebrow">Team</p>
+      <h1 class="display policy-title">運営・チーム</h1>
+      <p class="policy-updated muted">最終更新：{updated}</p>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <div class="policy-body prose">
       <p>イバトコは、編集部とローカルエディターが協働して、現地の一次情報を編集する体制で運営しています。各記事には担当を明示し、誰が取材・執筆・撮影・編集したかがわかるようにしています。</p>

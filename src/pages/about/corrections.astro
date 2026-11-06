@@ -13,14 +13,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコの訂正・更新方針。誤りの訂正、更新履歴の残し方、訂正申請の窓口について。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <nav class="crumbs" aria-label="パンくず">
-      <a href="/">ホーム</a><span aria-hidden="true">/</span>
-      <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-      <span>訂正・更新方針</span>
-    </nav>
-    <p class="eyebrow">Corrections Policy</p>
-    <h1 class="display policy-title">訂正・更新方針</h1>
-    <p class="policy-updated muted">最終更新：{updated}</p>
+    <header class="policy-head v42-hero v42-hero--fill">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
+        <span>訂正・更新方針</span>
+      </nav>
+      <p class="eyebrow">Corrections Policy</p>
+      <h1 class="display policy-title">訂正・更新方針</h1>
+      <p class="policy-updated muted">最終更新：{updated}</p>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <div class="policy-body prose">
       <p>地域の情報は変わります。私たちは誤りを隠さず、いつ・何を直したかを残すことで信頼を保ちます。</p>

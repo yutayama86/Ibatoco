@@ -303,6 +303,7 @@ body.interior-site .v42-hero--fill::before {
   position: absolute;
   z-index: -1;
   inset: 0;
+  background: #edf0e3;
   box-shadow: 0 0 0 100vmax #edf0e3;
   clip-path: inset(0 -100vmax);
 }
@@ -426,3 +427,47 @@ body.interior-site .apply__head b { color: var(--v42-ink) !important; }
 body.interior-site .v42-hero > p { text-wrap: pretty; }
 /* 市町村ページの写真の札（例「日立駅 × かみね公園」）：狭い幅で「園」だけが次の行に落ちないよう、語の区切りで折る */
 body.interior-site .city-hero__art-tag strong { word-break: keep-all; overflow-wrap: break-word; }
+
+/*
+ * 残りのページ種別（2026-11-07）：about・運営/方針・reporters・診断・おでかけ・discover・today・
+ * テーマ一覧（/umi/・/hanabi/・/michinoeki/ など）・カテゴリ（/life/ など）・スポット一覧（/place/）・
+ * ガイド一覧・リポーター・おいしい図鑑。
+ * 文言・H1・リンクは変えず、帯・挿絵・配色だけを v42 にそろえる。
+ */
+/* 既存の帯（::before）を持つ見出しは、色だけを薄い緑に */
+body.interior-site :is(.about-head, .category-head, .ok-head, .tg-head__copy, .places-head, .hanabi-head, .person-head, .guide-index-head)::before { background: #edf0e3 !important; }
+body.interior-site :is(.about-head, .ok-head, .rp-hero, .tg-head, .discover-head, .today-head, .sd-head, .category-head, .places-head, .hanabi-head, .person-head, .guide-index-head, .me-head) h1,
+body.interior-site :is(.policy-title, .pv-title) {
+  color: var(--v42-ink) !important;
+  font-weight: 500 !important;
+}
+/* 内側の .bp-wrap に帯の2列を持たせるページ（外側が帯の余白を持つので、内側の上下余白は足さない） */
+body.interior-site :is(.ok-head, .rp-hero) > .v42-hero { padding-block: 0 !important; }
+body.interior-site .rp-hero { border-bottom: 0 !important; }
+
+/* 方針・規約：見出しだけを帯にする（本文の読みカラムは今のまま） */
+body.interior-site .policy-head { margin: calc(-1 * clamp(2rem, 5vw, 4.5rem)) 0 clamp(1.5rem, 3vw, 2.4rem); }
+/* 挿絵の列を細くするのは PC だけ。スマホは帯の共通の1列（見出しの幅を削らない） */
+@media (min-width: 761px) {
+  body.interior-site .policy-head { grid-template-columns: minmax(0, 1fr) minmax(0, clamp(96px, 16vw, 168px)) !important; }
+  body.interior-site .policy-head > .v42-hero__art { max-height: 220px; }
+}
+body.interior-site :is(.policy, .pv) .eyebrow { color: var(--v42-note); letter-spacing: .12em; }
+
+/* 診断：見出しだけを帯に。設問の部分は紙色のまま */
+/* 上の余白は .sd の padding-top と同じ値だけ戻し、帯をヘッダーに接させる */
+body.interior-site .sd-head { margin: calc(-1 * clamp(2.5rem, 6vw, 4.5rem)) 0 clamp(1.5rem, 3vw, 2.4rem); }
+
+/* about：強い一段（OUR BELIEF）は v42 の紺に */
+body.interior-site .ab-belief { background: var(--v42-navy) !important; }
+
+/* おいしい図鑑：図鑑の配色（--fg-*）を v42 の色へ。食材ごとの差し色（--fg-accent）はそのまま */
+body.interior-site .fg {
+  --fg-paper: var(--v42-paper);
+  --fg-ink: var(--v42-ink);
+  --fg-navy: var(--v42-ink);
+  --fg-mute: var(--v42-note);
+  --fg-soil: var(--v42-secondary);
+  --fg-line: var(--v42-rule);
+}
+body.interior-site :is(.fl-hero, .fg-hero) h1 { font-weight: 500; }
