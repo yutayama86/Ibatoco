@@ -450,8 +450,8 @@ body.interior-site :is(.ok-head, .rp-hero) > .v42-hero { padding-block: 0 !impor
 body.interior-site .v42-band::before { background: #eef2e5; box-shadow: 0 0 0 100vmax #eef2e5; }
 
 /* 冒頭の見出しの大きさを提出版（.p41-title、PC 約47px／スマホ 30px 前後）にそろえる */
-body.interior-site :is(.discover-head, .today-head, .ok-head, .tg-head, .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
-body.interior-site .rp-hero > .v42-hero:not(.v42-hub-label) h1 {
+body.interior-site :is(.discover-head, .today-head, .tg-head, .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
+body.interior-site :is(.rp-hero, .ok-head) > .v42-hero:not(.v42-hub-label) h1 {
   font-size: clamp(30px, 3.65vw, 54px) !important;
   line-height: 1.45 !important;
   letter-spacing: .04em !important;
@@ -620,3 +620,61 @@ body.interior-site .fg {
   --fg-line: var(--v42-rule);
 }
 body.interior-site .fg-hero h1 { font-weight: 600; }
+
+/* ===== v42 の追補：写真の特集・入口ボタン・地図の段（提出版 p41-featured / p41-photo / p41-theme-nav / p41-area-columns） ===== */
+.v42-featured { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: center; padding-block: 1.2rem 2.4rem; }
+.v42-featured > div { min-width: 0; }
+.v42-featured__title { margin: .9rem 0 1rem; color: var(--v42-ink); font: 600 clamp(29px, 2.8vw, 40px) / 1.6 var(--font-brand-display); letter-spacing: .035em; text-wrap: balance; }
+.v42-featured__lead { color: var(--v42-copy); font-size: .9375rem; line-height: 1.95; }
+.v42-photo { position: relative; margin: 0; padding: 7px 7px 0; background: #fffdf5; box-shadow: 4px 7px 0 #a8b69326, 0 6px 22px #3549360a; transform: rotate(-.7deg); }
+.v42-photo > img { display: block; width: 100%; height: 240px; object-fit: cover; }
+.v42-photo figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .4rem; min-height: 30px; padding: 6px 7px; color: #869176; font-size: .6875rem; line-height: 1.8; }
+.v42-photo figcaption a { text-decoration: underline; text-underline-offset: .15em; }
+.v42-tape { position: absolute; top: -10px; left: 36%; z-index: 1; width: 80px; height: 20px; background: #d0c5a39c; transform: rotate(-5deg); clip-path: polygon(2% 0, 100% 4%, 97% 100%, 0 97%); }
+.v42-stamp { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100px; height: 100px; margin: 0 0 .4rem; border: 1px solid #99ad7c; border-radius: 50%; outline: 1px solid #c3cfb158; outline-offset: -7px; color: #738c5e; font: 600 1.05rem / 1.4 var(--font-brand-display); text-align: center; transform: rotate(-8deg); }
+.v42-stamp small { margin-top: 4px; font: 400 8px var(--font-brand-body); letter-spacing: .2em; }
+.v42-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-width: 230px; min-height: 48px; margin-top: 1.2rem; padding: .75rem 1.3rem; background: var(--v42-ink); color: #fffdf6; font-size: .875rem; font-weight: 700; }
+.v42-button:hover { background: #1b363c; }
+.v42-button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 3px; }
+.v42-chipnav { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 1rem 1.4rem; }
+.v42-chipnav a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px; border: 1px solid #c9d3bb; border-radius: 2px; background: #fffcf3; color: #617c56; font-size: .75rem; }
+.v42-chipnav a[aria-current="true"] { border-color: #6e835d; background: #6e835d; color: #fffdf2; }
+.v42-chipnav a:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 2px; }
+@media (min-width: 900px) {
+  .v42-featured { grid-template-columns: 1.4fr 1fr; gap: 48px; padding-block: 1.8rem 2.8rem; }
+  .v42-photo > img { height: 350px; }
+  .v42-stamp { width: 130px; height: 130px; font-size: 1.3rem; }
+  .v42-chipnav { gap: 10px; padding-block: 1.4rem 1.9rem; }
+  .v42-chipnav a { padding: 10px 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .v42-photo, .v42-stamp { transform: none; } }
+
+/* 診断結果の冒頭：文が左、写真が右（提出版 discover-result） */
+body.interior-site .sd-feature { margin-bottom: 1.2rem; }
+@media (min-width: 900px) { body.interior-site .sd-feature { grid-template-columns: 1fr 1fr; } }
+body.interior-site .sd-feature[hidden] { display: none; }
+
+/* /odekake/：見出しは文と風景の2列（提出版 p41-hub-hero）、写真の特集は写真が左 */
+body.interior-site .ok-hero__scape { display: block; width: 100%; height: auto; max-height: 335px; margin-top: 1.4rem; object-fit: contain; }
+/* .v42-hero の列指定（!important）より、この見出しの2列を優先する */
+body.interior-site .v42-hero.ok-hero { grid-template-columns: minmax(0, 1fr) !important; }
+@media (min-width: 900px) {
+  body.interior-site .v42-hero.ok-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) !important; column-gap: 45px; align-items: center; }
+  body.interior-site .v42-hero.ok-hero > :first-child { grid-column: 1 / -1; }
+  body.interior-site .v42-hero.ok-hero > .ok-hero__scape { grid-column: 2; margin-top: 0; }
+}
+body.interior-site .ok-feature { padding-top: 0; }
+body.interior-site .ok-body > [hidden] { display: none !important; }
+body.interior-site :is(.ok-body, .ok-group, .ok-region) { scroll-margin-top: calc(var(--site-header-height, 72px) + 16px); }
+body.interior-site .ok-walk .v42-section__head { margin-bottom: 1.4rem; }
+
+/* /discover/：地図と文の2列（提出版 p41-area-columns） */
+.discover-map__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; align-items: start; }
+.discover-map__map { min-width: 0; padding: 16px; background: #fafcf2; }
+.discover-map__hint, .discover-map__note { margin-top: .8rem; color: var(--v42-note); font-size: .75rem; line-height: 1.8; }
+.discover-map__regions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.2rem; }
+.discover-map__regions button { min-height: 44px; padding: 10px 14px; border: 1px solid #c9d3bb; border-radius: 2px; background: #fffcf3; color: #617c56; font: inherit; font-size: .8125rem; cursor: pointer; }
+.discover-map__regions button:hover { border-color: #6e835d; color: var(--v42-ink); }
+.discover-map__regions button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 2px; }
+/* スマホは見出しが先、PC は地図を左に */
+@media (min-width: 900px) { .discover-map__grid { grid-template-columns: 1fr 1.05fr; gap: 36px; } .discover-map__map { order: -1; padding: 20px; } }
