@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '提出v42のナビアイコン・FVの案内カードと札・写真付きタブ・検索帯を復元し、季節特集を検索の直後へ配置。既存URL /discover/ への入口を追加（#517）',
     queries: [],
-    commit: 'PENDING',
+    commit: '5395a92c',
     experimentType: 'template',
     note: '11月7日のオーナー個別承認により、#512公開後の観測を区切り直す。title・description・canonical・H1・JSON-LD・既存リンク先は維持。共通ヘッダーとTOP内のモジュール配置が変わるため、#512と#517の両介入を分離して解釈し、#517公開後を新しい28日間の観測起点とする。過去の記録は変更しない。',
   },
