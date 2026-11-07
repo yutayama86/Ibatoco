@@ -21,8 +21,13 @@ const news = (await getNews()).slice(0, 4);
 const modelCourses = (await getIndexableEvents())
   .filter(({ data }) => data.tags.includes('モデルコース'))
   .map(({ id, data }) => {
-    const [label, note] = data.title.split('｜', 2);
-    return { href: `/events/${id.split('/').pop()}/`, label, note };
+    const [title, detail] = data.title.split('｜', 2);
+    const format = title.match(/^(.+)の(日帰り|1泊2日)モデルコース$/);
+    return {
+      href: `/events/${id.split('/').pop()}/`,
+      label: format?.[1] ?? title,
+      note: [format?.[2], detail].filter(Boolean).join(' ／ '),
+    };
   });
 
 /** 自然・季節・目的の3軸。リンク先はすべて実在ページ。 */
