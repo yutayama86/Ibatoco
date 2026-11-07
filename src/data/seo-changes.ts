@@ -50,17 +50,17 @@ export interface SeoChange {
 export const SEO_CHANGES: SeoChange[] = [
   {
     id: '20261106-site',
-    date: '2026-11-06',
+    date: '2026-11-07',
     url: '*',
     kind: 'internal-link',
     change: '共通ヘッダー・フッターのv42化に伴い、既存URLへの内部リンクを全ページへ追加。既存リンクの削除は0（#512）',
     queries: [],
     commit: 'e797bf9',
-    note: '追加先は /submit/・/search/・/reporters/・/today/・/shindan/・/hoshiimo/・/food-library/。観測中18ページにも共通変更が入るため、11月6日以降の比較では全体介入として扱う。',
+    note: '追加先は /submit/・/search/・/reporters/・/today/・/shindan/・/hoshiimo/・/food-library/。観測中のページにも共通変更が入るため、11月7日の公開以降の比較では全体介入として扱う。',
   },
   {
     id: '20261106-home-v42-sitewide',
-    date: '2026-11-06',
+    date: '2026-11-07',
     url: '/',
     kind: 'on-page',
     change: 'TOPをv42構成へ変更し、FV・テーマ6件・つくった理由・44市町村地図・取材と編集3項目・事業者導線を維持したまま、季節枠とページ構成を再編集（#512）',
