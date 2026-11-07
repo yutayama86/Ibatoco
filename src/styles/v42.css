@@ -303,6 +303,7 @@ body.interior-site .v42-hero--fill::before {
   position: absolute;
   z-index: -1;
   inset: 0;
+  background: #edf0e3;
   box-shadow: 0 0 0 100vmax #edf0e3;
   clip-path: inset(0 -100vmax);
 }
@@ -426,3 +427,172 @@ body.interior-site .apply__head b { color: var(--v42-ink) !important; }
 body.interior-site .v42-hero > p { text-wrap: pretty; }
 /* 市町村ページの写真の札（例「日立駅 × かみね公園」）：狭い幅で「園」だけが次の行に落ちないよう、語の区切りで折る */
 body.interior-site .city-hero__art-tag strong { word-break: keep-all; overflow-wrap: break-word; }
+
+/*
+ * 残りのページ種別（#515）：about・運営/方針・reporters・診断・おでかけ・discover・today・
+ * テーマ一覧（/umi/・/hanabi/・/michinoeki/ など）・カテゴリ（/life/ など）・スポット一覧（/place/）・
+ * ガイド一覧・リポーター・おいしい図鑑。
+ * 正本は提出版 ibatoco-all-pages-design-v42.zip（subpages41.css）。冒頭は紙色の上に文字と挿絵、
+ * 薄い緑（#eef2e5）は次の段だけに使う。H1 の文言は変えず、提出版の大きな見出しは COPY-LINES の表示コピー。
+ */
+body.interior-site :is(.about-head, .category-head, .ok-head, .tg-head__copy, .places-head, .hanabi-head, .person-head, .guide-index-head, .rp-hero)::before { background: transparent !important; }
+body.interior-site :is(.about-head, .category-head, .ok-head, .rp-hero, .discover-head, .today-head) { border-bottom: 0 !important; }
+body.interior-site :is(.about-head, .ok-head, .rp-hero, .tg-head, .discover-head, .today-head, .sd-head, .category-head, .places-head, .hanabi-head, .person-head, .guide-index-head, .me-head) h1,
+body.interior-site :is(.policy-title, .pv-title) {
+  color: var(--v42-ink) !important;
+  font-weight: 600 !important;
+}
+/* H1 を小さなラベルにしたとき、元の改行（<br>）で1語ずつ折れないように */
+body.interior-site .v42-hub-label h1 br { display: none; }
+body.interior-site .v42-hero > .v42-display { margin-bottom: .4rem; }
+body.interior-site :is(.ok-head, .rp-hero) > .v42-hero { padding-block: 0 !important; }
+/* 提出版の段（.p41-section.is-sage）と同じ緑 */
+body.interior-site .v42-band::before { background: #eef2e5; box-shadow: 0 0 0 100vmax #eef2e5; }
+
+/* 冒頭の見出しの大きさを提出版（.p41-title、PC 約47px／スマホ 30px 前後）にそろえる */
+body.interior-site :is(.discover-head, .today-head, .ok-head, .tg-head, .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
+body.interior-site .rp-hero > .v42-hero:not(.v42-hub-label) h1 {
+  font-size: clamp(30px, 3.65vw, 54px) !important;
+  line-height: 1.45 !important;
+  letter-spacing: .04em !important;
+}
+/* カテゴリの段落指定（.category-head > p）より、表示コピーの大きさを優先する */
+body.interior-site .category-head > .v42-display { margin-top: .5rem !important; color: var(--v42-ink) !important; font: 600 clamp(26px, 3.65vw, 54px) / 1.43 var(--font-brand-display) !important; }
+
+/* おでかけ（theme-hub.html）：枠付きの色パネルをやめ、紙のカードを並べる。地域の段は薄い緑 */
+body.interior-site .ok-group { padding: clamp(1.4rem, 3vw, 2.2rem) 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; }
+body.interior-site .ok-group ul { gap: clamp(12px, 1.6vw, 20px) !important; background: transparent !important; border: 0 !important; }
+body.interior-site .ok-group li { border-top: 0 !important; }
+body.interior-site :is(.ok-group, .ok-region) a {
+  min-height: 100% !important;
+  padding: 18px 2.4rem 18px 20px !important;
+  background: #fffdf6 !important;
+  border: 1px solid #dce0cf;
+  border-radius: 2px;
+  box-shadow: 3px 5px 0 #adbb9620;
+}
+body.interior-site :is(.ok-group, .ok-region) strong { color: var(--v42-ink); }
+body.interior-site :is(.ok-group b, .ok-region small) { color: #8da17a !important; }
+body.interior-site .ok-region { border-radius: 0 !important; background: #eef2e5 !important; box-shadow: 0 0 0 100vmax #eef2e5 !important; clip-path: inset(0 -100vmax); }
+body.interior-site .ok-region ul { gap: clamp(12px, 1.6vw, 20px); background: transparent; border: 0; }
+body.interior-site .ok-region li { background: transparent !important; }
+
+/* 方針・規約（policy*.html）：帯なし。PC は左に目次（230px）、右に本文（760px まで） */
+body.interior-site .policy-head { padding-block: .4rem clamp(1.4rem, 2.6vw, 2.2rem); }
+body.interior-site :is(.policy, .pv) .eyebrow { color: var(--v42-note); letter-spacing: .14em; font-size: 11px; }
+body.interior-site :is(.policy, .pv) { max-width: none !important; padding-inline: var(--interior-gutter) !important; }
+body.interior-site :is(.policy, .pv)::before { background: transparent !important; }
+body.interior-site .policy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.6rem;
+  max-width: 1060px;
+  margin-inline: auto;
+}
+body.interior-site .policy-head { max-width: 1060px; margin-inline: auto; }
+body.interior-site .policy-toc { border-top: 2px solid #8e9f78; padding-top: 18px; }
+body.interior-site .policy-toc > p { font-size: 10px; letter-spacing: .15em; color: #8a987a; margin-bottom: 10px; }
+body.interior-site .policy-toc > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 10px;
+  border-bottom: 1px solid #d7dfca;
+  color: #6a815d;
+  font-size: 12px;
+  line-height: 1.9;
+  text-decoration: none;
+}
+body.interior-site .policy-toc > a:hover { color: var(--v42-ink); }
+body.interior-site .policy-toc__art { display: none; }
+body.interior-site .policy-layout :is(.policy-body, .pv-body) { margin-top: 0 !important; max-width: 760px; }
+body.interior-site .policy-layout :is(.policy-body, .pv-body) h2 {
+  margin: 43px 0 20px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #cad4bd;
+  color: var(--v42-ink);
+  font: 600 clamp(21px, 2.3vw, 29px) / 1.7 var(--font-brand-display);
+  scroll-margin-top: calc(var(--site-header-height, 72px) + 16px);
+}
+@media (min-width: 900px) {
+  body.interior-site .policy-layout { grid-template-columns: 230px minmax(0, 760px); gap: 70px; }
+  body.interior-site .policy-toc { position: sticky; top: calc(var(--site-header-height, 72px) + 22px); align-self: start; }
+  body.interior-site .policy-toc__art { display: block; width: 130px; height: 173px; object-fit: contain; margin: 25px auto 0; }
+}
+/* スマホは提出版どおり、目次を本文の前に1列で（各行44px以上） */
+
+/* 運営・チーム（team.html）：紙色の冒頭に表示コピーと地図を持つ二人。本文は読みカラムのまま */
+body.interior-site .team-head { margin-bottom: clamp(1.5rem, 3vw, 2.4rem); }
+body.interior-site .team-head > .policy-updated { margin-top: .6rem; }
+
+/* about（about.html）：冒頭の下端に版画調の茨城の風景（提出版 .p41-brand-hero）。取材と編集の3項目は薄い緑の段に */
+body.interior-site .about-head {
+  /* 風景は幅いっぱい（縦横比 3:1）。文字に重ならない高さだけ下を空ける */
+  padding-bottom: calc(min(100vw, 1440px) * .28) !important;
+  background: url(/images/v42/ibarakiscape.webp) center bottom / 100% auto no-repeat !important;
+}
+@media (max-width: 760px) {
+  body.interior-site .about-head { padding-bottom: 130px !important; background-size: auto 135px !important; }
+}
+body.interior-site .ab-process > .bp-wrap { padding-block: clamp(2.6rem, 4.6vw, 3.4rem); }
+body.interior-site .ab-policies { background: transparent !important; }
+body.interior-site .ab-policy-list strong { color: var(--v42-ink) !important; }
+body.interior-site :is(.ab-policy-list b, .ab-policy-list em, .ab-close__mail a) { color: var(--v42-secondary) !important; }
+
+/* 行き先診断（discover.html）：設問を紙のカードに。右上に番号 */
+/* 帯をやめたので、冒頭の余白はパンくずの上だけ（提出版 .p41-crumb） */
+body.interior-site .sd { padding-top: .4rem !important; }
+body.interior-site .sd-form { counter-reset: sd-q; }
+body.interior-site .sd-form fieldset {
+  position: relative;
+  padding: clamp(20px, 3vw, 30px) !important;
+  background: #fffdf6;
+  border: 1px solid #dce0cf !important;
+  border-radius: 2px;
+  box-shadow: 4px 6px 0 #a8b6931a;
+  counter-increment: sd-q;
+}
+body.interior-site .sd-form fieldset::after {
+  position: absolute;
+  top: clamp(12px, 2vw, 20px);
+  right: clamp(16px, 3vw, 30px);
+  color: var(--v42-gold);
+  font: 400 clamp(32px, 4vw, 50px) / 1 var(--font-brand-display);
+  opacity: .55;
+  content: counter(sd-q, decimal-leading-zero);
+  pointer-events: none;
+}
+body.interior-site .sd-form legend { float: left; width: 100%; margin-bottom: 1rem; padding-right: 3.2rem; color: var(--v42-ink) !important; }
+body.interior-site .sd-form legend + * { clear: both; }
+
+/* 診断結果（discover-result.html）：結果は薄い緑の段に。候補の行は検索結果と同じ v42 の行 */
+body.interior-site .sd-result {
+  position: relative;
+  isolation: isolate;
+  margin-top: clamp(2.4rem, 4vw, 3.4rem) !important;
+  padding-block: clamp(2rem, 4vw, 3rem) !important;
+  border-top: 0 !important;
+}
+body.interior-site .sd-result::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #eef2e5;
+  box-shadow: 0 0 0 100vmax #eef2e5;
+  clip-path: inset(0 -100vmax);
+  content: '';
+}
+body.interior-site .sd-result h2 { color: var(--v42-ink) !important; }
+body.interior-site .sd-areas a { border-color: #cfd6c4 !important; border-radius: 3px !important; background: #fffdf6 !important; color: var(--v42-ink) !important; }
+body.interior-site .sd-more a { color: var(--v42-blue) !important; }
+
+/* おいしい図鑑：図鑑の配色（--fg-*）を v42 の色へ。食材ごとの差し色（--fg-accent）はそのまま */
+body.interior-site .fg {
+  --fg-paper: #faf7ee;
+  --fg-ink: var(--v42-ink);
+  --fg-navy: var(--v42-ink);
+  --fg-mute: var(--v42-note);
+  --fg-soil: var(--v42-secondary);
+  --fg-line: var(--v42-rule);
+}
+body.interior-site .fg-hero h1 { font-weight: 600; }
