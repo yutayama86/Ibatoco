@@ -66,7 +66,7 @@ const KIND_LABEL: Record<HappeningKind, string> = {
     <div class="bp-wrap">
       <div class="tw__head">
         {isHomeEditorial && <span class="tw__eyebrow">EXPLORE IBARAKI / EVENTS</span>}
-        <h2 id="tw-title" class="tw__title">{isHomeEditorial ? '今、茨城で楽しめるイベント' : heading}</h2>
+        <h2 id="tw-title" class="tw__title">{isHomeEditorial ? <Fragment>今、茨城で<br />楽しめるイベント。</Fragment> : heading}</h2>
         {moreHref && <a class="tw__more" href={moreHref} data-week-kind="hub" data-week-bucket="more">{moreLabel}<span aria-hidden="true">&nbsp;→</span></a>}
       </div>
       <p class="tw__lead">{isHomeEditorial ? '今行ける催しや、週末のイベント。日付から次のおでかけを探す。' : lead}</p>
@@ -276,23 +276,23 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 
   /* TOP限定：イベントは3件ずつ編集して見せ、必要な人だけ展開。
      日付によってイベント数が変わっても1列だけ下に伸びない。 */
-  .tw--home-editorial{padding-block:clamp(3rem,5vw,4.5rem);background:var(--color-paper);border-block:1px solid var(--color-line)}
+  .tw--home-editorial{padding-block:clamp(3.5rem,6vw,5.5rem);background:#eef1e6;border:0}
   .tw--home-editorial .tw__head{display:flex;align-items:baseline;justify-content:space-between;gap:.65rem 2rem;text-align:left}.tw--home-editorial .tw__eyebrow{flex-basis:100%}
-  .tw--home-editorial .tw__eyebrow{font:700 .69rem/1.4 var(--font-brand-meta);letter-spacing:.23em;color:var(--color-brand-blue)}
-  .tw--home-editorial .tw__title{font-size:clamp(1.7rem,2.8vw,2.5rem);letter-spacing:.02em}
+  .tw--home-editorial .tw__eyebrow{font:500 .69rem/1.4 var(--font-brand-meta);letter-spacing:.2em;color:#617357}
+  .tw--home-editorial .tw__title{color:#24434a;font-size:clamp(1.9rem,3.2vw,2.75rem);font-weight:500;line-height:1.45;letter-spacing:.025em}
   .tw--home-editorial .tw__more{margin-top:.35rem}
   .tw--home-editorial .tw__lead{max-width:var(--measure);margin-top:.65rem;text-align:left;font-size:clamp(.85rem,1.2vw,1rem)}
   .tw--home-editorial .tw__groups{align-items:start;gap:clamp(.8rem,1.5vw,1.5rem);margin-top:clamp(2rem,4vw,3rem)}
-  .tw--home-editorial .tw__group{display:flex;flex-direction:column;min-width:0;padding:1.25rem 0 0;border:0;border-top:2px solid var(--color-ink);border-radius:0;background:transparent;box-shadow:none}
+  .tw--home-editorial .tw__group{display:flex;flex-direction:column;min-width:0;padding:1.25rem 0 0;border:0;border-top:2px solid #24434a;border-radius:0;background:transparent;box-shadow:none}
   .tw--home-editorial .tw__group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1rem;padding:0 0 1rem;border-bottom:1px solid #e4ebec}
-  .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:var(--color-deep-blue);font:600 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
+  .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:#24434a;font:500 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
   .tw--home-editorial .tw__group-note{color:#77848b;font-size:.73rem;letter-spacing:.02em}
   .tw--home-editorial .tw__list{display:grid;align-content:start;gap:0;margin:0}
   .tw--home-editorial .tw__list li{min-width:0;border-bottom:1px solid #edf0f1}
   .tw--home-editorial .tw__list li:nth-child(n+4){display:none}
   .tw--home-editorial .tw__group.is-expanded .tw__list li:nth-child(n+4){display:list-item}
   .tw--home-editorial .tw__list a{display:grid;gap:.18rem;padding:1rem .1rem;border:0;min-height:0}
-  .tw--home-editorial .tw__list strong{margin:0;font-size:clamp(.91rem,1.14vw,1.07rem);line-height:1.55;overflow-wrap:anywhere}
+  .tw--home-editorial .tw__list strong{margin:0;font-size:clamp(.91rem,1.14vw,1.07rem);line-height:1.55;line-break:strict;overflow-wrap:break-word}
   .tw--home-editorial .tw__meta{font-size:.7rem}
   .tw--home-editorial .tw__kind{display:inline-flex;align-items:center;padding:.18rem .5rem;border-radius:100px;background:var(--tw-bg);font-size:.65rem}
   .tw--home-editorial .tw__place{font-size:.75rem;line-height:1.4}

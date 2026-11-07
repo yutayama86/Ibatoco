@@ -4,6 +4,7 @@ import BrandBase from '../layouts/BrandBase.astro';
 
 <BrandBase title="ページが見つかりません｜イバトコ" noindex={true}>
   <section class="bp-reading nf">
+    <img class="nf-art" src="/images/v42/travelers.webp" alt="" width="240" height="160" decoding="async" />
     <p class="bp-kicker">404 / Not Found</p>
     <h1 class="bp-title nf-title">この先に、ページは<br />ありませんでした。</h1>
     <p class="nf-lead">URLが変わったか、ページが公開を終了した可能性があります。現在公開されている記録から、もう一度お探しください。</p>
@@ -16,9 +17,10 @@ import BrandBase from '../layouts/BrandBase.astro';
 
 <style>
   .nf { min-height: 64vh; display: grid; place-content: center; text-align: center; gap: 1.25rem; padding-block: 5rem; }
-  .nf-title { font-size: clamp(2.2rem, 6vw, 4.6rem); }
+  .nf-art { width: clamp(120px, 22vw, 180px); height: auto; margin-inline: auto; }
+  .nf-title { font-size: clamp(2.2rem, 6vw, 4.6rem); color: var(--v42-ink); font-weight: 500; }
   .nf-lead { color: var(--color-slate); line-height: 2; max-width: 43rem; margin-inline: auto; }
   .nf-cta { margin-top: 1rem; display: flex; align-items: center; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
-  .nf-primary { display: inline-flex; align-items: center; gap: 1rem; padding: .9rem 1.2rem; border: 1px solid var(--color-ink); color: var(--color-ink); }
-  .nf-primary:hover { background: var(--color-ink); color: var(--color-paper); }
+  .nf-primary { display: inline-flex; align-items: center; gap: 1rem; padding: .9rem 1.2rem; border-radius: 3px; background: var(--v42-blue); color: #fff; }
+  .nf-primary:hover { background: #23438e; }
 </style>

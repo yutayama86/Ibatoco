@@ -49,6 +49,26 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261106-site',
+    date: '2026-11-07',
+    url: '*',
+    kind: 'internal-link',
+    change: '共通ヘッダー・フッターのv42化に伴い、既存URLへの内部リンクを全ページへ追加。既存リンクの削除は0（#512）',
+    queries: [],
+    commit: 'e797bf9',
+    note: '追加先は /submit/・/search/・/reporters/・/today/・/shindan/・/hoshiimo/・/food-library/。観測中のページにも共通変更が入るため、11月7日の公開以降の比較では全体介入として扱う。',
+  },
+  {
+    id: '20261106-home-v42-sitewide',
+    date: '2026-11-07',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPをv42構成へ変更し、FV・テーマ6件・つくった理由・44市町村地図・取材と編集3項目・事業者導線を維持したまま、季節枠とページ構成を再編集（#512）',
+    queries: [],
+    commit: 'e797bf9',
+    note: 'title・description・canonical・H1・JSON-LDは変更なし。全体UI変更日として、同日以降の観測ではサイト共通デザイン変更の影響を考慮する。',
+  },
+  {
     id: '20261101-kouyou-hub-november-metadata',
     date: '2026-11-01',
     url: '/kouyou/',

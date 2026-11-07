@@ -10,17 +10,49 @@ import { SITE_CONFIG } from '../data/site';
 import BrandLogo from './BrandLogo.astro';
 const year = new Date().getFullYear();
 
-const policyNav = [
-  { label: '編集方針', href: '/about/editorial-policy/' },
-  { label: 'PR・広告の方針', href: '/about/pr-policy/' },
-  { label: '訂正・更新方針', href: '/about/corrections/' },
-  { label: '運営・チーム', href: '/about/team/' },
-];
-const utilityNav = [
-  { label: 'お問い合わせ', href: '/contact/' },
-  { label: 'プライバシーポリシー', href: '/privacy/' },
-  { label: '地域事業者の方へ', href: '/biz/' },
-  { label: '協賛のご案内', href: '/sponsor/' },
+// v42：6つのまとまり。すべて既存のURLだけを載せる（ページの無い入口は置かない）
+const footerGroups = [
+  { label: '出かける', links: [
+    { label: 'イベント・カレンダー', href: '/events/' },
+    { label: '今日・今週末の茨城', href: '/today/' },
+    { label: '茨城の紅葉', href: '/kouyou/' },
+    { label: '花を見に行く', href: '/hana/' },
+    { label: '花火', href: '/hanabi/' },
+    { label: '道の駅', href: '/michinoeki/' },
+  ] },
+  { label: '味わう・知る', links: [
+    { label: '茨城のおいしい図鑑', href: '/food-library/' },
+    { label: '干し芋図鑑', href: '/hoshiimo/' },
+    { label: '食べる', href: '/eat/' },
+    { label: '海を訪ねる', href: '/umi/' },
+    { label: '山・里山を歩く', href: '/yama/' },
+  ] },
+  { label: 'エリア', links: [
+    { label: '44市町村から探す', href: '/area/' },
+    { label: '目的から探す', href: '/odekake/' },
+    { label: '行き先診断', href: '/shindan/' },
+    { label: 'サイト内を検索', href: '/search/' },
+  ] },
+  { label: 'ニュース・スポーツ', links: [
+    { label: '茨城ニュース解説', href: '/news/' },
+    { label: '茨城のスポーツ', href: '/sports/' },
+    { label: '水戸ホーリーホック', href: '/sports/mito-hollyhock/' },
+    { label: '鹿島アントラーズ', href: '/sports/kashima-antlers/' },
+  ] },
+  { label: '地域のみなさんへ', links: [
+    { label: '地域事業者の方へ', href: '/biz/' },
+    { label: '協賛のご案内', href: '/sponsor/' },
+    { label: 'イベント・地域の情報提供', href: '/submit/' },
+    { label: 'ローカルエディター募集', href: '/reporters/' },
+  ] },
+  { label: 'イバトコについて', links: [
+    { label: 'イバトコのこと', href: '/about/' },
+    { label: '編集方針', href: '/about/editorial-policy/' },
+    { label: 'PR・広告の方針', href: '/about/pr-policy/' },
+    { label: '訂正・更新方針', href: '/about/corrections/' },
+    { label: '運営・チーム', href: '/about/team/' },
+    { label: 'お問い合わせ', href: '/contact/' },
+  ] },
 ];
 const socialUrls: Record<string, string> = SITE_CONFIG.social;
 const officialSocials = [
@@ -31,11 +63,22 @@ const officialSocials = [
 ].filter((s) => Boolean(s.href));
 ---
 
+<section class="v42-closing" aria-label="イバトコについて">
+  <div class="v42-closing__inner">
+    <img src="/images/v42/travelers.webp" width="240" height="160" alt="" loading="lazy" decoding="async" />
+    <div>
+      <p class="v42-closing__label">歩いて、聞いて、茨城を届ける。</p>
+      <p class="v42-closing__title">この街を知るほど、<br class="v42-br-phone" />茨城が好きになる。</p>
+    </div>
+    <a class="v42-closing__link" href="/about/">イバトコのこと<span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
 <footer class="site-footer2">
   <div class="site-footer2__inner">
     <div class="site-footer2__brand">
       <BrandLogo size={38} inverse />
-      <p class="site-footer2__tag">現地から、信頼を編む。</p>
+      <p class="site-footer2__tag">旅するように、茨城を楽しむ。<br />現地から、信頼を編む。</p>
       {officialSocials.length > 0 && (
         <ul class="site-footer2__social" aria-label="公式アカウント">
           {officialSocials.map((s) => (
@@ -43,47 +86,72 @@ const officialSocials = [
           ))}
         </ul>
       )}
+      <a class="site-footer2__top" href="#main-content">ページの先頭へ <span aria-hidden="true">↑</span></a>
     </div>
 
-    <nav class="site-footer2__col" aria-label="編集方針">
-      <h2 class="site-footer2__h">方針</h2>
-      <ul>{policyNav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
-    </nav>
-
-    <nav class="site-footer2__col" aria-label="その他">
-      <h2 class="site-footer2__h">サイト情報</h2>
-      <ul>{utilityNav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+    <nav class="site-footer2__groups" aria-label="サイトマップ">
+      {footerGroups.map((group) => (
+        <details class="site-footer2__col" open data-footer-group>
+          <summary class="site-footer2__h">{group.label}<span aria-hidden="true">＋</span></summary>
+          <ul>{group.links.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        </details>
+      ))}
     </nav>
   </div>
 
   <div class="site-footer2__base">
+    <nav aria-label="ポリシー"><a href="/privacy/">プライバシーポリシー</a><a href="/about/pr-policy/">編集・広告について</a></nav>
     <small>© {year} {SITE_CONFIG.name}</small>
   </div>
 </footer>
 
+<script>
+  // スマホでは6つのまとまりを閉じて並べる（リンクはHTMLに常に入っている）
+  if (window.matchMedia('(max-width: 760px)').matches) {
+    document.querySelectorAll<HTMLDetailsElement>('[data-footer-group]').forEach((group) => { group.open = false; });
+  }
+</script>
+
 <style>
-  .site-footer2 { position:relative;overflow:hidden;background:var(--color-ink); color: var(--color-white); font-family: var(--font-brand-body); }
-  .site-footer2::after{content:'';position:absolute;inset:0 0 auto;height:1px;background:rgba(158,207,244,.28)}
+  .site-footer2 { position:relative;overflow:hidden;background:var(--v42-navy); color: #f3f0e6; font-family: var(--font-brand-body); }
   .site-footer2__inner {
-    position:relative;z-index:1;max-width: var(--content-wide); margin-inline: auto;
-    padding: clamp(2.5rem, 6vw, 4rem) clamp(1rem, 4vw, 2rem);
-    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem;
+    position:relative;z-index:1;width:min(calc(100% - 2.5rem),1160px); margin-inline: auto;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem;
   }
-  .site-footer2__tag { font-family: var(--font-brand-display); color: var(--color-mist); margin-top: 0.4rem; font-size: 0.95rem; }
-  .site-footer2__social { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.2rem; list-style: none; }
-  .site-footer2__social a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-mist); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid transparent; }
-  .site-footer2__social a:hover, .site-footer2__social a:focus-visible { color: var(--color-white); border-color: var(--color-mist); }
-
-  .site-footer2__h { font-family: var(--font-brand-meta); font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--color-mist); margin-bottom: 0.9rem; }
-  .site-footer2__col ul { list-style: none; display: grid; gap: 0; }
-  .site-footer2__col a { display: inline-flex; align-items: center; min-height: 44px; padding-block: .4rem; line-height: 1.7; color: rgba(255,253,248,0.86); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid transparent; }
-  .site-footer2__col a:hover, .site-footer2__col a:focus-visible { color: var(--color-white); border-color: var(--color-mist); }
-
+  .site-footer2__brand { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(243,240,230,.16); }
+  .site-footer2__tag { font-size: .8125rem; line-height: 1.9; color: rgba(243,240,230,.82); }
+  .site-footer2__social { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; padding: 0; margin: 0; }
+  .site-footer2__social li::before { content: none; }
+  .site-footer2__social a { display: inline-flex; align-items: center; min-height: 44px; color: rgba(243,240,230,.82); font-size: 0.85rem; }
+  .site-footer2__top { display: inline-flex; align-items: center; min-height: 44px; color: rgba(243,240,230,.82); font-size: .75rem; }
+  .site-footer2__groups { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.5rem; }
+  .site-footer2__h { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; color: #fff; font: 500 .9375rem/1.6 var(--font-brand-display); letter-spacing: .06em; list-style: none; pointer-events: none; }
+  .site-footer2__h::-webkit-details-marker { display: none; }
+  .site-footer2__h span { display: none; }
+  .site-footer2__col ul { list-style: none; display: grid; gap: 0; margin: 0; padding: 0; }
+  .site-footer2__col li::before { content: none; }
+  .site-footer2__col a { display: inline-flex; align-items: center; min-height: 40px; line-height: 1.6; color: rgba(243,240,230,.8); font-size: .8125rem; border-bottom: 1px solid transparent; }
+  .site-footer2 a:hover { color: #fff; }
   .site-footer2__base {
-    position:relative;z-index:1;max-width: var(--content-wide); margin-inline: auto;
-    padding: 1.2rem clamp(1rem, 4vw, 2rem); border-top: 1px solid rgba(255,253,248,0.14);
-    color: var(--color-mist); font-family: var(--font-brand-meta); font-size: 0.75rem;
+    position:relative;z-index:1;width:min(calc(100% - 2.5rem),1160px); margin-inline: auto;
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1.5rem;
+    padding-block: 1.2rem; border-top: 1px solid rgba(243,240,230,.14);
+    color: rgba(243,240,230,.7); font-size: 0.75rem;
   }
-  .site-footer2 a:focus-visible { outline: 2px solid var(--color-mist); outline-offset: 3px; }
-  @media (max-width: 720px) { .site-footer2__inner { grid-template-columns: 1fr 1fr; } .site-footer2__brand { grid-column: 1 / -1; } }
+  .site-footer2__base nav { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  .site-footer2__base a { display: inline-flex; align-items: center; min-height: 44px; color: rgba(243,240,230,.8); }
+  .site-footer2 a:focus-visible, .site-footer2 summary:focus-visible { outline: 2px solid #f3f0e6; outline-offset: 3px; }
+  @media (max-width: 1000px) { .site-footer2__groups { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) {
+    .site-footer2__brand { grid-template-columns: minmax(0, 1fr) auto; }
+    .site-footer2__tag { grid-column: 1 / -1; }
+    .site-footer2__groups { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .site-footer2__col { border-bottom: 1px solid rgba(243,240,230,.16); }
+    .site-footer2__h { min-height: 56px; margin: 0; pointer-events: auto; cursor: pointer; }
+    .site-footer2__h span { display: inline; font-size: 1.1rem; transition: transform .2s ease; }
+    .site-footer2__col[open] .site-footer2__h span { transform: rotate(45deg); }
+    .site-footer2__col ul { padding-bottom: .8rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .site-footer2__h span { transition: none; } }
 </style>

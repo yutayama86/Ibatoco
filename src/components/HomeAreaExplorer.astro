@@ -11,33 +11,14 @@
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
 import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
-import { MUNICIPALITY_CONTENT } from '../data/municipality-content';
-import { getAreaSummary } from '../lib/content';
-import { formatJapaneseDate } from '../lib/date-only.js';
+
+interface Props {
+  /** 見出しを差し替えるとき（/area/ では冒頭の帯に同じ文言があるため）。TOP は既定のまま */
+  heading?: { kicker: string; lines: [string, string] };
+}
+const { heading } = Astro.props;
 
 const { w: W, h: H } = GEO_VIEW;
-
-const summaries = await Promise.all(MUNICIPALITIES.map((m) => getAreaSummary(m.slug)));
-
-// クライアントのパネル描画用データ（架空を出さない：実データが無ければ空）
-const panelData = Object.fromEntries(
-  summaries.map((s) => {
-    const profile = MUNICIPALITY_CONTENT[s.slug];
-    return [s.slug, {
-      name: s.name,
-      region: s.region,
-      href: `/area/${s.slug}/`,
-      catch: profile?.catch ?? '',
-      intro: profile?.intro ?? '',
-      highlights: (profile?.spots ?? []).slice(0, 3).map((item) => item.name),
-      lastUpdated: s.lastUpdated ? formatJapaneseDate(s.lastUpdated) : null,
-      stories: s.stories.slice(0, 2).map((a) => ({ title: a.data.title, href: `/${a.data.category}/${a.id.split('/').pop()}/` })),
-      places: s.places.slice(0, 2).map((p) => ({ name: p.data.name, href: `/place/${p.id}/` })),
-      people: s.people.slice(0, 2).map((p) => ({ name: p.name, href: `/reporter/${p.slug}/` })),
-      hasContent: s.hasContent,
-    }];
-  })
-);
 
 const LABEL_OVERRIDES: Partial<Record<string, { lx: number; ly: number }>> = {
   // 東海村は自動算出された中心点が海側へ外れるため、図形の中央へ補正する。
@@ -56,18 +37,18 @@ const nodes = MUNICIPALITIES.map((m) => ({
   <div class="ax-grid">
     <!-- 地図（SVG） -->
     <figure class="ax-mapwrap">
+      {/* 各市町村の形がそのまま /area/[slug]/ へのリンク。サーバーが返すHTMLの href から辿れ、タップ・Tab・Enterで開ける */}
       <svg viewBox={`0 0 ${W} ${H}`} class="ax-map" role="group" aria-label="茨城県の市町村マップ。市町村を選ぶと、その街のページへ移動します。">
         {nodes.map((n) => (
-          <g
+          <a
+            href={`/area/${n.slug}/`}
             class="ax-muni"
             data-slug={n.slug}
             data-region={n.region}
-            role="link"
-            tabindex="0"
             aria-label={`${n.name}のページを開く`}
           >
             <path d={compactPath(n.d)} class="ax-shape" />
-          </g>
+          </a>
         ))}
         {nodes.map((n) => (
           <text x={n.lx ?? n.cx} y={n.ly ?? n.cy} class="ax-label" data-label-slug={n.slug}>{n.name}</text>
@@ -78,8 +59,10 @@ const nodes = MUNICIPALITIES.map((m) => ({
     <!-- 隣接パネル（選択中の市町村の概要） -->
     <aside class="ax-panel ax-panel--integrated">
       <header class="ax-intro">
-        <p class="ax-intro-kicker">街から探す</p>
-        <h2>44の街から、<br />茨城を読む。</h2>
+        <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
+        {heading
+          ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
+          : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
         <h3>気になる街を、ひとつ。</h3>
         <p class="ax-intro-copy">
           <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
@@ -106,7 +89,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
         <h3 class="ax-list-head" id="ax-list-head">市町村名から選ぶ</h3>
         <nav aria-labelledby="ax-list-head">
           {REGION_ORDER.map((k) => (
-            <div class="ax-region">
+            <div class="ax-region" id={`area-${k}`}>
               <p class="ax-region-name" id={`ax-region-${k}`}><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</p>
               <ul aria-labelledby={`ax-region-${k}`}>
                 {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
@@ -120,7 +103,6 @@ const nodes = MUNICIPALITIES.map((m) => ({
     </aside>
   </div>
 
-  <script is:inline type="application/json" set:html={JSON.stringify(panelData)} data-ax-data></script>
 </section>
 
 <style>
@@ -134,11 +116,11 @@ const nodes = MUNICIPALITIES.map((m) => ({
   /* 5地域：原色分けを避けた、低彩度のブランド派生色 */
   .ax-shape { stroke: color-mix(in srgb, var(--color-paper) 88%, var(--color-ink)); stroke-width: .72; stroke-linejoin: round; vector-effect: non-scaling-stroke;
     transition: filter .2s var(--ease), stroke-width .2s; }
-  .ax-muni[data-region="kenpoku"] .ax-shape { fill: #99bbe1; }
-  .ax-muni[data-region="keno"]    .ax-shape { fill: #dbe5f0; }
-  .ax-muni[data-region="kennan"]  .ax-shape { fill: #c9dbe9; }
-  .ax-muni[data-region="rokko"]   .ax-shape { fill: #6f9fc7; }
-  .ax-muni[data-region="kensei"]  .ax-shape { fill: #b9bdb2; }
+  .ax-muni[data-region="kenpoku"] .ax-shape { fill: #a9bdb3; }
+  .ax-muni[data-region="keno"]    .ax-shape { fill: #e3e2cf; }
+  .ax-muni[data-region="kennan"]  .ax-shape { fill: #c9d6dc; }
+  .ax-muni[data-region="rokko"]   .ax-shape { fill: #8eacc0; }
+  .ax-muni[data-region="kensei"]  .ax-shape { fill: #cfc7a8; }
 
   /* hover は面の明度だけを変え、地図の境界線を乱さない。キーボードフォーカスのみ線でも示す。 */
   .ax-muni {
@@ -151,7 +133,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-muni:focus,
   .ax-muni:focus-visible { outline: none !important; outline-offset: 0 !important; }
   .ax-muni:hover .ax-shape { filter: brightness(.94) saturate(1.04); }
-  .ax-muni:focus-visible .ax-shape { stroke: var(--color-tide); stroke-width: .9; filter: brightness(.94); }
+  .ax-muni:focus-visible .ax-shape { stroke: #2c4fb5; stroke-width: 2; filter: brightness(.94); }
 
   .ax-label { font-family: var(--font-brand-body); font-size: 9.4px; font-weight: 700; text-anchor: middle; dominant-baseline: central;
     fill: var(--color-ink); paint-order: stroke; stroke: color-mix(in srgb, var(--color-paper) 82%, transparent); stroke-width: 2px; pointer-events: none; }
@@ -168,8 +150,10 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-panel--integrated .ax-panel-empty:empty { display: none; }
   /* 区切り線は直下の「市町村名から選ぶ」の上線に任せる（線が二重に見えないように） */
   .ax-intro { padding-bottom: 0; border-bottom: 0; }
-  .ax-intro-kicker { font: 700 .74rem var(--font-brand-meta); letter-spacing: .08em; color: var(--color-tide); }
-  .ax-intro h2 { margin-top: .7rem; font: 600 clamp(2rem,4.2vw,3.65rem)/1.24 var(--font-brand-display); letter-spacing: .01em; color: var(--color-ink); }
+  .ax-intro-kicker { font: 500 .75rem var(--font-brand-meta); letter-spacing: .12em; color: #617357; }
+  .ax-intro h2 { margin-top: .7rem; font: 500 clamp(1.9rem,3.4vw,3rem)/1.45 var(--font-brand-display); letter-spacing: .025em; color: #24434a; line-break: strict; }
+  .ax-intro h2 > span { display: block; }
+  .ax-intro h2 b { margin-right: .08em; color: #a99a67; font-size: 1.7em; font-weight: 400; line-height: 1; letter-spacing: -.04em; }
   .ax-intro h3 { margin-top: clamp(1.3rem,2.5vw,2rem); font: 600 clamp(1.15rem,2vw,1.45rem)/1.5 var(--font-brand-display); color: var(--color-ink); }
   .ax-intro-copy { margin-top: .55rem; font-size: .9rem; line-height: 1.9; color: var(--color-soil); }
   .ax-intro-copy span { display: block; }
@@ -200,18 +184,18 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-region { display:grid;grid-template-columns:4.4rem minmax(0,1fr);gap:.2rem .85rem;align-items:baseline;padding:.55rem 0;border-bottom:1px solid var(--color-mist); }
   .ax-region-name { display: inline-flex; align-items: center; gap: .5em; font-weight: 600; font-size: .9rem; color: var(--color-ink); white-space: nowrap; }
   .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
-  .ax-region-dot[data-region="kenpoku"] { background: #99bbe1; }
-  .ax-region-dot[data-region="keno"] { background: #dbe5f0; }
-  .ax-region-dot[data-region="kennan"] { background: #c9dbe9; }
-  .ax-region-dot[data-region="rokko"] { background: #6f9fc7; }
-  .ax-region-dot[data-region="kensei"] { background: #b9bdb2; }
+  .ax-region-dot[data-region="kenpoku"] { background: #a9bdb3; }
+  .ax-region-dot[data-region="keno"] { background: #e3e2cf; }
+  .ax-region-dot[data-region="kennan"] { background: #c9d6dc; }
+  .ax-region-dot[data-region="rokko"] { background: #8eacc0; }
+  .ax-region-dot[data-region="kensei"] { background: #cfc7a8; }
   .ax-panel .ax-region ul { display: flex; flex-wrap: wrap; gap:.05rem .85rem; list-style: none; padding: 0; margin: 0; }
   .ax-panel .ax-region .ax-list-btn { display: inline-block; padding: .3em 0; font-size:.84rem;color:var(--color-charcoal); text-decoration: none; }
   .ax-panel .ax-region .ax-list-btn:hover, .ax-panel .ax-region .ax-list-btn:focus-visible { color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }
   .ax-list-btn[aria-pressed="true"] { color: var(--color-tide); font-weight: 700; }
 
   /* モバイル：地図は保持しつつ、地域タブ＋リストを併設（ピンチ依存にしない） */
-  @media (min-width:761px) and (max-width:1100px){.ax-grid{grid-template-columns:minmax(320px,.95fr) minmax(400px,1.05fr);gap:2rem}.ax-map{max-height:500px}.ax-intro h2{font-size:clamp(1.8rem,3vw,2.8rem)}.ax-intro-copy{font-size:.82rem}}
+  @media (min-width:761px) and (max-width:1100px){.ax-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(1.25rem,2.5vw,2rem)}.ax-map{max-height:500px}.ax-intro h2{font-size:clamp(1.8rem,3vw,2.8rem)}.ax-intro-copy{font-size:.82rem}}
   @media (max-width: 760px) {
     .ax-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "map" "panel"; gap: 1.4rem; }
     .ax-mapwrap { width: 100%; overflow: hidden; padding: .4rem .1rem .2rem; }
@@ -224,23 +208,3 @@ const nodes = MUNICIPALITIES.map((m) => ({
   @media (prefers-reduced-motion: reduce) { .ax-shape { transition: none; } }
 </style>
 
-<script>
-  // TOPでは市町村を選ぶと、その街のページへ直接遷移する。
-  const root = document.currentScript?.closest(".ax") ?? document.querySelector(".ax");
-  if (root) {
-    const data = JSON.parse(root.querySelector("[data-ax-data]")?.textContent || "{}");
-    root.querySelectorAll<HTMLElement>(".ax-muni").forEach((el) => {
-      const slug = el.getAttribute("data-slug");
-      const href = slug ? data[slug]?.href : null;
-      if (!href) return;
-      const open = () => window.location.assign(href);
-      el.addEventListener("click", open);
-      el.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
-          event.preventDefault();
-          open();
-        }
-      });
-    });
-  }
-</script>
