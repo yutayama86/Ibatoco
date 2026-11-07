@@ -24,7 +24,8 @@
         "title・description・URL・canonical・料金・交通規制・駐車場の未確認表現は変更しない",
         "event-registryのverifiedAtとarticleUpdatedAtが2026-11-08に整合する",
         "CI成功後もオーナーの対象PR明示承認まではマージしない"
-      ]
+      ],
+      "observationException": "fact — 最新公式案内との時刻不一致は開催前の読者行動に影響するため訂正"
     },
     {
       "id": "20261102-ibaraki-shirasu-fair",
