@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-03",
+  "updatedAt": "2026-11-08",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1196,9 +1196,9 @@
       "endDate": "2026-11-15",
       "officialUrl": "https://www.oarai-info.jp/news/postid_8902/",
       "discoveredAt": "2026-09-02",
-      "verifiedAt": "2026-09-20",
+      "verifiedAt": "2026-11-08",
       "articleUrl": "/events/oarai-ankou-matsuri-2026/",
-      "articleUpdatedAt": "2026-10-23",
+      "articleUpdatedAt": "2026-11-08",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1207,7 +1207,7 @@
         "localSpend": "medium",
         "logisticsDemand": "unknown"
       },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+      "notes": "2026-11-08再確認：大洗観光協会公式の最新案内に基づき、11月15日のあんこう汁販売開始を11:00、整理券配布を10:00として記事へ反映。駐車場は公式告知に記載がないため推測しない。"
     },
     {
       "id": "nishikanasa-tozan-marathon-2026",
