@@ -7,6 +7,7 @@ import ThisWeek from '../components/ThisWeek.astro';
 import HomeNow from '../components/HomeNow.astro';
 import HomeEditorialProcess from '../components/HomeEditorialProcess.astro';
 import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
+import V42Icon from '../components/V42Icon.astro';
 import NewsCard from '../components/NewsCard.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
@@ -155,7 +156,10 @@ const matchdays = [
                   <h2>{slide.lines.map((line) => <span>{line}</span>)}</h2>
                   <p class="fv-cover__lead">{slide.lead[0]}<br />{slide.lead[1]}</p>
                 </div>
-                <span class="fv-cover__cta">{slide.cta}<span aria-hidden="true">→</span></span>
+                {slide.theme === 'walk'
+                  ? <div class="fv-cover__ticket"><div><small>歩いて旅する、茨城。</small><p>花の丘から、ひたちなかのまちへ。</p></div><span class="fv-cover__cta">{slide.cta}<V42Icon name="arrow" size={20} /></span></div>
+                  : <span class="fv-cover__cta">{slide.cta}<V42Icon name="arrow" size={20} /></span>}
+                {slide.theme === 'walk' && <span class="fv-cover__note" aria-hidden="true"><small>HITACHINAKA</small><b>空と花の、<br />あいだ。</b></span>}
                 {slide.art && <img class="fv-cover__art" src={slide.art} alt="" width="360" height="540" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />}
                 {slide.theme === 'weekend' && <span class="fv-cover__stamp" aria-hidden="true"><small>HELLO, WEEKEND!</small><b>よりみち<br />日和。</b></span>}
               </a>
@@ -172,7 +176,9 @@ const matchdays = [
         <div class="fv-tabs" role="group" aria-label="特集を選ぶ">
           {heroSlides.map((slide, index) => (
             <button type="button" class:list={['fv-tab', { 'is-active': index === 0 }]} data-hero-dot={index} aria-pressed={index === 0 ? 'true' : 'false'} aria-label={`${index + 1}枚目：${slide.tab}`}>
-              <small>STORY 0{index + 1}</small><span class="fv-tab__long">{slide.tab}</span><span class="fv-tab__short">{slide.tabShort}</span>
+              <img {...{ ...slide.photo, alt: '', width: 58, height: 40 }} sizes="58px" loading="lazy" decoding="async" />
+              <span class="fv-tab__text"><small>STORY 0{index + 1}</small><span class="fv-tab__long">{slide.tab}</span><span class="fv-tab__short">{slide.tabShort}</span></span>
+              <V42Icon name="arrow" size={14} />
             </button>
           ))}
         </div>
@@ -183,20 +189,6 @@ const matchdays = [
 
     {/* 検索・いま読まれている記事・行き先診断（HomeNow）。TOPの検索フォームは /search/ へ送る */}
     <div id="discover-now"><HomeNow /></div>
-
-    <section class="v42-theme" id="discover" data-module="home_discover" aria-labelledby="discover-title">
-      <div class="v42-wrap">
-        <header class="v42-head">
-          <div><p class="v42-label">テーマから探す</p><h2 id="discover-title">茨城を、<br />六つの入口から。</h2></div>
-          <p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p>
-        </header>
-        <HomeThemeNav />
-        <nav class="v42-intents" aria-label="気分と条件から探す" data-module="home_intent">
-          <span>気分から探す</span>
-          {discoveryIntents.map((item) => <a href={item.href}><strong>{item.label}</strong><small>{item.note}</small></a>)}
-        </nav>
-      </div>
-    </section>
 
     <section class="season" id="season" aria-labelledby="season-title" data-module="home_november">
       <img class="season__canopy" src="/images/v42/autumn-maple-print.webp" width="480" height="480" alt="" loading="lazy" decoding="async" />
@@ -243,6 +235,23 @@ const matchdays = [
 
     {/* 日付から入る枠。該当が無ければブロックごと出ない */}
     <div id="events" data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
+
+    {/* 人気記事と開催中の案内は残し、季節の特集・イベントの後へ。 */}
+    <HomeNow variant="updates" />
+
+    <section class="v42-theme" id="discover" data-module="home_discover" aria-labelledby="discover-title">
+      <div class="v42-wrap">
+        <header class="v42-head">
+          <div><p class="v42-label">テーマから探す</p><h2 id="discover-title">茨城を、<br />六つの入口から。</h2></div>
+          <p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p>
+        </header>
+        <HomeThemeNav />
+        <nav class="v42-intents" aria-label="気分と条件から探す" data-module="home_intent">
+          <span>気分から探す</span>
+          {discoveryIntents.map((item) => <a href={item.href}><strong>{item.label}</strong><small>{item.note}</small></a>)}
+        </nav>
+      </div>
+    </section>
 
     <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer /></div></section>
 
@@ -462,20 +471,27 @@ const matchdays = [
   .fv-cover h2{color:inherit;font:500 64px/1.38 var(--font-brand-display);letter-spacing:.025em}
   .fv-cover h2>span{display:block;white-space:nowrap}
   .fv-cover__lead{font-size:13px;line-height:2;letter-spacing:.04em}
-  .fv-cover__cta{position:absolute;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:48px;padding:10px 17px 10px 20px;border-radius:3px;background:var(--v42-blue);box-shadow:0 3px 0 #1e3d6c1a;color:#fff;font-size:13px;line-height:1.5}
-  .fv-cover__link:hover .fv-cover__cta{background:#23438e}
+  .fv-cover__cta{position:absolute;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:48px;padding:10px 17px 10px 20px;border-radius:3px;background:#254f68;box-shadow:0 3px 0 #1e3d6c1a;color:#fff;font-size:13px;line-height:1.5}
+  .fv-cover__link:hover .fv-cover__cta{background:#193f55}
   .fv-cover__art{position:absolute;z-index:5;object-fit:contain;pointer-events:none}
   .fv-cover__credit{position:absolute;right:16px;bottom:14px;z-index:6;padding:3px 7px;background:#fffdf4ed;color:#4f5d4f;font-size:9px;line-height:1.5}
   .fv-cover__credit a{text-decoration:underline;text-underline-offset:.15em}
   /* 1枚目：景色に入っていくような実写 */
-  .fv-cover--walk .fv-cover__visual img{object-position:55% 52%}
-  .fv-cover--walk .fv-cover__visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#071c23b5 0%,#0b1c275c 36%,#0a192010 65%,transparent 100%),linear-gradient(0deg,#0a1a242e,transparent 35%)}
+  .fv-cover--walk .fv-cover__visual img{object-position:center 65%}
+  .fv-cover--walk .fv-cover__visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,51,66,.48),rgba(19,51,66,.06) 72%)}
   .fv-cover--walk .fv-cover__copy{top:50px;left:53px;color:#fffdf3}
   .fv-cover--walk .fv-cover__kicker{color:#f8eaca}
   .fv-cover--walk h2{margin-top:18px;font-size:76px;line-height:1.4;letter-spacing:.035em;text-shadow:0 2px 16px #06151f2b}
   .fv-cover--walk .fv-cover__lead{margin-top:19px;color:#fcf9e7;line-height:1.9}
-  .fv-cover--walk .fv-cover__cta{left:48px;bottom:34px;min-width:230px}
-  .fv-cover--walk .fv-cover__art{left:57%;bottom:13px;width:193px;height:154px;filter:drop-shadow(0 3px 2px #081f2933)}
+  .fv-cover__ticket{position:absolute;left:48px;bottom:27px;z-index:4;display:flex;align-items:center;gap:22px;padding:16px 18px;border:1px solid #e4ddc8;background:#fffdf4;color:var(--v42-ink);box-shadow:3px 5px 0 #071b2b25;transform:rotate(-1deg)}
+  .fv-cover__ticket>div{padding-right:20px;border-right:1px dashed #cbc9b8}
+  .fv-cover__ticket small{color:#948363;font-size:9px;letter-spacing:.07em}
+  .fv-cover__ticket p{margin-top:5px;font:500 13px/1.8 var(--font-brand-display);white-space:nowrap}
+  .fv-cover__ticket .fv-cover__cta{position:static;min-width:205px;padding-inline:15px;font-size:12px}
+  .fv-cover__note{position:absolute;top:29px;right:29px;z-index:4;padding:16px 15px 17px;border:1px solid #ded6b8;background:#fffdf1eb;color:#4a5a48;box-shadow:3px 5px 0 #0b282220;transform:rotate(5deg)}
+  .fv-cover__note small{display:block;padding-bottom:6px;border-bottom:1px solid #c2bb96;font-size:8px;letter-spacing:.06em}
+  .fv-cover__note b{display:block;padding-top:9px;font:500 18px/1.7 var(--font-brand-display);letter-spacing:.04em}
+  .fv-cover--walk .fv-cover__art{right:9%;bottom:6%;width:13%;height:35%;filter:drop-shadow(0 3px 2px #081f2933)}
   /* 2枚目：図鑑のページのように */
   .fv-cover--food .fv-cover__link{background:#fbf5e6}
   .fv-cover--food .fv-cover__copy{top:57px;left:53px;width:47%}
@@ -498,7 +514,7 @@ const matchdays = [
   .fv-cover__stamp{position:absolute;z-index:4;top:345px;right:42px;padding:13px 19px 12px;border:5px double #b8964b;background:#e7bc5d;color:#3f4d37;text-align:center;transform:rotate(-8deg);box-shadow:3px 5px 0 #26443516}
   .fv-cover__stamp small{display:block;font-size:8px;letter-spacing:.08em}
   .fv-cover__stamp b{display:block;padding-top:6px;font:500 29px/1.35 var(--font-brand-display)}
-  .fv-cover[data-pos]:not([data-pos=active]) :is(.fv-cover__copy,.fv-cover__cta,.fv-cover__art,.fv-cover__stamp,.fv-cover__credit){opacity:0}
+  .fv-cover[data-pos]:not([data-pos=active]) :is(.fv-cover__copy,.fv-cover__cta,.fv-cover__ticket,.fv-cover__note,.fv-cover__art,.fv-cover__stamp,.fv-cover__credit){opacity:0}
   .fv-cover[data-pos]:not([data-pos=active]) .fv-cover__visual{inset:0;width:100%;height:100%;border:0;border-radius:0;transform:none;box-shadow:none}
   .fv-cover[data-pos]:not([data-pos=active]) .fv-cover__visual::after{display:none}
   .fv-arrow{position:absolute;top:calc(var(--card-h)/2 - 18px);z-index:7;display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid #e2e4da;border-radius:50%;background:#fffefaf5;box-shadow:0 5px 12px #233e391c;color:var(--v42-blue);font-size:18px;cursor:pointer}
@@ -509,9 +525,13 @@ const matchdays = [
   .fv-count{color:#7d876f;font-size:10px;letter-spacing:.09em}
   .fv-count b{margin-right:8px;color:var(--v42-blue);font:500 25px/1 var(--font-brand-display)}
   .fv-tabs{display:flex;align-items:stretch;justify-content:center;gap:16px}
-  .fv-tab{position:relative;display:flex;flex-direction:column;justify-content:center;gap:3px;width:220px;min-height:52px;padding:6px 11px 8px;border:0;border-bottom:1px solid #d4d6c8;background:transparent;color:#5f6b56;font:inherit;font-size:12px;text-align:left;cursor:pointer}
+  .fv-tab{position:relative;display:flex;align-items:center;gap:11px;width:220px;min-height:57px;padding:6px 11px 8px 5px;border:0;border-bottom:1px solid #d4d6c8;background:transparent;color:#5f6b56;font:inherit;font-size:12px;text-align:left;cursor:pointer}
+  .fv-tab>img{width:58px;height:40px;object-fit:cover;filter:saturate(.65)}
+  .fv-tab__text{display:flex;flex-direction:column;gap:3px;min-width:0;white-space:nowrap}
+  .fv-tab>:global(svg){margin-left:auto;opacity:.5}
   .fv-tab small{color:#8d8d78;font-size:8px;letter-spacing:.1em}
   .fv-tab.is-active{border-bottom:2px solid var(--v42-blue);background:#fffefa8a;color:#234b9b}
+  .fv-tab.is-active>img{filter:none}
   .fv-tab__short{display:none}
   .fv-play{display:flex;align-items:center;justify-content:center;gap:7px;justify-self:end;min-width:72px;min-height:44px;padding:0 11px;border:1px solid #c9d1c8;border-radius:999px;background:#fffefa70;color:#56694f;font:inherit;font-size:11px;cursor:pointer}
   .fv-play__icon{color:var(--v42-blue);font-size:15px;line-height:1}
@@ -522,7 +542,8 @@ const matchdays = [
     .fv-cover--walk .fv-cover__copy{top:38px;left:35px}.fv-cover--walk h2{font-size:clamp(46px,6vw,62px)}.fv-cover--walk .fv-cover__cta{left:30px;bottom:28px}.fv-cover--walk .fv-cover__art{left:auto;right:12%;width:160px;height:130px}
     .fv-cover--food .fv-cover__copy{top:46px;left:35px}.fv-cover--food h2{font-size:clamp(32px,4.4vw,50px)}.fv-cover--food .fv-cover__visual{top:31px;right:20px;width:38vw;max-width:390px;height:38vw;max-height:390px}.fv-cover--food .fv-cover__art{right:8px;width:27vw;height:180px}.fv-cover--food .fv-cover__cta{left:35px;bottom:40px;width:230px}
     .fv-cover--weekend .fv-cover__copy{top:40px;left:35px}.fv-cover--weekend h2{font-size:clamp(33px,4vw,46px)}.fv-cover--weekend h2>span:first-child{font-size:clamp(44px,5.3vw,59px)}.fv-cover--weekend .fv-cover__visual{top:77px;right:22px;height:290px;border-width:10px}.fv-cover--weekend .fv-cover__cta{left:35px;bottom:40px;width:235px}.fv-cover__stamp{top:313px;right:24px;padding:10px 12px}.fv-cover__stamp b{font-size:24px}
-    .fv-tabs{gap:8px}.fv-tab{flex:1;width:0}.fv-bottom{grid-template-columns:65px minmax(0,1fr) 75px;gap:11px}
+    .fv-cover__ticket{left:29px;bottom:25px;gap:15px}.fv-cover__ticket>div{padding-right:15px}.fv-cover__ticket p{font-size:12px}.fv-cover__ticket .fv-cover__cta{min-width:180px;font-size:11px}.fv-cover__note{top:25px;right:22px;padding:12px}.fv-cover__note b{font-size:15px}
+    .fv-tabs{gap:8px}.fv-tab{flex:1;width:0;gap:7px;padding-right:7px}.fv-tab>img{width:41px;height:36px}.fv-tab>:global(svg){display:none}.fv-tab__text{font-size:10px}.fv-bottom{grid-template-columns:65px minmax(0,1fr) 75px;gap:11px}
   }
   @media(min-width:701px) and (max-width:850px){.fv-intro__month{display:none}.fv-cover__lead{display:none}}
   @media(max-width:700px){
@@ -539,11 +560,18 @@ const matchdays = [
     .fv-cover__lead{display:none}
     .fv-cover__cta{right:16px;left:16px!important;bottom:52px!important;width:auto!important;min-width:0!important;font-size:13px;padding:10px 15px}
     .fv-cover__credit{left:12px;right:12px;bottom:12px;font-size:9px;text-align:center}
-    .fv-cover--walk .fv-cover__visual img{object-position:62% 47%}
+    .fv-cover--walk .fv-cover__visual img{object-position:61% center}
+    .fv-cover--walk .fv-cover__visual::after{background:linear-gradient(180deg,rgba(17,48,66,.04),rgba(17,48,66,.4) 72%)}
     .fv-cover--walk .fv-cover__copy{top:46px;left:23px}
-    .fv-cover--walk h2{margin-top:16px;font-size:clamp(32px,10vw,44px);line-height:1.45}
+    .fv-cover--walk h2{margin-top:16px;font-size:34px;line-height:1.55;letter-spacing:.02em}
     .fv-cover--walk .fv-cover__lead{display:block;margin-top:14px;font-size:12px}
-    .fv-cover--walk .fv-cover__art{left:auto;right:6px;bottom:108px;width:118px;height:100px}
+    .fv-cover--walk .fv-cover__art{left:auto;right:6%;bottom:21%;width:28%;height:23%}
+    .fv-cover__note{display:none}
+    .fv-cover__ticket{left:16px;right:16px;bottom:21px;display:block;padding:13px 14px;transform:rotate(-1deg)}
+    .fv-cover__ticket>div{margin-bottom:10px;padding:0;border:0}
+    .fv-cover__ticket small{font-size:10px}
+    .fv-cover__ticket p{display:none}
+    .fv-cover__ticket .fv-cover__cta{position:static;width:100%;min-width:0;padding:10px 15px;font-size:13px}
     .fv-cover--food .fv-cover__copy,.fv-cover--weekend .fv-cover__copy{inset:auto 22px 116px 22px;width:auto}
     .fv-cover--food h2,.fv-cover--weekend h2{margin-top:10px;font-size:clamp(26px,8.6vw,33px);line-height:1.42;letter-spacing:.01em}
     .fv-cover--weekend h2>span:first-child{font-size:inherit}
@@ -555,11 +583,12 @@ const matchdays = [
     .fv-arrow{top:180px;width:44px;height:44px}.fv-arrow--prev{left:3px}.fv-arrow--next{right:3px}
     .fv-bottom{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 44px;gap:4px 0;min-height:0}
     .fv-tabs{grid-column:1/3;grid-row:1;gap:6px}
-    .fv-tab{flex:1;width:0;min-height:48px;padding:5px 3px 7px;font-size:12px;text-align:center}
+    .fv-tab{flex:1;width:0;min-height:51px;padding:5px 3px 7px;gap:5px;font-size:11px;text-align:left}
+    .fv-tab>img{width:27px;height:31px}.fv-tab__text{gap:0}.fv-tab>:global(svg){display:none}
     .fv-tab small,.fv-tab__long{display:none}.fv-tab__short{display:block}
     .fv-count{grid-row:2;align-self:center}.fv-play{grid-row:2;grid-column:2}
   }
-  @media(max-width:350px){.v42-home{--card-w:calc(100vw - 40px);--card-h:448px}.fv-cover--walk h2{font-size:33px}.fv-cover--walk .fv-cover__art{width:96px;height:86px}.fv-cover--food .fv-cover__visual{width:205px;height:205px;right:-19px}.fv-tab{font-size:11px}}
+  @media(max-width:350px){.v42-home{--card-w:calc(100vw - 40px);--card-h:448px}.fv-cover--walk h2{font-size:29px}.fv-cover--walk .fv-cover__art{width:96px;height:86px}.fv-cover--food .fv-cover__visual{width:205px;height:205px;right:-19px}.fv-tab{justify-content:center;font-size:11px}.fv-tab>img{display:none}.fv-cover__ticket{left:10px;right:10px;padding:11px}.fv-cover__ticket .fv-cover__cta{font-size:11px}}
   @media(prefers-reduced-motion:reduce){.fv-cover{transition:none}}
 
   /* ── テーマ6件（横一列）と気分の入口 ── */

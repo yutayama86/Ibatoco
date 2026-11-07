@@ -166,6 +166,16 @@ git commit --allow-empty -m "observation-exception: fact — 終了した試合�
 - テンプレート・共通部品（`src/pages/{events,news}/[slug].astro`・`src/components`・`src/layouts`・`src/styles`）の変更は止めず、影響しうる観測中ページの数を警告する
 - 手元で試す：`node scripts/observation-guard.mjs --base origin/main --body-file <PR本文>`
 
+### オーナーが個別承認したUI復元の区切り直し
+
+2026年11月7日、提出v42と公開実装の差を修正するPR #517について、オーナーが修正を優先し、観測の区切り直しと公開までを承認した。`data/editorial/approved-ui-resets.json` に対象を記録する。通常のUI変更を許す例外宣言は追加しない。
+
+- PR番号・リポジトリ・基点SHA・変更前の観測記録ID・対象ページ・承認者と期限が全て一致すること。
+- 確認済みUIファイルのblobが全て一致し、変更ファイルが承認範囲内であること。記事データ・workflow・認証・デプロイ設定には適用しない。
+- 実公開日の新しいSEO変更記録（template）を必須とし、公開後から28日間を観測する。過去の記録・日付・期限は書き換えない。同日中の#512と#517は同日の複数介入として扱う。
+- この承認を別PR・別基点・後続の観測・確認後に変わったUIソースへ再利用しない。
+- 手元で対象PRの条件を確認：`node scripts/observation-guard.mjs --base <baseSHA> --pr 517 --repository yutayama86/Ibatoco`。
+
 ## 6. Freshness / Expiry Guard と年度誤認防止
 
 `npm run audit:freshness`（`npm run verify` では `--strict`）。自動で削除・書き換えはしない。
