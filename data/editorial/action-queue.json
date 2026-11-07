@@ -1,7 +1,31 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-08",
   "actions": [
+    {
+      "id": "20261108-fukuroda-coloring-update",
+      "title": "袋田の滝紅葉記事：11月5日の色づき速報へ更新",
+      "kind": "update",
+      "targetUrl": "/events/fukuroda-falls-autumn-2026/",
+      "targetFile": "src/content/events/fukuroda-falls-autumn-2026.md",
+      "status": "in-progress",
+      "priority": "high",
+      "createdAt": "2026-11-08",
+      "dueDate": "2026-11-08",
+      "confidence": "high",
+      "effort": "S",
+      "source": "大子町観光協会 2026年11月5日紅葉速報（11月8日確認）",
+      "reason": "本番記事は10月28日の青葉のままだが、公式は11月5日に「色づきすすむ」へ更新。季節需要中の現況差分を事実だけ更新する。検索需要実測から増分を再現できないためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.daigo-kanko.jp/themes/koyo.html"
+      ],
+      "acceptanceCriteria": [
+        "summary・keyPoints・highlights・FAQが11月5日現在「色づきすすむ」で一致する",
+        "実況を見頃予測・ピーク保証へ拡張しない",
+        "title・description・URL・料金・駐車場・ライトアップ情報は変更しない",
+        "CI成功後もオーナーの対象PR明示承認まではマージしない"
+      ]
+    },
     {
       "id": "20261102-ibaraki-shirasu-fair",
       "title": "秋のしらすフェア（11月1〜30日・県内40店超）の掲載判断",
