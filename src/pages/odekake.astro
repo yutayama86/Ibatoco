@@ -16,6 +16,8 @@ import { breadcrumbJsonLd } from '../lib/seo';
 import { MICHINOEKI, michinoekiAreaSlugs } from '../data/michinoeki';
 import { MUNICIPALITIES, REGION_ORDER, REGIONS, municipalitiesByRegion, type RegionKey } from '../data/areas';
 import { getNews } from '../lib/content';
+import { wikimediaImage } from '../lib/wikimedia-image';
+import V42Cards, { type V42CardItem } from '../components/V42Cards.astro';
 
 const news = (await getNews()).slice(0, 4);
 
@@ -87,6 +89,23 @@ const regions = REGION_ORDER.map((key) => ({
   }),
 }));
 
+/*
+ * 提出版（theme-hub）の「写真の特集」と「歩いてみたい、茨城。」。リンク先は既存の市町村ページ、
+ * 写真は TOP・エリア一覧と同じ原本（出典とライセンスは下のクレジット）。
+ */
+const featurePhoto = wikimediaImage('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2025_Hitachi_Seaside_Park.jpg/1280px-2025_Hitachi_Seaside_Park.jpg', [500, 960]);
+const walkCards: V42CardItem[] = [
+  { href: '/area/daigo/', img: '/images/v42/autumn.webp', alt: '紅葉の袋田の滝（大子町）', tag: '実写', kicker: '県北 ／ 大子町', title: '滝の音に、会いに。', text: '袋田から、大子の街へ。' },
+  { href: '/area/oarai/', img: '/images/v42/ocean.webp', alt: '大洗海岸から見る太平洋の日の出', tag: '実写', kicker: '県央 ／ 大洗町', title: '海風と、まちの時間。', text: '大洗の海辺で深呼吸。' },
+  { href: '/area/tsukuba/', img: '/images/v42/tsukuba.webp', alt: '秋の筑波山', tag: '実写', kicker: '県南 ／ つくば市', title: '山の麓へ、よりみち。', text: '筑波山から、つくばの街へ。' },
+];
+/** 入口の切り替え。JS がなければページ内リンクとして動く */
+const entryNav = [
+  { href: '#odekake-entries', label: 'すべての入口', filter: 'all' },
+  ...groups.map((g) => ({ href: `#${g.key}`, label: g.title.replace('から決める', 'から'), filter: g.key })),
+  { href: '#region', label: '地域から', filter: 'region' },
+];
+
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城のおでかけ' }];
 const pageUrl = new URL('/odekake/', Astro.site).href;
 const allItems = groups.flatMap((g) => g.items);
@@ -115,18 +134,44 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <header class="ok-head">
-    <div class="bp-wrap">
+    <div class="bp-wrap v42-hero v42-hub-label ok-hero">
       <Breadcrumbs items={crumbs} />
+      <div class="ok-hero__copy">
       <p class="bp-kicker">IBARAKI ／ WHERE TO GO</p>
       <h1>今日は、<br />どこへ行こう。</h1>
+      <p class="v42-display" data-copy-key="theme-hub.title">今日は、<br />景色に会いに。</p>
       <div class="ok-lead">
         <p>茨城は広く、海も山も湖も、車で二時間の中にあります。だからこそ「どこへ行くか」より先に、<strong>何を基準に決めるか</strong>で迷いがちです。</p>
         <p>このページは、自然・季節・目的の3つの入口から行き先を絞るための地図です。並び順に優劣はありません。気分に近いところから開いてください。</p>
       </div>
+      </div>
+      <img class="ok-hero__scape" src="/images/v42/ibarakiscape.webp" alt="" width="1600" height="533" decoding="async" />
     </div>
   </header>
 
-  <div class="ok-body bp-wrap">
+  <div class="bp-wrap">
+    <nav class="v42-chipnav" aria-label="入口を選ぶ" data-odekake-nav>
+      {entryNav.map((item, index) => (
+        <a href={item.href} data-filter={item.filter} aria-current={index === 0 ? 'true' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+  </div>
+
+  <article class="bp-wrap v42-featured ok-feature">
+    <figure class="v42-photo">
+      <span class="v42-tape" aria-hidden="true"></span>
+      <img src={featurePhoto.src} srcset={featurePhoto.srcset} sizes="(min-width: 900px) 52vw, 92vw" alt="国営ひたち海浜公園に咲くネモフィラ" width="960" height="640" loading="lazy" decoding="async" />
+      <figcaption>国営ひたち海浜公園（4月下旬）／実写　<a href="https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg" rel="license noopener" target="_blank">写真：Kakidai / CC BY-SA 4.0</a></figcaption>
+    </figure>
+    <div>
+      <p class="bp-kicker">LANDSCAPE JOURNAL</p>
+      <h2 class="v42-featured__title">この青を、<br />歩きにいこう。</h2>
+      <p class="v42-featured__lead">空と花のあいだに続く、みはらしの丘。<br />ひたちなかで出会う、春の風景。</p>
+      <a class="v42-button" href="/area/hitachinaka/">ひたちなかを歩く <span aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <div class="ok-body bp-wrap" id="odekake-entries" data-odekake-body>
     {groups.map((group) => (
       <section class="ok-group" id={group.key}>
         <header>
@@ -146,7 +191,7 @@ const jsonLd = [
       </section>
     ))}
 
-    <section class="ok-region">
+    <section class="ok-region" id="region">
       <header>
         <p class="bp-kicker">BY AREA</p>
         <h2 class="bp-section-title">地域から決める</h2>
@@ -160,6 +205,16 @@ const jsonLd = [
           ))}</p>
         </li>
       ))}</ul>
+    </section>
+
+    <section class="v42-section v42-band ok-walk" aria-labelledby="ok-walk-title">
+      <header class="v42-section__head"><p class="bp-kicker">PLACES TO WALK</p><h2 id="ok-walk-title">歩いてみたい、茨城。</h2></header>
+      <V42Cards items={walkCards} />
+      <p class="v42-credit">
+        写真：<a href="https://commons.wikimedia.org/wiki/File:Autumn_of_Fukuroda_Falls,_Daigo,_Ibaraki;_November_2016.jpg" rel="license noopener" target="_blank">t.kunikuni / CC BY-SA 2.0</a>（袋田の滝）、
+        <a href="https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg" rel="license noopener" target="_blank">t.kunikuni / CC BY-SA 2.0</a>（大洗海岸）、
+        <a href="https://commons.wikimedia.org/wiki/File:筑波山写真（秋1）.jpg" rel="license noopener" target="_blank">つくば市 / CC BY 4.0</a>（筑波山）。トリミング・縮小しています。
+      </p>
     </section>
 
     {news.length > 0 && (
@@ -209,3 +264,28 @@ const jsonLd = [
   .ok-note h2{margin-top:.7rem;font:600 1.25rem var(--font-brand-display);color:var(--color-ink)}
   .ok-note p{margin-top:.9rem;color:var(--color-soil);font-size:.88rem;line-height:1.9}
 </style>
+
+<script>
+  /*
+   * 入口の切り替え（提出版のテーマボタン）。選んだ入口の段だけを見せる。
+   * 「すべての入口」で元に戻す。JS がなければ各段へのページ内リンクのまま。
+   */
+  const nav = document.querySelector<HTMLElement>('[data-odekake-nav]');
+  const body = document.querySelector<HTMLElement>('[data-odekake-body]');
+  if (nav && body) {
+    const sections = [...body.querySelectorAll<HTMLElement>('.ok-group, .ok-region')];
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[data-filter]')];
+    nav.addEventListener('click', (event) => {
+      const link = (event.target as Element).closest<HTMLAnchorElement>('a[data-filter]');
+      if (!link) return;
+      event.preventDefault();
+      const filter = link.dataset.filter;
+      for (const section of sections) section.hidden = filter !== 'all' && section.id !== filter;
+      for (const item of links) {
+        if (item === link) item.setAttribute('aria-current', 'true');
+        else item.removeAttribute('aria-current');
+      }
+      body.scrollIntoView({ block: 'start' });
+    });
+  }
+</script>

@@ -5,6 +5,8 @@ import { breadcrumbJsonLd } from '../../lib/seo';
 import { getDiscoveryEntities } from '../../lib/discovery';
 import { listImageOf } from '../../lib/card-image';
 import { getCollection } from 'astro:content';
+import IbarakiMap from '../../components/IbarakiMap.astro';
+import { REGIONS, REGION_ORDER } from '../../data/areas';
 
 const entities = await getDiscoveryEntities();
 const entries = await getCollection('events', ({ data }) => !data.draft && data.reviewed && !data.noindex);
@@ -40,8 +42,9 @@ const jsonLd = [
   description="茨城のおでかけ先を、気分・同行者・エリアから検索。イベント、観光、雨の日、子連れ、デートなど、イバトコが公式情報を確認した記事から候補を提案します。"
   jsonLd={jsonLd}
 >
-  <header class="discover-head bp-wrap">
+  <header class="discover-head v42-hero bp-wrap">
     <Breadcrumbs items={crumbs} />
+    <img class="v42-hero__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" decoding="async" />
     <p class="bp-kicker">IBATOCO DISCOVERY</p>
     <h1>今日、茨城で<br />どこ行く？</h1>
     <p>場所の名前が決まっていなくても大丈夫。気分と条件から、イバトコにあるおでかけ候補を絞ります。</p>
@@ -149,6 +152,27 @@ const jsonLd = [
       <a href="/area/">44市町村から探す →</a>
     </div>
   </section>
+
+  {/* 提出版 map-browser の「地図から探す」。地図は市町村ガイドへの入口、地域ボタンは上の検索を絞る */}
+  <section class="v42-section v42-band discover-map" aria-labelledby="discover-map-title">
+    <div class="bp-wrap discover-map__grid">
+      <div class="discover-map__copy">
+        <p class="bp-kicker">MAP AND PLACES</p>
+        <h2 id="discover-map-title" class="v42-featured__title">地図をひらいて、<br />茨城を歩こう。</h2>
+        <p class="v42-featured__lead">街を選んで、そこにある景色やお店へ。地域を決めて、上の候補を絞ることもできます。</p>
+        <div class="discover-map__regions">
+          {REGION_ORDER.map((key) => (
+            <button type="button" data-map-area={REGIONS[key].label}>{REGIONS[key].label}の候補</button>
+          ))}
+        </div>
+        <p class="discover-map__note">地図は市町村の境界を示しています。施設の正確な位置と行き方は、各記事の案内で確認してください。</p>
+      </div>
+      <div class="discover-map__map">
+        <IbarakiMap />
+        <p class="discover-map__hint">市町村名を押すと、その街のガイドへ。</p>
+      </div>
+    </div>
+  </section>
 </BrandBase>
 
 <script>
@@ -252,6 +276,17 @@ const jsonLd = [
         ...lastSearch,
       });
     });
+
+    // 地図の段の地域ボタン：上の検索の「どの辺？」を選んで、同じ検索を走らせる
+    for (const button of document.querySelectorAll<HTMLButtonElement>('[data-map-area]')) {
+      button.addEventListener('click', () => {
+        const select = form.querySelector<HTMLSelectElement>('select[name="area"]');
+        if (!select) return;
+        select.value = button.dataset.mapArea ?? '';
+        runSearch();
+        status.scrollIntoView({ block: 'center' });
+      });
+    }
 
     for (const button of quickButtons) {
       button.addEventListener('click', () => {

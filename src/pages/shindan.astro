@@ -13,6 +13,7 @@ import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { INTERESTS } from '../lib/site-index';
 import { REGIONS, REGION_ORDER } from '../data/areas';
+import { wikimediaImage } from '../lib/wikimedia-image';
 import '../styles/search.css';
 
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '行き先診断' }];
@@ -23,14 +24,70 @@ const whenOptions = [
 ];
 const whatOptions = Object.entries(INTERESTS).map(([value, label]) => ({ value, label }));
 const whereOptions = [...REGION_ORDER.map((key) => ({ value: key, label: `${REGIONS[key].label}（${REGIONS[key].note.replace(/。$/, '')}）` })), { value: 'any', label: 'どこでも' }];
+/*
+ * 結果の冒頭（提出版 discover-result の「写真の見出し」）。Q2 の答えごとに1枚。
+ * 写真は出典とライセンスを確かめたもの（TOP・エリア一覧と同じ原本）だけ。権利を確かめられる写真がない
+ * テーマは既存のイメージイラストにし、札で「イメージイラスト」と示す。場所の説明以外の事実は書かない。
+ */
+type ResultFeature = {
+  /** 丸い印の短い言葉（提出版「海とまち」） */
+  stamp: string;
+  lines: [string, string];
+  lead: string;
+  img: { src: string; srcset?: string };
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+  credit?: { label: string; href: string };
+};
+const nemophila = wikimediaImage('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/2025_Hitachi_Seaside_Park.jpg/1280px-2025_Hitachi_Seaside_Park.jpg', [500, 960]);
+const resultFeatures: Record<keyof typeof INTERESTS, ResultFeature> = {
+  flower: {
+    stamp: '花と紅葉', lines: ['花の丘へ、', '季節に会いに。'], lead: '見頃は年によって前後します。出かける前に、記事の開花情報を確かめてください。',
+    img: nemophila, width: 960, height: 640, alt: '国営ひたち海浜公園に咲くネモフィラ', caption: '国営ひたち海浜公園（4月下旬）／実写',
+    credit: { label: '写真：Kakidai / CC BY-SA 4.0', href: 'https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg' },
+  },
+  festival: {
+    stamp: '祭りと花火', lines: ['まちの熱気に、', 'まぜてもらう。'], lead: '土地の人が続けてきた行事へ。日程と場所は、記事の確認先で見てください。',
+    img: { src: '/images/v42/oarai-festival.webp' }, width: 900, height: 675, alt: '大洗あんこう祭の会場（2014年）', caption: '大洗あんこう祭（2014年）／実写',
+    credit: { label: '写真：Miyuki Meinaka / CC BY-SA 4.0', href: 'https://commons.wikimedia.org/wiki/File:Oarai_Anglerfish_Festival_2014.jpg' },
+  },
+  sea: {
+    stamp: '海と魚', lines: ['海風に会う、', '休日はどう？'], lead: '海を眺めて、街をひと歩き。こんなよりみちから、次の休日を考えてみよう。',
+    img: { src: '/images/v42/ocean.webp' }, width: 720, height: 480, alt: '大洗海岸から見る太平洋の日の出', caption: '大洗海岸／実写',
+    credit: { label: '写真：t.kunikuni / CC BY-SA 2.0', href: 'https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg' },
+  },
+  nature: {
+    stamp: '山と滝', lines: ['水の音と、', '山の色に会いに。'], lead: '滝や渓谷、山あいの道へ。足もとと天気を確かめて出かけよう。',
+    img: { src: '/images/v42/autumn.webp' }, width: 720, height: 480, alt: '紅葉の袋田の滝（大子町）', caption: '袋田の滝（大子町）／実写',
+    credit: { label: '写真：t.kunikuni / CC BY-SA 2.0', href: 'https://commons.wikimedia.org/wiki/File:Autumn_of_Fukuroda_Falls,_Daigo,_Ibaraki;_November_2016.jpg' },
+  },
+  onsen: {
+    stamp: '温泉と宿', lines: ['湯につかって、', 'ゆっくり帰ろう。'], lead: '急がない一日のための行き先です。営業日と料金は、記事の確認先で見てください。',
+    img: { src: '/images/v42/town-dusk.webp' }, width: 1600, height: 533, alt: '夕暮れの町並みを描いたイメージイラスト', caption: 'イメージイラスト',
+  },
+  town: {
+    stamp: '街と歴史', lines: ['古い道を、', 'のんびり歩く。'], lead: '街並みと、そこに続く暮らしへ。歩く順番は、記事の地図を手がかりに。',
+    img: { src: '/images/v42/makabe-town-print.webp' }, width: 720, height: 240, alt: '蔵の並ぶ古い町並みを描いたイメージイラスト', caption: 'イメージイラスト',
+  },
+  sports: {
+    stamp: 'スポーツ', lines: ['スタンドで、', '声をそろえる。'], lead: '試合の日程と会場への行き方は、記事とクラブの公式情報で確かめてください。',
+    img: { src: '/images/v42/matchday-supporters.webp' }, width: 520, height: 347, alt: '試合へ向かうサポーターを描いたイメージイラスト', caption: 'イメージイラスト',
+  },
+};
 const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntries(REGION_ORDER.map((key) => [key, REGIONS[key].label])) });
 ---
 <BrandBase title="行き先診断｜イバトコ" description="いつ・何をしたい・どのあたり、の3問に答えるだけで、茨城の行き先と記事をご案内します。" noindex>
   <section class="sd bp-wrap" data-shindan data-labels={labels}>
-    <Breadcrumbs items={crumbs} />
-    <p class="bp-kicker">FIND YOUR IBARAKI</p>
-    <h1>3つ答えるだけで、<br />行き先が決まる。</h1>
-    <p class="sd-lead">公式の情報で日程を確かめた催しと、季節のテーマ、44市町村のページから選びます。</p>
+    <header class="sd-head v42-hero v42-hub-label">
+      <Breadcrumbs items={crumbs} />
+      <p class="bp-kicker">FIND YOUR IBARAKI</p>
+      <h1>3つ答えるだけで、<br />行き先が決まる。</h1>
+      <p class="v42-display" data-copy-key="discover.title">次の休日、<br />どこへ行こう。</p>
+      <p class="sd-lead">公式の情報で日程を確かめた催しと、季節のテーマ、44市町村のページから選びます。</p>
+      <img class="v42-hero__art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
 
     <form class="sd-form" data-shindan-form>
       <fieldset>
@@ -49,6 +106,20 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
     </form>
 
     <div class="sd-result" data-shindan-result hidden>
+      {Object.entries(resultFeatures).map(([key, feature]) => (
+        <div class="v42-featured sd-feature" data-shindan-feature={key} hidden>
+          <div>
+            <p class="v42-stamp">{feature.stamp}<small>YOUR IBARAKI</small></p>
+            <p class="v42-featured__title">{feature.lines[0]}<br />{feature.lines[1]}</p>
+            <p class="v42-featured__lead">{feature.lead}</p>
+          </div>
+          <figure class="v42-photo">
+            <span class="v42-tape" aria-hidden="true"></span>
+            <img src={feature.img.src} srcset={feature.img.srcset} sizes="(min-width: 900px) 360px, 92vw" alt={feature.alt} width={feature.width} height={feature.height} loading="lazy" decoding="async" />
+            <figcaption>{feature.caption}{feature.credit && <>　<a href={feature.credit.href} rel="license noopener" target="_blank">{feature.credit.label}</a></>}</figcaption>
+          </figure>
+        </div>
+      ))}
       <h2 tabindex="-1" data-shindan-heading>あなたへのおすすめ</h2>
       <p class="sd-note" data-shindan-note></p>
       <ol class="sr-list" data-shindan-list data-module="shindan_results"></ol>
@@ -146,6 +217,7 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
     const rows = await loadIndex();
     const { picks, relaxed } = recommend(rows, answer, todayDateOnlyString());
     result.hidden = false;
+    for (const feature of result.querySelectorAll<HTMLElement>('[data-shindan-feature]')) feature.hidden = feature.dataset.shindanFeature !== answer.what;
     note.textContent = picks.length === 0
       ? '条件に合う行き先が見つかりませんでした。「どこでも」や別の目的でも試してください。'
       : relaxed
