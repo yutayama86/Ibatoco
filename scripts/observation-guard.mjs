@@ -18,6 +18,8 @@
  *   宣言を足したら新しいコミット（空コミットでよい：git commit --allow-empty -m "observation-exception: fact — 理由"）を push する
  *
  * テンプレート・共通部品（src/pages/{events,news}/[slug]・src/components・src/layouts・src/styles）の変更は、観測中のページ数を警告として出す（止めない）。
+ * 個別承認されたUIの区切り直しは approved-ui-resets.json のPR・基点・期限・ソースblobが全て一致する場合だけ許可する。
+ * 通常のUI変更に使える例外宣言は追加しない。公開日の新しい変更履歴を必須にし、過去の観測記録は残す。
  *
  * 実行：npm run verify の中で自動（pull_request のときだけ動く）
  * 手元で試す：node scripts/observation-guard.mjs --base <ref> [--head <ref>] [--body-file <PR本文のファイル>]
@@ -27,6 +29,7 @@ import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 import { parse } from 'yaml';
 import { observationWindows, todayJst } from '../src/lib/growth-engine.mjs';
 import { parseSeoChanges } from './lib/seo-changes.mjs';
+import { approvedUiResetFor } from './lib/approved-ui-reset.mjs';
 
 const args = process.argv.slice(2);
 const argValue = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : null);
@@ -45,11 +48,15 @@ function finish(message) {
 let baseSha = argValue('--base');
 let body = argValue('--body-file') ? readFileSync(argValue('--body-file'), 'utf8') : '';
 let headSha = argValue('--head');
+let prNumber = inCI ? null : Number(argValue('--pr')) || null;
+let repository = inCI ? process.env.GITHUB_REPOSITORY : argValue('--repository') ?? process.env.GITHUB_REPOSITORY;
 if (!baseSha && process.env.GITHUB_EVENT_NAME === 'pull_request' && process.env.GITHUB_EVENT_PATH && existsSync(process.env.GITHUB_EVENT_PATH)) {
   const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
   baseSha = event.pull_request?.base?.sha ?? null;
   headSha = event.pull_request?.head?.sha ?? null;
   body = event.pull_request?.body ?? '';
+  prNumber = event.pull_request?.number ?? event.number ?? null;
+  repository = process.env.GITHUB_REPOSITORY ?? event.repository?.full_name;
 }
 if (!baseSha) finish('PR の検査ではないため飛ばしました');
 
@@ -85,6 +92,14 @@ const config = JSON.parse(readFileSync('data/editorial/growth-engine.json', 'utf
 const baseChanges = parseSeoChanges(showBase('src/data/seo-changes.ts') ?? '');
 const today = process.env.GROWTH_TODAY ?? todayJst();
 const observing = new Map(observationWindows({ changes: baseChanges, config, today }).filter((o) => o.status === 'observing').map((o) => [o.path, o]));
+const approvalFile = 'data/editorial/approved-ui-resets.json';
+const approvals = existsSync(approvalFile) ? JSON.parse(readFileSync(approvalFile, 'utf8')).approvals ?? [] : [];
+const currentChanges = parseSeoChanges(readFileSync('src/data/seo-changes.ts', 'utf8'));
+const allChanged = git('diff', '--name-only', baseSha, 'HEAD').split('\n').filter(Boolean);
+const deletedFiles = git('diff', '--name-only', '--diff-filter=D', baseSha, 'HEAD').split('\n').filter(Boolean);
+const uiFileHashes = Object.fromEntries(allChanged.filter((file) => /^src\/(?:pages|components|styles)\/.+\.(?:astro|css)$/.test(file)).map((file) => {
+  try { return [file, git('rev-parse', `HEAD:${file}`).trim()]; } catch { return [file, null]; }
+}));
 
 // ---- 宣言された例外 ----
 const declared = [...String(body).matchAll(/observation-exception:\s*([a-z-]+)\s*[—\-–:：]?\s*(.*)/gi)].map((m) => ({ type: m[1].toLowerCase(), reason: m[2].trim() }));
@@ -128,7 +143,9 @@ for (const file of changed) {
     const { type, keys } = isContent ? changeType(file) : { type: 'template', keys: ['ページの実装'] };
     if (!type) continue;
     const entry = { path, file, type, keys, until: row.observeUntil, lastChange: row.lastChange, lastType: row.experimentType };
+    const uiReset = approvedUiResetFor({ approvals, repository, prNumber, baseSha, today, path, type, observedChangeId: row.changeId, changedFiles: allChanged, deletedFiles, fileHashes: uiFileHashes, changes: currentChanges });
     if (exception) allowed.push({ ...entry, by: exception });
+    else if (uiReset) allowed.push({ ...entry, by: { type: 'approved-ui-reset', reason: `${uiReset.approvedBy} ${uiReset.approvedOn} 承認・PR #${prNumber}・${uiReset.reason}（新しい観測記録 ${uiReset.restartChangeId}）` } });
     else violations.push(entry);
     continue;
   }

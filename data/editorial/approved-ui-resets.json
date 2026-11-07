@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "approvals": [
+    {
+      "id": "20261107-v42-fidelity-517",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 517,
+      "path": "/",
+      "baseSha": "cc665284545fbda44be9ab92f19c228e912c2280",
+      "previousChangeId": "20261106-home-v42-sitewide",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-07",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが提出v42への差分修正を優先し、観測期間の区切り直しと本番公開まで進めることを個別承認した。今回のPRと確認済みソースだけに適用する。",
+      "restartChangeId": "20261107-home-v42-fidelity",
+      "sourceBlobs": {
+        "src/pages/index.astro": "617055a6c4f4087facb5c01b462d2358ee55c4c6",
+        "src/components/HomeNow.astro": "91ba15b8c1377a2ca30ce6e59d8ba7fac14d33d9",
+        "src/components/SiteHeader.astro": "8872dd02addc3787ebbe86aa4add2317ccd637ab",
+        "src/components/NavDropdown.astro": "2e6f3aa4f243702ccadad54c808bb7ebfdb0d190",
+        "src/components/V42Icon.astro": "f4546abf07a6532346dab0d60d0dc2439e8117ce"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeNow.astro",
+        "src/components/SiteHeader.astro",
+        "src/components/NavDropdown.astro",
+        "src/components/V42Icon.astro",
+        "src/data/seo-changes.ts",
+        "scripts/observation-guard.mjs",
+        "scripts/lib/approved-ui-reset.mjs",
+        "scripts/growth-engine.test.mjs",
+        "data/editorial/approved-ui-resets.json",
+        "docs/GROWTH_ENGINE.md",
+        "docs/design/V42_FIDELITY_REVIEW_20261107.md",
+        "docs/design/v42-fidelity-checks.json",
+        "docs/design/v42-screenshots/pc-top-fidelity.jpg",
+        "docs/design/v42-screenshots/sp-top-fidelity.jpg"
+      ]
+    }
+  ]
+}
