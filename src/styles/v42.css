@@ -527,12 +527,36 @@ body.interior-site .team-head > .policy-updated { margin-top: .6rem; }
 
 /* about（about.html）：冒頭の下端に版画調の茨城の風景（提出版 .p41-brand-hero）。取材と編集の3項目は薄い緑の段に */
 body.interior-site .about-head {
-  /* 風景は幅いっぱい（縦横比 3:1）。文字に重ならない高さだけ下を空ける */
-  padding-bottom: calc(min(100vw, 1440px) * .28) !important;
+  /* 風景は幅いっぱい（縦横比 3:1）。提出版どおり、空の部分が一文の下に入る高さだけ下を空ける */
+  padding-bottom: calc(min(100vw, 1440px) * .25) !important;
   background: url(/images/v42/ibarakiscape.webp) center bottom / 100% auto no-repeat !important;
 }
+body.interior-site .about-head .ab-tagline br { display: none; }
+/* タブレット幅は一文が2行になるので、木の上に文字が乗らないよう風景の分だけ空ける */
+@media (min-width: 761px) and (max-width: 1023px) {
+  body.interior-site .about-head { padding-bottom: calc(100vw * .32) !important; }
+}
 @media (max-width: 760px) {
-  body.interior-site .about-head { padding-bottom: 130px !important; background-size: auto 135px !important; }
+  /* 提出版（.v42-hero-compact）：表示コピーは全幅、その下に一文と二人の挿絵を左右に並べ、下端に風景 */
+  body.interior-site .about-head.v42-hero {
+    grid-template-columns: minmax(0, 1fr) clamp(76px, 24vw, 115px) !important;
+    column-gap: 15px;
+    align-items: end;
+    padding-bottom: 128px !important;
+    background-size: 100% auto !important;
+  }
+  body.interior-site .about-head > * { grid-column: 1 / -1; }
+  body.interior-site .about-head > .ab-tagline { grid-column: 1; margin: 0; font-size: 14px; line-height: 1.94; }
+  body.interior-site .about-head > .v42-hero__art {
+    grid-column: 2;
+    grid-row: auto;
+    order: 0;
+    width: 100%;
+    max-width: none;
+    height: clamp(85px, 27vw, 116px);
+    max-height: none;
+    margin: 0;
+  }
 }
 body.interior-site .ab-process > .bp-wrap { padding-block: clamp(2.6rem, 4.6vw, 3.4rem); }
 body.interior-site .ab-policies { background: transparent !important; }

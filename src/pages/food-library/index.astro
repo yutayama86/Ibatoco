@@ -75,16 +75,21 @@ const jsonLd = [
           <p class="fl-hero__kicker">IBARAKI FOOD LIBRARY</p>
           <h1><span>茨城の</span><span>おいしい図鑑</span></h1>
           <p class="v42-display" data-copy-key="food-list.title">知るほど、<br />おいしくなる。</p>
-          <p class="fl-hero__lead">霞ヶ浦のれんこん、笠間の栗、行方のさつまいも、鉾田のメロン、県西の白菜、いばらキッス、金砂郷から生まれた常陸秋そば、ひたちなかの干し芋。茨城でとれる食べものを、産地・旬・品種・歴史から一冊ずつ読み解く、図鑑のシリーズです。</p>
-          <ul class="fl-hero__jump" aria-label="このページの索引">
-            <li><a href="#season">旬から探す</a></li>
-            <li><a href="#origin">産地から探す</a></li>
-            <li><a href="#varieties">品種から探す</a></li>
-          </ul>
+          {/* 提出版（food-list.html）の冒頭の一文。説明と索引は冒頭のすぐ後に置く */}
+          <p class="fl-hero__tagline">品種、産地、つくる人。<br />食べものから、茨城の土地をひらく。</p>
         </div>
         <img class="fl-hero__art" src="/images/v42/hoshiimo-field-visit.webp" alt="" width="1100" height="619" decoding="async" />
       </div>
     </header>
+
+    <div class="fl-intro">
+      <p class="fl-hero__lead">霞ヶ浦のれんこん、笠間の栗、行方のさつまいも、鉾田のメロン、県西の白菜、いばらキッス、金砂郷から生まれた常陸秋そば、ひたちなかの干し芋。茨城でとれる食べものを、産地・旬・品種・歴史から一冊ずつ読み解く、図鑑のシリーズです。</p>
+      <ul class="fl-hero__jump" aria-label="このページの索引">
+        <li><a href="#season">旬から探す</a></li>
+        <li><a href="#origin">産地から探す</a></li>
+        <li><a href="#varieties">品種から探す</a></li>
+      </ul>
+    </div>
 
     <section class="fg-section" id="guides" aria-labelledby="fl-guides">
       <div class="fg-section__label"><p>図鑑一覧</p></div>
@@ -217,8 +222,12 @@ const jsonLd = [
   .fl-hero h1 { margin-top: .9rem; font: 500 .8125rem / 1.6 var(--font-brand-body); letter-spacing: .12em; color: var(--fg-mute); }
   .fl-hero__copy > .v42-display { margin-bottom: 1rem; }
   .fl-hero__art { width: 100%; max-width: 560px; height: auto; aspect-ratio: 1100 / 619; object-fit: cover; justify-self: end; border: 7px solid #fffdf3; box-shadow: 3px 6px 0 #b9c5a227; transform: rotate(.5deg); }
+  .fl-hero__tagline { margin-top: 1rem; font-size: 15px; line-height: 1.95; color: var(--fg-ink); }
+  .fl-hero__tagline br { display: none; }
+  /* 冒頭のすぐ後：図鑑の説明と、このページの索引（旬・産地・品種） */
+  .fl-intro { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; max-width: 1440px; margin: 0 auto; padding: clamp(32px, 4vw, 56px) var(--fg-gutter) clamp(40px, 5vw, 64px); }
   .fl-hero__lead { font-size: clamp(16px, 1.55vw, 18.5px); line-height: 2.05; max-width: 30em; }
-  .fl-hero__jump { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
+  .fl-hero__jump { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
   .fl-hero__jump li { border-bottom: 1px solid var(--fg-line); }
   .fl-hero__jump a { display: flex; justify-content: space-between; align-items: center; min-height: 48px; text-decoration: none; font-weight: 700; color: var(--fg-navy); }
   .fl-hero__jump a::after { content: '↓'; font-weight: 400; color: var(--fg-soil); }
@@ -264,6 +273,7 @@ const jsonLd = [
   }
   @media (min-width: 900px) {
     .fl-hero__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: clamp(30px, 4vw, 56px); align-items: center; }
+    .fl-intro { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: clamp(30px, 4vw, 56px); align-items: start; }
     .fl-origin { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; }
   }
   @media (min-width: 1180px) {
