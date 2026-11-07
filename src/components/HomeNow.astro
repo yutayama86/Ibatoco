@@ -1,10 +1,8 @@
 ---
 /**
- * TOPのヒーロー直下の帯「いまの茨城から探す」。
- *
- * なぜ置くか：TOPのエンゲージメント時間が10秒（GA4、6/29〜9/26）。
- * 「いま何が起きているか」が7〜8画面目のニュース欄まで出てこず、
- * 情報を探しに来た人がすぐ離れていた。最初の画面の続きに、行動できる入口を置く。
+ * TOPの検索と、開催中・人気記事の案内。
+ * v42の検索はヒーロー直下の横長の帯。updates は季節特集・イベントの後に置く。
+ * 人気記事と期間ものの判定は従来どおり残し、updates の呼び出しでだけ計算する。
  *
  * - 検索窓 … /search/?q=（GA4の拡張計測がサイト内検索として記録する）
  * - いま見頃・開催中 … src/lib/happenings.ts の期間もの。表示は日本時間で画面側が判定する
@@ -17,14 +15,24 @@ import popular from '../../data/editorial/popular-pages.json';
 import { getHappenings } from '../lib/happenings';
 import { getAllFacets } from '../lib/taxonomy';
 import { TOPICS, topicOf } from '../data/topics';
+import V42Icon from './V42Icon.astro';
 
-const facets = await getAllFacets();
+interface Props { variant?: 'search' | 'updates'; }
+const { variant = 'search' } = Astro.props;
+const searchWays = [
+  { label: '日付から', href: '/events/', icon: 'event' },
+  { label: 'エリアから', href: '/area/', icon: 'area' },
+  { label: '目的から', href: '/odekake/', icon: 'route' },
+  { label: '条件から', href: '/discover/', icon: 'search' },
+] as const;
+
+const facets = variant === 'updates' ? await getAllFacets() : [];
 const facetByPath = new Map(facets.map((facet) => [facet.path, facet]));
 const linkable = (path: string) => {
   const facet = facetByPath.get(path);
   return Boolean(facet && !facet.noindex && facet.eventLifecycle !== 'ended');
 };
-for (const topic of TOPICS) {
+for (const topic of variant === 'updates' ? TOPICS : []) {
   for (const page of topic.pages) {
     if (!facetByPath.has(page.path)) throw new Error(`topics.ts: ${page.path} の記事が見つかりません`);
   }
@@ -33,7 +41,7 @@ for (const topic of TOPICS) {
 // 同じ話題は1行にまとめる。順位は話題に属する記事の閲覧数の合計で決める
 interface RankItem { path: string; title: string; views: number; subs: { path: string; label: string }[] }
 const rows = new Map<string, RankItem>();
-for (const entry of popular.pages) {
+for (const entry of variant === 'updates' ? popular.pages : []) {
   if (!linkable(entry.path)) continue;
   const topic = topicOf(entry.path);
   const key = topic?.id ?? entry.path;
@@ -57,7 +65,7 @@ for (const entry of popular.pages) {
 const ranking = [...rows.values()].sort((a, b) => b.views - a.views).slice(0, 5);
 
 // 期間もの（季節の見頃・複数日の催し）。開始前のものも出力し、画面側で今日に合うものだけ見せる
-const seasonal = (await getHappenings(new Date(), 60))
+const seasonal = (variant === 'updates' ? await getHappenings(new Date(), 60) : [])
   .filter((item) => item.kind === 'season' || item.ongoing)
   .slice(0, 8)
   .map((item) => ({
@@ -69,16 +77,25 @@ const seasonal = (await getHappenings(new Date(), 60))
   }));
 ---
 
-<section class="home-now" aria-labelledby="home-now-title" data-module="home_now">
+{variant === 'search' ? <section class="home-now" aria-labelledby="home-now-title" data-module="home_now">
   <div class="bp-wrap home-now__grid">
-    <div class="home-now__main">
+    <header class="home-now__intro">
       <p class="home-now__label">次のよりみちを、見つけよう。</p>
       <h2 id="home-now-title" class="home-now__title">茨城の「気になる」を探す。</h2>
+      <a class="home-now__shindan" href="/shindan/"><span>まだ決まっていない？</span>3つの質問で、行き先探し <b aria-hidden="true">→</b></a>
+    </header>
+    <div class="home-now__main">
       <form class="home-now__search" action="/search/" method="get" role="search">
         <label class="home-now__hidden" for="home-q">探したいことば</label>
+        <V42Icon name="search" size={22} />
         <input id="home-q" name="q" type="search" placeholder="地名・スポット・気になること" autocomplete="off" enterkeyhint="search" />
-        <button type="submit">検索する</button>
+        <button type="submit">検索する<V42Icon name="arrow" size={18} /></button>
       </form>
+      <nav class="home-now__ways" aria-label="行き先の探し方">{searchWays.map((item) => <a href={item.href}><V42Icon name={item.icon} size={21} /><span>{item.label}</span><b aria-hidden="true">↗</b></a>)}</nav>
+    </div>
+  </div>
+</section> : <section class="home-now-updates" aria-label="いまの茨城と人気記事" data-module="home_popular">
+  <div class="bp-wrap home-now-updates__grid">
 
       {seasonal.length > 0 && (
         <div class="home-now__season" data-home-season hidden>
@@ -92,13 +109,6 @@ const seasonal = (await getHappenings(new Date(), 60))
           </ul>
         </div>
       )}
-
-      <a class="home-now__shindan" href="/shindan/">
-        <span class="home-now__shindan-kicker">行き先診断</span>
-        <strong><span>3つ答えるだけで、</span><span>行き先が決まる。</span></strong>
-        <span class="home-now__shindan-sub">いつ・何を・どのあたり <span aria-hidden="true">→</span></span>
-      </a>
-    </div>
 
     {ranking.length > 0 && (
       <div class="home-now__rank">
@@ -118,7 +128,7 @@ const seasonal = (await getHappenings(new Date(), 60))
       </div>
     )}
   </div>
-</section>
+</section>}
 
 <script>
   // 日本時間の今日に開催中・見頃のものだけを見せる（最大4件）
@@ -138,31 +148,37 @@ const seasonal = (await getHappenings(new Date(), 60))
 </script>
 
 <style>
-  .home-now { padding-block: clamp(2.5rem, 5vw, 4.5rem); background: #faf7ef; border-bottom: 1px solid #e3e1d3; }
-  .home-now__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 7vw, 6rem); align-items: start; }
-  .home-now__main, .home-now__rank { min-width: 0; }
-  .home-now__label { margin-bottom: .65rem; color: #617357; font-size: .8125rem; letter-spacing: .06em; }
-  .home-now__title { color: #24434a; font: 500 clamp(1.45rem, 2.5vw, 2.1rem)/1.5 var(--font-brand-display); letter-spacing: .025em; line-break: strict; }
+  .home-now { padding-bottom: 24px; background: #f7f3e9; }
+  .home-now__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr); gap: 36px; align-items: start; width: var(--card-w); margin: 0 auto; padding: 22px 0 9px; border-top: 1px solid #d9d4c2; }
+  .home-now__main, .home-now__intro, .home-now__rank { min-width: 0; }
+  .home-now__label { margin-bottom: 5px; color: #7d876e; font-size: 10px; letter-spacing: .08em; }
+  .home-now__title { color: #24434a; font: 500 24px/1.55 var(--font-brand-display); letter-spacing: .025em; line-break: strict; }
   .home-now__hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .home-now__search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; margin-top: 1.35rem; padding: .35rem; border: 1px solid #cfd3c4; border-radius: 4px; background: #fffefa; box-shadow: 0 6px 16px #2941370a; }
-  .home-now__search input { min-width: 0; width: 100%; height: 3rem; padding-inline: .6rem; border: 0; background: transparent; color: var(--color-ink); font: inherit; font-size: 1rem; appearance: none; }
+  .home-now__search { display: flex; align-items: center; gap: 15px; min-height: 61px; padding: 5px 5px 5px 18px; border: 1px solid #a5b397; border-radius: 3px; background: #fffdf6; box-shadow: 2px 4px 0 #a8ae9020; }
+  .home-now__search>:global(svg) { color: #748460; }
+  .home-now__search input { flex: 1; min-width: 0; width: 100%; height: 3rem; padding: 10px 0; border: 0; background: transparent; color: var(--color-ink); font: inherit; font-size: 1rem; appearance: none; }
+  .home-now__search input::placeholder { color: #7f8875; font-size: 14px; }
   .home-now__search input:focus { outline: none; }
   .home-now__search:focus-within { outline: 2px solid var(--color-tide); outline-offset: 3px; }
-  .home-now__search button { min-width: 5.5rem; min-height: 48px; padding-inline: 1rem; border: 0; border-radius: 3px; background: #24434a; color: #fff; font: 700 .875rem var(--font-brand-body); cursor: pointer; }
+  .home-now__search button { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 15px; min-width: 122px; min-height: 49px; padding: 11px 16px; border: 0; border-radius: 2px; background: #254f68; color: #fff; font: 700 13px var(--font-brand-body); cursor: pointer; }
+  .home-now__search button:hover { background: #193f55; }
   .home-now__search button:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
-  .home-now h3 { color: var(--color-ink); font: 600 1.25rem/1.6 var(--font-brand-display); }
-  .home-now__season { margin-top: 1.5rem; }
+  .home-now__ways { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-top: 9px; }
+  .home-now__ways a { display: flex; align-items: center; gap: 7px; min-height: 44px; border-bottom: 1px solid #d0d7c1; color: #4f6f57; font-size: 11px; white-space: nowrap; }
+  .home-now__ways b { margin-left: auto; color: #819274; font-weight: 400; }
+  .home-now__ways a:hover { color: #254f68; border-color: #6d865f; }
+  .home-now__shindan { display: block; width: max-content; max-width: 100%; min-height: 44px; padding-block: 8px; color: #627957; font-size: 11px; line-height: 1.8; }
+  .home-now__shindan>span { display: block; color: #7d876e; font-size: 10px; }
+  .home-now__shindan b { margin-left: 12px; font-weight: 400; }
+  .home-now__shindan:hover { color: #254f68; text-decoration: underline; text-underline-offset: .25em; }
+  .home-now-updates { padding-block: clamp(2.5rem,5vw,4rem); background: #faf7ef; border-bottom: 1px solid #e3e1d3; }
+  .home-now-updates__grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(2.5rem,7vw,6rem); align-items: start; }
+  .home-now-updates h3 { color: var(--color-ink); font: 600 1.25rem/1.6 var(--font-brand-display); }
   .home-now__season ul { display: flex; flex-wrap: wrap; gap: 0 1rem; margin: .5rem 0 0; padding: 0; list-style: none; }
   .home-now__season li::before { content: none; }
   .home-now__season li[hidden] { display: none; }
   .home-now__season a { display: inline-flex; align-items: center; flex-wrap: wrap; gap: .4rem; min-height: 44px; color: var(--color-tide); font-size: .875rem; text-decoration: underline; text-underline-offset: .25em; }
   .home-now__season small { color: var(--color-soil); font-size: .8125rem; }
-  .home-now__shindan { display: grid; gap: .35rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-line); color: var(--color-ink); }
-  .home-now__shindan-kicker { color: var(--color-tide); font-size: .8125rem; font-weight: 700; }
-  .home-now__shindan strong { font: 600 1.125rem/1.7 var(--font-brand-display); }
-  .home-now__shindan strong span { display: inline-block; }
-  .home-now__shindan-sub { display: flex; justify-content: space-between; color: var(--color-soil); font-size: .875rem; }
-  .home-now__shindan:hover strong { text-decoration: underline; text-underline-offset: .25em; }
   .home-now__rank h3 { font-size: clamp(1.5rem, 2.2vw, 1.85rem); }
   .home-now__rank ol { margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--color-line); list-style: none; }
   .home-now__rank li { margin: 0; border-bottom: 1px solid var(--color-line); }
@@ -175,6 +191,25 @@ const seasonal = (await getHappenings(new Date(), 60))
   .home-now__subs { display: flex; flex-wrap: wrap; gap: 0 1rem; padding: 0 0 .5rem 2rem; }
   .home-now__subs a { display: inline-flex; align-items: center; min-height: 36px; font-size: .8125rem; color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }
   .home-now__source { margin-top: .8rem; color: var(--color-soil); font-size: .75rem; line-height: 1.8; }
-  .home-now__shindan:focus-visible, .home-now__rank a:focus-visible, .home-now__season a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
-  @media (max-width: 860px) { .home-now__grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; } }
+  .home-now__shindan:focus-visible, .home-now__ways a:focus-visible, .home-now__rank a:focus-visible, .home-now__season a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
+  @media (min-width:701px) and (max-width:1199px) { .home-now__grid { grid-template-columns: minmax(0,.9fr) minmax(0,1.4fr); gap: 25px; } .home-now__title { font-size: 21px; } .home-now__ways { gap: 9px; } .home-now__ways a { gap: 4px; font-size: 10px; } .home-now__ways :global(svg) { width: 18px; height: 18px; } .home-now__ways b { display: none; } }
+  @media (max-width:860px) { .home-now-updates__grid { grid-template-columns: minmax(0,1fr); gap: 2.5rem; } }
+  @media (max-width:700px) {
+    .home-now__grid { display: block; padding-top: 19px; }
+    .home-now__label { display: none; }
+    .home-now__title { font-size: 19px; line-height: 1.6; letter-spacing: .02em; }
+    .home-now__shindan { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-bottom: 13px; font-size: 12px; }
+    .home-now__shindan>span { font-size: 11px; }
+    .home-now__shindan b { margin: 0; }
+    .home-now__search { min-height: 56px; gap: 9px; padding-left: 12px; }
+    .home-now__search>:global(svg) { width: 18px; height: 18px; }
+    .home-now__search input::placeholder { font-size: 12px; }
+    .home-now__search button { min-width: 78px; min-height: 44px; gap: 7px; padding: 8px 11px; font-size: 12px; }
+    .home-now__search button :global(svg) { display: none; }
+    .home-now__ways { gap: 10px; margin-top: 8px; }
+    .home-now__ways a { justify-content: center; gap: 5px; min-height: 45px; font-size: 10px; }
+    .home-now__ways :global(svg) { width: 18px; height: 18px; }
+    .home-now__ways b { display: none; }
+  }
+  @media (max-width:350px) { .home-now__title { font-size: 17px; } .home-now__search { gap: 7px; padding-left: 9px; } .home-now__search input::placeholder { font-size: 10px; } .home-now__search button { min-width: 70px; padding-inline: 8px; font-size: 11px; } .home-now__ways { gap: 7px; } .home-now__ways a { gap: 3px; font-size: 9px; } .home-now__ways :global(svg) { width: 15px; height: 15px; } }
 </style>

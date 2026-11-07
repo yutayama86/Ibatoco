@@ -7,6 +7,7 @@ import { SITE_CONFIG } from '../data/site';
 import BrandLogo from './BrandLogo.astro';
 import LanguageMenu from './LanguageMenu.astro';
 import NavCaret from './NavCaret.astro';
+import V42Icon from './V42Icon.astro';
 import NavDropdown, { type NavDropdownItem } from './NavDropdown.astro';
 import { LOCALES, LOCALE_META, TRANSLATIONS, localeHome } from '../data/i18n';
 import { NEWS_CATEGORIES, type NewsCategoryKey } from '../data/news';
@@ -65,17 +66,17 @@ const discoveryGroups = [
 
 // v42 の主なカテゴリ（PCの下段）と、スマホのヘッダー直下の4つ
 const primaryLinks = [
-  { label: 'イベント', href: '/events/' },
-  { label: 'グルメ', href: '/food-library/' },
-  { label: 'おでかけ', href: '/odekake/' },
-  { label: 'エリア', href: '/area/' },
-];
+  { label: 'イベント', href: '/events/', icon: 'event' },
+  { label: 'グルメ', href: '/food-library/', icon: 'food' },
+  { label: 'おでかけ', href: '/odekake/', icon: 'outing' },
+  { label: 'エリア', href: '/area/', icon: 'area' },
+] as const;
 const quickLinks = [
-  { label: 'イベント', href: '/events/' },
-  { label: 'グルメ', href: '/food-library/' },
-  { label: 'エリア', href: '/area/' },
-  { label: 'スポーツ', href: '/sports/' },
-];
+  { label: 'イベント', href: '/events/', icon: 'event' },
+  { label: 'グルメ', href: '/food-library/', icon: 'food' },
+  { label: 'エリア', href: '/area/', icon: 'area' },
+  { label: 'スポーツ', href: '/sports/', icon: 'sports' },
+] as const;
 
 const aboutLinks: NavDropdownItem[] = [
   { label: '私たちについて', href: '/about/', mark: '01' },
@@ -119,7 +120,7 @@ const sportsLinks: NavDropdownItem[] = [
 
     {/* v42：上段に情報提供・事業者向け・お問い合わせ・言語、下段に主なカテゴリ */}
     <nav class="site-header__utility" aria-label="情報提供・事業者向けメニュー">
-      <a class="utility-link" href="/submit/">情報を届ける</a>
+      <a class="utility-link" href="/submit/"><V42Icon name="pen" size={14} />情報を届ける</a>
       <a class="business-link" href="/biz/">事業者の方へ <span aria-hidden="true">→</span></a>
       <a class:list={['utility-link', { 'is-current': currentPath.startsWith('/contact/') }]} href="/contact/" aria-current={currentPath.startsWith('/contact/') ? 'page' : undefined}>お問い合わせ</a>
       <LanguageMenu locale="ja" translationKey={translationKey} id="lang-menu-header" />
@@ -128,28 +129,28 @@ const sportsLinks: NavDropdownItem[] = [
     <nav class="desktop-nav" aria-label="メインナビゲーション">
       {/* 特集＝自然・季節・目的の入口（メガメニュー）。ハブページへは各項目から直接行ける */}
       <button type="button" class:list={['nav-link', { 'is-current': isDiscoverCurrent }]} data-menu-trigger="discover" aria-expanded="false" aria-controls="discover-menu">
-        特集 <NavCaret />
+        <V42Icon name="feature" /> 特集 <NavCaret />
       </button>
       {primaryLinks.map((item) => (
-        <a href={item.href} class:list={['nav-link', { 'is-current': currentPath.startsWith(item.href) }]} aria-current={currentPath === item.href ? 'page' : undefined}>{item.label}</a>
+        <a href={item.href} class:list={['nav-link', { 'is-current': currentPath.startsWith(item.href) }]} aria-current={currentPath === item.href ? 'page' : undefined}><V42Icon name={item.icon} />{item.label}</a>
       ))}
       <NavDropdown
-        id="sports-menu" name="sports" label="スポーツ" items={sportsLinks} wide
+        id="sports-menu" name="sports" label="スポーツ" icon="sports" items={sportsLinks} wide
         currentPath={currentPath} isCurrent={currentPath.startsWith('/sports/')}
       />
       <NavDropdown
-        id="news-menu" name="news" label="ニュース" items={newsLinks} wide
+        id="news-menu" name="news" label="ニュース" icon="news" items={newsLinks} wide
         currentPath={currentPath} isCurrent={currentPath.startsWith('/news/')}
       />
     </nav>
 
     <div class="site-header__tools">
       <a class="header-tool" href="/search/" aria-current={currentPath.startsWith('/search/') ? 'page' : undefined}>
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8" /><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+        <V42Icon name="search" size={26} />
         <span>検索</span>
       </a>
       <button class="mobile-trigger" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
-        <span class="mobile-trigger__icon" aria-hidden="true"><i></i><i></i></span>
+        <span class="mobile-trigger__icon" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="mobile-trigger__label" data-mobile-label>メニュー</span>
       </button>
     </div>
@@ -226,7 +227,7 @@ const sportsLinks: NavDropdownItem[] = [
   </div>
 </header>
 <nav class="site-quick" aria-label="よく使うカテゴリ">
-  {quickLinks.map((item) => <a href={item.href} aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}
+  {quickLinks.map((item) => <a href={item.href} aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}><V42Icon name={item.icon} size={22} />{item.label}</a>)}
 </nav>
 
 <script>
@@ -309,18 +310,23 @@ const sportsLinks: NavDropdownItem[] = [
 
 <style>
   :global(html.menu-is-open){overflow:hidden}
+  :global(:root:has([data-site-header])){--site-header-height:108px}
+  @media(max-width:1180px){:global(:root:has([data-site-header])){--site-header-height:76px}}
+  @media(max-width:760px){:global(:root:has([data-site-header])){--site-header-height:68px}}
   /* 右側のスポーツ・ニュースは画面の外へはみ出さないよう、右そろえで開く */
   .desktop-nav > :global(.nav-dropdown .nav-drop){left:auto;right:0}
   .site-header{position:sticky;top:0;z-index:50;height:var(--site-header-height);background:rgba(255,254,250,.96);border-bottom:1px solid #e3e1d3;font-family:var(--font-brand-body);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
-  .site-header__inner{width:min(calc(100% - 3rem),1440px);height:100%;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-rows:32px minmax(0,1fr);column-gap:clamp(1.25rem,2.4vw,2.5rem);align-items:center}
+  .site-header__inner{width:min(calc(100% - 96px),1440px);height:100%;margin-inline:auto;display:grid;grid-template-columns:310px minmax(0,1fr) 76px;grid-template-rows:43px minmax(0,1fr);column-gap:24px;align-items:center}
   .site-header__logo{grid-row:1/3;display:inline-flex;align-items:center;gap:1.1rem;justify-self:start;color:var(--v42-ink);line-height:1.05;text-decoration:none}
   .site-header__tagline{display:grid;gap:.3rem;padding-left:1.1rem;border-left:1px solid #d7d5c6;color:var(--v42-ink);font:500 .6875rem/1.4 var(--font-brand-display);letter-spacing:.06em;white-space:nowrap}
   .site-header__tagline small{color:var(--v42-note);font:400 .5625rem/1.4 var(--font-brand-body);letter-spacing:.1em}
-  .desktop-nav{grid-column:2;grid-row:2;height:100%;display:flex;align-items:stretch;gap:clamp(1.1rem,1.9vw,2.1rem)}
+  .desktop-nav{grid-column:2;grid-row:2;height:100%;display:flex;align-items:stretch;justify-content:flex-end;gap:clamp(12px,1.3vw,20px)}
+  .desktop-nav :global(.nav-link){gap:.45rem}
+  @media(min-width:1181px) and (max-width:1350px){.site-header__inner{width:calc(100% - 48px);grid-template-columns:294px minmax(0,1fr) 64px;column-gap:16px}.desktop-nav{gap:12px}.desktop-nav :global(.nav-link){font-size:12px;gap:.35rem}}
   .site-header__tools{grid-column:3;grid-row:1/3;display:flex;align-items:center;gap:.75rem;height:100%;padding-left:clamp(1rem,2vw,1.6rem);border-left:1px solid #e3e1d3}
   .header-tool{display:grid;justify-items:center;gap:.15rem;min-width:44px;min-height:44px;color:var(--v42-blue);font-size:.625rem;font-weight:700}
   .header-tool span{color:var(--v42-ink)}
-  .utility-link{display:inline-flex;align-items:center;min-height:32px;color:var(--v42-secondary);font-size:.6875rem;letter-spacing:.04em}
+  .utility-link{display:inline-flex;align-items:center;gap:.3rem;min-height:32px;color:var(--v42-secondary);font-size:.6875rem;letter-spacing:.04em}
   .utility-link:hover,.utility-link:focus-visible,.utility-link.is-current{color:var(--v42-ink);text-decoration:underline;text-underline-offset:.2em}
   /* 項目の見た目（.nav-link）と面（.nav-drop）は global.css。
      子コンポーネントが出す要素にも効かせる必要があるため、ここには書かない。 */
@@ -341,6 +347,19 @@ const sportsLinks: NavDropdownItem[] = [
   .mobile-panel{display:none}
   @media(max-width:1180px){.site-header__inner{width:100%;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr);padding-inline:1.5rem}.site-header__tools{grid-column:2;grid-row:1;border-left:0;padding-left:0}.site-header__tagline{display:none}.desktop-nav,.business-link,.site-header__utility{display:none}.mobile-trigger{z-index:2;display:flex;min-width:6.25rem;height:44px;align-items:center;justify-content:center;gap:.6rem;padding:.5rem .65rem;border:1px solid #d9dccd;border-radius:var(--radius-xs);background:#fffefa;color:var(--v42-ink);cursor:pointer}.site-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid #e3e1d3;background:#fffefa}.site-quick a{display:flex;align-items:center;justify-content:center;min-height:48px;color:var(--v42-ink);font-size:.8125rem;font-weight:700;letter-spacing:.04em}.site-quick a+a{border-left:1px solid #ebe8dc}.site-quick a[aria-current=page]{color:var(--v42-blue);box-shadow:inset 0 -2px 0 var(--v42-blue)}.mobile-trigger__icon{display:grid;gap:.5rem;flex:none}.mobile-trigger__icon i{display:block;width:1.25rem;height:1px;background:currentColor;transition:transform .25s ease}.mobile-trigger__label{font:700 .8125rem/1.5 var(--font-brand-body);white-space:nowrap}.mobile-trigger.is-active .mobile-trigger__icon i:first-child{transform:translateY(.28rem) rotate(45deg)}.mobile-trigger.is-active .mobile-trigger__icon i:last-child{transform:translateY(-.28rem) rotate(-45deg)}.mega-menu{display:none}.mobile-panel{position:fixed;top:var(--site-header-height);inset-inline:0;display:block;height:calc(100svh - var(--site-header-height));overflow-y:auto;background:var(--color-paper);opacity:0;visibility:hidden;transform:translateY(-.5rem);transition:opacity .23s ease,visibility .23s ease,transform .23s ease}.mobile-panel.is-open{opacity:1;visibility:visible;transform:none}.mobile-panel__inner{padding:2rem 1.6rem 3.75rem}.mobile-main-link,.mobile-panel summary{display:flex;min-height:4rem;align-items:center;justify-content:space-between;border-bottom:1px solid var(--color-ink);font:600 1.2rem var(--font-brand-display);cursor:pointer;list-style:none}.mobile-panel summary::-webkit-details-marker{display:none}.mobile-panel details[open] summary span{transform:rotate(45deg)}.mobile-discovery{padding:1.2rem 0 1.6rem}.mobile-area{display:grid;grid-template-columns:1fr auto;gap:.35rem 1rem;align-items:center;margin-bottom:1.4rem;padding:1rem 1.1rem;background:var(--color-ink);color:#fff}.mobile-area small{font:.55rem var(--font-brand-meta);letter-spacing:.14em;color:#9db4b7}.mobile-area strong{grid-column:1;font:700 1rem var(--font-brand-display)}.mobile-area span{grid-column:2;grid-row:1/3}.mobile-discovery section{margin-bottom:1.15rem}.mobile-discovery h3{margin:0 0 .55rem;color:#668087;font-size:.62rem;letter-spacing:.12em}.mobile-discovery section div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;border:1px solid color-mix(in srgb,var(--color-ink) 14%,transparent);background:color-mix(in srgb,var(--color-ink) 14%,transparent)}.mobile-discovery section a{padding:.85rem;background:var(--color-paper);font:600 .9rem var(--font-brand-display)}.mobile-sub-links{display:grid;padding:.5rem 0 1.1rem 1rem}.mobile-sub-links a{padding:.75rem 0;color:var(--color-soil);font-size:.85rem}.mobile-business{display:flex;justify-content:space-between;margin-top:1.75rem;padding:1.2rem;background:var(--color-ink);color:#fff;font-size:.86rem;font-weight:700}.mobile-lang summary{margin-top:0}.mobile-lang .mobile-sub-links a[aria-current="true"]{color:var(--color-ink);font-weight:700}}
   @media(max-width:560px){.site-header__inner{padding-inline:1.1rem}.site-header__logo :global(svg){max-width:8.5rem}.mobile-panel__inner{padding-inline:1.2rem}}
+  /* v42のスマホ見本と同じ、検索・メニューを縦積みの道具として並べる。 */
+  @media(max-width:1180px){
+    .site-header__tools{gap:1rem}
+    .mobile-trigger{display:grid;justify-items:center;align-content:center;gap:.35rem;min-width:44px;height:44px;padding:0;border:0;border-radius:0;background:transparent}
+    .mobile-trigger__icon{gap:5px}
+    .mobile-trigger__icon i{width:21px;height:1.5px;background:var(--v42-blue)}
+    .mobile-trigger__label{font-size:.625rem;line-height:1}
+    .mobile-trigger.is-active .mobile-trigger__icon i:first-child{transform:translateY(6.5px) rotate(45deg)}
+    .mobile-trigger.is-active .mobile-trigger__icon i:nth-child(2){opacity:0}
+    .mobile-trigger.is-active .mobile-trigger__icon i:last-child{transform:translateY(-6.5px) rotate(-45deg)}
+    .site-quick a{gap:.35rem;font-size:clamp(11px,3vw,13px);letter-spacing:.02em}
+    .site-quick :global(.v42-icon){width:clamp(18px,5.5vw,22px);height:clamp(18px,5.5vw,22px)}
+  }
   /* .nav-link / .nav-drop / .nav-caret の reduced-motion は global.css 側 */
   @media(prefers-reduced-motion:reduce){.mega-menu,.area-gateway,.mega-columns a,.mega-columns a b,.mobile-trigger__icon i,.mobile-panel{transition:none}}
 </style>
