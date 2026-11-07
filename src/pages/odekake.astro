@@ -15,9 +15,20 @@ import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 import { MICHINOEKI, michinoekiAreaSlugs } from '../data/michinoeki';
 import { MUNICIPALITIES, REGION_ORDER, REGIONS, municipalitiesByRegion, type RegionKey } from '../data/areas';
-import { getNews } from '../lib/content';
+import { getIndexableEvents, getNews } from '../lib/content';
 
 const news = (await getNews()).slice(0, 4);
+const modelCourses = (await getIndexableEvents())
+  .filter(({ data }) => data.tags.includes('モデルコース'))
+  .map(({ id, data }) => {
+    const [title, detail] = data.title.split('｜', 2);
+    const format = title.match(/^(.+)の(日帰り|1泊2日)モデルコース$/);
+    return {
+      href: `/events/${id.split('/').pop()}/`,
+      label: format?.[1] ?? title,
+      note: [format?.[2], detail].filter(Boolean).join(' ／ '),
+    };
+  });
 
 /** 自然・季節・目的の3軸。リンク先はすべて実在ページ。 */
 const groups = [
@@ -127,6 +138,25 @@ const jsonLd = [
   </header>
 
   <div class="ok-body bp-wrap">
+    {modelCourses.length > 0 && (
+      <section class="ok-group" aria-labelledby="ok-courses-title" data-module="odekake_model_courses">
+        <header>
+          <p class="bp-kicker">MODEL COURSES</p>
+          <h2 id="ok-courses-title" class="bp-section-title">モデルコースから選ぶ</h2>
+          <p>日帰りや1泊2日の行程から、立ち寄る場所と回る順番を考えられます。</p>
+        </header>
+        <ul>{modelCourses.map(({ href, label, note }) => (
+          <li>
+            <a href={href}>
+              <strong>{label}</strong>
+              {note && <span>{note}</span>}
+              <b aria-hidden="true">→</b>
+            </a>
+          </li>
+        ))}</ul>
+      </section>
+    )}
+
     {groups.map((group) => (
       <section class="ok-group" id={group.key}>
         <header>
@@ -178,6 +208,12 @@ const jsonLd = [
     </aside>
   </div>
 </BrandBase>
+
+<script>
+  import { bindModuleTracking } from '../lib/module-tracking';
+
+  bindModuleTracking('odekake');
+</script>
 
 <style>
   .ok-head{padding-block:clamp(2.5rem,6vw,4.5rem) clamp(2.5rem,6vw,4rem)}
