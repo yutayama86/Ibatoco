@@ -4,6 +4,7 @@ import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import BrandStoryCard from '../../components/BrandStoryCard.astro';
+import V42Cards, { type V42CardItem } from '../../components/V42Cards.astro';
 import { CATEGORY_LIST, CATEGORIES } from '../../data/site';
 import { getArticlesByCategory, getIndexableNews } from '../../lib/content';
 import type { CategoryKey } from '../../content.config';
@@ -13,10 +14,16 @@ const articles = await getArticlesByCategory(category!);
 // 記事がまだ無いカテゴリは行き止まりになるので、実在する読み物へ逃がす。
 const latestNews = articles.length === 0 ? (await getIndexableNews()).slice(0, 3) : [];
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: cat.label }];
+// 記事準備中のときの「こんな入口も、あります。」（v42 提出版 theme-pending）。行き先は既存の URL だけ。
+const pendingExits: V42CardItem[] = [
+  { href: '/area/', img: '/images/v42/map-travelers.webp', alt: '地図を広げる二人を描いたイメージイラスト', tag: 'イメージイラスト', kicker: 'AREA GUIDE', title: '44のまちから、探す。', text: '市町村ごとの記事と場所。' },
+  { href: '/food-library/', img: '/images/v42/hoshiimo-field-visit.webp', alt: '干し芋づくりの現場を訪ねる二人を描いたイメージイラスト', tag: 'イメージイラスト', kicker: 'FOOD LIBRARY', title: '土地を、おいしく知る。', text: '品種と産地から読む、茨城の食。' },
+];
 ---
 <BrandBase title={`${cat.label}｜茨城の物語｜イバトコ`} description={`茨城の「${cat.label}」を、現地で確かめた情報から届けます。`} noindex={articles.length === 0} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <header class="category-head v42-hero bp-wrap"><Breadcrumbs items={crumbs} /><img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" /><p class="bp-kicker">THEME / {cat.reading}</p><h1>{cat.label}</h1><p>茨城で見つけた「{cat.label}」を、人と営みの背景から。</p><nav aria-label="テーマ切替">{CATEGORY_LIST.map((item) => <a href={`/${item.path}/`} aria-current={item.path===category?'page':undefined}>{item.label}</a>)}</nav></header>
+  <header class:list={['category-head bp-wrap', { 'v42-hub-label': articles.length === 0 }]}><Breadcrumbs items={crumbs} /><p class="bp-kicker">THEME / {cat.reading}</p><h1>{cat.label}</h1>{articles.length === 0 && <p class="v42-display" data-copy-key="theme-pending.title">この土地の話を、<br />少しずつ。</p>}<p>茨城で見つけた「{cat.label}」を、人と営みの背景から。</p><nav aria-label="テーマ切替">{CATEGORY_LIST.map((item) => <a href={`/${item.path}/`} aria-current={item.path===category?'page':undefined}>{item.label}</a>)}</nav></header>
   {articles.length > 0 ? <section class="category-grid bp-wrap">{articles.map((article) => <BrandStoryCard article={article} />)}</section> : <section class="category-empty bp-reading"><p class="bp-kicker">FIELD NOTE</p><h2>確かめ終えたものから、公開します。</h2><p>架空の記事や写真で数を埋めず、現地確認と掲載許諾が終わった記事から届けます。</p><a href="/about/editorial-policy/">編集方針を読む →</a>{latestNews.length > 0 && <div class="empty-exits"><h3>いま読める記事</h3><ul>{latestNews.map((item) => <li><a href={`/news/${item.id.split('/').pop()}/`}>{item.data.title}</a></li>)}</ul><p class="empty-more"><a href="/news/">茨城ニュース解説をすべて見る →</a></p></div>}</section>}
+  {articles.length === 0 && <section class="v42-section v42-band" aria-labelledby="category-exits-title"><div class="bp-wrap"><header class="v42-section__head"><p class="bp-kicker">KEEP EXPLORING</p><h2 id="category-exits-title">こんな入口も、あります。</h2></header><V42Cards items={pendingExits} cols={2} /></div></section>}
 </BrandBase>
 <style>
   .category-head{padding-block:clamp(5rem,11vw,9rem);border-bottom:1px solid var(--color-mist)}.category-head h1{margin-top:1rem;font:600 clamp(3.5rem,11vw,9rem)/1 var(--font-brand-display);color:var(--color-ink)}.category-head>p:not(.bp-kicker){margin-top:1.5rem;color:var(--color-soil);font:500 1.1rem/1.9 var(--font-brand-display)}.category-head nav{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;margin-top:2.5rem}/* テーマ切替は interior.css がピル型で描く。ここには色と文字サイズだけを残す。

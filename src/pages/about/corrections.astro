@@ -13,7 +13,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコの訂正・更新方針。誤りの訂正、更新履歴の残し方、訂正申請の窓口について。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <header class="policy-head v42-hero v42-hero--fill">
+    <header class="policy-head">
       <nav class="crumbs" aria-label="パンくず">
         <a href="/">ホーム</a><span aria-hidden="true">/</span>
         <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
@@ -22,36 +22,45 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
       <p class="eyebrow">Corrections Policy</p>
       <h1 class="display policy-title">訂正・更新方針</h1>
       <p class="policy-updated muted">最終更新：{updated}</p>
-      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
     </header>
 
-    <div class="policy-body prose">
-      <p>地域の情報は変わります。私たちは誤りを隠さず、いつ・何を直したかを残すことで信頼を保ちます。</p>
+    <div class="policy-layout">
+      <nav class="policy-toc" aria-label="このページの目次">
+        <p>CONTENTS</p>
+        <a href="#sec-1">訂正するもの</a>
+        <a href="#sec-2">訂正の進め方</a>
+        <a href="#sec-3">更新履歴の残し方</a>
+        <a href="#sec-4">訂正のお申し出</a>
+        <img class="policy-toc__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+      </nav>
+      <div class="policy-body prose">
+        <p>地域の情報は変わります。私たちは誤りを隠さず、いつ・何を直したかを残すことで信頼を保ちます。</p>
 
-      <h2>訂正するもの</h2>
-      <ul>
-        <li>事実の誤り（営業時間・価格・住所・名称など）</li>
-        <li>誤解を招く表現や、古くなった記述</li>
-        <li>取材先・読者からのご指摘で確認できた点</li>
-      </ul>
+        <h2 id="sec-1">訂正するもの</h2>
+        <ul>
+          <li>事実の誤り（営業時間・価格・住所・名称など）</li>
+          <li>誤解を招く表現や、古くなった記述</li>
+          <li>取材先・読者からのご指摘で確認できた点</li>
+        </ul>
 
-      <h2>訂正の進め方</h2>
-      <p>訂正のお申し出をいただいた場合、次の順で対応します。</p>
-      <ol>
-        <li><strong>受付</strong>：お申し出の内容と、指摘された箇所を確認します。</li>
-        <li><strong>事実確認</strong>：一次情報・公式情報にあたり、事実関係を確認します。</li>
-        <li><strong>判断</strong>：訂正の要否と範囲を編集部が判断します。判断の責任は編集部が負います。</li>
-        <li><strong>訂正の実施</strong>：必要な訂正を記事に反映します。</li>
-        <li><strong>履歴の公開</strong>：重要な訂正は、記事末尾の「訂正・更新履歴」に日付と内容を公開します。</li>
-      </ol>
+        <h2 id="sec-2">訂正の進め方</h2>
+        <p>訂正のお申し出をいただいた場合、次の順で対応します。</p>
+        <ol>
+          <li><strong>受付</strong>：お申し出の内容と、指摘された箇所を確認します。</li>
+          <li><strong>事実確認</strong>：一次情報・公式情報にあたり、事実関係を確認します。</li>
+          <li><strong>判断</strong>：訂正の要否と範囲を編集部が判断します。判断の責任は編集部が負います。</li>
+          <li><strong>訂正の実施</strong>：必要な訂正を記事に反映します。</li>
+          <li><strong>履歴の公開</strong>：重要な訂正は、記事末尾の「訂正・更新履歴」に日付と内容を公開します。</li>
+        </ol>
 
-      <h2>更新履歴の残し方</h2>
-      <p>重要な変更を行った記事には、記事末尾に「訂正・更新履歴」として日付と内容を記録します。軽微な誤字の修正などは履歴に残さない場合があります。</p>
+        <h2 id="sec-3">更新履歴の残し方</h2>
+        <p>重要な変更を行った記事には、記事末尾に「訂正・更新履歴」として日付と内容を記録します。軽微な誤字の修正などは履歴に残さない場合があります。</p>
 
-      <h2>訂正のお申し出</h2>
-      <p>内容に誤りや古い情報を見つけられた場合は、<a href={reportHref} class="ul-link">訂正のお申し出</a>（メール）または <a href="/contact/" class="ul-link">お問い合わせフォーム</a> からお知らせください。確認のうえ、必要な訂正を行い、履歴に残します。</p>
+        <h2 id="sec-4">訂正のお申し出</h2>
+        <p>内容に誤りや古い情報を見つけられた場合は、<a href={reportHref} class="ul-link">訂正のお申し出</a>（メール）または <a href="/contact/" class="ul-link">お問い合わせフォーム</a> からお知らせください。確認のうえ、必要な訂正を行い、履歴に残します。</p>
 
-      <p class="policy-foot muted">関連：<a href="/about/editorial-policy/" class="ul-link">編集方針</a> ／ <a href="/about/pr-policy/" class="ul-link">PR・広告の方針</a></p>
+        <p class="policy-foot muted">関連：<a href="/about/editorial-policy/" class="ul-link">編集方針</a> ／ <a href="/about/pr-policy/" class="ul-link">PR・広告の方針</a></p>
+      </div>
     </div>
   </section>
 </BrandBase>

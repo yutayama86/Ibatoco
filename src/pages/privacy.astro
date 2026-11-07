@@ -9,65 +9,80 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'プライバ
 
 <BrandBase title="プライバシーポリシー｜イバトコ" description="イバトコのプライバシーポリシー。" noindex={true} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap pv">
-    <header class="policy-head v42-hero v42-hero--fill">
+    <header class="policy-head">
       <Breadcrumbs items={crumbs} />
       <h1 class="display pv-title">プライバシーポリシー</h1>
       <p class="muted">最終更新：{updated}</p>
-      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
     </header>
-    <div class="pv-body prose">
-      <p>{SITE_CONFIG.name}（以下「当メディア」）は、ユーザーの個人情報の保護を重要と考え、以下の方針に基づき適切に取り扱います。</p>
+    <div class="policy-layout">
+      <nav class="policy-toc" aria-label="このページの目次">
+        <p>CONTENTS</p>
+        <a href="#sec-1">1. 取得する情報</a>
+        <a href="#sec-2">2. 利用目的</a>
+        <a href="#sec-3">3. Cookie（クッキー）について</a>
+        <a href="#sec-4">4. アクセス解析</a>
+        <a href="#sec-5">5. 外部サービス（委託先）</a>
+        <a href="#sec-6">6. 第三者提供</a>
+        <a href="#sec-7">7. 安全管理措置</a>
+        <a href="#sec-8">8. 開示・訂正・削除の請求</a>
+        <a href="#sec-9">9. お問い合わせ窓口</a>
+        <a href="#sec-10">10. 本ポリシーの改定</a>
+        <img class="policy-toc__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+      </nav>
+      <div class="pv-body prose">
+        <p>{SITE_CONFIG.name}（以下「当メディア」）は、ユーザーの個人情報の保護を重要と考え、以下の方針に基づき適切に取り扱います。</p>
 
-      <h2>1. 取得する情報</h2>
-      <p>当メディアは、以下の情報を取得することがあります。</p>
-      <ul>
-        <li><b>お問い合わせフォーム・協賛の申込フォームの入力情報</b>：お名前・店舗／企業名、メールアドレス、電話番号、ご相談の内容など、ユーザーがフォームに入力された情報。</li>
-        <li><b>アクセスに関する情報</b>：閲覧ページ、リファラー、おおよその地域、ブラウザ種別などの匿名の統計情報。個人を特定するものではありません。</li>
-      </ul>
+        <h2 id="sec-1">1. 取得する情報</h2>
+        <p>当メディアは、以下の情報を取得することがあります。</p>
+        <ul>
+          <li><b>お問い合わせフォーム・協賛の申込フォームの入力情報</b>：お名前・店舗／企業名、メールアドレス、電話番号、ご相談の内容など、ユーザーがフォームに入力された情報。</li>
+          <li><b>アクセスに関する情報</b>：閲覧ページ、リファラー、おおよその地域、ブラウザ種別などの匿名の統計情報。個人を特定するものではありません。</li>
+        </ul>
 
-      <h2>2. 利用目的</h2>
-      <ul>
-        <li>お問い合わせへの対応、および掲載店舗・関係者との連絡のため</li>
-        <li>サービス内容・コンテンツの改善、利用状況の把握のため</li>
-        <li>法令に基づく対応のため</li>
-      </ul>
-      <p>取得した情報を上記の目的の範囲を超えて利用することはありません。</p>
+        <h2 id="sec-2">2. 利用目的</h2>
+        <ul>
+          <li>お問い合わせへの対応、および掲載店舗・関係者との連絡のため</li>
+          <li>サービス内容・コンテンツの改善、利用状況の把握のため</li>
+          <li>法令に基づく対応のため</li>
+        </ul>
+        <p>取得した情報を上記の目的の範囲を超えて利用することはありません。</p>
 
-      <h2>3. Cookie（クッキー）について</h2>
-      <p>当サイトでは、アクセス解析ツールの利用に伴い Cookie を使用する場合があります（下記「アクセス解析」を参照）。Cookie によりユーザー個人が直接特定されることはありません。ユーザーはブラウザの設定で Cookie を無効化・削除できます。</p>
+        <h2 id="sec-3">3. Cookie（クッキー）について</h2>
+        <p>当サイトでは、アクセス解析ツールの利用に伴い Cookie を使用する場合があります（下記「アクセス解析」を参照）。Cookie によりユーザー個人が直接特定されることはありません。ユーザーはブラウザの設定で Cookie を無効化・削除できます。</p>
 
-      <h2>4. アクセス解析</h2>
-      <p>当メディアは、サービス改善・利用状況の把握のため、以下のアクセス解析を利用する場合があります。</p>
-      <ul>
-        <li><b>Cloudflare Web Analytics</b>：Cookieを使用しない方式で、個人を特定する情報やフィンガープリントは収集しません。</li>
-        <li><b>Google Analytics 4（Google LLC）</b>：Cookie を用いて、アクセス日時・閲覧ページ・端末やブラウザの種別などの利用情報を収集し、Google に送信します。これらは Google のプライバシーポリシーに基づき管理され、個人を特定する目的では利用しません。
-          <br />・Googleのポリシー：<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="ul-link">policies.google.com/privacy</a>
-          <br />・無効化（オプトアウト）：<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="ul-link">Google アナリティクス オプトアウト アドオン</a>、またはブラウザのCookie設定で無効化できます。
-        </li>
-      </ul>
+        <h2 id="sec-4">4. アクセス解析</h2>
+        <p>当メディアは、サービス改善・利用状況の把握のため、以下のアクセス解析を利用する場合があります。</p>
+        <ul>
+          <li><b>Cloudflare Web Analytics</b>：Cookieを使用しない方式で、個人を特定する情報やフィンガープリントは収集しません。</li>
+          <li><b>Google Analytics 4（Google LLC）</b>：Cookie を用いて、アクセス日時・閲覧ページ・端末やブラウザの種別などの利用情報を収集し、Google に送信します。これらは Google のプライバシーポリシーに基づき管理され、個人を特定する目的では利用しません。
+            <br />・Googleのポリシー：<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="ul-link">policies.google.com/privacy</a>
+            <br />・無効化（オプトアウト）：<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="ul-link">Google アナリティクス オプトアウト アドオン</a>、またはブラウザのCookie設定で無効化できます。
+          </li>
+        </ul>
 
-      <h2>5. 外部サービス（委託先）</h2>
-      <p>当メディアは、運営にあたり以下の外部サービスを利用しており、その範囲で情報が各サービスの環境で処理されることがあります。各サービスはそれぞれのプライバシーポリシーに基づき情報を取り扱います。</p>
-      <ul>
-        <li><b>ホスティング／配信・アクセス解析</b>：Cloudflare, Inc.</li>
-        <li><b>アクセス解析</b>：Google LLC（Google Analytics 4）</li>
-        <li><b>お問い合わせフォームの送信</b>：フォームの送信内容は、メール送信、または外部フォーム送信サービスを通じて当メディアの連絡先メールアドレスに届きます。</li>
-      </ul>
+        <h2 id="sec-5">5. 外部サービス（委託先）</h2>
+        <p>当メディアは、運営にあたり以下の外部サービスを利用しており、その範囲で情報が各サービスの環境で処理されることがあります。各サービスはそれぞれのプライバシーポリシーに基づき情報を取り扱います。</p>
+        <ul>
+          <li><b>ホスティング／配信・アクセス解析</b>：Cloudflare, Inc.</li>
+          <li><b>アクセス解析</b>：Google LLC（Google Analytics 4）</li>
+          <li><b>お問い合わせフォームの送信</b>：フォームの送信内容は、メール送信、または外部フォーム送信サービスを通じて当メディアの連絡先メールアドレスに届きます。</li>
+        </ul>
 
-      <h2>6. 第三者提供</h2>
-      <p>法令に基づく場合、またはご本人の同意がある場合を除き、取得した個人情報を第三者に提供・販売することはありません。上記の委託先への提供は、利用目的の達成に必要な範囲に限ります。</p>
+        <h2 id="sec-6">6. 第三者提供</h2>
+        <p>法令に基づく場合、またはご本人の同意がある場合を除き、取得した個人情報を第三者に提供・販売することはありません。上記の委託先への提供は、利用目的の達成に必要な範囲に限ります。</p>
 
-      <h2>7. 安全管理措置</h2>
-      <p>当メディアは、取得した情報の漏えい・滅失・毀損を防止するため、通信の暗号化（常時HTTPS）、アクセス権限の管理など、必要かつ適切な安全管理措置を講じます。</p>
+        <h2 id="sec-7">7. 安全管理措置</h2>
+        <p>当メディアは、取得した情報の漏えい・滅失・毀損を防止するため、通信の暗号化（常時HTTPS）、アクセス権限の管理など、必要かつ適切な安全管理措置を講じます。</p>
 
-      <h2>8. 開示・訂正・削除の請求</h2>
-      <p>ご本人からの保有個人情報の開示・訂正・利用停止・削除のご請求には、ご本人であることを確認のうえ、法令に従い適切に対応します。下記お問い合わせ窓口までご連絡ください。</p>
+        <h2 id="sec-8">8. 開示・訂正・削除の請求</h2>
+        <p>ご本人からの保有個人情報の開示・訂正・利用停止・削除のご請求には、ご本人であることを確認のうえ、法令に従い適切に対応します。下記お問い合わせ窓口までご連絡ください。</p>
 
-      <h2>9. お問い合わせ窓口</h2>
-      <p>本ポリシーおよび個人情報の取り扱いに関するお問い合わせは、<a href={`mailto:${SITE_CONFIG.contactEmail}`} class="ul-link">{SITE_CONFIG.contactEmail}</a> までご連絡ください。</p>
+        <h2 id="sec-9">9. お問い合わせ窓口</h2>
+        <p>本ポリシーおよび個人情報の取り扱いに関するお問い合わせは、<a href={`mailto:${SITE_CONFIG.contactEmail}`} class="ul-link">{SITE_CONFIG.contactEmail}</a> までご連絡ください。</p>
 
-      <h2>10. 本ポリシーの改定</h2>
-      <p>当メディアは、法令の変更やサービス内容の変更に応じて、本ポリシーを改定することがあります。改定した場合は、本ページに最新の内容と最終更新日を掲載します。</p>
+        <h2 id="sec-10">10. 本ポリシーの改定</h2>
+        <p>当メディアは、法令の変更やサービス内容の変更に応じて、本ポリシーを改定することがあります。改定した場合は、本ページに最新の内容と最終更新日を掲載します。</p>
+      </div>
     </div>
   </section>
 </BrandBase>

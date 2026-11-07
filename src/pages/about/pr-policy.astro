@@ -12,7 +12,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコのPR・広告の方針。Editorial / Partner / PR の区分、費用を伴うコンテンツの明示、契約で編集評価や掲載順位を購入できないことについて。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <header class="policy-head v42-hero v42-hero--fill">
+    <header class="policy-head">
       <nav class="crumbs" aria-label="パンくず">
         <a href="/">ホーム</a><span aria-hidden="true">/</span>
         <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
@@ -21,52 +21,62 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
       <p class="eyebrow">PR &amp; Advertising Policy</p>
       <h1 class="display policy-title">PR・広告の方針</h1>
       <p class="policy-updated muted">最終更新：{updated}</p>
-      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
     </header>
 
-    <div class="policy-body prose">
-      <p>イバトコは、広告や支援関係の有無を読者に隠しません。費用を伴うコンテンツは、色だけでなく文言で明示します。編集の独立性を守るため、次のとおり運用します。</p>
+    <div class="policy-layout">
+      <nav class="policy-toc" aria-label="このページの目次">
+        <p>CONTENTS</p>
+        <a href="#sec-1">コンテンツの区分</a>
+        <a href="#sec-2">PartnerとPRの違い</a>
+        <a href="#sec-3">個別に開示するもの</a>
+        <a href="#sec-4">お金で変えられないこと</a>
+        <a href="#sec-5">できること</a>
+        <img class="policy-toc__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+      </nav>
+      <div class="policy-body prose">
+        <p>イバトコは、広告や支援関係の有無を読者に隠しません。費用を伴うコンテンツは、色だけでなく文言で明示します。編集の独立性を守るため、次のとおり運用します。</p>
 
-      <h2>コンテンツの区分</h2>
-      <p>すべての記事に、次のいずれかの区分を表示します。</p>
-      <ul class="pr-badges" aria-hidden="false">
-        <li><DisclosureBadge type="editorial" /></li>
-        <li><DisclosureBadge type="partner" /></li>
-        <li><DisclosureBadge type="pr" /></li>
-      </ul>
-      <dl class="pr-defs">
-        <dt>Editorial（編集記事）</dt>
-        <dd>編集部の判断で企画・取材・編集した記事。<strong>掲載の対価を受けません。</strong></dd>
-        <dt>Partner（パートナー）</dt>
-        <dd>支援・協業などの継続的な関係があるうえで編集する取材コンテンツ。関係の内容を記事内に明示します。記事の内容は編集部が決め、関係に合わせて事実や評価を変えません。</dd>
-        <dt>PR（広告）</dt>
-        <dd>記事の制作・掲載そのものに直接の対価がある広告コンテンツ。タイトル周辺・本文冒頭・末尾で広告であることを示します。</dd>
-        <dt>協賛枠（広告）</dt>
-        <dd>記事とは別に置く、対価のある広告の枠。枠の冒頭に「PR」と文言で示し、事業者名・紹介文・リンクを掲載します。協賛枠がある記事でも、記事の区分・内容・並び順は変わりません。メニューと料金は<a href="/sponsor/">協賛のご案内</a>に掲載しています。</dd>
-      </dl>
+        <h2 id="sec-1">コンテンツの区分</h2>
+        <p>すべての記事に、次のいずれかの区分を表示します。</p>
+        <ul class="pr-badges" aria-hidden="false">
+          <li><DisclosureBadge type="editorial" /></li>
+          <li><DisclosureBadge type="partner" /></li>
+          <li><DisclosureBadge type="pr" /></li>
+        </ul>
+        <dl class="pr-defs">
+          <dt>Editorial（編集記事）</dt>
+          <dd>編集部の判断で企画・取材・編集した記事。<strong>掲載の対価を受けません。</strong></dd>
+          <dt>Partner（パートナー）</dt>
+          <dd>支援・協業などの継続的な関係があるうえで編集する取材コンテンツ。関係の内容を記事内に明示します。記事の内容は編集部が決め、関係に合わせて事実や評価を変えません。</dd>
+          <dt>PR（広告）</dt>
+          <dd>記事の制作・掲載そのものに直接の対価がある広告コンテンツ。タイトル周辺・本文冒頭・末尾で広告であることを示します。</dd>
+          <dt>協賛枠（広告）</dt>
+          <dd>記事とは別に置く、対価のある広告の枠。枠の冒頭に「PR」と文言で示し、事業者名・紹介文・リンクを掲載します。協賛枠がある記事でも、記事の区分・内容・並び順は変わりません。メニューと料金は<a href="/sponsor/">協賛のご案内</a>に掲載しています。</dd>
+        </dl>
 
-      <h2>PartnerとPRの違い</h2>
-      <p><strong>Partner</strong>は、関係を開示したうえで編集部が内容を決める取材コンテンツです。<strong>PR</strong>は、記事の制作・掲載そのものに対価がある広告です。金銭の対価が記事の掲載に直接結びつく場合は、Partnerではなく <strong>PR</strong> として扱います。</p>
+        <h2 id="sec-2">PartnerとPRの違い</h2>
+        <p><strong>Partner</strong>は、関係を開示したうえで編集部が内容を決める取材コンテンツです。<strong>PR</strong>は、記事の制作・掲載そのものに対価がある広告です。金銭の対価が記事の掲載に直接結びつく場合は、Partnerではなく <strong>PR</strong> として扱います。</p>
 
-      <h2>個別に開示するもの</h2>
-      <p>次のことがあった場合は、区分にかかわらず、その事実を記事内で個別に開示します。</p>
-      <ul>
-        <li>取材先からの<strong>招待</strong>（無料・割引の飲食・宿泊・体験など）</li>
-        <li><strong>商品・サンプルの提供</strong></li>
-        <li>取材にかかる<strong>費用の負担</strong></li>
-      </ul>
+        <h2 id="sec-3">個別に開示するもの</h2>
+        <p>次のことがあった場合は、区分にかかわらず、その事実を記事内で個別に開示します。</p>
+        <ul>
+          <li>取材先からの<strong>招待</strong>（無料・割引の飲食・宿泊・体験など）</li>
+          <li><strong>商品・サンプルの提供</strong></li>
+          <li>取材にかかる<strong>費用の負担</strong></li>
+        </ul>
 
-      <h2>お金で変えられないこと</h2>
-      <ul>
-        <li>広告・支援の有無で、事実の順位や評価を変えません。</li>
-        <li>掲載順位や検索結果の優遇を、料金で購入することはできません。</li>
-        <li>編集記事（Editorial）の推薦を、対価で得ることはできません。</li>
-      </ul>
+        <h2 id="sec-4">お金で変えられないこと</h2>
+        <ul>
+          <li>広告・支援の有無で、事実の順位や評価を変えません。</li>
+          <li>掲載順位や検索結果の優遇を、料金で購入することはできません。</li>
+          <li>編集記事（Editorial）の推薦を、対価で得ることはできません。</li>
+        </ul>
 
-      <h2>できること</h2>
-      <p>事業者の方は、取材・編集・発信の支援をご依頼いただけます。内容・料金・成果の考え方は <a href="/biz/" class="ul-link">地域事業者の方へ</a> でご確認ください。支援を受けた場合も、上記の区分にしたがって関係を明示します。</p>
+        <h2 id="sec-5">できること</h2>
+        <p>事業者の方は、取材・編集・発信の支援をご依頼いただけます。内容・料金・成果の考え方は <a href="/biz/" class="ul-link">地域事業者の方へ</a> でご確認ください。支援を受けた場合も、上記の区分にしたがって関係を明示します。</p>
 
-      <p class="policy-foot muted">関連：<a href="/about/editorial-policy/" class="ul-link">編集方針</a> ／ <a href="/about/corrections/" class="ul-link">訂正・更新方針</a></p>
+        <p class="policy-foot muted">関連：<a href="/about/editorial-policy/" class="ul-link">編集方針</a> ／ <a href="/about/corrections/" class="ul-link">訂正・更新方針</a></p>
+      </div>
     </div>
   </section>
 </BrandBase>

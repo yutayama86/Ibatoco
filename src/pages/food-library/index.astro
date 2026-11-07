@@ -71,8 +71,10 @@ const jsonLd = [
         </ol>
       </nav>
       <div class="fl-hero__body">
-        <h1><span>茨城の</span><span>おいしい図鑑</span></h1>
-        <div class="fl-hero__side">
+        <div class="fl-hero__copy">
+          <p class="fl-hero__kicker">IBARAKI FOOD LIBRARY</p>
+          <h1><span>茨城の</span><span>おいしい図鑑</span></h1>
+          <p class="v42-display" data-copy-key="food-list.title">知るほど、<br />おいしくなる。</p>
           <p class="fl-hero__lead">霞ヶ浦のれんこん、笠間の栗、行方のさつまいも、鉾田のメロン、県西の白菜、いばらキッス、金砂郷から生まれた常陸秋そば、ひたちなかの干し芋。茨城でとれる食べものを、産地・旬・品種・歴史から一冊ずつ読み解く、図鑑のシリーズです。</p>
           <ul class="fl-hero__jump" aria-label="このページの索引">
             <li><a href="#season">旬から探す</a></li>
@@ -80,6 +82,7 @@ const jsonLd = [
             <li><a href="#varieties">品種から探す</a></li>
           </ul>
         </div>
+        <img class="fl-hero__art" src="/images/v42/hoshiimo-field-visit.webp" alt="" width="1100" height="619" decoding="async" />
       </div>
     </header>
 
@@ -200,17 +203,20 @@ const jsonLd = [
 </BrandBase>
 
 <style>
-  .fl-hero { max-width: 1440px; margin: 0 auto; padding: clamp(20px, 3.4vw, 44px) var(--fg-gutter) clamp(48px, 7vw, 96px); }
+  /* v42 提出版（food-list.html）：左に見出しと索引、右に額装の挿絵、下端に開いた図鑑の版画 */
+  .fl-hero { max-width: 1440px; margin: 0 auto; padding: clamp(20px, 3.4vw, 44px) var(--fg-gutter) calc(min(100vw, 1440px) * .3); background: url(/images/v42/encyclopedia.webp) center bottom / 100% auto no-repeat; }
   .fl-hero__crumbs { font-family: var(--font-brand-meta); font-size: 12.5px; letter-spacing: .1em; padding-bottom: 14px; border-bottom: 1px solid var(--fg-line); }
   .fl-hero__crumbs ol { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; }
   .fl-hero__crumbs li + li::before { content: '／'; margin: 0 .5em; color: var(--fg-line-strong); }
   .fl-hero__crumbs a { text-decoration: none; color: var(--fg-mute); }
   .fl-hero__crumbs a:hover { text-decoration: underline; color: var(--fg-navy); }
   .fl-hero__crumbs [aria-current] { color: var(--fg-soil); font-weight: 700; }
-  .fl-hero__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: clamp(32px, 6vw, 88px); }
-  .fl-hero h1 { font-size: clamp(44px, 8.4vw, 124px); line-height: 1.14; letter-spacing: .02em; }
-  .fl-hero h1 span { display: block; }
-  .fl-hero h1 span + span { padding-left: .9em; }
+  .fl-hero__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: clamp(20px, 3vw, 40px); }
+  .fl-hero__kicker { font-family: var(--font-brand-meta); font-size: 11px; letter-spacing: .14em; color: var(--fg-mute); }
+  /* H1 の文言はそのまま、提出版どおり小さなラベルにする。大きな見出しは COPY-LINES の表示コピー */
+  .fl-hero h1 { margin-top: .9rem; font: 500 .8125rem / 1.6 var(--font-brand-body); letter-spacing: .12em; color: var(--fg-mute); }
+  .fl-hero__copy > .v42-display { margin-bottom: 1rem; }
+  .fl-hero__art { width: 100%; max-width: 560px; height: auto; aspect-ratio: 1100 / 619; object-fit: cover; justify-self: end; border: 7px solid #fffdf3; box-shadow: 3px 6px 0 #b9c5a227; transform: rotate(.5deg); }
   .fl-hero__lead { font-size: clamp(16px, 1.55vw, 18.5px); line-height: 2.05; max-width: 30em; }
   .fl-hero__jump { list-style: none; padding: 0; margin: 28px 0 0; border-top: 1px solid var(--fg-ink); max-width: 30em; }
   .fl-hero__jump li { border-bottom: 1px solid var(--fg-line); }
@@ -257,7 +263,7 @@ const jsonLd = [
     .fl-varieties > div { grid-template-columns: 11em minmax(0, 1fr); gap: 20px; align-items: baseline; }
   }
   @media (min-width: 900px) {
-    .fl-hero__body { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: clamp(40px, 5vw, 88px); align-items: end; }
+    .fl-hero__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: clamp(30px, 4vw, 56px); align-items: center; }
     .fl-origin { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; }
   }
   @media (min-width: 1180px) {
