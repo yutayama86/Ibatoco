@@ -1,7 +1,41 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-08",
   "actions": [
+    {
+      "id": "20261108-mito-go-service-resumption",
+      "title": "高速バス「みと号」11月9日運休便再開の掲載判断",
+      "kind": "update",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-08",
+      "dueDate": "2026-11-09",
+      "confidence": "high",
+      "effort": "S",
+      "source": "茨城交通 2026年10月30日発表（2026年11月8日再確認）",
+      "reason": "JR内房線代行バス終了に伴い、10月5日から運休していた一部便が11月9日に再開。通勤・東京方面利用者に直接影響するが、共同運行各社と既存交通記事の重複確認前に独立短報を作らない。検索需要実測がないためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.ibako.co.jp/contents/newsrelease/2026/10/32673.html"
+      ],
+      "nextAction": "再開対象便を一次情報で全件確認し、既存のみと号・水戸交通記事との重複を照合。利用者が変更点を判断できる十分な差分がある場合のみ既存記事更新または実用記事化する。"
+    },
+    {
+      "id": "20261108-antlers-app-transition",
+      "title": "鹿島アントラーズ新公式アプリ開始・旧アプリ終了の掲載判断",
+      "kind": "sports",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-08",
+      "dueDate": "2026-11-10",
+      "confidence": "high",
+      "effort": "S",
+      "source": "鹿島アントラーズ公式 2026年11月6日発表（2026年11月8日確認）",
+      "reason": "新公式アプリ提供開始に伴い、旧アプリは段階的に機能縮小し2027年1月31日終了予定。JリーグIDとワンタッチパスIDの再連携など利用者対応が必要。既存鹿島記事との重複確認前に独立記事を作らず、検索需要実測がないためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/"
+      ],
+      "nextAction": "公式個別記事URL、再連携手順、旧アプリ機能終了日を一次情報で精査し、既存の観戦・チケット記事への更新と独立実用記事を比較する。"
+    },
     {
       "id": "20261102-ibaraki-shirasu-fair",
       "title": "秋のしらすフェア（11月1〜30日・県内40店超）の掲載判断",
