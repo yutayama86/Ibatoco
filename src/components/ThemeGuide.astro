@@ -10,10 +10,12 @@ import { wikimediaImage } from '../lib/wikimedia-image';
 import TocoCard from './TocoCard.astro';
 interface Props { theme: Theme; }
 const { theme } = Astro.props;
+// /kouyou/ は 2026-11-15（日本時間）まで見出しを維持。解除は観測終了後の別PRで行う。
+const preserveHeading = theme.slug === 'kouyou';
 ---
 
 <article class="tg">
-  <header class:list={['tg-head', theme.hero && 'tg-head--with-hero']}>
+  <header class:list={['tg-head', theme.hero && 'tg-head--with-hero', preserveHeading && 'tg-head--preserve-heading']}>
     <div class="tg-head__copy bp-wrap">
       <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span aria-current="page">{theme.title}</span></nav>
       <p class="bp-kicker">{theme.kicker}</p>

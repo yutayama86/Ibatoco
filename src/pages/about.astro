@@ -4,7 +4,6 @@ import EditorialProcess from '../components/EditorialProcess.astro';
 import { SITE_CONFIG } from '../data/site';
 import { MUNICIPALITIES } from '../data/areas';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
-import IbarakiMap from '../components/IbarakiMap.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコについて' }];
@@ -23,21 +22,21 @@ const policies = [
 
 <BrandBase title="イバトコについて｜現地から、信頼を編む。" description="イバトコは、茨城で続く人の仕事と営みを現地で取材し、確かめられる形で記録します。公開している記事には、すべて一次情報の出典を添えています。" jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   {/* 見出しの組みは下層ページ共通（780pxの読みカラム）。ここだけ2カラムにすると左端が揃わない */}
-  <header class="about-head bp-wrap">
-    {/*
-      このページ唯一の図版。IbarakiMap の decor（単色・ラベルなし・非対話）を使う。
-      44市町村の実データをそのまま描くので、汎用シルエットには置き換えていない。
-      TOPの HomeAreaExplorer／下層の AreaExplorer とは用途が別で、
-      どちらの挙動にも触れていない。読み上げ対象からは外れる。
-    */}
-    <div class="ab-plate" aria-hidden="true"><IbarakiMap decor /></div>
+  <header class="about-head v42-hero v42-hub-label bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">ABOUT IBATOCO</p>
     <h1>茨城で続く営みを、<br />きちんと残す。</h1>
+    <p class="v42-display" data-copy-key="about.title">歩いて、聞いて。<br />茨城を、好きになる。</p>
+    {/* 提出版（about.html）の冒頭の一文。説明と発行元は冒頭のすぐ後に置く */}
+    <p class="ab-tagline">景色の向こうに、人の営みがある。<br />この土地で続く日常を、ひとつずつ届けたい。</p>
+    <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+  </header>
+
+  <div class="ab-intro bp-wrap">
     <p class="ab-lead">イバトコは、茨城で暮らし、働く人に会い、その言葉と仕事を記録します。店や場所の情報だけでなく、なぜここで続けているのかまで聞き、あとから確かめられる形で届けます。</p>
     {/* 発行元は、枠で囲まず1行で置く */}
-    <p class="ab-byline">発行：{SITE_CONFIG.name}編集部<span>／</span>対象：茨城県 全{MUNICIPALITIES.length}市町村</p>
-  </header>
+    <p class="ab-byline"><span class="ab-byline__item">発行：{SITE_CONFIG.name}編集部</span><span>／</span><span class="ab-byline__item">対象：茨城県 全{MUNICIPALITIES.length}市町村</span></p>
+  </div>
 
   {/*
     このページで唯一の強い一打。地色を変えるだけでなく、
@@ -54,7 +53,7 @@ const policies = [
     </div>
   </section>
 
-  <section class="bp-wrap bp-section"><EditorialProcess /></section>
+  <section class="ab-process v42-band"><div class="bp-wrap bp-section"><EditorialProcess /></div></section>
 
   {/* 方針は番号つきの一覧。前後と形を変えて、枠の連続にしない */}
   <section class="ab-policies">
@@ -100,34 +99,26 @@ const policies = [
     text-wrap: balance;
   }
 
-  /* --- 見出し：茨城の形を大きく敷き、その上に文を置く --- */
-  .about-head {
-    padding-block: clamp(3.5rem, 7vw, 6rem) !important;
-    /* 地図（519x660の縦長）が丸ごと入る高さを確保する。
-       幅で合わせると縦にはみ出し、バンドの overflow:hidden で切れる */
-    min-height: clamp(22rem, 34vw, 30rem);
-    align-content: center;
-  }
-  .about-head > :not(.ab-plate) { position: relative; z-index: 1; }
-  .ab-plate {
-    position: absolute; z-index: 0; pointer-events: none;
-    right: clamp(.5rem, 3vw, 4rem); top: 50%; transform: translateY(-50%);
-    /* 絶対配置で width:auto だと幅が決まらず0になる。比率で高さから幅を出す */
-    height: min(76%, 23rem); aspect-ratio: 519 / 660; opacity: .55;
-  }
-  .ab-plate :global(.imap-svg) { width: 100%; height: 100%; }
-  .about-head h1 { margin-top: 1rem; font: 600 clamp(2.5rem, 5.6vw, 4.6rem)/1.24 var(--font-brand-display); color: var(--color-ink); letter-spacing: .01em; }
-  .ab-lead { max-width: var(--measure); margin-top: 2rem; font: 500 clamp(1rem, 1.5vw, 1.15rem)/2.05 var(--font-brand-display); color: var(--color-soil); }
+  /*
+   * 見出し：v42 提出版（about.html）の帯。文字の下に版画調の茨城の風景を敷き、右に取材の二人。
+   * 以前の44市町村の地図（IbarakiMap decor）は提出版にないため外した（地図のデータ・TOP/エリアの地図は変更なし）。
+   */
+  .ab-tagline { max-width: 39em; margin-top: 1.1rem; color: var(--v42-copy); font-size: 15px; line-height: 1.95; }
+  .ab-intro { padding-top: clamp(2rem, 4vw, 3rem); }
+  .ab-lead { max-width: var(--measure); font: 500 clamp(1rem, 1.5vw, 1.15rem)/2.05 var(--font-brand-display); color: var(--color-soil); }
   .ab-byline { margin-top: 2.2rem; color: var(--color-soil); font: .78rem/1.9 var(--font-brand-meta); letter-spacing: .04em; }
-  .ab-byline span { margin-inline: .55rem; color: var(--color-mist); }
+  .ab-byline span:not(.ab-byline__item) { margin-inline: .55rem; color: var(--color-mist); }
+  /* 「発行：…」「対象：…」はそれぞれ1行に保ち、折るのは区切りの前後だけ */
+  .ab-byline__item { white-space: nowrap; }
 
   /* --- BELIEF：ページ唯一の強い面。一文に大きさを与える --- */
-  .ab-belief { padding-block: clamp(5rem, 10vw, 9rem); background: var(--color-deep-blue); }
-  .ab-belief .bp-kicker { color: var(--color-moss); }
-  .ab-belief h2 { margin-top: 1.4rem; font: 600 clamp(2.1rem, 4.4vw, 3.9rem)/1.42 var(--font-brand-display); color: var(--color-white); letter-spacing: .01em; }
-  .ab-belief__body { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: clamp(1.6rem, 3vw, 3rem); margin-top: clamp(2.4rem, 4vw, 3.4rem); padding-top: clamp(2rem, 3vw, 2.8rem); border-top: 1px solid rgba(255, 255, 255, .22); }
-  .ab-belief__body p { color: rgba(255, 255, 255, .8); line-height: 2.05; font-size: .95rem; }
-  .ab-belief__pledge { color: var(--color-white); font-weight: 600; }
+  /* 提出版の「有名な場所だけじゃない。」の段：紙色の上に、中央寄せの明朝の文 */
+  .ab-belief { padding-block: clamp(3.5rem, 7vw, 6rem); text-align: center; }
+  .ab-belief .bp-kicker { color: var(--v42-note); }
+  .ab-belief h2 { margin-top: 1.2rem; font: 500 clamp(1.5rem, 2.6vw, 2.1rem)/1.8 var(--font-brand-display); color: var(--v42-ink); letter-spacing: .04em; }
+  .ab-belief__body { display: grid; gap: 1.2rem; max-width: 36rem; margin: clamp(1.6rem, 3vw, 2.4rem) auto 0; }
+  .ab-belief__body p { color: var(--v42-copy); line-height: 2.1; font-size: .95rem; text-wrap: pretty; }
+  .ab-belief__pledge { color: var(--v42-ink); font-weight: 600; }
 
   /* --- POLICIES：番号つきの一覧。カードにすると枠の連続になる --- */
   .ab-policies { padding-block: var(--interior-section-y); background: var(--color-white); }
@@ -151,8 +142,6 @@ const policies = [
   .ab-close__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.4rem; }
   .ab-close__actions a { display: inline-flex; align-items: center; min-height: 3rem; padding: .7rem 1.3rem; border: 1px solid rgba(31, 99, 191, .28); border-radius: 999px; color: var(--interior-blue); font-size: .9rem; font-weight: 600; }
 
-  /* 狭い画面では文の後ろに図が来て読みにくいので、地図は出さない */
-  @media (max-width: 900px) { .ab-plate { display: none; } }
   @media (max-width: 560px) {
     .ab-policy-list a { grid-template-columns: 2.4rem minmax(0, 1fr); }
     .ab-policy-list em { display: none; }

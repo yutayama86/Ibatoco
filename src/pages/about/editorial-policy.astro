@@ -11,54 +11,69 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   description="イバトコの編集方針。現地取材主義、Editorial / Partner / PR の区分、事実と観察の分離、独立性、AIの扱いについて。"
  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
-    <nav class="crumbs" aria-label="パンくず">
-      <a href="/">ホーム</a><span aria-hidden="true">/</span>
-      <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-      <span>編集方針</span>
-    </nav>
-    <p class="eyebrow">Editorial Policy</p>
-    <h1 class="display policy-title">編集方針</h1>
-    <p class="policy-updated muted">最終更新：{updated}</p>
+    <header class="policy-head">
+      <nav class="crumbs" aria-label="パンくず">
+        <a href="/">ホーム</a><span aria-hidden="true">/</span>
+        <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
+        <span>編集方針</span>
+      </nav>
+      <p class="eyebrow">Editorial Policy</p>
+      <h1 class="display policy-title">編集方針</h1>
+      <p class="policy-updated muted">最終更新：{updated}</p>
+    </header>
 
-    <div class="policy-body prose">
-      <p>イバトコは、茨城で出会った人の言葉や仕事を、あとから確かめられる形で記録します。情報の出所、取材方法、取材先との関係を隠しません。この方針は、私たちが記事をつくるときの約束です。</p>
+    <div class="policy-layout">
+      <nav class="policy-toc" aria-label="このページの目次">
+        <p>CONTENTS</p>
+        <a href="#sec-1">1. 現地取材を基本とする</a>
+        <a href="#sec-2">2. 事実・現地での印象・評価を分ける</a>
+        <a href="#sec-3">3. すべての記事に取材情報を表示する</a>
+        <a href="#sec-4">4. 独立性を守る</a>
+        <a href="#sec-5">5. 言葉を選ぶ</a>
+        <a href="#sec-6">6. AIの扱い</a>
+        <a href="#sec-7">7. 更新し続ける</a>
+        <img class="policy-toc__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+      </nav>
+      <div class="policy-body prose">
+        <p>イバトコは、茨城で出会った人の言葉や仕事を、あとから確かめられる形で記録します。情報の出所、取材方法、取材先との関係を隠しません。この方針は、私たちが記事をつくるときの約束です。</p>
 
-      <h2>1. 現地取材を基本とする</h2>
-      <p>私たちは、可能な限り現地へ足を運び、人に会い、自分の目で確かめたことをもとに書きます。現地取材を行っていない記事は、その旨と情報の出所を明記します。</p>
+        <h2 id="sec-1">1. 現地取材を基本とする</h2>
+        <p>私たちは、可能な限り現地へ足を運び、人に会い、自分の目で確かめたことをもとに書きます。現地取材を行っていない記事は、その旨と情報の出所を明記します。</p>
 
-      <h2>2. 事実・現地での印象・評価を分ける</h2>
-      <p>次の3つを区別して表示します。混同させません。</p>
-      <ul>
-        <li><strong>事実（公式情報）</strong>：営業時間・価格・住所など、確認できる情報。</li>
-        <li><strong>現地での印象</strong>：編集部が実際に体験して受け取った主観。「編集部の観察」として示します。</li>
-        <li><strong>評価</strong>：良し悪しの判断。述べる場合は、その根拠もあわせて示します。</li>
-      </ul>
-      <p>印象や評価を、事実であるかのようには書きません。</p>
+        <h2 id="sec-2">2. 事実・現地での印象・評価を分ける</h2>
+        <p>次の3つを区別して表示します。混同させません。</p>
+        <ul>
+          <li><strong>事実（公式情報）</strong>：営業時間・価格・住所など、確認できる情報。</li>
+          <li><strong>現地での印象</strong>：編集部が実際に体験して受け取った主観。「編集部の観察」として示します。</li>
+          <li><strong>評価</strong>：良し悪しの判断。述べる場合は、その根拠もあわせて示します。</li>
+        </ul>
+        <p>印象や評価を、事実であるかのようには書きません。</p>
 
-      <h2>3. すべての記事に取材情報を表示する</h2>
-      <p>各記事には次を表示します。</p>
-      <ul>
-        <li>区分（<a href="/about/pr-policy/" class="ul-link">Editorial / Partner / PR</a>）</li>
-        <li>取材日・公開日・最終更新日</li>
-        <li>取材・執筆・撮影・編集の担当</li>
-        <li>現地取材の有無</li>
-        <li>情報提供・費用負担・招待の有無</li>
-        <li><a href="/about/corrections/" class="ul-link">訂正申請の窓口と更新履歴</a></li>
-      </ul>
+        <h2 id="sec-3">3. すべての記事に取材情報を表示する</h2>
+        <p>各記事には次を表示します。</p>
+        <ul>
+          <li>区分（<a href="/about/pr-policy/" class="ul-link">Editorial / Partner / PR</a>）</li>
+          <li>取材日・公開日・最終更新日</li>
+          <li>取材・執筆・撮影・編集の担当</li>
+          <li>現地取材の有無</li>
+          <li>情報提供・費用負担・招待の有無</li>
+          <li><a href="/about/corrections/" class="ul-link">訂正申請の窓口と更新履歴</a></li>
+        </ul>
 
-      <h2>4. 独立性を守る</h2>
-      <p>広告や支援関係の有無によって、事実の順位や評価を変えません。有料の関係があっても、それを編集記事の推薦と混同させません（詳細は <a href="/about/pr-policy/" class="ul-link">PR・広告の方針</a>）。</p>
+        <h2 id="sec-4">4. 独立性を守る</h2>
+        <p>広告や支援関係の有無によって、事実の順位や評価を変えません。有料の関係があっても、それを編集記事の推薦と混同させません（詳細は <a href="/about/pr-policy/" class="ul-link">PR・広告の方針</a>）。</p>
 
-      <h2>5. 言葉を選ぶ</h2>
-      <p>「絶対」「最高」「知らないと損」といった立証の難しい表現や、対立をあおる言い回しは避けます。誰が・いつ・どのように確認したかがわかる言葉で書きます。</p>
+        <h2 id="sec-5">5. 言葉を選ぶ</h2>
+        <p>「絶対」「最高」「知らないと損」といった立証の難しい表現や、対立をあおる言い回しは避けます。誰が・いつ・どのように確認したかがわかる言葉で書きます。</p>
 
-      <h2>6. AIの扱い</h2>
-      <p>取材・執筆の補助にツールを用いることはありますが、現地で確かめていない事実を生成物で埋めることはしません。写真は実在するものを用い、AI生成画像を実写のように扱いません。<strong>AIを補助に用いた場合も、公開した内容の最終的な責任は編集部が負います。</strong></p>
+        <h2 id="sec-6">6. AIの扱い</h2>
+        <p>取材・執筆の補助にツールを用いることはありますが、現地で確かめていない事実を生成物で埋めることはしません。写真は実在するものを用い、AI生成画像を実写のように扱いません。<strong>AIを補助に用いた場合も、公開した内容の最終的な責任は編集部が負います。</strong></p>
 
-      <h2>7. 更新し続ける</h2>
-      <p>地域の情報は変わります。古くなった記述は更新し、重要な変更は<a href="/about/corrections/" class="ul-link">更新履歴</a>に残します。</p>
+        <h2 id="sec-7">7. 更新し続ける</h2>
+        <p>地域の情報は変わります。古くなった記述は更新し、重要な変更は<a href="/about/corrections/" class="ul-link">更新履歴</a>に残します。</p>
 
-      <p class="policy-foot muted">ご意見・お問い合わせは <a href="/contact/" class="ul-link">お問い合わせ</a> からお願いします。</p>
+        <p class="policy-foot muted">ご意見・お問い合わせは <a href="/contact/" class="ul-link">お問い合わせ</a> からお願いします。</p>
+      </div>
     </div>
   </section>
 </BrandBase>
