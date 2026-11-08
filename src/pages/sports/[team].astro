@@ -189,11 +189,13 @@ const jsonLd = [
   description={pageDescription}
   jsonLd={jsonLd}
 >
-  <header class="tm-head v42-hero bp-wrap">
+  <header class="tm-head v42-hero v42-hub-label bp-wrap">
     <Breadcrumbs items={crumbs} />
     <img class="v42-hero__art" src="/images/v42/matchday-supporters.webp" alt="" width="520" height="347" decoding="async" />
     <p class="bp-kicker">{team.sport}</p>
     <h1 style={`--fit-len:${fitLength(team.name)}`}>{team.name}</h1>
+    {/* 提出版（sports-club）の表紙。H1 のクラブ名は小さなラベルにし、全クラブ共通の表示コピーを大きく置く（成績・日程などの事実は足さない） */}
+    <p class="v42-display">応援の前後も、<br />街を歩こう。</p>
     <p>{team.summary}</p>
     {team.slug === 'mito-hollyhock' && <p>ホーム観戦の前に、<a href="/news/mito-hollyhock-new-stadium-access/">水戸信用金庫スタジアムのアクセス・駐車場・最寄り駅</a>をご確認ください。</p>}
     {(team.league || team.venue) && (
@@ -365,6 +367,8 @@ const jsonLd = [
   /* 上下の余白と全幅の背景は interior.css の見出しバンドが持つ */
   .tm-head h1{margin-top:.8rem;font:600 clamp(2.2rem,5vw,3.6rem)/1.25 var(--font-brand-display);color:var(--color-ink)}
   .tm-head>p{max-width:var(--measure);margin-top:1.3rem;line-height:2;color:var(--color-soil)}
+  /* 表紙の表示コピーは段落の色・行間を受けず、共通の .v42-display の字級のまま */
+  .tm-head>p.v42-display{max-width:none;margin-top:.5rem;line-height:1.43;color:var(--v42-ink)}
   .tm-facts{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;margin:1.6rem 0 0}
   .tm-facts div{display:grid;gap:.15rem}
   .tm-facts dt{font:700 .66rem var(--font-brand-meta);letter-spacing:.12em;color:var(--color-tide)}

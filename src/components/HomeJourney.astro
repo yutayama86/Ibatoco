@@ -450,8 +450,9 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
   display:block;
 }
 .trip37-small figcaption {
-  font-size:9px;
+  font-size:11px;
   line-height:1.6;
+  text-wrap:balance;
   padding:7px 3px;
   color:#7b856a;
 }
@@ -587,6 +588,7 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
 }
 .pet-cafes37 h3 {
   font:600 24px/1.5 var(--font-brand-display);
+  word-break:auto-phrase;
   margin:9px 0;
 }
 .pet-cafe-kicker {
@@ -748,7 +750,7 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
 }
 @media (max-width:760px) {
 .trip37-small figcaption {
-  font-size:8px;
+  font-size:11px;
 }
 }
 @media (max-width:760px) {
@@ -1166,6 +1168,8 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
 }
 .flower38-card h3 {
   font:600 17px/1.6 var(--font-brand-display);
+  word-break:auto-phrase;
+  text-wrap:pretty;
   margin:0 0 9px;
   min-height:54px;
   color:#29464b;
@@ -2533,5 +2537,12 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
 .flower38-note,
 .pets38 .pet-note {
   font-size:11px;
+}
+/* タブレット幅で施設名の最後の1文字だけが次の行に落ちないように */
+@media (min-width: 761px) and (max-width: 1000px) {
+  .flower38-card h3,
+  .pet-facility-list h3 {
+    font-size:16px;
+  }
 }
 </style>
