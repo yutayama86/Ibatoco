@@ -37,6 +37,31 @@
         "docs/design/v42-screenshots/pc-top-fidelity.jpg",
         "docs/design/v42-screenshots/sp-top-fidelity.jpg"
       ]
+    },
+    {
+      "id": "20261108-v42-home-journey-523",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 523,
+      "path": "/",
+      "baseSha": "f537bb4f5b870995e950910bc143a5a751aaa3c1",
+      "previousChangeId": "20261107-home-v42-fidelity",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-08",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが11月8日、提出v42デザインを正としてTOPを寄せ（信頼の要素は残す）、一次情報で確かめた中身を載せてマージ・本番公開まで進めることを個別承認した。今回のPRと確認済みソースだけに適用する。",
+      "restartChangeId": "20261108-home-v42-journey",
+      "sourceBlobs": {
+        "src/components/HomeJourney.astro": "1b4ba3358067bd87b25ecb74af89e8b1119c1e78",
+        "src/pages/index.astro": "e15b1cee27f5da7435ba613c9b045f5c562a23a9"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-home-journey-pc.jpg",
+        "docs/design/v42-screenshots/compare-home-flowers-sp.jpg"
+      ]
     }
   ]
 }

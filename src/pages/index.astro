@@ -7,6 +7,7 @@ import ThisWeek from '../components/ThisWeek.astro';
 import HomeNow from '../components/HomeNow.astro';
 import HomeEditorialProcess from '../components/HomeEditorialProcess.astro';
 import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
+import HomeJourney from '../components/HomeJourney.astro';
 import V42Icon from '../components/V42Icon.astro';
 import NewsCard from '../components/NewsCard.astro';
 import { getIndexableNews } from '../lib/content';
@@ -239,6 +240,9 @@ const matchdays = [
     {/* 人気記事と開催中の案内は残し、季節の特集・イベントの後へ。 */}
     <HomeNow variant="updates" />
 
+    {/* v42の花だより。公式の開花・開催情報を確かめた分だけ。期限を過ぎたカードは出さない */}
+    <HomeJourney section="flowers" />
+
     <section class="v42-theme" id="discover" data-module="home_discover" aria-labelledby="discover-title">
       <div class="v42-wrap">
         <header class="v42-head">
@@ -254,6 +258,8 @@ const matchdays = [
     </section>
 
     <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer /></div></section>
+
+    <HomeJourney section="trips" />
 
     <section class="food-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
       <div class="v42-wrap food-home__layout">
@@ -287,6 +293,8 @@ const matchdays = [
         <a class="v42-quiet-link" href="/news/">編集部のニュース解説を見る<span aria-hidden="true">&nbsp;↗</span></a>
       </div>
     </section>
+
+    <HomeJourney section="pets" />
 
     <section class="matchday" aria-labelledby="matchday-title" data-module="home_sports">
       <div class="v42-wrap matchday__inner">
@@ -353,6 +361,7 @@ const matchdays = [
         </div>
       </div>
     </section>
+
   </div>
 </BrandBase>
 
