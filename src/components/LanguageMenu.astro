@@ -106,13 +106,33 @@ const CURRENT_NOTE: Record<Locale, string> = {
     // 開閉は .is-open で持つ（他のドロップダウンと同じ）。
     // 閉じているあいだは visibility:hidden なので、タブ移動もスクリーンリーダーも
     // 中の項目に入らない。hidden属性のときと同じ扱いで、開閉に動きが付く。
+    let focusFrame: number | null = null;
+    const cancelPendingFocus = () => {
+      if (focusFrame !== null) cancelAnimationFrame(focusFrame);
+      focusFrame = null;
+    };
     const open = (focusIndex?: number) => {
+      cancelPendingFocus();
       list.classList.add('is-open');
       alignToViewport();
       trigger.setAttribute('aria-expanded', 'true');
-      if (focusIndex !== undefined) items()[focusIndex]?.focus();
+      // visibility の切り替えを描画へ反映してから移動する。最初の矢印キーでも項目へ入れる。
+      if (focusIndex !== undefined) {
+        const focusWhenVisible = () => {
+          focusFrame = null;
+          if (!list.classList.contains('is-open')) return;
+          // visibility の transition がまだ hidden のフレームでは focus() が無視される。
+          if (getComputedStyle(list).visibility !== 'visible') {
+            focusFrame = requestAnimationFrame(focusWhenVisible);
+            return;
+          }
+          items()[focusIndex]?.focus();
+        };
+        focusFrame = requestAnimationFrame(focusWhenVisible);
+      }
     };
     const close = (returnFocus = false) => {
+      cancelPendingFocus();
       list.classList.remove('is-open');
       trigger.setAttribute('aria-expanded', 'false');
       if (returnFocus) trigger.focus();
