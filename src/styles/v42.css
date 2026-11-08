@@ -234,6 +234,11 @@ body.interior-site.interior-site :is(.policy-body, .pv-body) h2 {
 body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) { padding-block: clamp(44px, 5vw, 72px); }
 body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) > .bp-wrap { padding-block: 0; }
 /* お問い合わせ：見出しを全幅で上に置き、フォームを左、連絡先と挿絵を右に（PC） */
+body.interior-site.route-contact .contact-aside { grid-area: aside; min-width: 0; }
+@media (max-width: 900px) {
+  body.interior-site.route-contact .contact.bp-wrap { grid-template-columns: minmax(0, 1fr); grid-template-areas: "crumbs" "intro" "form" "aside"; }
+  body.interior-site.route-contact .contact-aside .contact-mail { margin-top: 0; }
+}
 @media (min-width: 901px) {
   body.interior-site.route-contact .contact.bp-wrap {
     grid-template-columns: minmax(0, 1fr) minmax(200px, 270px);
@@ -243,6 +248,7 @@ body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) >
     column-gap: clamp(48px, 6vw, 96px);
   }
   body.interior-site.route-contact .contact-intro { display: contents; }
+  body.interior-site.route-contact .contact-aside { display: contents; }
   body.interior-site.route-contact .contact-intro > .bp-kicker { grid-area: kicker; margin-top: clamp(1.75rem, 3vw, 2.5rem); }
   body.interior-site.route-contact .contact-intro > h1 { grid-area: title; max-width: none; }
   body.interior-site.route-contact .contact-intro > h1 br { display: none; }
