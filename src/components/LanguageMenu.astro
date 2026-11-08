@@ -95,6 +95,7 @@ const CURRENT_NOTE: Record<Locale, string> = {
     // 狭い画面でボタンが左に寄ると、右端そろえの面が画面の左外へ出る（320〜340pxの英語TOPで約100px）。
     // はみ出すときだけ左端そろえにする。閉じている面も同じ位置に置き、画面外に残さない
     const alignToViewport = () => {
+      if (!trigger.getClientRects().length) return; // 非表示（メニューの中など）のあいだは測れないので触らない
       list.classList.remove('is-start');
       if (list.getBoundingClientRect().left < 8) list.classList.add('is-start');
     };
