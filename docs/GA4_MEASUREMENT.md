@@ -419,7 +419,7 @@ form_start 2 / **generate_lead 1**。イベント自体は届いている。
 
 `cta_location` と `cta_page_type` と `link_url` は登録済みのカスタムディメンションなので、追加の登録は要らない。
 
-TOPのかたまりの名前：`home_hero` → `home_now` → `home_this_week` → `home_origin` → `home_discover` → `home_area` → `home_news` → `home_process` → `home_partner`。
+TOPのかたまりの名前（2026-11-08 v42の並び）：`home_hero` → `home_now` → `home_november` → `home_this_week` → `home_popular` → `home_flowers` → `home_discover` → `home_intent` → `home_area` → `home_trips` → `home_hoshiimo` → `home_news` → `home_pets` → `home_sports` → `home_origin` → `home_process` → `home_partner`。`home_flowers` は花の掲載期限が切れると出ない。
 **どこまで読まれたか**は、`module_view` の件数を上から順に並べると分かる（TOPの閲覧数に対する割合）。
 
 サイト内検索は URL の `q` を使うので、GA4 の拡張計測（`view_search_results`）が検索語を記録する。
