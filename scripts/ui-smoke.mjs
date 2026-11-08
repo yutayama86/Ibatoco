@@ -369,7 +369,9 @@ async function checkLanguageMenuKeyboard() {
         if (await trigger.getAttribute('aria-expanded') !== 'false' || !leftMenu) throw new Error('Tabでメニューから自然に離脱しない');
         await trigger.click();
         if (await trigger.getAttribute('aria-expanded') !== 'true') throw new Error('ポインターで開かない');
-        await page.locator('h1').first().click();
+        // 英語の狭い画面では、開いた面がH1に重なる。面の下にある本文を外側クリックの対象にする。
+        const outside = target.path === '/en/' ? page.locator('.ih-lead p').last() : page.locator('main h1').first();
+        await outside.click();
         if (await trigger.getAttribute('aria-expanded') !== 'false') throw new Error('外側クリックで閉じない');
       } catch (error) {
         failures.push(`言語メニュー ${target.path}@${target.width}px：${String(error.message).split('\n')[0]}`);
