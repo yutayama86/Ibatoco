@@ -952,6 +952,8 @@
 .c-season a { border-bottom: 1px solid #b9a979; }
 .c-tips li { position: relative; padding-left: 1.2em; font-size: 14px; line-height: 1.9; }
 .c-tips li + li { margin-top: 10px; }
+.c-related-article { margin-top: 18px !important; padding-top: 14px; border-top: 1px solid #d9dccb; font-size: 14px; line-height: 1.9; }
+.c-related-article a { display: inline-flex; gap: .4em; margin-left: .3em; color: var(--v42-ink); border-bottom: 1px solid currentColor; }
 .c-tips li::before { content: ""; position: absolute; left: 0; top: .85em; width: 7px; height: 1px; background: var(--v42-gold); }
 .c-sources h3 { font: 600 15px/1.7 var(--font-brand-display); color: var(--v42-ink); margin-bottom: 8px !important; }
 .c-sources li { font-size: 13px; line-height: 1.8; }

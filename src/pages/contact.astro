@@ -32,7 +32,16 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
       <div class="field"><label for="email">メールアドレス <small>必須</small></label><input id="email" name="email" type="email" required autocomplete="email" /></div>
       <div class="field"><label for="tel">電話番号 <small class="is-optional">任意</small></label><input id="tel" name="tel" type="tel" autocomplete="tel" /></div>
       <div class="field field--wide"><label for="message">お問い合わせ内容 <small>必須</small></label><textarea id="message" name="message" rows="7" required></textarea></div>
-      <div class="contact-form__actions"><button type="submit"><span>内容を送信する</span><span aria-hidden="true">→</span></button><p class="privacy">送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p></div><p class="form-status" data-status role="status" aria-live="polite" hidden></p>
+      <div class="contact-form__actions"><button type="button" data-review-open><span>入力内容を確認する</span><span aria-hidden="true">→</span></button><p class="privacy">送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p></div>
+      {/* 確認画面（v42 contact-confirm）。送信は従来どおり submitForm（lib/forms.ts）。ここは送る前に見せるだけ */}
+      <div class="contact-review" data-review hidden>
+        <p class="bp-kicker">REVIEW YOUR MESSAGE</p>
+        <h2 tabindex="-1" data-review-title>この内容で、<br />よろしいですか。</h2>
+        <p class="contact-review__lead">送信前に、ご記入いただいた内容をご確認ください。</p>
+        <dl data-review-list></dl>
+        <div class="contact-review__actions"><button type="button" class="is-light" data-review-back><span>入力画面へ戻る</span></button><button type="submit"><span>この内容で送信する</span><span aria-hidden="true">→</span></button></div>
+      </div>
+      <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
     </form>
   </section>
 </BrandBase>
@@ -41,9 +50,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
   .contact>:global(.crumbs){grid-area:crumbs;margin:0}.contact-intro{grid-area:intro;padding-top:.35rem}.contact-intro h1{max-width:11em;margin-top:1rem;font:600 clamp(2.05rem,2.75vw,2.85rem)/1.35 var(--font-brand-display);letter-spacing:.01em;color:var(--color-ink)}.contact-intro h1 span{white-space:nowrap}.contact-intro>p:not(.bp-kicker){max-width:var(--measure);margin-top:1.35rem;line-height:1.95;color:var(--color-soil)}
   .contact-mail{display:grid;gap:.35rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--color-mist)}.contact-mail span{font:700 .62rem var(--font-brand-meta);letter-spacing:.16em;color:var(--color-tide)}.contact-mail a{width:max-content;max-width:100%;padding-bottom:.12rem;border-bottom:1px solid var(--color-tide);color:var(--color-ink);font-weight:600}
   .contact-form{grid-area:form;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 1.15rem}.contact-form__head{grid-column:1/-1;padding-bottom:.4rem}.contact-form__head h2{max-width:16em;margin-top:.65rem;font:600 clamp(1.55rem,2.2vw,2rem)/1.45 var(--font-brand-display);color:var(--color-ink)}.contact-form__head>p:last-child{margin-top:.55rem;color:var(--color-soil);font-size:.8rem}.field{display:grid;gap:.5rem}.field:first-of-type,.field:nth-of-type(2),.field--wide{grid-column:1/-1}label{display:flex;align-items:center;gap:.55rem;font-size:.78rem;font-weight:700;color:var(--color-ink)}label small{padding:.12rem .42rem;border-radius:999px;background:color-mix(in srgb,var(--color-tide) 10%,var(--color-white));color:var(--color-tide);font-size:.6rem;letter-spacing:.05em}label small.is-optional{background:var(--color-paper);color:var(--color-soil)}input,select,textarea{width:100%;padding:.9rem 0;border:0;border-bottom:1px solid var(--color-mist);border-radius:0;background:transparent;color:var(--color-ink);font:inherit}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--color-tide);box-shadow:0 2px 0 var(--color-tide)}textarea{resize:vertical}.contact-form__actions{grid-column:1/-1;display:flex;align-items:center;gap:1.25rem;margin-top:.25rem}.contact-form button{display:inline-flex;align-items:center;justify-content:space-between;gap:2rem;min-width:13.5rem;min-height:3.25rem;padding:.72rem 1.25rem;border:1px solid var(--color-tide);border-radius:999px;background:var(--color-tide);color:#fff;font:700 .9rem var(--font-brand-body);cursor:pointer}.privacy{color:var(--color-soil);font-size:.7rem;line-height:1.7}.privacy a{border-bottom:1px solid}.form-status{grid-column:1/-1}.honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .contact-review{grid-column:1/-1;padding:clamp(1.25rem,3vw,1.75rem);background:#fffdf5;border:1px solid var(--color-mist)}.contact-review h2{margin-top:.6rem;font:600 clamp(1.45rem,2.2vw,1.9rem)/1.5 var(--font-brand-display);color:var(--color-ink);outline:0}.contact-review__lead{margin-top:.5rem;color:var(--color-soil);font-size:.82rem}
+  .contact-review dl{display:grid;margin-top:1.2rem;border-top:1px solid var(--color-mist)}.contact-review dl>:global(div){display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--color-mist)}.contact-review :global(dt){font-size:.78rem;font-weight:700;color:var(--color-ink)}.contact-review :global(dd){margin:0;color:var(--color-ink);font-size:.9rem;line-height:1.85;white-space:pre-wrap;overflow-wrap:break-word}
+  .contact-review__actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.4rem}/* interior.css が .contact-form button の文字色を !important で白にするため、戻るボタンだけ上書き */
+  .contact-form .contact-review button.is-light{min-width:0;background:transparent!important;color:var(--color-tide)!important}
+  .contact-form.is-reviewing>:is(.contact-form__head,.field,.contact-form__actions){display:none}
+  @media(max-width:640px){.contact-review dl>:global(div){grid-template-columns:minmax(0,1fr);gap:.2rem}.contact-review__actions{flex-direction:column-reverse}.contact-review__actions button{width:100%}}
   @media(max-width:900px){.contact{grid-template-columns:minmax(0,1fr);grid-template-areas:"crumbs" "intro" "form";gap:2rem}.contact-intro>p:not(.bp-kicker){max-width:var(--measure)}}
   @media(max-width:640px){.contact-form{grid-template-columns:minmax(0,1fr)}.field{grid-column:1!important}.contact-form__actions{align-items:stretch;flex-direction:column}.contact-form button{width:100%}}
   @media(max-width:360px){.contact-intro h1{font-size:1.9rem;line-height:1.4}}
+  /* 「話を聞くところから、」は折り返さない指定なので、320px幅では少し小さく */
+  @media(max-width:340px){.contact-intro h1{font-size:1.72rem}}
 </style>
 <script>
   import { submitForm } from '../lib/forms';
@@ -52,5 +69,17 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
   if(subject&&select){let option=Array.from(select.options).find((item)=>item.value===subject||item.textContent?.trim()===subject);if(!option){option=new Option(subject,subject);select.add(option,1)}select.value=option.value;const detail=params.get('detail');const message=document.getElementById('message') as HTMLTextAreaElement|null;if(detail&&message&&!message.value)message.value=detail}
   // フォーム到達と入力開始。送信完了（generate_lead）とは別のイベントで、キーイベントにはしない
   if(form){const origin=readCtaOrigin();const inquiry=()=>(form.elements.namedItem('inquiry_type') as HTMLSelectElement|null)?.value||'';trackEvent('contact_form_view',{form_id:'contact',form_subject:inquiry(),...(origin??{})});form.addEventListener('focusin',()=>{trackEvent('contact_form_start',{form_id:'contact',form_subject:inquiry(),...(origin??{})})},{once:true})}
+  // 確認画面：入力画面では送らずに内容を見せ、確認画面の「この内容で送信する」だけで送る
+  if(form){
+    const review=form.querySelector<HTMLElement>('[data-review]');const list=form.querySelector<HTMLElement>('[data-review-list]');const back=form.querySelector<HTMLButtonElement>('[data-review-back]');const send=form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const rows:[string,string][]=[['inquiry_type','ご用件'],['name','お名前 / 店舗・企業名'],['email','メールアドレス'],['tel','電話番号'],['message','お問い合わせ内容']];
+    const open=()=>{if(!form.reportValidity()||!review||!list)return;list.replaceChildren(...rows.map(([key,label])=>{const field=form.elements.namedItem(key) as HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement|null;const value=field instanceof HTMLSelectElement?(field.selectedOptions[0]?.textContent?.trim()||''):(field?.value||'').trim();const row=document.createElement('div');const dt=document.createElement('dt');dt.textContent=label;const dd=document.createElement('dd');dd.textContent=value||'（未入力）';row.append(dt,dd);return row}));form.classList.add('is-reviewing');review.hidden=false;form.querySelector<HTMLElement>('[data-review-title]')?.focus();review.scrollIntoView({block:'start'})};
+    const close=()=>{form.classList.remove('is-reviewing');if(review)review.hidden=true;(form.elements.namedItem('inquiry_type') as HTMLElement|null)?.focus()};
+    form.querySelector('[data-review-open]')?.addEventListener('click',open);back?.addEventListener('click',close);
+    // 入力画面でEnterを押したときの暗黙の送信は、送らずに確認画面へ
+    form.addEventListener('submit',(e)=>{if(!form.classList.contains('is-reviewing')){e.preventDefault();e.stopImmediatePropagation();open()}else if(back){back.disabled=true}});
+    // 送信が失敗して送信ボタンが戻ったら、戻るボタンも戻す。成功したら戻るボタンは隠す
+    if(send&&back)new MutationObserver(()=>{if(send.style.display==='none')back.hidden=true;else if(!send.disabled)back.disabled=false}).observe(send,{attributes:true,attributeFilter:['disabled','style']});
+  }
   if(form){form.addEventListener('submit',()=>{const type=(form.elements.namedItem('inquiry_type') as HTMLSelectElement|null)?.value||'お問い合わせ';const name=((form.elements.namedItem('name') as HTMLInputElement|null)?.value||'').trim();const field=form.querySelector<HTMLInputElement>('input[name="_subject"]');if(field)field.value=name?`【${type}】${name}`:`【${type}】お問い合わせ`});submitForm(form,{successText:'お問い合わせを受け付けました。内容を確認してご連絡します。',conversionId:'contact'})}
 </script>

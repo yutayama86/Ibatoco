@@ -5,9 +5,18 @@ import { breadcrumbJsonLd } from '../../lib/seo';
 import NewsCard from '../../components/NewsCard.astro';
 import { getNews } from '../../lib/content';
 import NewsCategoryNav from '../../components/NewsCategoryNav.astro';
+import { MUNI_BY_SLUG } from '../../data/areas';
 
 const news = await getNews();
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュース解説' }];
+// 「気になる街から、読む。」：解説記事の多い市町村から12。街のページにその街のニュース解説が並ぶ
+const townCounts = new Map<string, number>();
+for (const item of news) for (const slug of new Set(item.data.municipalities ?? [])) townCounts.set(slug, (townCounts.get(slug) ?? 0) + 1);
+const towns = [...townCounts]
+  .filter(([slug, count]) => count >= 2 && MUNI_BY_SLUG.has(slug))
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 12)
+  .map(([slug]) => ({ slug, name: MUNI_BY_SLUG.get(slug)!.name }));
 
 ---
 
@@ -40,6 +49,20 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
       ? <div class="news-grid">{news.map((item, index) => <NewsCard item={item} featured={index === 0} />)}</div>
       : <p class="news-empty">公開準備中です。確認を終えたニュースから掲載します。</p>}
   </section>
+
+  {towns.length > 0 && (
+    <section class="news-towns" aria-labelledby="news-towns-title">
+      <div class="bp-wrap">
+        <p class="news-towns__kicker">LOCAL NEWS</p>
+        <h2 id="news-towns-title">気になる街から、読む。</h2>
+        <p class="news-towns__lead">解説記事の多い街から。街のページで、その街の解説記事とイベントをまとめて読めます。</p>
+        <div class="news-towns__links">
+          {towns.map((town) => <a href={`/area/${town.slug}/`}>{town.name}<span aria-hidden="true">→</span></a>)}
+        </div>
+        <p class="news-towns__more"><a href="/area/">44市町村から探す →</a></p>
+      </div>
+    </section>
+  )}
 </BrandBase>
 
 <style>
@@ -51,5 +74,8 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城ニュ
   .news-index__section-head h2{margin:0;font-size:1.3rem}
   .news-index__discover{padding-block:1.25rem .75rem}.news-index__discover>p{margin:0 0 .65rem;font-size:.8rem;font-weight:700;color:var(--color-soil)}.news-index__discover-links{display:flex;flex-wrap:wrap;gap:.6rem}.news-index__discover-links a{display:inline-flex;align-items:center;justify-content:space-between;gap:.7rem;min-height:44px;padding:.65rem .85rem;border:1px solid var(--color-line);border-radius:4px;background:var(--color-white);font-size:.9rem;font-weight:700;color:var(--color-ink);text-decoration:none}.news-index__discover-links a:hover{border-color:var(--color-tide)}.news-index__discover-links a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   @media(max-width:600px){.news-index__discover-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.news-index__discover-links a{min-width:0}}
+  .news-towns{margin-top:clamp(3rem,6vw,4.5rem);padding-block:clamp(2.6rem,5vw,3.2rem);background:#eef2e5}.news-towns__kicker{font-size:11px;letter-spacing:.14em;color:#6f7d5f;font-weight:500}.news-towns h2{margin-top:.4rem;font:600 clamp(1.5rem,2.6vw,1.95rem)/1.65 var(--font-brand-display);letter-spacing:.04em;color:var(--color-ink)}.news-towns__lead{margin-top:.4rem;font-size:13px;line-height:1.9;color:#5f6f55}
+  .news-towns__links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px;margin-top:1.4rem}.news-towns__links a{display:flex;justify-content:space-between;align-items:center;gap:.8rem;min-height:48px;padding-block:12px;border-bottom:1px solid #d4ddc6;font-size:14px;color:#3f5a3b;text-decoration:none}.news-towns__more{margin-top:1.2rem;font-size:13px}.news-towns__more a{border-bottom:1px solid currentColor;color:var(--color-ink)}.news-towns__links a:hover{color:var(--color-tide)}.news-towns__links a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  @media(max-width:760px){.news-towns__links{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}}
   @media(max-width:900px){.news-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:600px){.news-index__head{padding-top:2rem}}
 </style>
