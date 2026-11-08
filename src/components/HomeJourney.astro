@@ -49,6 +49,7 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
           ))}
         </div>
         <p class="flower38-note">公式発表を確認した時点の情報です。見頃や開花状況は天候等で変わります。お出かけ前に各施設の最新案内をご確認ください。</p>
+        <a class="quiet-link home-more" href="/hana/now/">いま見頃の花をすべて見る <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -131,6 +132,7 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
         ))}
       </div>
       <p class="pet-note">{pets.checked}。種類・サイズ・入場条件・利用できる範囲は施設ごとに異なります。おでかけ前に各施設の案内をご確認ください。掲載は編集部の選定で、広告ではありません。</p>
+      <a class="quiet-link home-more" href="/pet/">同伴条件をまとめて見る <span aria-hidden="true">→</span></a>
     </div>
   </section>
 )}
@@ -140,6 +142,9 @@ const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FAC
   .print-label{font-size:13px;font-weight:700;letter-spacing:.1em}
   .quiet-link{display:inline-flex;align-items:center;gap:18px;min-height:44px;color:#284d57;font-size:13px;border-bottom:1px solid #b5bfb5}
   .quiet-link:focus-visible{outline-offset:4px}
+  .home-more{margin-top:20px}
+  /* 花の区画は下に丘の絵が敷かれるので、読めるよう地の色を敷く */
+  .flower38 .home-more{position:relative;padding:0 18px;background:#fbf9f0;border:1px solid #cdd3c4;border-radius:999px}
   .sp-only{display:none}
   .trip37-credit{margin-top:14px;color:#6f7a68;font-size:11px;line-height:1.8}
   .trip37-credit a{text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
