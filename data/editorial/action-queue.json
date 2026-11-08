@@ -1,7 +1,32 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-08",
   "actions": [
+    {
+      "id": "20261108-oarai-ankou-soup-time",
+      "title": "大洗あんこう祭記事：あんこう汁販売時刻を最新公式案内へ訂正",
+      "kind": "update",
+      "targetUrl": "/events/oarai-ankou-matsuri-2026/",
+      "targetFile": "src/content/events/oarai-ankou-matsuri-2026.md",
+      "status": "in-progress",
+      "priority": "high",
+      "createdAt": "2026-11-08",
+      "dueDate": "2026-11-08",
+      "confidence": "high",
+      "effort": "S",
+      "source": "大洗観光協会 2026年11月8日再確認",
+      "reason": "本番記事の11:30販売に対し、最新公式案内は11:00販売・10:00整理券配布。開催1週間前の行動判断に直接影響するため事実訂正する。検索需要実測から増分を再現できないためexpectedPvImpactは設定しない。",
+      "primarySourceUrls": [
+        "https://www.oarai-info.jp/news/postid_8902/"
+      ],
+      "acceptanceCriteria": [
+        "summary・keyPoints・highlights・FAQの販売開始が11:00、整理券配布が10:00で一致する",
+        "title・description・URL・canonical・料金・交通規制・駐車場の未確認表現は変更しない",
+        "event-registryのverifiedAtとarticleUpdatedAtが2026-11-08に整合する",
+        "CI成功後もオーナーの対象PR明示承認まではマージしない"
+      ],
+      "observationException": "fact — 最新公式案内との時刻不一致は開催前の読者行動に影響するため訂正"
+    },
     {
       "id": "20261102-ibaraki-shirasu-fair",
       "title": "秋のしらすフェア（11月1〜30日・県内40店超）の掲載判断",
