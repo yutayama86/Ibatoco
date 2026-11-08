@@ -318,6 +318,71 @@ async function eventContext() {
 }
 const countEvents = (list, name) => list.filter((n) => n === name).length;
 
+// 初回の矢印キーを含めて、非表示→表示の切替とフォーカスが一緒に動くことを確認する。
+async function checkLanguageMenuKeyboard() {
+  const context = await eventContext();
+  const cases = [{ path: '/en/', width: 320 }, { path: '/en/', width: 340 }, { path: '/', width: 1440 }];
+  try {
+    for (const target of cases) {
+      const page = await context.newPage();
+      try {
+        await page.setViewportSize({ width: target.width, height: 900 });
+        await page.goto(`${ORIGIN}${target.path}`, { waitUntil: 'load', timeout: 30000 });
+        const trigger = page.locator('[data-lang-trigger]:visible').first();
+        const id = await trigger.getAttribute('aria-controls');
+        if (!id) throw new Error('メニューの参照先がない');
+        const waitForItem = (index) => page.waitForFunction(({ id, index }) => {
+          const list = document.getElementById(id);
+          const items = list?.querySelectorAll('a[role="menuitem"]');
+          return document.activeElement === items?.[index < 0 ? items.length - 1 : index];
+        }, { id, index }, { timeout: 3000 });
+        const escaped = async () => {
+          await page.keyboard.press('Escape');
+          if (await trigger.getAttribute('aria-expanded') !== 'false' || !(await trigger.evaluate((el) => el === document.activeElement))) throw new Error('Escで閉じてボタンへ戻らない');
+        };
+        await trigger.focus();
+        await trigger.press('ArrowDown');
+        await waitForItem(0);
+        await page.keyboard.press('ArrowDown');
+        await waitForItem(1);
+        await page.keyboard.press('Home');
+        await waitForItem(0);
+        await page.keyboard.press('End');
+        await waitForItem(-1);
+        await escaped();
+        await trigger.press('ArrowUp');
+        await waitForItem(-1);
+        await escaped();
+        for (const key of ['Enter', 'Space']) {
+          await trigger.press(key);
+          await waitForItem(0);
+          await escaped();
+        }
+        await trigger.press('ArrowDown');
+        await waitForItem(0);
+        await page.keyboard.press('Shift+Tab');
+        if (await trigger.getAttribute('aria-expanded') !== 'false' || !(await trigger.evaluate((el) => el === document.activeElement))) throw new Error('Shift+Tabでボタンへ戻らない');
+        await trigger.press('ArrowDown');
+        await waitForItem(0);
+        await page.keyboard.press('Tab');
+        const leftMenu = await page.evaluate((id) => document.activeElement !== document.body && !document.getElementById(id)?.contains(document.activeElement), id);
+        if (await trigger.getAttribute('aria-expanded') !== 'false' || !leftMenu) throw new Error('Tabでメニューから自然に離脱しない');
+        await trigger.click();
+        if (await trigger.getAttribute('aria-expanded') !== 'true') throw new Error('ポインターで開かない');
+        await page.locator('h1').first().click();
+        if (await trigger.getAttribute('aria-expanded') !== 'false') throw new Error('外側クリックで閉じない');
+      } catch (error) {
+        failures.push(`言語メニュー ${target.path}@${target.width}px：${String(error.message).split('\n')[0]}`);
+      } finally {
+        await page.close();
+      }
+    }
+    notes.push('言語メニュー：初回↓/↑、項目移動、Esc、Enter/Space、Tab/Shift+Tab、ポインター（英語320/340px・日本語1440px）を検査');
+  } finally {
+    await context.close();
+  }
+}
+
 async function checkBookingEvents() {
   const context = await eventContext();
   const count = countEvents;
@@ -409,6 +474,7 @@ try {
   if (PRODUCTION) await checkAnalyticsPath();
   await checkBookingEvents();
   await checkGuideCtaEvents();
+  if (!PRODUCTION) await checkLanguageMenuKeyboard();
   notes.push(`先読み：検査のブラウザでは止めている（データセーバー扱い）。全画面で link[rel=prefetch] ${prefetchLinks} 件${prefetchLinks ? '（0 件であること。Worker の無料枠を検査が使う）' : ''}`);
   if (prefetchLinks) failures.push(`先読みが ${prefetchLinks} 件出た（検査のブラウザでは 0 件のはず。DISABLE_PREFETCH を確認）`);
 } finally {
