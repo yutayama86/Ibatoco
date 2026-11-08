@@ -130,6 +130,7 @@ sourceUrls:
     url: "https://www.city.kasama.lg.jp/page/page000122.html"
     accessedAt: 2026-11-03
 relatedArticleUrls:
+  - "/course/kasama/"
   - "/events/kasama-inari-jinja-guide/"
   - "/events/ibaraki-ceramic-art-museum-guide/"
   - "/events/kasama-geijutsu-no-mori-guide/"

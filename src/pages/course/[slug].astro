@@ -133,6 +133,9 @@ const jsonLd = [
           <ul class="c-tips">
             {course.tips.map((tip) => <li>{tip}</li>)}
           </ul>
+          {course.relatedArticle && (
+            <p class="c-related-article">{course.relatedArticle.text}<a href={course.relatedArticle.href}>{course.relatedArticle.label}<span aria-hidden="true">→</span></a></p>
+          )}
         </div>
         <div class="c-sources">
           <h3>確認した公式情報</h3>

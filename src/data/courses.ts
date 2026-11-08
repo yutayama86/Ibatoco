@@ -54,6 +54,8 @@ export interface Course {
   stops: CourseStop[];
   seasonal?: { text: string; showUntil: string; sourceLabel: string; sourceUrl: string }[];
   tips: string[];
+  /** 同じ街のイバトコの記事で、行程が違うもの（1日コースなど） */
+  relatedArticle?: { href: string; label: string; text: string };
   checkedAt: string;
   sources: { label: string; url: string }[];
 }
@@ -180,6 +182,7 @@ export const COURSES: Course[] = [
       'かさま観光周遊バスは2026年4月から、笠間駅発の周遊ルートと友部駅発の連絡ルートの2系統。運賃は1日乗車券のみで、平日300円、土日祝日と観光シーズンは500円です。時刻表は笠間市の案内で確かめてください。',
       '窯元やギャラリーは、定休日が店ごとに異なります。',
     ],
+    relatedArticle: { href: '/events/kasama-day-trip-model-course/', label: '笠間の日帰りモデルコースを読む', text: '茨城県陶芸美術館や笠間工芸の丘まで1日で回るなら、開館時間・料金・休館日をまとめた記事へ。' },
     checkedAt: CHECKED,
     sources: [
       { label: '笠間稲荷神社について｜笠間稲荷神社', url: 'https://www.kasama.or.jp/about/index.html' },

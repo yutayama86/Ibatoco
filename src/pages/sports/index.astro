@@ -15,6 +15,7 @@ import { MUNICIPALITIES } from '../../data/areas';
 import { getSportsNews, getSportsNewsByKeyword } from '../../lib/content';
 import { getTeamMatches } from '../../lib/sports';
 import { formatJapaneseDate } from '../../lib/date-only.js';
+import '../../styles/course.css';
 
 /** カードの1行。1市町村なら数ではなく市町村名を出す（「1市町村」は読みにくい） */
 const townLabel = (group: { label: string; slugs: string[] }) => {
@@ -44,6 +45,7 @@ const articles = [...tagged, ...legacy].filter((item) => {
 }).slice(0, 6);
 
 const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
+
 
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
@@ -130,6 +132,35 @@ const jsonLd = [
     <p class="sp-more"><a href="/news/">茨城ニュース解説をすべて見る →</a></p>
   </section>
 
+  <div class="p41-main sp-walk">
+    <section class="p41-section is-sage" aria-labelledby="sp-walk-title">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">MORE THAN A GAME</p>
+            <h2 id="sp-walk-title">試合のある街を、歩く。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          <a class="p41-card" href="/area/">
+            <figure><img src="/images/area/hitachi/station.jpg" alt="" width="1280" height="853" loading="lazy" decoding="async" /><span>実写</span></figure>
+            <p class="p41-kicker">AREA GUIDE</p>
+            <h3>観戦前に、街を知る。</h3>
+            <p>44市町村のガイドから、次の行き先へ。</p>
+            <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+          </a>
+          <a class="p41-card" href="/course/">
+            <figure><img src="/images/v42/v39-route-reporters.webp" alt="" width="360" height="540" loading="lazy" decoding="async" /><span>イメージイラスト</span></figure>
+            <p class="p41-kicker">MODEL COURSE</p>
+            <h3>帰り道も、ひとつの旅に。</h3>
+            <p>半日のモデルコースを探す。</p>
+            <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
   {matchCount === 0 && (
     <section class="sp-note bp-wrap bp-section">
       <p><strong>試合の日程と結果について。</strong>公式で確認できた情報だけを載せる方針のため、日程・結果・順位の掲載はまだ準備中です。確認が取れ次第、各チームのページへ追加します。</p>
@@ -138,6 +169,7 @@ const jsonLd = [
 </BrandBase>
 
 <style>
+  .sp-walk{margin-top:clamp(2rem,5vw,3rem)}
   /* 上下の余白と全幅の背景は interior.css の見出しバンドが持つ */
   .sp-head h1{margin-top:1rem;font:600 clamp(2.4rem,6vw,4.4rem)/1.25 var(--font-brand-display);color:var(--color-ink)}
   .sp-head>p:last-child{max-width:var(--measure);margin-top:1.6rem;line-height:2;color:var(--color-soil)}

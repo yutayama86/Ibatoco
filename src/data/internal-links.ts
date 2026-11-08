@@ -284,6 +284,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-airport-parking-access-guide/': '茨城空港の駐車場と行き方',
   '/events/ibasun-hall-ibaraki-machi-open-202609/': '茨城町「いばSUNホール」が開館',
   '/events/kasama-day-trip-model-course/': '笠間の日帰りモデルコース',
+  '/course/kasama/': '笠間の半日コース（笠間稲荷神社から芸術の森公園へ）',
   '/events/kasama-kanko-shuyu-bus-guide/': 'かさま観光周遊バスの乗り方・料金',
   '/events/kashima-itako-day-trip-model-course/': '鹿嶋・潮来の日帰りモデルコース',
   '/events/kawachi-christmas-illumination-2026/': 'かわちイルミネーション2026（2027年2月14日まで）',
