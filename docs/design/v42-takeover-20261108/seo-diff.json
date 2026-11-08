@@ -1,0 +1,1700 @@
+{
+  "fixedBuildTime": "2026-11-08T03:00:00.000Z",
+  "comparisons": [
+    {
+      "label": "main -> final integration",
+      "htmlCount": 824,
+      "changedPages": 101,
+      "fields": {
+        "links": 101,
+        "alt": 100
+      },
+      "static": {
+        "sitemap.xml": {
+          "present": true,
+          "same": true
+        },
+        "news-sitemap.xml": {
+          "present": true,
+          "same": true
+        },
+        "robots.txt": {
+          "present": true,
+          "same": true
+        },
+        "_headers": {
+          "present": true,
+          "same": true
+        },
+        "_redirects": {
+          "present": true,
+          "same": true
+        },
+        "rss.xml": {
+          "present": true,
+          "same": true
+        },
+        "llms.txt": {
+          "present": true,
+          "same": true
+        }
+      },
+      "changes": {
+        "/area/index.html": {
+          "links": {
+            "added": {},
+            "removed": {
+              "#": 1,
+              "#area-kenpoku": 1,
+              "#area-keno": 1,
+              "#area-kennan": 1,
+              "#area-rokko": 1,
+              "#area-kensei": 1
+            }
+          }
+        },
+        "/en/index.html": {
+          "links": {
+            "added": {
+              "https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg": 1,
+              "https://creativecommons.org/licenses/by-sa/4.0/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "Blue nemophila in bloom at Hitachi Seaside Park": 1
+            },
+            "removed": {}
+          }
+        },
+        "/index.html": {
+          "links": {
+            "added": {
+              "https://commons.wikimedia.org/wiki/File:Autumn_of_Fukuroda_Falls,_Daigo,_Ibaraki;_November_2016.jpg": 1,
+              "https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg": 1,
+              "https://commons.wikimedia.org/wiki/File:筑波山写真（秋1）.jpg": 1
+            },
+            "removed": {
+              "#": 1
+            }
+          },
+          "alt": {
+            "added": {
+              "": 1,
+              "紅葉の袋田の滝（大子町）": 1,
+              "大洗海岸から見る太平洋の日の出": 1,
+              "秋の筑波山": 1,
+              "湖と山並みを描いたイメージイラスト": 1,
+              "蔵の並ぶ古い町並みを描いたイメージイラスト": 1
+            },
+            "removed": {}
+          }
+        },
+        "/ko/index.html": {
+          "links": {
+            "added": {
+              "https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg": 1,
+              "https://creativecommons.org/licenses/by-sa/4.0/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "히타치 해변공원에 핀 네모필라": 1
+            },
+            "removed": {}
+          }
+        },
+        "/reserve/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 1
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ajigaura/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/akogigaura-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/amabiki-kannon/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ami-outlet/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/aquaworld-oarai/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/asahi-moriya/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/asahi-satoyama/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/asunaro-no-sato/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ayumisaki-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/expocenter/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/fukawa/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/fukuoka-zeki/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/fukuroda/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/gozenyama/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/granterrace/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hananuki/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hannyain/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hinuma/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hinuma-shizen/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hirakata-ko/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hitachi-seaside/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hitachi-station/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/hororu/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ibaraki-airport/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ibaraki-flowerpark/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/isobe-sakuragawa/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/itako-ayame/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/izura-rokkakudo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/jaxa-tsukuba/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kairakuen/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kamine-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kasama-geijutsu/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kasama-inari/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kasama-tsutsuji/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kashima-jingu/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kashima-stadium/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kashimanada-kaigan/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kasumigaura/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kasumigaura-aquarium/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kawachi-denen/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kijo-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kodokan/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/koga-kubo-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/koga-rekishi/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/kokaigawa-fureai/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/koumou-jinja/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/maekawa-junikyo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/makabe/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/michinoeki-goka/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/michinoeki-kawaplaza/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/michinoeki-sakai/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/miho-tc/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/minato-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/muramatsu-kokuzo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/nable-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/nakagawa/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/nakaminato-market/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/namegata-fv/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/nikkawahama/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/nishiyama-goten/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/oarai-isosaki/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/oarai-sunbeach/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/oiwa-jinja/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/okadaira/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/okukuji-onsen/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/oosugi-jinja/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/rinrin-road/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ryujin-ohtsuribashi/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ryujinkyo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/s-gallery/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/sanuma/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/senba-ko/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/shiki-no-sato/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/shimodate-museum/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/shizen-hakubutsukan/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/shizumine/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/solala/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/sosyagu/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/takado-kohama/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/tennozaki-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/toride-honjin/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/toride-ryokuchi/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/toyodajo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/tsukimachi-taki/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/tsukubasan/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/tsumugi-no-yakata/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ushiku-chateau/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ushiku-daibutsu/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/ushikunuma/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/wada-park/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/warp-station-edo/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/watarase/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/yachiyo-green/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/yokaren/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/spot/yuki-kura/index.html": {
+          "links": {
+            "added": {
+              "/food-library/": 1,
+              "/area/": 1,
+              "/course/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "": 2
+            },
+            "removed": {}
+          }
+        },
+        "/zh-tw/index.html": {
+          "links": {
+            "added": {
+              "https://commons.wikimedia.org/wiki/File:2025_Hitachi_Seaside_Park.jpg": 1,
+              "https://creativecommons.org/licenses/by-sa/4.0/": 1
+            },
+            "removed": {}
+          },
+          "alt": {
+            "added": {
+              "國營常陸海濱公園盛開的粉蝶花（Nemophila）": 1
+            },
+            "removed": {}
+          }
+        }
+      }
+    },
+    {
+      "label": "previous integration -> final integration",
+      "htmlCount": 824,
+      "changedPages": 0,
+      "fields": {},
+      "static": {
+        "sitemap.xml": {
+          "present": true,
+          "same": true
+        },
+        "news-sitemap.xml": {
+          "present": true,
+          "same": true
+        },
+        "robots.txt": {
+          "present": true,
+          "same": true
+        },
+        "_headers": {
+          "present": true,
+          "same": true
+        },
+        "_redirects": {
+          "present": true,
+          "same": true
+        },
+        "rss.xml": {
+          "present": true,
+          "same": true
+        },
+        "llms.txt": {
+          "present": true,
+          "same": true
+        }
+      },
+      "changes": {}
+    }
+  ]
+}

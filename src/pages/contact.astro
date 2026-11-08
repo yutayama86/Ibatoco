@@ -11,11 +11,6 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
       <p class="bp-kicker">CONTACT</p>
       <h1><span>話を聞くところから、</span><br />始めます。</h1>
       <p>取材、掲載、訂正、発信支援など、ご用件をお知らせください。内容を確認し、必要な担当からご連絡します。</p>
-      <div class="contact-mail">
-        <span>MAIL</span>
-        <a href={`mailto:${SITE_CONFIG.contactEmail}`}>{SITE_CONFIG.contactEmail}</a>
-      </div>
-      <img class="contact-intro__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
     </header>
     <form class="contact-form" method="POST" action={FORM_ENDPOINT||undefined} data-endpoint={FORM_ENDPOINT}>
       <header class="contact-form__head">
@@ -43,6 +38,13 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
       </div>
       <p class="form-status" data-status role="status" aria-live="polite" hidden></p>
     </form>
+    <aside class="contact-aside" aria-label="メールでのお問い合わせ">
+      <div class="contact-mail">
+        <span>MAIL</span>
+        <a href={`mailto:${SITE_CONFIG.contactEmail}`}>{SITE_CONFIG.contactEmail}</a>
+      </div>
+      <img class="contact-intro__art" src="/images/v42/field-walkers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+    </aside>
   </section>
 </BrandBase>
 <style>
