@@ -46,46 +46,65 @@ const jsonLd = [
   jsonLd={jsonLd}
   noindex={true}
 >
-  <header class="spot-head bp-wrap">
-    <Breadcrumbs items={crumbs} />
-    <p class="bp-kicker">DISCOVERY MINI GUIDE</p>
-    <h1 style={`--fit-len:${titleLen}`} data-long={Number(titleLen) > 11.2 ? '' : undefined}>{spot.title}</h1>
-    <p class="spot-head__area">{spot.regionLabel}・{spot.municipalityName}</p>
-    <p class="spot-head__lead">{spot.summary}</p>
+  <header class="spot-head v42-hero bp-wrap">
+    <div class="spot-head__text">
+      <Breadcrumbs items={crumbs} />
+      <p class="bp-kicker">DISCOVERY MINI GUIDE</p>
+      <h1 style={`--fit-len:${titleLen}`} data-long={Number(titleLen) > 11.2 ? '' : undefined}>{spot.title}</h1>
+      <p class="spot-head__area">{spot.regionLabel}・{spot.municipalityName}</p>
+      <p class="spot-head__lead">{spot.summary}</p>
+    </div>
+    <img class="v42-hero__art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" decoding="async" />
   </header>
 
+  {/* 提出版 spot.html：左に「行く前に確認できること」の手帳と近くの候補、右に注記カード（挿絵は装飾で、施設の写真ではない） */}
   <main class="spot-body bp-wrap">
-    <section class="spot-facts" aria-labelledby="spot-facts-title">
-      <div>
-        <p class="bp-kicker">BASIC INFO</p>
-        <h2 id="spot-facts-title">行く前に確認できること</h2>
+    <div class="spot-profile">
+      <div class="spot-profile__main">
+        <section class="spot-facts" aria-labelledby="spot-facts-title">
+          <p class="bp-kicker">BASIC INFO</p>
+          <h2 id="spot-facts-title">行く前に確認できること</h2>
+          <dl>
+            <div><dt>エリア</dt><dd><a href={`/area/${spot.municipality}/`}>{spot.municipalityName}</a></dd></div>
+            {spot.address && <div><dt>所在地</dt><dd>{spot.address}</dd></div>}
+            <div><dt>情報確認日</dt><dd>{spot.verifiedAt}</dd></div>
+            <div><dt>掲載根拠</dt><dd><a href={spot.sourceUrl} target="_blank" rel="noopener noreferrer">確認した一次情報 ↗</a></dd></div>
+          </dl>
+          {spot.officialUrl && (
+            <p class="spot-official"><a href={spot.officialUrl} target="_blank" rel="noopener noreferrer">公式サイトで最新情報を見る ↗</a></p>
+          )}
+        </section>
+
+        {nearby.length > 0 && (
+          <section class="spot-nearby">
+            <p class="bp-kicker">NEARBY</p>
+            <h2>{spot.municipalityName}で、ほかに見る</h2>
+            <ul>{nearby.map((item) => (
+              <li><a href={item.href}><strong>{item.title}</strong><span>{item.summary}</span></a></li>
+            ))}</ul>
+          </section>
+        )}
+
+        <p class="spot-back"><a href="/discover/">条件を変えて、行き先を探す →</a></p>
       </div>
-      <dl>
-        <div><dt>エリア</dt><dd><a href={`/area/${spot.municipality}/`}>{spot.municipalityName}</a></dd></div>
-        {spot.address && <div><dt>所在地</dt><dd>{spot.address}</dd></div>}
-        <div><dt>情報確認日</dt><dd>{spot.verifiedAt}</dd></div>
-        <div><dt>掲載根拠</dt><dd><a href={spot.sourceUrl} target="_blank" rel="noopener noreferrer">確認した一次情報 ↗</a></dd></div>
-      </dl>
-      {spot.officialUrl && (
-        <p class="spot-official"><a href={spot.officialUrl} target="_blank" rel="noopener noreferrer">公式サイトで最新情報を見る ↗</a></p>
-      )}
+
+      <aside class="spot-note" aria-label="ミニガイドについて">
+        <img src="/images/v42/field-reporters.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+        <p class="bp-kicker">MINI FIELD NOTE</p>
+        <p>このページは「行きたいところ検索」で候補を返すためのミニガイドです。営業時間・料金・休業日など変動しやすい情報は推測で埋めず、訪問前に公式情報をご確認ください。</p>
+        <p class="spot-note__caption">この挿絵は、施設の写真ではありません。</p>
+      </aside>
+    </div>
+
+    <section class="spot-more" aria-labelledby="spot-more-title">
+      <p class="bp-kicker">ONE MORE DISCOVERY</p>
+      <h2 id="spot-more-title">ここから、もうひと歩き。</h2>
+      <ul>
+        <li><a href="/area/">44市町村から探す<span aria-hidden="true">→</span></a></li>
+        <li><a href="/course/">モデルコースを読む<span aria-hidden="true">→</span></a></li>
+        <li><a href="/food-library/">おいしい図鑑をひらく<span aria-hidden="true">→</span></a></li>
+      </ul>
     </section>
-
-    <section class="spot-note">
-      <p>このページは「行きたいところ検索」で候補を返すためのミニガイドです。営業時間・料金・休業日など変動しやすい情報は推測で埋めず、訪問前に公式情報をご確認ください。</p>
-    </section>
-
-    {nearby.length > 0 && (
-      <section class="spot-nearby">
-        <p class="bp-kicker">NEARBY</p>
-        <h2>{spot.municipalityName}で、ほかに見る</h2>
-        <ul>{nearby.map((item) => (
-          <li><a href={item.href}><strong>{item.title}</strong><span>{item.summary}</span></a></li>
-        ))}</ul>
-      </section>
-    )}
-
-    <p class="spot-back"><a href="/discover/">条件を変えて、行き先を探す →</a></p>
   </main>
 </BrandBase>
 
@@ -97,24 +116,44 @@ const jsonLd = [
    * 最後の1文字だけ次の行に落ちていた（2026-10-05、320・360pxで8件）。名前の長さ（src/lib/text-fit.ts）に合わせて
    * 1行に収まる大きさまで下げる。下限でも入らない長い名前は字単位で折り、行の長さをそろえる。通常の大きさが上限（PCで短い名前は今までどおり）。
    */
-  .spot-head{container-type:inline-size}
+  .spot-head__text{container-type:inline-size}
   .spot-head h1{font-size:clamp(1.6rem,calc(100cqi / var(--fit-len,1)),clamp(2.5rem,7vw,5rem));text-wrap:balance}
   .spot-head h1[data-long]{word-break:normal;line-break:strict}
   .spot-head__area{margin:0;color:var(--color-tide);font-size:.84rem;font-weight:700}
   .spot-head__lead{max-width:46rem;margin:1.2rem 0 0;color:var(--color-soil);line-height:1.95}
-  .spot-body{display:grid;gap:2.2rem;padding-bottom:5rem}
-  .spot-facts{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:2rem;padding:1.6rem;border:1px solid var(--color-mist);border-radius:1rem;background:#fff}
-  .spot-facts h2{margin:.4rem 0 0;font:600 clamp(1.5rem,3vw,2.2rem)/1.35 var(--font-brand-display)}
-  .spot-facts dl{margin:0}.spot-facts dl>div{display:grid;grid-template-columns:7rem minmax(0,1fr);gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--color-mist)}
-  .spot-facts dt{color:var(--color-soil);font-size:.8rem}.spot-facts dd{margin:0;color:var(--color-ink);line-height:1.7}
+  .spot-body{display:grid;gap:0;padding-bottom:5rem}
+  .spot-profile{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:clamp(2rem,5vw,4.5rem);max-width:960px;margin:0 auto;padding-block:0 clamp(2.5rem,5vw,4.5rem);width:100%}
+  .spot-profile__main{display:grid;gap:clamp(2rem,4vw,3.5rem);align-content:start}
+  .spot-facts{padding:30px;border:1px solid var(--v42-rule,#d4dcc6);background:#fffdf7}
+  .spot-facts h2{margin:.4rem 0 1.25rem;font:500 clamp(24px,2.1vw,29px)/1.55 var(--font-brand-display)}
+  .spot-facts dl{display:grid;grid-template-columns:150px minmax(0,1fr);margin:0}
+  .spot-facts dl>div{display:contents}
+  .spot-facts :is(dt,dd){margin:0;padding:17px 0;border-bottom:1px solid var(--v42-rule,#d4dcc6);font-size:15px;line-height:1.8}
+  .spot-facts dt{color:var(--v42-secondary,#53694f)}.spot-facts dd{color:var(--color-ink)}
   .spot-facts a,.spot-back a{color:var(--interior-blue,#174f99);font-weight:700}
-  .spot-official{grid-column:1/-1;margin:0}.spot-official a{display:inline-flex;min-height:44px;align-items:center;padding:.65rem .9rem;border-radius:.65rem;background:var(--color-ink);color:#fff;text-decoration:none}
-  .spot-note{max-width:46rem;padding:1rem 1.2rem;border-left:3px solid var(--color-tide);background:var(--color-white)}
-  .spot-note p{margin:0;color:var(--color-soil);line-height:1.9}
-  .spot-nearby h2{margin:.5rem 0 1rem;font:600 clamp(1.5rem,3vw,2.2rem)/1.35 var(--font-brand-display)}
-  .spot-nearby ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:0;padding:0;list-style:none}
-  .spot-nearby a{display:grid;gap:.45rem;height:100%;padding:1rem;border:1px solid var(--color-mist);border-radius:.85rem;background:#fff;color:inherit;text-decoration:none}
-  .spot-nearby strong{font:600 1rem/1.5 var(--font-brand-display)}.spot-nearby span{color:var(--color-soil);font-size:.8rem;line-height:1.7}
+  .spot-official{margin:1.5rem 0 0}.spot-official a{display:inline-flex;min-height:44px;align-items:center;padding:.65rem .9rem;border-radius:.65rem;background:var(--color-ink);color:#fff;text-decoration:none}
+  .spot-note{align-self:start;padding:26px;border:1px solid var(--v42-rule,#d4dcc6);background:#f2f1e5}
+  .spot-note img{display:block;width:100%;height:155px;object-fit:contain;margin-bottom:22px}
+  .spot-note p{margin:.6rem 0 0;color:var(--color-soil);line-height:1.9}
+  .spot-note .bp-kicker{margin:0}
+  .spot-note .spot-note__caption{margin-top:1rem;color:var(--v42-secondary,#53694f);font-size:12px;line-height:1.8}
+  .spot-nearby h2{margin:.5rem 0 1rem;font:500 clamp(24px,2.2vw,31px)/1.55 var(--font-brand-display)}
+  .spot-nearby ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:0;padding:0;list-style:none}
+  .spot-nearby a{display:grid;gap:.45rem;height:100%;padding:1rem;border:1px solid var(--v42-rule,#d4dcc6);background:#fff;color:inherit;text-decoration:none}
+  .spot-nearby strong{font:600 1rem/1.5 var(--font-brand-display)}.spot-nearby span{color:var(--color-soil);font-size:.8125rem;line-height:1.7}
   .spot-back{margin:0}
-  @media(max-width:760px){.spot-facts{grid-template-columns:1fr}.spot-nearby ul{grid-template-columns:1fr}.spot-facts dl>div{grid-template-columns:1fr;gap:.2rem}}
+  .spot-more{max-width:1160px;width:100%;margin:0 auto;padding-block:clamp(50px,6vw,72px) 0;border-top:1px solid var(--v42-rule,#d4dcc6)}
+  .spot-more h2{margin:8px 0 20px;font:500 clamp(24px,2.2vw,31px)/1.55 var(--font-brand-display);color:var(--v42-ink,#24434a)}
+  .spot-more ul{display:flex;flex-wrap:wrap;gap:14px 28px;margin:0;padding:0;list-style:none}
+  .spot-more a{display:inline-flex;min-height:44px;align-items:center;gap:18px;border-bottom:1px solid var(--v42-secondary,#53694f);color:var(--v42-ink,#24434a);text-decoration:none}
+  .spot-more a:hover{border-bottom-color:currentColor}
+  @media(min-width:761px) and (max-width:920px){.spot-profile{grid-template-columns:minmax(0,1fr);max-width:720px}.spot-note img{height:140px}}
+  @media(max-width:760px){
+    .spot-profile{grid-template-columns:minmax(0,1fr);gap:30px;padding-block:0 42px}
+    .spot-facts{padding:25px 21px}
+    .spot-facts dl{grid-template-columns:95px minmax(0,1fr)}
+    .spot-facts :is(dt,dd){font-size:14px}
+    .spot-nearby ul{grid-template-columns:minmax(0,1fr)}
+    .spot-more ul{gap:10px 22px}.spot-more a{font-size:14px}
+  }
 </style>

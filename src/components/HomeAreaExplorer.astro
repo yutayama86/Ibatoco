@@ -7,16 +7,74 @@
  * 進化：Tide系の選択色／低彩度の5地域色／隣接情報パネル／二段階操作（概要→この街を読む）／
  *   hover・focus・selected を色以外でも識別／キーボード操作・aria・focus-visible／
  *   同等リンク一覧／モバイルは地域タブ＋市町村リスト。
+ *
+ * v42（#532）：見出しを全幅に置き、その下を「地図のカード」と「5地域のカード」の2列にする。
+ * 地域のカードを開くと、その地域の市町村へ直接進める（44件のリンクは地図と同じ /area/[slug]/）。
  */
 import { IBARAKI_GEO, GEO_VIEW } from '../data/ibaraki-geo';
 import { compactPath } from '../lib/svg-path';
-import { MUNICIPALITIES, REGIONS, REGION_ORDER } from '../data/areas';
+import { MUNICIPALITIES, REGIONS, REGION_ORDER, type RegionKey } from '../data/areas';
 
 interface Props {
   /** 見出しを差し替えるとき（/area/ では冒頭の帯に同じ文言があるため）。TOP は既定のまま */
   heading?: { kicker: string; lines: [string, string] };
+  /** 見出し横の挿絵。/area/ は冒頭の帯に同じ挿絵があるので出さない */
+  art?: boolean;
 }
-const { heading } = Astro.props;
+const { heading, art = true } = Astro.props;
+
+// 5地域のカード。地域別の新しいページは作らず、カードを開くとその地域の市町村へ直接進める。
+// 写真は Wikimedia Commons（作者・ライセンスは REGION_PHOTO_CREDITS）、県西・鹿行は版画調のイメージイラスト。
+// 代表の街は MUNICIPALITIES から引き、地域の分類と食い違えばビルドで止める。
+interface RegionCardSource {
+  img: string;
+  width: number;
+  height: number;
+  alt: string;
+  tag: string;
+  text: string;
+  /** 代表として挙げる街（その地域に属するものだけ） */
+  towns: string[];
+}
+
+const SOURCES: Record<RegionKey, RegionCardSource> = {
+  kenpoku: { img: '/images/v42/autumn.webp', width: 720, height: 480, alt: '紅葉の袋田の滝（大子町）', tag: '袋田の滝', text: '海と渓谷、深呼吸の旅。', towns: ['hitachi', 'takahagi', 'daigo'] },
+  keno: { img: '/images/v42/ocean.webp', width: 720, height: 480, alt: '大洗海岸から見る太平洋の日の出', tag: '大洗海岸', text: '花と海、まちをめぐる。', towns: ['mito', 'kasama', 'oarai'] },
+  kennan: { img: '/images/v42/tsukuba.webp', width: 720, height: 540, alt: '秋の筑波山', tag: '筑波山', text: '山の麓から、科学の街へ。', towns: ['tsukuba', 'tsuchiura', 'ushiku'] },
+  kensei: { img: '/images/v42/makabe-town-print.webp', width: 720, height: 240, alt: '蔵の並ぶ古い町並みを描いたイメージイラスト', tag: 'イメージイラスト', text: '古い街並みと、畑のよりみち。', towns: ['koga', 'yuki', 'chikusei'] },
+  rokko: { img: '/images/v42/kasumigaura-tsukuba-print.webp', width: 720, height: 240, alt: '湖と山並みを描いたイメージイラスト', tag: 'イメージイラスト', text: '水辺と、神話のふるさと。', towns: ['kashima', 'itako', 'namegata'] },
+};
+
+const shortName = (name: string) => name.replace(/[市町村]$/, '');
+
+interface RegionCard extends Omit<RegionCardSource, 'towns'> {
+  key: RegionKey;
+  label: string;
+  towns: string;
+  municipalities: { slug: string; name: string }[];
+}
+
+const REGION_CARDS: RegionCard[] = REGION_ORDER.map((key) => {
+  const { towns, ...rest } = SOURCES[key];
+  const names = towns.map((slug) => {
+    const m = MUNICIPALITIES.find((x) => x.slug === slug);
+    if (!m || m.region !== key) throw new Error(`HomeAreaExplorer: ${slug} は ${key} の市町村ではありません`);
+    return shortName(m.name);
+  });
+  return {
+    ...rest,
+    key,
+    label: REGIONS[key].label,
+    towns: `${names.join('・')} ほか`,
+    municipalities: MUNICIPALITIES.filter((m) => m.region === key).map((m) => ({ slug: m.slug, name: m.name })),
+  };
+});
+
+const REGION_PHOTO_CREDITS = [
+  { href: 'https://commons.wikimedia.org/wiki/File:Autumn_of_Fukuroda_Falls,_Daigo,_Ibaraki;_November_2016.jpg', label: 't.kunikuni / CC BY-SA 2.0', subject: '袋田の滝' },
+  { href: 'https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg', label: 't.kunikuni / CC BY-SA 2.0', subject: '大洗海岸' },
+  { href: 'https://commons.wikimedia.org/wiki/File:筑波山写真（秋1）.jpg', label: 'つくば市 / CC BY 4.0', subject: '筑波山' },
+];
 
 const { w: W, h: H } = GEO_VIEW;
 
@@ -33,10 +91,28 @@ const nodes = MUNICIPALITIES.map((m) => ({
 })).filter((n) => n.d);
 ---
 
+
 <section class="ax">
+  <header class:list={['ax-intro', { 'ax-intro--illustrated': art }]}>
+    <div class="ax-intro-text">
+      <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
+      {heading
+        ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
+        : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
+      <h3>気になる街を、ひとつ。</h3>
+      <p class="ax-intro-copy">
+        <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
+        <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
+        <span>気になる街を選ぶと、その街のページへ移動します。</span>
+      </p>
+    </div>
+    {art && <img class="ax-intro-art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />}
+  </header>
+
   <div class="ax-grid">
     <!-- 地図（SVG） -->
     <figure class="ax-mapwrap">
+      <figcaption class="ax-map-cap">44市町村の地図</figcaption>
       {/* 各市町村の形がそのまま /area/[slug]/ へのリンク。サーバーが返すHTMLの href から辿れ、タップ・Tab・Enterで開ける */}
       <svg viewBox={`0 0 ${W} ${H}`} class="ax-map" role="group" aria-label="茨城県の市町村マップ。市町村を選ぶと、その街のページへ移動します。">
         {nodes.map((n) => (
@@ -54,64 +130,66 @@ const nodes = MUNICIPALITIES.map((m) => ({
           <text x={n.lx ?? n.cx} y={n.ly ?? n.cy} class="ax-label" data-label-slug={n.slug}>{n.name}</text>
         ))}
       </svg>
+      <p class="ax-map-hint">市町村名を押すと、その街のガイドへ。</p>
     </figure>
 
-    <!-- 隣接パネル（選択中の市町村の概要） -->
-    <aside class="ax-panel ax-panel--integrated">
-      <header class="ax-intro">
-        <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
-        {heading
-          ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
-          : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
-        <h3>気になる街を、ひとつ。</h3>
-        <p class="ax-intro-copy">
-          <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
-          <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
-          <span>気になる街を選ぶと、その街のページへ移動します。</span>
-        </p>
-      </header>
-      <div class="ax-panel-empty" data-panel-empty></div>
-      <div class="ax-panel-body" data-panel-body hidden>
-        <p class="ax-panel-region" data-panel-region></p>
-        <h3 class="ax-panel-name" data-panel-name></h3>
-        <p class="ax-panel-catch" data-panel-catch></p>
-        <p class="ax-panel-intro" data-panel-intro></p>
-        <div class="ax-panel-highlights" data-panel-highlights hidden>
-          <h4>この街を知る入口</h4>
-          <ul data-panel-highlight-list></ul>
-        </div>
-        <p class="ax-panel-updated" data-panel-updated></p>
-        <div data-panel-content></div>
-        <a class="ax-panel-read" data-panel-read href="#">この街を読む <span aria-hidden="true">→</span></a>
-      </div>
-      <!-- 市町村リンク一覧（PCは左の列、スマホは地図の下）。見出しの下に5地域と44市町村を常に表示する（開閉なし）。地図と同じく各街のページへ直接移動する。 -->
-      <div class="ax-list">
-        <h3 class="ax-list-head" id="ax-list-head">市町村名から選ぶ</h3>
-        <nav aria-labelledby="ax-list-head">
-          {REGION_ORDER.map((k) => (
-            <div class="ax-region" id={`area-${k}`}>
-              <p class="ax-region-name" id={`ax-region-${k}`}><span class="ax-region-dot" data-region={k}></span>{REGIONS[k].label}</p>
-              <ul aria-labelledby={`ax-region-${k}`}>
-                {MUNICIPALITIES.filter((m) => m.region === k).map((m) => (
-                  <li><a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a></li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-      </div>
-    </aside>
+    <!-- 5地域のカード。開くとその地域の市町村名が並び、地図と同じく各街のページへ直接移動する -->
+    <div class="ax-list">
+      <h3 class="ax-list-head" id="ax-list-head">地域から、市町村を選ぶ</h3>
+      <nav class="ax-regions" aria-labelledby="ax-list-head">
+        {REGION_CARDS.map((card, index) => (
+          <details class="ax-region" id={`area-${card.key}`} data-region={card.key}>
+            <summary>
+              <span class="ax-region-figure">
+                <img src={card.img} alt={card.alt} width={card.width} height={card.height} loading="lazy" decoding="async" />
+                <span class="ax-region-tag">{card.tag}</span>
+              </span>
+              <span class="ax-region-body">
+                <span class="ax-region-no" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span class="ax-region-name"><span class="ax-region-dot" data-region={card.key}></span>{card.label}<small>{card.towns}</small></span>
+                <span class="ax-region-catch">{card.text}</span>
+                <span class="ax-region-open"><span class="ax-region-open-label">市町村を見る</span><b aria-hidden="true">＋</b></span>
+              </span>
+            </summary>
+            <ul>
+              {card.municipalities.map((m) => (
+                <li><a class="ax-list-btn" href={`/area/${m.slug}/`}>{m.name}</a></li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </nav>
+    </div>
   </div>
-
+  <p class="ax-credit">
+    写真：{REGION_PHOTO_CREDITS.map((c, i) => (
+      <>{i > 0 && '、'}<a href={c.href} rel="license noopener" target="_blank">{c.label}</a>（{c.subject}）</>
+    ))}。トリミング・縮小しています。県西・鹿行はイメージイラストで、実在の景色の記録ではありません。
+  </p>
 </section>
 
 <style>
   .ax { font-family: var(--font-brand-body); color: var(--color-charcoal); }
   .ax { width: 100%; min-width: 0; }
-  .ax-grid { display:grid;grid-template-columns:minmax(360px,.9fr) minmax(460px,1.1fr);grid-template-areas:"panel map";gap:clamp(2.5rem,5vw,5rem);align-items:center;min-width:0; }
 
-  .ax-mapwrap { grid-area: map; margin: 0; min-width: 0; display:flex;align-items:center;justify-content:center; }
-  .ax-map { width:min(100%,620px);max-width:100%;height:auto;max-height:560px;display:block; }
+  /* 見出し：提出版は全幅（文字の列は約915px）、右に挿絵 */
+  .ax-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(1.5rem, 4vw, 4rem); align-items: end; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .ax-intro-text { min-width: 0; max-width: 915px; }
+  .ax-intro-art { width: clamp(110px, 12vw, 170px); height: auto; }
+  .ax-intro-kicker { font: 500 .75rem var(--font-brand-meta); letter-spacing: .12em; color: #617357; }
+  .ax-intro h2 { margin-top: .7rem; font: 500 clamp(1.9rem,3.05vw,2.75rem)/1.35 var(--font-brand-display); letter-spacing: .025em; color: #24434a; line-break: strict; }
+  .ax-intro h2 > span { display: block; }
+  .ax-intro h2 b { margin-right: .08em; color: #a99a67; font-size: 1.7em; font-weight: 400; line-height: 1; letter-spacing: -.04em; }
+  .ax-intro h3 { margin-top: clamp(1rem,2vw,1.4rem); font: 600 clamp(1.05rem,1.6vw,1.25rem)/1.5 var(--font-brand-display); color: var(--color-ink); }
+  .ax-intro-copy { margin-top: .45rem; font-size: .9rem; line-height: 1.9; color: var(--color-soil); }
+  .ax-intro-copy span { display: block; }
+
+  /* 地図のカード（左）＋5地域（右） */
+  .ax-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: start; min-width: 0; }
+  .ax-mapwrap { margin: 0; min-width: 0; padding: clamp(1rem, 2vw, 1.5rem); border: 1px solid #d5d9c7; background: #fffdf7; display: grid; justify-items: center; gap: .8rem; }
+  .ax-map-cap { justify-self: stretch; font: 500 .8125rem/1.6 var(--font-brand-body); letter-spacing: .06em; color: #53694f; }
+  .ax-map { width: min(100%, 560px); max-width: 100%; height: auto; max-height: 620px; display: block; }
+  .ax-map-hint { justify-self: stretch; padding-top: .7rem; border-top: 1px solid #d5d9c7; font-size: .875rem; line-height: 1.7; color: var(--color-soil); }
 
   /* 5地域：原色分けを避けた、低彩度のブランド派生色 */
   .ax-shape { stroke: color-mix(in srgb, var(--color-paper) 88%, var(--color-ink)); stroke-width: .72; stroke-linejoin: round; vector-effect: non-scaling-stroke;
@@ -143,68 +221,80 @@ const nodes = MUNICIPALITIES.map((m) => ({
   .ax-label[data-label-slug="goka"], .ax-label[data-label-slug="sakai"], .ax-label[data-label-slug="bando"], .ax-label[data-label-slug="joso"], .ax-label[data-label-slug="moriya"], .ax-label[data-label-slug="toride"], .ax-label[data-label-slug="ryugasaki"], .ax-label[data-label-slug="kawachi"], .ax-label[data-label-slug="tone"] { font-size: 8.3px; }
   .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.7px; }
 
-  /* パネル */
-  .ax-panel { grid-area: panel; min-height: 260px; margin-top: clamp(1rem, 4vw, 3.25rem); padding: clamp(1.4rem, 3vw, 2rem) 0; border-block: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent); background: transparent; min-width: 0; }
-  /* TOPは街を選ぶと直接遷移するため、パネル本体は表示されない。凡例を外した後に下線だけが残って空の枠に見えないよう、外側の下線と余白を消す */
-  .ax-panel--integrated { margin-top: 0; padding-top: 0; padding-bottom: 0; border-top: 0; border-bottom: 0; min-height: 0; }
-  .ax-panel--integrated .ax-panel-empty:empty { display: none; }
-  /* 区切り線は直下の「市町村名から選ぶ」の上線に任せる（線が二重に見えないように） */
-  .ax-intro { padding-bottom: 0; border-bottom: 0; }
-  .ax-intro-kicker { font: 500 .75rem var(--font-brand-meta); letter-spacing: .12em; color: #617357; }
-  .ax-intro h2 { margin-top: .7rem; font: 500 clamp(1.9rem,3.4vw,3rem)/1.45 var(--font-brand-display); letter-spacing: .025em; color: #24434a; line-break: strict; }
-  .ax-intro h2 > span { display: block; }
-  .ax-intro h2 b { margin-right: .08em; color: #a99a67; font-size: 1.7em; font-weight: 400; line-height: 1; letter-spacing: -.04em; }
-  .ax-intro h3 { margin-top: clamp(1.3rem,2.5vw,2rem); font: 600 clamp(1.15rem,2vw,1.45rem)/1.5 var(--font-brand-display); color: var(--color-ink); }
-  .ax-intro-copy { margin-top: .55rem; font-size: .9rem; line-height: 1.9; color: var(--color-soil); }
-  .ax-intro-copy span { display: block; }
-  .ax-panel--integrated .ax-panel-empty { padding-top: .2rem; }
-  .ax-panel-body { min-width: 0; }
-  .ax-panel-region { font-family: var(--font-brand-meta); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-tide); }
-  .ax-panel-name { font-family: var(--font-brand-display); font-size: 1.5rem; color: var(--color-ink); margin: 0.2rem 0 0.3rem; }
-  .ax-panel-catch { margin-top: .9rem; font-family: var(--font-brand-display); font-size: 1.08rem; font-weight: 600; line-height: 1.6; color: var(--color-ink); }
-  .ax-panel-intro { margin-top: .55rem; color: var(--color-soil); font-size: .88rem; line-height: 1.75; }
-  .ax-panel-updated { margin-top: .65rem; font-family: var(--font-brand-meta); font-size: 0.72rem; color: var(--color-soil); }
-  .ax-panel-highlights { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid var(--color-mist); }
-  .ax-panel-highlights ul { display: flex; flex-wrap: wrap; gap: .35rem .8rem; }
-  .ax-panel-highlights li { color: var(--color-ink); font-size: .82rem; }
-  .ax-panel h4 { font-family: var(--font-brand-meta); font-size: 0.75rem; letter-spacing: 0.06em; color: var(--color-soil); margin: 1rem 0 0.4rem; }
-  .ax-panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.3rem; }
-  .ax-panel a { color: var(--color-tide); text-decoration: none; }
-  .ax-panel a:hover, .ax-panel a:focus-visible { text-decoration: underline; }
-  .ax-panel-read { display: inline-block; margin-top: 1.2rem; font-weight: 600; color: var(--color-ink);
-    border: 1px solid var(--color-ink); border-radius: var(--radius-xs); padding: 0.5em 1.1em; text-decoration: none; }
-  .ax-panel-read:hover, .ax-panel-read:focus-visible { background: var(--color-ink); color: var(--color-white); }
-
-  /* リスト（PCは左の列、スマホは地図の下） */
-  .ax-list { margin-top: clamp(1.6rem,3vw,2.2rem); display: block; }
-  /* 「市町村名から選ぶ」は枠で囲まず、上の「気になる街を、ひとつ。」と同じ書体の小見出しにする */
-  .ax-panel .ax-list-head { margin: 0; padding-bottom: .7rem; border-bottom: 1px solid color-mix(in srgb,var(--color-ink) 18%,transparent);
-    font: 600 clamp(1.02rem,1.6vw,1.18rem)/1.5 var(--font-brand-display); letter-spacing: .02em; color: var(--color-ink); }
-  /* 5地域と44市町村は常に表示する。左に地域名、右に市町村名を折り返して並べる */
-  .ax-region { display:grid;grid-template-columns:4.4rem minmax(0,1fr);gap:.2rem .85rem;align-items:baseline;padding:.55rem 0;border-bottom:1px solid var(--color-mist); }
-  .ax-region-name { display: inline-flex; align-items: center; gap: .5em; font-weight: 600; font-size: .9rem; color: var(--color-ink); white-space: nowrap; }
-  .ax-region-dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+  .ax-list { min-width: 0; }
+  .ax-list-head { margin: 0 0 .9rem; font: 500 .8125rem/1.6 var(--font-brand-body); letter-spacing: .06em; color: #53694f; }
+  .ax-regions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .ax-region { min-width: 0; border: 1px solid #d5d9c7; background: #fffdf7; box-shadow: 3px 4px 0 #e2dfce; }
+  .ax-region:first-child { grid-column: 1 / -1; }
+  .ax-region > summary { display: grid; grid-template-rows: auto 1fr; cursor: pointer; list-style: none; color: #24434a; }
+  .ax-region > summary::-webkit-details-marker { display: none; }
+  .ax-region > summary:focus-visible { outline: 2px solid #2c4fb5; outline-offset: 2px; }
+  .ax-region:first-child > summary { grid-template-rows: none; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  .ax-region-figure { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: #eef0e4; }
+  .ax-region:first-child .ax-region-figure { aspect-ratio: auto; min-height: 100%; }
+  .ax-region-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ax-region-tag { position: absolute; left: .5rem; top: .5rem; padding: .1rem .45rem; background: rgb(255 253 247 / .9); font-size: .6875rem; line-height: 1.6; color: #24434a; }
+  .ax-region-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; gap: .2rem .6rem; padding: .9rem 1rem 1rem; }
+  .ax-region-no { grid-column: 2; grid-row: 1; font: 400 .8125rem/1.4 var(--font-brand-display); color: #8a916d; }
+  .ax-region-name { grid-column: 1; grid-row: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .5rem; font: 500 1.375rem/1.4 var(--font-brand-display); }
+  .ax-region-name small { flex-basis: 100%; font: 400 .75rem/1.6 var(--font-brand-body); color: #53694f; word-break: auto-phrase; }
+  .ax-region-dot { align-self: center; width: 10px; height: 10px; border-radius: 2px; flex: none; }
   .ax-region-dot[data-region="kenpoku"] { background: #a9bdb3; }
   .ax-region-dot[data-region="keno"] { background: #e3e2cf; }
   .ax-region-dot[data-region="kennan"] { background: #c9d6dc; }
   .ax-region-dot[data-region="rokko"] { background: #8eacc0; }
   .ax-region-dot[data-region="kensei"] { background: #cfc7a8; }
-  .ax-panel .ax-region ul { display: flex; flex-wrap: wrap; gap:.05rem .85rem; list-style: none; padding: 0; margin: 0; }
-  .ax-panel .ax-region .ax-list-btn { display: inline-block; padding: .3em 0; font-size:.84rem;color:var(--color-charcoal); text-decoration: none; }
-  .ax-panel .ax-region .ax-list-btn:hover, .ax-panel .ax-region .ax-list-btn:focus-visible { color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }
-  .ax-list-btn[aria-pressed="true"] { color: var(--color-tide); font-weight: 700; }
+  .ax-region-catch { grid-column: 1 / -1; margin-top: .3rem; font: 500 1rem/1.6 var(--font-brand-display); word-break: auto-phrase; text-wrap: balance; }
+  .ax-region-open { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; min-height: 44px; margin-top: .3rem; border-top: 1px solid #d5d9c7; font-size: .8125rem; color: var(--color-tide); }
+  .ax-region-open b { font-weight: 400; transition: transform .2s var(--ease); }
+  .ax-region[open] .ax-region-open b { transform: rotate(45deg); }
+  .ax-region > ul { display: flex; flex-wrap: wrap; gap: .1rem 1rem; margin: 0; padding: .2rem 1rem 1rem; list-style: none; }
+  .ax-region .ax-list-btn { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; color: var(--color-charcoal); text-decoration: none; }
+  .ax-region .ax-list-btn:hover, .ax-region .ax-list-btn:focus-visible { color: var(--color-tide); text-decoration: underline; text-underline-offset: .2em; }
+  .ax-credit { margin-top: 1rem; font-size: .75rem; line-height: 1.8; color: var(--color-soil); }
+  .ax-credit a { color: inherit; }
 
-  /* モバイル：地図は保持しつつ、地域タブ＋リストを併設（ピンチ依存にしない） */
-  @media (min-width:761px) and (max-width:1100px){.ax-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(1.25rem,2.5vw,2rem)}.ax-map{max-height:500px}.ax-intro h2{font-size:clamp(1.8rem,3vw,2.8rem)}.ax-intro-copy{font-size:.82rem}}
+  @media (min-width: 761px) and (max-width: 1100px) {
+    .ax-grid { grid-template-columns: minmax(0, 1fr); }
+    .ax-map { max-height: 560px; }
+    .ax-regions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ax-region:first-child { grid-column: auto; }
+    .ax-region:first-child > summary { grid-template-columns: none; grid-template-rows: auto 1fr; }
+    .ax-region:first-child .ax-region-figure { aspect-ratio: 16 / 9; min-height: 0; }
+  }
   @media (max-width: 760px) {
-    .ax-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "map" "panel"; gap: 1.4rem; }
-    .ax-mapwrap { width: 100%; overflow: hidden; padding: .4rem .1rem .2rem; }
-    .ax-map { width: 100%; max-width: 100%; height:auto; }
+    .ax-intro { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .ax-intro-art { justify-self: end; width: 84px; margin-top: -.5rem; }
+    .ax-grid { grid-template-columns: minmax(0, 1fr); gap: 1.4rem; }
+    .ax-mapwrap { padding: .8rem .6rem; }
+    .ax-map { width: 100%; }
     .ax-label { display: block; font-size: 8.8px; stroke-width: 2.25px; }
     .ax-label[data-label-slug="hitachinaka"], .ax-label[data-label-slug="tsukubamirai"], .ax-label[data-label-slug="tokai"] { font-size: 8px; }
     .ax-label[data-label-slug="kasumigaura"], .ax-label[data-label-slug="yachiyo"], .ax-label[data-label-slug="shimotsuma"] { font-size: 7.2px; }
-    .ax-panel { min-height: 0; }
+    .ax-regions { gap: 12px 10px; }
+    .ax-region:not(:first-child) .ax-region-figure { aspect-ratio: 4 / 3; }
+    .ax-region:not(:first-child) .ax-region-body { padding: .6rem .65rem .5rem; }
+    .ax-region:not(:first-child) .ax-region-name { font-size: 1.1rem; }
+    .ax-region:not(:first-child) .ax-region-catch { font-size: .875rem; }
+    .ax-region:first-child > summary { grid-template-columns: none; grid-template-rows: auto 1fr; }
+    .ax-region:first-child .ax-region-figure { aspect-ratio: 16 / 9; min-height: 0; }
+    .ax-region-body { padding: .75rem .8rem .8rem; }
+    .ax-region-name { font-size: 1.2rem; }
+    .ax-region-catch { font-size: .9375rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .ax-shape { transition: none; } }
+  @media (max-width: 340px) {
+    .ax-regions { grid-template-columns: minmax(0, 1fr); }
+  }
+  /* スマホの表紙：挿絵は見出しの右、2行目と説明は全幅。地図の前に挿絵だけの段を作らない。 */
+  @media (max-width: 760px) {
+    .ax-intro--illustrated { position: relative; }
+    .ax-intro--illustrated h2 { font-size: clamp(26px, 7.44vw, 29px) !important; }
+    .ax-intro--illustrated .ax-title-line { min-height: 108px; padding-right: 98px; white-space: nowrap; }
+    .ax-intro--illustrated h2 b { font-size: 3.03em; }
+    .ax-intro--illustrated .ax-intro-art { position: absolute; top: 2px; right: 0; width: 86px; height: 129px; margin: 0; }
+  }
+  @media (max-width: 340px) {
+    .ax-intro--illustrated h2 { font-size: 24px !important; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-region-open b { transition: none; } }
 </style>
-
