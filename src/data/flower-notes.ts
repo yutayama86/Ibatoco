@@ -95,3 +95,52 @@ export const visibleFlowerNotes = (today = todayDateOnlyString()) => FLOWER_NOTE
 
 /** /hana/now/ を検索に出してよいか（2件以上の時だけ） */
 export const FLOWER_NOW_MIN_INDEX = 2;
+
+/**
+ * 次に咲く花（例年の見頃）。公式のフラワーカレンダーや施設の案内にある「例年の時期」だけを書く。
+ * いま咲いている・開催中と公式が出したら、FLOWER_NOTES に移して「いま見頃」として載せる。
+ * 「咲いています」「見頃」とは書かない（その年の開花はまだ発表されていないため）。
+ */
+export interface UpcomingFlower {
+  city: string;
+  areaSlug: string;
+  name: string;
+  flower: string;
+  /** 例年の時期（公式の記載どおり） */
+  season: string;
+  /** 花ごとの時期と場所（公式の記載の範囲で） */
+  items: string[];
+  officialLabel: string;
+  officialUrl: string;
+  checkedOn: string;
+  showUntil: string;
+}
+
+export const UPCOMING_FLOWERS: UpcomingFlower[] = [
+  {
+    city: 'ひたちなか市', areaSlug: 'hitachinaka', name: '国営ひたち海浜公園', flower: 'ロウバイ・アイスチューリップ・ウメ',
+    season: '例年12月下旬〜3月中旬',
+    items: [
+      'アイスチューリップ：12月下旬から1月上旬（グラスハウス）',
+      'ロウバイ：12月下旬から1月下旬（みはらしの里入口）',
+      'ウメ：1月下旬から3月中旬（スイセンガーデン周辺）',
+      'フクジュソウ：2月上旬から2月下旬（記念の森レストハウス周辺）',
+    ],
+    officialLabel: '冬のフラワーカレンダー｜国営ひたち海浜公園', officialUrl: 'https://www.hitachikaihin.jp/flower-plant/winter.html',
+    checkedOn: '2026-11-08', showUntil: '2027-03-15',
+  },
+  {
+    city: '水戸市', areaSlug: 'mito', name: '偕楽園', flower: '梅',
+    season: '水戸の梅まつり：毎年2月中旬から3月末日頃',
+    items: [
+      '偕楽園の公式案内では、水戸の梅まつりの期間は毎年2月中旬から3月末日頃です。',
+      '梅まつりの期間は、偕楽園本園の入園料が通常時と変わります。',
+      'その年の日程と開花の様子は、偕楽園の新着情報・開花情報で確かめてください。',
+    ],
+    officialLabel: '日本三名園 偕楽園（公式）', officialUrl: 'https://ibaraki-kairakuen.jp/',
+    checkedOn: '2026-11-08', showUntil: '2027-03-31',
+  },
+];
+
+/** 今日（日本時間）まだ載せてよい「次に咲く花」 */
+export const visibleUpcomingFlowers = (today = todayDateOnlyString()) => UPCOMING_FLOWERS.filter((flower) => today <= flower.showUntil);

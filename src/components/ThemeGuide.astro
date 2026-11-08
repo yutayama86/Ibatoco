@@ -8,13 +8,15 @@
 import type { Theme } from '../data/themes';
 import { wikimediaImage } from '../lib/wikimedia-image';
 import TocoCard from './TocoCard.astro';
-import { visibleFlowerNotes } from '../data/flower-notes';
+import { visibleFlowerNotes, visibleUpcomingFlowers } from '../data/flower-notes';
 interface Props { theme: Theme; }
 const { theme } = Astro.props;
 // /kouyou/ は 2026-11-15（日本時間）まで見出しを維持。解除は観測終了後の別PRで行う。
 const preserveHeading = theme.slug === 'kouyou';
 // /hana/ だけ、いま公式が咲いている・開催中と出している花を /hana/now/ と同じデータから短く出す（期限切れは外れる）
 const flowerNow = theme.slug === 'hana' ? visibleFlowerNotes() : [];
+// いま咲いている花が無い時期は、公式の例年の時期（次に咲く花）を出して /hana/now/ への入口を残す
+const flowerNext = theme.slug === 'hana' && flowerNow.length === 0 ? visibleUpcomingFlowers() : [];
 const flowerNowChecked = flowerNow.map((note) => note.checkedOn).sort().at(-1)?.split('-').map(Number);
 ---
 
@@ -51,14 +53,24 @@ const flowerNowChecked = flowerNow.map((note) => note.checkedOn).sort().at(-1)?.
     </div>
   )}
 
-  {flowerNow.length > 0 && (
+  {(flowerNow.length > 0 || flowerNext.length > 0) && (
     <div class="tg-status-wrap bp-wrap">
       <section class="tg-status" aria-labelledby="tg-flower-now-h">
-        <p class="tg-status__kicker">NOW<span>{flowerNowChecked && `${flowerNowChecked[1]}月${flowerNowChecked[2]}日に公式で確認`}</span></p>
-        <h2 id="tg-flower-now-h">いま見頃の花</h2>
-        <dl>{flowerNow.map((note) => <div><dt>{note.name}（{note.city}）の{note.flower}</dt><dd>{note.state}（{note.source}）</dd></div>)}</dl>
+        {flowerNow.length > 0 ? (
+          <>
+            <p class="tg-status__kicker">NOW<span>{flowerNowChecked && `${flowerNowChecked[1]}月${flowerNowChecked[2]}日に公式で確認`}</span></p>
+            <h2 id="tg-flower-now-h">いま見頃の花</h2>
+            <dl>{flowerNow.map((note) => <div><dt>{note.name}（{note.city}）の{note.flower}</dt><dd>{note.state}（{note.source}）</dd></div>)}</dl>
+          </>
+        ) : (
+          <>
+            <p class="tg-status__kicker">NEXT<span>各施設の公式の案内にある例年の時期</span></p>
+            <h2 id="tg-flower-now-h">次に咲く花</h2>
+            <dl>{flowerNext.map((flower) => <div><dt>{flower.name}（{flower.city}）の{flower.flower}</dt><dd>{flower.season}</dd></div>)}</dl>
+          </>
+        )}
         <ul class="tg-status__links">
-          <li><a href="/hana/now/">開花状況と公式の花だよりをまとめて見る<span aria-hidden="true">→</span></a></li>
+          <li><a href="/hana/now/">花だよりをまとめて見る<span aria-hidden="true">→</span></a></li>
           <li><a href="/pet/">ペットと行ける花の庭・公園の同伴条件<span aria-hidden="true">→</span></a></li>
         </ul>
       </section>
