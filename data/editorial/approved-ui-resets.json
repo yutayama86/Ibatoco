@@ -73,11 +73,13 @@
       "approvedBy": "yutayama86",
       "approvedOn": "2026-11-08",
       "validThrough": "2026-11-08",
-      "reason": "オーナーが11月8日にIssue #532で、提出版v42と見た目が違うTOPの字級・余白・カードの修正を依頼した（目的別Draft PRのA）。この記録は今回のPRと確認済みソースだけに適用する。マージはオーナー承認後で、マージ日が11月8日でなければ日付を合わせて記録し直す。",
+      "reason": "オーナーが11月8日にIssue #532で、提出版v42と見た目が違うTOPの字級・余白・カード、地図と5地域パネルの配置の修正を依頼した（目的別Draft PRのA）。この記録は今回のPRと確認済みソースだけに適用する。マージはオーナー承認後で、マージ日が11月8日でなければ日付を合わせて記録し直す。",
       "restartChangeId": "20261108-home-v42-fidelity-a",
       "sourceBlobs": {
-        "src/components/HomeJourney.astro": "da8c4c2f98e7c3edde21335c71e516a1c49c813e",
-        "src/pages/index.astro": "4ab7a1d71cf7999ab869c35735aea8cdaff56cfc"
+        "src/components/HomeAreaExplorer.astro": "f8a51c2694bbbc2deafa0b29349751bc877f3514",
+        "src/components/HomeJourney.astro": "405b73bf55765d4d919cfcc6e0fc5b2e92efa4db",
+        "src/pages/area/index.astro": "1db5dfbc8f5624fa703d632dc22bda33ec064e4f",
+        "src/pages/index.astro": "d63bcc497bdfd107fdfa8dd804f7ccad77476287"
       },
       "allowedFiles": [
         "src/pages/index.astro",
@@ -89,7 +91,12 @@
         "docs/design/v42-screenshots/compare-a-top-closing-pc.jpg",
         "docs/design/v42-screenshots/compare-a-top-origin-pc.jpg",
         "docs/design/v42-screenshots/compare-a-top-news-sp.jpg",
-        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg"
+        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg",
+        "src/components/HomeAreaExplorer.astro",
+        "src/pages/area/index.astro",
+        "docs/design/v42-screenshots/compare-a-top-area-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-area-sp.jpg"
       ]
     }
   ]

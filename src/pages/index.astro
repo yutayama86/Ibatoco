@@ -547,7 +547,7 @@ const matchdays = [
   @media(min-width:1200px) and (max-width:1330px){.v42-home{--card-w:calc(100vw - 170px);--card-h:490px}.fv-cover--walk h2{font-size:70px}.fv-cover--food h2{font-size:52px}.fv-cover--food .fv-cover__visual{width:400px;height:400px;right:19px}}
   @media(min-width:701px) and (max-width:1199px){
     .v42-home{--card-w:calc(100vw - 110px);--card-h:470px}
-    .fv-intro{height:73px;gap:18px}.fv-intro h1{font-size:22px}.fv-intro__note{font-size:10px}
+    .fv-intro{height:73px;gap:18px}.fv-intro h1{font-size:22px}.fv-intro__note{font-size:11px}
     .fv-cover--walk .fv-cover__copy{top:38px;left:35px}.fv-cover--walk h2{font-size:clamp(46px,6vw,62px)}.fv-cover--walk .fv-cover__cta{left:30px;bottom:28px}.fv-cover--walk .fv-cover__art{left:auto;right:12%;width:160px;height:130px}
     .fv-cover--food .fv-cover__copy{top:46px;left:35px}.fv-cover--food h2{font-size:clamp(32px,4.4vw,50px)}.fv-cover--food .fv-cover__visual{top:31px;right:20px;width:38vw;max-width:390px;height:38vw;max-height:390px}.fv-cover--food .fv-cover__art{right:8px;width:27vw;height:180px}.fv-cover--food .fv-cover__cta{left:35px;bottom:40px;width:230px}
     .fv-cover--weekend .fv-cover__copy{top:40px;left:35px}.fv-cover--weekend h2{font-size:clamp(33px,4vw,46px)}.fv-cover--weekend h2>span:first-child{font-size:clamp(44px,5.3vw,59px)}.fv-cover--weekend .fv-cover__visual{top:77px;right:22px;height:290px;border-width:10px}.fv-cover--weekend .fv-cover__cta{left:35px;bottom:40px;width:235px}.fv-cover__stamp{top:313px;right:24px;padding:10px 12px}.fv-cover__stamp b{font-size:24px}
@@ -706,7 +706,9 @@ const matchdays = [
   .matchday__visits .v42-quiet-link{grid-column:1/-1;justify-self:start;margin-top:.25rem}
   .matchday-visit{position:relative;min-width:0;padding:1.4rem 1.3rem 1.2rem;border:1px solid var(--v42-rule);background:#fffefa;box-shadow:0 8px 20px #2941370a}
   .matchday-visit__kicker{color:var(--v42-note);font-size:.75rem}
-  .matchday-visit h3{margin-top:.35rem;font:500 1.35rem/1.5 var(--font-brand-display)}
+  .matchday-visit h3{margin-top:.35rem;font:500 1.35rem/1.5 var(--font-brand-display);word-break:auto-phrase;text-wrap:balance}
+  /* 3枚並びで1枚が狭くなる幅では、クラブ名（例：水戸ホーリーホック）が「…ホッ／ク」と割れないよう少し小さくする */
+  @media(min-width:761px) and (max-width:1100px){.matchday-visit h3{font-size:1.125rem}}
   .matchday-visit__links{display:grid;margin-top:.8rem}
   .matchday-visit__links a{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:44px;border-top:1px solid var(--v42-rule);color:var(--v42-ink);font-size:.875rem;font-weight:700}
   .matchday-visit__stub{position:absolute;top:1rem;right:1rem;display:grid;place-items:center;width:3.4rem;height:3.4rem;border:1px dashed #b9b292;border-radius:50%;color:#8d7e52;font-size:.75rem;line-height:1.1;text-align:center}
@@ -741,7 +743,7 @@ const matchdays = [
   .partner__questions li{padding-top:.8rem;border-top:1px solid var(--v42-rule)}
   .partner__questions li::before{content:none}
   .partner__questions span{color:var(--v42-gold);font:500 .875rem/1 var(--font-brand-display)}
-  .partner__questions p{margin-top:.5rem;color:var(--v42-ink);font:500 1.0625rem/1.75 var(--font-brand-display)}
+  .partner__questions p{margin-top:.5rem;color:var(--v42-ink);font:500 1.0625rem/1.75 var(--font-brand-display);word-break:auto-phrase;text-wrap:pretty}
   .partner__topics{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0 0;padding:0;list-style:none}
   .partner__topics li{padding:.45rem .9rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fffefa;color:var(--v42-ink);font-size:.75rem;font-weight:700}
   .partner__topics li::before{content:none}
@@ -754,7 +756,8 @@ const matchdays = [
   .partner__slot small{color:var(--v42-note);font-size:.75rem}
   .partner__actions .v42-quiet-link{justify-self:start;margin-top:0}
   @media(max-width:860px){.partner__grid{grid-template-columns:minmax(0,1fr)}}
-  @media(max-width:520px){.partner__questions{grid-template-columns:minmax(0,1fr)}.partner__questions p br{display:none}}
+  /* 3列だと1列が狭く「…続けているの／か。」と1文字だけ落ちる（800〜1000px）。その幅から1列にする */
+  @media(max-width:1000px){.partner__questions{grid-template-columns:minmax(0,1fr)}.partner__questions p br{display:none}}
 
   @media(max-width:760px){
     .v42-wrap{width:min(calc(100% - 2.5rem),1160px)}
