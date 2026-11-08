@@ -190,6 +190,23 @@ body.interior-site :is(.news-detail__body, .ev-body) h2 {
   }
 }
 
+/*
+ * v42 修正案 E：英語・韓国語・繁体字のTOP（IntlHomeView）と /reserve/ の文字組み。
+ * 提出版（別紙 annex-*）の実測：多言語 H1 48px（スマホ31px）、節 32px／26px、理由の見出し 22px／21px、記事の見出し 25px／23px。
+ * /reserve/ は H1 52.4px・PC1行（スマホ30px）、注記の見出し 31px／24px。文言・lang・hreflang・canonical は変えない。
+ * 部品側の scoped style（属性セレクタ付き）より強くするため !important を付ける。
+ */
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-hero h1 { max-width: 16em !important; font-size: clamp(31px, 3.34vw, 48px) !important; font-weight: 500 !important; line-height: 1.5 !important; text-wrap: balance; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih .bp-section-title { font-size: clamp(26px, 2.23vw, 32px) !important; font-weight: 500 !important; line-height: 1.5; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-why-grid h3 { font-size: clamp(21px, 1.53vw, 22px) !important; font-weight: 500 !important; line-height: 1.55 !important; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-guide h3 { font-size: clamp(23px, 1.74vw, 25px) !important; font-weight: 500 !important; line-height: 1.55 !important; text-wrap: balance; }
+body.interior-site.route-reserve .rsv-title { color: var(--v42-ink) !important; font-size: clamp(30px, 3.64vw, 52.4px) !important; font-weight: 500 !important; line-height: 1.43 !important; text-wrap: balance; }
+body.interior-site.route-reserve .rsv-note h2 { font-size: clamp(24px, 2.2vw, 31px) !important; font-weight: 500 !important; line-height: 1.55 !important; }
+@media (min-width: 901px) {
+  body.interior-site.route-reserve .rsv-title { max-width: none !important; }
+  body.interior-site.route-reserve .rsv-title br { display: none; }
+}
+
 /* ── サイト末尾の帯（全ページ共通） ── */
 .v42-closing {
   padding-block: 2.25rem;
