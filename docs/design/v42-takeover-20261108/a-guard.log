@@ -1,0 +1,7 @@
+### 観測窓ガード（Observation Window）
+
+- 例外として許可：/（template）— approved-ui-reset：yutayama86 2026-11-08 承認・PR #533・オーナーが11月8日にIssue #532で、提出版v42と見た目が違うTOPの字級・余白・カード、地図と5地域パネルの配置の修正を依頼した（目的別Draft PRのA）。この記録は今回のPRと確認済みソースだけに適用する。マージはオーナー承認後で、マージ日が11月8日でなければ日付を合わせて記録し直す。（新しい観測記録 20261108-home-v42-fidelity-a）
+- 注意：src/components/HomeAreaExplorer.astro：観測中のページ 17 件に影響しうる（/、*、/kouyou/ ほか）
+- 注意：src/components/HomeJourney.astro：観測中のページ 17 件に影響しうる（/、*、/kouyou/ ほか）
+
+観測窓ガード通過：変更ファイル 15 件、観測中のページ 17 件

@@ -27,24 +27,35 @@ const jsonLd = {
 
 <BrandBase title={`${data.name}｜イバトコ`} description={data.description} image={data.cover} jsonLd={jsonLd}>
   <article class="place" data-place-id={store.id} data-place-name={data.name} data-place-category={data.category}>
-    <header class="place-head bp-wrap">
-      <div>
+    <header class="place-head v42-hero v42-hero--fill v42-template-hero bp-wrap">
+      <div class="place-head__copy">
         <nav class="crumbs" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/place/">場所</a>{areaSlug && <><span>/</span><a href={`/area/${areaSlug}/`}>{data.area}</a></>}</nav>
         <DisclosureBadge type={data.disclosure} note={data.disclosureNote} />
         <p class="bp-kicker place-kicker">PLACE / {data.area}</p><h1>{data.name}</h1><p>{data.tagline}</p>
       </div>
-      <p class="place-note">掲載情報<br /><strong>公式情報と照合して掲載</strong>{data.verifiedAt && <><br />確認日：{data.verifiedAt.toLocaleDateString('ja-JP')}</>}</p>
+      <img class="v42-hero__art" src="/images/v42/food-vignette.webp" alt="" width="560" height="373" decoding="async" />
     </header>
 
     {data.cover && <figure class="place-image bp-wrap"><img src={data.cover} alt={data.name} loading="eager" /></figure>}
 
-    <div class="place-grid bp-wrap">
+    <div class="place-grid v42-template-grid bp-wrap">
       <div class="place-main">
         <section><p class="bp-kicker">ABOUT</p><h2>この場所について</h2><div class="place-description">{Content ? <Content /> : <p>{data.description}</p>}</div></section>
         {data.features.length > 0 && <section><p class="bp-kicker">FEATURES</p><ul class="features">{data.features.map((feature) => <li>{feature}</li>)}</ul></section>}
         {data.faq.length > 0 && <section><p class="bp-kicker">QUESTIONS</p><h2>訪れる前に</h2><dl class="faq">{data.faq.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl></section>}
+        <section class="place-facts">
+          <p class="bp-kicker">BEFORE YOU GO</p><h2>基本情報</h2>
+          <PlaceFacts store={store} />
+          {data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer" data-place-action="official">公式サイトを確認する&nbsp;↗</a>}
+          <p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p>
+        </section>
       </div>
-      <aside><p class="facts-label">基本情報</p><PlaceFacts store={store} />{data.website && <a class="official" href={data.website} target="_blank" rel="noopener noreferrer" data-place-action="official">公式サイトを確認する&nbsp;↗</a>}<p class="fact-note">営業日時などは変更される場合があります。訪問前に公式情報をご確認ください。</p></aside>
+      <aside class="v42-template-note">
+        <img src="/images/v42/food-vignette.webp" alt="" width="560" height="373" loading="lazy" decoding="async" />
+        <p class="v42-template-caption">この挿絵は、店の写真ではありません。</p>
+        <p class="bp-kicker">FIELD NOTES</p>
+        <p class="place-note">掲載情報<br /><strong>公式情報と照合して掲載</strong>{data.verifiedAt && <><br />確認日：{data.verifiedAt.toLocaleDateString('ja-JP')}</>}</p>
+      </aside>
     </div>
   </article>
 
