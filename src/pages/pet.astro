@@ -1,0 +1,130 @@
+---
+/**
+ * /pet/ — ペットとおでかけ（提出版 v42 pet.html）。
+ * 中身は src/data/pet-outings.ts（TOPのペットの区画と共通）。同伴条件は各施設・各店の公式案内の要約だけで、
+ * 金額や細かな規則は公式へ送る。掲載は編集部の選定で、広告ではない。
+ */
+import BrandBase from '../layouts/BrandBase.astro';
+import { breadcrumbJsonLd } from '../lib/seo';
+import type { Crumb } from '../components/Breadcrumbs.astro';
+import { PET_CAFES, PET_CHECKED_LABEL, PET_FACILITIES } from '../data/pet-outings';
+import '../styles/course.css';
+import '../styles/p41-flowers-pets.css';
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城のおでかけ', href: '/odekake/' }, { name: 'ペットとおでかけ' }];
+const related = [
+  { href: '/hana/now/', img: '/images/theme/nemophila-hitachi-seaside-park.jpg', width: 1108, height: 739, tag: '実写', kicker: 'FLOWER NOTES', title: ['花のある、', 'よりみち。'], text: 'いま見頃の花と、公式の開花情報。' },
+  { href: '/course/', img: '/images/v42/v39-route-reporters.webp', width: 360, height: 540, tag: 'イメージイラスト', kicker: 'MODEL COURSE', title: ['半日を、', 'ひとつの旅に。'], text: '自分の速さでまちを歩く。' },
+  { href: '/koen/', img: '/images/v42/map-travelers.webp', width: 360, height: 540, tag: 'イメージイラスト', kicker: 'PARKS', title: ['広い芝生へ、', '公園さんぽ。'], text: '茨城の公園を、目的から探す。' },
+];
+
+const places = [...PET_CAFES.map((cafe) => cafe.name), ...PET_FACILITIES.map((facility) => facility.name)];
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: '茨城でペットと行けるカフェと公園',
+    url: new URL('/pet/', Astro.site).href,
+    numberOfItems: places.length,
+    itemListElement: places.map((name, index) => ({ '@type': 'ListItem', position: index + 1, name })),
+  },
+];
+---
+
+<BrandBase
+  title="茨城でペットとおでかけ｜犬と行けるカフェ・公園の同伴条件まとめ｜イバトコ"
+  description="国営ひたち海浜公園、いばらきフラワーパーク、こもれび森のイバライド、水郷潮来あやめ園と、犬と入れるカフェ2店。リードや誓約書、入れない場所など、各施設の公式案内に書かれた同伴条件をまとめました。"
+  jsonLd={jsonLd}
+>
+  <div class="p41-main">
+    <nav class="p41-wrap p41-crumb" aria-label="パンくず">
+      {crumbs.map((crumb, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">／</span>}
+          {crumb.href ? <a href={crumb.href}>{crumb.name}</a> : <span aria-current="page">{crumb.name}</span>}
+        </>
+      ))}
+    </nav>
+
+    <section class="p41-pet-hero">
+      <div class="p41-wrap p41-hub-hero">
+        <div>
+          <p class="p41-kicker">WITH YOUR BEST FRIEND</p>
+          <h1 class="v42-title p41-title">うちの子と、<br />よりみち。</h1>
+          <p class="p41-lead">お散歩のあとに、カフェでひと休み。<br />一緒に過ごす、茨城の休日を。</p>
+        </div>
+        <img src="/images/v42/v38-pet-cafe-terrace.webp" alt="" class="p41-art" width="1200" height="600" decoding="async" />
+      </div>
+    </section>
+
+    <section class="p41-section" aria-labelledby="pet-cafes">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">CAFE WITH PETS</p>
+            <h2 id="pet-cafes">一緒に、カフェの時間。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          {PET_CAFES.map((cafe) => (
+            <article class="c-pet-card">
+              <figure class="c-cafe-figure">
+                <img src="/images/v42/v38-pet-cafe-terrace.webp" alt="" width="1200" height="600" loading="lazy" decoding="async" />
+                <figcaption>カフェ時間のイメージイラスト（店の写真ではありません）</figcaption>
+              </figure>
+              <p class="p41-kicker">{cafe.city} ／ {cafe.rule}</p>
+              <h3>{cafe.name}</h3>
+              <ul>{cafe.rules.map((rule) => <li>{rule}</li>)}</ul>
+              <a class="p41-button is-light" href={cafe.href} target="_blank" rel="noopener">{cafe.cta}<span class="p41-arrow" aria-hidden="true">↗</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="p41-section is-sage" aria-labelledby="pet-parks">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">PARKS AND GARDENS</p>
+            <h2 id="pet-parks">お散歩の行き先も、見つけよう。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          {PET_FACILITIES.map((facility) => (
+            <article class="c-pet-card">
+              <p class="p41-kicker">{facility.town}</p>
+              <h3>{facility.name}</h3>
+              <span class:list={['p41-tag', 'c-rule', { 'is-peak': facility.dogOnly }]}>{facility.rule}</span>
+              <ul>{facility.rules.map((rule) => <li>{rule}</li>)}</ul>
+              <a class="p41-button is-light" href={facility.href} target="_blank" rel="noopener">{facility.cta}<span class="p41-arrow" aria-hidden="true">↗</span></a>
+            </article>
+          ))}
+        </div>
+        <p class="p41-small-note">{PET_CHECKED_LABEL}。各施設・各店の公式案内に書かれた内容をまとめています。種類・サイズ・入場条件・利用できる範囲・料金は施設によって異なり、変わることもあります。おでかけ前に各施設の案内をご確認ください。掲載は編集部の選定で、広告ではありません。</p>
+      </div>
+    </section>
+
+    <section class="p41-related" aria-labelledby="pet-related">
+      <div class="p41-wrap">
+        <p class="p41-kicker">ONE MORE DISCOVERY</p>
+        <h2 id="pet-related">ここから、もうひと歩き。</h2>
+        <div class="p41-grid">
+          {related.map((item) => (
+            <a class="p41-card" href={item.href}>
+              <figure>
+                <img src={item.img} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" />
+                <span>{item.tag}</span>
+              </figure>
+              <p class="p41-kicker">{item.kicker}</p>
+              <h3>{item.title[0]}<br class="v42-br-narrow" />{item.title[1]}</h3>
+              <p>{item.text}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BrandBase>

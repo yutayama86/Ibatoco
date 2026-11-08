@@ -6,58 +6,22 @@
  * 中身は公式の一次情報で確かめたものだけを載せる。確かめた日と出典を画面に出す。
  *
  * - 花だより … 開花・開催の状況は日で変わる。showUntil（日本の暦日）を過ぎたカードはビルド時に外し、
- *   全部外れたら区画ごと出さない。毎朝の定期デプロイで切り替わる。差し替えは flowers を更新する
+ *   全部外れたら区画ごと出さない。毎朝の定期デプロイで切り替わる。差し替えは src/data/flower-notes.ts
  * - モデルコース … 日立・笠間の街ページ（HitachiAreaGuide / area-guides.ts）にある半日コースの要約
- * - ペット … 各施設の公式案内に書かれた同伴条件だけ。料金や細かな規則は各施設の案内へ送る
+ * - ペット … 各施設の公式案内に書かれた同伴条件だけ（src/data/pet-outings.ts）。料金や細かな規則は各施設の案内へ送る
  */
 import { todayDateOnlyString } from '../lib/date-only.js';
+import { FLOWERS_CHECKED_LABEL, visibleFlowerNotes } from '../data/flower-notes';
+import { PET_CAFES, PET_CHECKED_LABEL, PET_FACILITIES } from '../data/pet-outings';
 
 interface Props { section: 'flowers' | 'trips' | 'pets'; }
 const { section } = Astro.props;
 
-const FLOWERS_CHECKED = '2026.11.08 確認';
-const flowers = [
-  {
-    city: 'ひたちなか市', state: '咲いています', tone: '', flower: '秋バラ', spot: '常陸ローズガーデン',
-    name: '国営ひたち海浜公園', text: '約120品種のローズガーデンで、秋咲きのバラ。',
-    source: '公式の開花情報を確認', cta: '最新の開花情報へ', external: true,
-    href: 'https://www.hitachikaihin.jp/flower-plant/flower-info/page000482.html',
-    image: { src: '/images/v42/v38-autumn-rose.webp', width: 480, height: 320, alt: '秋バラのイメージイラスト' },
-    showUntil: '2026-11-15',
-  },
-  {
-    city: '石岡市', state: '品種園が見頃', tone: 'is-peak', flower: '秋バラ', spot: 'バラの品種園',
-    name: 'いばらきフラワーパーク', text: '筑波山を望む品種園が見頃。テラスほかは見頃終盤。',
-    source: '公式更新：11月7日', cta: '最新の開花情報へ', external: true,
-    href: 'https://www.flowerpark.or.jp/news-column/akibara2026/',
-    image: { src: '/images/v42/v38-autumn-rose.webp', width: 480, height: 320, alt: '秋バラのイメージイラスト' },
-    showUntil: '2026-11-15',
-  },
-  {
-    city: '笠間市', state: '菊まつり開催中', tone: 'is-event', flower: '菊', spot: '門前の花めぐり',
-    name: '笠間稲荷神社ほか', text: '立菊や懸崖菊など、多彩な菊を境内で。',
-    source: '開催期間：10月24日〜11月23日', cta: '開催案内を読む', external: false,
-    href: '/events/kasama-kiku-matsuri-2026/', kiku: true,
-    image: { src: '/images/v42/chrysanthemums.webp', width: 420, height: 525, alt: '色とりどりの菊のイメージイラスト' },
-    showUntil: '2026-11-23',
-  },
-];
 const today = todayDateOnlyString();
-const visibleFlowers = flowers.filter((item) => today <= item.showUntil);
-
-const pets = {
-  checked: '2026年11月8日確認',
-  cafes: [
-    { kicker: 'つくば市 ／ 愛犬とカフェへ', name: 'ペニーレイン つくば店', text: 'お散歩のあとは、愛犬とカフェ時間。', rule: '犬同伴・ドッグカフェ', cta: 'ドッグカフェの案内を見る', href: 'https://pennylane.company/pennylane_d_tsukuba' },
-    { kicker: '土浦市 ／ 木漏れ日のテラスへ', name: '森のカフェ', text: '木漏れ日のテラスで、のんびりひと休み。', rule: 'ペット同伴・テラス席', cta: 'お店と利用条件を見る', href: 'https://cafe.thomasforest.jp/' },
-  ],
-  facilities: [
-    { town: 'ひたちなか市', name: '国営ひたち海浜公園', rule: 'ペット同伴可', dogOnly: false, cta: '同伴条件を確認', href: 'https://www.hitachikaihin.jp/faq.php?c=1&code=22&lc=0&mode=detail' },
-    { town: '石岡市', name: 'いばらきフラワーパーク', rule: 'ペット同伴可', dogOnly: false, cta: '同伴条件を確認', href: 'https://www.flowerpark.or.jp/faq/' },
-    { town: '稲敷市', name: 'こもれび森のイバライド', rule: '犬のみ同伴可', dogOnly: true, cta: '同伴条件を確認', href: 'https://www.ibaraido.co.jp/wp/5282/' },
-    { town: '潮来市', name: '水郷潮来あやめ園', rule: 'ペット同伴可', dogOnly: false, cta: '施設情報を確認', href: 'https://www.city.itako.lg.jp/kankou/kankou-itakokankou/kankou-spot/kankou-mainspot/kankou-spot03/page001385.html' },
-  ],
-};
+// 花とペットの中身は /hana/now/・/pet/ と共通（src/data/flower-notes.ts・pet-outings.ts）。TOPは3枚組なので top の花だけ
+const FLOWERS_CHECKED = FLOWERS_CHECKED_LABEL;
+const visibleFlowers = visibleFlowerNotes(today).filter((item) => item.top);
+const pets = { checked: PET_CHECKED_LABEL, cafes: PET_CAFES, facilities: PET_FACILITIES };
 ---
 
 {section === 'flowers' && visibleFlowers.length > 0 && (

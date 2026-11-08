@@ -1,0 +1,158 @@
+---
+/**
+ * /hana/now/ — 茨城の花だより（提出版 v42 flowers.html）。
+ * /hana/ は名所を季節順にまとめた常設のページ。こちらは「いま」公式が咲いている・開催中と出している花だけ。
+ * 中身は src/data/flower-notes.ts（TOPの花の区画と共通）。期限を過ぎた花はビルド時に外れ、
+ * 2件未満になったら noindex にする（sitemap.xml.ts も同じ条件）。
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import type { Crumb } from '../../components/Breadcrumbs.astro';
+import { FLOWER_NOW_MIN_INDEX, visibleFlowerNotes } from '../../data/flower-notes';
+import { todayDateOnlyString } from '../../lib/date-only.js';
+import '../../styles/course.css';
+import '../../styles/p41-flowers-pets.css';
+
+const today = todayDateOnlyString();
+const notes = visibleFlowerNotes(today);
+const noindex = notes.length < FLOWER_NOW_MIN_INDEX;
+const flowerNames = [...new Set(notes.map((note) => note.flower))];
+const monthDay = (value: string) => { const [, m, d] = value.split('-').map(Number); return `${m}/${d}`; };
+const latestCheck = notes.map((note) => note.checkedOn).sort().at(-1);
+const latestLabel = latestCheck ? (() => { const [y, m, d] = latestCheck.split('-').map(Number); return `${y}年${m}月${d}日`; })() : '';
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城の花', href: '/hana/' }, { name: 'いま見頃の花' }];
+const title = flowerNames.length
+  ? `茨城のいま見頃の花｜${flowerNames.join('・')}の開花・開催状況（公式で確認）｜イバトコ`
+  : '茨城のいま見頃の花｜公式の開花情報で確かめる花だより｜イバトコ';
+const description = notes.length
+  ? `${notes.map((note) => `${note.name}の${note.flower}`).join('、')}。公式の開花情報と開催案内で確かめた、茨城でいま会いに行ける花をまとめています。`
+  : '茨城でいま会いに行ける花を、公式の開花情報と開催案内で確かめてまとめるページです。';
+
+const journeys = [
+  { href: '/course/hitachinaka/', img: '/images/theme/nemophila-hitachi-seaside-park.jpg', width: 1108, height: 739, tag: '実写', kicker: 'ひたちなか市', title: '空と花のあいだを、歩く。', text: 'みはらしの丘から、海辺のまちへ。' },
+  { href: '/events/ibaraki-flowerpark-illumination-2026/', img: '/images/v42/nightgarden.webp', width: 760, height: 507, tag: 'イメージイラスト', kicker: '石岡市', title: '花の庭を、夜まで。', text: 'いばらきフラワーパークのイルミネーション。' },
+];
+const related = [
+  { href: '/hana/', img: '/images/theme/nemophila-hitachi-seaside-park.jpg', width: 1108, height: 739, tag: '実写', kicker: 'IBARAKI FLOWERS', title: ['梅から、', 'あじさいまで。'], text: '茨城の花の名所を、季節の順に。' },
+  { href: '/pet/', img: '/images/v42/v38-pet-cafe-terrace.webp', width: 1200, height: 600, tag: 'イメージイラスト', kicker: 'WITH PETS', title: ['うちの子と、', 'よりみち。'], text: '同伴できる公園とカフェ。' },
+  { href: '/course/', img: '/images/v42/v39-route-reporters.webp', width: 360, height: 540, tag: 'イメージイラスト', kicker: 'MODEL COURSE', title: ['半日を、', 'ひとつの旅に。'], text: '自分の速さでまちを歩く。' },
+];
+
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: '茨城のいま見頃の花',
+    url: new URL('/hana/now/', Astro.site).href,
+    numberOfItems: notes.length,
+    itemListElement: notes.map((note, index) => ({ '@type': 'ListItem', position: index + 1, name: `${note.name}（${note.flower}）` })),
+  },
+];
+---
+
+<BrandBase title={title} description={description} jsonLd={jsonLd} noindex={noindex}>
+  <div class="p41-main">
+    <nav class="p41-wrap p41-crumb" aria-label="パンくず">
+      {crumbs.map((crumb, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">／</span>}
+          {crumb.href ? <a href={crumb.href}>{crumb.name}</a> : <span aria-current="page">{crumb.name}</span>}
+        </>
+      ))}
+    </nav>
+
+    <section class="p41-flower-hero">
+      <div class="p41-wrap p41-hub-hero">
+        <div>
+          <p class="p41-kicker">FLOWER NOTES ／ 茨城の花だより</p>
+          <h1 class="v42-title p41-title">いま、会いに<br />行きたい花。</h1>
+          <p class="p41-lead">見頃をたしかめて、お気に入りの一輪へ。<br />県内の花の庭を、季節とともに。</p>
+        </div>
+        <img src="/images/v42/v38-autumn-rose.webp" alt="" class="p41-art" width="480" height="320" decoding="async" />
+      </div>
+    </section>
+
+    <section class="p41-section" aria-labelledby="flowers-current">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">CURRENT FLOWERS</p>
+            <h2 id="flowers-current">おでかけ前の、ひと確認。</h2>
+          </div>
+        </header>
+        {notes.length > 0 ? (
+          <div>
+            {notes.map((note) => (
+              <article class="p41-flower-row">
+                <img src={note.image.src} alt={note.image.alt} width={note.image.width} height={note.image.height} loading="lazy" decoding="async" />
+                <div>
+                  <p class="p41-kicker">{note.city}</p>
+                  <h3>{note.name}</h3>
+                  <p>{note.flower} ／ {note.spot}</p>
+                  <p class="p41-meta"><span class:list={['p41-tag', note.tone]}>{note.state}</span><span>{monthDay(note.checkedOn)} 確認</span></p>
+                  <p class="c-detail">{note.detail}</p>
+                  <p class="c-links">
+                    {note.article && <a href={note.article.href}>{note.article.label}</a>}
+                    <a href={`/area/${note.areaSlug}/`}>{note.city}の案内</a>
+                  </p>
+                </div>
+                <a class="p41-button is-light" href={note.officialUrl} target="_blank" rel="noopener">公式の花だよりへ<span class="p41-arrow" aria-hidden="true">↗</span></a>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p class="c-empty">いま、公式の発表で確かめられた花の便りはありません。次の季節の花は、<a href="/hana/">茨城の花の名所（季節順）</a>から探せます。</p>
+        )}
+        <p class="p41-small-note">{latestLabel ? `${latestLabel}に、各施設・主催者の公式発表で確かめた情報です。` : ''}開花状況は天候などで変わります。おでかけ前に、公式の最新情報を確かめてください。画像はイメージイラストです。</p>
+      </div>
+    </section>
+
+    <section class="p41-section is-sage" aria-labelledby="flowers-journeys">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">FLOWER JOURNEYS</p>
+            <h2 id="flowers-journeys">花のある、よりみち。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          {journeys.map((item) => (
+            <a class="p41-card" href={item.href}>
+              <figure>
+                <img src={item.img} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" />
+                <span>{item.tag}</span>
+              </figure>
+              <p class="p41-kicker">{item.kicker}</p>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="p41-related" aria-labelledby="flowers-related">
+      <div class="p41-wrap">
+        <p class="p41-kicker">ONE MORE DISCOVERY</p>
+        <h2 id="flowers-related">ここから、もうひと歩き。</h2>
+        <div class="p41-grid">
+          {related.map((item) => (
+            <a class="p41-card" href={item.href}>
+              <figure>
+                <img src={item.img} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" />
+                <span>{item.tag}</span>
+              </figure>
+              <p class="p41-kicker">{item.kicker}</p>
+              <h3>{item.title[0]}<br class="v42-br-narrow" />{item.title[1]}</h3>
+              <p>{item.text}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BrandBase>

@@ -10,6 +10,7 @@ import { THEMES } from '../data/themes';
 import { SPORTS_TEAMS } from '../data/sports';
 import { FOOD_LIBRARY_PATHS } from '../data/food-library';
 import { COURSES } from '../data/courses';
+import { FLOWER_NOW_MIN_INDEX, visibleFlowerNotes } from '../data/flower-notes';
 
 type SitemapEntry = { path: string; lastmod?: Date };
 
@@ -92,6 +93,9 @@ export const GET: APIRoute = async () => {
   // モデルコース。公式情報で確かめた行き方・開いている時間と確認先を持つページだけを data/courses.ts に置く。
   entries.push({ path: '/course/' });
   for (const course of COURSES) entries.push({ path: `/course/${course.slug}/` });
+  // ペットとおでかけ・花だより。花だよりは期限内の花が2件以上ある時だけ（/hana/now/ の noindex と同じ条件）
+  entries.push({ path: '/pet/' });
+  if (visibleFlowerNotes().length >= FLOWER_NOW_MIN_INDEX) entries.push({ path: '/hana/now/' });
   // 協賛の案内と規約、地域の店・スポットを探すページ（オーナー判断 2026-10-07）。タグ一覧は noindex なので載せない
   entries.push({ path: '/sponsor/' });
   entries.push({ path: '/sponsor/terms/' });
