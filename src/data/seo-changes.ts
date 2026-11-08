@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261109-place-empty-recruitment',
+    date: '2026-11-09',
+    url: '/place/',
+    kind: 'on-page',
+    change: '店舗データ0件の一覧を掲載募集の案内にし、既存のお問い合わせへ掲載・取材の相談導線を追加（#536）',
+    queries: [],
+    commit: '336ab679',
+    experimentType: 'ui',
+    note: '11/9のオーナー指示「店舗／書き手の掲載データはないので、一旦非表示か募集中」に対応。実在しない店舗・人物を足さず、詳細URLの生成なし。既存H1・title・description・canonical・JSON-LDと、0件時のnoindex・sitemap除外を維持。書き手は既存/reporters/の募集案内を残す。',
+  },
+  {
     id: '20261109-home-v42-fidelity-a-release',
     date: '2026-11-09',
     url: '/',
