@@ -1,0 +1,2562 @@
+---
+/**
+ * v42 TOPの「花だより」「モデルコース」「ペットとおでかけ」の3区画。
+ * 締めの「この街を知るほど、茨城が好きになる。」はサイト共通（レイアウト側）にあるので、ここでは持たない。
+ * 見た目は提出デザイン（index.html の flower38 / trip37 / pets38）に合わせ、
+ * 中身は公式の一次情報で確かめたものだけを載せる。確かめた日と出典を画面に出す。
+ *
+ * - 花だより … 開花・開催の状況は日で変わる。showUntil（日本の暦日）を過ぎたカードはビルド時に外し、
+ *   全部外れたら区画ごと出さない。毎朝の定期デプロイで切り替わる。差し替えは flowers を更新する
+ * - モデルコース … 日立・笠間の街ページ（HitachiAreaGuide / area-guides.ts）にある半日コースの要約
+ * - ペット … 各施設の公式案内に書かれた同伴条件だけ。料金や細かな規則は各施設の案内へ送る
+ */
+import { todayDateOnlyString } from '../lib/date-only.js';
+
+interface Props { section: 'flowers' | 'trips' | 'pets'; }
+const { section } = Astro.props;
+
+const FLOWERS_CHECKED = '2026.11.08 確認';
+const flowers = [
+  {
+    city: 'ひたちなか市', state: '咲いています', tone: '', flower: '秋バラ', spot: '常陸ローズガーデン',
+    name: '国営ひたち海浜公園', text: '約120品種のローズガーデンで、秋咲きのバラ。',
+    source: '公式の開花情報を確認', cta: '最新の開花情報へ', external: true,
+    href: 'https://www.hitachikaihin.jp/flower-plant/flower-info/page000482.html',
+    image: { src: '/images/v42/v38-autumn-rose.webp', width: 480, height: 320, alt: '秋バラのイメージイラスト' },
+    showUntil: '2026-11-15',
+  },
+  {
+    city: '石岡市', state: '品種園が見頃', tone: 'is-peak', flower: '秋バラ', spot: 'バラの品種園',
+    name: 'いばらきフラワーパーク', text: '筑波山を望む品種園が見頃。テラスほかは見頃終盤。',
+    source: '公式更新：11月7日', cta: '最新の開花情報へ', external: true,
+    href: 'https://www.flowerpark.or.jp/news-column/akibara2026/',
+    image: { src: '/images/v42/v38-autumn-rose.webp', width: 480, height: 320, alt: '秋バラのイメージイラスト' },
+    showUntil: '2026-11-15',
+  },
+  {
+    city: '笠間市', state: '菊まつり開催中', tone: 'is-event', flower: '菊', spot: '門前の花めぐり',
+    name: '笠間稲荷神社ほか', text: '立菊や懸崖菊など、多彩な菊を境内で。',
+    source: '開催期間：10月24日〜11月23日', cta: '開催案内を読む', external: false,
+    href: '/events/kasama-kiku-matsuri-2026/', kiku: true,
+    image: { src: '/images/v42/chrysanthemums.webp', width: 420, height: 525, alt: '色とりどりの菊のイメージイラスト' },
+    showUntil: '2026-11-23',
+  },
+];
+const today = todayDateOnlyString();
+const visibleFlowers = flowers.filter((item) => today <= item.showUntil);
+
+const pets = {
+  checked: '2026年11月8日確認',
+  cafes: [
+    { kicker: 'つくば市 ／ 愛犬とカフェへ', name: 'ペニーレイン つくば店', text: 'お散歩のあとは、愛犬とカフェ時間。', rule: '犬同伴・ドッグカフェ', cta: 'ドッグカフェの案内を見る', href: 'https://pennylane.company/pennylane_d_tsukuba' },
+    { kicker: '土浦市 ／ 木漏れ日のテラスへ', name: '森のカフェ', text: '木漏れ日のテラスで、のんびりひと休み。', rule: 'ペット同伴・テラス席', cta: 'お店と利用条件を見る', href: 'https://cafe.thomasforest.jp/' },
+  ],
+  facilities: [
+    { town: 'ひたちなか市', name: '国営ひたち海浜公園', rule: 'ペット同伴可', dogOnly: false, cta: '同伴条件を確認', href: 'https://www.hitachikaihin.jp/faq.php?c=1&code=22&lc=0&mode=detail' },
+    { town: '石岡市', name: 'いばらきフラワーパーク', rule: 'ペット同伴可', dogOnly: false, cta: '同伴条件を確認', href: 'https://www.flowerpark.or.jp/faq/' },
+    { town: '稲敷市', name: 'こもれび森のイバライド', rule: '犬のみ同伴可', dogOnly: true, cta: '同伴条件を確認', href: 'https://www.ibaraido.co.jp/wp/5282/' },
+    { town: '潮来市', name: '水郷潮来あやめ園', rule: 'ペット同伴可', dogOnly: false, cta: '施設情報を確認', href: 'https://www.city.itako.lg.jp/kankou/kankou-itakokankou/kankou-spot/kankou-mainspot/kankou-spot03/page001385.html' },
+  ],
+};
+---
+
+{section === 'flowers' && visibleFlowers.length > 0 && (
+  <section class="flower38" id="flower-news" aria-labelledby="flower-title" data-module="home_flowers">
+    <div class="flower38-hills" aria-hidden="true"></div>
+    <div class="print-wrap flower38-layout">
+      <header>
+        <p class="print-label">茨城の花だより</p>
+        <h2 id="flower-title">いま、会いに<br />行きたい花。</h2>
+        <p class="flower38-lead">咲き具合をたしかめて、<br />お気に入りの一輪に会いに。</p>
+        <p class="flower38-date"><span aria-hidden="true">✳</span> {FLOWERS_CHECKED}</p>
+        <small class="flower38-art-note">背景：ネモフィラとコキアのイラスト</small>
+      </header>
+      <div class="flower38-content">
+        <div class="flower38-cards">
+          {visibleFlowers.map((item) => (
+            <a class="flower38-card" href={item.href} {...(item.external ? { target: '_blank', rel: 'noopener' } : {})}>
+              <div class="flower38-card-top"><span class="flower38-city">{item.city}</span><span class:list={['flower38-state', item.tone]}>{item.state}</span></div>
+              <div class:list={['flower38-specimen', { 'flower38-kiku': item.kiku }]}><img {...item.image} loading="lazy" decoding="async" /><span>{item.flower}<small>{item.spot}</small></span></div>
+              <h3>{item.name}</h3>
+              <p>{item.text}</p>
+              <small class="flower38-source">{item.source}</small>
+              <span class="flower38-read">{item.cta} <b aria-hidden="true">{item.external ? '↗' : '→'}</b></span>
+            </a>
+          ))}
+        </div>
+        <p class="flower38-note">公式発表を確認した時点の情報です。見頃や開花状況は天候等で変わります。お出かけ前に各施設の最新案内をご確認ください。</p>
+      </div>
+    </div>
+  </section>
+)}
+
+{section === 'trips' && (
+  <section class="trip37" id="trips" aria-labelledby="weekend-title" data-module="home_trips">
+    <div class="print-wrap">
+      <header class="trip37-heading">
+        <div><p class="print-label">茨城のモデルコース｜歩いてつなぐ休日</p><h2 id="weekend-title">よりみちを、<br class="sp-only" />ひとつの旅に。</h2></div>
+        <a class="quiet-link" href="#area">街からコースを探す <span aria-hidden="true">↓</span></a>
+      </header>
+      <article class="trip37-feature">
+        <div class="trip37-visual trip39-visual">
+          <figure class="trip37-main"><span class="trip38-tape" aria-hidden="true"></span><img src="/images/area/hitachi/station.jpg" width="1280" height="960" loading="lazy" decoding="async" alt="日立駅のガラス張りの展望ロビーから眺める太平洋" /><figcaption>海の見える日立駅</figcaption></figure>
+          <span class="trip37-badge">半日旅<small>HITACHI</small></span>
+          <figure class="trip37-small"><img src="/images/v42/hitachi-coast.webp" width="720" height="480" loading="lazy" decoding="async" alt="かみね公園から見渡す日立の街と海" /><figcaption>坂道の先に、街と海。</figcaption></figure>
+          <img class="trip39-reporters" src="/images/v42/v39-route-reporters.webp" width="360" height="540" loading="lazy" decoding="async" alt="" />
+          <svg class="trip39-trail" viewBox="0 0 260 50" fill="none" aria-hidden="true"><path d="M5 33c26-25 43 18 70-3s31-18 54-3 39 4 61-5 32-13 62-2" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 5"></path><circle cx="250" cy="20" r="4" fill="#f7f4e8" stroke="currentColor" stroke-width="1.2"></circle></svg>
+          <span class="trip39-whisper" aria-hidden="true">今日は、どの道を歩こう。</span>
+        </div>
+        <div class="trip37-copy">
+          <p class="print-label">01 ／ 日立市・徒歩とバス</p>
+          <h3>海の見える駅から、<br />街を見渡す丘へ。</h3>
+          <p>電車を降りたら、目の前は太平洋。<br />海辺の街を、自分の速さでめぐろう。</p>
+          <ol>
+            <li><span>01</span><div><strong>日立駅</strong><small>展望ロビーで、海を眺める。</small></div></li>
+            <li><span>02</span><div><strong>平和通り</strong><small>駅から続く通りを、ひと歩き。</small></div></li>
+            <li><span>03</span><div><strong>かみね公園</strong><small>バスで高台へ、街と海を見渡す。</small></div></li>
+          </ol>
+          <a class="tripbook-button" href="/area/hitachi/#route">日立の半日コースを読む <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <a class="trip37-alternative" href="/area/kasama/">
+        <span class="trip38-alt-num" aria-hidden="true">02</span>
+        <img src="/images/v42/pottery.webp" width="420" height="525" loading="lazy" decoding="async" alt="笠間焼をイメージした器のイラスト" />
+        <span><small>02 ／ 笠間市・半日</small><strong>門前から、焼きものの森へ。</strong><small>笠間稲荷神社 → 芸術の森公園 → 窯元・ギャラリー</small></span>
+        <b aria-hidden="true">→</b>
+      </a>
+      <p class="trip37-credit">写真：<a href="https://commons.wikimedia.org/wiki/File:Hitachi_Station,_Ibaraki_01.jpg" target="_blank" rel="license noopener">日立駅 Σ64 / CC BY 4.0</a>、<a href="https://commons.wikimedia.org/wiki/File:Hitachi_City_from_Kamine_Park_04.jpg" target="_blank" rel="license noopener">かみね公園からの眺め Σ64 / CC BY 4.0</a>。人物と器はイメージイラストです。</p>
+    </div>
+    <div class="trip37-shore" aria-hidden="true"></div>
+  </section>
+)}
+
+{section === 'pets' && (
+  <section class="pets-chapter pets37 pets38" id="pet-facilities" aria-labelledby="pets-title" data-module="home_pets">
+    <div class="print-wrap">
+      <header class="pets-heading">
+        <div>
+          <p class="print-label">ペットとおでかけ</p>
+          <h2 id="pets-title">うちの子と、<br />よりみち。</h2>
+          <p>カフェでひと休みも、公園のお散歩も。<br />一緒に楽しめる、茨城のよりみち。</p>
+          <span class="pets38-stamp"><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="23" rx="7" ry="5"></ellipse><ellipse cx="7" cy="14" rx="3" ry="4" transform="rotate(-24 7 14)"></ellipse><ellipse cx="13" cy="8" rx="3" ry="4"></ellipse><ellipse cx="21" cy="8" rx="3" ry="4"></ellipse><ellipse cx="27" cy="14" rx="3" ry="4" transform="rotate(24 27 14)"></ellipse></svg><span>よりみちの相棒と。</span></span>
+        </div>
+        <figure class="pets38-terrace"><img src="/images/v42/v38-pet-cafe-terrace.webp" width="1200" height="600" loading="lazy" decoding="async" alt="二人が犬と猫を連れてテラスカフェで休む版画調のイラスト" /><figcaption>一緒に過ごす、休日のイメージ。</figcaption></figure>
+      </header>
+      <div class="pet-cafes37 pet-cafes38">
+        {pets.cafes.map((cafe, index) => (
+          <a href={cafe.href} target="_blank" rel="noopener">
+            <span class="pet38-note-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <svg class="pet38-cup" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 17h25v11a12 12 0 0 1-25 0ZM34 19h4a6 6 0 0 1 0 12h-5M6 41h34M16 11c-4-4 4-5 1-9M25 11c-4-4 4-5 1-9"></path></svg>
+            <span class="pet-cafe-kicker">{cafe.kicker}</span>
+            <h3>{cafe.name}</h3>
+            <p>{cafe.text}</p>
+            <span class="pet-rule-label">{cafe.rule}</span>
+            <span class="pet-cafe-link">{cafe.cta} ↗</span>
+          </a>
+        ))}
+      </div>
+      <div class="pets38-facility-heading"><h3>お散歩の行き先も、見つけよう。</h3><span>公園・花の庭・水辺</span></div>
+      <div class="pet-facility-list pet-facilities37">
+        {pets.facilities.map((item) => (
+          <article>
+            <p class="pet-town">{item.town}</p>
+            <h3>{item.name}</h3>
+            <span class:list={['pet-rule-label', { 'dog-only': item.dogOnly }]}>{item.rule}</span>
+            <a href={item.href} target="_blank" rel="noopener">{item.cta} <span aria-hidden="true">↗</span></a>
+          </article>
+        ))}
+      </div>
+      <p class="pet-note">{pets.checked}。種類・サイズ・入場条件・利用できる範囲は施設ごとに異なります。おでかけ前に各施設の案内をご確認ください。掲載は編集部の選定で、広告ではありません。</p>
+    </div>
+  </section>
+)}
+
+<style>
+  .print-wrap{width:var(--print-width);margin-inline:auto}
+  .print-label{font-size:13px;font-weight:700;letter-spacing:.1em}
+  .quiet-link{display:inline-flex;align-items:center;gap:18px;min-height:44px;color:#284d57;font-size:13px;border-bottom:1px solid #b5bfb5}
+  .quiet-link:focus-visible{outline-offset:4px}
+  .sp-only{display:none}
+  .trip37-credit{margin-top:14px;color:#6f7a68;font-size:11px;line-height:1.8}
+  .trip37-credit a{text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  section{--print-width:min(1200px,calc(100vw - 112px))}
+  @media (max-width:760px){.sp-only{display:initial}}
+  @media (max-width:760px){section{--print-width:calc(100vw - 48px)}}
+  @media (max-width:390px){section{--print-width:calc(100vw - 36px)}}
+.tripbook-button {
+  display:inline-flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:26px;
+  min-height:46px;
+  padding:9px 15px;
+  background:#254f68;
+  color:#fffbed;
+  font-size:14px;
+  font-weight:700;
+}
+.tripbook-button:hover {
+  background:#173d52;
+}
+@media (max-width:680px) {
+.tripbook-button {
+  width:100%;
+}
+}
+.tripbook-button {
+  min-height:48px;
+  border:1px solid #254f68;
+  border-radius:2px;
+}
+.tripbook-button {
+  min-height:52px;
+  padding-inline:18px;
+  border-radius:3px;
+}
+.pet-days-event figure {
+  background:#f9f7eb;
+  aspect-ratio:4/5;
+}
+.pet-days-event figure img {
+  object-fit:contain;
+  object-position:center;
+}
+.pets-chapter {
+  background:#f8f4e9;
+  border-top:1px solid #dbdecb;
+  position:relative;
+}
+.pets-heading {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+  align-items:center;
+  padding-top:39px;
+  margin-bottom:24px;
+}
+.pets-heading h2 {
+  font:600 52px/1.4 var(--font-brand-display);
+  letter-spacing:.04em;
+  margin:14px 0 17px;
+}
+.pets-heading>div>p:not(.print-label) {
+  font-size:14px;
+  line-height:1.95;
+  color:#57654e;
+}
+.pets-heading>img {
+  width:100%;
+  max-height:310px;
+  object-fit:contain;
+  object-position:right center;
+}
+.pet-facility-list {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:19px;
+}
+.pet-facility-list article {
+  padding:21px 17px 0;
+  border:1px solid #d2d7c2;
+  background:#fffdf6;
+  box-shadow:3px 4px 0 #c8c9ac25;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+.pet-town {
+  font-size:11px;
+  color:#7d8868;
+  margin:0 0 7px;
+}
+.pet-facility-list h3 {
+  font:600 20px/1.55 var(--font-brand-display);
+  margin:0 0 14px;
+  min-height:62px;
+}
+.pet-rule-label {
+  align-self:start;
+  background:#e9eddc;
+  color:#55673f;
+  padding:4px 9px;
+  font-size:11px;
+  font-weight:700;
+  border-radius:2px;
+}
+.pet-rule-label.dog-only {
+  background:#efe2d4;
+  color:#8a6647;
+}
+.pet-facility-list article>p:not(.pet-town) {
+  font-size:12px;
+  line-height:1.95;
+  color:#647055;
+  margin:13px 0 17px;
+}
+.pet-facility-list article>a {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:48px;
+  border-top:1px solid #d6dbc6;
+  font-size:12px;
+  color:#254f68;
+  font-weight:700;
+  margin-top:auto;
+}
+.pet-note {
+  font-size:11px;
+  line-height:1.9;
+  color:#6b765b;
+  margin:19px 0 26px;
+}
+.pets-chapter .regional-ribbon {
+  border-top:1px solid #e3dfcd;
+}
+@media (min-width:681px) and (max-width:1100px) {
+.pet-facility-list {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+}
+@media (min-width:681px) and (max-width:1100px) {
+.pet-facility-list h3 {
+  min-height:0;
+}
+}
+@media (min-width:681px) and (max-width:1100px) {
+.pets-heading h2 {
+  font-size:44px;
+}
+}
+@media (max-width:680px) {
+.pets-heading {
+  display:block;
+  padding-top:32px;
+  margin-bottom:21px;
+}
+}
+@media (max-width:680px) {
+.pets-heading h2 {
+  font-size:36px;
+  line-height:1.4;
+  margin:13px 0 15px;
+}
+}
+@media (max-width:680px) {
+.pets-heading>div>p:not(.print-label) {
+  font-size:13px;
+  line-height:1.9;
+}
+}
+@media (max-width:680px) {
+.pets-heading>img {
+  display:block;
+  height:auto;
+  max-height:246px;
+  object-fit:contain;
+  margin:5px auto 0;
+}
+}
+@media (max-width:680px) {
+.pet-facility-list {
+  grid-template-columns:1fr;
+  gap:14px;
+}
+}
+@media (max-width:680px) {
+.pet-facility-list article {
+  padding:19px 17px 0;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:0 12px;
+}
+}
+@media (max-width:680px) {
+.pet-town {
+  grid-column:1/-1;
+  font-size:11px;
+}
+}
+@media (max-width:680px) {
+.pet-facility-list h3 {
+  min-height:0;
+  font-size:21px;
+  grid-column:1/-1;
+  margin-bottom:12px;
+}
+}
+@media (max-width:680px) {
+.pet-rule-label {
+  grid-column:1/-1;
+  justify-self:start;
+  font-size:11px;
+}
+}
+@media (max-width:680px) {
+.pet-facility-list article>p:not(.pet-town) {
+  grid-column:1/-1;
+  font-size:13px;
+  margin:12px 0;
+}
+}
+@media (max-width:680px) {
+.pet-facility-list article>a {
+  grid-column:1/-1;
+  font-size:13px;
+  min-height:48px;
+}
+}
+@media (max-width:680px) {
+.pet-note {
+  font-size:10px;
+  line-height:1.9;
+  margin:18px 0 22px;
+}
+}
+@media (max-width:350px) {
+.pet-facility-list h3 {
+  font-size:19px;
+}
+}
+.trip37 {
+  position:relative;
+  background:#fbf8ef;
+  padding:52px 0 0;
+}
+.trip37-heading {
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:34px;
+}
+.trip37-heading h2 {
+  font:600 44px/1.5 var(--font-brand-display);
+  margin:13px 0 0;
+  letter-spacing:.04em;
+}
+.trip37-feature {
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:74px;
+  align-items:center;
+}
+.trip37-visual {
+  position:relative;
+  padding:0 15px 53px 0;
+}
+.trip37-main {
+  margin:0;
+  background:#fffdf5;
+  padding:8px 8px 0;
+  box-shadow:4px 8px 24px #4a543b18;
+  transform:rotate(-1deg);
+}
+.trip37-main img {
+  display:block;
+  width:100%;
+  height:310px;
+  object-fit:cover;
+}
+.trip37-main figcaption {
+  font-size:10px;
+  color:#6a755d;
+  padding:9px 6px 12px;
+}
+.trip37-small {
+  position:absolute;
+  right:-18px;
+  bottom:0;
+  margin:0;
+  width:43%;
+  padding:6px 6px 0;
+  background:#fffdf5;
+  box-shadow:3px 5px 17px #3f543e20;
+  transform:rotate(3deg);
+}
+.trip37-small img {
+  width:100%;
+  height:128px;
+  object-fit:cover;
+  display:block;
+}
+.trip37-small figcaption {
+  font-size:9px;
+  line-height:1.6;
+  padding:7px 3px;
+  color:#7b856a;
+}
+.trip37-badge {
+  position:absolute;
+  left:-12px;
+  top:-18px;
+  width:83px;
+  height:83px;
+  background:#7f8d60;
+  border:4px solid #faf7ee;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  font:600 22px/1.3 var(--font-brand-display);
+  color:#fff9e9;
+  transform:rotate(-9deg);
+  box-shadow:0 4px 10px #52683b1a;
+}
+.trip37-badge small {
+  font:400 8px var(--font-brand-body);
+  letter-spacing:.16em;
+  margin-top:4px;
+}
+.trip37-copy h3 {
+  font:600 34px/1.5 var(--font-brand-display);
+  letter-spacing:.03em;
+  margin:13px 0 13px;
+}
+.trip37-copy>p:not(.print-label) {
+  font-size:13px;
+  line-height:1.9;
+  color:#68725c;
+}
+.trip37-copy ol {
+  list-style:none;
+  padding:0;
+  margin:20px 0;
+}
+.trip37-copy li {
+  display:flex;
+  gap:16px;
+  align-items:center;
+  padding:9px 0;
+}
+.trip37-copy li>span {
+  font:400 16px var(--font-brand-display);
+  color:#98a37c;
+}
+.trip37-copy li strong {
+  font:600 16px var(--font-brand-display);
+}
+.trip37-copy li small {
+  display:block;
+  font-size:11px;
+  line-height:1.8;
+  color:#7b846c;
+  margin-top:4px;
+}
+.trip37-copy .tripbook-button {
+  display:flex;
+  width:max-content;
+  gap:35px;
+  margin-top:21px;
+}
+.trip37-alternative {
+  display:flex;
+  gap:24px;
+  align-items:center;
+  margin-top:35px;
+  padding:15px 23px 15px 15px;
+  background:#f3f1e3;
+  border-radius:2px;
+  border:1px solid #e0e1cd;
+}
+.trip37-alternative img {
+  width:90px;
+  height:85px;
+  object-fit:cover;
+}
+.trip37-alternative>span {
+  flex:1;
+}
+.trip37-alternative strong {
+  font:600 23px/1.55 var(--font-brand-display);
+  display:block;
+  margin:5px 0;
+}
+.trip37-alternative small {
+  font-size:11px;
+  line-height:1.7;
+  color:#7d866e;
+}
+.trip37-alternative>b {
+  font-weight:400;
+  font-size:22px;
+  color:#5e7654;
+}
+.trip37-shore {
+  height:130px;
+  background:url(/images/v42/v36-station.webp) center 89% / cover no-repeat;
+  margin-top:18px;
+}
+.pets37 {
+  border-top:0;
+}
+.pets37 .pets-heading {
+  grid-template-columns:1fr 300px;
+  padding-top:36px;
+  margin-bottom:15px;
+}
+.pets37 .pets-heading h2 {
+  font-size:42px;
+}
+.pets37 .pets-heading>img {
+  max-height:225px;
+}
+.pet-cafes37 {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+  margin-bottom:24px;
+}
+.pet-cafes37>a {
+  padding:22px 25px;
+  background:#fffdf6;
+  box-shadow:0 4px 16px #4c5c3410;
+  border:1px solid #e2e2d0;
+  display:block;
+  position:relative;
+}
+.pet-cafes37 h3 {
+  font:600 24px/1.5 var(--font-brand-display);
+  margin:9px 0;
+}
+.pet-cafe-kicker {
+  font-size:10px;
+  letter-spacing:.07em;
+  color:#8b916f;
+}
+.pet-cafes37 p {
+  font-size:13px;
+  line-height:1.8;
+  color:#7c836b;
+  margin-bottom:13px;
+}
+.pet-cafe-link {
+  font-size:12px;
+  color:#254f68;
+  display:flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:12px;
+  border-top:1px solid #e3e4d4;
+}
+.pets37 .pet-facilities37 {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 30px;
+}
+.pets37 .pet-facilities37 article {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:4px 12px;
+  background:none;
+  border:0;
+  border-bottom:1px solid #d9decb;
+  box-shadow:none;
+  padding:13px 0;
+}
+.pets37 .pet-facilities37 .pet-town {
+  font-size:10px;
+  grid-column:1;
+  margin:0;
+}
+.pets37 .pet-facilities37 h3 {
+  font-size:17px;
+  min-height:0;
+  margin:0;
+  grid-column:1;
+}
+.pets37 .pet-facilities37 .pet-rule-label {
+  grid-column:2;
+  grid-row:1;
+  align-self:center;
+  font-size:9px;
+}
+.pets37 .pet-facilities37 article>a {
+  grid-column:2;
+  grid-row:2;
+  font-size:10px;
+  gap:15px;
+  min-height:30px;
+  border:0;
+}
+.pets37 .pet-note {
+  margin-bottom:0;
+  padding-bottom:27px;
+}
+ {
+  background:#f4f1e6;
+  padding:25px 0;
+}
+ {
+  display:flex;
+  gap:25px;
+  align-items:center;
+}
+ {
+  width:73px;
+  height:115px;
+  object-fit:contain;
+}
+ {
+  font:500 25px/1.6 var(--font-brand-display);
+  letter-spacing:.03em;
+  margin:7px 0 0;
+}
+ {
+  margin-left:auto;
+  font-size:12px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  color:#617453;
+}
+@media (max-width:1100px) and (min-width:761px) {
+.trip37-feature {
+  gap:35px;
+}
+}
+@media (max-width:1100px) and (min-width:761px) {
+.trip37-copy h3 {
+  font-size:28px;
+}
+}
+@media (max-width:760px) {
+.trip37 {
+  padding-top:35px;
+}
+}
+@media (max-width:760px) {
+.trip37-heading {
+  display:block;
+  margin-bottom:30px;
+}
+}
+@media (max-width:760px) {
+.trip37-heading h2 {
+  font-size:31px;
+  line-height:1.5;
+  margin-top:10px;
+}
+}
+@media (max-width:760px) {
+.trip37-heading>.quiet-link {
+  display:none;
+}
+}
+@media (max-width:760px) {
+.trip37-feature {
+  display:block;
+}
+}
+@media (max-width:760px) {
+.trip37-visual {
+  padding:0 14px 55px 0;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+}
+@media (max-width:760px) {
+.trip37-main img {
+  height:220px;
+}
+}
+@media (max-width:760px) {
+.trip37-main figcaption {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+.trip37-small {
+  width:44%;
+  right:0;
+}
+}
+@media (max-width:760px) {
+.trip37-small img {
+  height:90px;
+}
+}
+@media (max-width:760px) {
+.trip37-small figcaption {
+  font-size:8px;
+}
+}
+@media (max-width:760px) {
+.trip37-badge {
+  width:68px;
+  height:68px;
+  font-size:19px;
+  left:-8px;
+  top:-20px;
+}
+}
+@media (max-width:760px) {
+.trip37-badge small {
+  font-size:7px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy h3 {
+  font-size:29px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy>p:not(.print-label) {
+  font-size:13px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy ol {
+  margin-block:16px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li {
+  padding-block:8px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li small {
+  font-size:12px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy .tripbook-button {
+  width:100%;
+  justify-content:space-between;
+  font-size:13px;
+}
+}
+@media (max-width:760px) {
+.trip37-alternative {
+  gap:13px;
+  padding:11px 12px;
+  margin-top:26px;
+}
+}
+@media (max-width:760px) {
+.trip37-alternative img {
+  width:66px;
+  height:86px;
+}
+}
+@media (max-width:760px) {
+.trip37-alternative strong {
+  font-size:18px;
+  line-height:1.5;
+}
+}
+@media (max-width:760px) {
+.trip37-alternative small {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+.trip37-alternative>b {
+  font-size:17px;
+}
+}
+@media (max-width:760px) {
+.trip37-shore {
+  height:95px;
+  margin-top:12px;
+  background-position:23% 86%;
+}
+}
+@media (max-width:760px) {
+.pets37 .pets-heading {
+  display:grid;
+  grid-template-columns:1fr 150px;
+  gap:10px;
+  padding-top:28px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pets-heading h2 {
+  font-size:30px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pets-heading>div>p:not(.print-label) {
+  font-size:11px;
+  line-height:1.9;
+}
+}
+@media (max-width:760px) {
+.pets37 .pets-heading>img {
+  max-height:185px;
+  width:100%;
+  margin:0;
+  align-self:center;
+}
+}
+@media (max-width:760px) {
+.pet-cafes37 {
+  grid-template-columns:1fr;
+  gap:14px;
+  margin-bottom:20px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes37>a {
+  padding:19px 20px 5px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes37 h3 {
+  font-size:23px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes37 p {
+  font-size:12px;
+}
+}
+@media (max-width:760px) {
+.pet-cafe-link {
+  font-size:12px;
+  margin-top:12px;
+  min-height:48px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-facilities37 {
+  grid-template-columns:1fr;
+  gap:0;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-facilities37 article {
+  padding-block:13px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-facilities37 h3 {
+  font-size:17px;
+  line-height:1.55;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-facilities37 article>a {
+  font-size:10px;
+  gap:8px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-facilities37 .pet-rule-label {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+.pets37 .pet-note {
+  font-size:9px;
+  padding-bottom:24px;
+}
+}
+@media (max-width:760px) {
+ {
+  padding:22px 0;
+}
+}
+@media (max-width:760px) {
+ {
+  gap:13px;
+  flex-wrap:wrap;
+}
+}
+@media (max-width:760px) {
+ {
+  width:59px;
+  height:93px;
+}
+}
+@media (max-width:760px) {
+ {
+  flex:1;
+}
+}
+@media (max-width:760px) {
+ {
+  font-size:19px;
+  line-height:1.7;
+}
+}
+@media (max-width:760px) {
+ {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+ {
+  margin-left:auto;
+  font-size:11px;
+  min-height:38px;
+}
+}
+@media (max-width:350px) {
+.pets37 .pets-heading {
+  grid-template-columns:1fr 119px;
+}
+}
+@media (max-width:350px) {
+.pets37 .pets-heading h2 {
+  font-size:27px;
+}
+}
+@media (max-width:350px) {
+.pets37 .pet-facilities37 h3 {
+  font-size:15px;
+}
+}
+@media (max-width:350px) {
+.trip37-copy h3 {
+  font-size:25px;
+}
+}
+@media (max-width:350px) {
+ {
+  font-size:17px;
+}
+}
+@media (max-width:760px) {
+ {
+  display:grid;
+  grid-template-columns:59px minmax(0,1fr);
+  gap:4px 13px;
+}
+}
+@media (max-width:760px) {
+ {
+  grid-row:1/3;
+}
+}
+@media (max-width:760px) {
+ {
+  grid-column:2;
+  margin:0;
+  justify-self:start;
+  min-height:38px;
+}
+}
+@media (max-width:760px) {
+ {
+  font-size:19px;
+  line-height:1.65;
+}
+}
+@media (max-width:760px) {
+ {
+  font-size:9px;
+  line-height:1.7;
+}
+}
+.flower38 {
+  background:#f6f4e7;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.flower38-layout {
+  display:grid;
+  grid-template-columns:.88fr 2.7fr;
+  gap:35px;
+  padding-block:43px 35px;
+  position:relative;
+  z-index:1;
+}
+.flower38 header {
+  position:relative;
+  padding-bottom:43px;
+}
+.flower38 h2 {
+  font:600 38px/1.4 var(--font-brand-display);
+  letter-spacing:.05em;
+  margin:15px 0 17px;
+  color:#28484b;
+}
+.flower38-lead {
+  font-size:13px;
+  line-height:1.95;
+  color:#6f7c60;
+}
+.flower38-date {
+  display:flex;
+  gap:9px;
+  align-items:center;
+  margin-top:22px;
+  font-size:11px;
+  color:#73815e;
+}
+.flower38-date>span {
+  font-size:25px;
+  font-weight:400;
+  color:#a19468;
+}
+.flower38-art-note {
+  font-size:8px;
+  line-height:1.6;
+  color:#9c9e89;
+  display:block;
+  margin-top:9px;
+}
+.flower38-hills {
+  position:absolute;
+  left:-20px;
+  bottom:-15px;
+  width:75%;
+  height:180px;
+  background:url(/images/v42/v37-flower-hills.webp) left 71% / cover no-repeat;
+  opacity:.38;
+  z-index:-1;
+}
+.flower38-cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:17px;
+}
+.flower38-card {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:16px 16px 0;
+  background:#fffdf5;
+  border:1px solid #e0dfcb;
+  box-shadow:3px 5px 0 #a6af8d18;
+  border-radius:2px;
+  transition:transform .2s,box-shadow .2s;
+}
+.flower38-card:nth-child(2) {
+  transform:translateY(6px);
+}
+.flower38-card:hover {
+  transform:translateY(-2px);
+  box-shadow:4px 8px 15px #56683b15;
+}
+.flower38-card-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.flower38-city {
+  font-size:10px;
+  color:#838d70;
+}
+.flower38-state {
+  font-size:9px;
+  padding:3px 6px;
+  line-height:1.5;
+  background:#e9eedc;
+  color:#62794a;
+  border-radius:2px;
+  white-space:nowrap;
+}
+.flower38-state.is-peak {
+  background:#eadfd8;
+  color:#926957;
+}
+.flower38-state.is-event {
+  background:#eee7d5;
+  color:#8c7a51;
+}
+.flower38-specimen {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:100px;
+  margin:8px 0 11px;
+}
+.flower38-specimen>img {
+  width:82px;
+  height:95px;
+  object-fit:contain;
+  flex:none;
+}
+.flower38-specimen>span {
+  font:600 22px/1.4 var(--font-brand-display);
+  color:#506c52;
+}
+.flower38-specimen small {
+  font:400 9px/1.65 var(--font-brand-body);
+  color:#8d937d;
+  display:block;
+  margin-top:5px;
+}
+.flower38-card:nth-child(2) .flower38-specimen>img {
+  transform:scaleX(-1) rotate(6deg);
+}
+.flower38-kiku>img {
+  height:80px;
+  width:80px;
+  object-fit:cover;
+  border-radius:50%;
+  opacity:.92;
+}
+.flower38-card h3 {
+  font:600 17px/1.6 var(--font-brand-display);
+  margin:0 0 9px;
+  min-height:54px;
+  color:#29464b;
+}
+.flower38-card>p {
+  font-size:11px;
+  line-height:1.85;
+  color:#77836a;
+  margin:0 0 12px;
+}
+.flower38-source {
+  font-size:9px;
+  line-height:1.7;
+  color:#969c85;
+  margin-top:auto;
+  display:block;
+  padding-top:3px;
+}
+.flower38-read {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+  margin-top:9px;
+  min-height:44px;
+  border-top:1px solid #e1e3d1;
+  color:#254f68;
+  font-size:11px;
+  font-weight:600;
+}
+.flower38-read b {
+  font-size:16px;
+  font-weight:400;
+}
+.flower38-note {
+  font-size:10px;
+  line-height:1.85;
+  margin-top:20px;
+  color:#828c70;
+}
+.pets38 {
+  background:#f8f3e6;
+  position:relative;
+  isolation:isolate;
+}
+.pets38:before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:radial-gradient(ellipse at 75% 24%,#e2e6d64a,transparent 52%);
+  pointer-events:none;
+}
+.pets38 .pets-heading {
+  grid-template-columns:.8fr 1.25fr;
+  gap:42px;
+  align-items:center;
+  padding-top:34px;
+  margin-bottom:18px;
+  position:relative;
+}
+.pets38 .pets-heading>div {
+  position:relative;
+}
+.pets38 .pets-heading h2 {
+  font-size:49px;
+  letter-spacing:.07em;
+  line-height:1.45;
+  margin:13px 0 15px;
+}
+.pets38 .pets-heading>div>p:not(.print-label) {
+  font-size:13px;
+  line-height:2;
+  color:#6d7a5c;
+}
+.pets38-terrace {
+  margin:0;
+  position:relative;
+  align-self:center;
+}
+.pets38-terrace>img {
+  width:100%;
+  height:265px;
+  object-fit:contain;
+  object-position:center bottom;
+}
+.pets38-terrace figcaption {
+  font-size:8px;
+  color:#9b9e87;
+  line-height:1.6;
+  text-align:right;
+  margin-top:2px;
+}
+.pets38-stamp {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:3px;
+  width:85px;
+  height:85px;
+  border:1px solid #a3ad87;
+  border-radius:50%;
+  outline:1px solid #bac2a44f;
+  outline-offset:-5px;
+  transform:rotate(-11deg);
+  position:absolute;
+  right:0;
+  top:25px;
+  color:#87936b;
+  background:#f7f4e6ad;
+}
+.pets38-stamp svg {
+  height:26px;
+  width:26px;
+  fill:#8d9a70;
+}
+.pets38-stamp>span {
+  font-size:8px;
+  letter-spacing:.035em;
+}
+.pet-cafes38 {
+  gap:28px;
+  margin-bottom:31px;
+}
+.pet-cafes38>a {
+  position:relative;
+  overflow:hidden;
+  padding:23px 28px 0;
+  box-shadow:3px 7px 0 #b7b79b1a;
+  isolation:isolate;
+  border:1px solid #dedcc8;
+  background:#fffcf2;
+}
+.pet-cafes38>a:first-child {
+  transform:rotate(-.45deg);
+}
+.pet-cafes38>a:last-child {
+  transform:rotate(.45deg);
+  background:#f1f2e6;
+}
+.pet-cafes38>a:before {
+  content:'';
+  position:absolute;
+  inset:7px;
+  border:1px solid #d5d9bf70;
+  border-bottom:0;
+  pointer-events:none;
+  z-index:-1;
+}
+.pet38-note-number {
+  position:absolute;
+  right:23px;
+  top:10px;
+  font:400 54px/1 var(--font-brand-display);
+  color:#c3c6a859;
+  z-index:-1;
+}
+.pet38-cup {
+  width:39px;
+  height:39px;
+  stroke:#89986d;
+  fill:none;
+  stroke-width:1.3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  position:absolute;
+  right:27px;
+  top:70px;
+  transform:rotate(-6deg);
+}
+.pet-cafes38 h3 {
+  font-size:25px;
+  letter-spacing:.035em;
+  max-width:calc(100% - 40px);
+  margin:11px 0;
+}
+.pet-cafes38 p {
+  font-size:13px;
+}
+.pet-cafes38 .pet-cafe-kicker {
+  letter-spacing:.06em;
+  color:#8e9778;
+  font-size:10px;
+}
+.pet-cafes38 .pet-rule-label {
+  display:inline-block;
+  background:#e8ecda;
+  color:#637949;
+  font-size:10px;
+  padding:4px 8px;
+  border-radius:1px;
+}
+.pet-cafes38 .pet-cafe-link {
+  margin-top:17px;
+  min-height:47px;
+  font-size:12px;
+  border-color:#d9ddc8;
+  justify-content:space-between;
+}
+.pet-cafes38>a:hover {
+  box-shadow:3px 10px 14px #6c765318;
+}
+.pets38-facility-heading {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:9px;
+  border-bottom:1px solid #cdd5bd;
+}
+.pets38-facility-heading h3 {
+  font:500 20px/1.6 var(--font-brand-display);
+  letter-spacing:.03em;
+  color:#3a5850;
+}
+.pets38-facility-heading>span {
+  font-size:10px;
+  color:#929c7f;
+}
+.pets38 .pet-facilities37 article {
+  padding-block:13px;
+}
+.pets38 .pet-facilities37 h3 {
+  font-size:17px;
+}
+.pets38 .pet-facilities37 article>a {
+  position:relative;
+  min-height:40px;
+  font-size:10px;
+}
+.pets38 .pet-note {
+  font-size:10px;
+  line-height:1.9;
+  color:#8d957a;
+  padding-bottom:30px;
+}
+.trip37-main {
+  position:relative;
+}
+.trip38-tape {
+  position:absolute;
+  top:-10px;
+  left:34%;
+  width:82px;
+  height:20px;
+  background:#cec3a399;
+  transform:rotate(-5deg);
+  z-index:2;
+  clip-path:polygon(2% 0,100% 4%,97% 100%,0 97%);
+}
+.trip37-copy ol {
+  position:relative;
+}
+.trip37-copy ol:before {
+  content:'';
+  position:absolute;
+  left:15px;
+  top:24px;
+  bottom:28px;
+  border-left:1px dashed #bdc7a5;
+}
+.trip37-copy li>span {
+  position:relative;
+  z-index:1;
+  background:#f9f7ed;
+  border:1px solid #cad2b9;
+  border-radius:50%;
+  width:31px;
+  height:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  flex:none;
+}
+.trip37-copy li {
+  gap:15px;
+}
+.trip37-alternative {
+  position:relative;
+  background:#fffdf4;
+  border:1px solid #dbddc6;
+  box-shadow:3px 5px 0 #bcc4a21f;
+}
+.trip38-alt-num {
+  position:absolute;
+  right:50px;
+  top:8px;
+  font:400 80px/1 var(--font-brand-display);
+  color:#b8c39b1c;
+  z-index:0;
+  pointer-events:none;
+}
+.trip37-alternative>span:not(.trip38-alt-num),
+.trip37-alternative>b {
+  position:relative;
+  z-index:1;
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-layout {
+  grid-template-columns:.7fr 2fr;
+  gap:25px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38 h2 {
+  font-size:30px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-cards {
+  gap:10px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-card {
+  padding:13px 10px 0;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-specimen {
+  display:block;
+  height:127px;
+  text-align:center;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-specimen>img {
+  margin:auto;
+  width:70px;
+  height:75px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-specimen>span {
+  font-size:19px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-specimen small {
+  display:none;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-card h3 {
+  font-size:16px;
+  min-height:77px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.flower38-state {
+  font-size:8px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pets38 .pets-heading {
+  gap:25px;
+  grid-template-columns:.95fr 1.05fr;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pets38 .pets-heading h2 {
+  font-size:43px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pets38-stamp {
+  width:68px;
+  height:68px;
+  right:0;
+  top:35px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pets38-stamp>span {
+  font-size:7px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pets38-terrace>img {
+  height:240px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pet-cafes38>a {
+  padding:20px 21px 0;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pet-cafes38 h3 {
+  font-size:21px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.pet38-cup {
+  right:16px;
+  top:70px;
+}
+}
+@media (max-width:760px) {
+.flower38-layout {
+  display:block;
+  padding-block:30px 30px;
+}
+}
+@media (max-width:760px) {
+.flower38 header {
+  padding-bottom:0;
+  margin-bottom:21px;
+}
+}
+@media (max-width:760px) {
+.flower38 h2 {
+  font-size:31px;
+  line-height:1.5;
+  margin:10px 0 11px;
+  letter-spacing:.04em;
+}
+}
+@media (max-width:760px) {
+.flower38 h2 br {
+  display:none;
+}
+}
+@media (max-width:760px) {
+.flower38-lead {
+  font-size:12px;
+  line-height:1.9;
+}
+}
+@media (max-width:760px) {
+.flower38-lead br {
+  display:none;
+}
+}
+@media (max-width:760px) {
+.flower38-date {
+  margin-top:12px;
+  font-size:10px;
+  gap:6px;
+}
+}
+@media (max-width:760px) {
+.flower38-date>span {
+  font-size:19px;
+}
+}
+@media (max-width:760px) {
+.flower38-art-note {
+  position:absolute;
+  right:0;
+  bottom:1px;
+  font-size:7px;
+  margin:0;
+  max-width:130px;
+  text-align:right;
+}
+}
+@media (max-width:760px) {
+.flower38-hills {
+  height:160px;
+  width:150%;
+  left:-25%;
+  opacity:.25;
+  bottom:-30px;
+  background-position:center 71%;
+}
+}
+@media (max-width:760px) {
+.flower38-cards {
+  grid-template-columns:1fr;
+  gap:13px;
+}
+}
+@media (max-width:760px) {
+.flower38-card {
+  display:grid;
+  grid-template-columns:67px minmax(0,1fr);
+  gap:2px 14px;
+  padding:14px 14px 0;
+}
+}
+@media (max-width:760px) {
+.flower38-card:nth-child(2) {
+  transform:none;
+}
+}
+@media (max-width:760px) {
+.flower38-card-top {
+  grid-column:2;
+  gap:5px;
+}
+}
+@media (max-width:760px) {
+.flower38-city {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+.flower38-state {
+  font-size:9px;
+  padding:2px 5px;
+}
+}
+@media (max-width:760px) {
+.flower38-specimen {
+  grid-column:1;
+  grid-row:1/6;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  height:100%;
+  margin:0;
+  padding-bottom:12px;
+}
+}
+@media (max-width:760px) {
+.flower38-specimen>img {
+  width:65px;
+  height:83px;
+  object-fit:contain;
+}
+}
+@media (max-width:760px) {
+.flower38-specimen>span {
+  font-size:17px;
+  letter-spacing:.04em;
+  text-align:center;
+}
+}
+@media (max-width:760px) {
+.flower38-specimen small {
+  display:none;
+}
+}
+@media (max-width:760px) {
+.flower38-kiku>img {
+  width:61px;
+  height:61px;
+  object-fit:cover;
+  border-radius:50%;
+}
+}
+@media (max-width:760px) {
+.flower38-card h3 {
+  grid-column:2;
+  font-size:18px;
+  line-height:1.55;
+  min-height:0;
+  margin:5px 0 4px;
+  letter-spacing:.01em;
+}
+}
+@media (max-width:760px) {
+.flower38-card>p {
+  grid-column:2;
+  font-size:11px;
+  line-height:1.8;
+  margin:0 0 3px;
+}
+}
+@media (max-width:760px) {
+.flower38-source {
+  grid-column:2;
+  font-size:9px;
+  line-height:1.75;
+  padding-top:4px;
+  margin:0;
+}
+}
+@media (max-width:760px) {
+.flower38-read {
+  grid-column:2;
+  min-height:42px;
+  margin-top:7px;
+  font-size:11px;
+}
+}
+@media (max-width:760px) {
+.flower38-read b {
+  font-size:15px;
+}
+}
+@media (max-width:760px) {
+.flower38-note {
+  font-size:9px;
+  line-height:1.9;
+  margin-top:17px;
+}
+}
+@media (max-width:760px) {
+.pets38 .pets-heading {
+  display:block;
+  padding-top:30px;
+  margin-bottom:15px;
+}
+}
+@media (max-width:760px) {
+.pets38 .pets-heading h2 {
+  font-size:36px;
+  line-height:1.4;
+  letter-spacing:.05em;
+  margin:12px 0;
+}
+}
+@media (max-width:760px) {
+.pets38 .pets-heading>div>p:not(.print-label) {
+  font-size:12px;
+  line-height:1.9;
+}
+}
+@media (max-width:760px) {
+.pets38-stamp {
+  width:70px;
+  height:70px;
+  right:10px;
+  top:32px;
+  transform:rotate(9deg);
+}
+}
+@media (max-width:760px) {
+.pets38-stamp>span {
+  font-size:7px;
+}
+}
+@media (max-width:760px) {
+.pets38-stamp svg {
+  width:22px;
+  height:22px;
+}
+}
+@media (max-width:760px) {
+.pets38-terrace {
+  margin-top:8px;
+}
+}
+@media (max-width:760px) {
+.pets38-terrace>img {
+  width:100%;
+  height:193px;
+  object-fit:contain;
+}
+}
+@media (max-width:760px) {
+.pets38-terrace figcaption {
+  text-align:center;
+  font-size:8px;
+  margin-top:-3px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 {
+  gap:17px;
+  margin-bottom:26px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38>a {
+  padding:21px 21px 0;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38>a:first-child {
+  transform:rotate(-.35deg);
+}
+}
+@media (max-width:760px) {
+.pet-cafes38>a:last-child {
+  transform:rotate(.35deg);
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 h3 {
+  font-size:22px;
+  line-height:1.5;
+  max-width:calc(100% - 24px);
+  margin:11px 0 10px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 .pet-cafe-kicker {
+  font-size:10px;
+  letter-spacing:.03em;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 p {
+  font-size:12px;
+  line-height:1.9;
+  padding-right:15px;
+  margin-bottom:12px;
+}
+}
+@media (max-width:760px) {
+.pet38-note-number {
+  font-size:47px;
+  right:15px;
+  top:13px;
+}
+}
+@media (max-width:760px) {
+.pet38-cup {
+  width:31px;
+  height:31px;
+  right:15px;
+  top:92px;
+  opacity:.65;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 .pet-rule-label {
+  font-size:10px;
+}
+}
+@media (max-width:760px) {
+.pet-cafes38 .pet-cafe-link {
+  min-height:48px;
+  font-size:12px;
+  margin-top:14px;
+}
+}
+@media (max-width:760px) {
+.pets38-facility-heading {
+  display:block;
+  padding-bottom:8px;
+}
+}
+@media (max-width:760px) {
+.pets38-facility-heading h3 {
+  font-size:18px;
+  line-height:1.7;
+}
+}
+@media (max-width:760px) {
+.pets38-facility-heading>span {
+  font-size:9px;
+}
+}
+@media (max-width:760px) {
+.pets38 .pet-note {
+  font-size:9px;
+  padding-bottom:25px;
+  line-height:1.9;
+}
+}
+@media (max-width:760px) {
+.trip38-tape {
+  width:63px;
+  height:17px;
+  top:-8px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy ol:before {
+  left:14px;
+  top:23px;
+  bottom:26px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li>span {
+  width:29px;
+  height:29px;
+  font-size:12px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li {
+  gap:13px;
+}
+}
+@media (max-width:760px) {
+.trip38-alt-num {
+  font-size:55px;
+  top:23px;
+  right:25px;
+}
+}
+@media (max-width:350px) {
+.flower38 h2 {
+  font-size:28px;
+  letter-spacing:.02em;
+}
+}
+@media (max-width:350px) {
+.flower38-card {
+  grid-template-columns:53px minmax(0,1fr);
+  gap:2px 11px;
+  padding-inline:12px;
+}
+}
+@media (max-width:350px) {
+.flower38-specimen>img {
+  width:51px;
+  height:73px;
+}
+}
+@media (max-width:350px) {
+.flower38-specimen>span {
+  font-size:16px;
+}
+}
+@media (max-width:350px) {
+.flower38-card h3 {
+  font-size:16px;
+}
+}
+@media (max-width:350px) {
+.flower38-card-top {
+  gap:4px;
+}
+}
+@media (max-width:350px) {
+.flower38-state {
+  font-size:8px;
+}
+}
+@media (max-width:350px) {
+.flower38-card>p {
+  font-size:10px;
+}
+}
+@media (max-width:350px) {
+.flower38-art-note {
+  font-size:6px;
+  max-width:112px;
+}
+}
+@media (max-width:350px) {
+.pet-cafes38 h3 {
+  font-size:20px;
+  max-width:100%;
+}
+}
+@media (max-width:350px) {
+.pet38-cup {
+  top:110px;
+  right:10px;
+  width:24px;
+  height:24px;
+}
+}
+@media (max-width:350px) {
+.pets38 .pets-heading h2 {
+  font-size:32px;
+}
+}
+@media (max-width:350px) {
+.pets38-stamp {
+  right:0;
+  width:64px;
+  height:64px;
+}
+}
+@media (max-width:350px) {
+.pets38-terrace>img {
+  height:170px;
+}
+}
+@media (max-width:350px) {
+.pets38-facility-heading h3 {
+  font-size:16px;
+}
+}
+@media (prefers-reduced-motion:reduce) {
+.flower38-card {
+  transition:none;
+}
+}
+.tripbook-button {
+  border-radius:2px;
+  background-color:#254f68;
+  border-color:#254f68;
+  box-shadow:2px 4px 0 #a6b39230;
+  letter-spacing:.035em;
+  transition:background-color .2s,box-shadow .2s;
+}
+.tripbook-button:hover {
+  background-color:#193f55;
+  box-shadow:3px 5px 0 #a6b39240;
+}
+.trip37-main>img {
+  object-position:center 53%;
+}
+.trip37-small {
+  border-radius:1px;
+  box-shadow:3px 6px 0 #bbc4a430,0 5px 17px #3f543e12;
+}
+@media (max-width:760px) {
+.tripbook-button {
+  min-height:52px;
+  font-size:14px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy>p:not(.print-label) {
+  font-size:13px;
+  line-height:1.95;
+}
+}
+@media (prefers-reduced-motion:reduce) {
+.tripbook-button {
+  transition:none;
+}
+}
+.flower38-city {
+  font-size:11px;
+}
+.flower38-state {
+  font-size:11px;
+}
+.flower38-card>p {
+  font-size:12px;
+}
+.flower38-source {
+  font-size:10px;
+}
+.flower38-read {
+  font-size:12px;
+}
+.pets38 .pet-facilities37 article>a {
+  min-height:44px;
+}
+@media (max-width:760px) {
+.flower38-city,
+.flower38-state {
+  font-size:10px;
+}
+}
+@media (max-width:760px) {
+.flower38-card>p {
+  font-size:12px;
+}
+}
+@media (max-width:760px) {
+.flower38-source {
+  font-size:10px;
+}
+}
+@media (max-width:760px) {
+.flower38-read {
+  font-size:12px;
+}
+}
+@media (max-width:350px) {
+.flower38-card>p {
+  font-size:11px;
+}
+}
+@media (max-width:350px) {
+.flower38-state {
+  font-size:9px;
+}
+}
+@media (max-width:350px) {
+.flower38-source {
+  font-size:9px;
+}
+}
+@media (max-width:350px) {
+.flower38-read {
+  font-size:11px;
+}
+}
+@media (max-width:760px) {
+.flower38 h2 br {
+  display:initial;
+}
+}
+@media (max-width:760px) {
+.flower38-note {
+  background:#f6f4e7de;
+  padding:7px 8px;
+  border-radius:2px;
+}
+}
+.trip39-visual {
+  padding-bottom:105px;
+}
+.trip39-reporters {
+  position:absolute;
+  width:176px;
+  height:240px;
+  object-fit:contain;
+  object-position:center bottom;
+  left:-19px;
+  bottom:-9px;
+  z-index:3;
+  pointer-events:none;
+}
+.trip39-visual .trip37-main figcaption {
+  padding-left:155px;
+  line-height:1.7;
+  min-height:39px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  text-align:right;
+}
+.trip39-visual .trip37-small {
+  bottom:20px;
+  right:-10px;
+  transform:rotate(2.25deg);
+}
+.trip39-trail {
+  position:absolute;
+  left:153px;
+  bottom:31px;
+  width:calc(100% - 177px);
+  height:43px;
+  color:#9eae82;
+  z-index:1;
+}
+.trip39-whisper {
+  position:absolute;
+  left:160px;
+  bottom:4px;
+  font:500 11px/1.7 var(--font-brand-display);
+  letter-spacing:.07em;
+  color:#8a9871;
+}
+.flower38-card h3 {
+  font-size:18px;
+  line-height:1.65;
+  letter-spacing:.015em;
+}
+.flower38-card>p {
+  color:#6c7d60;
+  line-height:1.9;
+}
+.flower38-source {
+  color:#879479;
+}
+.flower38-read {
+  min-height:46px;
+  letter-spacing:.02em;
+}
+.trip37-heading {
+  align-items:center;
+}
+.trip37-heading .quiet-link {
+  font-size:12px;
+  min-height:46px;
+  padding-inline:2px;
+}
+.trip37-copy>p:not(.print-label) {
+  color:#6d7e62;
+  line-height:2;
+}
+.trip37-copy li small {
+  color:#738566;
+  line-height:1.9;
+}
+.trip37-copy li {
+  padding-block:10px;
+}
+.trip37-alternative small {
+  color:#78886a;
+  line-height:1.8;
+}
+.pets38 .pet-cafe-link {
+  font-weight:600;
+  letter-spacing:.02em;
+}
+.pets38 .pet-facilities37 article>a {
+  font-size:11px;
+  gap:13px;
+}
+.pets38 .pet-facilities37 h3 {
+  line-height:1.65;
+}
+.pets38 .pet-note {
+  color:#818e73;
+}
+.tripbook-button {
+  min-height:52px;
+  letter-spacing:.035em;
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-reporters {
+  width:140px;
+  height:200px;
+  left:-10px;
+  bottom:0;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-visual {
+  padding-bottom:100px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-visual .trip37-main figcaption {
+  padding-left:115px;
+  font-size:9px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-trail {
+  left:122px;
+  width:calc(100% - 140px);
+  bottom:28px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-whisper {
+  left:126px;
+  font-size:10px;
+  max-width:155px;
+}
+}
+@media (min-width:761px) and (max-width:1100px) {
+.trip39-visual .trip37-small {
+  right:-6px;
+  bottom:22px;
+}
+}
+@media (max-width:760px) {
+.trip39-visual {
+  padding-bottom:96px;
+  margin-bottom:24px;
+}
+}
+@media (max-width:760px) {
+.trip39-reporters {
+  left:-8px;
+  bottom:1px;
+  width:124px;
+  height:175px;
+}
+}
+@media (max-width:760px) {
+.trip39-visual .trip37-main figcaption {
+  padding-left:102px;
+  font-size:9px;
+  line-height:1.75;
+  min-height:39px;
+}
+}
+@media (max-width:760px) {
+.trip39-visual .trip37-small {
+  right:-1px;
+  bottom:24px;
+  width:43%;
+  transform:rotate(2.5deg);
+}
+}
+@media (max-width:760px) {
+.trip39-trail {
+  left:107px;
+  bottom:21px;
+  width:calc(100% - 124px);
+  height:36px;
+}
+}
+@media (max-width:760px) {
+.trip39-whisper {
+  left:116px;
+  bottom:-1px;
+  font-size:9px;
+  letter-spacing:.035em;
+}
+}
+@media (max-width:760px) {
+.flower38-card h3 {
+  font-size:18px;
+  line-height:1.6;
+}
+}
+@media (max-width:760px) {
+.flower38-card>p {
+  font-size:12px;
+  line-height:1.9;
+}
+}
+@media (max-width:760px) {
+.flower38-read {
+  min-height:44px;
+  font-size:12px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li {
+  padding-block:9px;
+}
+}
+@media (max-width:760px) {
+.trip37-copy li small {
+  font-size:12px;
+  line-height:1.85;
+}
+}
+@media (max-width:760px) {
+.pets38 .pet-facilities37 article>a {
+  font-size:10px;
+  gap:9px;
+}
+}
+@media (max-width:760px) {
+.pets38 .pet-facilities37 h3 {
+  font-size:17px;
+}
+}
+@media (max-width:350px) {
+.trip39-reporters {
+  width:110px;
+  height:155px;
+  left:-7px;
+}
+}
+@media (max-width:350px) {
+.trip39-visual .trip37-main figcaption {
+  padding-left:90px;
+  font-size:8px;
+}
+}
+@media (max-width:350px) {
+.trip39-trail {
+  left:95px;
+  width:calc(100% - 111px);
+}
+}
+@media (max-width:350px) {
+.trip39-whisper {
+  left:105px;
+  font-size:8px;
+}
+}
+@media (max-width:350px) {
+.flower38-card h3 {
+  font-size:16px;
+}
+}
+@media (max-width:350px) {
+.flower38-card>p {
+  font-size:11px;
+}
+}
+@media (max-width:350px) {
+.flower38-read {
+  font-size:11px;
+}
+}
+@media (max-width:350px) {
+.pets38 .pet-facilities37 h3 {
+  font-size:15px;
+}
+}
+.trip39-visual .trip37-main figcaption {
+  justify-content:flex-start;
+  text-align:left;
+  font-size:10px;
+}
+@media (max-width:760px) {
+.trip39-visual .trip37-main figcaption {
+  font-size:9px;
+}
+}
+@media (max-width:350px) {
+.trip39-visual .trip37-main figcaption {
+  font-size:8px;
+}
+}
+.flower38-layout {
+  padding-block:38px 32px;
+}
+.flower38 h2 {
+  font-size:36px;
+  letter-spacing:.045em;
+}
+.flower38-card {
+  box-shadow:2px 4px 0 #a6af8d16;
+}
+.trip37-heading h2 {
+  font-size:43px;
+  letter-spacing:.035em;
+}
+.trip37-copy h3 {
+  font-size:33px;
+  letter-spacing:.035em;
+}
+.pets38 .pets-heading h2 {
+  font-size:46px;
+}
+.pets38 .pet-cafes38 h3 {
+  letter-spacing:.025em;
+}
+@media (max-width:760px) {
+.flower38-layout {
+  padding-block:30px;
+}
+}
+@media (max-width:760px) {
+.flower38 h2 {
+  font-size:31px;
+  letter-spacing:.03em;
+}
+}
+@media (max-width:760px) {
+.trip37-heading h2 {
+  font-size:32px;
+  line-height:1.5;
+}
+}
+@media (max-width:760px) {
+.trip37-copy h3 {
+  font-size:29px;
+  line-height:1.55;
+}
+}
+@media (max-width:760px) {
+.pets38 .pets-heading h2 {
+  font-size:35px;
+}
+}
+@media (max-width:350px) {
+.flower38 h2 {
+  font-size:28px;
+}
+}
+@media (max-width:350px) {
+.trip37-heading h2 {
+  font-size:29px;
+}
+}
+@media (max-width:350px) {
+.trip37-copy h3 {
+  font-size:25px;
+}
+}
+@media (max-width:350px) {
+.pets38 .pets-heading h2 {
+  font-size:32px;
+}
+}
+.flower38-card h3 {
+  text-wrap: balance;
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+.flower38-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+.flower38-layout h2 br {
+  display: none;
+}
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+.flower38-card h3 {
+  min-height: 0;
+  font-size: 17px;
+}
+}
+@media (min-width: 761px) and (max-width: 920px) {
+.trip37-heading h2 .sp-only {
+  display: initial;
+}
+}
+</style>
