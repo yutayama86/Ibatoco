@@ -601,7 +601,11 @@ const matchdays = [
   @media(prefers-reduced-motion:reduce){.fv-cover{transition:none}}
 
   /* ── テーマ6件（横一列）と気分の入口 ── */
-  .v42-theme{padding-block:clamp(3.5rem,7vw,6rem);background:#fffefa}
+  .v42-theme{padding-block:clamp(2.75rem,4.5vw,4rem);background:#fffefa}
+  /* 提出版の修正案：テーマの見出しは小さく一行で、カード列を主役に */
+  .v42-theme .v42-head{margin-bottom:1.75rem}
+  .v42-theme .v42-head h2{font-size:clamp(1.4375rem,1.8vw,1.625rem);line-height:1.55}
+  @media(min-width:761px){.v42-theme .v42-head h2 br{display:none}}
   .v42-intents{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:2rem}
   .v42-intents>span{margin-right:.4rem;color:var(--v42-note);font-size:.8125rem;font-weight:700}
   .v42-intents a{display:inline-flex;align-items:baseline;gap:.5rem;min-height:44px;padding:.6rem 1rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fff;color:var(--v42-ink);font-size:.875rem}
@@ -616,7 +620,7 @@ const matchdays = [
   .season__folio{display:grid;color:#c1ad76;line-height:1}
   .season__folio span{font-size:.625rem;letter-spacing:.14em;color:#8d8d78}
   .season__folio b{font:400 clamp(5rem,9vw,8rem)/.9 var(--font-brand-display);letter-spacing:-.06em}
-  .season h2{margin-top:.5rem;font-size:clamp(2rem,3.4vw,3rem);line-height:1.45}
+  .season h2{margin-top:.5rem;font-size:clamp(1.875rem,3.2vw,2.875rem);line-height:1.4}
   .season__intro{color:var(--v42-copy);font-size:.9375rem;line-height:2}
   .season__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem}
   .season__side{display:grid;grid-template-columns:minmax(0,1fr);gap:1.6rem}
@@ -652,13 +656,17 @@ const matchdays = [
   @media(max-width:700px){.season__canopy{width:130px;top:-10px;right:0}.season__folio b{font-size:5.2rem}.season__side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.8rem}.season__side .season-pick{grid-template-columns:minmax(0,1fr)}.season__side .season-pick__photo{min-height:0;aspect-ratio:4/3}.season__side .season-pick__body{padding:.9rem .85rem 1rem}.season__side .season-pick h3{font-size:1.3rem}.season__side .season-pick__meta{display:none}.season__side .season-pick__cta{justify-self:stretch;font-size:.75rem;padding-inline:.7rem}.season-pick--walk .season-pick__photo{aspect-ratio:3/4}.season__more{grid-template-columns:minmax(0,1fr)}.season__more img{display:none}.season__more .v42-button{justify-self:stretch}}
 
   /* ── 44市町村の地図 ── */
+  #area :global(.ax-intro h2){font-size:clamp(1.8125rem,3.05vw,2.75rem);line-height:1.35}
+  #events :global(.tw--home-editorial .tw__title){font-size:clamp(2rem,3.2vw,2.875rem)}
+  @media(max-width:620px){#events :global(.tw--home-editorial .tw__title){font-size:clamp(1.625rem,8.2vw,2rem)}}
+  @media(max-width:360px){#area :global(.ax-intro h2){font-size:1.625rem}}
   .area-home{padding-block:clamp(4rem,7vw,6.5rem);background:linear-gradient(180deg,#f3f1e7,#eef1e8)}
 
   /* ── 茨城のおいしい図鑑 ── */
   .food-home{padding-block:clamp(4rem,7vw,6.5rem);background:#fbf5e6}
   .food-home__layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-areas:"intro art" "links art";gap:1.5rem 3.5rem;align-items:start}
   .food-home__intro{grid-area:intro}
-  .food-home h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.45}
+  .food-home h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.875rem);line-height:1.35}
   .food-home__intro>p:not(.v42-label){margin:1rem 0 1.4rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.95}
   .food-home__art{grid-area:art;margin:0}
   .food-home__art img{display:block;width:100%;height:auto;border:8px solid #fffefa;box-shadow:7px 9px 0 #d4c59d38}
@@ -679,14 +687,19 @@ const matchdays = [
 
   /* ── まちの、あたらしい話 ── */
   .home-news{padding-block:clamp(4rem,7vw,6.5rem);background:#fffefa}
+  .home-news .v42-head h2{font-size:clamp(1.75rem,2.45vw,2.1875rem);line-height:1.6}
   .home-news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
   .home-news__preparing{display:flex;justify-content:space-between;gap:1rem;padding:1.3rem 0;border-block:1px solid var(--v42-rule);color:var(--v42-copy)}
   @media(max-width:860px){.home-news__grid{grid-template-columns:minmax(0,1fr)}}
+  /* 提出版：スマホは画像を左に小さく置き、記事を縦に3件 */
+  @media(max-width:760px){.home-news__grid{gap:0;border-top:1px solid var(--v42-rule)}.home-news .home-news__grid :global(.news-card){grid-template-columns:7.5rem minmax(0,1fr);grid-template-rows:auto;align-items:start;gap:0 .9rem;padding:1.1rem 0;border:0;border-bottom:1px solid var(--v42-rule);border-radius:0;background:transparent}.home-news .home-news__grid :global(.news-card__image){margin-top:.2rem;border:1px solid var(--v42-rule)}.home-news .home-news__grid :global(.news-card__body){padding:0}.home-news .home-news__grid :global(.news-card h3){margin-top:.45rem;font-size:1.0625rem;line-height:1.6}.home-news .home-news__grid :global(.news-card__dates){padding-top:.6rem}.home-news .home-news__grid :global(.news-card__arrow){display:none}}
+  /* 提出版：PCは見出しを左の柱に、記事カードを右に並べる */
+  @media(min-width:1100px){.home-news .v42-wrap{display:grid;grid-template-columns:minmax(0,16.5rem) minmax(0,1fr);grid-template-rows:auto 1fr;gap:1.5rem 3rem}.home-news .v42-head{display:block;grid-column:1;grid-row:1;margin:0}.home-news .v42-head>p{margin-top:1.1rem;font-size:.875rem;word-break:auto-phrase}.home-news .v42-head>p br{display:none}.home-news__grid,.home-news__preparing{grid-column:2;grid-row:1/3}.home-news .v42-quiet-link{grid-column:1;grid-row:2;align-self:end;justify-self:start;margin-top:0}}
 
   /* ── 観戦も、旅のきっかけ ── */
   .matchday{padding-block:clamp(4rem,7vw,6rem);background:#eef2ec}
   .matchday__inner{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:2rem 4rem;align-items:center}
-  .matchday h2{margin-top:.6rem;font-size:clamp(1.9rem,3.2vw,2.75rem);line-height:1.45}
+  .matchday h2{margin-top:.6rem;font-size:clamp(1.8125rem,2.85vw,2.5625rem);line-height:1.45}
   .matchday__head>p:not(.v42-label){margin-top:1rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.95}
   .matchday__head img{display:block;width:min(260px,70%);height:auto;margin-top:1.5rem}
   .matchday__visits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem}
@@ -703,23 +716,25 @@ const matchdays = [
 
   /* ── イバトコをつくった理由 ── */
   .brand-origin{position:relative;overflow:hidden;background:var(--v42-paper)}
-  .origin-grid{display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-block:clamp(4.5rem,9vw,8rem)}
+  .origin-grid{display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-block:clamp(3.5rem,6vw,5rem)}
   .origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid var(--v42-rule);color:var(--v42-note)}
   .origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}
   .origin-index b{font:500 .7rem/1 var(--font-brand-meta)}
   .origin-copy{max-width:57rem}
-  .brand-origin h2{margin-top:.8rem;font-size:clamp(2rem,4vw,3.6rem);line-height:1.45}
+  .brand-origin h2{margin-top:.8rem;font-size:clamp(1.625rem,2.4vw,2.125rem);line-height:1.55}
   .origin-lead{max-width:45rem;margin-top:1.5rem;color:var(--v42-copy);font:500 clamp(1rem,1.3vw,1.15rem)/2 var(--font-brand-body);word-break:auto-phrase}
   .origin-copy>a{display:inline-flex;align-items:center;min-height:44px;margin-top:1.5rem;border-bottom:1px solid var(--v42-ink);color:var(--v42-ink);font-size:.875rem;font-weight:700}
   @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.5rem}}
 
   /* ── 取材と編集（3項目） ── */
   .process-home{background:#fffefa}
+  .process-home :global(.ep h2){font-size:clamp(1.625rem,2.4vw,2.125rem);line-height:1.55}
+  .process-home :global(.ep-notes h3){font-size:clamp(1.3125rem,1.55vw,1.375rem)}
 
   /* ── 茨城を、一緒におもしろく（事業者向けの導線） ── */
-  .partner{padding-block:clamp(4.5rem,8vw,7rem);background:linear-gradient(160deg,#f6f2e6,#eef2ec)}
+  .partner{padding-block:clamp(3.5rem,6vw,5rem);background:linear-gradient(160deg,#f6f2e6,#eef2ec)}
   .partner__head{max-width:46rem}
-  .partner h2{margin-top:.6rem;font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.45}
+  .partner h2{margin-top:.6rem;font-size:clamp(1.8125rem,2.85vw,2.5625rem);line-height:1.45}
   .partner__head>p:not(.v42-label){margin-top:1.1rem;color:var(--v42-copy);font-size:.9375rem;line-height:2}
   .partner__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:2rem 4rem;margin-top:2.5rem;align-items:start}
   .partner__questions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
@@ -745,6 +760,9 @@ const matchdays = [
     .v42-wrap{width:min(calc(100% - 2.5rem),1160px)}
     .v42-head{grid-template-columns:minmax(0,1fr);gap:.8rem;margin-bottom:1.75rem}
     .v42-head h2,.food-home h2,.matchday h2{font-size:clamp(1.75rem,7.4vw,2.2rem)}
+    .home-news .v42-head h2{font-size:1.75rem;line-height:1.55}
+    .v42-theme .v42-head h2{font-size:1.4375rem}
+    .partner h2{font-size:1.8125rem}
     .v42-head>p{font-size:.875rem}
     .v42-head>p br{display:none}
   }
