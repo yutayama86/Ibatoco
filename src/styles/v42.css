@@ -190,6 +190,32 @@ body.interior-site :is(.news-detail__body, .ev-body) h2 {
   }
 }
 
+/*
+ * v42 修正案 D：スポット詳細・/place/（店の一覧・掲載0件）・/discover/（一覧と地図）の文字組み。
+ * 提出版の実測は H1 52.4px（スマホ30px）、区画の h2 31px（スマホ24〜26px）。
+ * スポット名の「1行に収まる大きさまで下げる」仕組み（--fit-len）は残し、上限だけ提出版に合わせる（字間は1行に収める計算の前提なので変えない）。
+ */
+body.interior-site.route-spot .spot-head h1 { font-size: clamp(1.6rem, calc(100cqi / var(--fit-len, 1)), clamp(30px, 3.64vw, 52.4px)); line-height: 1.43; font-weight: 500; }
+body.interior-site.route-spot :is(.spot-facts, .spot-nearby) h2 { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; text-wrap: balance; }
+/* 見出しの帯：提出版は幅いっぱいの薄い緑（rgb(234,240,223)）、上56px・下64px。中の幅は今のまま */
+body.interior-site :is(.route-spot .spot-head, .route-place .places-head) { padding-block: 56px 64px !important; background: #eaf0df; box-shadow: 0 0 0 100vmax #eaf0df; clip-path: inset(0 -100vmax); border-bottom: 0 !important; }
+body.interior-site.route-spot .spot-head { margin-bottom: clamp(32px, 4vw, 56px); }
+@media (max-width: 760px) { body.interior-site :is(.route-spot .spot-head, .route-place .places-head) { padding-block: 32px 40px !important; } }
+body.interior-site.route-place .places-head h1 { font-size: clamp(30px, 3.64vw, 52.4px) !important; line-height: 1.43 !important; text-wrap: balance; }
+body.interior-site.route-place .place-empty h2 { font-size: clamp(24px, 2.2vw, 31px) !important; line-height: 1.55 !important; word-break: auto-phrase; text-wrap: balance; }
+body.interior-site.route-discover .discover-tool__intro h2,
+body.interior-site.route-discover .v42-featured__title { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; text-wrap: balance; }
+@media (min-width: 901px) {
+  body.interior-site.route-place .places-head h1 { max-width: none !important; }
+  body.interior-site.route-place .places-head h1 br { display: none; }
+}
+@media (max-width: 760px) {
+  body.interior-site.route-discover :is(.discover-tool__intro h2, .v42-featured__title) { font-size: 26px; }
+}
+@media (max-width: 360px) {
+  body.interior-site :is(.route-place .place-empty h2, .route-discover .discover-tool__intro h2, .route-discover .v42-featured__title) { font-size: 24px !important; }
+}
+
 /* ── サイト末尾の帯（全ページ共通） ── */
 .v42-closing {
   padding-block: 2.25rem;
