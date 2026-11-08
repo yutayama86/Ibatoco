@@ -9,10 +9,13 @@
 import { MUNI_BY_SLUG } from '../data/areas';
 import CityEditorialHero from './CityEditorialHero.astro';
 import type { AreaGuide } from '../data/area-guides';
+import { getCourse } from '../data/courses';
 
 interface Props { slug: string; guide: AreaGuide; }
 const { slug, guide } = Astro.props;
 const municipality = MUNI_BY_SLUG.get(slug)!;
+// 公式情報で確かめ直したモデルコース（/course/）がある街だけ、半日コースから詳細へつなぐ
+const course = getCourse(slug);
 // リニューアル試作は高萩市に限定。共通ガイドの文章と検索情報は変更しない。
 
 const placesKicker = guide.sensitive ? 'PLACES' : 'HIGHLIGHTS';
@@ -77,6 +80,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
         <ol>{guide.route.map((stop) => (
           <li><div class="route-copy"><span class="route-number">{stop.no}</span><time>{stop.time}</time><strong>{stop.place}</strong><span>{stop.text}</span></div></li>
         ))}</ol>
+        {course && <p class="route-course"><a href={`/course/${course.slug}/`}>行き方と開いている時間つきで読む <span aria-hidden="true">→</span></a></p>}
         {guide.routeExtra && <aside class="route-extra"><h3>もう半日あるなら</h3><p>{guide.routeExtra}</p></aside>}
       </section>
     )}
@@ -128,6 +132,7 @@ if (guide.beforeYouGo?.length) jump.push({ href: '#plan', label: '旅の準備' 
   .route-section li{padding:1rem 1rem 1.4rem;border-right:1px solid var(--color-mist)}.route-section li:last-child{border-right:0}
   .route-copy{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem}.route-number{font:600 .7rem var(--font-brand-meta);color:var(--color-tide)}.route-copy time{font-size:.75rem;color:var(--color-soil)}
   .route-copy strong{font:600 1.2rem var(--font-brand-display);color:var(--color-ink)}.route-copy>span:last-child{color:var(--color-soil);font-size:.86rem;line-height:1.7}
+  .route-course{display:flex;justify-content:flex-end;margin-top:1.25rem}.route-course a{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;padding:.55rem 1.1rem;border:1px solid var(--color-ink);color:var(--color-ink);font-weight:600;font-size:.9rem}.route-course a:hover{background:var(--color-ink);color:var(--color-white)}
   .route-extra{display:grid;grid-template-columns:.45fr 1fr;gap:2rem;margin-top:2rem;padding:2rem;border:1px solid var(--color-mist);background:var(--color-white)}
   .route-extra h3{font:600 1.4rem var(--font-brand-display);color:var(--color-ink)}.route-extra p{color:var(--color-soil);line-height:1.9}
   .season-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
