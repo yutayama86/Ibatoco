@@ -1,0 +1,180 @@
+---
+/**
+ * /course/[slug]/ — モデルコースの詳細（提出版 v42 course.html）。
+ * 中身は src/data/courses.ts。行き方・開いている時間は公式ページで確かめたものだけを載せ、
+ * 確認先を「出かける前に」に並べる。
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import type { Crumb } from '../../components/Breadcrumbs.astro';
+import { COURSES, type Course } from '../../data/courses';
+import { todayDateOnlyString } from '../../lib/date-only.js';
+import '../../styles/course.css';
+
+export function getStaticPaths() {
+  return COURSES.map((course) => ({ params: { slug: course.slug }, props: { course } }));
+}
+
+interface Props { course: Course }
+const { course } = Astro.props;
+const today = todayDateOnlyString();
+const seasonal = (course.seasonal ?? []).filter((note) => today <= note.showUntil);
+const others = COURSES.filter((item) => item.slug !== course.slug);
+const pageName = `${course.areaName.replace(/市$/, '')}の${course.durationLabel}旅`;
+const pageUrl = new URL(`/course/${course.slug}/`, Astro.site).href;
+const [checkedY, checkedM, checkedD] = course.checkedAt.split('-').map(Number);
+const checkedLabel = `${checkedY}年${checkedM}月${checkedD}日`;
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'モデルコース', href: '/course/' }, { name: pageName }];
+const coverInset = course.inset;
+
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: `${course.title.join('')}（${course.areaName}・${course.durationLabel}）`,
+    description: course.description,
+    url: pageUrl,
+    touristType: '個人旅行',
+    itinerary: {
+      '@type': 'ItemList',
+      numberOfItems: course.stops.length,
+      itemListElement: course.stops.map((stop, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: { '@type': 'TouristAttraction', name: stop.place },
+      })),
+    },
+    publisher: { '@type': 'Organization', name: 'イバトコ', url: new URL('/', Astro.site).href },
+  },
+];
+---
+
+<BrandBase title={course.pageTitle} description={course.description} image={course.cover.isIllustration ? undefined : course.cover.src} imageAlt={course.cover.alt} type="article" jsonLd={jsonLd}>
+  <div class="p41-main">
+    <nav class="p41-wrap p41-crumb" aria-label="パンくず">
+      {crumbs.map((crumb, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">／</span>}
+          {crumb.href ? <a href={crumb.href}>{crumb.name}</a> : <span aria-current="page">{crumb.name}</span>}
+        </>
+      ))}
+    </nav>
+
+    <header class="p41-wrap p41-route-hero">
+      <p class="p41-kicker">{course.kicker}</p>
+      <h1 class="v42-title p41-title">{course.title[0]}<br />{course.title[1]}</h1>
+      <p class="p41-lead">{course.lead[0]}<br />{course.lead[1]}</p>
+      <div class="p41-route-meta"><span>{course.areaName}</span><span>{course.durationLabel}</span><span>{course.transport}</span></div>
+      <div class:list={['p41-route-cover', { 'no-inset': !coverInset }]}>
+        <figure class:list={['p41-photo', { 'is-art': course.cover.isIllustration }]}>
+          <span class="p41-tape" aria-hidden="true"></span>
+          <img src={course.cover.src} alt={course.cover.alt} width={course.cover.width} height={course.cover.height} decoding="async" fetchpriority="high" />
+          <figcaption>{course.cover.isIllustration ? 'イメージイラスト' : course.cover.alt}</figcaption>
+        </figure>
+        {coverInset && (
+          <figure class="p41-route-inset">
+            <img src={coverInset.src} alt={coverInset.alt} width={coverInset.width} height={coverInset.height} loading="lazy" decoding="async" />
+            <p>{coverInset.caption}</p>
+          </figure>
+        )}
+        <img src="/images/v42/v39-route-reporters.webp" alt="" class="p41-route-reporters" width="360" height="540" loading="lazy" decoding="async" />
+      </div>
+      <p class="c-cover-credit">
+        {course.cover.isIllustration
+          ? '表紙：イメージイラスト（実在の店や催しの記録ではありません）。'
+          : <>写真　表紙：{course.cover.creditUrl ? <a href={course.cover.creditUrl} target="_blank" rel="noopener">{course.cover.credit}</a> : course.cover.credit}</>}
+        {coverInset?.credit && <>　右下：{coverInset.creditUrl ? <a href={coverInset.creditUrl} target="_blank" rel="noopener">{coverInset.credit}</a> : coverInset.credit}</>}
+      </p>
+      <ol class="p41-route-stops" aria-label="このコースで回る場所">
+        {course.stops.map((stop, index) => (
+          <li><b>{String(index + 1).padStart(2, '0')}</b><strong>{stop.place}</strong><small>{stop.short}</small></li>
+        ))}
+      </ol>
+    </header>
+
+    <div class="p41-wrap">
+      {course.stops.map((stop, index) => (
+        <article class:list={['p41-route-step', { 'is-text-only': !stop.image }]} aria-labelledby={`stop-${index + 1}`}>
+          <span class="p41-folio" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <p class="p41-kicker">{stop.label} ／ {stop.place}<span class="p41-time">{stop.time}ごろ</span></p>
+            <h2 id={`stop-${index + 1}`}>{stop.heading[0]}<br />{stop.heading[1]}</h2>
+            <p>{stop.text}</p>
+            <dl class="c-facts">
+              {stop.facts.map((fact) => (<><dt>{fact.label}</dt><dd>{fact.text}</dd></>))}
+            </dl>
+            {stop.link && <a class="p41-button is-text" href={stop.link.href}>{stop.link.label}<span class="p41-arrow" aria-hidden="true">→</span></a>}
+          </div>
+          {stop.image && (
+            <figure class:list={['p41-photo', { 'is-art': stop.image.isIllustration }]}>
+              <img src={stop.image.src} alt={stop.image.alt} width={stop.image.width} height={stop.image.height} loading="lazy" decoding="async" />
+              <figcaption>
+                {stop.image.isIllustration
+                  ? 'イメージイラスト'
+                  : <>{stop.image.alt}／{stop.image.creditUrl ? <a href={stop.image.creditUrl} target="_blank" rel="noopener">{stop.image.credit}</a> : stop.image.credit}</>}
+              </figcaption>
+            </figure>
+          )}
+        </article>
+      ))}
+      <p class="p41-small-note">移動の順番を楽しむモデルコースです。時刻はこの順で回るときの目安で、バスの時刻・施設の営業日は出発前に確認してください。</p>
+    </div>
+
+    <section class="p41-wrap c-before" aria-labelledby="before-you-go">
+      <p class="p41-kicker">BEFORE YOU GO</p>
+      <h2 id="before-you-go">出かける前に。</h2>
+      <div class="c-before__grid">
+        <div>
+          {seasonal.map((note) => (
+            <p class="c-season">{note.text}<a href={note.sourceUrl} target="_blank" rel="noopener">{note.sourceLabel}</a></p>
+          ))}
+          <ul class="c-tips">
+            {course.tips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </div>
+        <div class="c-sources">
+          <h3>確認した公式情報</h3>
+          <ul>
+            {course.sources.map((source) => (
+              <li><a href={source.url} target="_blank" rel="noopener">{source.label}</a></li>
+            ))}
+          </ul>
+          <p>{checkedLabel}にイバトコ編集部が確認。内容が変わっていることに気づいたら、<a href="/contact/">お問い合わせ</a>からお知らせください。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="p41-related" aria-labelledby="course-related">
+      <div class="p41-wrap">
+        <p class="p41-kicker">ONE MORE DISCOVERY</p>
+        <h2 id="course-related">ここから、もうひと歩き。</h2>
+        <div class="p41-grid">
+          {others.map((item) => (
+            <a class="p41-card" href={`/course/${item.slug}/`}>
+              <figure>
+                <img src={item.cover.src} alt="" width={item.cover.width} height={item.cover.height} loading="lazy" decoding="async" />
+                <span>{item.cover.isIllustration ? 'イメージイラスト' : '実写'}</span>
+              </figure>
+              <p class="p41-kicker">MODEL COURSE ／ {item.areaName}</p>
+              <h3>{item.title[0]}<br class="v42-br-phone" />{item.title[1]}</h3>
+              <p>{item.summary}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+          <a class="p41-card" href={`/area/${course.areaSlug}/`}>
+            <figure>
+              <img src="/images/v42/map-travelers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+              <span>イメージイラスト</span>
+            </figure>
+            <p class="p41-kicker">AREA GUIDE</p>
+            <h3>{course.areaName}を、<br class="v42-br-phone" />もっと知る。</h3>
+            <p>見どころ・食・季節の案内へ。</p>
+            <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BrandBase>

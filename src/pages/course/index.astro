@@ -1,0 +1,178 @@
+---
+/**
+ * /course/ — モデルコースの一覧（提出版 v42 course-list.html）。
+ * 中身は src/data/courses.ts。絞り込みは JS がなくても全件が見える。
+ */
+import BrandBase from '../../layouts/BrandBase.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import type { Crumb } from '../../components/Breadcrumbs.astro';
+import { COURSES, type Course } from '../../data/courses';
+import '../../styles/course.css';
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城のおでかけ', href: '/odekake/' }, { name: 'モデルコース' }];
+const [featured, ...others] = COURSES;
+const pageUrl = new URL('/course/', Astro.site).href;
+
+const filters = [
+  { key: 'all', label: 'すべてのコース' },
+  { key: 'halfday', label: '半日で' },
+  { key: 'day', label: '一日ゆっくり' },
+  { key: 'public', label: '電車とバスで' },
+];
+const attrs = (course: Course) => ({
+  'data-course-item': '',
+  'data-duration': course.duration,
+  'data-public': course.publicTransport ? 'true' : 'false',
+});
+const imageLabel = (course: Course) => (course.cover.isIllustration ? 'イメージイラスト' : '実写');
+
+const related = [
+  { href: '/area/', img: '/images/v42/map-travelers.webp', width: 360, height: 540, tag: 'イメージイラスト', kicker: 'AREA GUIDE', title: ['44のまち、', 'まだ知らない茨城へ。'], text: '地図から、気になる街をひとつ。' },
+  { href: '/odekake/', img: '/images/v42/ibarakiscape.webp', width: 1600, height: 533, tag: 'イメージイラスト', kicker: 'WHERE TO GO', title: ['今日は、', 'どこへ行こう。'], text: '自然・季節・目的から行き先を決める。' },
+  { href: '/food-library/', img: '/images/v42/hoshiimo-field-visit.webp', width: 1100, height: 619, tag: 'イメージイラスト', kicker: 'FOOD LIBRARY', title: ['知るほど、', 'おいしい。'], text: '産地と品種から読む、茨城の味。' },
+];
+
+const jsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: '茨城のモデルコース',
+    url: pageUrl,
+    numberOfItems: COURSES.length,
+    itemListElement: COURSES.map((course, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: course.cardTitle,
+      url: new URL(`/course/${course.slug}/`, Astro.site).href,
+    })),
+  },
+];
+---
+
+<BrandBase
+  title="茨城のモデルコース｜半日・日帰りで歩く日立・笠間・ひたちなか｜イバトコ"
+  description="日立駅からかみね公園へ、笠間稲荷神社から芸術の森公園へ、ひたち海浜公園から那珂湊へ。電車とバスで回れる茨城のモデルコースを、施設と交通の公式情報で確かめてまとめました。"
+  jsonLd={jsonLd}
+>
+  <div class="p41-main">
+    <nav class="p41-wrap p41-crumb" aria-label="パンくず">
+      {crumbs.map((crumb, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">／</span>}
+          {crumb.href ? <a href={crumb.href}>{crumb.name}</a> : <span aria-current="page">{crumb.name}</span>}
+        </>
+      ))}
+    </nav>
+
+    <div class="p41-wrap p41-hub-hero v42-hero-compact">
+      <div>
+        <p class="p41-kicker">WALKING JOURNEYS</p>
+        <h1 class="v42-title p41-title">よりみちを、<br />ひとつの旅に。</h1>
+        <p class="p41-lead">見たい景色と、おいしい時間をつないで。<br />歩く速さで楽しむ、茨城のモデルコース。</p>
+      </div>
+      <img src="/images/v42/v39-route-reporters.webp" alt="" class="p41-art" width="360" height="540" decoding="async" />
+    </div>
+
+    <div class="p41-wrap">
+      <div class="p41-theme-nav" role="group" aria-label="コースを絞り込む" data-course-filter hidden>
+        {filters.map((filter, index) => (
+          <button type="button" data-filter={filter.key} aria-pressed={index === 0 ? 'true' : 'false'}>{filter.label}</button>
+        ))}
+      </div>
+      <p class="c-count" aria-live="polite" data-course-count hidden></p>
+    </div>
+
+    <article class="p41-wrap p41-featured" {...attrs(featured)}>
+      <figure class="p41-photo">
+        <span class="p41-tape" aria-hidden="true"></span>
+        <img src={featured.cover.src} alt={featured.cover.alt} width={featured.cover.width} height={featured.cover.height} decoding="async" />
+        <figcaption>
+          {featured.cover.alt}／{featured.cover.creditUrl ? <a href={featured.cover.creditUrl} target="_blank" rel="noopener">{featured.cover.credit}</a> : (featured.cover.credit ?? imageLabel(featured))}
+        </figcaption>
+      </figure>
+      <div>
+        <p class="p41-kicker">01 ／ {featured.areaName}・{featured.durationLabel}・{featured.transport}</p>
+        <h2>{featured.title[0]}<br />{featured.title[1]}</h2>
+        <p class="p41-lead">{featured.listLead ?? `${featured.durationLabel}で回る、${featured.areaName}。`}<br />{featured.summary}</p>
+        <a class="p41-button" href={`/course/${featured.slug}/`}>このよりみちを読む<span class="p41-arrow" aria-hidden="true">→</span></a>
+      </div>
+    </article>
+
+    <section class="p41-section is-sage" aria-labelledby="course-more" data-course-section>
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">PLAN YOUR DAY</p>
+            <h2 id="course-more">次は、どんな休日に。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          {others.map((course) => (
+            <a class="p41-card" href={`/course/${course.slug}/`} {...attrs(course)}>
+              <figure>
+                <img src={course.cover.src} alt="" width={course.cover.width} height={course.cover.height} loading="lazy" decoding="async" />
+                <span>{imageLabel(course)}</span>
+              </figure>
+              <p class="p41-kicker">{course.areaName} ／ {course.durationLabel}</p>
+              <h3>{course.title[0]}<br class="v42-br-phone" />{course.title[1]}</h3>
+              <p>{course.summary}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="p41-wrap">
+      <p class="p41-small-note">時刻は、この順で回るときの目安です。施設の開館日や交通の時刻は変わることがあるので、出かける前に各コースの確認先で確かめてください。</p>
+    </div>
+
+    <section class="p41-related" aria-labelledby="course-related">
+      <div class="p41-wrap">
+        <p class="p41-kicker">ONE MORE DISCOVERY</p>
+        <h2 id="course-related">ここから、もうひと歩き。</h2>
+        <div class="p41-grid">
+          {related.map((item) => (
+            <a class="p41-card" href={item.href}>
+              <figure>
+                <img src={item.img} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" />
+                <span>{item.tag}</span>
+              </figure>
+              <p class="p41-kicker">{item.kicker}</p>
+              <h3>{item.title[0]}<br class="v42-br-phone" />{item.title[1]}</h3>
+              <p>{item.text}</p>
+              <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</BrandBase>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-course-filter]');
+  const count = document.querySelector<HTMLElement>('[data-course-count]');
+  const items = [...document.querySelectorAll<HTMLElement>('[data-course-item]')];
+  const section = document.querySelector<HTMLElement>('[data-course-section]');
+  if (nav && count) {
+    nav.hidden = false;
+    const apply = (key: string) => {
+      let shown = 0;
+      for (const item of items) {
+        const match = key === 'all' || item.dataset.duration === key || (key === 'public' && item.dataset.public === 'true');
+        item.hidden = !match;
+        if (match) shown += 1;
+      }
+      if (section) section.hidden = !section.querySelector('[data-course-item]:not([hidden])');
+      for (const button of nav.querySelectorAll<HTMLButtonElement>('button')) button.setAttribute('aria-pressed', String(button.dataset.filter === key));
+      count.hidden = key === 'all';
+      count.textContent = `${shown}件のコース`;
+    };
+    nav.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+      if (button?.dataset.filter) apply(button.dataset.filter);
+    });
+  }
+</script>

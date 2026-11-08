@@ -9,6 +9,7 @@ import { AREA_GUIDES } from '../data/area-guides';
 import { THEMES } from '../data/themes';
 import { SPORTS_TEAMS } from '../data/sports';
 import { FOOD_LIBRARY_PATHS } from '../data/food-library';
+import { COURSES } from '../data/courses';
 
 type SitemapEntry = { path: string; lastmod?: Date };
 
@@ -88,6 +89,9 @@ export const GET: APIRoute = async () => {
   // 茨城のおいしい図鑑（親ページ・各図鑑・干し芋図鑑）。/hoshiimo/ はこれまで未収録だった
   for (const path of FOOD_LIBRARY_PATHS) entries.push({ path });
   entries.push({ path: '/odekake/' });
+  // モデルコース。公式情報で確かめた行き方・開いている時間と確認先を持つページだけを data/courses.ts に置く。
+  entries.push({ path: '/course/' });
+  for (const course of COURSES) entries.push({ path: `/course/${course.slug}/` });
   // 協賛の案内と規約、地域の店・スポットを探すページ（オーナー判断 2026-10-07）。タグ一覧は noindex なので載せない
   entries.push({ path: '/sponsor/' });
   entries.push({ path: '/sponsor/terms/' });
