@@ -257,6 +257,8 @@ const jsonLd = [
   .fl-region__place { font-family: var(--font-brand-display); font-weight: 600; font-size: 16.5px; color: var(--fg-navy); }
   .fl-region__guides { font-size: 14px; line-height: 1.8; }
   .fl-sep { color: var(--fg-line-strong); }
+  /* 品種名・食材名は語の途中で折り返さない（「シルクスイー／ト」のような1文字行を防ぐ）。区切りの「・」で改行する */
+  .fl-region__guides a, .fl-varieties dd a { white-space: nowrap; }
 
   .fl-varieties { border-top: 1px solid var(--fg-ink); max-width: 980px; }
   .fl-varieties > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; border-bottom: 1px solid var(--fg-line); }
