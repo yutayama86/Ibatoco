@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261109-home-v42-fidelity-a-release',
+    date: '2026-11-09',
+    url: '/',
+    kind: 'on-page',
+    change: '11/8にDraftで検証したTOPのv42再現度修正（字級・配置・44市町村の地図と5地域パネル）を、11/9のオーナー承認により本番へ反映する（#533）',
+    queries: [],
+    commit: 'ee770082',
+    experimentType: 'template',
+    note: 'オーナーの11/9の公開指示に基づく実公開日の観測記録。11/8のDraft段階の記録・承認は履歴として保持し、過去の日付を変更しない。UIソースは検証済みee770082と同一。title・description・canonical・H1・JSON-LD・フォーム・計測・地図データを維持し、公開後の28日間を新しい観測窓とする。',
+  },
+  {
+    id: '20261108-home-v42-fidelity-a',
+    date: '2026-11-08',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPの見出しの字級・余白、ニュース欄の配置（PCは見出しを左の柱、スマホは画像＋文字の横並び）、つくった理由・取材と編集・事業者導線の字級、44市町村の地図と5地域パネルの配置（見出しの下に地図カードと地域カードを並べる）を提出版v42に合わせる（#533）',
+    queries: [],
+    commit: '8de7909',
+    experimentType: 'template',
+    note: 'Issue #532（11月8日オーナー依頼）のA。title・description・canonical・H1・JSON-LD・計測は維持。全824ページのSEO差分は / だけで、地域カードの写真・挿絵6点と写真クレジットの外部リンク3件（Wikimedia Commons）を追加。テーマ6件・つくった理由・取材と編集3項目・事業者導線・44市町村の直リンクは残す。公開後を新しい28日間の観測起点とする。過去の記録は変更しない。',
+  },
+  {
     id: '20261108-home-v42-journey',
     date: '2026-11-08',
     url: '/',

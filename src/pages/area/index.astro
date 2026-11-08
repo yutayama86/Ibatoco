@@ -4,27 +4,8 @@ import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import HomeAreaExplorer from '../../components/HomeAreaExplorer.astro';
 import V42Cards, { type V42CardItem } from '../../components/V42Cards.astro';
-import { REGIONS, REGION_ORDER } from '../../data/areas';
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'エリアから探す' }];
 
-/*
- * 5地域の入口。行き先はこのページの市町村一覧（地域ごとの行）。地域別の新しいページは作らない。
- * 写真は Wikimedia Commons（作者・ライセンスは下のクレジット）、県西・鹿行は版画調のイメージイラスト。
- */
-const REGION_CARDS: Record<string, { img: string; alt: string; tag: string; text: string }> = {
-  kenpoku: { img: '/images/v42/autumn.webp', alt: '紅葉の袋田の滝（大子町）', tag: '袋田の滝', text: '海と渓谷、深呼吸の旅。' },
-  keno: { img: '/images/v42/ocean.webp', alt: '大洗海岸から見る太平洋の日の出', tag: '大洗海岸', text: '花と海、まちをめぐる。' },
-  kennan: { img: '/images/v42/tsukuba.webp', alt: '秋の筑波山', tag: '筑波山', text: '山の麓から、科学の街へ。' },
-  kensei: { img: '/images/v42/makabe-town-print.webp', alt: '蔵の並ぶ古い町並みを描いたイメージイラスト', tag: 'イメージイラスト', text: '古い街並みと、畑のよりみち。' },
-  rokko: { img: '/images/v42/kasumigaura-tsukuba-print.webp', alt: '湖と山並みを描いたイメージイラスト', tag: 'イメージイラスト', text: '水辺と、神話のふるさと。' },
-};
-const regionCards: V42CardItem[] = REGION_ORDER.map((key) => ({
-  href: `#area-${key}`,
-  ...REGION_CARDS[key],
-  kicker: key.toUpperCase(),
-  title: REGIONS[key].label,
-  more: `${REGIONS[key].label}の市町村を見る`,
-}));
 const moreCards: V42CardItem[] = [
   { href: '/area/hitachi/', img: '/images/v42/hitachi-coast.webp', alt: 'かみね公園から見た日立市の街と海', tag: '実写', kicker: 'AREA GUIDE ／ 日立市', title: '海と丘の街、日立へ。', text: '日立の歩き方と、半日のコース。' },
   { href: '/food-library/', img: '/images/v42/hoshiimo-field-visit.webp', alt: '干し芋づくりの現場を訪ねる二人を描いたイメージイラスト', tag: 'イメージイラスト', kicker: 'FOOD LIBRARY', title: '知るほど、おいしい。', text: '品種と産地から読む、茨城の食。' },
@@ -36,26 +17,13 @@ const moreCards: V42CardItem[] = [
   <header class="area-hero v42-hero v42-hero--fill bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">IBARAKI 44 CITIES</p>
-    <h1 id="area-index-title" class="area-hero__label">茨城県44市町村から探す</h1>
-    <p class="v42-display" data-copy-key="area-index.title">44のまち、<br />まだ知らない茨城へ。</p>
-    <p class="area-hero__lead">海の街、山の街、畑の街。気になる場所から、物語をひとつ。</p>
+    <h1 id="area-index-title" class="area-hero__title">茨城県44市町村から探す</h1>
+    <p class="area-hero__lead">海の街、山の街、畑の街。<br />気になる場所から、物語をひとつ。</p>
     <img class="v42-hero__art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" decoding="async" />
   </header>
 
   <section class="area-index-main" aria-labelledby="area-index-title">
-    <div class="bp-wrap"><HomeAreaExplorer heading={{ kicker: 'FIND YOUR TOWN', lines: ['どのまちへ、', '歩こう。'] }} /></div>
-  </section>
-
-  <section class="v42-section v42-band" aria-labelledby="area-regions-title">
-    <div class="bp-wrap">
-      <header class="v42-section__head"><p class="bp-kicker">FIVE REGIONS</p><h2 id="area-regions-title">五つの地域から、選ぶ。</h2></header>
-      <V42Cards items={regionCards} cols={5} />
-      <p class="v42-credit">
-        写真：<a href="https://commons.wikimedia.org/wiki/File:Autumn_of_Fukuroda_Falls,_Daigo,_Ibaraki;_November_2016.jpg" rel="license noopener" target="_blank">t.kunikuni / CC BY-SA 2.0</a>（袋田の滝）、
-        <a href="https://commons.wikimedia.org/wiki/File:Sunrise_of_the_Pacific_Ocean_-_Oarai_coast.jpg" rel="license noopener" target="_blank">t.kunikuni / CC BY-SA 2.0</a>（大洗海岸）、
-        <a href="https://commons.wikimedia.org/wiki/File:筑波山写真（秋1）.jpg" rel="license noopener" target="_blank">つくば市 / CC BY 4.0</a>（筑波山）。トリミング・縮小しています。県西・鹿行はイメージイラストで、実在の景色の記録ではありません。
-      </p>
-    </div>
+    <div class="bp-wrap"><HomeAreaExplorer heading={{ kicker: 'FIND YOUR TOWN', lines: ['どのまちへ、', '歩こう。'] }} art={false} /></div>
   </section>
 
   <section class="v42-section" aria-labelledby="area-more-title">
@@ -73,26 +41,17 @@ const moreCards: V42CardItem[] = [
 <style>
   .area-hero{padding-inline:0}
   .area-hero :global(.crumbs){margin-bottom:1.2rem}
-  .area-hero__label{margin-top:.9rem;color:var(--v42-note);font:500 .8125rem/1.6 var(--font-brand-body)!important;letter-spacing:.12em}
+  /* 提出版（area-region）は H1 をそのまま表紙の大きな見出しにする（52.4px／スマホ30px） */
+  .area-hero__title{margin-top:.9rem;color:var(--v42-ink);font:500 clamp(30px,3.64vw,52.4px)/1.43 var(--font-brand-display)!important;letter-spacing:.05em;text-wrap:balance}
   .area-hero__lead{margin-top:1.1rem;color:var(--v42-copy);font-size:.9375rem;line-height:1.9}
-  .area-index-main{
-    padding-block:clamp(2.5rem,5vw,4.5rem);
+  /* スマホは提出版どおり、説明文の右に挿絵を並べる（共通の帯は文字の下に置くため、このページだけ上書き） */
+  @media (max-width:760px){
+    :global(body.interior-site) .area-hero{grid-template-columns:minmax(0,1fr) 84px!important;column-gap:.75rem}
+    :global(body.interior-site) .area-hero > *{grid-column:1 / -1}
+    :global(body.interior-site) .area-hero > .area-hero__lead{grid-column:1}
+    :global(body.interior-site) .area-hero > .v42-hero__art{grid-column:2;grid-row:auto;order:0;align-self:end;max-width:none;width:84px;max-height:126px;margin-top:0}
   }
-  /*
-   * 761〜1100pxの地図レイアウト（HomeAreaExplorer）は、2列の最小幅 320px＋400px を前提にしている。
-   * この一覧は左右の余白（bp-wrap）のぶん枠が狭く、768pxで地図が右へ32pxはみ出し、神栖市・北茨城市など
-   * 東端が切れていた（2026-10-04、本番でも確認）。このページだけ列の最小幅を外す。TOPの見た目は変えない。
-   */
-  @media (min-width:761px) and (max-width:1100px){
-    .area-index-main :global(.ax-grid){grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
-  }
-  @media (max-width:1100px){
-    .v42-band :global(.v42-cards){grid-template-columns:repeat(3,minmax(0,1fr))}
-  }
-  @media (max-width:900px){
-    .v42-band :global(.v42-cards){grid-template-columns:repeat(2,minmax(0,1fr))}
-  }
-  @media (max-width:560px){
-    .v42-band :global(.v42-cards){grid-template-columns:minmax(0,1fr)}
-  }
+  /* 地図と5地域は薄い緑の段に直接置く（従来の白い枠は外す）。interior.css の指定より強くするため body から書く */
+  :global(body.interior-site) .area-index-main{padding-block:clamp(2.5rem,5vw,4.5rem);background:#eaf0df}
+  :global(body.interior-site) .area-index-main > .bp-wrap{margin-top:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
 </style>

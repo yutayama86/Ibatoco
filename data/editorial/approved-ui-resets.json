@@ -62,6 +62,78 @@
         "docs/design/v42-screenshots/compare-home-journey-pc.jpg",
         "docs/design/v42-screenshots/compare-home-flowers-sp.jpg"
       ]
+    },
+    {
+      "id": "20261108-v42-fidelity-a-533",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 533,
+      "path": "/",
+      "baseSha": "641637bf23963c30f27060a422b541baeec28d24",
+      "previousChangeId": "20261108-home-v42-journey",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-08",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが11月8日にIssue #532で、提出版v42と見た目が違うTOPの字級・余白・カード、地図と5地域パネルの配置の修正を依頼した（目的別Draft PRのA）。この記録は今回のPRと確認済みソースだけに適用する。マージはオーナー承認後で、マージ日が11月8日でなければ日付を合わせて記録し直す。",
+      "restartChangeId": "20261108-home-v42-fidelity-a",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "d06405cfb733d7c5437686e75c368d2a614938a3",
+        "src/components/HomeJourney.astro": "405b73bf55765d4d919cfcc6e0fc5b2e92efa4db",
+        "src/pages/area/index.astro": "1db5dfbc8f5624fa703d632dc22bda33ec064e4f",
+        "src/pages/index.astro": "d63bcc497bdfd107fdfa8dd804f7ccad77476287"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-a-top-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-closing-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg",
+        "src/components/HomeAreaExplorer.astro",
+        "src/pages/area/index.astro",
+        "docs/design/v42-screenshots/compare-a-top-area-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-area-sp.jpg"
+      ]
+    },
+    {
+      "id": "20261109-v42-fidelity-a-533-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 533,
+      "path": "/",
+      "baseSha": "641637bf23963c30f27060a422b541baeec28d24",
+      "previousChangeId": "20261108-home-v42-journey",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日にこのチャットで「公開まで進めて」と明示承認した。前日のDraftで検証した同じv42修正をPR #533から公開し、本番反映日を新しい観測起点とする。11月8日の承認・履歴は書き換えず保持し、このPR・基点・確認済みソースだけに適用する。",
+      "restartChangeId": "20261109-home-v42-fidelity-a-release",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "d06405cfb733d7c5437686e75c368d2a614938a3",
+        "src/components/HomeJourney.astro": "405b73bf55765d4d919cfcc6e0fc5b2e92efa4db",
+        "src/pages/area/index.astro": "1db5dfbc8f5624fa703d632dc22bda33ec064e4f",
+        "src/pages/index.astro": "d63bcc497bdfd107fdfa8dd804f7ccad77476287"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-a-top-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-closing-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg",
+        "src/components/HomeAreaExplorer.astro",
+        "src/pages/area/index.astro",
+        "docs/design/v42-screenshots/compare-a-top-area-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-area-sp.jpg"
+      ]
     }
   ]
 }
