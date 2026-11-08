@@ -4,17 +4,19 @@
  * /hana/ は名所を季節順にまとめた常設のページ。こちらは「いま」公式が咲いている・開催中と出している花だけ。
  * 中身は src/data/flower-notes.ts（TOPの花の区画と共通）。期限を過ぎた花はビルド時に外れ、
  * 2件未満になったら noindex にする（sitemap.xml.ts も同じ条件）。
+ * 「次に咲く花」は公式の例年の時期だけ（いま咲いているとは書かない）。いまの花が無い時期もページが空にならないように出す。
  */
 import BrandBase from '../../layouts/BrandBase.astro';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import type { Crumb } from '../../components/Breadcrumbs.astro';
-import { FLOWER_NOW_MIN_INDEX, visibleFlowerNotes } from '../../data/flower-notes';
+import { FLOWER_NOW_MIN_INDEX, visibleFlowerNotes, visibleUpcomingFlowers } from '../../data/flower-notes';
 import { todayDateOnlyString } from '../../lib/date-only.js';
 import '../../styles/course.css';
 import '../../styles/p41-flowers-pets.css';
 
 const today = todayDateOnlyString();
 const notes = visibleFlowerNotes(today);
+const upcoming = visibleUpcomingFlowers(today);
 const noindex = notes.length < FLOWER_NOW_MIN_INDEX;
 const flowerNames = [...new Set(notes.map((note) => note.flower))];
 const monthDay = (value: string) => { const [, m, d] = value.split('-').map(Number); return `${m}/${d}`; };
@@ -27,7 +29,7 @@ const title = flowerNames.length
   : '茨城のいま見頃の花｜公式の開花情報で確かめる花だより｜イバトコ';
 const description = notes.length
   ? `${notes.map((note) => `${note.name}の${note.flower}`).join('、')}。公式の開花情報と開催案内で確かめた、茨城でいま会いに行ける花をまとめています。`
-  : '茨城でいま会いに行ける花を、公式の開花情報と開催案内で確かめてまとめるページです。';
+  : `茨城でいま会いに行ける花を、公式の開花情報と開催案内で確かめてまとめるページです。${upcoming.length ? `次に咲く花（${upcoming.map((flower) => `${flower.name}の${flower.flower}`).join('、')}）の例年の時期も公式の案内から載せています。` : ''}`;
 
 const journeys = [
   { href: '/course/hitachinaka/', img: '/images/theme/nemophila-hitachi-seaside-park.jpg', width: 1108, height: 739, tag: '実写', kicker: 'ひたちなか市', title: '空と花のあいだを、歩く。', text: 'みはらしの丘から、海辺のまちへ。' },
@@ -103,11 +105,36 @@ const jsonLd = [
             ))}
           </div>
         ) : (
-          <p class="c-empty">いま、公式の発表で確かめられた花の便りはありません。次の季節の花は、<a href="/hana/">茨城の花の名所（季節順）</a>から探せます。</p>
+          <p class="c-empty">いま、公式の発表で咲いている・開催中と確かめられた花はありません。{upcoming.length > 0 && <>このあと咲く花の例年の時期は、<a href="#flowers-next">次に咲く花</a>に載せています。</>}季節ごとの名所は、<a href="/hana/">茨城の花の名所（季節順）</a>から探せます。</p>
         )}
-        <p class="p41-small-note">{latestLabel ? `${latestLabel}に、各施設・主催者の公式発表で確かめた情報です。` : ''}開花状況は天候などで変わります。おでかけ前に、公式の最新情報を確かめてください。画像はイメージイラストです。</p>
+        <p class="p41-small-note">{latestLabel ? `${latestLabel}に、各施設・主催者の公式発表で確かめた情報です。` : ''}開花状況は天候などで変わります。おでかけ前に、公式の最新情報を確かめてください。{notes.length > 0 && '画像はイメージイラストです。'}</p>
       </div>
     </section>
+
+    {upcoming.length > 0 && (
+      <section class="p41-section" aria-labelledby="flowers-next">
+        <div class="p41-wrap">
+          <header class="p41-section-head">
+            <div>
+              <p class="p41-kicker">NEXT FLOWERS</p>
+              <h2 id="flowers-next">次に咲く花。</h2>
+            </div>
+          </header>
+          <div class="p41-grid two">
+            {upcoming.map((flower) => (
+              <article class="c-pet-card">
+                <p class="p41-kicker">{flower.city} ／ {flower.flower}</p>
+                <h3>{flower.name}</h3>
+                <span class="p41-tag c-rule">{flower.season}</span>
+                <ul>{flower.items.map((item) => <li>{item}</li>)}</ul>
+                <a class="p41-button is-light" href={flower.officialUrl} target="_blank" rel="noopener">公式の案内を見る<span class="p41-arrow" aria-hidden="true">↗</span></a>
+              </article>
+            ))}
+          </div>
+          <p class="p41-small-note">各施設の公式の案内にある、例年の時期です（2026年11月8日確認）。その年の開花は気候で前後します。咲き始めたことが公式で発表されたら、上の「いま見頃」に載せます。</p>
+        </div>
+      </section>
+    )}
 
     <section class="p41-section is-sage" aria-labelledby="flowers-journeys">
       <div class="p41-wrap">
