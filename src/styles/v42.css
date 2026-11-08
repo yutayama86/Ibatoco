@@ -633,9 +633,9 @@ body.interior-site .fg-hero h1 { font-weight: 600; }
 .v42-tape { position: absolute; top: -10px; left: 36%; z-index: 1; width: 80px; height: 20px; background: #d0c5a39c; transform: rotate(-5deg); clip-path: polygon(2% 0, 100% 4%, 97% 100%, 0 97%); }
 .v42-stamp { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100px; height: 100px; margin: 0 0 .4rem; border: 1px solid #99ad7c; border-radius: 50%; outline: 1px solid #c3cfb158; outline-offset: -7px; color: #738c5e; font: 600 1.05rem / 1.4 var(--font-brand-display); text-align: center; transform: rotate(-8deg); }
 .v42-stamp small { margin-top: 4px; font: 400 8px var(--font-brand-body); letter-spacing: .2em; }
-.v42-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-width: 230px; min-height: 48px; margin-top: 1.2rem; padding: .75rem 1.3rem; background: var(--v42-ink); color: #fffdf6; font-size: .875rem; font-weight: 700; }
-.v42-button:hover { background: #1b363c; }
-.v42-button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 3px; }
+.v42-solid-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-width: 230px; min-height: 48px; margin-top: 1.2rem; padding: .75rem 1.3rem; background: var(--v42-ink); color: #fffdf6; font-size: .875rem; font-weight: 700; }
+.v42-solid-button:hover { background: #1b363c; }
+.v42-solid-button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 3px; }
 .v42-chipnav { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 1rem 1.4rem; }
 .v42-chipnav a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px; border: 1px solid #c9d3bb; border-radius: 2px; background: #fffcf3; color: #617c56; font-size: .75rem; }
 .v42-chipnav a[aria-current="true"] { border-color: #6e835d; background: #6e835d; color: #fffdf2; }
@@ -650,7 +650,7 @@ body.interior-site .fg-hero h1 { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .v42-photo, .v42-stamp { transform: none; } }
 
 /* 診断結果の冒頭：文が左、写真が右（提出版 discover-result） */
-body.interior-site .sd-feature { margin-bottom: 1.2rem; }
+body.interior-site .sd-feature { margin-bottom: 1.2rem; scroll-margin-top: calc(var(--site-header-height, 72px) + 16px); }
 @media (min-width: 900px) { body.interior-site .sd-feature { grid-template-columns: 1fr 1fr; } }
 body.interior-site .sd-feature[hidden] { display: none; }
 

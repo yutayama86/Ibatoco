@@ -217,7 +217,11 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
     const rows = await loadIndex();
     const { picks, relaxed } = recommend(rows, answer, todayDateOnlyString());
     result.hidden = false;
-    for (const feature of result.querySelectorAll<HTMLElement>('[data-shindan-feature]')) feature.hidden = feature.dataset.shindanFeature !== answer.what;
+    let shownFeature: HTMLElement | null = null;
+    for (const feature of result.querySelectorAll<HTMLElement>('[data-shindan-feature]')) {
+      feature.hidden = feature.dataset.shindanFeature !== answer.what;
+      if (!feature.hidden) shownFeature = feature;
+    }
     note.textContent = picks.length === 0
       ? '条件に合う行き先が見つかりませんでした。「どこでも」や別の目的でも試してください。'
       : relaxed
@@ -229,7 +233,9 @@ const labels = JSON.stringify({ interests: INTERESTS, regions: Object.fromEntrie
       areaList.innerHTML = areas.map((row) => `<li><a href="${escapeHtml(row.u)}">${escapeHtml(row.p[0] ?? row.t)}</a></li>`).join('');
       areasBox.hidden = areas.length === 0;
     }
-    heading.focus();
+    // 読み上げは見出しから始め、画面は見出しの上にある写真の見出しから見せる
+    heading.focus({ preventScroll: true });
+    (shownFeature ?? heading).scrollIntoView({ block: 'start' });
   }
 
   if (root && form) {
