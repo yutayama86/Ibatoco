@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261108-home-v42-journey',
+    date: '2026-11-08',
+    url: '/',
+    kind: 'on-page',
+    change: '提出v42の花だより・モデルコース・ペットとおでかけの3区画を追加し、TOPの並びをデザインに寄せる（#523）',
+    queries: [],
+    commit: '1868009d',
+    experimentType: 'template',
+    note: '11月8日のオーナー個別承認により、#517公開後の観測を区切り直す。title・description・canonical・H1・JSON-LD・既存リンク先は維持。新しい区画は公式の一次情報で確認した内容のみ。#523公開後を新しい28日間の観測起点とする。過去の記録は変更しない。',
+  },
+  {
     id: '20261107-home-v42-fidelity',
     date: '2026-11-07',
     url: '/',
