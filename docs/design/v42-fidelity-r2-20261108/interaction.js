@@ -1,0 +1,3 @@
+/* Preview interactions only. No analytics and no form submission. */
+document.addEventListener('submit',event=>{event.preventDefault();const form=event.target;let message=form.querySelector('.v42r-preview-message');if(!message){message=document.createElement('p');message.className='v42r-preview-message';message.setAttribute('role','status');form.append(message)}message.textContent='デザイン確認用のため、入力内容は送信されません。'},true);
+document.querySelectorAll('[data-v42r-filter]').forEach(button=>button.addEventListener('click',()=>{const group=button.closest('[data-v42r-filter-group]');group?.querySelectorAll('[data-v42r-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)))}));

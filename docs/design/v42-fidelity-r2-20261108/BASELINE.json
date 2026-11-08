@@ -1,0 +1,13 @@
+{
+  "dateJapan": "2026-11-08",
+  "mainSha": "641637bf23963c30f27060a422b541baeec28d24",
+  "referenceZip": "ibatoco-all-pages-design-v42.zip",
+  "referenceVersion": "15",
+  "referenceZipSha256": "aaba5ac5e235ccd3ac7c0e30d29d6dbc55c47fd771679bd7f3c82184f177c4a0",
+  "productionPcRecords": 33,
+  "productionPcUniquePaths": 32,
+  "productionMobileRecords": 13,
+  "sourceCodeChanges": 0,
+  "productionChanged": false,
+  "claudeLaunched": false
+}
