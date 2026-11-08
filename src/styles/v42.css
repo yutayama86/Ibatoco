@@ -437,7 +437,7 @@ body.interior-site .city-hero__art-tag strong { word-break: keep-all; overflow-w
  */
 body.interior-site :is(.about-head, .category-head, .ok-head, .tg-head__copy, .places-head, .hanabi-head, .person-head, .guide-index-head, .rp-hero)::before { background: transparent !important; }
 body.interior-site :is(.about-head, .category-head, .ok-head, .rp-hero, .discover-head, .today-head) { border-bottom: 0 !important; }
-body.interior-site :is(.about-head, .ok-head, .rp-hero, .tg-head, .discover-head, .today-head, .sd-head, .category-head, .places-head, .hanabi-head, .person-head, .guide-index-head, .me-head) h1,
+body.interior-site :is(.about-head, .ok-head, .rp-hero, .tg-head:where(:not(.tg-head--preserve-heading)), .discover-head, .today-head, .sd-head, .category-head, .places-head, .hanabi-head, .person-head, .guide-index-head, .me-head) h1,
 body.interior-site :is(.policy-title, .pv-title) {
   color: var(--v42-ink) !important;
   font-weight: 600 !important;
@@ -450,7 +450,7 @@ body.interior-site :is(.ok-head, .rp-hero) > .v42-hero { padding-block: 0 !impor
 body.interior-site .v42-band::before { background: #eef2e5; box-shadow: 0 0 0 100vmax #eef2e5; }
 
 /* 冒頭の見出しの大きさを提出版（.p41-title、PC 約47px／スマホ 30px 前後）にそろえる */
-body.interior-site :is(.discover-head, .today-head, .tg-head, .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
+body.interior-site :is(.discover-head, .today-head, .tg-head:where(:not(.tg-head--preserve-heading)), .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
 body.interior-site :is(.rp-hero, .ok-head) > .v42-hero:not(.v42-hub-label) h1 {
   font-size: clamp(30px, 3.65vw, 54px) !important;
   line-height: 1.45 !important;
