@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261109-home-v42-fidelity-a-release',
+    date: '2026-11-09',
+    url: '/',
+    kind: 'on-page',
+    change: '11/8にDraftで検証したTOPのv42再現度修正（字級・配置・44市町村の地図と5地域パネル）を、11/9のオーナー承認により本番へ反映する（#533）',
+    queries: [],
+    commit: 'ee770082',
+    experimentType: 'template',
+    note: 'オーナーの11/9の公開指示に基づく実公開日の観測記録。11/8のDraft段階の記録・承認は履歴として保持し、過去の日付を変更しない。UIソースは検証済みee770082と同一。title・description・canonical・H1・JSON-LD・フォーム・計測・地図データを維持し、公開後の28日間を新しい観測窓とする。',
+  },
+  {
     id: '20261108-home-v42-fidelity-a',
     date: '2026-11-08',
     url: '/',
