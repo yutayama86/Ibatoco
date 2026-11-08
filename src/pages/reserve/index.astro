@@ -6,30 +6,54 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '予約につ
 ---
 
 <BrandBase title="予約について｜イバトコ" description="掲載施設の予約方法についてご案内します。" noindex={true} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <section class="bp-reading rsv">
+  {/* 提出版（annex-reserve）：見出しの帯と挿絵、注記の区画、関連リンクの区画。文言・既存リンクはそのまま */}
+  <header class="rsv-head v42-hero v42-hero--fill bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">Reservation</p>
     <h1 class="bp-title rsv-title">予約は、各施設の<br />公式窓口へ。</h1>
     <p class="rsv-lead">イバトコでは現在、予約の受付や仲介を行っていません。掲載ページに公式の予約先が確認できた場合のみ、その窓口をご案内します。</p>
-    <aside class="rsv-note">
-      <h2>なぜ直接予約なのか</h2>
+    <img class="v42-hero__art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" decoding="async" />
+  </header>
+
+  <div class="rsv bp-wrap">
+    <section class="rsv-note rsv-folio" aria-labelledby="rsv-note-title">
+      <p class="bp-kicker">BEFORE YOU BOOK</p>
+      <h2 id="rsv-note-title">なぜ直接予約なのか</h2>
       <p>空席・料金・キャンセル条件など、最新情報を施設から正確に受け取っていただくためです。イバトコが確認できていない連絡先や予約枠を表示することはありません。</p>
-    </aside>
-    <div class="rsv-links">
-      <a href="/place/" class="rsv-primary">場所を探す <span aria-hidden="true">→</span></a>
-      <a href="/contact/" class="bp-link">掲載情報について問い合わせる</a>
-    </div>
-  </section>
+      <div class="rsv-links">
+        <a href="/place/" class="rsv-primary">場所を探す <span aria-hidden="true">→</span></a>
+        <a href="/contact/" class="bp-link">掲載情報について問い合わせる</a>
+      </div>
+    </section>
+
+    {/* 追加した関連リンク（#532 E）。予約先ではなく、サイト内の既存の一覧ページだけ */}
+    <section class="rsv-folio" aria-labelledby="rsv-more-title">
+      <p class="bp-kicker">ONE MORE DISCOVERY</p>
+      <h2 id="rsv-more-title">ここから、もうひと歩き。</h2>
+      <ul class="rsv-more">
+        <li><a href="/area/">44市町村から探す<span aria-hidden="true">→</span></a></li>
+        <li><a href="/course/">モデルコースを読む<span aria-hidden="true">→</span></a></li>
+        <li><a href="/food-library/">おいしい図鑑をひらく<span aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+  </div>
 </BrandBase>
 
 <style>
-  .rsv { padding-block: clamp(4rem, 9vw, 8rem); }
-  .rsv-title { margin-block: 1.25rem; }
-  .rsv-lead { color: var(--color-slate); font-size: clamp(1rem, 2vw, 1.16rem); line-height: 2; max-width: 42rem; }
-  .rsv-note { margin-top: 3rem; padding: 1.7rem 0 1.7rem 1.5rem; border-left: 3px solid var(--color-tide); }
-  .rsv-note h2 { font-family: var(--font-brand-display); color: var(--color-ink); font-size: 1.35rem; }
-  .rsv-note p { margin-top: .7rem; color: var(--color-slate); line-height: 1.9; }
-  .rsv-links { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 3rem; }
-  .rsv-primary { padding: .9rem 1.25rem; border: 1px solid var(--color-ink); }
-  .rsv-primary:hover { color: var(--color-paper); background: var(--color-ink); }
+  .rsv-head{padding-inline:0}
+  .rsv-head :global(.crumbs){margin-bottom:1.2rem}
+  .rsv-title{margin-block:.9rem 1.25rem}
+  .rsv-lead{max-width:40rem;color:var(--v42-copy,#3c5546);font-size:clamp(.9375rem,1.4vw,1.0625rem);line-height:2}
+  .rsv{padding-bottom:clamp(3rem,6vw,5rem)}
+  .rsv-folio{max-width:1160px;margin:0 auto;padding-block:clamp(50px,6vw,72px);border-top:1px solid var(--v42-rule,#d4dcc6)}
+  .rsv-folio:first-child{border-top:0}
+  .rsv-folio h2{margin:8px 0 20px;font-family:var(--font-brand-display);color:var(--v42-ink,#24434a)}
+  .rsv-folio > p:not(.bp-kicker){max-width:680px;color:var(--v42-copy,#3c5546);line-height:1.9}
+  .rsv-links{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem;margin-top:2rem}
+  .rsv-primary{padding:.9rem 1.25rem;border:1px solid var(--color-ink)}
+  .rsv-primary:hover{color:var(--color-paper);background:var(--color-ink)}
+  .rsv-more{display:flex;flex-wrap:wrap;gap:14px 28px;margin:0;padding:0;list-style:none}
+  .rsv-more a{display:inline-flex;min-height:44px;align-items:center;gap:18px;border-bottom:1px solid var(--v42-secondary,#53694f);color:var(--v42-ink,#24434a);text-decoration:none}
+  .rsv-more a:hover{border-bottom-color:currentColor}
+  @media(max-width:760px){.rsv-more{gap:10px 22px}.rsv-more a{font-size:14px}}
 </style>
