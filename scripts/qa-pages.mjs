@@ -68,6 +68,8 @@ export function qaPages(root = process.cwd()) {
         ['[data-module="home_area"] a[href^="/area/"]', 44],
         ['[data-module="home_news"] a[href^="/news/"]', 1],
         ['[data-module="home_process"]', 1],
+        ['[data-module="home_trips"] a[href^="/area/"]', 2],
+        ['[data-module="home_pets"] a[href^="https://"]', 6],
         ['[data-module="home_partner"] a[href^="/biz/"], [data-module="home_partner"] a[href^="/sponsor/"]', 1],
       ],
     },
