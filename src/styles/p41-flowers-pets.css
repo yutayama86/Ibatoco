@@ -1,0 +1,176 @@
+/* =============================================================
+   花だより（/hana/now/）とペットとおでかけ（/pet/）
+   course.css（提出版 p41-* の共通部分）に重ねる。提出版 flowers.html・pet.html だけにある規則と、
+   事実の欄・出典の追加分。読む注記は 11px 以上（ui-smoke の基準）
+   ============================================================= */
+.p41-tag {
+  font-size:10px;
+  letter-spacing:.03em;
+  color:#71845e;
+  display:inline-flex;
+  align-items:center;
+  min-height:25px;
+  padding:3px 8px;
+  background:#edf1e3;
+  border-radius:2px;
+}
+.p41-meta {
+  font-size:11px;
+  color:#8a957d;
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-block:9px;
+}
+.p41-flower-hero {
+  background:#f3f4e7 url(/images/v42/v37-flower-hills.webp) center bottom/100% auto no-repeat;
+  padding-bottom:150px;
+}
+.p41-flower-hero .p41-hub-hero {
+  padding-bottom:0;
+}
+.p41-flower-hero .p41-art {
+  height:190px;
+}
+.p41-flower-row {
+  display:grid;
+  grid-template-columns:130px 1fr auto;
+  gap:25px;
+  align-items:center;
+  padding:25px;
+  border-bottom:1px solid #d9e0ca;
+  background:#fffdf5;
+}
+.p41-flower-row img {
+  width:115px;
+  height:125px;
+  object-fit:contain;
+}
+.p41-flower-row h3 {
+  font:600 24px/1.6 var(--font-brand-display);
+  margin:8px 0;
+}
+.p41-flower-row p {
+  font-size:12px;
+  color:#7f8f6e;
+}
+.p41-pet-hero {
+  background:#f7f2e5;
+}
+.p41-pet-hero .p41-hub-hero {
+  grid-template-columns:.9fr 1.1fr;
+}
+.p41-pet-hero .p41-art {
+  height:300px;
+}
+@media (max-width:760px) {
+.p41-meta {
+  font-size:10px;
+  gap:12px;
+}
+.p41-flower-hero {
+  padding-bottom:85px;
+  background-size:auto 140px;
+}
+.p41-flower-hero .p41-hub-hero {
+  display:grid;
+  grid-template-columns:1fr 85px;
+  gap:12px;
+}
+.p41-flower-hero .p41-art {
+  height:145px;
+  margin:0;
+}
+.p41-flower-row {
+  grid-template-columns:75px 1fr;
+  gap:15px;
+  padding:21px 17px;
+}
+.p41-flower-row img {
+  width:72px;
+  height:100px;
+}
+.p41-flower-row h3 {
+  font-size:22px;
+  line-height:1.65;
+}
+.p41-flower-row p {
+  font-size:11px;
+  line-height:1.9;
+}
+.p41-flower-row>.p41-button {
+  grid-column:2;
+  min-height:44px;
+  font-size:11px;
+  justify-self:start;
+  padding:9px 12px;
+}
+.p41-pet-hero .p41-hub-hero {
+  display:block;
+}
+.p41-pet-hero .p41-art {
+  height:205px;
+  margin-top:14px;
+}
+}
+.p41-hub-hero .p41-kicker::before {
+  display: inline-block;
+  inline-size: 18px;
+  block-size: 1px;
+  margin-inline-end: 9px;
+  background: var(--v42-gold);
+  vertical-align: .31em;
+  content: "";
+}
+.p41-section-head > div,
+.p41-card {
+  min-inline-size: 0;
+}
+@media (max-width: 760px) {
+.p41-main .p41-meta {
+  font-size: 12px;
+  gap: 5px 12px;
+}
+.p41-flower-hero .p41-hub-hero {
+  grid-template-columns: minmax(0, 1fr) 72px;
+  gap: 10px;
+}
+}
+
+/* ===== 提出版にない部分 ===== */
+/* 提出版は丘の絵を幅いっぱいに敷き、広い画面で見出しに重なる。見出しを読めるよう、丘は下の帯に収める */
+.p41-flower-hero { background-size: auto 230px; padding-bottom: 220px; }
+.p41-tag { font-size: 11px; }
+.p41-tag.is-peak { background: #f4e7d9; color: #8a5a3b; }
+.p41-tag.is-event { background: #ece5f1; color: #6a557a; }
+.p41-flower-row { margin-top: 0 !important; }
+.p41-flower-row + .p41-flower-row { border-top: 0; }
+.p41-flower-row > div { min-width: 0; }
+.p41-flower-row .c-detail { font-size: 13px; line-height: 1.9; color: var(--v42-copy); margin-top: 6px !important; }
+.p41-flower-row .c-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px !important; font-size: 12px; }
+.p41-flower-row .c-links a { border-bottom: 1px solid #c9d3bb; color: #587755; }
+.p41-flower-row .c-links a:hover { color: #254f68; border-color: #254f68; }
+.c-empty { background: #fffdf5; padding: 22px 25px; font-size: 14px; line-height: 1.9; }
+.c-empty a { border-bottom: 1px solid #c9d3bb; }
+
+.c-pet-card { background: #fffdf5; padding: 20px 22px 18px; box-shadow: 2px 4px 0 #a8b69320; display: flex; flex-direction: column; min-width: 0; }
+.c-pet-card h3 { font: 600 22px/1.6 var(--font-brand-display); letter-spacing: .03em; color: var(--v42-ink); margin-block: 6px 10px !important; }
+.c-pet-card .c-rule { align-self: flex-start; }
+.c-pet-card ul { margin-top: 12px !important; }
+.c-pet-card li { position: relative; padding-left: 1.1em; font-size: 13px; line-height: 1.85; color: var(--v42-copy); }
+.c-pet-card li + li { margin-top: 6px; }
+.c-pet-card li::before { content: ""; position: absolute; left: 0; top: .85em; width: 6px; height: 1px; background: var(--v42-gold); }
+.c-pet-card .p41-button { margin-top: auto; align-self: flex-start; }
+.c-pet-card ul + .p41-button { margin-top: 14px; }
+.c-pet-card .c-cafe-figure { margin: -6px -8px 14px !important; background: #fffdf5; }
+.c-pet-card .c-cafe-figure img { width: 100%; height: 170px; object-fit: cover; }
+.c-pet-card .c-cafe-figure figcaption { font-size: 11px; color: var(--v42-note); padding: 4px 2px 0; }
+
+@media (max-width: 760px) {
+  .p41-flower-hero { background-size: auto 120px; padding-bottom: 110px; }
+  .p41-flower-row .c-detail { font-size: 13px; }
+  .p41-flower-row > .c-detail-wrap { grid-column: 1 / -1; }
+  .c-pet-card { padding: 18px 17px 16px; }
+  .c-pet-card h3 { font-size: 20px; }
+}
