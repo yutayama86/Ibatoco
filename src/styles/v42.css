@@ -257,6 +257,71 @@ body.interior-site :is(.area-guide, .hitachi-guide, .daigo-guide, .area-page) .b
   line-height: 1.55;
 }
 
+/* ── 運営・方針・事業者・フォーム・検索（Issue #532 C）：提出版の字級と配置 ──
+ * H1の文言・料金・区分・規約・開示・フォームの項目と処理はそのまま。見出しの大きさと並びだけを揃える。
+ */
+/* 表紙のH1：提出版は PC 52px、スマホ 29px */
+body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) {
+  font-size: clamp(30px, 3.64vw, 52.4px) !important;
+  line-height: 1.43 !important;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) {
+    font-size: 29px !important;
+    line-height: 1.5 !important;
+  }
+}
+@media (max-width: 340px) {
+  body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) { font-size: 26px !important; }
+}
+/* 節の見出し：提出版は PC 31px・スマホ 26px（/biz/ の64px、/sponsor/ の51px の区画を揃える） */
+body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+body.interior-site main:has(.category-empty) h2 {
+  font-size: clamp(24px, 2.2vw, 31px) !important;
+  line-height: 1.55 !important;
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+/* 規約・方針の本文見出しは本文の段に合わせて一段小さく（提出版 30px・スマホ 23px） */
+body.interior-site.interior-site :is(.policy-body, .pv-body) h2 {
+  font-size: clamp(22px, 2.1vw, 30px) !important;
+  line-height: 1.55 !important;
+}
+@media (max-width: 760px) {
+  body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+  body.interior-site main:has(.category-empty) h2 { font-size: 26px !important; }
+  body.interior-site.interior-site :is(.policy-body, .pv-body) h2 { font-size: 23px !important; }
+}
+@media (max-width: 360px) {
+  body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+  body.interior-site main:has(.category-empty) h2 { font-size: 24px !important; }
+}
+/* 事業者・協賛の節の上下余白（旧版の96〜112pxを、提出版の詰まった紙面に寄せる） */
+body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) { padding-block: clamp(44px, 5vw, 72px); }
+body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) > .bp-wrap { padding-block: 0; }
+/* お問い合わせ：見出しを全幅で上に置き、フォームを左、連絡先と挿絵を右に（PC） */
+@media (min-width: 901px) {
+  body.interior-site.route-contact .contact.bp-wrap {
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 270px);
+    grid-template-areas: "crumbs crumbs" "kicker kicker" "title title" "lead lead" "form mail" "form art" "form .";
+    grid-template-rows: auto auto auto auto auto auto 1fr;
+    row-gap: 0;
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+  body.interior-site.route-contact .contact-intro { display: contents; }
+  body.interior-site.route-contact .contact-intro > .bp-kicker { grid-area: kicker; margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+  body.interior-site.route-contact .contact-intro > h1 { grid-area: title; max-width: none; }
+  body.interior-site.route-contact .contact-intro > h1 br { display: none; }
+  body.interior-site .submit-head h1 br { display: none; }
+  body.interior-site.route-contact .contact-intro > p:not(.bp-kicker) { grid-area: lead; }
+  body.interior-site.route-contact .contact-form { margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+  body.interior-site.route-contact .contact-mail { grid-area: mail; margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+  body.interior-site.route-contact .contact-intro__art { grid-area: art; }
+}
+/* フォームの見出しは項目の見出しとして控えめに（提出版 22px） */
+body.interior-site.route-contact .contact-form__head h2 { font-size: clamp(22px, 1.9vw, 26px); }
+
 /* ── サイト末尾の帯（全ページ共通） ── */
 .v42-closing {
   padding-block: 2.25rem;
