@@ -15,10 +15,21 @@ const jsonLd = { '@context': 'https://schema.org', '@type': 'Person', name: disp
 
 <BrandBase title={`${displayName}｜${role}｜イバトコ`} description={person.bio} image={person.avatar} jsonLd={jsonLd}>
   <article class="person">
-    <header class="person-head bp-wrap"><div class="person-initial" aria-hidden="true">{displayName.slice(0,1)}</div><div><p class="bp-kicker">{role}</p><h1>{displayName}</h1>{person.title && <p>{person.title}</p>}</div></header>
-    <div class="person-grid bp-wrap">
-      <div class="person-main"><p class="person-bio">{person.bio}</p>{person.philosophy && <blockquote>{person.philosophy}</blockquote>}</div>
-      <aside><dl>{person.area && <div><dt>担当</dt><dd>{person.area}</dd></div>}{person.expertise?.length && <div><dt>専門</dt><dd>{person.expertise.join('、')}</dd></div>}{person.since && <div><dt>活動開始</dt><dd>{person.since}年</dd></div>}</dl><a href="/about/editorial-policy/">編集方針を読む →</a></aside>
+    <header class="person-head v42-hero v42-hero--fill v42-template-hero bp-wrap">
+      <div><p class="bp-kicker">{role}</p><h1>{displayName}</h1>{person.title && <p>{person.title}</p>}</div>
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
+    </header>
+    <div class="person-grid v42-template-grid bp-wrap">
+      <div class="person-main">
+        <p class="bp-kicker">PROFILE</p>
+        <div class="person-initial" aria-hidden="true">{displayName.slice(0,1)}</div>
+        <p class="person-bio">{person.bio}</p>{person.philosophy && <blockquote>{person.philosophy}</blockquote>}
+      </div>
+      <aside class="v42-template-note">
+        <img src="/images/v42/field-reporters.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />
+        <p class="bp-kicker">FIELD NOTES</p>
+        <dl>{person.area && <div><dt>担当</dt><dd>{person.area}</dd></div>}{person.expertise?.length && <div><dt>専門</dt><dd>{person.expertise.join('、')}</dd></div>}{person.since && <div><dt>活動開始</dt><dd>{person.since}年</dd></div>}</dl><a href="/about/editorial-policy/">編集方針を読む →</a>
+      </aside>
     </div>
     {articles.length > 0 && <section class="bp-wrap bp-section"><p class="bp-kicker">STORIES</p><h2 class="bp-section-title">この人が取材した物語</h2><div class="person-stories">{articles.map((article) => <BrandStoryCard article={article} />)}</div></section>}
   </article>

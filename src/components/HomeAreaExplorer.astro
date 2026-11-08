@@ -93,7 +93,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
 
 
 <section class="ax">
-  <header class="ax-intro">
+  <header class:list={['ax-intro', { 'ax-intro--illustrated': art }]}>
     <div class="ax-intro-text">
       <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
       {heading
@@ -284,6 +284,17 @@ const nodes = MUNICIPALITIES.map((m) => ({
   }
   @media (max-width: 340px) {
     .ax-regions { grid-template-columns: minmax(0, 1fr); }
+  }
+  /* スマホの表紙：挿絵は見出しの右、2行目と説明は全幅。地図の前に挿絵だけの段を作らない。 */
+  @media (max-width: 760px) {
+    .ax-intro--illustrated { position: relative; }
+    .ax-intro--illustrated h2 { font-size: clamp(26px, 7.44vw, 29px) !important; }
+    .ax-intro--illustrated .ax-title-line { min-height: 108px; padding-right: 98px; white-space: nowrap; }
+    .ax-intro--illustrated h2 b { font-size: 3.03em; }
+    .ax-intro--illustrated .ax-intro-art { position: absolute; top: 2px; right: 0; width: 86px; height: 129px; margin: 0; }
+  }
+  @media (max-width: 340px) {
+    .ax-intro--illustrated h2 { font-size: 24px !important; }
   }
   @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-region-open b { transition: none; } }
 </style>

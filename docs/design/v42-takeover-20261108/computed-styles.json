@@ -1,0 +1,174 @@
+{
+  "checked": 28,
+  "issues": [],
+  "rows": [
+    {
+      "path": "/kouyou/",
+      "width": 390,
+      "elements": 630,
+      "diffs": []
+    },
+    {
+      "path": "/kouyou/",
+      "width": 1440,
+      "elements": 779,
+      "diffs": []
+    },
+    {
+      "path": "/odekake/",
+      "width": 390,
+      "elements": 456,
+      "diffs": []
+    },
+    {
+      "path": "/odekake/",
+      "width": 1440,
+      "elements": 604,
+      "diffs": []
+    },
+    {
+      "path": "/hana/",
+      "width": 390,
+      "elements": 413,
+      "diffs": []
+    },
+    {
+      "path": "/hana/",
+      "width": 1440,
+      "elements": 558,
+      "diffs": []
+    },
+    {
+      "path": "/hana/now/",
+      "width": 390,
+      "elements": 410,
+      "diffs": []
+    },
+    {
+      "path": "/hana/now/",
+      "width": 1440,
+      "elements": 555,
+      "diffs": []
+    },
+    {
+      "path": "/pet/",
+      "width": 390,
+      "elements": 367,
+      "diffs": []
+    },
+    {
+      "path": "/pet/",
+      "width": 1440,
+      "elements": 512,
+      "diffs": []
+    },
+    {
+      "path": "/course/",
+      "width": 390,
+      "elements": 332,
+      "diffs": []
+    },
+    {
+      "path": "/course/",
+      "width": 1440,
+      "elements": 478,
+      "diffs": []
+    },
+    {
+      "path": "/course/hitachi/",
+      "width": 390,
+      "elements": 390,
+      "diffs": []
+    },
+    {
+      "path": "/course/hitachi/",
+      "width": 1440,
+      "elements": 535,
+      "diffs": []
+    },
+    {
+      "path": "/course/kasama/",
+      "width": 390,
+      "elements": 379,
+      "diffs": []
+    },
+    {
+      "path": "/course/kasama/",
+      "width": 1440,
+      "elements": 524,
+      "diffs": []
+    },
+    {
+      "path": "/course/hitachinaka/",
+      "width": 390,
+      "elements": 376,
+      "diffs": []
+    },
+    {
+      "path": "/course/hitachinaka/",
+      "width": 1440,
+      "elements": 521,
+      "diffs": []
+    },
+    {
+      "path": "/events/",
+      "width": 390,
+      "elements": 2419,
+      "diffs": []
+    },
+    {
+      "path": "/events/",
+      "width": 1440,
+      "elements": 2564,
+      "diffs": []
+    },
+    {
+      "path": "/news/",
+      "width": 390,
+      "elements": 1371,
+      "diffs": []
+    },
+    {
+      "path": "/news/",
+      "width": 1440,
+      "elements": 1601,
+      "diffs": []
+    },
+    {
+      "path": "/sports/",
+      "width": 390,
+      "elements": 382,
+      "diffs": []
+    },
+    {
+      "path": "/sports/",
+      "width": 1440,
+      "elements": 527,
+      "diffs": []
+    },
+    {
+      "path": "/today/",
+      "width": 390,
+      "elements": 406,
+      "diffs": []
+    },
+    {
+      "path": "/today/",
+      "width": 1440,
+      "elements": 551,
+      "diffs": []
+    },
+    {
+      "path": "/shindan/",
+      "width": 390,
+      "elements": 317,
+      "diffs": []
+    },
+    {
+      "path": "/shindan/",
+      "width": 1440,
+      "elements": 462,
+      "diffs": []
+    }
+  ]
+}

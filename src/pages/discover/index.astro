@@ -156,9 +156,15 @@ const jsonLd = [
   {/* 提出版 map-browser の「地図から探す」。地図は市町村ガイドへの入口、地域ボタンは上の検索を絞る */}
   <section class="v42-section v42-band discover-map" aria-labelledby="discover-map-title">
     <div class="bp-wrap discover-map__grid">
-      <div class="discover-map__copy">
+      <header class="discover-map__heading">
         <p class="bp-kicker">MAP AND PLACES</p>
         <h2 id="discover-map-title" class="v42-featured__title">地図をひらいて、<br />茨城を歩こう。</h2>
+      </header>
+      <div class="discover-map__map">
+        <IbarakiMap />
+        <p class="discover-map__hint">市町村名を押すと、その街のガイドへ。</p>
+      </div>
+      <div class="discover-map__copy">
         <p class="v42-featured__lead">街を選んで、そこにある景色やお店へ。地域を決めて、上の候補を絞ることもできます。</p>
         <div class="discover-map__regions">
           {REGION_ORDER.map((key) => (
@@ -166,10 +172,6 @@ const jsonLd = [
           ))}
         </div>
         <p class="discover-map__note">地図は市町村の境界を示しています。施設の正確な位置と行き方は、各記事の案内で確認してください。</p>
-      </div>
-      <div class="discover-map__map">
-        <IbarakiMap />
-        <p class="discover-map__hint">市町村名を押すと、その街のガイドへ。</p>
       </div>
     </div>
   </section>

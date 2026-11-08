@@ -1,0 +1,844 @@
+{
+  "pageTypes": [
+    {
+      "number": 1,
+      "id": "home",
+      "label": "トップページ・実写ネモフィラ",
+      "file": "index.html",
+      "route": "/",
+      "current_h1": "なんか茨城、いいかも。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P0",
+      "notes": [
+        "TOPの見出し・余白・カードを提出版へ。PCニュース見出しは35px。",
+        "テーマ6件、つくった理由、取材と編集3項目、事業者導線を残して同じ紙面に整える。",
+        "実写FV3枚・5秒間隔・操作・reduced-motion・44市町村の直リンクを維持。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 2,
+      "id": "feature-list",
+      "label": "特集一覧",
+      "file": "feature-list.html",
+      "route": "/kouyou/",
+      "current_h1": "茨城の紅葉",
+      "scope": "2026年11月16日以降の別PR",
+      "short": "11/15まで観測を維持",
+      "priority": "P2",
+      "notes": [
+        "/kouyou/ は2026年11月15日まで見出しを現行維持。適用は11月16日以降の別PR。",
+        "特集一覧と特集詳細を同じURLに二重実装しない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "日付待ち：/kouyou/の見出しは11/15まで現行維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 3,
+      "id": "feature-story",
+      "label": "特集詳細",
+      "file": "feature-story.html",
+      "route": "/kouyou/",
+      "current_h1": "茨城の紅葉",
+      "scope": "2026年11月16日以降の別PR",
+      "short": "11/15まで観測を維持",
+      "priority": "P2",
+      "notes": [
+        "/kouyou/ は2026年11月15日まで現行の観測を維持。11月16日以降に別PRで適用。",
+        "既存のH1・metadata・本文と観測ガードを変更しない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "日付待ち：/kouyou/の見出しは11/15まで現行維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 4,
+      "id": "event-list",
+      "label": "イベント一覧・カレンダー",
+      "file": "event-list.html",
+      "route": "/events/",
+      "current_h1": "茨城のイベント・おでかけ",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 5,
+      "id": "event-detail",
+      "label": "イベント詳細",
+      "file": "event-detail.html",
+      "route": "/events/kasama-kiku-matsuri-2026/",
+      "current_h1": "笠間の菊まつり2026｜会期10月24日〜11月23日、流鏑馬・駐車場・周遊バス",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "実際の記事H1を保ち、表紙・写真・本文と目次の2列を揃える。",
+        "本文、開催情報、FAQ、情報源、予約・広告表示を全量維持する。",
+        "長い表・注記・スマホ2列目次とPC関連記事3列まで確認。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 6,
+      "id": "area-index",
+      "label": "44市町村・エリア一覧",
+      "file": "area-index.html",
+      "route": "/area/",
+      "current_h1": "茨城県44市町村から探す",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 7,
+      "id": "area-region",
+      "label": "エリア別ガイド",
+      "file": "area-region.html",
+      "route": "/area/",
+      "current_h1": "茨城県44市町村から探す",
+      "scope": "新しいURLを作らず /area/ 内の地域パネル",
+      "short": "既存ページ内の状態",
+      "priority": "P2",
+      "notes": [
+        "地域別の新しいURLは作らず、既存 /area/ 内の地域パネルとして設計。",
+        "44市町村の正確な境界・分類・直リンクを維持。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 8,
+      "id": "area-city",
+      "label": "市町村ガイド",
+      "file": "area-city.html",
+      "route": "/area/hitachi/",
+      "current_h1": "日立市",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "巨大な市町村名だけで終わらせず、提出版の表紙・紹介・カードのリズムへ。",
+        "H1の市町村名、既存の全紹介文・事実・写真・出典・コース導線を残す。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 9,
+      "id": "spot",
+      "label": "観光スポット・施設詳細",
+      "file": "spot.html",
+      "route": "/spot/jaxa-tsukuba/",
+      "current_h1": "JAXA筑波宇宙センター",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "既存95件のnoindexをそのまま保ち、少量の情報でも読めるテンプレートにする。",
+        "写真がなければ架空の施設写真を作らず、地図・装飾と公式情報を使う。",
+        "営業時間・料金を推測で補わない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 10,
+      "id": "course-list",
+      "label": "モデルコース一覧",
+      "file": "course-list.html",
+      "route": "/course/",
+      "current_h1": "よりみちを、ひとつの旅に。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 11,
+      "id": "course",
+      "label": "モデルコース詳細",
+      "file": "course.html",
+      "route": "/course/hitachi/",
+      "current_h1": "海の見える駅から、街を見渡す丘へ。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 12,
+      "id": "food-list",
+      "label": "おいしい図鑑一覧",
+      "file": "food-list.html",
+      "route": "/food-library/",
+      "current_h1": "茨城のおいしい図鑑",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "提出版の表示コピーと額装・図鑑の版画の順序を保つ。",
+        "現在のH1は既存の小さなラベル位置に置き、見本コピーを本文見出しと入れ替えない。",
+        "8図鑑、旬・産地・品種の全入口と既存アンカーを維持。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 13,
+      "id": "food-guide",
+      "label": "食の図鑑・品種詳細",
+      "file": "food-guide.html",
+      "route": "/hoshiimo/",
+      "current_h1": "干し芋を、もっと好きになる。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "色だけでなく、表紙・8品種・索引・産地の区画をv42の紙面に整える。",
+        "現行の診断、全8品種、説明、比較、アンカー、画像出典を維持する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 14,
+      "id": "discover",
+      "label": "行き先・干し芋診断",
+      "file": "discover.html",
+      "route": "/shindan/",
+      "current_h1": "3つ答えるだけで、行き先が決まる。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 15,
+      "id": "discover-result",
+      "label": "診断結果",
+      "file": "discover-result.html",
+      "route": "/shindan/",
+      "current_h1": "3つ答えるだけで、行き先が決まる。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 16,
+      "id": "news-list",
+      "label": "ニュース・カテゴリ一覧",
+      "file": "news-list.html",
+      "route": "/news/",
+      "current_h1": "茨城ニュース解説",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 17,
+      "id": "news-story",
+      "label": "ニュース記事詳細",
+      "file": "news-story.html",
+      "route": "/news/soyora-tsukuba-gakuennomori-open-2026/",
+      "current_h1": "そよらつくば学園の森が開業｜営業時間・専門店・行き方",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "記事固有のH1と「概要」の責務を残し、行間・罫線・目次・関連記事を統一する。",
+        "見本の短い本文に置き換えず、現行記事を全量配置する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 18,
+      "id": "sports",
+      "label": "スポーツ一覧",
+      "file": "sports.html",
+      "route": "/sports/",
+      "current_h1": "試合の外にも、茨城がある。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 19,
+      "id": "sports-club",
+      "label": "クラブ・観戦ガイド",
+      "file": "sports-club.html",
+      "route": "/sports/mito-hollyhock/",
+      "current_h1": "水戸ホーリーホック",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "クラブ名H1、結果・日程の既存データを残して、観戦と街歩きの紙面に揃える。",
+        "公式ロゴ・写真・ユニフォームを新たに無断使用しない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 20,
+      "id": "flowers",
+      "label": "花だより・開花状況",
+      "file": "flowers.html",
+      "route": "/hana/now/",
+      "current_h1": "いま、会いに行きたい花。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 21,
+      "id": "pet",
+      "label": "ペットとおでかけ",
+      "file": "pet.html",
+      "route": "/pet/",
+      "current_h1": "うちの子と、よりみち。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 22,
+      "id": "shop-list",
+      "label": "店舗・カフェ一覧",
+      "file": "shop-list.html",
+      "route": "/place/",
+      "current_h1": "確認できた場所から、探す。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "掲載0件の画面も設計",
+      "priority": "P1",
+      "notes": [
+        "掲載0件の空状態も完成形として実装する。",
+        "店舗を選定したことにはせず、編集・PRの区分はオーナー判断を待つ。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 23,
+      "id": "shop",
+      "label": "店舗詳細",
+      "file": "shop.html",
+      "route": null,
+      "current_h1": null,
+      "scope": "公開データがそろう前のテンプレート設計",
+      "short": "公開データ0件・設計のみ",
+      "priority": "P1",
+      "notes": [
+        "掲載0件のため、データが入ったときのテンプレート設計のみ。",
+        "見本の店名・住所・営業時間・レビューを実データとして追加しない。"
+      ],
+      "public_ui_observed_pc": false,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "公開データ0件：テンプレートUIは実装・非公開ビルド確認済み",
+      "verification": "中立ラベルの非公開テンプレート"
+    },
+    {
+      "number": 24,
+      "id": "sponsor",
+      "label": "スポンサー・パートナー一覧",
+      "file": "sponsor.html",
+      "route": "/sponsor/",
+      "current_h1": "茨城へ行く前に、調べる人へ届ける。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "実測値の時点、メニュー・料金・税・条件・PR方針を全量維持する。",
+        "架空の協賛ロゴ・成果・取引先を足さない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 25,
+      "id": "sponsor-info",
+      "label": "協賛・事業者向け案内",
+      "file": "sponsor-info.html",
+      "route": "/biz/",
+      "current_h1": "載せるだけでは、終わらせない。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "H1「載せるだけでは、終わらせない。」と料金・区分・サービス説明を維持。",
+        "既存の大きすぎる本文見出しやカードを、v42の字級・罫線・余白に合わせる。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 26,
+      "id": "about",
+      "label": "イバトコについて",
+      "file": "about.html",
+      "route": "/about/",
+      "current_h1": "茨城で続く営みを、きちんと残す。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 27,
+      "id": "team",
+      "label": "運営・チーム",
+      "file": "team.html",
+      "route": "/about/team/",
+      "current_h1": "運営・チーム",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 28,
+      "id": "author",
+      "label": "執筆者・編集部プロフィール",
+      "file": "author.html",
+      "route": null,
+      "current_h1": null,
+      "scope": "公開データがそろう前のテンプレート設計",
+      "short": "公開データ0件・設計のみ",
+      "priority": "P1",
+      "notes": [
+        "実在の書き手を後から載せられるプロフィール・記事・開示の設計。",
+        "公開0人を維持し、架空の名前・顔・取材実績を作らない。別の空状態も参照。"
+      ],
+      "public_ui_observed_pc": false,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "公開データ0件：テンプレートUIは実装・非公開ビルド確認済み",
+      "verification": "中立ラベルの非公開テンプレート"
+    },
+    {
+      "number": 29,
+      "id": "policy",
+      "label": "ポリシー・編集方針",
+      "file": "policy.html",
+      "route": "/privacy/",
+      "current_h1": "プライバシーポリシー",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 30,
+      "id": "contact",
+      "label": "お問い合わせ",
+      "file": "contact.html",
+      "route": "/contact/",
+      "current_h1": "話を聞くところから、始めます。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "入力・確認・戻る・送信の既存の流れを残して、見た目を揃える。",
+        "送信先・項目・バリデーション・計測を変更しない。実送信はしない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 31,
+      "id": "submit",
+      "label": "イベント・地域情報の投稿",
+      "file": "submit.html",
+      "route": "/submit/",
+      "current_h1": "情報を、そのまま送れます。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "現在のイベント・店舗情報の2フォームと送信方式を維持する。",
+        "未承認の確認ステップを追加せず、入力欄16px・タップ領域・説明文の紙面を整える。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 32,
+      "id": "contact-confirm",
+      "label": "お問い合わせ・投稿の確認画面",
+      "file": "contact-confirm.html",
+      "route": "/contact/",
+      "current_h1": "話を聞くところから、始めます。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "既存 /contact/ 内の確認状態。独立URLは作らない。",
+        "戻るボタンの文字色とEnter時の挙動を確認。実送信しない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 33,
+      "id": "search",
+      "label": "検索結果",
+      "file": "search.html",
+      "route": "/search/?q=紅葉",
+      "current_h1": "茨城を、ことばで探す。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 34,
+      "id": "search-empty",
+      "label": "検索結果なし",
+      "file": "search-empty.html",
+      "route": "/search/?q=v42unmatchedexample987",
+      "current_h1": "茨城を、ことばで探す。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 35,
+      "id": "notfound",
+      "label": "404・ページが見つからない",
+      "file": "notfound.html",
+      "route": "/404",
+      "current_h1": "この先に、ページはありませんでした。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 36,
+      "id": "theme-hub",
+      "label": "テーマ・タグ・目的別一覧",
+      "file": "theme-hub.html",
+      "route": "/odekake/",
+      "current_h1": "今日は、どこへ行こう。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 37,
+      "id": "spot-list",
+      "label": "スポット・施設一覧",
+      "file": "spot-list.html",
+      "route": "/discover/",
+      "current_h1": "今日、茨城でどこ行く？",
+      "scope": "新しいURLを作らず /discover/ 内の一覧状態",
+      "short": "既存ページ内の状態",
+      "priority": "P1",
+      "notes": [
+        "新規URLを増やさず、/discover/ の一覧状態に対応づける。",
+        "既存の候補・緩和検索・計測を維持し、一覧と地図の見せ方を揃える。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 38,
+      "id": "map-browser",
+      "label": "地図からスポットを探す",
+      "file": "map-browser.html",
+      "route": "/discover/",
+      "current_h1": "今日、茨城でどこ行く？",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "44市町村地図と5地域ボタンを保ち、検索条件と結果をつながる配置にする。",
+        "地図データ・検索ロジック・discovery_searchの既存計測は変えない。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 39,
+      "id": "reporters",
+      "label": "ローカルエディター・協力者募集",
+      "file": "reporters.html",
+      "route": "/reporters/",
+      "current_h1": "その街のこと、あなたが一番知っている。",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 40,
+      "id": "area-city-sparse",
+      "label": "市町村ガイド・情報が少ない場合",
+      "file": "area-city-sparse.html",
+      "route": "/area/goka/",
+      "current_h1": "五霞町",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "情報が少ない街も、確認済みの内容で紙面を整える。",
+        "架空の店・体験・記事数を足さず、近隣や既存記事への入口を用意する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 41,
+      "id": "theme-pending",
+      "label": "テーマ・記事準備中の状態",
+      "file": "theme-pending.html",
+      "route": "/life/",
+      "current_h1": "暮らす",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "既存ページの見た目を再確認",
+      "priority": "P2",
+      "notes": [
+        "H1・本文・URL・公開条件・出典を維持し、提出版の余白と文字組みに合わせる。",
+        "新しい機能や架空のデータを足さず、PCとスマホの状態を検証する。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    },
+    {
+      "number": 42,
+      "id": "guide",
+      "label": "交通・駐車場などの実用ガイド",
+      "file": "guide.html",
+      "route": "/news/mito-hollyhock-new-stadium-access/",
+      "current_h1": "水戸信用金庫スタジアムへのアクセス｜最寄り駅は東海駅、水戸駅からの行き方・無料シャトル",
+      "scope": "提出版の配置へ合わせる／既存内容を全量維持",
+      "short": "優先して見た目を修正",
+      "priority": "P1",
+      "notes": [
+        "交通・料金・予約の説明と広告表示を残す。",
+        "長いタイトル、表、注意書き、FAQを同じ記事紙面に収める。"
+      ],
+      "public_ui_observed_pc": true,
+      "uiStatus": "実装済み、または既存UIを維持",
+      "publicationStatus": "Draft PR段階：本番未反映",
+      "verification": "既存URL"
+    }
+  ],
+  "additionalStates": [
+    {
+      "id": "flowers-empty",
+      "route": "/hana/now/",
+      "uiStatus": "既存UIを維持",
+      "verification": "11/24固定時計の非公開ビルド。0件・noindex・sitemap除外・次に咲く花を確認"
+    },
+    {
+      "id": "author-empty",
+      "route": "/about/team/",
+      "uiStatus": "既存の0人の案内を維持",
+      "verification": "プロフィールURLを生成せず既存の運営案内で確認"
+    },
+    {
+      "id": "en",
+      "route": "/en/",
+      "uiStatus": "実装済み",
+      "verification": "既存URL"
+    },
+    {
+      "id": "ko",
+      "route": "/ko/",
+      "uiStatus": "実装済み",
+      "verification": "既存URL"
+    },
+    {
+      "id": "zh-tw",
+      "route": "/zh-tw/",
+      "uiStatus": "実装済み",
+      "verification": "既存URL"
+    },
+    {
+      "id": "reserve",
+      "route": "/reserve/",
+      "uiStatus": "実装済み",
+      "verification": "既存URL・noindex維持"
+    }
+  ]
+}
