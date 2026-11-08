@@ -135,7 +135,10 @@ body.interior-site :is(.news-detail__body, .ev-body) h2 {
     line-height: 1.6;
   }
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  /* タブレット幅も1列にし、目次は本文の前に2列で置く（左の細い目次で本文が狭くならないように） */
+  body.interior-site .ev-layout { grid-template-columns: minmax(0, 1fr); }
+  body.interior-site .ev-toc { position: static; }
   body.interior-site .ev-toc {
     padding-block: .9rem;
     border-block: 1px solid var(--v42-rule);
@@ -188,6 +191,70 @@ body.interior-site :is(.news-detail__body, .ev-body) h2 {
     line-height: 1.5;
     text-wrap: pretty;
   }
+}
+
+/* ── 記事の紙面（提出版 p41-article）：PCは本文を左に約720px、目次を右に270px ──
+ * ニュース詳細・イベント詳細の共通。DOM の順（目次→本文）は変えず、置き場所だけを入れ替える。
+ * 900px 以下は従来どおり1列（ニュースはスマホ用の目次、イベントは2列の目次）。
+ */
+@media (min-width: 901px) {
+  body.interior-site :is(.ev-layout, .news-detail__layout) {
+    grid-template-columns: minmax(0, 720px) minmax(200px, 270px);
+    gap: 0 clamp(2.5rem, 7.5vw, 110px);
+    justify-content: center;
+  }
+  body.interior-site :is(.ev-layout, .news-detail__layout) > :is(.ev-body, .news-detail__body) { grid-column: 1; grid-row: 1; }
+  body.interior-site :is(.ev-layout, .news-detail__layout) > :is(.ev-toc, .news-detail__toc) { grid-column: 2; grid-row: 1; }
+  body.interior-site :is(.ev-toc, .news-detail__toc) { font-size: 15px; line-height: 1.95; }
+  body.interior-site :is(.ev-toc, .news-detail__toc) > p { font-size: 13px; letter-spacing: .08em; }
+  body.interior-site :is(.news-detail__body, .ev-body) h2 { font-size: 30px; }
+  /* イベントの見出しブロックは提出版の900px幅に（ニュースは既に960px） */
+  body.interior-site .ev-head { --reading-col: 900px; }
+}
+/* 記事タイトルは実際の長さのまま、提出版の字級で自然に折り返す */
+body.interior-site :is(.news-detail__head, .ev-head) h1 {
+  font-size: clamp(28px, 3.2vw, 46.08px) !important;
+  line-height: 1.43 !important;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  body.interior-site :is(.news-detail__head, .ev-head) h1 { font-size: 28px !important; line-height: 1.5 !important; }
+}
+@media (max-width: 370px) {
+  body.interior-site :is(.news-detail__head, .ev-head) h1 { font-size: 26px !important; }
+}
+
+/* ── 市町村ページの表紙（提出版 area-city）：市町村名の H1 は小さなラベル、既存のキャッチを大きな一文に ──
+ * H1 の文字列（市町村名）とキャッチ・紹介文はそのまま。字の大きさと順序の見せ方だけを変える。
+ */
+body.interior-site .city-hero h1.city-hero__name.city-hero__name {
+  margin-top: 1rem !important;
+  color: var(--v42-note) !important;
+  font: 500 14px / 1.8 var(--font-brand-body) !important;
+  letter-spacing: .09em !important;
+}
+body.interior-site .city-hero h1.city-hero__name::before {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  margin-right: 9px;
+  background: var(--v42-gold);
+  vertical-align: .31em;
+  content: "";
+}
+body.interior-site .city-hero .city-hero__catch {
+  max-width: 15em;
+  margin-top: .9rem;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.43;
+  letter-spacing: .04em;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+/* 節の見出しは提出版の紙面（31px）に */
+body.interior-site :is(.area-guide, .hitachi-guide, .daigo-guide, .area-page) .bp-section-title {
+  font-size: clamp(24px, 2.2vw, 31px);
+  line-height: 1.55;
 }
 
 /* ── サイト末尾の帯（全ページ共通） ── */
@@ -620,6 +687,11 @@ body.interior-site .fg {
   --fg-line: var(--v42-rule);
 }
 body.interior-site .fg-hero h1 { font-weight: 600; }
+/* 提出版の字級：図鑑の表紙は46px、節の見出しは31px（1行9字の組みはそのまま） */
+body.interior-site .fg-hero h1 { font-size: clamp(30px, 3.2vw, 46.08px); line-height: 1.43; }
+body.interior-site .fg .fg-section h2 { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; }
+/* クラブの節の見出しも同じ紙面の字級に */
+body.interior-site .tm-title { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; }
 
 /* ===== v42 の追補：写真の特集・入口ボタン・地図の段（提出版 p41-featured / p41-photo / p41-theme-nav / p41-area-columns） ===== */
 .v42-featured { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: center; padding-block: 1.2rem 2.4rem; }
