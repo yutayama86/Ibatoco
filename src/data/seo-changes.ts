@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261109-home-editorial-layout',
+    date: '2026-11-09',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPのイベント・見頃と人気記事・六つのテーマと気分から探す・44市町村の地図・つくった理由・取材と編集・協賛欄を確認用デザインに合わせて改修（#548）',
+    queries: [],
+    commit: '33409639',
+    experimentType: 'template',
+    note: 'オーナーの11/9の個別承認により、#548に限り本番反映日からTOPの28日間を計り直す。UIソースは検証済みの33409639と同一。title・description・canonical・H1・JSON-LD・OGP・リンク先・計測属性を変更前ビルドと照合済み。既存の観測記録は保持する。',
+  },
+  {
     id: '20261109-home-v42-mobile-followup',
     date: '2026-11-09',
     url: '/',

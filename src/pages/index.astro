@@ -17,12 +17,12 @@ import { FOOD_GUIDES, FOOD_PHOTOS, licenseUrl } from '../data/food-library';
 // 終わった催しのニュースはTOPに出さない（/news/ の一覧と記事URLには残る）
 const latestNews = (await getIndexableNews()).filter((item) => isWorthLinking(lifecycleOf(item))).slice(0, 3);
 const discoveryIntents = [
-  { label: '今週末', href: '#discover-now', note: '今日・明日・週末から' },
-  { label: '紅葉', href: '/kouyou/', note: '見頃とドライブ' },
-  { label: '子どもと', href: '/shindan/?who=family', note: '家族のおでかけ' },
-  { label: 'デート', href: '/shindan/?who=couple', note: 'ふたりで過ごす' },
-  { label: '雨の日', href: '/shindan/?weather=rain', note: '天気を気にせず' },
-  { label: 'エリア', href: '/area/', note: '44市町村から' },
+  { label: '今週末', href: '#discover-now', note: '今日・明日・週末から', icon: 'M5 5h14a1 1 0 0 1 1 1v13H4V6a1 1 0 0 1 1-1Zm2-2v4m10-4v4M4 9h16m-9 5 2 2 3-4' },
+  { label: '紅葉', href: '/kouyou/', note: '見頃とドライブ', icon: 'm12 3 2.5 5 3-1-.2 4 3.7 2.5-2.3 3.5-5.7.2L12 22l-1-4.8-5.7-.2L3 13.5 6.7 11l-.2-4 3 1L12 3Zm0 14v-6' },
+  { label: '子どもと', href: '/shindan/?who=family', note: '家族のおでかけ', icon: 'M3 20v-3a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v3m2 0v-2a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v2M11 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm9 3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z' },
+  { label: 'デート', href: '/shindan/?who=couple', note: 'ふたりで過ごす', icon: 'M12 20 5 13a4.5 4.5 0 0 1 6.4-6.4l.6.6.6-.6A4.5 4.5 0 0 1 19 13Z' },
+  { label: '雨の日', href: '/shindan/?weather=rain', note: '天気を気にせず', icon: 'M3 12a9 9 0 0 1 18 0Zm9 0v6a2.5 2.5 0 0 0 5 0M12 3V2' },
+  { label: 'エリア', href: '/area/', note: '44市町村から', icon: 'M19 10c0 4.5-7 10-7 10S5 14.5 5 10a7 7 0 1 1 14 0Zm-5 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z' },
 ];
 
 // TOP修正指示書 §5：title に「茨城」を含める（ブランドタグライン「現地から、信頼を編む。」はフッター/Aboutで維持）。
@@ -250,14 +250,22 @@ const matchdays = [
           <p>食、旅、宿、暮らし、癒やし、仕事。<br />今日の関心から、土地の物語へ。</p>
         </header>
         <HomeThemeNav />
-        <nav class="v42-intents" aria-label="気分と条件から探す" data-module="home_intent">
-          <span>気分から探す</span>
-          {discoveryIntents.map((item) => <a href={item.href}><strong>{item.label}</strong><small>{item.note}</small></a>)}
+        <nav class="v42-intents" aria-labelledby="home-intent-title" data-module="home_intent">
+          <div class="v42-intents__head"><h3 id="home-intent-title">気分から探す</h3><p>今日の過ごし方に合わせて。</p></div>
+          <ul>
+            {discoveryIntents.map((item) => (
+              <li><a href={item.href}>
+                <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={item.icon} /></svg>
+                <span><strong>{item.label}</strong><small>{item.note}</small></span>
+                <b aria-hidden="true">→</b>
+              </a></li>
+            ))}
+          </ul>
         </nav>
       </div>
     </section>
 
-    <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer /></div></section>
+    <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer compact /></div></section>
 
     <HomeJourney section="trips" />
 
@@ -321,19 +329,16 @@ const matchdays = [
       </div>
     </section>
 
-    <section class="brand-origin" data-module="home_origin">
+    <section class="brand-origin" aria-labelledby="origin-title" data-module="home_origin">
       <div class="v42-wrap origin-grid">
-        <p class="origin-index" aria-hidden="true"><span>イバトコ<br />について</span><b>01</b></p>
         <div class="origin-copy">
-          <p class="v42-label">イバトコをつくった理由</p>
-          <h2>検索では見つからない、<br />この土地の理由を。</h2>
-          {/*
-            文の切れ目で改行する。1行に流すと「現地へ／行き」のように
-            語の途中で折れて読みにくかった。文単位で分けると、狭い画面でも
-            意味の切れ目が行頭に来る。
-          */}
-          <p class="origin-lead">口コミの星の数には、その店がそこにある理由までは書かれていません。<br />現地へ行き、人に会い、確かめたことだけを書いています。</p>
-          <a href="/about/">私たちについて<span aria-hidden="true">&nbsp;↗</span></a>
+          <p class="origin-index">イバトコをつくった理由</p>
+          <h2 id="origin-title"><span>検索では見つからない、</span><span>この土地の理由を。</span></h2>
+          <p class="origin-lead">この街で店を続ける人の話。地図の先で出会う風景。<br />茨城を歩き、見つけた物語を、確かめながら届けます。</p>
+          <a href="/about/">イバトコについて<V42Icon name="arrow" size={17} /></a>
+        </div>
+        <div class="origin-cover">
+          <img src="/og-default-rich-header-20260819.png" alt="イバトコのロゴと茨城の風景を描いたブランドビジュアル" loading="lazy" decoding="async" width="1200" height="630" />
         </div>
       </div>
     </section>
@@ -343,24 +348,28 @@ const matchdays = [
     <section class="partner" data-module="home_partner" aria-labelledby="partner-title">
       <div class="v42-wrap">
         <header class="partner__head">
-          <p class="v42-label">取材・掲載・協賛について</p>
+          <p class="v42-label">地域のパートナー募集中</p>
           <h2 id="partner-title">茨城を、一緒に<br class="v42-br-phone" />おもしろく。</h2>
-          <p>続けてきた理由。選ばれている理由。<br />まだ言葉になっていない価値を、会って、聞いて、一緒に見つけます。</p>
+          <p>街の魅力を届けるイバトコを、<br class="v42-br-phone" />ともに育てる企業・お店のみなさん。</p>
         </header>
-        <div class="partner__grid">
-          <div class="partner__story">
-            <ol class="partner__questions" aria-label="取材で聞きたいこと">
-              <li><span>01</span><p>なぜ、この場所で<br />続けているのか。</p></li>
-              <li><span>02</span><p>誰のために、<br />つくっているのか。</p></li>
-              <li><span>03</span><p>次に、どんな景色を<br />つくりたいのか。</p></li>
-            </ol>
-            <ul class="partner__topics" aria-label="取材対象"><li>店と食</li><li>人と仕事</li><li>地域の挑戦</li></ul>
-          </div>
-          <div class="partner__actions">
-            <a class="partner__primary" href="/contact/"><span>まず、話を聞かせてください</span><b aria-hidden="true">↗</b></a>
-            <a class="partner__slot" href="/sponsor/"><span class="partner__recruit">募集中</span><strong>協賛・パートナーのご案内</strong><small>街のいいところを、一緒に届ける</small></a>
-            <a class="v42-quiet-link" href="/biz/">取材・発信支援について<span aria-hidden="true">&nbsp;→</span></a>
-          </div>
+        <a class="partner__wall" href="/sponsor/" aria-label="協賛・パートナーの募集枠を見る">
+          {Array.from({ length: 6 }, (_, index) => (
+            <span class:list={['partner__slot', { 'partner__slot--wide': index < 2 }]} aria-hidden="true">
+              <span class="partner__recruit">募集中</span>
+              <strong>ここに、あなたのロゴを。</strong>
+              <small>茨城を、一緒におもしろく。 ↗</small>
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M24 40V23M24 29C11 29 8 20 8 13c11 0 16 5 16 16ZM24 24c0-11 7-17 17-17 0 11-5 17-17 17Z" /></svg>
+            </span>
+          ))}
+        </a>
+        <div class="partner__bottom">
+          <p>地域の魅力を、ともに届ける仲間を募集しています。</p>
+          <a class="partner__guide" href="/sponsor/">協賛・パートナーのご案内<V42Icon name="arrow" size={17} /></a>
+        </div>
+        <div class="partner__contact">
+          <p>お店や地域の取り組みについて</p>
+          <a href="/contact/">取材・掲載の相談<span aria-hidden="true">↗</span></a>
+          <a href="/biz/">取材・発信支援について<span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -604,16 +613,24 @@ const matchdays = [
   @media(prefers-reduced-motion:reduce){.fv-cover{transition:none}}
 
   /* ── テーマ6件（横一列）と気分の入口 ── */
-  .v42-theme{padding-block:clamp(2.75rem,4.5vw,4rem);background:#fffefa}
-  /* 提出版の修正案：テーマの見出しは小さく一行で、カード列を主役に */
+  .v42-theme{padding-block:clamp(2.75rem,4.5vw,4.25rem);background:#f9f6ed}
   .v42-theme .v42-head{margin-bottom:1.75rem}
-  .v42-theme .v42-head h2{font-size:clamp(1.4375rem,1.8vw,1.625rem);line-height:1.55}
+  .v42-theme .v42-head h2{font-size:clamp(1.75rem,2.85vw,2.5rem);line-height:1.45}
   @media(min-width:761px){.v42-theme .v42-head h2 br{display:none}}
-  .v42-intents{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:2rem}
-  .v42-intents>span{margin-right:.4rem;color:var(--v42-note);font-size:.8125rem;font-weight:700}
-  .v42-intents a{display:inline-flex;align-items:baseline;gap:.5rem;min-height:44px;padding:.6rem 1rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fff;color:var(--v42-ink);font-size:.875rem}
-  .v42-intents small{color:var(--v42-note);font-size:.75rem}
-  .v42-intents a:hover,.v42-intents a:focus-visible{border-color:var(--v42-blue);color:var(--v42-blue)}
+  .v42-intents{margin-top:1.75rem;padding:clamp(.85rem,2.1vw,1.4rem);border:1px solid #d3dac7;background:#edf0e5}
+  .v42-intents__head{display:flex;align-items:baseline;flex-wrap:wrap;gap:.25rem 1rem;margin-bottom:.7rem}
+  .v42-intents__head h3{font:600 1.125rem/1.45 var(--font-brand-display)}
+  .v42-intents__head p{color:var(--v42-note);font-size:.75rem}
+  .v42-intents ul{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.5rem;margin:0;padding:0;list-style:none}
+  .v42-intents li{min-width:0;margin:0;padding:0}
+  .v42-intents li::before{content:none}
+  .v42-intents a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.4rem;height:100%;min-height:57px;padding:.5rem;border:1px solid #d4dccb;background:#fffdf7;color:var(--v42-ink);font-size:.875rem}
+  .v42-intents a svg,.v42-intents a b{color:#577564}
+  .v42-intents a b{font-weight:400}
+  .v42-intents a small{display:block;color:#53694f;font-size:.6875rem;line-height:1.45}
+  .v42-intents a:hover,.v42-intents a:focus-visible{border-color:#6f897b;background:#fff}
+  @media(max-width:1090px){.v42-intents ul{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:600px){.v42-intents ul{grid-template-columns:repeat(2,minmax(0,1fr))}.v42-intents a{grid-template-columns:auto minmax(0,1fr)}.v42-intents a b{display:none}.v42-intents a svg{width:19px;height:19px}}
 
   /* ── 今月の、よりみち帖 ── */
   .season{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6.5rem);background:var(--v42-paper)}
@@ -659,10 +676,9 @@ const matchdays = [
   @media(max-width:700px){.season__canopy{width:130px;top:-10px;right:0}.season__folio b{font-size:5.2rem}.season__side{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.8rem}.season__side .season-pick{grid-template-columns:minmax(0,1fr)}.season__side .season-pick__photo{min-height:0;aspect-ratio:4/3}.season__side .season-pick__body{padding:.9rem .85rem 1rem}.season__side .season-pick h3{font-size:1.3rem}.season__side .season-pick__meta{display:none}.season__side .season-pick__cta{justify-self:stretch;font-size:.75rem;padding-inline:.7rem}.season-pick--walk .season-pick__photo{aspect-ratio:3/4}.season__more{grid-template-columns:minmax(0,1fr)}.season__more img{display:none}.season__more .v42-button{justify-self:stretch}}
 
   /* ── 44市町村の地図 ── */
-  #area :global(.ax-intro h2){font-size:clamp(1.8125rem,3.05vw,2.75rem);line-height:1.35}
   #events{scroll-margin-top:calc(var(--site-header-height) + 1rem)}
-  @media(max-width:360px){#area :global(.ax-intro h2){font-size:1.625rem}}
-  .area-home{padding-block:clamp(4rem,7vw,6.5rem);background:linear-gradient(180deg,#f3f1e7,#eef1e8)}
+  .area-home{padding-block:clamp(2.25rem,4vw,3.5rem);background:#eef0e6;scroll-margin-top:var(--site-header-height)}
+  @media(min-width:1000px){.area-home{padding-block:1.25rem}}
 
   /* ── 茨城のおいしい図鑑 ── */
   .food-home{padding-block:clamp(4rem,7vw,6.5rem);background:#fbf5e6}
@@ -730,55 +746,65 @@ const matchdays = [
   }
 
   /* ── イバトコをつくった理由 ── */
-  .brand-origin{position:relative;overflow:hidden;background:var(--v42-paper)}
-  .origin-grid{display:grid;grid-template-columns:minmax(8rem,.3fr) minmax(0,1.7fr);gap:clamp(2rem,8vw,8rem);padding-block:clamp(3.5rem,6vw,5rem)}
-  .origin-index{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-top:1rem;border-top:1px solid var(--v42-rule);color:var(--v42-note)}
-  .origin-index span{font:700 .62rem/1.45 var(--font-brand-meta);letter-spacing:.18em}
-  .origin-index b{font:500 .7rem/1 var(--font-brand-meta)}
-  .origin-copy{max-width:57rem}
-  .brand-origin h2{margin-top:.8rem;font-size:clamp(1.625rem,2.4vw,2.125rem);line-height:1.55}
-  .origin-lead{max-width:45rem;margin-top:1.5rem;color:var(--v42-copy);font:500 clamp(1rem,1.3vw,1.15rem)/2 var(--font-brand-body);word-break:auto-phrase}
-  .origin-copy>a{display:inline-flex;align-items:center;min-height:44px;margin-top:1.5rem;border-bottom:1px solid var(--v42-ink);color:var(--v42-ink);font-size:.875rem;font-weight:700}
-  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.5rem}}
+  .brand-origin{border-block:1px solid #d6ded6;background:#f7f7ef}
+  .origin-grid{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);gap:clamp(1.65rem,4.6vw,4rem);align-items:center;padding-block:clamp(2.25rem,5.5vw,5rem)}
+  .origin-index{display:flex;align-items:center;gap:.65rem;color:#416574;font-size:.8125rem;font-weight:700;letter-spacing:.12em}
+  .origin-index::before{content:"";width:1.4rem;height:1px;background:#8c956f}
+  .brand-origin h2{margin-top:.75rem;font-size:clamp(2rem,3.85vw,3.35rem);line-height:1.35}
+  .brand-origin h2 span{display:block}
+  .brand-origin h2 span:first-child{margin-bottom:.24em;color:#45666c;font-size:.7em}
+  .origin-lead{max-width:31rem;margin-top:1rem;color:#405953;font-size:clamp(.9375rem,1.2vw,1.0625rem);line-height:1.9;word-break:auto-phrase}
+  .origin-copy>a{display:inline-flex;align-items:center;gap:1.2rem;min-height:44px;margin-top:.9rem;border-bottom:1px solid #6a8790;color:#2c5363;font-size:.875rem;font-weight:700}
+  .origin-copy>a:hover{color:var(--v42-blue);border-color:currentColor}
+  .brand-origin a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .origin-cover{position:relative;isolation:isolate;min-width:0;margin:0 .5rem .5rem 0}
+  .origin-cover::before{content:"";position:absolute;inset:.5rem -.5rem -.5rem .5rem;z-index:-1;border:1px solid #b7c7c8;background:#e3eced}
+  .origin-cover img{display:block;width:100%;height:auto;border:1px solid #c7d4d4}
+  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.35rem}.brand-origin h2{font-size:clamp(1.75rem,8.6vw,2.65rem)}}
 
   /* ── 取材と編集（3項目） ── */
-  .process-home{background:#fffefa}
-  .process-home :global(.ep h2){font-size:clamp(1.625rem,2.4vw,2.125rem);line-height:1.55}
-  .process-home :global(.ep-notes h3){font-size:clamp(1.3125rem,1.55vw,1.375rem)}
+  .process-home{background:#f6f1e6}
 
   /* ── 茨城を、一緒におもしろく（事業者向けの導線） ── */
-  .partner{padding-block:clamp(3.5rem,6vw,5rem);background:linear-gradient(160deg,#f6f2e6,#eef2ec)}
-  .partner__head{max-width:46rem}
-  .partner h2{margin-top:.6rem;font-size:clamp(1.8125rem,2.85vw,2.5625rem);line-height:1.45}
-  .partner__head>p:not(.v42-label){margin-top:1.1rem;color:var(--v42-copy);font-size:.9375rem;line-height:2}
-  .partner__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:2rem 4rem;margin-top:2.5rem;align-items:start}
-  .partner__questions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:0;padding:0;list-style:none}
-  .partner__questions li{padding-top:.8rem;border-top:1px solid var(--v42-rule)}
-  .partner__questions li::before{content:none}
-  .partner__questions span{color:var(--v42-gold);font:500 .875rem/1 var(--font-brand-display)}
-  .partner__questions p{margin-top:.5rem;color:var(--v42-ink);font:500 1.0625rem/1.75 var(--font-brand-display);word-break:auto-phrase;text-wrap:pretty}
-  .partner__topics{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0 0;padding:0;list-style:none}
-  .partner__topics li{padding:.45rem .9rem;border:1px solid var(--v42-rule);border-radius:999px;background:#fffefa;color:var(--v42-ink);font-size:.75rem;font-weight:700}
-  .partner__topics li::before{content:none}
-  .partner__actions{display:grid;gap:1rem}
-  .partner__primary{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;min-height:56px;padding:1rem 1.25rem 1rem 1.4rem;background:var(--v42-ink);color:#fff;font-size:.875rem;font-weight:700}
-  .partner__primary b{display:grid;place-items:center;width:2rem;height:2rem;border:1px solid rgba(255,255,255,.45);border-radius:50%;font-weight:400}
-  .partner__slot{display:grid;gap:.3rem;padding:1.1rem 1.25rem;border:1px dashed #b9b292;background:#fffefa;color:var(--v42-ink)}
-  .partner__recruit{justify-self:start;padding:.15rem .55rem;border-radius:999px;background:#e7bc5d;color:#3f4d37;font-size:.6875rem;font-weight:700}
-  .partner__slot strong{font:500 1.15rem/1.5 var(--font-brand-display)}
-  .partner__slot small{color:var(--v42-note);font-size:.75rem}
-  .partner__actions .v42-quiet-link{justify-self:start;margin-top:0}
-  @media(max-width:860px){.partner__grid{grid-template-columns:minmax(0,1fr)}}
-  /* 3列だと1列が狭く「…続けているの／か。」と1文字だけ落ちる（800〜1000px）。その幅から1列にする */
-  @media(max-width:1000px){.partner__questions{grid-template-columns:minmax(0,1fr)}.partner__questions p br{display:none}}
+  .partner{padding-block:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--v42-rule);background:#fdfbf5}
+  .partner__head{text-align:center}
+  .partner__head .v42-label{color:#866348}
+  .partner__head .v42-label::before{content:none}
+  .partner h2{margin-top:.65rem;font-size:clamp(1.8125rem,3.5vw,3.125rem);line-height:1.45}
+  .partner__head>p:not(.v42-label){margin-top:.8rem;color:var(--v42-note);font-size:.9375rem;line-height:1.8}
+  .partner__wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.55rem,1.6vw,1.15rem);margin-top:clamp(1.3rem,3vw,2.2rem);text-decoration:none}
+  .partner__slot{position:relative;isolation:isolate;display:grid;align-content:center;justify-items:center;gap:.45rem;min-height:6.25rem;padding:.55rem;border:1px solid #d6dcc9;border-radius:5px;background:linear-gradient(142deg,#fff 65%,#f1f4e8);color:#546b51;text-align:center}
+  .partner__slot--wide{grid-column:span 2;min-height:clamp(8.25rem,13vw,10.5rem);gap:.75rem}
+  .partner__slot:first-child{border-color:#aebd97;background:#f4f6e9;box-shadow:3px 4px 0 #d3dcc04d}
+  .partner__recruit{padding:.1rem .65rem;border:1px solid #b8c7a8;border-radius:999px;color:#516a4b;font-size:.6875rem;font-weight:700;letter-spacing:.1em}
+  .partner__slot strong{font:500 clamp(.875rem,1.45vw,1.125rem)/1.55 var(--font-brand-display);letter-spacing:.035em}
+  .partner__slot--wide strong{font-size:clamp(1rem,2.1vw,1.7rem)}
+  .partner__slot small{color:#5b7154;font-size:.6875rem}
+  .partner__slot svg{position:absolute;z-index:-1;right:.6rem;bottom:.55rem;width:2.65rem;color:#d9e2cc}
+  .partner__slot--wide svg{right:1.4rem;bottom:1rem;width:4rem}
+  .partner__wall:hover .partner__slot{border-color:#aebd97}
+  .partner__bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.65rem 1.5rem;margin-top:1.3rem;color:var(--v42-note);font-size:.8125rem}
+  .partner__guide{display:inline-flex;justify-content:space-between;align-items:center;gap:1rem;min-height:48px;padding:.55rem 1rem;border:1px solid #91a181;border-radius:3px;background:#f4f6e9;color:#41623e;font-size:.875rem;font-weight:700}
+  .partner__guide:hover{background:#e7eddb}
+  .partner__contact{display:flex;align-items:center;flex-wrap:wrap;gap:.1rem 1.2rem;margin-top:1.35rem;padding-top:.4rem;border-top:1px solid var(--v42-rule);font-size:.8125rem}
+  .partner__contact p{color:var(--v42-note)}
+  .partner__contact a{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;color:var(--v42-ink);text-decoration:underline;text-underline-offset:.2em}
+  .partner a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  @media(max-width:760px){
+    .partner__wall{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .partner__slot--wide{grid-column:auto;min-height:7.5rem}
+    .partner__slot--wide svg{right:.45rem;bottom:.5rem;width:2.85rem}
+    .partner__slot small{font-size:.625rem}
+    .partner__contact p{width:100%;padding-top:.45rem}
+  }
 
   @media(max-width:760px){
     .v42-wrap{width:min(calc(100% - 2.5rem),1160px)}
     .v42-head{grid-template-columns:minmax(0,1fr);gap:.8rem;margin-bottom:1.75rem}
     .v42-head h2,.food-home h2,.matchday h2{font-size:clamp(1.75rem,7.4vw,2.2rem)}
     .home-news .v42-head h2{font-size:1.75rem;line-height:1.55}
-    .v42-theme .v42-head h2{font-size:1.4375rem}
-    .partner h2{font-size:1.8125rem}
+    .v42-theme .v42-head h2{font-size:clamp(1.65rem,7.15vw,2rem)}
+    .partner h2{font-size:clamp(1.625rem,7.4vw,2.125rem)}
     .v42-head>p{font-size:.875rem}
     .v42-head>p br{display:none}
     .v42-theme .v42-head>p br{display:initial}

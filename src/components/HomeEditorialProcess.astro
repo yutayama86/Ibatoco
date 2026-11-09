@@ -1,55 +1,83 @@
-<section class="ep">
+---
+import V42Icon from './V42Icon.astro';
+
+const steps = [
+  {
+    title: '会いに行く。',
+    text: '写真を撮るためだけではなく、声の調子と土地の空気まで受け取ります。',
+    sketch: 'M16 20h8l3-5h10l3 5h6a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3V23a3 3 0 0 1 3-3Zm24 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm5-6h.5M10 15l3 2m1-7 2 4m29-2-2 4',
+  },
+  {
+    title: '事実を、確かめる。',
+    text: '確認できた事実と、編集部が感じたことを混ぜずに伝えます。',
+    sketch: 'M19 14h23a3 3 0 0 1 3 3v27H20a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4Zm2 0v26m-5 0h29m-18-9 5 4 7-9m-12-5h11M11 20h6m-6 7h6m-6 7h6',
+  },
+  {
+    title: '公開後も、見直す。',
+    text: '店や制度が変われば、もう一度確かめ、記事を更新します。',
+    sketch: 'M45 25a15 15 0 1 0-3 17m3-17v-9m0 9h-9m-7 13 1-6 12-12 5 5-12 12-6 1Zm10-15 5 5M16 17l-3-3m7 1-2-5m25 30 4 3',
+  },
+];
+---
+
+<section class="ep" aria-labelledby="home-process-title">
   <div class="ep-stage">
     <header class="ep-card">
       <p class="ep-kicker">取材と編集</p>
-      <h2>現地でしか、<br />わからないことを書く。</h2>
+      <h2 id="home-process-title">現地でしか、<br />わからないことを書く。</h2>
       <p class="ep-intro">会って、聞いて、確かめる。公開したあとも、変化を追う。</p>
-      <a href="/about/editorial-policy/">編集方針を読む <span aria-hidden="true">↗</span></a>
+      <a href="/about/editorial-policy/">編集方針を読む<V42Icon name="arrow" size={17} /></a>
     </header>
 
     <figure class="ep-visual">
-      <img src="/images/area/hitachi/station.jpg" alt="日立駅の大きな窓越しに太平洋を眺める人々" loading="lazy" decoding="async" width="1280" height="853" />
-      <figcaption><a href="https://commons.wikimedia.org/wiki/File:Hitachi_Station,_Ibaraki_01.jpg" target="_blank" rel="license noopener">写真：Σ64 / CC BY 4.0</a></figcaption>
+      <img src="/images/v42/editorial-field-visit.webp" alt="" loading="lazy" decoding="async" width="1080" height="720" />
+      <figcaption>店先で話を聞く二人｜取材風景のイメージイラスト</figcaption>
     </figure>
   </div>
 
   <div class="ep-notes" aria-label="イバトコの取材姿勢">
-    <article>
-      <p class="ep-number"><b>01</b><span>FIELD</span></p>
-      <h3>会いに行く。</h3>
-      <p>写真を撮るためだけではなく、声の調子と土地の空気まで受け取ります。</p>
-    </article>
-    <article>
-      <p class="ep-number"><b>02</b><span>VERIFY</span></p>
-      <h3>事実を、確かめる。</h3>
-      <p>確認できた事実と、編集部が感じたことを混ぜずに伝えます。</p>
-    </article>
-    <article>
-      <p class="ep-number"><b>03</b><span>UPDATE</span></p>
-      <h3>公開後も、見直す。</h3>
-      <p>店や制度が変われば、もう一度確かめ、記事を更新します。</p>
-    </article>
+    {steps.map((step, index) => (
+      <article>
+        <svg class="ep-sketch" viewBox="0 0 60 60" width="60" height="60" aria-hidden="true">
+          <circle cx="30" cy="30" r="27" />
+          <path d={step.sketch} fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <div>
+          <p class="ep-number" aria-hidden="true">0{index + 1}</p>
+          <h3>{step.title}</h3>
+          <p class="ep-detail">{step.text}</p>
+        </div>
+      </article>
+    ))}
   </div>
 </section>
 
 <style>
-  .ep { padding-block: clamp(3rem, 6vw, 5.5rem); color: var(--color-ink); }
-  .ep-stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+  .ep { padding-block: clamp(2.75rem,5vw,4.75rem); color: var(--color-ink); }
+  .ep-stage { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); gap: clamp(1.75rem,4.5vw,3.75rem); align-items: center; }
   .ep-card { min-width: 0; }
-  .ep-kicker { font: 500 .75rem/1.6 var(--font-brand-meta); letter-spacing: .12em; color: var(--v42-note, var(--color-tide)); }
-  .ep h2 { margin-top: 1rem; color: var(--v42-ink, var(--color-ink)); font: 500 clamp(1.8rem, 3vw, 2.75rem)/1.5 var(--font-brand-display); letter-spacing: .025em; }
-  .ep-intro { max-width: 28rem; margin-top: 1.25rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.95; }
-  .ep-card > a { display: inline-flex; gap: 1.5rem; align-items: center; min-height: 44px; margin-top: 1.25rem; color: var(--color-tide); font-size: .9375rem; text-decoration: underline; text-underline-offset: .3em; }
-  .ep-visual { margin: 0; min-width: 0; }
-  .ep-visual img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; border: 7px solid #fffefa; box-shadow: 0 10px 24px #263b3818; }
-  .ep-visual figcaption { margin-top: .5rem; font-size: .75rem; line-height: 1.7; color: var(--color-soil); }
-  .ep-visual figcaption a { text-decoration: underline; text-underline-offset: .2em; }
-  .ep-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; margin-top: 2.75rem; }
-  .ep-notes article { padding-top: 1rem; border-top: 1px solid var(--color-line); }
-  .ep-number { display: flex; align-items: baseline; justify-content: space-between; color: var(--color-soil); font: 500 .75rem/1.6 var(--font-brand-meta); letter-spacing: .04em; }
-  .ep-number b { color: var(--v42-gold, var(--color-tide)); font: 500 1.1rem var(--font-brand-display); }
-  .ep-notes h3 { margin-top: .9rem; color: var(--v42-ink, var(--color-ink)); font: 500 1.25rem/1.6 var(--font-brand-display); }
-  .ep-notes article > p:last-child { margin-top: .65rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.95; }
+  .ep-kicker { padding-bottom: .55rem; border-bottom: 1px solid #cac3aa; color: #596c54; font: 500 .8125rem/1.6 var(--font-brand-body); letter-spacing: .12em; }
+  .ep h2 { margin-top: .9rem; color: var(--v42-ink); font: 500 clamp(1.65rem,3vw,2.5rem)/1.5 var(--font-brand-display); letter-spacing: .025em; }
+  .ep-intro { max-width: 26rem; margin-top: 1rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.9; }
+  .ep-card > a { display: inline-flex; gap: 1.35rem; align-items: center; min-height: 44px; margin-top: .95rem; border-bottom: 1px solid currentColor; color: var(--color-tide); font-size: .875rem; font-weight: 700; }
+  .ep-card > a:hover { color: var(--v42-blue); }
+  .ep-visual { min-width: 0; margin: 0; padding: .4rem .4rem 0; border: 1px solid #d8ceb3; background: #fffbef; box-shadow: 4px 5px 0 #d8ceb356; }
+  .ep-visual img { display: block; width: 100%; height: auto; }
+  .ep-visual figcaption { padding: .35rem .25rem; color: var(--color-soil); font-size: .6875rem; line-height: 1.65; }
+  .ep-notes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(.8rem,2vw,1.5rem); margin-top: 1.7rem; }
+  .ep-notes article { display: grid; grid-template-columns: auto minmax(0,1fr); gap: .75rem; align-items: start; padding: .85rem .75rem; border-top: 1px solid #c4c7ae; background: #fffcf2; }
+  .ep-sketch { width: clamp(2.6rem,4.1vw,3.75rem); height: auto; color: #315460; }
+  .ep-sketch circle { fill: #efe5c9; }
+  .ep-notes article:nth-child(2) circle { fill: #e3ebde; }
+  .ep-notes article:nth-child(3) circle { fill: #e1eaf0; }
+  .ep-number { color: #806a42; font: 500 .8125rem/1.35 var(--font-brand-serif-latin); }
+  .ep-notes h3 { margin-top: .2rem; color: var(--v42-ink); font: 600 clamp(1.0625rem,1.7vw,1.3125rem)/1.5 var(--font-brand-display); line-break: strict; }
+  .ep-detail { margin-top: .35rem; color: var(--color-soil); font-size: .875rem; line-height: 1.75; }
   .ep a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
-  @media (max-width: 760px) { .ep-stage { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; } .ep-notes { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-top: 2rem; } .ep-number span { display: none; } .ep-notes h3 { margin-top: .5rem; } }
+  @media (max-width: 760px) {
+    .ep-stage { grid-template-columns: minmax(0,1fr); gap: 1.35rem; }
+    .ep h2 { font-size: clamp(1.4rem,6.75vw,2.1rem); }
+    .ep-notes { grid-template-columns: minmax(0,1fr); gap: .55rem; margin-top: 1.25rem; }
+    .ep-sketch { width: 3.2rem; }
+  }
 </style>

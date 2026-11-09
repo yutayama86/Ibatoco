@@ -11,13 +11,17 @@ const themes = [
 <nav class="theme-nav" aria-label="テーマから探す">
   <ol>
     {themes.map((theme, i) => (
-      <li>
+      <li class:list={{ 'theme-nav__cutout': theme.path === 'eat' }}>
         <a href={`/${theme.path}/`}>
-          <span class="tn-meta"><b>0{i + 1}</b><span aria-hidden="true">／</span><small>{theme.en}</small></span>
-          <img class="tn-art" src={`/images/v42/${theme.art}.webp`} width="144" height="88" alt="" loading="lazy" decoding="async" />
-          <span class="tn-title">{theme.label}</span>
-          <span class="tn-desc">{theme.desc}</span>
-          <span class="tn-cta"><span>{theme.cta}</span><b aria-hidden="true">→</b></span>
+          <span class="tn-visual">
+            <img class="tn-art" src={`/images/v42/${theme.art}.webp`} width="380" height="128" alt="" loading="lazy" decoding="async" />
+            <span class="tn-meta" aria-hidden="true"><b>0{i + 1}</b><small>{theme.en}</small></span>
+          </span>
+          <span class="tn-copy">
+            <span class="tn-title">{theme.label}</span>
+            <span class="tn-desc">{theme.desc}</span>
+            <span class="tn-cta"><span>{theme.cta}</span><b aria-hidden="true">→</b></span>
+          </span>
         </a>
       </li>
     ))}
@@ -25,31 +29,32 @@ const themes = [
 </nav>
 
 <style>
-  .theme-nav ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--v42-rule, var(--color-line)); }
-  .theme-nav li { min-width: 0; border-bottom: 1px solid var(--v42-rule, var(--color-line)); }
-  .theme-nav a { display: flex; flex-direction: column; height: 100%; min-height: 10rem; padding: 1.2rem 1rem; color: var(--color-ink); text-decoration: none; }
-  .tn-meta { display: flex; align-items: baseline; gap: .35rem; color: var(--color-soil); font: 500 .6875rem/1.5 var(--font-brand-meta); letter-spacing: .09em; }
-  .tn-meta b { font-weight: 500; }
+  .theme-nav ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(.75rem,1.75vw,1.25rem); margin: 0; padding: 0; list-style: none; }
+  .theme-nav li { min-width: 0; margin: 0; padding: 0; }
+  .theme-nav li::before { content: none; }
+  .theme-nav a { display: grid; grid-template-rows: auto 1fr; height: 100%; padding: .35rem; border: 1px solid #d8d9c7; background: #fffdf7; color: var(--v42-ink); text-decoration: none; box-shadow: 2px 3px 0 #d6d6bd45; }
+  .tn-visual { position: relative; display: block; height: clamp(6rem,11vw,9rem); overflow: hidden; background: #f1e8d5; }
+  .tn-art { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 64%; }
+  .theme-nav__cutout .tn-visual { background: #f4e8c9; }
+  .theme-nav__cutout .tn-art { object-fit: contain; object-position: 66% center; padding: .2rem; }
+  .tn-meta { position: absolute; top: .48rem; left: .48rem; display: flex; align-items: center; gap: .4rem; padding: .18rem .4rem; color: #465a48; background: #fffdf3f5; font: 500 .625rem/1.5 var(--font-brand-meta); letter-spacing: .08em; }
+  .tn-meta b { padding-right: .35rem; border-right: 1px solid #bdc4ad; font-weight: 600; }
   .tn-meta small { font-size: inherit; }
-  .tn-art { width: 100%; height: 5.5rem; object-fit: cover; object-position: center; margin-top: .65rem; }
-  .tn-title { margin-top: .55rem; color: var(--v42-ink, var(--color-ink)); font: 500 1.25rem/1.5 var(--font-brand-display); letter-spacing: .03em; }
-  .tn-desc { margin-top: .3rem; color: var(--v42-copy, var(--color-soil)); font-size: .875rem; line-height: 1.7; line-break: strict; }
-  .tn-cta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: auto; padding-top: .55rem; font-size: .8125rem; font-weight: 700; color: var(--v42-blue, var(--color-tide)); }
-  .tn-cta b { font-size: 1.1rem; font-weight: 400; }
-  .theme-nav a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: -2px; }
-  @media (hover: hover) { .theme-nav a:hover { background: var(--color-white); } .theme-nav a:hover .tn-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; } }
-  @media (min-width: 1180px) {
-    .theme-nav ol { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-    .theme-nav li + li { border-left: 1px solid var(--v42-rule, var(--color-line)); }
-  }
+  .tn-copy { display: flex; flex-direction: column; gap: .25rem; padding: .6rem .75rem .4rem; }
+  .tn-title { font: 600 clamp(1.25rem,2vw,1.625rem)/1.45 var(--font-brand-display); letter-spacing: .025em; line-break: strict; }
+  .tn-desc { color: var(--v42-copy); font-size: .875rem; line-height: 1.65; line-break: strict; }
+  .tn-cta { display: flex; align-items: center; justify-content: space-between; gap: .35rem; margin-top: auto; padding-top: .35rem; color: #335876; font-size: .8125rem; font-weight: 700; }
+  .tn-cta b { font-size: 1.125rem; font-weight: 400; }
+  .theme-nav a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 2px; }
+  @media (hover: hover) { .theme-nav a:hover { border-color: #8ea393; } .theme-nav a:hover .tn-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; } }
   @media (max-width: 760px) {
-    .theme-nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .theme-nav li:nth-child(even) { border-left: 1px solid var(--v42-rule, var(--color-line)); }
-    .theme-nav a { min-height: 0; padding: 1rem clamp(.65rem, 3.5vw, .95rem) .8rem; }
-    .tn-art { height: clamp(4rem, 22vw, 6rem); }
-    .tn-title { font-size: 1.1875rem; }
-    .tn-desc { font-size: .84375rem; }
-    .tn-cta { justify-content: flex-end; padding-top: .35rem; }
-    .tn-cta > span { display: none; }
+    .theme-nav ol { grid-template-columns: repeat(2,minmax(0,1fr)); gap: .6rem; }
+    .theme-nav a { padding: .25rem; }
+    .tn-visual { height: clamp(4.5rem,22vw,7rem); }
+    .tn-meta { top: .25rem; left: .25rem; }
+    .tn-copy { padding: .55rem .35rem .3rem; }
+    .tn-title { font-size: clamp(1.0625rem,4.6vw,1.3rem); }
+    .tn-desc { font-size: .8125rem; }
+    .tn-cta { font-size: .75rem; }
   }
 </style>
