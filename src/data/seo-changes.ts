@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-tsukuba-autumn-2026',
+    date: '2026-11-10',
+    url: '/events/tsukuba-autumn-2026/',
+    kind: 'on-page',
+    change: '11/6の公式色づき（山頂・中腹を区別）、11月特別ダイヤ、夜間運行日程の更新、駐車場の満車時刻と混雑予想日、シャトルバス、11/22運休を反映。title・descriptionを検索意図に合わせて変更',
+    queries: ['筑波山 紅葉 2026', '筑波山 紅葉 見頃', '筑波山 ケーブルカー 夜間運行', '筑波山 駐車場 混雑', '筑波山 アクセス バス'],
+    commit: 'PENDING',
+  },
+  {
     id: '20261109-home-editorial-layout',
     date: '2026-11-09',
     url: '/',
