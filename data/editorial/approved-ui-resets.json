@@ -162,6 +162,37 @@
         "src/data/seo-changes.ts",
         "src/pages/index.astro"
       ]
+    },
+    {
+      "id": "20261109-home-editorial-layout-548-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 548,
+      "path": "/",
+      "baseSha": "5c7976002721e011d289d9d5307927881dc2fbfb",
+      "previousChangeId": "20261109-home-v42-mobile-followup",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日に、PR #548に限ってTOPの計測期間を公開日から取り直すことと、必須CI通過後のマージ・本番公開を明示承認した。#549で同一の画像と対応表を先に追加した基点に適用する。本番反映日を新しい観測起点とする。この記録はこのPR・基点・確認済みソースだけに適用する。",
+      "restartChangeId": "20261109-home-editorial-layout",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "3f6cf0f53522c89bb3a8167946c0b14a8dd1fb99",
+        "src/components/HomeEditorialProcess.astro": "446a96ac77c388fe453938e8517a3262c35fe920",
+        "src/components/HomeNow.astro": "ff549b166417c1cfbc85c05373b096a6a7ca50b4",
+        "src/components/HomeThemeNav.astro": "65e4d6b655b614ce244f9cc33825b118bf25698c",
+        "src/components/ThisWeek.astro": "2d6fd3b4b3ce0ed8dae7f806e6daa2a27f41bc89",
+        "src/pages/index.astro": "bb7ee3c9323be7b2b1c25bd0c1e50888ef63fa5a"
+      },
+      "allowedFiles": [
+        "src/components/HomeAreaExplorer.astro",
+        "src/components/HomeEditorialProcess.astro",
+        "src/components/HomeNow.astro",
+        "src/components/HomeThemeNav.astro",
+        "src/components/ThisWeek.astro",
+        "src/pages/index.astro",
+        "data/editorial/approved-ui-resets.json",
+        "src/data/seo-changes.ts"
+      ]
     }
   ]
 }
