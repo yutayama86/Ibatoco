@@ -134,6 +134,34 @@
         "docs/design/v42-screenshots/compare-a-area-pc.jpg",
         "docs/design/v42-screenshots/compare-a-area-sp.jpg"
       ]
+    },
+    {
+      "id": "20261109-v42-mobile-followup-546-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 546,
+      "path": "/",
+      "baseSha": "c15496f2d241507681506260c28480bf852e9962",
+      "previousChangeId": "20261109-home-v42-fidelity-a-release",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日に、このチャットで今回の修正の公開とTOPの測定の区切り直しに「オッケー、進めて」と回答。PR #546の確認済みソースと、同じスタジアム挿絵を先に追加した基点に適用する。",
+      "restartChangeId": "20261109-home-v42-mobile-followup",
+      "sourceBlobs": {
+        "src/components/HomeThemeNav.astro": "4eaf45c649765dd62e4d01c20fdd39caeaa2d7a7",
+        "src/components/SiteHeader.astro": "18870373486f0129252bc86e57c61b366eef20ac",
+        "src/components/ThisWeek.astro": "cb7a70fc5941ca3997ec98e4f43f24ad9bbbc569",
+        "src/pages/index.astro": "54bb31d6257ea04d3f5d33a1b16ce755f0bb634e"
+      },
+      "allowedFiles": [
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-home-mobile-followup.jpg",
+        "src/components/HomeThemeNav.astro",
+        "src/components/SiteHeader.astro",
+        "src/components/ThisWeek.astro",
+        "src/data/seo-changes.ts",
+        "src/pages/index.astro"
+      ]
     }
   ]
 }

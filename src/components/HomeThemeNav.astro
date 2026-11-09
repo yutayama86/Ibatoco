@@ -1,11 +1,11 @@
 ---
 const themes = [
-  { label: '食べる', en: 'FOOD', path: 'eat', desc: '港の朝、畑の昼。土地の味をたどる。', cta: '食の物語へ' },
-  { label: '出かける', en: 'TRAVEL', path: 'sauna-play', desc: '海、山、花。今日の行き先を見つける。', cta: '休日の行き先へ' },
-  { label: '泊まる', en: 'STAY', path: 'stay', desc: '朝の光ごと、茨城に身を置く。', cta: '宿を探す' },
-  { label: '暮らす', en: 'LIFE', path: 'life', desc: '直売所、朝市、手仕事。土地の日常へ。', cta: '日常を訪ねる' },
-  { label: '整える', en: 'WELLNESS', path: 'beauty', desc: '温泉、サウナ、水辺。身体をほどく。', cta: '整う場所へ' },
-  { label: '働く・つくる', en: 'CRAFT', path: 'company', desc: '受け継ぐ技と、これからをつくる人。', cta: '仕事と人へ' },
+  { label: '食べる', en: 'FOOD', path: 'eat', art: 'food-vignette', desc: '港の朝、畑の昼。土地の味をたどる。', cta: '食の物語へ' },
+  { label: '出かける', en: 'TRAVEL', path: 'sauna-play', art: 'v36-station', desc: '海、山、花。今日の行き先を見つける。', cta: '休日の行き先へ' },
+  { label: '泊まる', en: 'STAY', path: 'stay', art: 'town-dusk', desc: '朝の光ごと、茨城に身を置く。', cta: '宿を探す' },
+  { label: '暮らす', en: 'LIFE', path: 'life', art: 'makabe-town-print', desc: '直売所、朝市、手仕事。土地の日常へ。', cta: '日常を訪ねる' },
+  { label: '整える', en: 'WELLNESS', path: 'beauty', art: 'kasumigaura-tsukuba-print', desc: '温泉、サウナ、水辺。身体をほどく。', cta: '整う場所へ' },
+  { label: '働く・つくる', en: 'CRAFT', path: 'company', art: 'pottery', desc: '受け継ぐ技と、これからをつくる人。', cta: '仕事と人へ' },
 ];
 ---
 <nav class="theme-nav" aria-label="テーマから探す">
@@ -13,7 +13,8 @@ const themes = [
     {themes.map((theme, i) => (
       <li>
         <a href={`/${theme.path}/`}>
-          <span class="tn-meta"><b>0{i + 1}</b><small>{theme.en}</small></span>
+          <span class="tn-meta"><b>0{i + 1}</b><span aria-hidden="true">／</span><small>{theme.en}</small></span>
+          <img class="tn-art" src={`/images/v42/${theme.art}.webp`} width="144" height="88" alt="" loading="lazy" decoding="async" />
           <span class="tn-title">{theme.label}</span>
           <span class="tn-desc">{theme.desc}</span>
           <span class="tn-cta"><span>{theme.cta}</span><b aria-hidden="true">→</b></span>
@@ -26,25 +27,29 @@ const themes = [
 <style>
   .theme-nav ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--v42-rule, var(--color-line)); }
   .theme-nav li { min-width: 0; border-bottom: 1px solid var(--v42-rule, var(--color-line)); }
-  .theme-nav a { display: flex; flex-direction: column; height: 100%; min-height: 14rem; padding: 1.5rem 1.2rem; color: var(--color-ink); text-decoration: none; }
-  .tn-meta { display: flex; justify-content: space-between; gap: .5rem; color: var(--color-soil); font: 500 .75rem/1.5 var(--font-brand-meta); letter-spacing: .03em; }
+  .theme-nav a { display: flex; flex-direction: column; height: 100%; min-height: 10rem; padding: 1.2rem 1rem; color: var(--color-ink); text-decoration: none; }
+  .tn-meta { display: flex; align-items: baseline; gap: .35rem; color: var(--color-soil); font: 500 .6875rem/1.5 var(--font-brand-meta); letter-spacing: .09em; }
   .tn-meta b { font-weight: 500; }
-  .tn-meta small { font-size: .75rem; }
-  .tn-title { margin-top: 1.3rem; color: var(--v42-ink, var(--color-ink)); font: 500 1.55rem/1.5 var(--font-brand-display); letter-spacing: .03em; }
-  .tn-desc { margin-top: .65rem; color: var(--v42-copy, var(--color-soil)); font-size: .875rem; line-height: 1.85; }
-  .tn-cta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: auto; padding-top: 1.3rem; font-size: .8125rem; font-weight: 700; color: var(--v42-blue, var(--color-tide)); }
+  .tn-meta small { font-size: inherit; }
+  .tn-art { width: 100%; height: 5.5rem; object-fit: cover; object-position: center; margin-top: .65rem; }
+  .tn-title { margin-top: .55rem; color: var(--v42-ink, var(--color-ink)); font: 500 1.25rem/1.5 var(--font-brand-display); letter-spacing: .03em; }
+  .tn-desc { margin-top: .3rem; color: var(--v42-copy, var(--color-soil)); font-size: .875rem; line-height: 1.7; line-break: strict; }
+  .tn-cta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: auto; padding-top: .55rem; font-size: .8125rem; font-weight: 700; color: var(--v42-blue, var(--color-tide)); }
   .tn-cta b { font-size: 1.1rem; font-weight: 400; }
   .theme-nav a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: -2px; }
   @media (hover: hover) { .theme-nav a:hover { background: var(--color-white); } .theme-nav a:hover .tn-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; } }
-  /* 6テーマを同じ行で見渡せる横幅では、従来どおり横一列にする。 */
-  @media (min-width: 1180px) { .theme-nav ol { grid-template-columns: repeat(6, minmax(0, 1fr)); } .theme-nav li + li { border-left: 1px solid var(--v42-rule, var(--color-line)); } .theme-nav a { min-height: 16rem; padding-inline: .9rem; } .tn-title { font-size: 1.3rem; } }
-  @media (max-width: 700px) {
-    .theme-nav ol { grid-template-columns: minmax(0, 1fr); }
-    .theme-nav a { display: grid; grid-template-columns: minmax(0, 1fr) 1.25rem; gap: .3rem 1rem; min-height: 0; padding: 1.2rem 0; }
-    .tn-meta { display: none; }
-    .tn-title { grid-column: 1; margin: 0; font-size: 1.25rem; }
-    .tn-desc { grid-column: 1; margin: 0; font-size: .875rem; }
-    .tn-cta { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; padding: 0; }
+  @media (min-width: 1180px) {
+    .theme-nav ol { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .theme-nav li + li { border-left: 1px solid var(--v42-rule, var(--color-line)); }
+  }
+  @media (max-width: 760px) {
+    .theme-nav ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .theme-nav li:nth-child(even) { border-left: 1px solid var(--v42-rule, var(--color-line)); }
+    .theme-nav a { min-height: 0; padding: 1rem clamp(.65rem, 3.5vw, .95rem) .8rem; }
+    .tn-art { height: clamp(4rem, 22vw, 6rem); }
+    .tn-title { font-size: 1.1875rem; }
+    .tn-desc { font-size: .84375rem; }
+    .tn-cta { justify-content: flex-end; padding-top: .35rem; }
     .tn-cta > span { display: none; }
   }
 </style>

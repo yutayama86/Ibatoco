@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261109-home-v42-mobile-followup',
+    date: '2026-11-09',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPのイベント・テーマ・観戦の挿絵とカードを修正し、スマホのカテゴリ4項目を上段と一緒に追従（#546）',
+    queries: [],
+    commit: '4728cabf',
+    experimentType: 'template',
+    note: 'オーナーの11/9の承認により、本番反映日からTOPの28日間を計り直す。同日中の#533と#546は複数の変更として記録する。共通ヘッダーの変更はカテゴリ行が表示される日本語ページにも適用。既存の観測記録は保持する。',
+  },
+  {
     id: '20261109-place-empty-recruitment',
     date: '2026-11-09',
     url: '/place/',
