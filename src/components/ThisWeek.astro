@@ -9,7 +9,7 @@
  * 「今日は何もありません」と書くくらいなら、無いほうがよい。
  */
 import { getHappenings, getWeekBoard, type HappeningKind } from '../lib/happenings';
-import { listImageForPath } from '../lib/card-image';
+import { homeEventArt, type HomeEventArt } from '../lib/home-event-art';
 
 interface Props {
   /** GA4 の page_type。置いたページに合わせる（TOP以外から使うとき必須） */
@@ -42,29 +42,11 @@ const displayBoard = [
 // 静的サイトでも日付の経過だけで自動表示・自動非表示できるよう、120日分を埋め込む。
 // 新しい公式発表の追加は通常の公開フロー、既知イベントの状態遷移はブラウザ側が担う。
 const candidates = await getHappenings(now, 120);
-const eventIllustrations: Record<string, string> = {
-  '/events/ibaraki-flowerpark-illumination-2026/': '/images/v42/nightgarden.webp',
-  '/events/kamine-park-autumn-festival-2-2026/': '/images/v42/autumn-maple-print.webp',
-  '/events/kasama-kiku-matsuri-2026/': '/images/v42/chrysanthemums.webp',
-  '/events/oarai-ankou-matsuri-2026/': '/images/v42/hotpot.webp',
-};
-const homeArtwork = new Map<string, { src: string; caption?: string; contain?: boolean }>();
+const homeArtwork = new Map<string, HomeEventArt>();
 if (isHomeEditorial) {
   for (const { href, kind } of candidates) {
     if (homeArtwork.has(href)) continue;
-    const illustration = kind === 'sports' ? '/images/v42/matchday-supporters.webp' : eventIllustrations[href];
-    if (illustration) {
-      homeArtwork.set(href, {
-        src: illustration,
-        caption: 'イメージイラスト',
-        contain: kind === 'sports' || illustration.endsWith('-print.webp'),
-      });
-    } else {
-      const image = await listImageForPath(href);
-      homeArtwork.set(href, image
-        ? { src: image.src, caption: image.source === 'card' ? 'エリア地図' : undefined, contain: image.source !== 'card' }
-        : { src: '/images/v42/ibarakiscape.webp', caption: 'イメージイラスト' });
-    }
+    homeArtwork.set(href, await homeEventArt(href, kind));
   }
 }
 const manifest = JSON.stringify(candidates.map((item) => ({
@@ -132,7 +114,6 @@ const KIND_LABEL: Record<HappeningKind, string> = {
                     </span>
                     <strong>{item.title}</strong>
                     {item.place && <span class="tw__place">{item.place}</span>}
-                    {isHomeEditorial && <span class="tw__read" aria-hidden="true">詳しく見る <span>↗</span></span>}
                   </a>
                 </li>
                 );
@@ -258,11 +239,6 @@ const KIND_LABEL: Record<HappeningKind, string> = {
         link.append(meta);
         appendTextElement(link, 'strong', item.title);
         if (item.place) appendTextElement(link, 'span', item.place, 'tw__place');
-        if (isHome) {
-          const read = appendTextElement(link, 'span', '詳しく見る ', 'tw__read');
-          read.setAttribute('aria-hidden', 'true');
-          appendTextElement(read, 'span', '↗');
-        }
         li.append(link);
         list.append(li);
       }
@@ -346,46 +322,48 @@ const KIND_LABEL: Record<HappeningKind, string> = {
 
   /* TOP限定：イベントは3件ずつ編集して見せ、必要な人だけ展開。
      日付によってイベント数が変わっても1列だけ下に伸びない。 */
-  .tw--home-editorial{padding-block:clamp(2.75rem,5vw,4.75rem);background:#eef1e6;border:0}
+  .tw--home-editorial{padding-block:clamp(2.25rem,4vw,3.5rem);background:#eef1e6;border:0}
   .tw--home-editorial::after{display:none}
   .tw--home-editorial>.bp-wrap{width:min(1160px,calc(100% - 2.75rem))}
-  .tw__opening{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.5rem 2rem;align-items:end}
-  .tw__opening-art{display:block;width:100%;height:auto;max-height:250px;object-fit:contain;object-position:right bottom}
+  .tw__opening{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.42fr);gap:1.5rem 2rem;align-items:center}
+  .tw__opening-art{display:block;width:100%;height:auto;max-height:125px;object-fit:contain;object-position:right bottom}
   .tw--home-editorial .tw__eyebrow{font:500 .69rem/1.4 var(--font-brand-meta);letter-spacing:.2em;color:#617357}
-  .tw--home-editorial .tw__title{margin-top:.65rem;color:#24434a;font-size:clamp(2rem,3.2vw,2.875rem);font-weight:500;line-height:1.45;letter-spacing:.025em;text-wrap:normal}
+  .tw--home-editorial .tw__title{margin-top:.55rem;color:#24434a;font-size:clamp(1.875rem,2.9vw,2.625rem);font-weight:500;line-height:1.4;letter-spacing:.025em;text-wrap:normal}
   .tw__more--home{display:inline-flex;align-items:center;min-height:44px;margin-top:1rem;border-bottom:1px solid currentColor}
   .tw--home-editorial .tw__lead{max-width:var(--measure);margin-top:.65rem;text-align:left;font-size:clamp(.85rem,1.2vw,1rem)}
-  .tw--home-editorial .tw__groups{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:clamp(1.25rem,3vw,2.5rem);margin-top:clamp(1.6rem,3.2vw,2.5rem)}
-  .tw--home-editorial .tw__group{display:flex;flex-direction:column;min-width:0;padding:1.25rem 0 0;border:0;border-top:2px solid #24434a;border-radius:0;background:transparent;box-shadow:none}
-  .tw--home-editorial .tw__group-head{display:flex;flex-direction:column-reverse;align-items:flex-start;gap:.35rem;padding:0 0 .875rem;border-bottom:1px solid #ccd6c9}
+  .tw--home-editorial .tw__groups{grid-template-columns:minmax(0,1fr);gap:1rem;margin-top:1rem}
+  .tw--home-editorial .tw__group{display:grid;min-width:0;padding:.875rem 0 0;border:0;border-top:1px solid #a9b7a9;border-radius:0;background:transparent;box-shadow:none}
+  .tw--home-editorial .tw__group-head{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.6rem}
   .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:#24434a;font:500 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
   .tw--home-editorial .tw__group-note{color:#576c64;font-size:.73rem;letter-spacing:.02em}
-  .tw--home-editorial .tw__list{display:grid;align-content:start;gap:0;margin:0}
-  .tw--home-editorial .tw__list li{min-width:0;border-bottom:1px solid #ccd6c9}
+  .tw--home-editorial .tw__list{grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin:0}
+  .tw--home-editorial .tw__list li{min-width:0}
+  .tw--home-editorial .tw__list li::before{content:none}
   .tw--home-editorial .tw__list li:nth-child(n+4){display:none}
   .tw--home-editorial .tw__group.is-expanded .tw__list li:nth-child(n+4){display:list-item}
-  .tw--home-editorial .tw__list a{display:grid;grid-template-columns:7rem minmax(0,1fr);grid-template-rows:auto auto auto 1fr;align-items:start;gap:.375rem 1rem;padding:1.125rem 0;border:0;min-height:44px}
-  .tw--home-editorial .tw__list li:first-child a{padding-top:1.125rem}
-  .tw--home-editorial .tw__list a>:not(.tw__card-art){grid-column:2}
-  .tw__card-art{position:relative;grid-column:1;grid-row:1/5;display:block;aspect-ratio:4/5;overflow:hidden;background:#f9f7ec}
-  .tw__card-art img{display:block;width:100%;height:100%;object-fit:cover}
+  .tw--home-editorial .tw__list a,.tw--home-editorial .tw__list li:first-child a{display:grid;grid-template-columns:clamp(4.35rem,6vw,5.5rem) minmax(0,1fr);grid-template-rows:auto auto 1fr;align-items:start;gap:.2rem .65rem;min-height:100%;padding:.5rem;border:1px solid #d4dccd;background:#fffdf7}
+  .tw--home-editorial .tw__list a>:is(.tw__meta,strong,.tw__place){grid-column:2}
+  .tw--home-editorial .tw__list a:hover{border-color:#94ab9e}
+  .tw__card-art{position:relative;grid-column:1;grid-row:1/4;align-self:stretch;display:block;min-height:4.55rem;overflow:hidden;background:#f4f0e6}
+  .tw__card-art img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
   .tw__card-art.is-contained img{object-fit:contain}
-  .tw__card-art small{position:absolute;inset:auto .1875rem .1875rem;padding:.125rem .2rem;background:#fffdf4;color:#4d5f50;font-size:.6875rem;line-height:1.25;text-align:center}
-  .tw--home-editorial .tw__list strong{margin:0;color:#24434a;font-size:clamp(1.125rem,1.55vw,1.375rem);line-height:1.55;line-break:strict;overflow-wrap:break-word;text-wrap:balance}
-  .tw--home-editorial .tw__meta{color:#576c64;font-size:.75rem}
-  .tw--home-editorial .tw__kind{display:inline-flex;align-items:center;padding:.18rem .5rem;border-radius:100px;background:var(--tw-bg);font-size:.65rem}
+  .tw__card-art small{position:absolute;inset:auto 0 0;padding:.12rem .1rem;background:#fffdf4f2;color:#4d5f50;font-size:.5625rem;line-height:1.25;text-align:center}
+  .tw--home-editorial .tw__list strong{margin:0;color:#24434a;font-size:clamp(.9375rem,1.25vw,1.0625rem);line-height:1.45;line-break:strict;overflow-wrap:anywhere}
+  .tw--home-editorial .tw__meta{color:#576c64;font-size:.75rem;line-height:1.45}
+  .tw--home-editorial .tw__kind{display:inline-flex;align-items:center;padding:.1rem .35rem;background:var(--tw-bg);font-size:.625rem}
   .tw--home-editorial .is-active .tw__kind{display:none}
   .tw--home-editorial .tw__place{font-size:.75rem;line-height:1.4}
-  .tw__read{display:flex;justify-content:space-between;gap:.5rem;color:#254f68;font-size:.75rem;font-weight:700}
-  .tw--home-editorial .tw__expand{display:block;align-self:stretch;min-height:44px;margin-top:.75rem;padding:.65rem .8rem;border:1px solid var(--color-line);border-radius:var(--radius-xs);background:var(--color-white);color:#174f99;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .18s ease}
+  .tw--home-editorial .tw__expand{display:block;justify-self:end;min-height:44px;padding:.45rem .35rem;border:0;border-bottom:1px solid #9fb2a1;background:transparent;color:#254f68;font-size:.78rem;font-weight:700;cursor:pointer}
   .tw--home-editorial .tw__expand:hover{background:#d7eaf8}
   .tw--home-editorial .tw__expand:focus-visible{outline:2px solid #174f99;outline-offset:2px}
   .tw--home-editorial .tw__expand span{margin-left:.3rem}
-  @media(max-width:760px){
-    .tw__opening,.tw--home-editorial .tw__groups{grid-template-columns:minmax(0,1fr)}
+  @media(min-width:1024px){.tw--home-editorial .tw__title br{display:none}}
+  @media(max-width:1023px){.tw--home-editorial .tw__list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:680px){
+    .tw__opening,.tw--home-editorial .tw__list{grid-template-columns:minmax(0,1fr)}
     .tw__opening{gap:.65rem}
-    .tw__opening-art{max-height:185px;object-position:center}
+    .tw__opening-art{max-height:138px;object-position:right}
     .tw--home-editorial .tw__title{font-size:clamp(1.75rem,8.2vw,2rem);line-height:1.5}
-    .tw--home-editorial .tw__list a{grid-template-columns:clamp(5.6875rem,27vw,6.625rem) minmax(0,1fr);column-gap:.875rem}
+    .tw--home-editorial .tw__list a,.tw--home-editorial .tw__list li:first-child a{grid-template-columns:4.75rem minmax(0,1fr);column-gap:.7rem}
   }
 </style>

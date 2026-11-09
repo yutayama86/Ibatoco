@@ -20,8 +20,10 @@ interface Props {
   heading?: { kicker: string; lines: [string, string] };
   /** 見出し横の挿絵。/area/ は冒頭の帯に同じ挿絵があるので出さない */
   art?: boolean;
+  /** TOPのPC表示では、地図と5地域を横に並べて一度に見渡せるようにする */
+  compact?: boolean;
 }
-const { heading, art = true } = Astro.props;
+const { heading, art = true, compact = false } = Astro.props;
 
 // 5地域のカード。地域別の新しいページは作らず、カードを開くとその地域の市町村へ直接進める。
 // 写真は Wikimedia Commons（作者・ライセンスは REGION_PHOTO_CREDITS）、県西・鹿行は版画調のイメージイラスト。
@@ -92,19 +94,23 @@ const nodes = MUNICIPALITIES.map((m) => ({
 ---
 
 
-<section class="ax">
+<section class:list={['ax', { 'ax--compact': compact }]}>
   <header class:list={['ax-intro', { 'ax-intro--illustrated': art }]}>
     <div class="ax-intro-text">
-      <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
-      {heading
-        ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
-        : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
-      <h3>気になる街を、ひとつ。</h3>
-      <p class="ax-intro-copy">
-        <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
-        <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
-        <span>気になる街を選ぶと、その街のページへ移動します。</span>
-      </p>
+      <div>
+        <p class="ax-intro-kicker">{heading?.kicker ?? '茨城のエリアガイド'}</p>
+        {heading
+          ? <h2><span class="ax-title-line">{heading.lines[0]}</span><span>{heading.lines[1]}</span></h2>
+          : <h2><span class="ax-title-line"><b>44</b>のまち、</span><span>まだ知らない茨城へ。</span></h2>}
+      </div>
+      <div class="ax-intro-note">
+        <h3>気になる街を、ひとつ。</h3>
+        <p class="ax-intro-copy">
+          <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
+          <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
+          <span>気になる街を選ぶと、その街のページへ移動します。</span>
+        </p>
+      </div>
     </div>
     {art && <img class="ax-intro-art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />}
   </header>
@@ -138,7 +144,7 @@ const nodes = MUNICIPALITIES.map((m) => ({
       <h3 class="ax-list-head" id="ax-list-head">地域から、市町村を選ぶ</h3>
       <nav class="ax-regions" aria-labelledby="ax-list-head">
         {REGION_CARDS.map((card, index) => (
-          <details class="ax-region" id={`area-${card.key}`} data-region={card.key}>
+          <details class="ax-region" id={`area-${card.key}`} data-region={card.key} name={compact ? 'home-map-region' : undefined}>
             <summary>
               <span class="ax-region-figure">
                 <img src={card.img} alt={card.alt} width={card.width} height={card.height} loading="lazy" decoding="async" />
@@ -295,6 +301,42 @@ const nodes = MUNICIPALITIES.map((m) => ({
   }
   @media (max-width: 340px) {
     .ax-intro--illustrated h2 { font-size: 24px !important; }
+  }
+  @media (min-width: 1000px) {
+    .ax--compact .ax-intro { align-items: center; gap: 1rem; margin-bottom: .75rem; }
+    .ax--compact .ax-intro-text { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,.8fr); gap: 1rem; align-items: end; max-width: none; }
+    .ax--compact .ax-intro h2 { margin-top: .2rem; font-size: clamp(1.5rem,2.45vw,2rem); }
+    .ax--compact .ax-intro h2 > span { display: inline; }
+    .ax--compact .ax-intro h2 b { font-size: 1.45em; }
+    .ax--compact .ax-intro h3 { margin-top: 0; font-size: .9375rem; }
+    .ax--compact .ax-intro-copy { margin-top: .2rem; font-size: .75rem; line-height: 1.55; }
+    .ax--compact .ax-intro-copy span:last-child { display: none; }
+    .ax--compact .ax-intro-art { width: 3rem; }
+    .ax--compact .ax-grid { grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); gap: clamp(1rem,2vw,1.75rem); }
+    .ax--compact .ax-mapwrap { grid-template-columns: auto minmax(0,1fr); align-items: center; gap: .35rem .75rem; padding: .65rem .9rem; }
+    .ax--compact .ax-map-cap { grid-column: 1; grid-row: 1; }
+    .ax--compact .ax-map { grid-column: 1/-1; grid-row: 2; width: 100%; height: clamp(340px,calc(100svh - var(--site-header-height) - 235px),520px); }
+    .ax--compact .ax-map-hint { grid-column: 2; grid-row: 1; justify-self: end; padding: 0; border: 0; font-size: .6875rem; }
+    .ax--compact .ax-list-head { margin-bottom: .45rem; }
+    .ax--compact .ax-regions { grid-template-columns: minmax(0,1fr); gap: .45rem; }
+    .ax--compact .ax-region { box-shadow: 2px 2px 0 #d7d8c650; }
+    .ax--compact .ax-region > summary { grid-template-columns: clamp(4.75rem,8vw,6.375rem) minmax(0,1fr); grid-template-rows: auto; }
+    .ax--compact .ax-region-figure { aspect-ratio: auto; min-height: 0; }
+    .ax--compact .ax-region-figure img { position: absolute; inset: 0; }
+    .ax--compact .ax-region-tag { inset: auto 0 0; max-width: 100%; padding: .04rem .2rem; font-size: .5625rem; text-align: center; }
+    .ax--compact .ax-region-body { grid-template-columns: minmax(0,1fr) auto; gap: 0 .5rem; align-items: center; min-height: 3.875rem; padding: .3rem .65rem; }
+    .ax--compact .ax-region-no { display: none; }
+    .ax--compact .ax-region-name { font-size: 1.125rem; }
+    .ax--compact .ax-region-name small { font-size: .6875rem; }
+    .ax--compact .ax-region-catch { display: none; }
+    .ax--compact .ax-region-open { grid-column: 2; grid-row: 1; min-height: 2.75rem; gap: .4rem; margin: 0; border: 0; font-size: .6875rem; }
+    .ax--compact .ax-region-open b { font-size: .95rem; }
+    .ax--compact .ax-credit { margin-top: .6rem; font-size: .6875rem; }
+  }
+  @media (min-width: 1250px) {
+    .ax--compact .ax-region-body { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; }
+    .ax--compact .ax-region-catch { grid-column: 2; grid-row: 1; display: block; margin: 0; font-size: .75rem; text-align: left; }
+    .ax--compact .ax-region-open { grid-column: 3; }
   }
   @media (prefers-reduced-motion: reduce) { .ax-shape, .ax-region-open b { transition: none; } }
 </style>
