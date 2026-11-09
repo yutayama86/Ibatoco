@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-oarai-ankou-matsuri-2026',
+    date: '2026-11-10',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '公式チラシ・会場図と大洗町の11/9発表を反映（あんこう汁販売11時へ訂正、整理券・小雨決行・Suica不可・電車時刻・うみまちライン迂回・駐車場未掲載）',
+    queries: ['大洗あんこう祭 2026', '大洗あんこう祭 駐車場', '大洗あんこう祭 交通規制', '大洗あんこう祭 あんこう汁 整理券', '大洗あんこう祭 電車 アクセス'],
+    commit: 'PENDING',
+    note: '観測窓中のため title・description は変更せず、公式発表の反映（seasonal-official）に限定',
+    experimentType: 'fact',
+  },
+  {
     id: '20261109-home-editorial-layout',
     date: '2026-11-09',
     url: '/',
