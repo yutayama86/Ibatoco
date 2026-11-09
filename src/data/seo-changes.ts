@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-tsukuba-marathon-2026',
+    date: '2026-11-10',
+    url: '/events/tsukuba-marathon-2026/',
+    kind: 'on-page',
+    change: '11/3発表のバス運休（筑波山シャトル・つくバス7路線・循環路線・つくば号）と代替バスを反映し、未発表の記述を解消。title・descriptionにバス運休を追加',
+    queries: ['つくばマラソン 交通規制', 'つくばマラソン バス 運休', 'つくばマラソン 筑波山 シャトルバス'],
+    commit: 'PENDING',
+  },
+  {
     id: '20261109-home-editorial-layout',
     date: '2026-11-09',
     url: '/',
