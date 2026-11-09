@@ -105,11 +105,15 @@ const nodes = MUNICIPALITIES.map((m) => ({
       </div>
       <div class="ax-intro-note">
         <h3>気になる街を、ひとつ。</h3>
-        <p class="ax-intro-copy">
-          <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
-          <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
-          <span>気になる街を選ぶと、その街のページへ移動します。</span>
-        </p>
+        {compact ? (
+          <p class="ax-intro-copy">地図や地域から、気になる街のガイドへ。</p>
+        ) : (
+          <p class="ax-intro-copy">
+            <span>県北は山と海、県西は一面の畑、鹿行は湖と砂浜。</span>
+            <span>同じ県とは思えないほど、街ごとに顔が違います。</span>
+            <span>気になる街を選ぶと、その街のページへ移動します。</span>
+          </p>
+        )}
       </div>
     </div>
     {art && <img class="ax-intro-art" src="/images/v42/map-travelers.webp" alt="" width="360" height="540" loading="lazy" decoding="async" />}
@@ -302,39 +306,77 @@ const nodes = MUNICIPALITIES.map((m) => ({
   @media (max-width: 340px) {
     .ax-intro--illustrated h2 { font-size: 24px !important; }
   }
+  .ax--compact { --ax-edge: #cfd9cc; }
+  .ax--compact .ax-intro { gap: .75rem; margin-bottom: 1rem; }
+  .ax--compact .ax-intro h3 { margin-top: .65rem; font-size: .9375rem; }
+  .ax--compact .ax-intro-copy { margin-top: .15rem; font-size: .8125rem; line-height: 1.65; }
+  .ax--compact .ax-intro-art { width: 3rem; }
+  .ax--compact .ax-grid { gap: .75rem; }
+  .ax--compact .ax-mapwrap,
+  .ax--compact .ax-list { min-height: 0; padding: .7rem .85rem; border: 1px solid var(--ax-edge); }
+  .ax--compact .ax-mapwrap { gap: .4rem; }
+  .ax--compact .ax-map-cap,
+  .ax--compact .ax-list-head { color: #405b4e; font-weight: 700; }
+  .ax--compact .ax-map-hint { font-size: .75rem; }
+  .ax--compact .ax-label { font-size: 10.8px; }
+  .ax--compact .ax-label:is([data-label-slug="hitachinaka"], [data-label-slug="tsukubamirai"], [data-label-slug="tokai"]) { font-size: 9.2px; }
+  .ax--compact .ax-label:is([data-label-slug="goka"], [data-label-slug="sakai"], [data-label-slug="bando"], [data-label-slug="joso"], [data-label-slug="moriya"], [data-label-slug="toride"], [data-label-slug="ryugasaki"], [data-label-slug="kawachi"], [data-label-slug="tone"]) { font-size: 8.8px; }
+  .ax--compact .ax-label:is([data-label-slug="kasumigaura"], [data-label-slug="yachiyo"], [data-label-slug="shimotsuma"]) { font-size: 8px; }
+  .ax--compact .ax-label[data-label-slug="kasumigaura"] { transform: translateX(5px); }
+  .ax--compact .ax-list { background: #f5f7ef; }
+  .ax--compact .ax-list-head { margin-bottom: .55rem; }
+  .ax--compact .ax-regions { grid-template-columns: minmax(0,1fr); gap: .4rem; }
+  .ax--compact .ax-region { border-color: #d5ddce; box-shadow: none; }
+  .ax--compact .ax-region[open] { border-color: #9ab0a1; }
+  .ax--compact .ax-region > summary { grid-template-columns: clamp(4.25rem,8.5vw,6.75rem) minmax(0,1fr); grid-template-rows: auto; min-height: 3.7rem; }
+  .ax--compact .ax-region > summary:hover { background: #edf3e9; }
+  .ax--compact .ax-region .ax-region-figure { aspect-ratio: auto; min-height: 0; }
+  .ax--compact .ax-region-figure img { position: absolute; inset: 0; }
+  .ax--compact .ax-region-tag { inset: auto 0 0; max-width: 100%; padding: .04rem .15rem; font-size: .5625rem; text-align: center; }
+  .ax--compact .ax-region .ax-region-body { grid-template-columns: minmax(0,1fr) auto; gap: 0 .5rem; align-items: center; align-content: center; padding: .35rem .55rem; }
+  .ax--compact .ax-region-no,
+  .ax--compact .ax-region-catch { display: none; }
+  .ax--compact .ax-region .ax-region-name { font-size: 1.125rem; }
+  .ax--compact .ax-region-name small { font-size: .6875rem; }
+  .ax--compact .ax-region-open { grid-column: 2; grid-row: 1; min-height: 2.75rem; gap: .35rem; margin: 0; border: 0; color: #395f56; font-size: .6875rem; }
+  .ax--compact .ax-region-open b { display: grid; place-items: center; width: 1.375rem; height: 1.375rem; border: 1px solid #c6d3c3; border-radius: 50%; font-size: .875rem; line-height: 1; }
+  .ax--compact .ax-credit { margin-top: .6rem; font-size: .6875rem; }
+
+  @media (max-width: 760px) {
+    .ax--compact .ax-intro--illustrated .ax-title-line { min-height: 0; padding-right: 4.5rem; line-height: 1.1; }
+    .ax--compact .ax-intro--illustrated h2 b { font-size: 2.25em; }
+    .ax--compact .ax-intro--illustrated .ax-intro-art { top: 0; width: auto; height: 4.3rem; }
+    .ax--compact .ax-mapwrap,
+    .ax--compact .ax-list { padding: .65rem; }
+    .ax--compact .ax-region > summary { grid-template-columns: 5rem minmax(0,1fr); }
+    .ax--compact .ax-region-tag { letter-spacing: 0; }
+    .ax--compact .ax-region .ax-region-name { font-size: 1rem; }
+  }
+  @media (min-width: 761px) and (max-width: 999px) {
+    .ax--compact .ax-intro-art { width: 3.75rem; }
+    .ax--compact .ax-intro h2 > span { display: inline; }
+  }
   @media (min-width: 1000px) {
-    .ax--compact .ax-intro { align-items: center; gap: 1rem; margin-bottom: .75rem; }
-    .ax--compact .ax-intro-text { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,.8fr); gap: 1rem; align-items: end; max-width: none; }
-    .ax--compact .ax-intro h2 { margin-top: .2rem; font-size: clamp(1.5rem,2.45vw,2rem); }
+    .ax--compact .ax-intro { align-items: center; margin-bottom: .65rem; }
+    .ax--compact .ax-intro-text { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); gap: 1rem; align-items: center; max-width: none; }
+    .ax--compact .ax-intro h2 { margin-top: .2rem; font-size: clamp(1.5rem,2.45vw,2.125rem); }
     .ax--compact .ax-intro h2 > span { display: inline; }
     .ax--compact .ax-intro h2 b { font-size: 1.45em; }
-    .ax--compact .ax-intro h3 { margin-top: 0; font-size: .9375rem; }
-    .ax--compact .ax-intro-copy { margin-top: .2rem; font-size: .75rem; line-height: 1.55; }
-    .ax--compact .ax-intro-copy span:last-child { display: none; }
-    .ax--compact .ax-intro-art { width: 3rem; }
-    .ax--compact .ax-grid { grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); gap: clamp(1rem,2vw,1.75rem); }
-    .ax--compact .ax-mapwrap { grid-template-columns: auto minmax(0,1fr); align-items: center; gap: .35rem .75rem; padding: .65rem .9rem; }
+    .ax--compact .ax-intro h3 { margin-top: 0; }
+    .ax--compact .ax-grid { grid-template-columns: minmax(0,.96fr) minmax(0,1.04fr); align-items: stretch; height: clamp(25rem,calc(100svh - var(--site-header-height) - 10.75rem),34rem); gap: clamp(.85rem,1.7vw,1.3rem); }
+    .ax--compact .ax-mapwrap { grid-template-columns: auto minmax(0,1fr); grid-template-rows: auto minmax(0,1fr); align-items: center; gap: .4rem .65rem; }
     .ax--compact .ax-map-cap { grid-column: 1; grid-row: 1; }
-    .ax--compact .ax-map { grid-column: 1/-1; grid-row: 2; width: 100%; height: clamp(340px,calc(100svh - var(--site-header-height) - 235px),520px); }
+    .ax--compact .ax-map { grid-column: 1/-1; grid-row: 2; width: 100%; height: 100%; max-height: none; }
     .ax--compact .ax-map-hint { grid-column: 2; grid-row: 1; justify-self: end; padding: 0; border: 0; font-size: .6875rem; }
-    .ax--compact .ax-list-head { margin-bottom: .45rem; }
-    .ax--compact .ax-regions { grid-template-columns: minmax(0,1fr); gap: .45rem; }
-    .ax--compact .ax-region { box-shadow: 2px 2px 0 #d7d8c650; }
-    .ax--compact .ax-region > summary { grid-template-columns: clamp(4.75rem,8vw,6.375rem) minmax(0,1fr); grid-template-rows: auto; }
-    .ax--compact .ax-region-figure { aspect-ratio: auto; min-height: 0; }
-    .ax--compact .ax-region-figure img { position: absolute; inset: 0; }
-    .ax--compact .ax-region-tag { inset: auto 0 0; max-width: 100%; padding: .04rem .2rem; font-size: .5625rem; text-align: center; }
-    .ax--compact .ax-region-body { grid-template-columns: minmax(0,1fr) auto; gap: 0 .5rem; align-items: center; min-height: 3.875rem; padding: .3rem .65rem; }
-    .ax--compact .ax-region-no { display: none; }
-    .ax--compact .ax-region-name { font-size: 1.125rem; }
-    .ax--compact .ax-region-name small { font-size: .6875rem; }
-    .ax--compact .ax-region-catch { display: none; }
-    .ax--compact .ax-region-open { grid-column: 2; grid-row: 1; min-height: 2.75rem; gap: .4rem; margin: 0; border: 0; font-size: .6875rem; }
-    .ax--compact .ax-region-open b { font-size: .95rem; }
-    .ax--compact .ax-credit { margin-top: .6rem; font-size: .6875rem; }
+    .ax--compact .ax-list { display: grid; grid-template-rows: auto minmax(0,1fr); }
+    .ax--compact .ax-regions { grid-auto-rows: minmax(0,1fr); }
+    .ax--compact .ax-regions:not(:has(.ax-region[open])) summary { height: 100%; }
+    .ax--compact .ax-regions:has(.ax-region[open]) { grid-auto-rows: max-content; align-content: start; margin: -.2rem; padding: .2rem; overflow-y: auto; scrollbar-width: thin; }
+    .ax--compact .ax-region .ax-region-name { font-size: 1.25rem; }
+    .ax--compact .ax-region-name small { font-size: .75rem; }
   }
-  @media (min-width: 1250px) {
-    .ax--compact .ax-region-body { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; }
+  @media (min-width: 1180px) {
+    .ax--compact .ax-region .ax-region-body { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; }
     .ax--compact .ax-region-catch { grid-column: 2; grid-row: 1; display: block; margin: 0; font-size: .75rem; text-align: left; }
     .ax--compact .ax-region-open { grid-column: 3; }
   }

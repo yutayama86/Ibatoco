@@ -331,12 +331,13 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw--home-editorial .tw__title{margin-top:.55rem;color:#24434a;font-size:clamp(1.875rem,2.9vw,2.625rem);font-weight:500;line-height:1.4;letter-spacing:.025em;text-wrap:normal}
   .tw__more--home{display:inline-flex;align-items:center;min-height:44px;margin-top:1rem;border-bottom:1px solid currentColor}
   .tw--home-editorial .tw__lead{max-width:var(--measure);margin-top:.65rem;text-align:left;font-size:clamp(.85rem,1.2vw,1rem)}
-  .tw--home-editorial .tw__groups{grid-template-columns:minmax(0,1fr);gap:1rem;margin-top:1rem}
+  .tw--home-editorial .tw__groups{grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));align-items:start;gap:1.25rem clamp(1rem,2vw,1.65rem);margin-top:1rem}
+  .tw--home-editorial .tw__group:only-child{width:100%;max-width:36rem}
   .tw--home-editorial .tw__group{display:grid;min-width:0;padding:.875rem 0 0;border:0;border-top:1px solid #a9b7a9;border-radius:0;background:transparent;box-shadow:none}
-  .tw--home-editorial .tw__group-head{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.6rem}
+  .tw--home-editorial .tw__group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .75rem;margin-bottom:.6rem}
   .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:#24434a;font:500 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
   .tw--home-editorial .tw__group-note{color:#576c64;font-size:.73rem;letter-spacing:.02em}
-  .tw--home-editorial .tw__list{grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin:0}
+  .tw--home-editorial .tw__list{grid-template-columns:minmax(0,1fr);gap:.5rem;margin:0}
   .tw--home-editorial .tw__list li{min-width:0}
   .tw--home-editorial .tw__list li::before{content:none}
   .tw--home-editorial .tw__list li:nth-child(n+4){display:none}
@@ -358,9 +359,8 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw--home-editorial .tw__expand:focus-visible{outline:2px solid #174f99;outline-offset:2px}
   .tw--home-editorial .tw__expand span{margin-left:.3rem}
   @media(min-width:1024px){.tw--home-editorial .tw__title br{display:none}}
-  @media(max-width:1023px){.tw--home-editorial .tw__list{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:680px){
-    .tw__opening,.tw--home-editorial .tw__list{grid-template-columns:minmax(0,1fr)}
+    .tw__opening,.tw--home-editorial .tw__groups{grid-template-columns:minmax(0,1fr)}
     .tw__opening{gap:.65rem}
     .tw__opening-art{max-height:138px;object-position:right}
     .tw--home-editorial .tw__title{font-size:clamp(1.75rem,8.2vw,2rem);line-height:1.5}

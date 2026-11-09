@@ -332,15 +332,14 @@ const matchdays = [
     <section class="brand-origin" aria-labelledby="origin-title" data-module="home_origin">
       <div class="v42-wrap origin-grid">
         <div class="origin-copy">
-          <p class="origin-index"><span>イバトコをつくった理由</span><small aria-hidden="true">IBATOCO / EDITOR'S NOTE</small></p>
+          <p class="origin-index">イバトコをつくった理由</p>
           <h2 id="origin-title"><span>検索では見つからない、</span><span>この土地の理由を。</span></h2>
           <p class="origin-lead">この街で店を続ける人の話。地図の先で出会う風景。<br />茨城を歩き、見つけた物語を、確かめながら届けます。</p>
-          <a href="/about/">私たちについて<V42Icon name="arrow" size={17} /></a>
+          <a href="/about/">イバトコについて<V42Icon name="arrow" size={17} /></a>
         </div>
-        <figure class="origin-photo">
-          <img src="/images/area/hitachi/station.jpg" alt="日立駅の大きな窓越しに太平洋を眺める人々" loading="lazy" decoding="async" width="1280" height="853" />
-          <figcaption><span>海の見える駅、日立。</span><a href="https://commons.wikimedia.org/wiki/File:Hitachi_Station,_Ibaraki_01.jpg" target="_blank" rel="license noopener">写真：Σ64 / CC BY 4.0</a></figcaption>
-        </figure>
+        <div class="origin-cover">
+          <img src="/og-default-rich-header-20260819.png" alt="イバトコのロゴと茨城の風景を描いたブランドビジュアル" loading="lazy" decoding="async" width="1200" height="630" />
+        </div>
       </div>
     </section>
 
@@ -747,22 +746,21 @@ const matchdays = [
   }
 
   /* ── イバトコをつくった理由 ── */
-  .brand-origin{background:#203d46;color:#fdf6e7}
-  .origin-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(1.75rem,4vw,3.6rem);align-items:center;padding-block:clamp(2.6rem,5vw,4.75rem)}
-  .origin-index{display:flex;align-items:baseline;flex-wrap:wrap;gap:.2rem 1rem;padding-bottom:.6rem;border-bottom:1px solid #cfb67e7a;color:#f1d499;font:500 .875rem/1.6 var(--font-brand-body);letter-spacing:.075em}
-  .origin-index small{color:#d4c6a9;font:500 .625rem/1.6 var(--font-brand-meta);letter-spacing:.14em}
-  .brand-origin h2{margin-top:.9rem;color:inherit;font-size:clamp(1.8rem,3.22vw,3rem);line-height:1.45}
+  .brand-origin{border-block:1px solid #d6ded6;background:#f7f7ef}
+  .origin-grid{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);gap:clamp(1.65rem,4.6vw,4rem);align-items:center;padding-block:clamp(2.25rem,5.5vw,5rem)}
+  .origin-index{display:flex;align-items:center;gap:.65rem;color:#416574;font-size:.8125rem;font-weight:700;letter-spacing:.12em}
+  .origin-index::before{content:"";width:1.4rem;height:1px;background:#8c956f}
+  .brand-origin h2{margin-top:.75rem;font-size:clamp(2rem,3.85vw,3.35rem);line-height:1.35}
   .brand-origin h2 span{display:block}
-  .origin-lead{max-width:34rem;margin-top:1.05rem;color:#eee8d9;font-size:clamp(.9375rem,1.2vw,1.0625rem);line-height:1.95;word-break:auto-phrase}
-  .origin-copy>a{display:inline-flex;align-items:center;gap:1.4rem;min-height:44px;margin-top:1rem;border-bottom:1px solid #cfb67e;color:#fdf6e7;font-size:.875rem;font-weight:700}
-  .origin-copy>a:hover{color:#f1d499}
-  .brand-origin a:focus-visible{outline:2px solid #f1d499;outline-offset:3px}
-  .origin-photo{min-width:0;margin:0;padding:.4rem .4rem 0;background:#fff9e9;color:#345159}
-  .origin-photo img{display:block;width:100%;height:auto;aspect-ratio:1.52;object-fit:cover;object-position:center 55%}
-  .origin-photo figcaption{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.15rem .75rem;padding:.4rem .25rem .45rem;font-size:.6875rem;line-height:1.6}
-  .origin-photo figcaption a{text-decoration:underline;text-underline-offset:.2em}
-  .origin-photo a:focus-visible{outline-color:#345159}
-  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.4rem}.brand-origin h2{font-size:clamp(1.5rem,7.5vw,2.4rem)}}
+  .brand-origin h2 span:first-child{margin-bottom:.24em;color:#45666c;font-size:.7em}
+  .origin-lead{max-width:31rem;margin-top:1rem;color:#405953;font-size:clamp(.9375rem,1.2vw,1.0625rem);line-height:1.9;word-break:auto-phrase}
+  .origin-copy>a{display:inline-flex;align-items:center;gap:1.2rem;min-height:44px;margin-top:.9rem;border-bottom:1px solid #6a8790;color:#2c5363;font-size:.875rem;font-weight:700}
+  .origin-copy>a:hover{color:var(--v42-blue);border-color:currentColor}
+  .brand-origin a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
+  .origin-cover{position:relative;isolation:isolate;min-width:0;margin:0 .5rem .5rem 0}
+  .origin-cover::before{content:"";position:absolute;inset:.5rem -.5rem -.5rem .5rem;z-index:-1;border:1px solid #b7c7c8;background:#e3eced}
+  .origin-cover img{display:block;width:100%;height:auto;border:1px solid #c7d4d4}
+  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.35rem}.brand-origin h2{font-size:clamp(1.75rem,8.6vw,2.65rem)}}
 
   /* ── 取材と編集（3項目） ── */
   .process-home{background:#f6f1e6}
