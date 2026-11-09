@@ -1,6 +1,6 @@
 {
   "team": "kashima-antlers",
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-10",
   "matches": [
     {
       "id": "kashima-antlers-2026-08-07-j1-01",
@@ -1004,14 +1004,19 @@
       "opponent": "ブリーラム・ユナイテッド",
       "homeAway": "away",
       "venue": "ブリーラムスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
-          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
-          "accessedAt": "2026-10-18"
+          "label": "鹿島アントラーズ公式｜ブリーラム・ユナイテッド戦 試合結果",
+          "url": "https://www.antlers.co.jp/blogs/games/20261104191501",
+          "accessedAt": "2026-11-10"
         }
-      ]
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 0
+      },
+      "recap": "ブリーラムスタジアムでブリーラム・ユナイテッドと0-0で引き分けました。"
     },
     {
       "id": "kashima-antlers-2026-11-07-j1-14",
@@ -1023,17 +1028,22 @@
       "opponent": "FC東京",
       "homeAway": "away",
       "venue": "味の素スタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜試合日程・結果",
-          "url": "https://www.antlers.co.jp/blogs/games",
-          "accessedAt": "2026-11-01"
+          "label": "Ｊリーグ公式｜FC東京対鹿島アントラーズ 試合結果",
+          "url": "https://www.jleague.jp/match/j1/2026/110709/lineup/",
+          "accessedAt": "2026-11-10"
         }
       ],
       "broadcast": [
         "DAZN"
-      ]
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 2
+      },
+      "recap": "味の素スタジアムでFC東京に0-2で敗れました。"
     },
     {
       "id": "kashima-antlers-2026-11-11-levain-1",
