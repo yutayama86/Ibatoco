@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-03",
+  "updatedAt": "2026-11-10",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1592,6 +1592,69 @@
         "logisticsDemand": "unknown"
       },
       "notes": "大会公式（主催：高萩市・高萩市教育委員会）で11月29日、さくら宇宙公園を確認。申込締切は大会サイトが11月3日に延長、市のページは10月30日と食い違い。"
+    },
+    {
+      "id": "kasama-chiisana-marche-mederu-autumn-2026",
+      "name": "ちいさなマルシェめでる～秋の実り～",
+      "municipality": "kasama",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://kasama-crafthills.com/2026/11/03/%E3%80%8C%E3%81%A1%E3%81%84%E3%81%95%E3%81%AA%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7%E3%82%81%E3%81%A7%E3%82%8B%EF%BD%9E%E7%A7%8B%E3%81%AE%E5%AE%9F%E3%82%8A%EF%BD%9E%E3%80%8D11-14%E3%88%AF%E3%83%BB15/",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "low"
+      },
+      "notes": "笠間工芸の丘公式で11月14・15日、10:00〜16:00、笠間工芸の丘特設会場、無料駐車場、主催BOOK KASAMAを確認。荒天等による中止時は公式サイト・Instagramで告知。開催4日前の未記事・未まとめ候補として当日掲載判断へ。"
+    },
+    {
+      "id": "mito-arigacho-matsuri-2026",
+      "name": "ありがちょ祭り",
+      "municipality": "mito",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "水戸市・千波湖11月イベント情報で11月14〜15日、ふれあい広場、Live＆キャンプイベント、主催センバヤマスタジオを確認。詳細・料金・交通は主催者一次情報の追加確認後に記事化判断。"
+    },
+    {
+      "id": "mito-wan-park-2026",
+      "name": "水戸Wanパーク",
+      "municipality": "mito",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "水戸市・千波湖11月イベント情報で11月21〜22日、ふれあい広場、犬種グッズ・ディスク大会・マルシェ・スタンプラリー・キッチンカーを確認。ペット同伴条件・料金・交通は主催者一次情報の追加確認後に記事化判断。"
     }
   ]
 }
