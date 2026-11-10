@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-news-ibaraki-passport-2026',
+    date: '2026-11-10',
+    url: '/news/ibaraki-passport-2026/',
+    kind: 'on-page',
+    change: '交付窓口の変更を反映（県庁は11/10から2階広報コーナー、県民センター4か所の場所・時間、県西は11/10〜13に4階第3会議室）',
+    queries: ['茨城パスポート 受け取り', '茨城パスポート どこでもらえる', '茨城県 パスポート 申請 場所'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261110-news-kashima-jeonbuk-acle-rail-guide-202',
     date: '2026-11-10',
     url: '/news/kashima-jeonbuk-acle-rail-guide-2026-11-25/',
