@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '鹿島vs全北現代（11/25）の電車アクセスを新規公開（臨時停車の時刻・夜の帰りの列車・切符）',
     queries: ['鹿島アントラーズ 全北現代 アクセス', 'カシマサッカースタジアム 電車 帰り', '鹿島サッカースタジアム駅 臨時停車'],
-    commit: 'PENDING',
+    commit: '034f186',
   },
   {
     id: '20261110-news-kashima-shimizu-rail-guide-2026-11-',
@@ -64,7 +64,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '鹿島vs清水（11/20）の電車アクセスを新規公開（臨時停車の時刻・夜の帰りの列車・切符）',
     queries: ['鹿島アントラーズ 清水エスパルス アクセス', '鹿島サッカースタジアム駅 臨時停車', 'メルカリスタジアム 電車 帰り'],
-    commit: 'PENDING',
+    commit: '034f186',
   },
   {
     id: '20261110-home-regional-supporter-release',
