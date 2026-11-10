@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '鹿島vs横浜FM（11/15）の電車アクセスを新規公開（臨時停車の時刻・帰りの列車・切符・あんこう祭との同日開催）',
     queries: ['鹿島アントラーズ 横浜FM アクセス', '鹿島サッカースタジアム駅 臨時停車', 'メルカリスタジアム 電車', '鹿島アントラーズ 対 横浜F・マリノス'],
-    commit: 'PENDING',
+    commit: '9e75368',
   },
   {
     id: '20261110-home-regional-supporter-release',
