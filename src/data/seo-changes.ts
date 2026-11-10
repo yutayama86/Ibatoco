@@ -49,6 +49,27 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-home-regional-supporter-release',
+    date: '2026-11-10',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPの協賛欄に地域サポーターの募集と掲載中の事業者一覧を反映（#562）',
+    queries: [],
+    commit: '14f16f15',
+    experimentType: 'template',
+    note: '前倒し公開の承認を受け、#562の本番反映日から28日間を観測する。#563で共通データを先に追加。過去の観測記録は履歴として扱う。',
+  },
+  {
+    id: '20261110-regional-supporter-offer',
+    date: '2026-11-10',
+    url: '/sponsor/',
+    kind: 'on-page',
+    change: '地域サポーターの掲載内容と19,800円（税別）／3か月の料金を案内し、申込と規約を更新（#562）',
+    queries: [],
+    commit: '14f16f15',
+    experimentType: 'template',
+  },
+  {
     id: '20261110-events-kairakuen-guide',
     date: '2026-11-10',
     url: '/events/kairakuen-guide/',

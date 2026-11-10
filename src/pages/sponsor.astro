@@ -11,47 +11,27 @@ import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
-import { getEvents, getNews } from '../lib/content';
 import snapshot from '../../data/editorial/performance-snapshot.json';
-import { SPONSOR_PLANS, MONITOR_OFFER, MEMBER_DISCOUNT, memberDiscountText, yen } from '../data/sponsorship';
+import { REGIONAL_SUPPORTER_PLAN as plan, yen } from '../data/sponsorship';
 
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
+const inquiryUrl = '/contact/?subject=協賛・広告のご相談';
 
-// ---- 実数（集計データから） ----
-const ga4 = snapshot.windows.ga4;
-const gsc = snapshot.windows.gsc;
-const num = (value: number) => value.toLocaleString('ja-JP');
-const channels = ga4.channelRecent7 as { channel: string; sessions: number }[];
-const totalSessions = channels.reduce((sum, row) => sum + row.sessions, 0);
-const organic = channels.find((row) => row.channel === 'Organic Search')?.sessions ?? 0;
-const organicShare = totalSessions > 0 ? Math.round((organic / totalSessions) * 100) : null;
+const homeViews = snapshot.ga4TopPages.recent28.find((row) => row.path === '/')?.views;
 const asOfLabel = formatJapaneseDate(parseDateOnly(snapshot.asOf));
-const growth = gsc.recent7VsPrevious7.impressionsPct;
-
 const stats = [
-  { value: num(snapshot.northStar.current), label: 'ページビュー（直近28日）' },
-  ...(typeof ga4.recent28.users === 'number' && Number.isFinite(ga4.recent28.users)
-    ? [{ value: num(ga4.recent28.users), label: 'ユーザー（直近28日）' }] : []),
-  { value: num(gsc.recent28.impressions), label: 'Google検索での表示回数（直近28日）' },
-  ...(organicShare === null ? [] : [{ value: `${organicShare}%`, label: '検索から来た人の割合（直近7日）' }]),
+  ...(typeof homeViews === 'number' && Number.isFinite(homeViews)
+    ? [{ value: homeViews, label: 'トップページの閲覧数' }] : []),
+  { value: snapshot.northStar.current, label: 'サイト全体の閲覧数' },
 ];
 
-// ---- よく読まれたページ（トップページを除く上位3件） ----
-const [news, events] = await Promise.all([getNews(), getEvents()]);
-const titleByPath = new Map<string, string>();
-for (const item of news) titleByPath.set(`/news/${item.id.split('/').pop()}/`, item.data.title.split('｜')[0]);
-for (const item of events) titleByPath.set(`/events/${item.id.split('/').pop()}/`, item.data.title.split('｜')[0]);
-const topPages = (snapshot.ga4TopPages.recent28 as { path: string; views: number }[])
-  .filter((row) => row.path !== '/' && titleByPath.has(row.path))
-  .slice(0, 3)
-  .map((row) => ({ ...row, title: titleByPath.get(row.path)! }));
-
 const faq = [
-  { q: '集客や売上の効果は保証されますか。', a: '保証しません。お約束できるのは、掲載の内容と期間、そして実測した数字をそのままご報告することです。' },
-  { q: '協賛すると、記事での扱いや検索の順位は変わりますか。', a: '変わりません。協賛の有無で、記事の事実・評価・並び順を変えることはありません。協賛の枠と記事は、PRの表示で分けています。' },
-  { q: '支払いはいつですか。', a: '掲載を始めたあとにご請求します。料金は事前にお見積りでお伝えし、合意いただいてから進めます。' },
+  { q: '何を用意すればよいですか。', a: '掲載するお名前、ロゴの画像、公式サイトのURLをお知らせください。ロゴは掲載の許諾があるものをご用意ください。' },
+  { q: '支払いはいつですか。', a: `掲載を始めたあとに、${plan.duration}分を一括でご請求します。お支払いは銀行振込で、期限は請求書の発行月の翌月末日です。` },
+  { q: '掲載を続けたい場合はどうすればよいですか。', a: '掲載終了時にご希望をうかがい、次の掲載期間と料金に合意いただいてから更新します。' },
+  { q: '協賛枠の表示回数は分かりますか。', a: '掲載後、ご希望に応じて、計測できた範囲の表示回数とリンククリック数をお伝えします。' },
+  { q: '集客や売上の効果は保証されますか。', a: 'お約束するのは事前に合意した掲載内容と期間です。集客・売上・検索順位の成果は保証の対象外です。' },
   { q: '掲載をお断りすることはありますか。', a: '内容を確認できないもの、法令や公序良俗に反するもの、読者に誤解を与えるおそれがあるものは、お断りすることがあります。' },
-  { q: '紹介文や写真は、こちらで用意するのですか。', a: 'イベント協賛枠は、紹介文（120字以内）と写真1枚をご用意ください。PR記事は、資料をいただければ文章はイバトコが書きます。' },
 ];
 
 const jsonLd = [
@@ -59,83 +39,71 @@ const jsonLd = [
   faqPageJsonLd(faq.map((item) => ({ question: item.q, answer: item.a }))),
 ];
 ---
-<BrandBase title="協賛のご案内｜イバトコ" description="茨城へ行く前に調べる人へ届ける、イバトコの協賛・広告のご案内。イベント協賛枠、PR記事、シーズン協賛の内容と料金、PRの表示方針、実測の数字を掲載しています。" jsonLd={jsonLd}>
+<BrandBase title="協賛のご案内｜イバトコ" description="茨城の取材と発信を支えるイバトコ地域サポーターのご案内。トップページの協賛欄に社名・ロゴ・公式サイトへのリンクを掲載する企業・店舗向けプランです。" jsonLd={jsonLd}>
   <header class="sp-head v42-hero bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">SPONSORSHIP</p>
     <h1>茨城へ行く前に、<br />調べる人へ届ける。</h1>
-    <p>イバトコの読者は、イベントや施設、制度の名前で検索して、行く前に調べに来る人です。その読者に向けて、PRと明示したうえで、事業や取り組みを紹介できます。</p>
+    <p>茨城を歩き、出会った人や場所を取材して届ける。イバトコの活動を支えてくださる企業・お店を、トップページの協賛欄でご紹介します。</p>
     <div class="sp-head__actions">
-      <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="head_apply">申し込む <span aria-hidden="true">→</span></a>
-      <a class="sp-head__sub" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="head">まず相談する</a>
+      <a class="sp-head__cta" href="#sp-plans-h">掲載内容・料金を見る <span aria-hidden="true">↓</span></a>
+      <a class="sp-head__sub" href={inquiryUrl} data-sponsor-cta="head">協賛について相談する</a>
     </div>
     <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
   </header>
 
+  <section class="sp-plans" aria-labelledby="sp-plans-h"><div class="bp-wrap">
+    <p class="bp-kicker">SUPPORTER</p>
+    <h2 id="sp-plans-h">掲載内容と料金</h2>
+    <article class="sp-plan">
+      <div class="sp-plan__details">
+          <p class="sp-plan__for">企業・店舗・団体向け</p>
+          <h3>{plan.name}</h3>
+          <p class="sp-plan__price"><strong>{yen(plan.price)}</strong><span>（税別）／{plan.duration}</span></p>
+          <ul>
+            <li>トップページ下部の協賛欄に社名・ロゴを掲載</li>
+            <li>公式サイトや店舗ページへのリンク1つ</li>
+            <li>掲載開始後に{plan.duration}分を一括でお支払い</li>
+          </ul>
+          <a class="sp-head__cta sp-plan__apply" href="/sponsor/apply/" data-sponsor-cta="apply_regional-supporter">地域サポーターに申し込む <span aria-hidden="true">→</span></a>
+      </div>
+      <figure class="sp-placement">
+        <figcaption>掲載イメージ<span>トップページ下部</span></figcaption>
+        <div class="sp-placement__example">
+          <p>茨城を、一緒におもしろく。</p>
+          <p class="sp-placement__label">地域サポーター（協賛広告）</p>
+          <div class="sp-placement__logo"><span aria-hidden="true">LOGO</span>事業者名 <span aria-hidden="true">↗︎</span></div>
+        </div>
+      </figure>
+    </article>
+  </div></section>
+
   <section class="sp-stats bp-wrap bp-section" aria-labelledby="sp-stats-h">
     <p class="bp-kicker">NUMBERS</p>
-    <h2 id="sp-stats-h">実測の数字</h2>
+    <h2 id="sp-stats-h">イバトコの閲覧数</h2>
     <dl class="sp-stats__grid">
-      {stats.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+      {stats.map((item) => <div><dt>{item.label}</dt><dd>{item.value.toLocaleString('ja-JP')} <span>PV</span></dd></div>)}
     </dl>
-    {organicShare === null && <p class="sp-note">チャネル別セッション数が未取得のため、検索流入率は表示していません。</p>}
-    <p class="sp-note">Google検索での表示回数は、直近7日で前の週より{growth >= 0 ? `${growth}%増えました` : `${Math.abs(growth)}%減りました`}。数字はGoogle Analytics 4とGoogle Search Consoleの実測値です（{asOfLabel}時点の集計）。</p>
-    {topPages.length > 0 && (
-      <div class="sp-top">
-        <h3>よく読まれたページ（直近28日）</h3>
-        <ol>{topPages.map((row) => <li><a href={row.path}>{row.title}</a><span>{num(row.views)}ページビュー</span></li>)}</ol>
-        <p class="sp-note">イベントや季節の記事は、開催の数週間前から読まれています。</p>
-      </div>
-    )}
+    <p class="sp-note">{asOfLabel}時点の直近28日間の実測値（Google Analytics 4）。協賛枠の表示回数とクリック数は掲載後に計測します。</p>
   </section>
-
-  <section class="sp-plans" aria-labelledby="sp-plans-h"><div class="bp-wrap">
-    <p class="bp-kicker">PLANS</p>
-    <h2 id="sp-plans-h">協賛メニューと料金</h2>
-    <p class="sp-plans__lead">月額の契約はありません。1イベント、1本から始められます。料金はすべて税別です。</p>
-    <div class="sp-plans__grid">
-      {SPONSOR_PLANS.map((plan) => (
-        <article id={plan.id}>
-          <p class="sp-plan__for">{plan.forWhom}</p>
-          <h3>{plan.name}</h3>
-          <p class="sp-plan__price"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
-          <p class="sp-plan__summary">{plan.summary}</p>
-          <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
-          <a class="sp-plan__apply" href={`/sponsor/apply/?plan=${plan.id}`} data-sponsor-cta={`apply_${plan.id}`}>このメニューで申し込む <span aria-hidden="true">→</span></a>
-          {plan.options && (
-            <div class="sp-plan__options">
-              <p>オプション</p>
-              <ul>{plan.options.map((option) => <li>{option.label}：{yen(option.price)}{option.note && `（${option.note}）`}</li>)}</ul>
-            </div>
-          )}
-        </article>
-      ))}
-    </div>
-    <p class="sp-monitor"><strong>{MONITOR_OFFER.label}</strong>{MONITOR_OFFER.text}</p>
-    <p class="sp-monitor"><strong>{MEMBER_DISCOUNT.label}</strong>{memberDiscountText()}</p>
-  </div></section>
 
   <section class="sp-rules bp-wrap bp-section" aria-labelledby="sp-rules-h">
     <p class="bp-kicker">TRANSPARENCY</p>
     <h2 id="sp-rules-h">協賛しても、事実は変えない。</h2>
     <ul class="sp-rules__list">
-      <li>協賛の枠と記事は、必ず「PR」と文言で示します。</li>
-      <li>協賛の有無で、記事の事実・評価・並び順は変えません。</li>
-      <li>紹介文に、根拠のない「No.1」「必ず」などの表現は載せません。</li>
-      <li>ご報告する数字は実測値だけです。推計や見込みは使いません。</li>
+      <li>地域サポーターは「協賛広告」と明示してご紹介します。</li>
+      <li>取材・記事の評価・掲載順は編集方針に沿って決めます。</li>
     </ul>
     <p class="sp-links"><a class="sp-link" href="/about/pr-policy/">PR・広告の方針を読む →</a><a class="sp-link" href="/sponsor/terms/">協賛（広告）掲載規約を読む →</a></p>
   </section>
 
   <section class="sp-flow" aria-labelledby="sp-flow-h"><div class="bp-wrap">
     <p class="bp-kicker">FLOW</p>
-    <h2 id="sp-flow-h">ご相談から報告まで</h2>
+    <h2 id="sp-flow-h">お申し込みから掲載まで</h2>
     <ol>
-      <li><strong>お申し込み・ご相談</strong><span><a href="/sponsor/apply/">申込フォーム</a>から送ってください。メニューが決まっていなくても構いません</span></li>
-      <li><strong>お見積り</strong><span>掲載する記事・期間・料金をお伝えします。合意いただいてから進めます</span></li>
-      <li><strong>素材のご提供</strong><span>紹介文・写真・資料をお送りください</span></li>
-      <li><strong>掲載</strong><span>公開前に内容をご確認いただきます。掲載を始めたあとにご請求します</span></li>
-      <li><strong>ご報告</strong><span>表示回数・クリック数・閲覧数を、実測でお伝えします</span></li>
+      <li><strong>お申し込み</strong><span><a href="/sponsor/apply/">申込フォーム</a>から事業者名と公式サイトをお知らせください。</span></li>
+      <li><strong>掲載内容の確認</strong><span>利用許諾のあるロゴを返信メールでお送りください。掲載内容と期間をご確認いただきます。</span></li>
+      <li><strong>掲載・ご請求</strong><span>合意した日に掲載を始め、{plan.duration}分を一括でご請求します。</span></li>
     </ol>
   </div></section>
 
@@ -148,11 +116,11 @@ const jsonLd = [
   <section class="sp-cta v42-band bp-reading">
     <img class="sp-cta__art" src="/images/v42/kasama-market-print.webp" alt="" width="960" height="640" loading="lazy" decoding="async" />
     <p class="bp-kicker">CONTACT</p>
-    <h2>まずは、ご相談ください。</h2>
-    <p>メニューが決まっていれば、フォームから打ち合わせなしで申し込めます。決まっていなければ、目的と時期をうかがって合う形をご提案します。媒体資料もお送りできます。</p>
+    <h2>地域サポーターのお申し込み</h2>
+    <p>掲載前のご質問、以前のお見積りや個別の企画については、協賛の相談窓口へお寄せください。</p>
     <div class="sp-head__actions">
       <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="bottom_apply">申し込む <span aria-hidden="true">→</span></a>
-      <a class="sp-head__sub" href="/contact/?subject=協賛・広告のご相談" data-sponsor-cta="bottom">まず相談する</a>
+      <a class="sp-head__sub" href={inquiryUrl} data-sponsor-cta="bottom">協賛について相談する</a>
     </div>
   </section>
 </BrandBase>
@@ -166,7 +134,6 @@ const jsonLd = [
   .sp-head__actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.4rem;margin-top:2rem}
   .sp-head__actions .sp-head__cta{margin-top:0}
   .sp-head__sub{color:var(--color-tide);font-weight:700;border-bottom:1px solid}
-  .sp-plan__apply{align-self:flex-start;margin-top:1rem;color:var(--color-tide);font-weight:700;font-size:.9rem;border-bottom:1px solid}
   .sp-links{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem}
   .sp-head__cta:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   .sp-stats h2,.sp-plans h2,.sp-rules h2,.sp-flow h2,.sp-faq h2,.sp-cta h2{margin-top:.8rem;font:600 clamp(1.8rem,4.4vw,3.2rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
@@ -174,32 +141,84 @@ const jsonLd = [
   .sp-stats__grid>div{padding-top:1rem;border-top:2px solid var(--color-tide)}
   .sp-stats__grid dt{color:var(--color-soil);font-size:.84rem;line-height:1.7}
   .sp-stats__grid dd{margin:.3rem 0 0;font:600 clamp(2rem,4vw,2.8rem)/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
+  .sp-stats__grid dd span { font: 600 .85rem var(--font-brand-body); }
   .sp-note{max-width:var(--measure);margin-top:1.2rem;color:var(--color-soil);font-size:.84rem;line-height:1.9}
-  .sp-top{margin-top:2.5rem}
-  .sp-top h3{font:600 1.15rem/1.5 var(--font-brand-display);color:var(--color-ink)}
-  .sp-top ol{display:grid;margin-top:.9rem;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
-  .sp-top li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1rem;padding:.85rem 0;border-bottom:1px solid var(--color-mist)}
-  .sp-top li::before{content:none}
-  .sp-top a{color:var(--color-ink);font-weight:700;border-bottom:1px solid var(--color-mist)}
-  .sp-top span{color:var(--color-soil);font-size:.86rem;font-variant-numeric:tabular-nums}
   .sp-plans{padding-block:clamp(4rem,9vw,7rem);background:var(--color-white);border-block:1px solid var(--color-mist)}
-  .sp-plans__lead{max-width:var(--measure);margin-top:1.2rem;color:var(--color-soil);line-height:1.9}
-  .sp-plans__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1.25rem;margin-top:2.2rem}
-  .sp-plans__grid article{display:flex;flex-direction:column;padding:1.4rem;border:1px solid var(--color-mist);border-radius:.9rem;background:var(--color-paper)}
+  #sp-plans-h { scroll-margin-top: 7rem; }
+  .sp-plan {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    margin-top: 1.6rem;
+    padding: clamp(1.25rem, 4vw, 2.75rem);
+    border: 1px solid var(--color-mist);
+    border-radius: .75rem;
+    background: var(--color-paper);
+  }
   .sp-plan__for{color:var(--color-tide);font-size:.78rem;font-weight:700;letter-spacing:.04em}
-  .sp-plans__grid h3{margin-top:.4rem;font:600 1.4rem/1.4 var(--font-brand-display);color:var(--color-ink)}
+  .sp-plan h3{margin-top:.4rem;font:600 clamp(1.25rem,3vw,1.75rem)/1.5 var(--font-brand-display);color:var(--color-ink)}
   .sp-plan__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem;margin-top:.7rem}
-  .sp-plan__price strong{font:600 1.9rem/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
+  .sp-plan__price strong{font:600 clamp(1.9rem,4vw,3rem)/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
   .sp-plan__price span{color:var(--color-soil);font-size:.86rem}
-  .sp-plan__summary{margin-top:.8rem;color:var(--color-charcoal,var(--color-ink));font-size:.9rem;line-height:1.85}
-  .sp-plans__grid ul{display:grid;gap:.45rem;margin-top:.9rem;padding-left:1.1rem;list-style:disc}
-  .sp-plans__grid li{color:var(--color-soil);font-size:.86rem;line-height:1.8}
-  .sp-plan__options{margin-top:1rem;padding-top:.9rem;border-top:1px dashed var(--color-mist)}
-  .sp-plan__options>p{color:var(--color-ink);font-size:.84rem;font-weight:700}
-  .sp-plan__options ul{margin-top:.4rem}
-  .sp-monitor{max-width:var(--measure);margin-top:1.8rem;padding:1rem 1.2rem;border-radius:.75rem;background:var(--color-paper);border:1px solid var(--color-mist);color:var(--color-soil);font-size:.9rem;line-height:1.9}
-  .sp-monitor strong{margin-right:.6rem;color:var(--color-ink)}
-  .sp-monitor+.sp-monitor{margin-top:.8rem}
+  .sp-plan ul{display:grid;gap:.45rem;margin-top:1.05rem;padding-left:1.1rem;list-style:disc}
+  .sp-plan li{color:var(--color-soil);font-size:.875rem;line-height:1.8}
+  .sp-plan__apply { margin-top: 1.25rem; }
+  .sp-placement {
+    min-width: 0;
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid var(--color-mist);
+    border-radius: .5rem;
+    background: var(--color-white);
+  }
+  .sp-placement figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .25rem .75rem;
+    color: var(--color-ink);
+    font-size: .82rem;
+    font-weight: 700;
+  }
+  .sp-placement figcaption span { color: var(--color-soil); font-weight: 400; }
+  .sp-placement__example {
+    margin-top: .7rem;
+    padding: clamp(.75rem, 3vw, 1.3rem);
+    border: 1px solid var(--color-mist);
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .sp-placement__example > p:first-child {
+    font: 600 clamp(1rem, 2.4vw, 1.35rem)/1.5 var(--font-brand-display);
+    text-align: center;
+  }
+  .sp-placement__label {
+    margin-top: .85rem;
+    color: var(--color-soil);
+    font-size: .75rem;
+  }
+  .sp-placement__logo {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .25rem;
+    align-items: center;
+    margin-top: .45rem;
+    padding: .65rem .75rem;
+    border: 1px solid var(--color-mist);
+    border-radius: .3rem;
+    background: var(--color-white);
+    font-size: .82rem;
+  }
+  .sp-placement__logo span:first-child {
+    grid-column: 1 / -1;
+    color: var(--color-soil);
+    font-size: .7rem;
+    letter-spacing: .1em;
+  }
+  @media (max-width: 680px) {
+    .sp-plan { grid-template-columns: minmax(0, 1fr); }
+  }
   .sp-rules__list{display:grid;gap:0;margin-top:1.8rem;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
   .sp-rules__list li{padding:1rem 0;border-bottom:1px solid var(--color-mist);color:var(--color-ink);line-height:1.8}
   .sp-rules__list li::before{content:none}
