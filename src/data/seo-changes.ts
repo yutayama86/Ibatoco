@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式チラシ・会場図と大洗町の11/9発表を反映（あんこう汁販売11時へ訂正、整理券・小雨決行・Suica不可・電車時刻・うみまちライン迂回・駐車場未掲載）',
     queries: ['大洗あんこう祭 2026', '大洗あんこう祭 駐車場', '大洗あんこう祭 交通規制', '大洗あんこう祭 あんこう汁 整理券', '大洗あんこう祭 電車 アクセス'],
-    commit: 'PENDING',
+    commit: '3c58985',
     note: '観測窓中のため title・description は変更せず、公式発表の反映（seasonal-official）に限定',
     experimentType: 'fact',
   },
