@@ -98,3 +98,10 @@ export const memberPrice = () => {
 
 export const memberDiscountText = () =>
   `茨城県内の観光協会・商工会の会員の方は、イベント協賛枠を1割引き（${yen(memberPrice())}・税別）でご利用いただけます。申し込みの際に所属団体をお知らせください。初回モニター（半額）との併用はできません。`;
+
+/** 地域サポーターの料金と期間の正本。運用は docs/SPONSORSHIP.md。 */
+export const REGIONAL_SUPPORTER_PLAN = {
+  name: 'イバトコ地域サポーター',
+  price: 19_800,
+  duration: '3か月',
+} as const;
