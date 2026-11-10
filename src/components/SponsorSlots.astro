@@ -34,7 +34,8 @@ const slots = sponsorsForPage(path, today);
           {isHome ? (
             <a class="sp__supporter" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>
               {slot.image && <img {...slot.image} alt="" loading="lazy" decoding="async" />}
-              <span>{slot.name} <span aria-hidden="true">↗</span></span>
+              <span>{slot.name}</span>
+              <span class="sp__external" aria-hidden="true">↗︎</span>
             </a>
           ) : (
             <>
@@ -136,6 +137,7 @@ const slots = sponsorsForPage(path, today);
     background: var(--color-white);
   }
   .sp__supporter {
+    position: relative;
     display: grid;
     gap: .6rem;
     justify-items: center;
@@ -159,6 +161,12 @@ const slots = sponsorsForPage(path, today);
   .sp__supporter:hover span {
     text-decoration: underline;
     text-underline-offset: .2em;
+  }
+  .sp__external {
+    position: absolute;
+    inset: .45rem .6rem auto auto;
+    color: var(--color-soil);
+    font-size: .75rem;
   }
   @media (max-width: 640px) {
     .sp--home .sp__list {
