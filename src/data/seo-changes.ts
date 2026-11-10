@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-oarai-hatsuhinode-2027',
+    date: '2026-11-10',
+    url: '/events/oarai-hatsuhinode-2027/',
+    kind: 'new-article',
+    change: '大洗の初日の出・初詣2027を新規公開（日の出時刻・神社の開門時間・駐車場・バス、未発表事項を明記）',
+    queries: ['大洗 初日の出 2027', '大洗 初日の出', '大洗磯前神社 初詣', '大洗磯前神社 初詣 駐車場', '茨城 初日の出'],
+    commit: '8d0eb18',
+  },
+  {
     id: '20261110-events-tsukuba-autumn-2026',
     date: '2026-11-10',
     url: '/events/tsukuba-autumn-2026/',
