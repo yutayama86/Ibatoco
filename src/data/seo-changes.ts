@@ -49,6 +49,24 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-news-kashima-jeonbuk-acle-rail-guide-202',
+    date: '2026-11-10',
+    url: '/news/kashima-jeonbuk-acle-rail-guide-2026-11-25/',
+    kind: 'new-article',
+    change: '鹿島vs全北現代（11/25）の電車アクセスを新規公開（臨時停車の時刻・夜の帰りの列車・切符）',
+    queries: ['鹿島アントラーズ 全北現代 アクセス', 'カシマサッカースタジアム 電車 帰り', '鹿島サッカースタジアム駅 臨時停車'],
+    commit: '034f186',
+  },
+  {
+    id: '20261110-news-kashima-shimizu-rail-guide-2026-11-',
+    date: '2026-11-10',
+    url: '/news/kashima-shimizu-rail-guide-2026-11-20/',
+    kind: 'new-article',
+    change: '鹿島vs清水（11/20）の電車アクセスを新規公開（臨時停車の時刻・夜の帰りの列車・切符）',
+    queries: ['鹿島アントラーズ 清水エスパルス アクセス', '鹿島サッカースタジアム駅 臨時停車', 'メルカリスタジアム 電車 帰り'],
+    commit: '034f186',
+  },
+  {
     id: '20261110-news-kashima-yokohama-fm-levain-rail-gui',
     date: '2026-11-10',
     url: '/news/kashima-yokohama-fm-levain-rail-guide-2026-11-15/',
