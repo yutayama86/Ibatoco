@@ -193,6 +193,37 @@
         "data/editorial/approved-ui-resets.json",
         "src/data/seo-changes.ts"
       ]
+    },
+    {
+      "id": "20261110-regional-supporter-562-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 562,
+      "path": "/",
+      "baseSha": "22284bf03026f56350564257a2a0cf4dd83b87ac",
+      "previousChangeId": "20261109-home-editorial-layout",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-10",
+      "validThrough": "2026-11-10",
+      "reason": "オーナーが2026年11月10日（JST）にPR #562の前倒し公開を明示承認した。#563で共通データを先に追加した基点と、確認済みの画面差分だけに適用し、本番反映日からTOPの観測を取り直す。",
+      "restartChangeId": "20261110-home-regional-supporter-release",
+      "sourceBlobs": {
+        "src/components/SponsorSlots.astro": "862e6940923072744b754d5604c10a46424ae86e",
+        "src/pages/about/pr-policy.astro": "b25f274dcdebc0491e4f337597f22ce03739c476",
+        "src/pages/index.astro": "07961051b012583e9244c7d47389695ea47a7006",
+        "src/pages/sponsor.astro": "300b014c3499d1b32f2f1451a93b01001bacb820",
+        "src/pages/sponsor/apply.astro": "2bbec8a5061f719e269b666070a8c74e5209db1c",
+        "src/pages/sponsor/terms.astro": "fd660698f2222a5556fa167e46abdc0c2751c973"
+      },
+      "allowedFiles": [
+        "src/components/SponsorSlots.astro",
+        "src/pages/about/pr-policy.astro",
+        "src/pages/index.astro",
+        "src/pages/sponsor.astro",
+        "src/pages/sponsor/apply.astro",
+        "src/pages/sponsor/terms.astro",
+        "data/editorial/approved-ui-resets.json",
+        "src/data/seo-changes.ts"
+      ]
     }
   ]
 }
