@@ -1655,6 +1655,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "水戸市・千波湖11月イベント情報で11月21〜22日、ふれあい広場、犬種グッズ・ディスク大会・マルシェ・スタンプラリー・キッチンカーを確認。ペット同伴条件・料金・交通は主催者一次情報の追加確認後に記事化判断。"
+    },
+    {
+      "id": "mito-ume-matsuri-2027",
+      "name": "第131回水戸の梅まつり",
+      "municipality": "mito",
+      "startDate": "2027-02-11",
+      "endDate": "2027-03-22",
+      "officialUrl": "https://mitokoumon.com/ume/",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": "/events/mito-ume-matsuri-2027/",
+      "articleUpdatedAt": "2026-11-10",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "水戸観光コンベンション協会が第131回の日程を公開。主な行事・開花状況・偕楽園臨時駅は2026-11-10時点で未発表のため、発表後に更新する。検索需要は未取得。"
     }
   ]
 }

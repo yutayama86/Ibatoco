@@ -245,6 +245,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "mito-natto-gourmet": "/images/card/mito-natto-gourmet-6c5eb34d.png",
   "mito-oarai-1night-model-course": "/images/card/mito-oarai-1night-model-course-d83b4767.png",
   "mito-station-walk-guide": "/images/card/mito-station-walk-guide-6c5eb34d.png",
+  "mito-ume-matsuri-2027": "/images/card/mito-ume-matsuri-2027-6c5eb34d.png",
   "nagakubo-sekisui-kinenkan-takahagi-guide": "/images/card/nagakubo-sekisui-kinenkan-takahagi-guide-19f4a7d1.png",
   "nakaminato-ichibazushi-guide": "/images/card/nakaminato-ichibazushi-guide-4e47820e.png",
   "nakaminato-kaijo-hanabi-2026": "/images/card/nakaminato-kaijo-hanabi-2026-4e47820e.png",
