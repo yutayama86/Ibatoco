@@ -56,6 +56,8 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '11/6の公式色づき（山頂・中腹を区別）、11月特別ダイヤ、夜間運行日程の更新、駐車場の満車時刻と混雑予想日、シャトルバス、11/22運休を反映。title・descriptionを検索意図に合わせて変更',
     queries: ['筑波山 紅葉 2026', '筑波山 紅葉 見頃', '筑波山 ケーブルカー 夜間運行', '筑波山 駐車場 混雑', '筑波山 アクセス バス'],
     commit: '5486a99',
+  },
+  {
     id: '20261110-events-tsukuba-marathon-2026',
     date: '2026-11-10',
     url: '/events/tsukuba-marathon-2026/',
@@ -63,6 +65,8 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '11/3発表のバス運休（筑波山シャトル・つくバス7路線・循環路線・つくば号）と代替バスを反映し、未発表の記述を解消。title・descriptionにバス運休を追加',
     queries: ['つくばマラソン 交通規制', 'つくばマラソン バス 運休', 'つくばマラソン 筑波山 シャトルバス'],
     commit: '27cafc5',
+  },
+  {
     id: '20261110-events-oarai-ankou-matsuri-2026',
     date: '2026-11-10',
     url: '/events/oarai-ankou-matsuri-2026/',
