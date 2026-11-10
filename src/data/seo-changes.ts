@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '11/3発表のバス運休（筑波山シャトル・つくバス7路線・循環路線・つくば号）と代替バスを反映し、未発表の記述を解消。title・descriptionにバス運休を追加',
     queries: ['つくばマラソン 交通規制', 'つくばマラソン バス 運休', 'つくばマラソン 筑波山 シャトルバス'],
-    commit: 'PENDING',
+    commit: '27cafc5',
   },
   {
     id: '20261109-home-editorial-layout',
