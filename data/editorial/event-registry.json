@@ -1472,13 +1472,13 @@
       "name": "大洗の初日の出・大洗磯前神社の初詣（2027年元日）",
       "municipality": "oarai",
       "startDate": "2027-01-01",
-      "endDate": "2027-01-01",
-      "officialUrl": null,
+      "endDate": "2027-01-03",
+      "officialUrl": "https://www.oarai-isosakijinja.net/syougatu/",
       "discoveredAt": "2026-10-17",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": "/events/oarai-hatsuhinode-2027/",
+      "articleUpdatedAt": "2026-11-10",
+      "status": "published",
       "importance": "large",
       "signals": {
         "searchDemand": "medium",
@@ -1486,7 +1486,7 @@
         "localSpend": "medium",
         "logisticsDemand": "high"
       },
-      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の大型需要として登録。Googleトレンド（相対値・土浦花火の5年最大=100）で「大洗 初日の出」は5、「茨城 初日の出」は4（あんこう祭は2）。対応記事なし。2026〜27年の交通規制・駐車場・神社の案内は10/17時点で未確認のため、大洗町・大洗観光協会・大洗磯前神社の公式発表を待って verified にする。"
+      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の大型需要として登録。Googleトレンド（相対値・土浦花火の5年最大=100）で「大洗 初日の出」は5、「茨城 初日の出」は4（あんこう祭は2）。対応記事なし。2026〜27年の交通規制・駐車場・神社の案内は10/17時点で未確認のため、大洗町・大洗観光協会・大洗磯前神社の公式発表を待って verified にする。 2026-11-10：大洗磯前神社の初詣案内（年の記載なし）・大洗観光協会の特集・国立天文台の日の出時刻で記事化。2027年の交通規制・臨時バスの時刻と運賃は未発表のため、発表後に更新する。"
     },
     {
       "id": "katsuta-marathon-2027",

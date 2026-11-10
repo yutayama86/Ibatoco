@@ -79,3 +79,21 @@
 ## ChatGPT の日次運用（Windsor.ai）との関係
 
 スナップショットは ChatGPT の日次運用でも更新されることがある（`source.primary` が Windsor.ai の日）。同じ日に両方が `windows.ga4`・`windows.gsc` を書くと PR が競合する。この同期が動き出したら、日別の GA4/GSC は**この同期を正**とし、ChatGPT は Windsor でしか取れない項目（上位ページ・検索語・送客イベントのページ別など）だけを更新する。
+
+## 数字が止まったとき（2026-11-10、Issue #545 の復旧手順）
+
+2026-10-29〜11-09 に main のスナップショットが `asOf: 2026-10-28` で止まった。取得は毎日成功していて、**同期 PR が開かれていなかった**のが原因だった（Windsor.ai とフォールバックの Google Sheet は、この経路に関係しない）。秘密値はどの手順でも表示・変更しない。
+
+1. **検知**：`npm run verify`（CI の Validate site）が `GA4/GSC の鮮度（P0）` の警告を出す。手元では `node scripts/analytics-freshness.mjs`。判定は `src/lib/analytics-freshness.mjs`
+   - 同期が毎日成功していても確定日は「今日の3日前」。遅れは、そこからの日数で数える
+   - GA4 は3日（72時間）以上、GSC は4日（96時間）以上の遅れで警告。確定日が読めないときは「未取得」とし、前回の値を最新扱いしない
+   - 警告は記事の公開を止めない（終了コード0）。止めたい場面では `--strict`
+2. **切り分け**（上から順に）
+   - Actions →「Read-only GA4 and GSC via Google API」の直近の実行が成功しているか
+   - 成功している → ブランチ `bot/google-analytics-daily` の最新コミットの日付を見る。新しければ、**PR が開いていないだけ**。`bot/google-analytics-daily` → `main` の PR を開く（1回開けば、以後は毎日その PR が更新される。マージした翌日にまた1回開く）
+   - fetch ジョブが失敗 → ログの preflight の行を読む。認証（Workload Identity）や Google 側の権限に見える失敗は、設定を変えずにオーナーへ報告する
+   - sync ジョブが失敗 → `npm run verify` のどの検査で落ちたかを読む（スナップショット以外の原因で落ちることがある）
+3. **復旧後の確認**：PR の `data/editorial/performance-snapshot.json` だけが変わっていること、確定日が GA4・GSC とも進んでいること、0埋めが無いこと。マージ後、翌日の実行でブランチが更新されること
+4. **35日を超えて止まった場合**：ワークフローは直近35日しか書かない。それより前は Google 側に残っているので、必要ならオーナーの判断で手動で取り出す（推測で埋めない）
+
+恒久対応の選択肢は上の「選択肢の比較と推奨」のとおり（PR を人が開く運用 B か、Actions に PR 作成を許す設定 A）。どちらにするかはオーナーが決める。
