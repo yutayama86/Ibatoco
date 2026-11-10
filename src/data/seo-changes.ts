@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '交付窓口の変更を反映（県庁は11/10から2階広報コーナー、県民センター4か所の場所・時間、県西は11/10〜13に4階第3会議室）',
     queries: ['茨城パスポート 受け取り', '茨城パスポート どこでもらえる', '茨城県 パスポート 申請 場所'],
-    commit: 'PENDING',
+    commit: 'e0478d6',
     experimentType: 'fact',
   },
   {
