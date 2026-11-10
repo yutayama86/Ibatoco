@@ -15,29 +15,39 @@ import { todayDateOnlyString } from '../lib/date-only.js';
 
 interface Props {
   path: string;
-  pageType: 'news' | 'events';
+  pageType: 'home' | 'news' | 'events';
   municipality?: string;
 }
 
 const { path, pageType, municipality } = Astro.props;
+const isHome = pageType === 'home';
 const today = todayDateOnlyString();
 const slots = sponsorsForPage(path, today);
 ---
 
 {slots.length > 0 && (
-  <aside class="sp" aria-label="協賛（広告）" data-sponsor-block data-page-type={pageType} data-municipality={municipality} hidden>
-    <p class="sp__label"><span class="sp__tag">PR</span>協賛（広告）｜この枠は広告です。記事の内容とは関係なく、掲載の順位や評価も変わりません。</p>
+  <aside class:list={['sp', { 'sp--home': isHome }]} aria-label="協賛（広告）" data-sponsor-block data-page-type={pageType} data-municipality={municipality} hidden>
+    <p class="sp__label"><span class="sp__tag">PR</span>{isHome ? '地域サポーター（協賛広告）' : '協賛（広告）｜この枠は広告です。記事の内容とは関係なく、掲載の順位や評価も変わりません。'}</p>
     <ul class="sp__list">
       {slots.map((slot, index) => (
         <li class="sp__item" data-sponsor-id={slot.id} data-start={slot.start} data-end={slot.end} data-position={String(index + 1)} hidden>
-          {slot.image && (
-            <img src={slot.image.src} alt={slot.image.alt} width={slot.image.width} height={slot.image.height} loading="lazy" decoding="async" />
+          {isHome ? (
+            <a class="sp__supporter" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>
+              {slot.image && <img {...slot.image} alt="" loading="lazy" decoding="async" />}
+              <span>{slot.name} <span aria-hidden="true">↗</span></span>
+            </a>
+          ) : (
+            <>
+              {slot.image && (
+                <img src={slot.image.src} alt={slot.image.alt} width={slot.image.width} height={slot.image.height} loading="lazy" decoding="async" />
+              )}
+              <div class="sp__body">
+                <p class="sp__name">{slot.name}</p>
+                <p class="sp__text">{slot.text}</p>
+                <a class="sp__link" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>{slot.cta}&nbsp;<span aria-hidden="true">↗</span></a>
+              </div>
+            </>
           )}
-          <div class="sp__body">
-            <p class="sp__name">{slot.name}</p>
-            <p class="sp__text">{slot.text}</p>
-            <a class="sp__link" href={slot.url} target="_blank" rel="sponsored noopener" data-sponsor-link>{slot.cta}&nbsp;<span aria-hidden="true">↗</span></a>
-          </div>
         </li>
       ))}
     </ul>
@@ -109,4 +119,50 @@ const slots = sponsorsForPage(path, today);
   .sp__link{display:inline-block;margin-top:.55rem;color:var(--interior-blue,var(--color-tide));font-weight:700;font-size:.86rem;border-bottom:1px solid}
   .sp__link:focus-visible{outline:2px solid var(--interior-blue,var(--color-tide));outline-offset:2px}
   @media(max-width:520px){.sp{padding:1rem}.sp__item{grid-template-columns:minmax(0,1fr)}.sp__item img{width:100%;height:auto;aspect-ratio:4/3}}
+
+  .sp--home {
+    margin: clamp(1.3rem, 3vw, 2.2rem) 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .sp--home .sp__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .sp--home .sp__item {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0;
+    border-radius: .375rem;
+    background: var(--color-white);
+  }
+  .sp__supporter {
+    display: grid;
+    gap: .6rem;
+    justify-items: center;
+    align-content: center;
+    min-height: 7.5rem;
+    padding: .8rem;
+    color: var(--color-ink);
+    font-size: .875rem;
+    font-weight: 700;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .sp--home .sp__supporter img {
+    width: 100%;
+    max-width: 10rem;
+    height: 3.25rem;
+    border-radius: 0;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+  .sp__supporter:hover span {
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+  @media (max-width: 640px) {
+    .sp--home .sp__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
 </style>

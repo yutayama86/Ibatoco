@@ -10,8 +10,10 @@ import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
 import HomeJourney from '../components/HomeJourney.astro';
 import V42Icon from '../components/V42Icon.astro';
 import NewsCard from '../components/NewsCard.astro';
+import SponsorSlots from '../components/SponsorSlots.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
+import { REGIONAL_SUPPORTER_PLAN } from '../data/sponsorship';
 import { FOOD_GUIDES, FOOD_PHOTOS, licenseUrl } from '../data/food-library';
 
 // 終わった催しのニュースはTOPに出さない（/news/ の一覧と記事URLには残る）
@@ -348,28 +350,22 @@ const matchdays = [
     <section class="partner" data-module="home_partner" aria-labelledby="partner-title">
       <div class="v42-wrap">
         <header class="partner__head">
-          <p class="v42-label">地域のパートナー募集中</p>
+          <p class="v42-label">地域サポーター募集</p>
           <h2 id="partner-title">茨城を、一緒に<br class="v42-br-phone" />おもしろく。</h2>
-          <p>街の魅力を届けるイバトコを、<br class="v42-br-phone" />ともに育てる企業・お店のみなさん。</p>
+          <p>茨城の取材と発信を支えてくださる企業・お店を募集しています。</p>
         </header>
-        <a class="partner__wall" href="/sponsor/" aria-label="協賛・パートナーの募集枠を見る">
-          {Array.from({ length: 6 }, (_, index) => (
-            <span class:list={['partner__slot', { 'partner__slot--wide': index < 2 }]} aria-hidden="true">
-              <span class="partner__recruit">募集中</span>
-              <strong>ここに、あなたのロゴを。</strong>
-              <small>茨城を、一緒におもしろく。 ↗</small>
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M24 40V23M24 29C11 29 8 20 8 13c11 0 16 5 16 16ZM24 24c0-11 7-17 17-17 0 11-5 17-17 17Z" /></svg>
-            </span>
-          ))}
-        </a>
-        <div class="partner__bottom">
-          <p>地域の魅力を、ともに届ける仲間を募集しています。</p>
-          <a class="partner__guide" href="/sponsor/">協賛・パートナーのご案内<V42Icon name="arrow" size={17} /></a>
+        <SponsorSlots path="/" pageType="home" />
+        <div class="partner__invitation">
+          <div>
+            <h3>{REGIONAL_SUPPORTER_PLAN.name}</h3>
+            <p>協賛企業として、トップページに社名・ロゴ・公式サイトへのリンクを掲載します。</p>
+          </div>
+          <a class="partner__guide" href="/sponsor/">掲載内容・料金を見る<V42Icon name="arrow" size={17} /></a>
         </div>
         <div class="partner__contact">
-          <p>お店や地域の取り組みについて</p>
-          <a href="/contact/">取材・掲載の相談<span aria-hidden="true">↗</span></a>
-          <a href="/biz/">取材・発信支援について<span aria-hidden="true">→</span></a>
+          <p>編集部へのご連絡</p>
+          <a href="/submit/">お店・イベントの情報を送る<span aria-hidden="true">→</span></a>
+          <a href="/contact/">取材・掲載の相談<span aria-hidden="true">→</span></a>
         </div>
       </div>
     </section>
@@ -772,29 +768,35 @@ const matchdays = [
   .partner__head .v42-label::before{content:none}
   .partner h2{margin-top:.65rem;font-size:clamp(1.8125rem,3.5vw,3.125rem);line-height:1.45}
   .partner__head>p:not(.v42-label){margin-top:.8rem;color:var(--v42-note);font-size:.9375rem;line-height:1.8}
-  .partner__wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(.55rem,1.6vw,1.15rem);margin-top:clamp(1.3rem,3vw,2.2rem);text-decoration:none}
-  .partner__slot{position:relative;isolation:isolate;display:grid;align-content:center;justify-items:center;gap:.45rem;min-height:6.25rem;padding:.55rem;border:1px solid #d6dcc9;border-radius:5px;background:linear-gradient(142deg,#fff 65%,#f1f4e8);color:#546b51;text-align:center}
-  .partner__slot--wide{grid-column:span 2;min-height:clamp(8.25rem,13vw,10.5rem);gap:.75rem}
-  .partner__slot:first-child{border-color:#aebd97;background:#f4f6e9;box-shadow:3px 4px 0 #d3dcc04d}
-  .partner__recruit{padding:.1rem .65rem;border:1px solid #b8c7a8;border-radius:999px;color:#516a4b;font-size:.6875rem;font-weight:700;letter-spacing:.1em}
-  .partner__slot strong{font:500 clamp(.875rem,1.45vw,1.125rem)/1.55 var(--font-brand-display);letter-spacing:.035em}
-  .partner__slot--wide strong{font-size:clamp(1rem,2.1vw,1.7rem)}
-  .partner__slot small{color:#5b7154;font-size:.6875rem}
-  .partner__slot svg{position:absolute;z-index:-1;right:.6rem;bottom:.55rem;width:2.65rem;color:#d9e2cc}
-  .partner__slot--wide svg{right:1.4rem;bottom:1rem;width:4rem}
-  .partner__wall:hover .partner__slot{border-color:#aebd97}
-  .partner__bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.65rem 1.5rem;margin-top:1.3rem;color:var(--v42-note);font-size:.8125rem}
-  .partner__guide{display:inline-flex;justify-content:space-between;align-items:center;gap:1rem;min-height:48px;padding:.55rem 1rem;border:1px solid #91a181;border-radius:3px;background:#f4f6e9;color:#41623e;font-size:.875rem;font-weight:700}
+  .partner__invitation {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.1rem 2rem;
+    margin-top: clamp(1.3rem, 3vw, 2.2rem);
+    padding: clamp(1.2rem, 3vw, 2.2rem);
+    border: 1px solid #c7d0b9;
+    border-radius: .375rem;
+    background: #f4f6e9;
+  }
+  .partner__invitation h3 {
+    color: var(--v42-ink);
+    font: 600 clamp(1.125rem, 2vw, 1.5rem)/1.5 var(--font-brand-display);
+  }
+  .partner__invitation p {
+    margin-top: .45rem;
+    color: var(--v42-note);
+    font-size: .875rem;
+    line-height: 1.8;
+  }
+  .partner__guide{display:inline-flex;justify-content:space-between;align-items:center;gap:1rem;min-height:48px;padding:.55rem 1rem;border:1px solid #91a181;border-radius:3px;background:#fdfbf5;color:#41623e;font-size:.875rem;font-weight:700}
   .partner__guide:hover{background:#e7eddb}
   .partner__contact{display:flex;align-items:center;flex-wrap:wrap;gap:.1rem 1.2rem;margin-top:1.35rem;padding-top:.4rem;border-top:1px solid var(--v42-rule);font-size:.8125rem}
   .partner__contact p{color:var(--v42-note)}
   .partner__contact a{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;color:var(--v42-ink);text-decoration:underline;text-underline-offset:.2em}
   .partner a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
   @media(max-width:760px){
-    .partner__wall{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .partner__slot--wide{grid-column:auto;min-height:7.5rem}
-    .partner__slot--wide svg{right:.45rem;bottom:.5rem;width:2.85rem}
-    .partner__slot small{font-size:.625rem}
+    .partner__invitation { grid-template-columns: minmax(0, 1fr); }
     .partner__contact p{width:100%;padding-top:.45rem}
   }
 

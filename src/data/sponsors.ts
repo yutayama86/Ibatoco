@@ -19,7 +19,7 @@ export interface SponsorSlot {
   id: string;
   /** 事業者名（表示用） */
   name: string;
-  /** 掲載するページ。サイト内のパス（/ で始まり / で終わる） */
+  /** 掲載するページ。地域サポーターは '/'。記事協賛は記事のパス */
   pages: string[];
   /** 紹介文。120字以内。事実だけを書く */
   text: string;
@@ -30,7 +30,7 @@ export interface SponsorSlot {
   /** 掲載期間。日本時間の暦日（YYYY-MM-DD）。開始日と終了日を含む */
   start: string;
   end: string;
-  /** 画像（任意）。public/images/sponsors/ に置く */
+  /** 許諾済みの画像。地域サポーターはロゴを public/images/sponsors/ に置く */
   image?: { src: string; alt: string; width: number; height: number };
 }
 
@@ -64,17 +64,19 @@ function validateSponsorSlots(slots: SponsorSlot[]): void {
     if (!slot.name.trim()) errors.push(`${at}: 事業者名が空`);
     if (!slot.cta.trim()) errors.push(`${at}: リンクの文言が空`);
     if ([...slot.text].length > SPONSOR_TEXT_MAX) errors.push(`${at}: 紹介文が${SPONSOR_TEXT_MAX}字を超えている`);
-    if (!slot.url.startsWith('https://')) errors.push(`${at}: url は https:// で始める`);
+    if (URL.parse(slot.url)?.protocol !== 'https:') errors.push(`${at}: 有効な https:// のURLを書く`);
     if (slot.pages.length === 0) errors.push(`${at}: 掲載ページが空`);
     for (const page of slot.pages) {
-      if (!/^\/.+\/$/.test(page)) errors.push(`${at}: 掲載ページ ${page} は / で始めて / で終える`);
+      if (page !== '/' && !/^\/.+\/$/.test(page)) errors.push(`${at}: 掲載ページ ${page} は / で始めて / で終える`);
+      if (page === '/' && !slot.image) errors.push(`${at}: TOPの地域サポーターにはロゴを登録する`);
     }
     if (!dateRe.test(slot.start) || !dateRe.test(slot.end)) errors.push(`${at}: 期間は YYYY-MM-DD で書く`);
     else if (slot.start > slot.end) errors.push(`${at}: 開始日が終了日より後`);
   }
-  // 同じページ・同じ期間に上限を超えて重ならないか
+  // 記事協賛は、同じページ・同じ期間に上限を超えて重ならないか確認する。
   for (const slot of slots) {
     for (const page of slot.pages) {
+      if (page === '/') continue;
       const overlapping = slots.filter((other) => other.pages.includes(page) && other.start <= slot.end && slot.start <= other.end);
       if (overlapping.length > MAX_SLOTS_PER_PAGE) {
         errors.push(`協賛枠 ${slot.id}: ${page} で同じ期間に${overlapping.length}枠が重なる（上限${MAX_SLOTS_PER_PAGE}）`);
@@ -92,9 +94,10 @@ validateSponsorSlots(SPONSOR_SLOTS);
  * 開始日になったら画面側（SponsorSlots.astro）で表示する。
  * 本番は push でしか再ビルドされないため、期間の判定は画面側でも行う。
  *
- * @param path  ページのパス（/events/…/）
+ * @param path  ページのパス（/ または /events/…/ など）
  * @param today 日本時間の今日（YYYY-MM-DD）
  */
 export function sponsorsForPage(path: string, today: string): SponsorSlot[] {
-  return SPONSOR_SLOTS.filter((slot) => slot.pages.includes(path) && slot.end >= today).slice(0, MAX_SLOTS_PER_PAGE);
+  const slots = SPONSOR_SLOTS.filter((slot) => slot.pages.includes(path) && slot.end >= today);
+  return path === '/' ? slots : slots.slice(0, MAX_SLOTS_PER_PAGE);
 }
