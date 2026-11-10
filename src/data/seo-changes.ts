@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-kairakuen-guide',
+    date: '2026-11-10',
+    url: '/events/kairakuen-guide/',
+    kind: 'on-page',
+    change: '梅まつり期間の入園料改定（大人500円、2026-10-28発表）を追記し、水戸の梅まつり2027へリンク',
+    queries: ['偕楽園 入園料', '偕楽園 梅まつり 料金'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261110-events-mito-ume-matsuri-2027',
     date: '2026-11-10',
     url: '/events/mito-ume-matsuri-2027/',

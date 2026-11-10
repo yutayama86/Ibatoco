@@ -107,6 +107,7 @@ sourceUrls:
     url: "https://www.aquaworld-oarai.com/guide/access-train/"
     accessedAt: 2026-09-28
 relatedArticleUrls:
+  - "/events/oarai-hatsuhinode-2027/"
   - "/events/oiwa-jinja-guide/"
   - "/events/kashima-jingu-guide/"
   - "/events/mentai-park-oarai-guide/"

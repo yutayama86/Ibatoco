@@ -128,6 +128,7 @@ sourceUrls:
     url: "https://mitokoumon.com/facility/historic/kodokan/"
     accessedAt: 2026-09-29
 relatedArticleUrls:
+  - "/events/mito-ume-matsuri-2027/"
   - "/events/kairakuen-guide/"
   - "/events/ibaraki-kenmin-no-hi-2026/"
   - "/area/mito/"
