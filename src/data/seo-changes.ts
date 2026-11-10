@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261110-events-mito-ume-matsuri-2027',
+    date: '2026-11-10',
+    url: '/events/mito-ume-matsuri-2027/',
+    kind: 'new-article',
+    change: '水戸の梅まつり2027（第131回）を新規公開（日程・偕楽園の入園料改定・時間・駐車場・バス・UME The Lights）',
+    queries: ['水戸 梅まつり 2027', '水戸の梅まつり', '偕楽園 梅まつり 料金', '偕楽園 梅まつり 駐車場', '偕楽園 ライトアップ'],
+    commit: '0d4920a',
+  },
+  {
     id: '20261110-events-oarai-hatsuhinode-2027',
     date: '2026-11-10',
     url: '/events/oarai-hatsuhinode-2027/',
