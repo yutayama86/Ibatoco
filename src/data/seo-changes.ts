@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式の会場＆駐車場案内図を反映（町営・サンビーチ第1/第2・海浜公園・県営の各駐車場、観覧エリアの新しい禁止事項、交通規制の終了時刻の表記差）',
     queries: ['大洗あんこう祭 駐車場', '大洗あんこう祭 2026', '大洗あんこう祭 交通規制'],
-    commit: 'PENDING',
+    commit: '7b9576c',
     experimentType: 'fact',
   },
   {
