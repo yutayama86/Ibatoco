@@ -49,6 +49,24 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261113-news-yakult-swallows-farm-moriya-2027',
+    date: '2026-11-13',
+    url: '/news/yakult-swallows-farm-moriya-2027/',
+    kind: 'new-article',
+    change: 'ヤクルト二軍の新施設 Swallows Wings Square（守谷市・2027年3月開業予定）の解説を新規公開',
+    queries: ['ヤクルト 二軍 守谷', 'Swallows Wings Square', 'ヤクルト 二軍 移転 いつから', 'ヤクルト 守谷 球場'],
+    commit: '947368a',
+  },
+  {
+    id: '20261113-events-meiji-naruhodo-factory-moriya-gui',
+    date: '2026-11-13',
+    url: '/events/meiji-naruhodo-factory-moriya-guide/',
+    kind: 'new-article',
+    change: '明治なるほどファクトリー守谷の工場見学ガイドを新規公開（無料・完全予約制・4歳以上・予約方法・アクセス）',
+    queries: ['明治なるほどファクトリー守谷', '明治 守谷工場 見学', '明治 工場見学 予約', '守谷 工場見学'],
+    commit: '947368a',
+  },
+  {
     id: '20261112-events-hananuki-gorge-autumn-2026',
     date: '2026-11-12',
     url: '/events/hananuki-gorge-autumn-2026/',
