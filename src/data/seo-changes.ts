@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261112-events-hananuki-gorge-autumn-2026',
+    date: '2026-11-12',
+    url: '/events/hananuki-gorge-autumn-2026/',
+    kind: 'on-page',
+    change: '見頃の記述を11/12時点の公式の発信方法（協会のXで画像発信・文章での発表なし）に更新し、高萩駅からのタクシー案内を追加',
+    queries: ['花貫渓谷 紅葉 見頃', '花貫渓谷 見頃', '花貫渓谷紅葉まつり 2026'],
+    commit: '22e8aab',
+    experimentType: 'fact',
+  },
+  {
     id: '20261112-events-oarai-ankou-matsuri-2026',
     date: '2026-11-12',
     url: '/events/oarai-ankou-matsuri-2026/',
