@@ -108,6 +108,7 @@ relatedArticleUrls:
   - "/events/kantetsu-joso-line-guide/"
   - "/events/ibaraki-rainy-day-spots/"
   - "/events/ibaraki-kids-odekake-roundup/"
+  - "/news/yakult-swallows-farm-moriya-2027/"
   - "/area/moriya/"
 ---
 

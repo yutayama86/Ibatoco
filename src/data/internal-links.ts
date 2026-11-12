@@ -372,6 +372,8 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-park-playground-roundup/': '茨城の大型遊具がある公園',
   '/events/ibaraki-sa-pa-guide/': '茨城県内のSA・PA',
   '/events/ibaraki-winter-odekake-2026/': '茨城の冬のおでかけ2026-2027',
+  '/events/meiji-naruhodo-factory-moriya-guide/': '明治なるほどファクトリー守谷の工場見学（無料・予約制）',
+  '/news/yakult-swallows-farm-moriya-2027/': 'ヤクルト二軍の新施設が守谷市に2027年3月開業予定（解説）',
   '/events/oarai-hatsuhinode-2027/': '大洗の初日の出・初詣2027（日の出時刻・駐車場・開門時間）',
   '/events/mito-ume-matsuri-2027/': '水戸の梅まつり2027（日程・料金・駐車場）',
   '/events/kasumi-oarai-open-202609/': 'カスミ大洗店の開店（2026年9月）',
