@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261112-events-oarai-ankou-matsuri-2026',
+    date: '2026-11-12',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '公式の会場＆駐車場案内図を反映（町営・サンビーチ第1/第2・海浜公園・県営の各駐車場、観覧エリアの新しい禁止事項、交通規制の終了時刻の表記差）',
+    queries: ['大洗あんこう祭 駐車場', '大洗あんこう祭 2026', '大洗あんこう祭 交通規制'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261110-news-kashima-jeonbuk-acle-rail-guide-202',
     date: '2026-11-10',
     url: '/news/kashima-jeonbuk-acle-rail-guide-2026-11-25/',
