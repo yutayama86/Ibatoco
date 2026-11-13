@@ -16,7 +16,7 @@ import { getHappenings } from '../lib/happenings';
 import { getAllFacets } from '../lib/taxonomy';
 import { TOPICS, topicOf } from '../data/topics';
 import { homeEventArt } from '../lib/home-event-art';
-import { formatJapaneseDate, formatMonthDayWithWeekday, parseDateOnly } from '../lib/date-only.js';
+import { formatJapaneseDate, formatMonthDayWithWeekday, parseDateOnly, todayDateOnlyString } from '../lib/date-only.js';
 import V42Icon from './V42Icon.astro';
 
 interface Props { variant?: 'search' | 'updates'; }
@@ -42,8 +42,13 @@ for (const topic of variant === 'updates' ? TOPICS : []) {
 
 // 同じ話題は1行にまとめる。順位は話題に属する記事の閲覧数の合計で決める
 interface RankItem { path: string; title: string; views: number; subs: { path: string; label: string }[] }
+// 14日以上更新されていない実測値を「いま読まれている」として出さない。
+// 更新データが入れば自動復帰する。
+const rankEndDate = new Date(`${popular.source.period.end}T00:00:00+09:00`);
+const rankToday = new Date(`${todayDateOnlyString()}T00:00:00+09:00`);
+const rankingFresh = Number.isFinite(rankEndDate.getTime()) && (rankToday.getTime() - rankEndDate.getTime()) <= 14 * 86400000 && rankToday >= rankEndDate;
 const rows = new Map<string, RankItem>();
-for (const entry of variant === 'updates' ? popular.pages : []) {
+for (const entry of variant === 'updates' && rankingFresh ? popular.pages : []) {
   if (!linkable(entry.path)) continue;
   const topic = topicOf(entry.path);
   const key = topic?.id ?? entry.path;
