@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261113-news-kasama-shinguri-matsuri-2026',
+    date: '2026-11-13',
+    url: '/news/kasama-shinguri-matsuri-2026/',
+    kind: 'internal-link',
+    change: '終了済みの冒頭に2027年の日程は未発表と明記し、開催中の笠間の菊まつり（〜11/23）へ案内（監査 指示1・Q4）',
+    queries: ['笠間の菊まつり 2026', '笠間菊まつり 2026', '笠間栗まつり2026'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261113-events-tsukuba-autumn-2026',
     date: '2026-11-13',
     url: '/events/tsukuba-autumn-2026/',
