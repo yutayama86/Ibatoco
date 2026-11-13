@@ -97,3 +97,22 @@
 4. **35日を超えて止まった場合**：ワークフローは直近35日しか書かない。それより前は Google 側に残っているので、必要ならオーナーの判断で手動で取り出す（推測で埋めない）
 
 恒久対応の選択肢は上の「選択肢の比較と推奨」のとおり（PR を人が開く運用 B か、Actions に PR 作成を許す設定 A）。どちらにするかはオーナーが決める。
+
+## 2026-11-13：安全な日次自動マージ（設定が揃った場合のみ）
+
+- 05:30 JST：Google公式APIの確定値を取得し、欠測・巻き戻り・不自然な0埋めを検査
+- 同期専用ブランチを最新mainから再作成し、既存PRを更新（無ければ新規作成を試行）
+- プロポーザルの差分が `data/editorial/performance-snapshot.json` **1ファイルのみ**か、PRのheadが同期実行コミットと一致するかを確認
+- Validate site / CodeQLを起動し、GitHubの保護ルールを維持したまま `gh pr merge --auto --squash` を要求。必須チェックを満たすまでmainへは入らない
+- PRを作れない、auto-mergeが無効、ボットPRのCIが承認待ちの場合は**ワークフローを失敗**させ、Job SummaryとActions上で分かるようにする。制限を迂回しない
+- mainマージ後、`Validate site` のmain push成功を条件に `Deploy production` が起動する。公開確認は `/build.json` のSHA一致による
+
+### オーナーによる1回限りの設定（自動反映に必須）
+
+1. GitHubの `Settings → Actions → General` で **Allow GitHub Actions to create and approve pull requests** を有効にする。これはリポジトリ全体の権限なので、変更リスクを了承した場合のみ行う
+2. `Settings → General → Pull Requests` の **Allow auto-merge** を有効にする
+3. PRで **Approve workflows to run** が出た場合は一度承認する（GitHubが毎回要求する設定であれば無人運用にはできない）
+4. `Actions → Read-only GA4 and GSC via Google API` をmainから手動起動し、PRの差分1ファイル・必須チェック成功・マージ・Deploy production・本番SHA一致を確認
+5. 翌日以降、完了日が進まないときはActionsを赤色で検知する。GA4・GSCの確定日遅延そのものは正常（通常数日）
+
+**注意**：この変更だけで現状のGitHub設定を自動変更したことにはならない。また、PRの自動マージが許可されても、CIの承認待ち（action_required）が解除される保証はない。最終的な無人反映は本番で連続実行を確認してから「復旧」と判定する。
