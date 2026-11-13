@@ -285,12 +285,62 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <h1>Ibatoco Control Center</h1>
         <p class="sub">今の状況・勝ち筋・改善点・次の一手を、迷わず判断するための画面。</p>
       </div>
-      <div class="freshness">
+      <div class="freshness" data-ga4-confirmed={freshness?.ga4LatestConfirmedDate ?? ''} data-gsc-confirmed={freshness?.gscLatestConfirmedDate ?? ''}>
         <span>データ更新状況</span>
         <strong>{generatedLabel}</strong>
-        <small>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
+        <small data-control-freshness-label>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
       </div>
     </header>
+
+  <script is:inline>
+    // 表示後も日本時間の当日で判定する。デプロイ停止中でも「正常」を固定しない。
+    (() => {
+      const header = document.querySelector('.freshness[data-ga4-confirmed]');
+      if (!header) return;
+      const snapshot = "PLACEHOLDER";
+      const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\\d{4}-\\d{2}-\\d{2})/)?.[1] ?? '—';
+      const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
+      const toToday = () => {
+        const parts = formatter.formatToParts(new Date());
+        const part = (type) => parts.find((p) => p.type === type)?.value ?? '';
+        return `${part('year')}-${part('month')}-${part('day')}`;
+      };
+      const ageDays = (date, today) => {
+        if (typeof date !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return Infinity;
+        const parsed = Date.parse(date + 'T00:00:00+09:00');
+        const current = Date.parse(today + 'T00:00:00+09:00');
+        return Number.isFinite(parsed) && parsed <= current ? Math.floor((current - parsed) / 86400000) : Infinity;
+      };
+      const refresh = () => {
+        const today = toToday();
+        const ga = ageDays(header.dataset.ga4Confirmed, today);
+        const gs = ageDays(header.dataset.gscConfirmed, today);
+        const normal = ga <= 5 && gs <= 6;
+        const freshnessLabel = header.querySelector('[data-control-freshness-label]');
+        if (freshnessLabel) freshnessLabel.textContent = `${normal ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）'}｜判定日 ${today}｜snapshot ${snapshotDate}`;
+        const status = document.querySelector('[data-control-data-status]');
+        if (status) {
+          status.classList.toggle('is-good', normal);
+          status.classList.toggle('is-bad', !normal);
+          const value = status.querySelector('b');
+          if (value) value.textContent = normal ? '正常' : '要確認';
+        }
+        for (const [name, age] of [['ga4', ga], ['gsc', gs]]) {
+          const row = document.querySelector(`[data-control-confidence="${name}"]`);
+          const level = row?.querySelector('.confidence-level');
+          if (!level) continue;
+          const rank = name === 'ga4' ? (age <= 5 ? '高' : age <= 7 ? '中' : '低') : (age <= 6 ? '高' : age <= 9 ? '中' : '低');
+          level.textContent = rank;
+          level.classList.toggle('high', rank === '高');
+          level.classList.toggle('mid', rank === '中');
+          level.classList.toggle('low', rank === '低');
+        }
+      };
+      refresh();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+      window.addEventListener('pageshow', refresh);
+    })();
+  </script>
 
     <GrowthControl />
 
@@ -357,7 +407,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <div class="panel__head"><div><span>運営状態</span><h2>いま正常か、詰まっているか</h2></div></div>
         <div class="status-grid">
           {operatingStatus.map((item)=>(
-            <div class:list={['status-pill',item.good?'is-good':'is-bad']}>
+            <div class:list={['status-pill',item.good?'is-good':'is-bad']} data-control-data-status={item.label === 'データ鮮度' ? 'true' : undefined}>
               <span>{item.label}</span><b>{item.state}</b>
             </div>
           ))}
@@ -388,7 +438,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <div class="panel__head"><div><span>判断の信頼度</span><h2>どこまで信じてよいか</h2></div><small>データ鮮度ベース</small></div>
         <div class="confidence-list">
           {confidenceRows.map((row)=>(
-            <div class="confidence-row">
+            <div class="confidence-row" data-control-confidence={row.label === '集客判断' ? 'ga4' : row.label === 'SEO判断' ? 'gsc' : undefined}>
               <span>{row.label}</span>
               <div>
                 <b class:list={['confidence-level',row.level==='高'?'high':row.level==='中'?'mid':'low']}>{row.level}</b>
