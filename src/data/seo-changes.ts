@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '11/25東京V戦のアクセス案内を反映し、駐車場の詳細は駐車場記事へ寄せて要約に（監査 指示3・Q2）',
     queries: ['水戸信用金庫スタジアム アクセス', '東海駅から水戸信用金庫スタジアム'],
-    commit: 'PENDING',
+    commit: 'c32f749',
     experimentType: 'fact',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '11/25東京V戦のアクセス案内（使える区画・停められない区画・シャトル）を反映し、駐車場の正ページとして情報を集約（監査 指示3・Q2）',
     queries: ['水戸信用金庫スタジアム 駐車場', '水戸ホーリーホック 駐車場', '笠松運動公園付帯駐車場'],
-    commit: 'PENDING',
+    commit: 'c32f749',
     experimentType: 'fact',
   },
   {
