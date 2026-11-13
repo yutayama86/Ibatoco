@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: '終了済みの冒頭に2027年の日程は未発表と明記し、開催中の笠間の菊まつり（〜11/23）へ案内（監査 指示1・Q4）',
     queries: ['笠間の菊まつり 2026', '笠間菊まつり 2026', '笠間栗まつり2026'],
-    commit: 'PENDING',
+    commit: 'ffdf1b7',
     experimentType: 'fact',
   },
   {
