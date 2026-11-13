@@ -340,6 +340,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ushiku-daibutsu-guide": "/images/card/ushiku-daibutsu-guide-cef3c0f9.png",
   "ushiku-shizen-kansatsu-no-mori-guide": "/images/card/ushiku-shizen-kansatsu-no-mori-guide-cef3c0f9.png",
   "yachiyo-no-yu-yachiyo-guide": "/images/card/yachiyo-no-yu-yachiyo-guide-16494163.png",
+  "yanagita-kunio-kinen-koen-tone-guide": "/images/card/yanagita-kunio-kinen-koen-tone-guide-c0724987.png",
   "yokaren-heiwa-kinenkan-guide": "/images/card/yokaren-heiwa-kinenkan-guide-aa8ca6d9.png",
   "yuki-kurabikan-yuki-guide": "/images/card/yuki-kurabikan-yuki-guide-fd1f9fbe.png",
   "yuki-tsumugi-guide": "/images/card/yuki-tsumugi-guide-fd1f9fbe.png"
