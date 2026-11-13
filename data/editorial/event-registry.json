@@ -1676,6 +1676,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "水戸観光コンベンション協会が第131回の日程を公開。主な行事・開花状況・偕楽園臨時駅は2026-11-10時点で未発表のため、発表後に更新する。検索需要は未取得。"
+    },
+    {
+      "id": "ryugasaki-igappe-ichi-croquette-2026",
+      "name": "龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁",
+      "municipality": "ryugasaki",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.ryugasaki.ibaraki.jp/kanko/event/sangyousai-korofyesu.html",
+      "discoveredAt": "2026-11-13",
+      "verifiedAt": "2026-11-13",
+      "articleUrl": "/events/ryugasaki-igappe-ichi-croquette-2026/",
+      "articleUpdatedAt": "2026-11-13",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
     }
   ]
 }
