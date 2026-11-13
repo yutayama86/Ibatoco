@@ -33,6 +33,7 @@ const pageTitle = 'イバトコ｜茨城を歩いてつくるローカルメデ�
 const pageDescription = '茨城の44市町村を歩いて取材するローカルメディア。食べる、出かける、泊まる、暮らす、整える、働く。現地で会って聞いた茨城を届けます。';
 // §6：Organization / WebSite の構造化データ。公式SNSは sameAs に反映（実URLのみ）。
 const siteUrl = new URL('/', Astro.site).href;
+const currentDateJst = todayDateOnlyString();
 const socialSameAs = Object.values(SITE_CONFIG.social).filter((u) => typeof u === 'string' && u.length > 0);
 const homeJsonLd = [
   { '@context': 'https://schema.org', '@type': 'Organization', name: 'イバトコ', alternateName: ['IBATOCO', 'いばとこ'], url: siteUrl, areaServed: { '@type': 'AdministrativeArea', name: '茨城県' }, ...(socialSameAs.length ? { sameAs: socialSameAs } : {}) },
@@ -231,7 +232,7 @@ const matchdays = [
         <p class="season__credit">花貫渓谷の写真：<a href={seasonPicks.walk.creditHref} target="_blank" rel="license noopener">{seasonPicks.walk.credit}</a></p>
         <div class="season__more">
           <img src="/images/v42/field-reporters.webp" width="360" height="540" alt="" loading="lazy" decoding="async" />
-          <ul>{seasonPicks.extra.filter((item) => item.endDate >= todayDateOnlyString()).map((item) => <li><a href={item.href}><small>{item.note}</small>{item.label}</a></li>)}</ul>
+          <ul>{seasonPicks.extra.filter((item) => item.endDate >= currentDateJst).map((item) => <li><a href={item.href}><small>{item.note}</small>{item.label}</a></li>)}</ul>
           <a class="v42-button" href={seasonPicks.more.href}>{seasonPicks.more.label}<span aria-hidden="true">→</span></a>
         </div>
       </div>
