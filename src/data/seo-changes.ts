@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '旧取手宿本陣染野家住宅の見学ガイドを新規公開（公開日・無料・駐車場・見どころ）',
     queries: ['旧取手宿本陣染野家住宅', '取手 本陣', '取手宿本陣 見学', '取手 観光 無料'],
-    commit: 'PENDING',
+    commit: 'bea5f8e',
   },
   {
     id: '20261113-events-ryugasaki-igappe-ichi-croquette-2',
@@ -64,7 +64,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁2026を新規公開（日時・臨時駐車場・無料シャトルバス・ステージ）',
     queries: ['龍ケ崎 コロッケ横丁 2026', '龍ケ崎産業祭 2026', 'いがっぺ市 2026', '龍ケ崎 コロッケ 祭り'],
-    commit: 'PENDING',
+    commit: 'bea5f8e',
   },
   {
     id: '20261113-news-yakult-swallows-farm-moriya-2027',
