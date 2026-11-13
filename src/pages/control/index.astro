@@ -46,8 +46,11 @@ const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
 const gscSignalsChecked = performance.gscDiscovery?.checkedAt?.slice(0, 10) ?? '不明';
 const bookingPagePeriodEnd = performance.conversionDetail?.byPagePeriod?.end ?? '不明';
-// pageMetricsの期間情報がないため、直近7日の最新実績だと断定しない。
-const topPagesPeriodNote = '集計期間未記録・直近7日の最新実績とは限りません';
+// ページ別の期間が記録されているとき（日次同期で取得できた日）だけ期間を示す。無ければ直近7日の最新実績だと断定しない。
+const pageLevelPeriods = (performance.source as { pageLevel?: { periods?: Record<string, { start: string; end: string }> } } | undefined)?.pageLevel?.periods;
+const topPagesPeriodNote = pageLevelPeriods?.recent7
+  ? `集計期間 ${pageLevelPeriods.recent7.start}〜${pageLevelPeriods.recent7.end}（直近7日・確定値）`
+  : '集計期間未記録・直近7日の最新実績とは限りません';
 const warnings = performance.source?.warnings ?? [];
 const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
 const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);

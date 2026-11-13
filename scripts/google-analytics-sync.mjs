@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { addDays } from '../src/lib/growth-engine.mjs';
 import { checkDaily, confirmedDateMismatches } from '../src/lib/ga4-daily.mjs';
 import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
+import { checkPageLevel } from '../src/lib/gsc-page-level.mjs';
 
 const inputPath = process.argv[2];
 if (!inputPath) throw new Error('Usage: node scripts/google-analytics-sync.mjs <verified-export.json>');
@@ -93,20 +94,34 @@ data.northStar={...data.northStar,current:recent28.views,progress:recent28.views
  recent7DailyAverage:recent7.views/7,runRate28FromRecent7:recent7.views*4,
  requiredDailyAverage:current/30,requiredUpliftVsRecent7:recent7.views?current/30/(recent7.views/7):null,
  status:recent7.views*4>=current?'on-pace':'below-pace'};
+// ページ別・検索語別（監査 A1）。取得できた日だけ置き換え、期間を記録する。無い日は前の値と期間をそのまま残す
+const pageLevelIssues=checkPageLevel(input.pageLevel,{confirmedThrough:gaEnd,gscDaily:gs});
+if(pageLevelIssues.length) throw new Error('Page-level check failed: '+pageLevelIssues.join(' | '));
+const pl=input.pageLevel;
+if(pl){
+ data.gscQueries=pl.gscQueries;
+ data.pageMetrics=pl.pageMetrics;
+ if(pl.ga4TopPages) data.ga4TopPages=pl.ga4TopPages;
+}
+const pageLevelMeta=pl?{source:pl.source,fetchedAt:input.fetchedAt,periods:pl.periods,truncated:pl.truncated,
+ rows:{gscQueries:pl.gscQueries.length,pageMetrics:pl.pageMetrics.length},ga4TopPagesUpdated:Boolean(pl.ga4TopPages)}:data.source?.pageLevel;
 data.asOf=gaEnd;
 // 最上位の確定日は editorial-os が読む（Windsor 時代の項目）。source 側だけ更新すると古い日付が残る（#445）
 data.ga4LatestConfirmedDate=gaEnd;
 data.gscLatestConfirmedDate=gsEnd;
 // 確定日より前の日の「暫定値の再確認」は、確定した日別に置き換わったので残さない（「10/19を最新確定日とする」等の古い説明が残る）
-const {latestDateRecheck,...sourceRest}=data.source??{};
+const {latestDateRecheck,pageLevel:_previousPageLevel,...sourceRest}=data.source??{};
 data.source={...(latestDateRecheck?.date && latestDateRecheck.date>gaEnd?{...sourceRest,latestDateRecheck}:sourceRest),
  primary:'Google official APIs (verified daily)',ga4:'Google Analytics Data API',
  gsc:'Search Console Search Analytics API',checkedAt:input.fetchedAt,lastConfirmedAt:input.fetchedAt,
  updatedAt:input.fetchedAt,status:'google-api-daily-confirmed',
  freshness:{basisDateAsiaTokyo:gaEnd,ga4LatestConfirmedDate:gaEnd,gscLatestConfirmedDate:gsEnd,
  todayRefreshSucceeded:true},ga4LatestConfirmedDate:gaEnd,gscLatestConfirmedDate:gsEnd,
- warnings:[...(data.source?.warnings??[]).filter(x=>!x.includes('Windsor')&&!x.includes('確定')),
- 'Google API daily windows refreshed. Legacy page/channel and acquisitionControl metrics may remain from their last separately verified source.',
+ ...(pageLevelMeta?{pageLevel:pageLevelMeta}:{}),
+ warnings:[...(data.source?.warnings??[]).filter(x=>!x.includes('Windsor')&&!x.includes('確定')&&!x.startsWith('Google API daily windows refreshed.')&&!x.startsWith('2026-10-08..10 GA4 CSP incident')),
+ pageLevelMeta?.periods?.recent28?.end===gaEnd
+  ?'Google API daily windows refreshed. pageMetrics/gscQueries refreshed through '+gaEnd+' (see source.pageLevel.periods). Channel and acquisitionControl metrics may remain from their last separately verified source.'
+  :'Google API daily windows refreshed. Legacy page/channel and acquisitionControl metrics may remain from their last separately verified source.',
  '2026-10-08..10 GA4 CSP incident: raw measurements retained; do not interpret as a genuine audience drop.']};
 const result=JSON.stringify(data);
 if(!result.includes('"google-api-daily-confirmed"'))throw new Error('Source invariant failed');

@@ -2,6 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { dailyCoverage, checkDaily } from '../src/lib/ga4-daily.mjs';
 import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
+import { checkPageLevel } from '../src/lib/gsc-page-level.mjs';
 
 const path = process.argv[2];
 if (!path) throw new Error('Usage: node scripts/google-daily-preflight.mjs <daily.json>');
@@ -31,7 +32,10 @@ if (ab != null) {
   for (const [k, v] of Object.entries(ab.counts ?? {})) if (v !== null && (!Number.isInteger(v) || v < 0)) fail.push('A/B: invalid '+k);
 }
 for (const err of checkGscDaily(input.gsc?.daily, { confirmedThrough: input.gsc?.confirmedThrough })) fail.push('GSC: '+err);
+// ページ別・検索語別（任意）。あるときは期間・空・合計の整合を確かめる
+for (const err of checkPageLevel(input.pageLevel, { confirmedThrough: input.confirmedThrough, gscDaily: input.gsc?.daily ?? [] })) fail.push(err);
 if (fail.length) { for (const e of fail) console.error('::error::'+e); process.exit(1); }
 const coverage = dailyCoverage(input.daily, input.confirmedThrough);
 console.log('Google API preflight passed. GA4 dates='+input.daily.length+', GSC dates='+input.gsc.daily.length+
-  ', GA4 missing dates='+coverage.missingDates.length+'. No snapshot written.');
+  ', GA4 missing dates='+coverage.missingDates.length+
+  ', page-level='+(input.pageLevel ? input.pageLevel.gscQueries.length+' query rows' : 'not included')+'. No snapshot written.');

@@ -6,6 +6,9 @@
 import { writeFileSync } from 'node:fs';
 import { BOOKING_CTA_AB_EVENTS, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
+import {
+  GSC_ROW_LIMIT, pageLevelWindows, buildGscQueries, buildPageMetrics, buildTopPages, ga4ViewsByWindow, checkPageLevel,
+} from '../src/lib/gsc-page-level.mjs';
 
 const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
@@ -63,6 +66,59 @@ const abReport = await request(`https://analyticsdata.googleapis.com/v1beta/prop
   limit: '100',
 });
 const bookingCtaExperiment = bookingCtaAbCounts(abReport.rows, abPeriod);
+// ページ別・検索語別（監査 A1）。読み取りだけ。失敗してもサイト全体の日別の同期は止めず、pageLevel を出さない
+// （その日は従来どおり pageMetrics・gscQueries を書き換えない。0 や古い値で埋めない）
+async function gscRows(dimensions, period) {
+  const rows = [];
+  // 1回の上限は25,000行。最大4回（10万行）まで続きを取り、それでも残れば truncated（行の無い値を0と見なさない）
+  for (let page = 0; page < 4; page++) {
+    const res = await request(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`, {
+      startDate: period.start, endDate: period.end, dimensions, rowLimit: GSC_ROW_LIMIT, startRow: page * GSC_ROW_LIMIT, dataState: 'final',
+    });
+    const got = res.rows ?? [];
+    rows.push(...got);
+    if (got.length < GSC_ROW_LIMIT) return { rows, truncated: false };
+  }
+  return { rows, truncated: true };
+}
+let pageLevel = null;
+try {
+  const periods = pageLevelWindows(through);
+  const queryWindows = {}, pageWindows = {};
+  for (const [name, period] of Object.entries(periods)) {
+    queryWindows[name] = await gscRows(['page', 'query'], period);
+    pageWindows[name] = await gscRows(['page'], period);
+  }
+  const gaPages = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    dateRanges: [
+      { startDate: periods.recent7.start, endDate: periods.recent7.end },
+      { startDate: periods.previous7.start, endDate: periods.previous7.end },
+      { startDate: periods.recent28.start, endDate: periods.recent28.end },
+    ],
+    dimensions: [{ name: 'pagePath' }],
+    metrics: [{ name: 'screenPageViews' }],
+    limit: '100000',
+  });
+  const gaTruncated = Number(gaPages.rowCount ?? 0) > (gaPages.rows ?? []).length;
+  const views = gaTruncated ? null : ga4ViewsByWindow(gaPages.rows);
+  pageLevel = {
+    source: 'Search Console API (page, page×query) + GA4 Data API (pagePath)',
+    periods,
+    truncated: {
+      gscQueries: Object.fromEntries(Object.entries(queryWindows).map(([k, w]) => [k, w.truncated])),
+      gscPages: Object.fromEntries(Object.entries(pageWindows).map(([k, w]) => [k, w.truncated])),
+      ga4Pages: gaTruncated,
+    },
+    gscQueries: buildGscQueries(queryWindows),
+    pageMetrics: buildPageMetrics(pageWindows, views),
+    ga4TopPages: views ? buildTopPages(views) : null,
+  };
+  const errors = checkPageLevel(pageLevel, { confirmedThrough: through, gscDaily });
+  if (errors.length) { console.warn('::warning title=ページ別データ::' + errors.join(' / ') + '（ページ別は今回は反映しない）'); pageLevel = null; }
+} catch (error) {
+  console.warn(`::warning title=ページ別データ::取得できませんでした（${error.message}）。サイト全体の日別だけを同期します。`);
+  pageLevel = null;
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -70,6 +126,7 @@ const output = {
   daily: [...dailyMap.values()].sort((a,b)=>a.date.localeCompare(b.date)),
   gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
   bookingCtaExperiment,
+  ...(pageLevel ? { pageLevel } : {}),
 };
 writeFileSync(env.OUTPUT_PATH || '/tmp/ibatoco-google-daily.json', JSON.stringify(output, null, 2) + '\n');
-console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates. No snapshot modified.`);
+console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates, page-level ${pageLevel ? `${pageLevel.gscQueries.length} query rows / ${pageLevel.pageMetrics.length} pages` : 'not included'}. No snapshot modified.`);

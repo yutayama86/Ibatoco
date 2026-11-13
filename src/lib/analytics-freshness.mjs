@@ -45,3 +45,24 @@ export function analyticsFreshnessMessages(result) {
   }
   return out;
 }
+
+/**
+ * ページ別・検索語別（pageMetrics・gscQueries）の鮮度（監査 A1・A5）。
+ * サイト全体の鮮度（analyticsFreshness）とは別に返す。報告だけで、全体の status には含めない。
+ *   missing：期間が記録されていない（旧データ。いつのデータか分からない）
+ *   stale：直近28日の終わりが本来の確定日より GSC の SLO 以上遅れている
+ */
+export function pageLevelFreshness(snapshot, today) {
+  const expected = addDays(today, -GOOGLE_CONFIRM_LAG_DAYS);
+  const end = snapshot?.source?.pageLevel?.periods?.recent28?.end ?? null;
+  if (!isDate(end)) return { expectedConfirmedDate: expected, end: null, delayDays: null, status: 'missing' };
+  const delayDays = Math.max(0, daysBetween(end, expected));
+  return { expectedConfirmedDate: expected, end, delayDays, status: delayDays >= ANALYTICS_FRESHNESS_SLO_DAYS.gsc ? 'stale' : 'fresh' };
+}
+
+/** ページ別データの説明（fresh のときは空） */
+export function pageLevelFreshnessMessage(result) {
+  if (result.status === 'missing') return 'ページ別・検索語別のデータ（pageMetrics・gscQueries）に集計期間が記録されていません。旧データの可能性があり、記事の優先順位の根拠に使わないでください。';
+  if (result.status === 'stale') return `ページ別・検索語別のデータが ${result.end} で止まっています（本来は ${result.expectedConfirmedDate} まで。${result.delayDays}日の遅れ）。`;
+  return '';
+}

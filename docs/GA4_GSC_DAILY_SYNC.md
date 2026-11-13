@@ -116,3 +116,15 @@
 5. 翌日以降、完了日が進まないときはActionsを赤色で検知する。GA4・GSCの確定日遅延そのものは正常（通常数日）
 
 **注意**：この変更だけで現状のGitHub設定を自動変更したことにはならない。また、PRの自動マージが許可されても、CIの承認待ち（action_required）が解除される保証はない。最終的な無人反映は本番で連続実行を確認してから「復旧」と判定する。
+
+## 2026-11-13：ページ別・検索語別も毎日取る（監査 A1）
+
+監査（`docs/audit-20261113/SEO_INDEPENDENT_AUDIT.md` の A1）で、日次同期がサイト全体の日別しか取っておらず、`pageMetrics`・`gscQueries`・`ga4TopPages` が11月より前の古いデータのまま（期間も未記録）だと分かった。記事の優先順位と効果測定を、同じ日の確定値でできるようにする。
+
+- 取得（`scripts/google-api-daily.mjs`）：既存と同じトークン・読み取りだけで、GSC の `page×query` と `page`（直近28日・前28日・直近7日・前7日の4窓）と、GA4 の `pagePath` 別 Views（直近7日・前7日・直近28日）を足した。出力に `pageLevel` が加わる。workflow は変えていない
+- 計算（`src/lib/gsc-page-level.mjs`、テスト `scripts/gsc-page-level.test.mjs`）：既存の行の形のまま作る。GSC は表示0の行を返さないので、窓の応答が上限未満なら「行が無い＝0」、上限に達した窓では null（不明）。GA4 が取れなかったときの Views は null
+- 検査（preflight と sync の両方）：期間が確定日で終わること、0行で上書きしないこと、検索語×ページの28日クリック合計がサイト全体を超えないこと
+- 反映（`scripts/google-analytics-sync.mjs`）：取れた日だけ置き換え、`source.pageLevel.periods` に期間を記録する。取れなかった日はサイト全体の日別だけを同期し、前の値と期間を残す（ページ別の失敗で日次同期は止めない）
+- 鮮度：`node scripts/analytics-freshness.mjs` がページ別の期間も報告する（警告だけで、`--strict` でも止めない）。`/control/` の「集計期間未記録」は期間が記録されていれば期間の表示に変わる
+- 未確認：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。最初の日次実行のログ「page-level N query rows」と、同期 PR の `source.pageLevel` で確認する
+- 直した既存の不具合：`source.warnings` に同じ2文が毎日追加されて重複していた。同じ文は置き換えるようにした
