@@ -1,5 +1,6 @@
 ---
 import ControlBase from '../../layouts/ControlBase.astro';
+import { todayDateOnlyString } from '../../lib/date-only.js';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
 import performance from '../../../data/editorial/performance-snapshot.json';
@@ -151,8 +152,17 @@ const previousReference30 = Math.round((performance.windows.ga4.previous7.views 
 const currentReference30 = pace.referenceRunRate30FromRecent7;
 const targetDailyGap = Math.max(0, Math.round(requiredDaily - ga7.views / 7));
 const searchOpportunity = gscCompare.impressionsPct > 0 && gscCompare.ctrPct < 0;
-const dataAgeGa4 = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.ga4LatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
-const dataAgeGsc = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.gscLatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
+// スナップショット自身の基準日との比較では、同期停止を検出できない。
+const todayJst = todayDateOnlyString();
+const confirmedAgeDays = (date: unknown): number => {
+  if (typeof date !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return Infinity;
+  const confirmed = Date.parse(date + 'T00:00:00+09:00');
+  const today = Date.parse(todayJst + 'T00:00:00+09:00');
+  return Number.isFinite(confirmed) && confirmed <= today ? Math.floor((today - confirmed) / 86400000) : Infinity;
+};
+const dataAgeGa4 = confirmedAgeDays(freshness?.ga4LatestConfirmedDate);
+const dataAgeGsc = confirmedAgeDays(freshness?.gscLatestConfirmedDate);
+const analyticsFresh = dataAgeGa4 <= 5 && dataAgeGsc <= 6;
 
 const scenarioRows = [
   { label:'前週参考', value:previousReference30, note:'前週7日平均の30日単純換算' },
@@ -166,7 +176,7 @@ const operatingStatus = [
   { label:'検索CTR', state: gscCompare.ctrPct >= 0 ? '好調' : '要改善', good:gscCompare.ctrPct >= 0 },
   { label:'収益導線', state: observedNumber(conv.active_unmapped_booking_click) == null ? '区分未取得' : observedNumber(conv.active_unmapped_booking_click) === 0 ? '正常' : '要修正', good:observedNumber(conv.active_unmapped_booking_click) === 0 },
   { label:'売上計測', state: confirmedRevenue > 0 ? '稼働中' : '未接続', good:confirmedRevenue > 0 },
-  { label:'データ鮮度', state: dataAgeGa4 <= 2 && dataAgeGsc <= 7 ? '正常' : '要確認', good:dataAgeGa4 <= 2 && dataAgeGsc <= 7 },
+  { label:'データ鮮度', state: analyticsFresh ? '正常' : '要確認', good: analyticsFresh },
 ];
 
 const focusPages = [
@@ -264,6 +274,7 @@ const autoRunState = activeQueue.length > 0
   ? `${activeQueue.length}件が自動実行キュー待ち`
   : '現在の実行待ちは0件。次回7時に再評価';
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
+const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）';
 ---
 
 <ControlBase>
@@ -277,7 +288,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
       <div class="freshness">
         <span>データ更新状況</span>
         <strong>{generatedLabel}</strong>
-        <small>snapshot {performance.asOf}</small>
+        <small>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
       </div>
     </header>
 
