@@ -296,10 +296,10 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
     import { todayDateOnlyString } from '../../lib/date-only.js';
     // 表示後も日本時間の当日で判定する。デプロイ停止中でも「正常」を固定しない。
     (() => {
-      const header = document.querySelector('.freshness[data-ga4-confirmed]');
+      const header = document.querySelector<HTMLElement>('.freshness[data-ga4-confirmed]');
       if (!header) return;
       const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\d{4}-\d{2}-\d{2})/)?.[1] ?? '—';
-      const ageDays = (date, today) => {
+      const ageDays = (date: string | undefined, today: string): number => {
         if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
         const parsed = Date.parse(date + 'T00:00:00+09:00');
         const current = Date.parse(today + 'T00:00:00+09:00');
@@ -319,7 +319,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
           const value = status.querySelector('b');
           if (value) value.textContent = normal ? '正常' : '要確認';
         }
-        for (const [name, age] of [['ga4', ga], ['gsc', gs]]) {
+        for (const [name, age] of [['ga4', ga], ['gsc', gs]] as const) {
           const row = document.querySelector(`[data-control-confidence="${name}"]`);
           const level = row?.querySelector('.confidence-level');
           if (!level) continue;
