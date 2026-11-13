@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-events-yanagita-kunio-kinen-koen-tone-gu',
+    date: '2026-11-14',
+    url: '/events/yanagita-kunio-kinen-koen-tone-guide/',
+    kind: 'new-article',
+    change: '柳田國男記念公苑（利根町布川）と徳満寺の間引き絵馬・赤松宗旦旧居跡・布佐駅からの道順のガイドを新規公開',
+    queries: ['柳田國男記念公苑', '柳田國男 利根町', '間引き絵馬 徳満寺', '柳田國男 布川'],
+    commit: 'PENDING',
+  },
+  {
     id: '20261113-news-mito-hollyhock-new-stadium-access',
     date: '2026-11-13',
     url: '/news/mito-hollyhock-new-stadium-access/',

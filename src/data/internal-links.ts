@@ -374,6 +374,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-winter-odekake-2026/': '茨城の冬のおでかけ2026-2027',
   '/events/ryugasaki-igappe-ichi-croquette-2026/': '龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁2026（11月21日）',
   '/events/toride-honjin-somenoke-guide/': '旧取手宿本陣染野家住宅（無料・金土日公開）',
+  '/events/yanagita-kunio-kinen-koen-tone-guide/': '柳田國男記念公苑（利根町・無料・間引き絵馬）',
   '/events/meiji-naruhodo-factory-moriya-guide/': '明治なるほどファクトリー守谷の工場見学（無料・予約制）',
   '/news/yakult-swallows-farm-moriya-2027/': 'ヤクルト二軍の新施設が守谷市に2027年3月開業予定（解説）',
   '/events/oarai-hatsuhinode-2027/': '大洗の初日の出・初詣2027（日の出時刻・駐車場・開門時間）',
