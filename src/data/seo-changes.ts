@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261113-events-tsukuba-autumn-2026',
+    date: '2026-11-13',
+    url: '/events/tsukuba-autumn-2026/',
+    kind: 'on-page',
+    change: '公式の11/12撮影の色づき（山頂〜終了・中腹色づき始め）を反映し、冒頭・要点・FAQ・descriptionを更新',
+    queries: ['筑波山 紅葉 2026', '筑波山 紅葉 見頃'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261113-events-toride-honjin-somenoke-guide',
     date: '2026-11-13',
     url: '/events/toride-honjin-somenoke-guide/',
