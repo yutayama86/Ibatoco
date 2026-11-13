@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '2026八千代の秋まつり（11/14・15）のステージ時間・シャトルバス・交通規制を新規公開',
     queries: ['八千代の秋まつり 2026', '八千代町 秋まつり', '八千代 秋まつり SHOW-WA', '八千代町 ハナコ'],
-    commit: 'PENDING',
+    commit: 'bacc785',
   },
   {
     id: '20261114-news-miho-umamusume-collab-2026',
