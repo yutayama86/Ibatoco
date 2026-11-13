@@ -161,4 +161,27 @@ jobs:
           # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する（PR が無くても、後で開いたときに結果が揃う）
           gh workflow run validate.yml --ref "$branch"
           gh workflow run codeql.yml --ref "$branch"
-          echo "::notice::Required validations dispatched on $branch. Protected main unchanged pending checks and merge."
+          # 保護対象 main は直接更新しない。必須チェックが揃ってから GitHub の auto-merge が実行する。
+          # 既存 PR は更新のたび head SHA が変わるため、その時点の変更ファイルを再検査する。
+          existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$existing" ]; then
+            echo "::error title=日次反映がブロックされました::同期 PR がありません。Settings → Actions → General → Allow GitHub Actions to create and approve pull requests を有効化するか、手動で同期 PR を作成してください。"
+            exit 1
+          fi
+          changed="$(gh api --paginate "repos/$REPOSITORY/pulls/$existing/files?per_page=100" --jq '.[].filename')"
+          if [ "$changed" != "data/editorial/performance-snapshot.json" ]; then
+            echo "::error title=自動マージ中止::PR #$existing は許可された1ファイル以外を変更しています：$changed"
+            exit 1
+          fi
+          pr_head="$(gh pr view "$existing" --repo "$REPOSITORY" --json headRefOid --jq '.headRefOid')"
+          branch_head="$(git rev-parse HEAD)"
+          if [ "$pr_head" != "$branch_head" ]; then
+            echo "::error title=自動マージ中止::同期PRのheadが変更されました。"
+            exit 1
+          fi
+          # 失敗時は workflow を赤くし、承認待ちを隠さない。GitHubの必須チェックを回避しない。
+          if ! gh pr merge "$existing" --repo "$REPOSITORY" --auto --squash --delete-branch=false; then
+            echo "::error title=自動マージ設定が必要::Auto-merge が利用できない、または PR CI が承認待ちです。Settings → General → Allow auto-merge を確認し、PR の Approve workflows to run が表示されていれば承認してください。"
+            exit 1
+          fi
+          echo "::notice::PR #$existing auto-merge を設定。必須チェック成功後だけ main に反映されます。"
