@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-news-miho-umamusume-collab-2026',
+    date: '2026-11-14',
+    url: '/news/miho-umamusume-collab-2026/',
+    kind: 'new-article',
+    change: 'ウマ娘×美浦村コラボ2026（11/12〜24、みほふれ愛プラザ）の日程・特典・行き方を新規公開',
+    queries: ['ウマ娘 美浦村', 'ウマ娘 美浦村 コラボ 2026', 'みほふれ愛プラザ ウマ娘', 'ウマ娘 クリアカード 美浦'],
+    commit: '1ca9051',
+  },
+  {
     id: '20261113-news-mito-hollyhock-new-stadium-access',
     date: '2026-11-13',
     url: '/news/mito-hollyhock-new-stadium-access/',
