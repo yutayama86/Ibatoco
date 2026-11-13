@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: 'ウマ娘×美浦村コラボ2026（11/12〜24、みほふれ愛プラザ）の日程・特典・行き方を新規公開',
     queries: ['ウマ娘 美浦村', 'ウマ娘 美浦村 コラボ 2026', 'みほふれ愛プラザ ウマ娘', 'ウマ娘 クリアカード 美浦'],
-    commit: 'PENDING',
+    commit: '1ca9051',
   },
   {
     id: '20261113-news-mito-hollyhock-new-stadium-access',
