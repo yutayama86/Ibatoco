@@ -239,8 +239,8 @@ const pageOpportunity = [...pageCandidates.values()]
   .slice(0,6);
 
 const confidenceRows = [
-  { label:'集客判断', level:dataAgeGa4 <= 2 ? '高' : dataAgeGa4 <= 4 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
-  { label:'SEO判断', level:dataAgeGsc <= 4 ? '高' : dataAgeGsc <= 7 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
+  { label:'集客判断', level:dataAgeGa4 <= 5 ? '高' : dataAgeGa4 <= 7 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
+  { label:'SEO判断', level:dataAgeGsc <= 6 ? '高' : dataAgeGsc <= 9 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
   { label:'収益判断', level:confirmedRevenue > 0 ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:confirmedRevenue > 0 ? '確定売上あり' : '確定売上未接続' },
   { label:'提携判断', level:Number(conv.non_partner_candidate_click ?? 0) > 0 ? '中' : '高', note:`未提携候補 ${fmt.format(Number(conv.non_partner_candidate_click ?? 0))} click` },
 ];
@@ -297,7 +297,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
     (() => {
       const header = document.querySelector('.freshness[data-ga4-confirmed]');
       if (!header) return;
-      const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\\d{4}-\\d{2}-\\d{2})/)?.[1] ?? '—';
+      const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\d{4}-\d{2}-\d{2})/)?.[1] ?? '—';
       const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
       const toToday = () => {
         const parts = formatter.formatToParts(new Date());
