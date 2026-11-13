@@ -44,6 +44,10 @@ const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
+const gscSignalsChecked = performance.gscDiscovery?.checkedAt?.slice(0, 10) ?? '不明';
+const bookingPagePeriodEnd = performance.conversionDetail?.byPagePeriod?.end ?? '不明';
+// pageMetricsの期間情報がないため、直近7日の最新実績だと断定しない。
+const topPagesPeriodNote = '集計期間未記録・直近7日の最新実績とは限りません';
 const warnings = performance.source?.warnings ?? [];
 const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
 const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
@@ -289,6 +293,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <span>データ更新状況</span>
         <strong>{generatedLabel}</strong>
         <small data-control-freshness-label>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
+        <small>注意：GA4上位ページ・SEO改善候補・送客クリックの内訳は最新7日と更新周期が異なります。</small>
       </div>
     </header>
 
@@ -425,7 +430,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
             </a>
           ))}
         </div>
-        <p class="note">売上予測ではなく、直近PV・検索表示・予約クリックを合成した<strong>相対的な改善優先度</strong>。</p>
+        <p class="note">過去に取得したページ別PV・検索表示・予約クリックの相対スコアです。データの更新時点が一致していないため、最新の改善優先順位としては扱わないでください。</p>
       </article>
 
       <article class="panel">
@@ -461,7 +466,8 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
 
     <section class="two-col">
       <article class="panel panel--focus">
-        <div class="panel__head"><div><span>重点ページ</span><h2>今日触るならここ</h2></div><small>実測ベース</small></div>
+        <div class="panel__head"><div><span>重点ページ</span><h2>今日触るならここ</h2></div><small>参考候補・期間混在</small></div>
+        <p class="note">GA4ページ別：{topPagesPeriodNote}／GSC改善候補：{gscSignalsChecked}確認。最新データとしての優先順位には使わず、GSCで再照合してください。</p>
         <div class="focus-list">
           {focusPages.map((item,index)=>(
             <a class="focus-item" href={item.path} target="_blank" rel="noreferrer">
@@ -565,7 +571,8 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
 
     <section class="two-col" id="traffic">
       <article class="panel">
-        <div class="panel__head"><div><span>集客</span><h2>アクセス上位ページ</h2></div><small>直近7日</small></div>
+        <div class="panel__head"><div><span>集客</span><h2>アクセス上位ページ</h2></div><small>過去取得・要更新</small></div>
+        <p class="note">{topPagesPeriodNote}。上部の直近7日PV（公式確定値）とは集計期間が一致する保証がありません。</p>
         <ol class="rank-list">
           {topPages.slice(0,8).map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(item.views)}</strong></li>
@@ -574,7 +581,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
       </article>
 
       <article class="panel">
-        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>実クリック</small></div>
+        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodEnd}までの集計</small></div>
         <ol class="rank-list">
           {bookingPages.map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(Number(item.outbound_booking_click??0))}</strong></li>
@@ -585,7 +592,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
 
     <section class="two-col" id="seo">
       <article class="panel">
-        <div class="panel__head"><div><span>SEO</span><h2>Google検索の改善候補</h2></div><small>GSC</small></div>
+        <div class="panel__head"><div><span>SEO</span><h2>Google検索の改善候補</h2></div><small>{gscSignalsChecked}確認の候補</small></div>
         <div class="signal-list">
           {gscSignals.map((item)=>(
             <div class="signal">
