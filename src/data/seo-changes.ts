@@ -49,6 +49,26 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261113-news-mito-hollyhock-new-stadium-access',
+    date: '2026-11-13',
+    url: '/news/mito-hollyhock-new-stadium-access/',
+    kind: 'on-page',
+    change: '11/25東京V戦のアクセス案内を反映し、駐車場の詳細は駐車場記事へ寄せて要約に（監査 指示3・Q2）',
+    queries: ['水戸信用金庫スタジアム アクセス', '東海駅から水戸信用金庫スタジアム'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261113-news-mito-shinkin-stadium-parking',
+    date: '2026-11-13',
+    url: '/news/mito-shinkin-stadium-parking/',
+    kind: 'on-page',
+    change: '11/25東京V戦のアクセス案内（使える区画・停められない区画・シャトル）を反映し、駐車場の正ページとして情報を集約（監査 指示3・Q2）',
+    queries: ['水戸信用金庫スタジアム 駐車場', '水戸ホーリーホック 駐車場', '笠松運動公園付帯駐車場'],
+    commit: 'PENDING',
+    experimentType: 'fact',
+  },
+  {
     id: '20261113-events-tsukuba-autumn-2026',
     date: '2026-11-13',
     url: '/events/tsukuba-autumn-2026/',
