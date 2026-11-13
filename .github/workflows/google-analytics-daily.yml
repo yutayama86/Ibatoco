@@ -180,7 +180,7 @@ jobs:
             exit 1
           fi
           # 失敗時は workflow を赤くし、承認待ちを隠さない。GitHubの必須チェックを回避しない。
-          if ! gh pr merge "$existing" --repo "$REPOSITORY" --auto --squash --delete-branch=false; then
+          if ! gh pr merge "$existing" --repo "$REPOSITORY" --auto --squash; then
             echo "::error title=自動マージ設定が必要::Auto-merge が利用できない、または PR CI が承認待ちです。Settings → General → Allow auto-merge を確認し、PR の Approve workflows to run が表示されていれば承認してください。"
             exit 1
           fi
