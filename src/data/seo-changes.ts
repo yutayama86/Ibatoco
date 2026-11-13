@@ -66,6 +66,15 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '11/25東京V戦のアクセス案内（使える区画・停められない区画・シャトル）を反映し、駐車場の正ページとして情報を集約（監査 指示3・Q2）',
     queries: ['水戸信用金庫スタジアム 駐車場', '水戸ホーリーホック 駐車場', '笠松運動公園付帯駐車場'],
     commit: 'c32f749',
+  },
+  {
+    id: '20261113-news-kasama-shinguri-matsuri-2026',
+    date: '2026-11-13',
+    url: '/news/kasama-shinguri-matsuri-2026/',
+    kind: 'internal-link',
+    change: '終了済みの冒頭に2027年の日程は未発表と明記し、開催中の笠間の菊まつり（〜11/23）へ案内（監査 指示1・Q4）',
+    queries: ['笠間の菊まつり 2026', '笠間菊まつり 2026', '笠間栗まつり2026'],
+    commit: 'ffdf1b7',
     experimentType: 'fact',
   },
   {
