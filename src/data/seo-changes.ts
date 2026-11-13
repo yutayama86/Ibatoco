@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式の11/12撮影の色づき（山頂〜終了・中腹色づき始め）を反映し、冒頭・要点・FAQ・descriptionを更新',
     queries: ['筑波山 紅葉 2026', '筑波山 紅葉 見頃'],
-    commit: 'PENDING',
+    commit: 'dec857e',
     experimentType: 'fact',
   },
   {
