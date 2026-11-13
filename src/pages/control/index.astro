@@ -292,18 +292,13 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
       </div>
     </header>
 
-  <script is:inline>
+  <script>
+    import { todayDateOnlyString } from '../../lib/date-only.js';
     // 表示後も日本時間の当日で判定する。デプロイ停止中でも「正常」を固定しない。
     (() => {
       const header = document.querySelector('.freshness[data-ga4-confirmed]');
       if (!header) return;
       const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\d{4}-\d{2}-\d{2})/)?.[1] ?? '—';
-      const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' });
-      const toToday = () => {
-        const parts = formatter.formatToParts(new Date());
-        const part = (type) => parts.find((p) => p.type === type)?.value ?? '';
-        return `${part('year')}-${part('month')}-${part('day')}`;
-      };
       const ageDays = (date, today) => {
         if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
         const parsed = Date.parse(date + 'T00:00:00+09:00');
@@ -311,7 +306,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         return Number.isFinite(parsed) && parsed <= current ? Math.floor((current - parsed) / 86400000) : Infinity;
       };
       const refresh = () => {
-        const today = toToday();
+        const today = todayDateOnlyString();
         const ga = ageDays(header.dataset.ga4Confirmed, today);
         const gs = ageDays(header.dataset.gscConfirmed, today);
         const normal = ga <= 5 && gs <= 6;
