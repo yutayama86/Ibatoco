@@ -155,7 +155,7 @@ const searchOpportunity = gscCompare.impressionsPct > 0 && gscCompare.ctrPct < 0
 // スナップショット自身の基準日との比較では、同期停止を検出できない。
 const todayJst = todayDateOnlyString();
 const confirmedAgeDays = (date: unknown): number => {
-  if (typeof date !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(date)) return Infinity;
+  if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
   const confirmed = Date.parse(date + 'T00:00:00+09:00');
   const today = Date.parse(todayJst + 'T00:00:00+09:00');
   return Number.isFinite(confirmed) && confirmed <= today ? Math.floor((today - confirmed) / 86400000) : Infinity;
@@ -239,8 +239,8 @@ const pageOpportunity = [...pageCandidates.values()]
   .slice(0,6);
 
 const confidenceRows = [
-  { label:'集客判断', level:dataAgeGa4 <= 2 ? '高' : dataAgeGa4 <= 4 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
-  { label:'SEO判断', level:dataAgeGsc <= 4 ? '高' : dataAgeGsc <= 7 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
+  { label:'集客判断', level:dataAgeGa4 <= 5 ? '高' : dataAgeGa4 <= 7 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
+  { label:'SEO判断', level:dataAgeGsc <= 6 ? '高' : dataAgeGsc <= 9 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
   { label:'収益判断', level:confirmedRevenue > 0 ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:confirmedRevenue > 0 ? '確定売上あり' : '確定売上未接続' },
   { label:'提携判断', level:Number(conv.non_partner_candidate_click ?? 0) > 0 ? '中' : '高', note:`未提携候補 ${fmt.format(Number(conv.non_partner_candidate_click ?? 0))} click` },
 ];
@@ -285,12 +285,56 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <h1>Ibatoco Control Center</h1>
         <p class="sub">今の状況・勝ち筋・改善点・次の一手を、迷わず判断するための画面。</p>
       </div>
-      <div class="freshness">
+      <div class="freshness" data-ga4-confirmed={freshness?.ga4LatestConfirmedDate ?? ''} data-gsc-confirmed={freshness?.gscLatestConfirmedDate ?? ''}>
         <span>データ更新状況</span>
         <strong>{generatedLabel}</strong>
-        <small>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
+        <small data-control-freshness-label>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
       </div>
     </header>
+
+  <script>
+    import { todayDateOnlyString } from '../../lib/date-only.js';
+    // 表示後も日本時間の当日で判定する。デプロイ停止中でも「正常」を固定しない。
+    (() => {
+      const header = document.querySelector<HTMLElement>('.freshness[data-ga4-confirmed]');
+      if (!header) return;
+      const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\d{4}-\d{2}-\d{2})/)?.[1] ?? '—';
+      const ageDays = (date: string | undefined, today: string): number => {
+        if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
+        const parsed = Date.parse(date + 'T00:00:00+09:00');
+        const current = Date.parse(today + 'T00:00:00+09:00');
+        return Number.isFinite(parsed) && parsed <= current ? Math.floor((current - parsed) / 86400000) : Infinity;
+      };
+      const refresh = () => {
+        const today = todayDateOnlyString();
+        const ga = ageDays(header.dataset.ga4Confirmed, today);
+        const gs = ageDays(header.dataset.gscConfirmed, today);
+        const normal = ga <= 5 && gs <= 6;
+        const freshnessLabel = header.querySelector('[data-control-freshness-label]');
+        if (freshnessLabel) freshnessLabel.textContent = `${normal ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）'}｜判定日 ${today}｜snapshot ${snapshotDate}`;
+        const status = document.querySelector('[data-control-data-status]');
+        if (status) {
+          status.classList.toggle('is-good', normal);
+          status.classList.toggle('is-bad', !normal);
+          const value = status.querySelector('b');
+          if (value) value.textContent = normal ? '正常' : '要確認';
+        }
+        for (const [name, age] of [['ga4', ga], ['gsc', gs]] as const) {
+          const row = document.querySelector(`[data-control-confidence="${name}"]`);
+          const level = row?.querySelector('.confidence-level');
+          if (!level) continue;
+          const rank = name === 'ga4' ? (age <= 5 ? '高' : age <= 7 ? '中' : '低') : (age <= 6 ? '高' : age <= 9 ? '中' : '低');
+          level.textContent = rank;
+          level.classList.toggle('high', rank === '高');
+          level.classList.toggle('mid', rank === '中');
+          level.classList.toggle('low', rank === '低');
+        }
+      };
+      refresh();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+      window.addEventListener('pageshow', refresh);
+    })();
+  </script>
 
     <GrowthControl />
 
@@ -357,7 +401,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <div class="panel__head"><div><span>運営状態</span><h2>いま正常か、詰まっているか</h2></div></div>
         <div class="status-grid">
           {operatingStatus.map((item)=>(
-            <div class:list={['status-pill',item.good?'is-good':'is-bad']}>
+            <div class:list={['status-pill',item.good?'is-good':'is-bad']} data-control-data-status={item.label === 'データ鮮度' ? 'true' : undefined}>
               <span>{item.label}</span><b>{item.state}</b>
             </div>
           ))}
@@ -388,7 +432,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
         <div class="panel__head"><div><span>判断の信頼度</span><h2>どこまで信じてよいか</h2></div><small>データ鮮度ベース</small></div>
         <div class="confidence-list">
           {confidenceRows.map((row)=>(
-            <div class="confidence-row">
+            <div class="confidence-row" data-control-confidence={row.label === '集客判断' ? 'ga4' : row.label === 'SEO判断' ? 'gsc' : undefined}>
               <span>{row.label}</span>
               <div>
                 <b class:list={['confidence-level',row.level==='高'?'high':row.level==='中'?'mid':'low']}>{row.level}</b>
