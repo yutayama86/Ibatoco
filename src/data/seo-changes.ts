@@ -58,6 +58,15 @@ export const SEO_CHANGES: SeoChange[] = [
     commit: '1cb3eab',
   },
   {
+    id: '20261114-events-shirosato-keisokusan-gozenyama-hi',
+    date: '2026-11-14',
+    url: '/events/shirosato-keisokusan-gozenyama-hiking-guide/',
+    kind: 'new-article',
+    change: '城里町の鶏足山・御前山ハイキング（駐車場・コース・眺め）のガイドを新規公開',
+    queries: ['鶏足山 ハイキング', '鶏足山 駐車場', '御前山 ハイキング 城里', '城里町 登山'],
+    commit: '2e328c9',
+  },
+  {
     id: '20261114-events-sugao-numa-swan-bando-guide',
     date: '2026-11-14',
     url: '/events/sugao-numa-swan-bando-guide/',
