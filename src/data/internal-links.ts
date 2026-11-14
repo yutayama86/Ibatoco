@@ -245,6 +245,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/area/sakuragawa/': '桜川市の地域情報',
   '/area/yuki/': '結城市の地域情報',
   '/events/bando-masakado-yukari-guide/': '坂東市の平将門ゆかりの地（國王神社・延命院）',
+  '/events/sugao-numa-swan-bando-guide/': '菅生沼のハクチョウ（坂東市・天神山公園・昨季の飛来数）',
   '/events/bannoke-jutaku-joso-guide/': '旧坂野家住宅（常総市）の見どころと行き方',
   '/events/hitachi-gyu-gourmet/': '常陸牛とは（等級の基準と店の探し方）',
   '/events/hitachi-sosha-gu-ishioka-guide/': '常陸國總社宮（石岡市）の参拝・駐車場',

@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-events-sugao-numa-swan-bando-guide',
+    date: '2026-11-14',
+    url: '/events/sugao-numa-swan-bando-guide/',
+    kind: 'new-article',
+    change: '菅生沼のコハクチョウ（坂東市）の時期・天神山公園・昨季の観測数を新規公開',
+    queries: ['菅生沼 ハクチョウ', '菅生沼 白鳥 2026', '天神山公園 白鳥', '坂東市 白鳥'],
+    commit: '69c5679',
+  },
+  {
     id: '20261114-news-ryugasaki-relay-marathon-2027',
     date: '2026-11-14',
     url: '/news/ryugasaki-relay-marathon-2027/',
