@@ -139,3 +139,17 @@ test('ページ別データの鮮度：期間なし・遅れ・最新を分け�
   assert.equal(stale.status, 'stale');
   assert.equal(stale.delayDays, 5);
 });
+
+test('確定日の調整：GSC が1〜2日遅れたら最新の確定日まで下げ、3日以上なら止める', async () => {
+  const { alignConfirmedThrough } = await import('../src/lib/ga4-daily.mjs');
+  const dates = ['2026-11-08', '2026-11-09', '2026-11-10'];
+  assert.equal(alignConfirmedThrough('2026-11-10', dates), '2026-11-10');
+  assert.equal(alignConfirmedThrough('2026-11-11', dates), '2026-11-10'); // 2026-11-14 の実例
+  assert.equal(alignConfirmedThrough('2026-11-12', dates), '2026-11-10');
+  assert.throws(() => alignConfirmedThrough('2026-11-13', dates), /3 日遅れ/);
+  assert.throws(() => alignConfirmedThrough('2026-11-10', []), /日付が無い/);
+  // 予定より後の日付は使わない
+  assert.equal(alignConfirmedThrough('2026-11-09', dates), '2026-11-09');
+  // 月をまたいでも暦日で数える
+  assert.equal(alignConfirmedThrough('2026-12-01', ['2026-11-29', '2026-11-30']), '2026-11-30');
+});

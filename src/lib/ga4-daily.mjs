@@ -30,6 +30,25 @@ export function googleDailyRange(nowMs) {
   return { from: addDays(through, -(GA4_DAILY_MAX_DAYS - 1)), through };
 }
 const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
+
+/** GSC の確定（dataState: final）が予定より遅れたとき、確定日を何日まで手前にずらしてよいか */
+export const GOOGLE_CONFIRM_MAX_SLIP_DAYS = 2;
+
+/**
+ * 確定日をそろえる。Search Console の確定データが予定の確定日（through）に届いていない日は、
+ * GSC の最新の確定日まで確定日を下げる（GA4 もその日までで切る）。0 や推計で埋めない。
+ * 遅れが GOOGLE_CONFIRM_MAX_SLIP_DAYS を超えたら異常として止める（2026-11-14 の日次同期の失敗から）。
+ * @param {string} through 予定の確定日（YYYY-MM-DD・日本の暦日）
+ * @param {string[]} gscDates GSC が返した日付
+ * @returns {string} 実際に使う確定日
+ */
+export function alignConfirmedThrough(through, gscDates, maxSlip = GOOGLE_CONFIRM_MAX_SLIP_DAYS) {
+  const latest = (gscDates ?? []).filter((d) => isDate(d) && d <= through).sort().at(-1);
+  if (!latest) throw new Error('GSC に確定日以前の日付が無い');
+  const slip = daysBetween(latest, through);
+  if (slip > maxSlip) throw new Error(`GSC の確定データが ${latest} までしか無い（予定の確定日 ${through} より ${slip} 日遅れ。上限 ${maxSlip} 日）`);
+  return latest;
+}
 const num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
 
 /**

@@ -4,7 +4,7 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
-import { BOOKING_CTA_AB_EVENTS, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
+import { BOOKING_CTA_AB_EVENTS, alignConfirmedThrough, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
 import {
   GSC_ROW_LIMIT, pageLevelWindows, buildGscQueries, buildPageMetrics, buildTopPages, ga4ViewsByWindow, checkPageLevel,
@@ -13,7 +13,9 @@ import {
 const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
 // 35 days so the 28+7 day windows never depend on rows left over from an earlier (possibly failed) sync.
-const { from, through } = googleDailyRange(Date.now());
+const { from, through: plannedThrough } = googleDailyRange(Date.now());
+// GSC の確定が遅れた日は、GSC の最新の確定日まで確定日を下げる（下の alignConfirmedThrough）
+let through = plannedThrough;
 const token = env.GOOGLE_ACCESS_TOKEN;
 const property = env.GA4_PROPERTY_ID;
 const site = env.GSC_SITE_URL;
@@ -56,6 +58,14 @@ const gscDaily = (gsc.rows ?? []).map(r => ({
   date: r.keys[0], clicks: r.clicks, impressions: r.impressions, position: r.position
 }));
 if (!gscDaily.length) throw new Error('GSC response empty; do not publish zero-filled data');
+// GSC の確定データ（final）は予定の確定日に届かないことがある（2026-11-14 は 11-11 が未確定で preflight が止まった）。
+// その日は GSC の最新の確定日まで確定日を下げ、GA4 もその日までで切る。遅れが2日を超えたら止める
+through = alignConfirmedThrough(plannedThrough, gscDaily.map((d) => d.date));
+if (through !== plannedThrough) {
+  for (const date of [...dailyMap.keys()]) if (date > through) dailyMap.delete(date);
+  for (let i = gscDaily.length - 1; i >= 0; i--) if (gscDaily[i].date > through) gscDaily.splice(i, 1);
+  console.warn(`::warning title=確定日を${through}に調整::Search Console の確定データが ${plannedThrough} にまだ届いていないため、${through} までを同期します（0 や推計では埋めません）。`);
+}
 // 予約ボタンの A/B 実験の4イベント（直近7日・確定日まで）。行の無いイベントは null のまま（0 で埋めない）
 const abPeriod = { start: addDays(through, -6), end: through };
 const abReport = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {

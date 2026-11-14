@@ -128,3 +128,12 @@
 - 鮮度：`node scripts/analytics-freshness.mjs` がページ別の期間も報告する（警告だけで、`--strict` でも止めない）。`/control/` の「集計期間未記録」は期間が記録されていれば期間の表示に変わる
 - 未確認：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。最初の日次実行のログ「page-level N query rows」と、同期 PR の `source.pageLevel` で確認する
 - 直した既存の不具合：`source.warnings` に同じ2文が毎日追加されて重複していた。同じ文は置き換えるようにした
+
+## 2026-11-14：GSC の確定が遅れた日の扱い
+
+11月14日の日次同期は、fetch で `GSC: latest date 2026-11-10 != confirmedThrough 2026-11-11` となり止まった。Search Console の確定データ（`dataState: 'final'`）が、予定の確定日（今日−3日）にまだ届いていなかったため。ページ別の取得（A1）は成功していた（`page-level 3000 query rows / 200 pages`）。
+
+- 対応：`scripts/google-api-daily.mjs` は、GSC の最新の確定日が予定より1〜2日遅れているときは、その日まで確定日を下げて同期する（GA4 の日別もその日までで切る。ページ別・A/B の期間も同じ確定日で取る）。`::warning title=確定日を…に調整` を出す
+- 3日以上遅れたときは従来どおり止める（`alignConfirmedThrough`、テストは `scripts/gsc-page-level.test.mjs`）
+- 確定日が前回と同じ日になることはあるが、前回より前には戻さない（sync の regression 検査はそのまま）
+- 0 や推計で埋めない原則は変えていない
