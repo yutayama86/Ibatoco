@@ -16,8 +16,8 @@ const REGISTRY = resolve(ROOT, 'data/editorial/event-registry.json');
 const MUNICIPALITIES = resolve(ROOT, 'src/data/areas.ts');
 
 export function extractText(html) {
-  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style\s*>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ')
     .replace(/\s+/g, ' ').trim();
