@@ -13,6 +13,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES = resolve(ROOT, 'data/editorial/official-source-watch.json');
 const OUTPUT = resolve(ROOT, 'reports/editorial/official-source-watch.json');
 const REGISTRY = resolve(ROOT, 'data/editorial/event-registry.json');
+const MUNICIPALITIES = resolve(ROOT, 'src/data/areas.ts');
 
 export function extractText(html) {
   return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
@@ -118,6 +119,24 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
   };
 }
 
+
+/**
+ * Measure direct city-specific source coverage only.
+ * Prefecture-wide sources do not count as direct coverage of all municipalities.
+ */
+export function municipalityCoverage(areaSource, sources) {
+  const municipalities = [...areaSource.matchAll(/\\{ slug: '([^']+)', name: '([^']+)', region: '([^']+)'/g)]
+    .map((m) => ({ slug: m[1], name: m[2], region: m[3] }));
+  const directlyCovered = new Set(sources.map((s) => s.municipality).filter(Boolean));
+  return {
+    totalMunicipalities: municipalities.length,
+    citiesWithDirectSource: municipalities.filter((m) => directlyCovered.has(m.name)).length,
+    missing: municipalities.filter((m) => !directlyCovered.has(m.name)),
+    status: municipalities.length === 44 ? 'complete-inventory' : 'incomplete-inventory',
+    note: 'Measures configured direct municipality references, not successful crawling or event coverage.',
+  };
+}
+
 export async function runWatch(sources, fetchFn = fetch) {
   const results = [];
   for (const source of sources) results.push(await watchSource(source, fetchFn));
@@ -135,6 +154,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     existsSync(OUTPUT) ? JSON.parse(readFileSync(OUTPUT, 'utf8')) : null,
     existsSync(REGISTRY) ? JSON.parse(readFileSync(REGISTRY, 'utf8')) : { events: [] },
   );
+  result.municipalityCoverage = municipalityCoverage(readFileSync(MUNICIPALITIES, 'utf8'), config.sources);
   if (process.argv.includes('--write')) {
     mkdirSync(dirname(OUTPUT), { recursive: true });
     writeFileSync(OUTPUT, JSON.stringify(result, null, 2) + '\n', 'utf8');
