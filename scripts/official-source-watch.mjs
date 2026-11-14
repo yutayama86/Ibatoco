@@ -16,11 +16,59 @@ const REGISTRY = resolve(ROOT, 'data/editorial/event-registry.json');
 const MUNICIPALITIES = resolve(ROOT, 'src/data/areas.ts');
 
 export function extractText(html) {
-  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, ' ')
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style\s*>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ')
-    .replace(/\s+/g, ' ').trim();
+  // Tiny conservative text extractor for public watch pages, not an HTML sanitizer.
+  // Parse tag boundaries rather than trying to strip script/style blocks with regex.
+  const out = [];
+  let ignore = null;
+  let index = 0;
+  while (index < html.length) {
+    if (html.startsWith('<!--', index)) {
+      const commentEnd = html.indexOf('-->', index + 4);
+      index = commentEnd < 0 ? html.length : commentEnd + 3;
+      continue;
+    }
+    if (html[index] !== '<') {
+      if (!ignore) out.push(html[index]);
+      index += 1;
+      continue;
+    }
+    let cursor = index + 1;
+    let quote = null;
+    while (cursor < html.length) {
+      const char = html[cursor];
+      if (quote) {
+        if (char === quote) quote = null;
+      } else if (char === '"' || char === "'") {
+        quote = char;
+      } else if (char === '>') {
+        break;
+      }
+      cursor += 1;
+    }
+    if (cursor >= html.length) break;
+    const tag = html.slice(index + 1, cursor).trim().toLowerCase();
+    const closing = tag.startsWith('/');
+    let pos = closing ? 1 : 0;
+    while (tag[pos] === ' ') pos += 1;
+    const start = pos;
+    while (pos < tag.length) {
+      const char = tag[pos];
+      if (!((char >= 'a' && char <= 'z') || (char >= '0' && char <= '9'))) break;
+      pos += 1;
+    }
+    const name = tag.slice(start, pos);
+    const remainder = tag.slice(pos).trim();
+    if (name === 'script' || name === 'style') {
+      if (!closing && !ignore) ignore = name;
+      if (closing && remainder === '' && ignore === name) ignore = null;
+    }
+    if (!ignore) out.push(' ');
+    index = cursor + 1;
+  }
+  return out.join('').replaceAll('&nbsp;', ' ').replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<').replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"').replaceAll('&#39;', "'")
+    .replace(/\\s+/g, ' ').trim();
 }
 
 export function analyzePage(text, terms) {
