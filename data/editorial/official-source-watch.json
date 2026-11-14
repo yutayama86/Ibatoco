@@ -102,6 +102,53 @@
         "コンサート"
       ],
       "note": "Official events category, not necessarily exhaustive."
+    },
+    {
+      "id": "koga-city-calendar",
+      "category": "government",
+      "area": "県西",
+      "municipality": "古河市",
+      "url": "https://www.city.ibaraki-koga.lg.jp/calendar.html",
+      "watchTerms": [
+        "イベント",
+        "フェス",
+        "祭り",
+        "ゲスト",
+        "マルシェ",
+        "ライブ",
+        "トークショー"
+      ],
+      "note": "Official city calendar; verify subpage details and upcoming months separately."
+    },
+    {
+      "id": "chikusei-city-calendar",
+      "category": "government",
+      "area": "県西",
+      "municipality": "筑西市",
+      "url": "https://www.city.chikusei.lg.jp/cal.php?category=8&day=15&mode=detail&month=11&year=2026",
+      "watchTerms": [
+        "和太鼓",
+        "餃子",
+        "イベント",
+        "まつり",
+        "出演"
+      ],
+      "note": "Date-specific official calendar page. This is a time-limited regression fixture, not evergreen coverage."
+    },
+    {
+      "id": "yachiyo-autumn-festival-2026",
+      "category": "government",
+      "area": "県西",
+      "municipality": "八千代町",
+      "url": "https://www.town.ibaraki-yachiyo.lg.jp/sp/page/page003120.html",
+      "watchTerms": [
+        "SHOW-WA",
+        "特別観覧",
+        "秋まつり",
+        "ステージ",
+        "出演"
+      ],
+      "note": "2026 celebrity-show regression source; date-specific page, not evergreen coverage."
     }
   ]
 }
