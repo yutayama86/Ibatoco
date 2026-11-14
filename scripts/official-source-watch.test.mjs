@@ -74,3 +74,14 @@ test('show exactly which municipality needs a direct official source', () => {
   assert.equal(coverage.missing[0].name, '古河市');
   assert.equal(coverage.status, 'incomplete-inventory');
 });
+
+test('detect stale official edition even when page is fetched successfully', async () => {
+  const source = { id:'festival-2026', url:'https://town.example.jp/event', watchTerms:['秋まつり'], expectedText:'2026八千代の秋まつり' };
+  const result = await runWatch([source], async () => ({
+    ok:true, url:'https://town.example.jp/event', headers:new Headers({'content-type':'text/html'}),
+    text:async()=>'<html><body>'+'2024八千代の秋まつりイベント案内'.repeat(9)+'</body></html>',
+  }));
+  assert.equal(result.results[0].status,'expected-text-missing');
+  assert.equal(result.failed,1);
+  assert.equal(result.candidatesVerified,0);
+});
