@@ -93,3 +93,11 @@ test('strip closing script and style tags with whitespace before closing bracket
   assert.ok(!text.includes('2024年11月15日'));
   assert.ok(!text.includes('secret'));
 });
+
+test('do not treat malformed script closing tag as a valid end tag', () => {
+  const html = '<p>公開イベント</p><script>SECRET</script bar>SECRET2</script><p>駐車場</p>';
+  const text = extractText(html);
+  assert.ok(text.includes('公開イベント'));
+  assert.ok(text.includes('駐車場'));
+  assert.ok(!text.includes('SECRET'));
+});
