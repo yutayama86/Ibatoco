@@ -261,6 +261,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/kujiragaoka-hitachiota-guide/': '鯨ヶ丘の町並み（常陸太田市）の歩き方',
   '/events/michinoeki-goka-guide/': '道の駅ごかの定休日・食事・駐車場',
   '/events/michinoeki-katsura-shirosato-guide/': '道の駅かつら（城里町）の営業時間・食事',
+  '/events/shirosato-keisokusan-gozenyama-hiking-guide/': '鶏足山・御前山のハイキング（城里町・駐車場とコース）',
   '/events/okadaira-kaizuka-miho-guide/': '陸平貝塚と美浦村文化財センターの見学ガイド',
   '/events/rose-pork-ibaraki-gourmet/': 'ローズポークとは（特徴と買える店の探し方）',
   '/events/ryugasaki-shinrin-koen-guide/': '龍ケ崎市森林公園の料金・駐車場・アクセス',
