@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { extractText, analyzePage, runWatch } from './official-source-watch.mjs';
+import { extractText, analyzePage, runWatch, annotateWatch } from './official-source-watch.mjs';
 
 test('strip scripts and distinguish date mentions from verified event dates', () => {
   const text = extractText('<p>2026年11月14日 COFFEE FESTIVAL</p><script>fake date 2026年12月1日</script>');
@@ -27,4 +27,19 @@ test('matching keywords does not create a verified event', async () => {
   assert.equal(result.fetched, 1);
   assert.equal(result.candidatesVerified, 0);
   assert.deepEqual(result.results[0].matchedTerms,['まつり']);
+});
+
+test('report page changes and existing event by exact official URL without claiming full coverage', () => {
+  const watch = { results: [
+    { id:'a', url:'https://example.org/event', status:'fetched', hash:'new' },
+    { id:'b', url:'https://example.org/feed', status:'http-error' },
+  ] };
+  const previous = { results: [{ id:'a', status:'fetched', hash:'old' }] };
+  const registry = { events: [{ id:'event-2026', name:'Festival', officialUrl:'https://example.org/event', articleUrl:null, status:'draft' }] };
+  const result = annotateWatch(watch, previous, registry);
+  assert.equal(result.previousReportAvailable, true);
+  assert.equal(result.results[0].change, 'changed');
+  assert.equal(result.results[0].registryMatchesByExactOfficialUrl[0].status, 'draft');
+  assert.equal(result.results[1].change, 'not-comparable');
+  assert.deepEqual(result.results[1].registryMatchesByExactOfficialUrl, []);
 });
