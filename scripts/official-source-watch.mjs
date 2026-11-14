@@ -83,6 +83,7 @@ export async function watchSource(source, fetchFn = fetch) {
     if (html.length > 2_000_000) return { id: source.id, url: source.url, status: 'too-large', checkedAt };
     const content = extractText(html);
     if (content.length < 80) return { id: source.id, url: source.url, status: 'empty-or-script-rendered', checkedAt };
+    if (source.expectedText && !content.includes(source.expectedText)) return { id: source.id, url: source.url, status: 'expected-text-missing', expectedText: source.expectedText, checkedAt };
     return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: type.toLowerCase().includes('text/html') ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
   } catch (error) {
     return { id: source.id, url: source.url, status: 'fetch-failed', checkedAt, error: error?.name === 'TimeoutError' ? 'timeout' : 'network-or-access-error' };
