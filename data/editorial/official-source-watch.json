@@ -142,7 +142,7 @@
       "category": "government",
       "area": "県西",
       "municipality": "八千代町",
-      "url": "https://www.town.ibaraki-yachiyo.lg.jp/page/page003120.html",
+      "url": "https://www.town.ibaraki-yachiyo.lg.jp/news.php",
       "watchTerms": [
         "SHOW-WA",
         "特別観覧",
@@ -150,7 +150,7 @@
         "ステージ",
         "出演"
       ],
-      "note": "Current 2026 article confirmed; /sp/ version showed outdated 2024 content. Seasonal event detail, not a year-round feed.",
+      "note": "Official rolling news list currently includes 2026 autumn festival. This is a listing, not the detailed event primary source; expectedText is a temporary regression check, remove/refresh after the event.",
       "expectedText": "2026八千代の秋まつり"
     }
   ]
