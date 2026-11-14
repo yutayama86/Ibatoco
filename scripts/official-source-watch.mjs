@@ -4,7 +4,7 @@
  * This does NOT scrape social sites, verify event claims, or publish content.
  * Keep it distinct from editorial-os (which checks already discovered events).
  */
-import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
@@ -12,6 +12,7 @@ import { createHash } from 'node:crypto';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES = resolve(ROOT, 'data/editorial/official-source-watch.json');
 const OUTPUT = resolve(ROOT, 'reports/editorial/official-source-watch.json');
+const REGISTRY = resolve(ROOT, 'data/editorial/event-registry.json');
 
 export function extractText(html) {
   return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
@@ -56,6 +57,29 @@ export async function watchSource(source, fetchFn = fetch) {
   }
 }
 
+export function annotateWatch(watch, previous = null, registry = { events: [] }) {
+  const past = new Map((previous?.results ?? []).map((row) => [row.id, row]));
+  const knownUrls = new Map();
+  for (const event of registry.events ?? []) {
+    if (event.officialUrl) {
+      const entries = knownUrls.get(event.officialUrl) ?? [];
+      entries.push({ id: event.id, name: event.name, articleUrl: event.articleUrl ?? null, status: event.status });
+      knownUrls.set(event.officialUrl, entries);
+    }
+  }
+  return {
+    ...watch,
+    previousReportAvailable: !!previous,
+    results: watch.results.map((row) => ({
+      ...row,
+      change: row.status !== 'fetched' ? 'not-comparable'
+        : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
+        : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
+      registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
+    })),
+  };
+}
+
 export async function runWatch(sources, fetchFn = fetch) {
   const results = [];
   for (const source of sources) results.push(await watchSource(source, fetchFn));
@@ -68,7 +92,11 @@ export async function runWatch(sources, fetchFn = fetch) {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const config = JSON.parse(readFileSync(SOURCES, 'utf8'));
-  const result = await runWatch(config.sources);
+  const result = annotateWatch(
+    await runWatch(config.sources),
+    existsSync(OUTPUT) ? JSON.parse(readFileSync(OUTPUT, 'utf8')) : null,
+    existsSync(REGISTRY) ? JSON.parse(readFileSync(REGISTRY, 'utf8')) : { events: [] },
+  );
   if (process.argv.includes('--write')) {
     mkdirSync(dirname(OUTPUT), { recursive: true });
     writeFileSync(OUTPUT, JSON.stringify(result, null, 2) + '\n', 'utf8');
