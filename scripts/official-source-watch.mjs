@@ -41,7 +41,7 @@ export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
   const out = [], seen = new Set();
   for (const match of html.matchAll(new RegExp('<a\\b([^>]*)>([\\s\\S]*?)<\\/a>', 'gi'))) {
     const attrs = match[1];
-    const href = attrs.match(/\\bhref\\s*=\\s*["']([^"']+)["']/i)?.[1];
+    const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1];
     if (!href) continue;
     let url;
     try { url = new URL(href.replaceAll('&amp;', '&'), pageUrl); } catch { continue; }
@@ -125,7 +125,7 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
  * Prefecture-wide sources do not count as direct coverage of all municipalities.
  */
 export function municipalityCoverage(areaSource, sources) {
-  const municipalities = [...areaSource.matchAll(/\\{ slug: '([^']+)', name: '([^']+)', region: '([^']+)'/g)]
+  const municipalities = [...areaSource.matchAll(/\{ slug: '([^']+)', name: '([^']+)', region: '([^']+)'/g)]
     .map((m) => ({ slug: m[1], name: m[2], region: m[3] }));
   const directlyCovered = new Set(sources.map((s) => s.municipality).filter(Boolean));
   return {
