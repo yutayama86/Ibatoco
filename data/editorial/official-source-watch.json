@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "description": "Official public sources for read-only opportunity discovery. A successful fetch is not proof that all events were found.",
+  "sources": [
+    {
+      "id": "hitachinaka-coffee-2026",
+      "category": "organizer",
+      "area": "県央",
+      "municipality": "ひたちなか市",
+      "url": "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1014541.html",
+      "watchTerms": [
+        "COFFEE FESTIVAL",
+        "シャトルバス",
+        "出店"
+      ],
+      "note": "Known missed event regression source; individual page, not a municipality-wide feed."
+    },
+    {
+      "id": "ibaraki-guide-events",
+      "category": "tourism",
+      "area": "全県",
+      "municipality": null,
+      "url": "https://www.ibarakiguide.jp/event.php",
+      "watchTerms": [
+        "イベント",
+        "フェス",
+        "まつり",
+        "コーヒー",
+        "出演"
+      ],
+      "note": "Prefecture tourism listing; listings may be partial or paginated."
+    },
+    {
+      "id": "kenpoku-2026-november",
+      "category": "government",
+      "area": "県北",
+      "municipality": null,
+      "url": "https://www.pref.ibaraki.jp/kikaku/kenpokusinkou/chiiki/event/202611.html",
+      "watchTerms": [
+        "イベント",
+        "祭り",
+        "マルシェ",
+        "出演"
+      ],
+      "note": "Six north municipalities monthly listing; not 44-municipality coverage."
+    }
+  ]
+}
