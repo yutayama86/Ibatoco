@@ -125,22 +125,24 @@
       "category": "government",
       "area": "県西",
       "municipality": "筑西市",
-      "url": "https://www.city.chikusei.lg.jp/cal.php?category=8&day=15&mode=detail&month=11&year=2026",
+      "url": "https://www.city.chikusei.lg.jp/cal.php?category=8",
       "watchTerms": [
         "和太鼓",
         "餃子",
         "イベント",
         "まつり",
-        "出演"
+        "出演",
+        "商工祭",
+        "フェス"
       ],
-      "note": "Date-specific official calendar page. This is a time-limited regression fixture, not evergreen coverage."
+      "note": "Official ongoing event calendar; validate month changes and subpage detail separately."
     },
     {
       "id": "yachiyo-autumn-festival-2026",
       "category": "government",
       "area": "県西",
       "municipality": "八千代町",
-      "url": "https://www.town.ibaraki-yachiyo.lg.jp/sp/page/page003120.html",
+      "url": "https://www.town.ibaraki-yachiyo.lg.jp/page/page003120.html",
       "watchTerms": [
         "SHOW-WA",
         "特別観覧",
@@ -148,7 +150,7 @@
         "ステージ",
         "出演"
       ],
-      "note": "2026 celebrity-show regression source; date-specific page, not evergreen coverage."
+      "note": "Current 2026 article confirmed; /sp/ version showed outdated 2024 content. Seasonal event detail, not a year-round feed."
     }
   ]
 }
