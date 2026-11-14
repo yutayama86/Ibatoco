@@ -43,6 +43,65 @@
         "出演"
       ],
       "note": "Six north municipalities monthly listing; not 44-municipality coverage."
+    },
+    {
+      "id": "mito-city-calendar",
+      "category": "government",
+      "area": "県央",
+      "municipality": "水戸市",
+      "url": "https://www.city.mito.lg.jp/calendar/",
+      "watchTerms": [
+        "イベント",
+        "祭",
+        "コンサート",
+        "出演",
+        "フェス"
+      ],
+      "note": "Calendar may have dynamic views; only currently rendered HTML is inspected."
+    },
+    {
+      "id": "tsukuba-city-calendar",
+      "category": "government",
+      "area": "県南",
+      "municipality": "つくば市",
+      "url": "https://www.city.tsukuba.lg.jp/calendar.html",
+      "watchTerms": [
+        "イベント",
+        "コーヒー",
+        "フェス",
+        "コンサート",
+        "講演"
+      ],
+      "note": "Calendar listing; coverage depends on site rendering and pagination."
+    },
+    {
+      "id": "tsukuba-center-events",
+      "category": "venue",
+      "area": "県南",
+      "municipality": "つくば市",
+      "url": "https://www.city.tsukuba.lg.jp/jigyosha/machinami/machidukuri/koukyokukan/20273.html",
+      "watchTerms": [
+        "コーヒーフェス",
+        "ワン博",
+        "よさこい",
+        "イベント"
+      ],
+      "note": "Cross-check specialized festivals that may not appear on generic calendars."
+    },
+    {
+      "id": "kashima-city-events",
+      "category": "government",
+      "area": "鹿行",
+      "municipality": "鹿嶋市",
+      "url": "https://city.kashima.ibaraki.jp/life/14/61/",
+      "watchTerms": [
+        "イベント",
+        "はまぐり",
+        "祭り",
+        "アントラーズ",
+        "コンサート"
+      ],
+      "note": "Official events category, not necessarily exhaustive."
     }
   ]
 }
