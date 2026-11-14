@@ -85,3 +85,11 @@ test('detect stale official edition even when page is fetched successfully', asy
   assert.equal(result.failed,1);
   assert.equal(result.candidatesVerified,0);
 });
+
+test('strip closing script and style tags with whitespace before closing bracket', () => {
+  const html = '<p>2026年11月15日 イベント</p><script>hidden 2024年11月15日</script ><style>secret</style >';
+  const text = extractText(html);
+  assert.ok(text.includes('2026年11月15日'));
+  assert.ok(!text.includes('2024年11月15日'));
+  assert.ok(!text.includes('secret'));
+});
