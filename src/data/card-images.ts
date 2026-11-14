@@ -80,6 +80,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "shimotsuma-keisui-melon-ginza-2026": "/images/card/shimotsuma-keisui-melon-ginza-2026-7e804637.png",
   "shin-ibaraki-meshi-2026": "/images/card/shin-ibaraki-meshi-2026-6c5eb34d.png",
   "soyora-tsukuba-gakuennomori-open-2026": "/images/card/soyora-tsukuba-gakuennomori-open-2026-866134fe.png",
+  "toride-cycle-art-festival-2026": "/images/card/toride-cycle-art-festival-2026-1f63e4a4.png",
   "tsukuba-autonomous-bus-2026": "/images/card/tsukuba-autonomous-bus-2026-866134fe.png",
   "tsukuba-gatepark-parking-nov3-2026": "/images/card/tsukuba-gatepark-parking-nov3-2026-866134fe.png",
   "tsukuba-personal-food-recommend-2026": "/images/card/tsukuba-personal-food-recommend-2026-866134fe.png",
