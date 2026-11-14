@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { extractText, analyzePage, runWatch, annotateWatch } from './official-source-watch.mjs';
+import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks } from './official-source-watch.mjs';
 
 test('strip scripts and distinguish date mentions from verified event dates', () => {
   const text = extractText('<p>2026年11月14日 COFFEE FESTIVAL</p><script>fake date 2026年12月1日</script>');
@@ -42,4 +42,24 @@ test('report page changes and existing event by exact official URL without claim
   assert.equal(result.results[0].registryMatchesByExactOfficialUrl[0].status, 'draft');
   assert.equal(result.results[1].change, 'not-comparable');
   assert.deepEqual(result.results[1].registryMatchesByExactOfficialUrl, []);
+});
+
+test('extract same-origin event links without treating them as verified events', () => {
+  const html = '<a href="/event/2026">コーヒーフェス2026</a><a href="https://outside.example/event">コーヒーフェス外部</a><a href="javascript:alert(1)">コーヒーフェスJS</a><a href="/event/2026">コーヒーフェス2026</a><a href="/other">その他</a>';
+  const rows = extractCandidateLinks(html, 'https://city.example.jp/calendar/', ['コーヒー']);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].url, 'https://city.example.jp/event/2026');
+  assert.equal(rows[0].verification, 'unverified-link-title');
+});
+
+test('compare candidate link exact URLs with existing registry and prior report', () => {
+  const link = {title:'出演イベント',url:'https://city.example.jp/event/1',matchedTerms:['出演'],verification:'unverified-link-title'};
+  const report = annotateWatch(
+    { results: [{ id:'source',url:'https://city.example.jp/calendar/',status:'fetched',hash:'abc',candidateLinks:[link] }] },
+    { results: [{ id:'source',status:'fetched',hash:'abc',candidateLinks:[] }] },
+    { events: [{id:'event-1',name:'出演イベント',officialUrl:link.url,articleUrl:'/events/event-1/',status:'published'}] }
+  );
+  assert.equal(report.candidateLinksFound, 1);
+  assert.equal(report.results[0].candidateLinks[0].firstSeenInCurrentReport, true);
+  assert.equal(report.results[0].candidateLinks[0].registryMatchesByExactOfficialUrl[0].articleUrl, '/events/event-1/');
 });
