@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-news-yachiyo-illumination-hakusai-2026',
+    date: '2026-11-14',
+    url: '/news/yachiyo-illumination-hakusai-2026/',
+    kind: 'new-article',
+    change: '八千代町イルミネーション点灯式（11/28）とはくさいサミット プレイベントの時間・内容を新規公開',
+    queries: ['八千代町 イルミネーション', '八千夜一夜物語', 'はくさいサミット', '八千代町 白菜'],
+    commit: 'PENDING',
+  },
+  {
     id: '20261114-news-yachiyo-aki-matsuri-2026',
     date: '2026-11-14',
     url: '/news/yachiyo-aki-matsuri-2026/',

@@ -85,6 +85,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-personal-food-recommend-2026": "/images/card/tsukuba-personal-food-recommend-2026-866134fe.png",
   "tx-matsuri-moriya-no-reservation-2026": "/images/card/tx-matsuri-moriya-no-reservation-2026-4c8cbdb8.png",
   "yachiyo-aki-matsuri-2026": "/images/card/yachiyo-aki-matsuri-2026-16494163.png",
+  "yachiyo-illumination-hakusai-2026": "/images/card/yachiyo-illumination-hakusai-2026-16494163.png",
   "yakult-swallows-farm-moriya-2027": "/images/card/yakult-swallows-farm-moriya-2027-07baaba7.png",
   "yokota-iin-haikyo-tour-2026": "/images/card/yokota-iin-haikyo-tour-2026-866134fe.png",
   "amabiki-kannon-guide": "/images/card/amabiki-kannon-guide-09465f76.png",
