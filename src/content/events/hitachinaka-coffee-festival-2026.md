@@ -15,9 +15,9 @@ tags:
   - "コーヒー"
   - "週末イベント"
   - "無料イベント"
-draft: true
-reviewed: false
-noindex: true
+draft: false
+reviewed: true
+noindex: false
 summary: "HITACHINAKA COFFEE FESTIVALは2026年11月14日（土）・15日（日）、ひたちなか市のプロンちゃんパーク（親水性中央公園）で開催。入場無料で100店を超える出店を予定しています。公園の駐車場は当日使えません。JR勝田駅と会場を結ぶシャトルバスが案内されています。"
 keyPoints:
   - "14日（土）は10:00〜19:00。ただしコーヒー・マーケットエリアは17:00まで"
