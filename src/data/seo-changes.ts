@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '菅生沼のコハクチョウ（坂東市）の時期・天神山公園・昨季の観測数を新規公開',
     queries: ['菅生沼 ハクチョウ', '菅生沼 白鳥 2026', '天神山公園 白鳥', '坂東市 白鳥'],
-    commit: 'PENDING',
+    commit: '69c5679',
   },
   {
     id: '20261114-news-toride-cycle-art-festival-2026',
