@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-news-toride-cycle-art-festival-2026',
+    date: '2026-11-14',
+    url: '/news/toride-cycle-art-festival-2026/',
+    kind: 'new-article',
+    change: 'サイクルアートフェスティバル2026（11/15・取手競輪場）のステージ時間・バンク試走・無料シャトルバスを新規公開',
+    queries: ['サイクルアートフェスティバル 2026', '取手競輪場 イベント', 'ジェラードン 取手', '取手 プリキュア ショー'],
+    commit: '0f1b17d',
+  },
+  {
     id: '20261114-news-yachiyo-illumination-hakusai-2026',
     date: '2026-11-14',
     url: '/news/yachiyo-illumination-hakusai-2026/',
