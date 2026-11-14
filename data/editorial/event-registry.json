@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-10",
+  "updatedAt": "2026-11-14",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1039,6 +1039,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "tsukuba-cablecar-last-run-campaign-2026",
+      "name": "5代目筑波山ケーブルカー ラストランキャンペーン",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-01",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.keisei.co.jp/news/detail.php?CN=8103",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/tsukuba-cablecar-last-run-campaign-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "urgent",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "京成電鉄10月30日発表と同社配信リリースで発見。キャンペーンは11月1日〜2027年1月11日。公式PDFの企画別条件と既存記事・PRの照合は未完了。20261030-tsukuba-cablecar-last-run-discoveryの確認期限は10月31日。新車両は2027年2月予定で、確定扱いしない。"
+    },
+    {
       "id": "ibaraki-machi-matsuri-hanabi-2026",
       "name": "いばらきまつり フィナーレ花火（茨城町）",
       "municipality": "ibaraki-machi",
@@ -1100,6 +1121,30 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "kawachi-christmas-illumination-2026",
+      "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
+      "municipality": "kawachi",
+      "startDate": "2026-11-03",
+      "endDate": "2027-02-14",
+      "officialUrl": "https://kawachi-illumination.lanitech.jp/",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/kawachi-christmas-illumination-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。 2026-10-18：特設サイトは2025年版のまま、期間は未発表のため discovered のまま。茨城のイルミネーションまとめで「予定」として紹介。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
     },
     {
       "id": "mitsukaido-rail-yard-event-2026",
@@ -1165,6 +1210,27 @@
       "notes": "2026-10-06確認。大会公式が10月2日付でバイク・自転車の臨時駐車場なしと利用先を公開。交通規制図は引き続き準備中。検索需要はGSCでページ単位のみ確認でき、二輪意図の独立需要はunknown。"
     },
     {
+      "id": "mito-nakanishi-natsuyuki-exhibition-2026",
+      "name": "中西夏之 緩やかにみつめるためにいつまでも佇む、装置",
+      "municipality": "mito",
+      "startDate": "2026-11-12",
+      "endDate": "2027-01-17",
+      "officialUrl": "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517",
+      "discoveredAt": "2026-10-30",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/mito-nakanishi-natsuyuki-exhibition-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "茨城県近代美術館の公式検索本文で発見。本文・PDF、料金区分、無料日、祝日・年末年始の休館日の精査待ち。20261030-nakanishi-natsuyuki-exhibition-discoveryとして11月2日までに掲載判断。記事化しない場合も候補を削除しない。"
+    },
+    {
       "id": "hitachi-starlight-illumination-2026",
       "name": "Hitachi Starlight Illumination 2026",
       "municipality": "hitachi",
@@ -1189,6 +1255,69 @@
       ]
     },
     {
+      "id": "hitachinaka-coffee-festival-2026",
+      "name": "HITACHINAKA COFFEE FESTIVAL",
+      "municipality": "hitachinaka",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1014541.html",
+      "discoveredAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "articleUrl": "/events/hitachinaka-coffee-festival-2026/",
+      "articleUpdatedAt": "2026-11-14",
+      "status": "draft",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "ひたちなか市公式（11/5更新）に基づく未公開記事。開催時間は14日10:00〜19:00（コーヒー・マーケット17:00まで）、15日10:00〜16:00。会場駐車場利用不可、勝田駅シャトルバスあり。県観光公式の開始時刻と差があり編集確認が必要。検索需要は未取得。"
+    },
+    {
+      "id": "mito-arigacho-matsuri-2026",
+      "name": "ありがちょ祭り",
+      "municipality": "mito",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "水戸市・千波湖11月イベント情報で11月14〜15日、ふれあい広場、Live＆キャンプイベント、主催センバヤマスタジオを確認。詳細・料金・交通は主催者一次情報の追加確認後に記事化判断。"
+    },
+    {
+      "id": "kasama-chiisana-marche-mederu-autumn-2026",
+      "name": "ちいさなマルシェめでる～秋の実り～",
+      "municipality": "kasama",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://kasama-crafthills.com/2026/11/03/%E3%80%8C%E3%81%A1%E3%81%84%E3%81%95%E3%81%AA%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7%E3%82%81%E3%81%A7%E3%82%8B%EF%BD%9E%E7%A7%8B%E3%81%AE%E5%AE%9F%E3%82%8A%EF%BD%9E%E3%80%8D11-14%E3%88%AF%E3%83%BB15/",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "low"
+      },
+      "notes": "笠間工芸の丘公式で11月14・15日、10:00〜16:00、笠間工芸の丘特設会場、無料駐車場、主催BOOK KASAMAを確認。荒天等による中止時は公式サイト・Instagramで告知。開催4日前の未記事・未まとめ候補として当日掲載判断へ。"
+    },
+    {
       "id": "oarai-ankou-matsuri-2026",
       "name": "大洗秋まつり 商工感謝祭＆大洗あんこう祭",
       "municipality": "oarai",
@@ -1210,6 +1339,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "chikusei-wadaiko-matsuri-2026",
+      "name": "ちくせい和太鼓まつり2026",
+      "municipality": "chikusei",
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.city.chikusei.lg.jp/cal.php?category=8&day=15&mode=detail&month=11&year=2026",
+      "discoveredAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "medium"
+      },
+      "notes": "公式の筑西市イベントカレンダーにて11/15(日)9:30〜16:30、道の駅グランテラス筑西で開催、18団体、同時開催『全国餃子まつり』、入場無料、荒天中止を確認（2026-11-14）。検索需要未確認。既存のイベント記事・まとめへの掲載可否を編集判断し、新記事自動公開しない。"
+    },
+    {
       "id": "nishikanasa-tozan-marathon-2026",
       "name": "第27回 西金砂登山マラソン",
       "municipality": "hitachiota",
@@ -1229,6 +1379,27 @@
         "logisticsDemand": "medium"
       },
       "notes": "Discovery Gate の巡回（10/17）で常陸太田市観光物産協会のお知らせから発見。公式で11月15日（日）雨天決行、会場は西金砂湯けむりの郷「金砂の湯」前、14kmの部10:00・5kmの部10:05スタート、申込は9月30日で締切、正午に交通規制解除。参加型（中学生以下は参加不可）で、エントリーは締め切り済み。記事化・11月まとめへの追記・見送りは編集判断待ち。来場規模の根拠は未取得。"
+    },
+    {
+      "id": "mito-wan-park-2026",
+      "name": "水戸Wanパーク",
+      "municipality": "mito",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
+      "discoveredAt": "2026-11-10",
+      "verifiedAt": "2026-11-10",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "candidate",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "水戸市・千波湖11月イベント情報で11月21〜22日、ふれあい広場、犬種グッズ・ディスク大会・マルシェ・スタンプラリー・キッチンカーを確認。ペット同伴条件・料金・交通は主催者一次情報の追加確認後に記事化判断。"
     },
     {
       "id": "suigo-sakura-illumination-2026",
@@ -1274,6 +1445,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "ryugasaki-igappe-ichi-croquette-2026",
+      "name": "龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁",
+      "municipality": "ryugasaki",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.ryugasaki.ibaraki.jp/kanko/event/sangyousai-korofyesu.html",
+      "discoveredAt": "2026-11-13",
+      "verifiedAt": "2026-11-13",
+      "articleUrl": "/events/ryugasaki-igappe-ichi-croquette-2026/",
+      "articleUpdatedAt": "2026-11-13",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
     },
     {
       "id": "daigo-hanabi-2026",
@@ -1339,6 +1531,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "takahagi-relay-marathon-2026",
+      "name": "第1回 高萩リレーマラソン",
+      "municipality": "takahagi",
+      "startDate": "2026-11-29",
+      "endDate": "2026-11-29",
+      "officialUrl": "https://sports-hitachi.com/takahagi-relay/",
+      "discoveredAt": "2026-11-04",
+      "verifiedAt": "2026-11-04",
+      "articleUrl": "/events/takahagi-relay-marathon-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "大会公式（主催：高萩市・高萩市教育委員会）で11月29日、さくら宇宙公園を確認。申込締切は大会サイトが11月3日に延長、市のページは10月30日と食い違い。"
+    },
+    {
       "id": "koga-chochin-saomomi-matsuri-2026",
       "name": "第166回 古河提灯竿もみまつり",
       "municipality": "koga",
@@ -1358,6 +1571,27 @@
         "logisticsDemand": "medium"
       },
       "notes": "Discovery Gate 初回巡回（10/17）で発見。発見元：観光いばらきの11月〜1月のイベント一覧に無く、古河市観光協会（こがナビ）で確認。公式に「第166回 令和8年（2026年）12月5日（土）開催決定」、特別観覧席の販売決定（詳細は後日）。タイムスケジュールは16:10から子ども部門、18:00〜19:40大人部門（競技もみ）、19:50〜20:25自由もみ、20:30閉会式（参加団体は準備中の表示）。会場・交通・駐車場は公式のアクセスページで要確認。来場者数は未確認。"
+    },
+    {
+      "id": "hinuma-de-marche-2026",
+      "name": "ひぬまdeマルシェ",
+      "municipality": "ibaraki-machi",
+      "startDate": "2026-12-06",
+      "endDate": null,
+      "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html",
+      "discoveredAt": "2026-11-03",
+      "verifiedAt": "2026-11-03",
+      "articleUrl": "/events/hinuma-de-marche-2026/",
+      "articleUpdatedAt": "2026-11-03",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
       "id": "hitachi-alps-ocean-trail-2026",
@@ -1400,30 +1634,6 @@
         "logisticsDemand": "unknown"
       },
       "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
-    },
-    {
-      "id": "kawachi-christmas-illumination-2026",
-      "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
-      "municipality": "kawachi",
-      "startDate": "2026-11-03",
-      "endDate": "2027-02-14",
-      "officialUrl": "https://kawachi-illumination.lanitech.jp/",
-      "discoveredAt": "2026-10-05",
-      "verifiedAt": "2026-11-03",
-      "articleUrl": "/events/kawachi-christmas-illumination-2026/",
-      "articleUpdatedAt": "2026-11-03",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "観光いばらきで、かわち水と緑のふれあい公園のイルミネーション（11月ごろ開催予定、17時〜21時）と、12月19日（土）の打上花火（18:00予定、約1,500〜2,000発予定、荒天時20日へ順延予定）を確認。問い合わせはかわちドリームフェスティバル実行委員会事務局（河内町まちづくり推進課）。いずれも『予定』表記のため、特設サイト・河内町の一次情報で確定を確認すること。 2026-10-18：特設サイトは2025年版のまま、期間は未発表のため discovered のまま。茨城のイルミネーションまとめで「予定」として紹介。",
-      "relatedArticleUrls": [
-        "/events/ibaraki-illumination-2026/"
-      ]
     },
     {
       "id": "kasama-inari-hatsumode-2027",
@@ -1510,153 +1720,6 @@
       "notes": "Discovery Gate 初回巡回（10/17）で発見。大会要項（公式）で2027年1月31日（日）雨天決行、マラソン10:30・男子10km 11:10・女子10km 11:40スタート、会場は石川運動ひろば（ひたちなか市）、コースはひたちなか市・東海村。定員はマラソン12,000人・10km 5,000人（公式・要項の値。来場者数ではない）。一般エントリーは10月31日まで。交通規制・駐車場・シャトルは開催30日前（2027/1/1）までに公式を確認。"
     },
     {
-      "id": "tsukuba-cablecar-last-run-campaign-2026",
-      "name": "5代目筑波山ケーブルカー ラストランキャンペーン",
-      "municipality": "tsukuba",
-      "startDate": "2026-11-01",
-      "endDate": "2027-01-11",
-      "officialUrl": "https://www.keisei.co.jp/news/detail.php?CN=8103",
-      "discoveredAt": "2026-10-30",
-      "verifiedAt": "2026-11-03",
-      "articleUrl": "/events/tsukuba-cablecar-last-run-campaign-2026/",
-      "articleUpdatedAt": "2026-11-03",
-      "status": "published",
-      "importance": "urgent",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "京成電鉄10月30日発表と同社配信リリースで発見。キャンペーンは11月1日〜2027年1月11日。公式PDFの企画別条件と既存記事・PRの照合は未完了。20261030-tsukuba-cablecar-last-run-discoveryの確認期限は10月31日。新車両は2027年2月予定で、確定扱いしない。"
-    },
-    {
-      "id": "mito-nakanishi-natsuyuki-exhibition-2026",
-      "name": "中西夏之 緩やかにみつめるためにいつまでも佇む、装置",
-      "municipality": "mito",
-      "startDate": "2026-11-12",
-      "endDate": "2027-01-17",
-      "officialUrl": "https://www.modernart.museum.ibk.ed.jp/viewer/info.html?id=517",
-      "discoveredAt": "2026-10-30",
-      "verifiedAt": "2026-11-03",
-      "articleUrl": "/events/mito-nakanishi-natsuyuki-exhibition-2026/",
-      "articleUpdatedAt": "2026-11-03",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "茨城県近代美術館の公式検索本文で発見。本文・PDF、料金区分、無料日、祝日・年末年始の休館日の精査待ち。20261030-nakanishi-natsuyuki-exhibition-discoveryとして11月2日までに掲載判断。記事化しない場合も候補を削除しない。"
-    },
-    {
-      "id": "hinuma-de-marche-2026",
-      "name": "ひぬまdeマルシェ",
-      "municipality": "ibaraki-machi",
-      "startDate": "2026-12-06",
-      "endDate": null,
-      "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html",
-      "discoveredAt": "2026-11-03",
-      "verifiedAt": "2026-11-03",
-      "articleUrl": "/events/hinuma-de-marche-2026/",
-      "articleUpdatedAt": "2026-11-03",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "medium",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
-    },
-    {
-      "id": "takahagi-relay-marathon-2026",
-      "name": "第1回 高萩リレーマラソン",
-      "municipality": "takahagi",
-      "startDate": "2026-11-29",
-      "endDate": "2026-11-29",
-      "officialUrl": "https://sports-hitachi.com/takahagi-relay/",
-      "discoveredAt": "2026-11-04",
-      "verifiedAt": "2026-11-04",
-      "articleUrl": "/events/takahagi-relay-marathon-2026/",
-      "articleUpdatedAt": "2026-11-03",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "大会公式（主催：高萩市・高萩市教育委員会）で11月29日、さくら宇宙公園を確認。申込締切は大会サイトが11月3日に延長、市のページは10月30日と食い違い。"
-    },
-    {
-      "id": "kasama-chiisana-marche-mederu-autumn-2026",
-      "name": "ちいさなマルシェめでる～秋の実り～",
-      "municipality": "kasama",
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-15",
-      "officialUrl": "https://kasama-crafthills.com/2026/11/03/%E3%80%8C%E3%81%A1%E3%81%84%E3%81%95%E3%81%AA%E3%83%9E%E3%83%AB%E3%82%B7%E3%82%A7%E3%82%81%E3%81%A7%E3%82%8B%EF%BD%9E%E7%A7%8B%E3%81%AE%E5%AE%9F%E3%82%8A%EF%BD%9E%E3%80%8D11-14%E3%88%AF%E3%83%BB15/",
-      "discoveredAt": "2026-11-10",
-      "verifiedAt": "2026-11-10",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "candidate",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "medium",
-        "logisticsDemand": "low"
-      },
-      "notes": "笠間工芸の丘公式で11月14・15日、10:00〜16:00、笠間工芸の丘特設会場、無料駐車場、主催BOOK KASAMAを確認。荒天等による中止時は公式サイト・Instagramで告知。開催4日前の未記事・未まとめ候補として当日掲載判断へ。"
-    },
-    {
-      "id": "mito-arigacho-matsuri-2026",
-      "name": "ありがちょ祭り",
-      "municipality": "mito",
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-15",
-      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
-      "discoveredAt": "2026-11-10",
-      "verifiedAt": "2026-11-10",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "candidate",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "水戸市・千波湖11月イベント情報で11月14〜15日、ふれあい広場、Live＆キャンプイベント、主催センバヤマスタジオを確認。詳細・料金・交通は主催者一次情報の追加確認後に記事化判断。"
-    },
-    {
-      "id": "mito-wan-park-2026",
-      "name": "水戸Wanパーク",
-      "municipality": "mito",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-22",
-      "officialUrl": "https://www.city.mito.lg.jp/site/senbako/57259.html",
-      "discoveredAt": "2026-11-10",
-      "verifiedAt": "2026-11-10",
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "candidate",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "medium",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "水戸市・千波湖11月イベント情報で11月21〜22日、ふれあい広場、犬種グッズ・ディスク大会・マルシェ・スタンプラリー・キッチンカーを確認。ペット同伴条件・料金・交通は主催者一次情報の追加確認後に記事化判断。"
-    },
-    {
       "id": "mito-ume-matsuri-2027",
       "name": "第131回水戸の梅まつり",
       "municipality": "mito",
@@ -1676,48 +1739,6 @@
         "logisticsDemand": "unknown"
       },
       "notes": "水戸観光コンベンション協会が第131回の日程を公開。主な行事・開花状況・偕楽園臨時駅は2026-11-10時点で未発表のため、発表後に更新する。検索需要は未取得。"
-    },
-    {
-      "id": "ryugasaki-igappe-ichi-croquette-2026",
-      "name": "龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁",
-      "municipality": "ryugasaki",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-21",
-      "officialUrl": "https://www.city.ryugasaki.ibaraki.jp/kanko/event/sangyousai-korofyesu.html",
-      "discoveredAt": "2026-11-13",
-      "verifiedAt": "2026-11-13",
-      "articleUrl": "/events/ryugasaki-igappe-ichi-croquette-2026/",
-      "articleUpdatedAt": "2026-11-13",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
-    },
-    {
-      "id": "hitachinaka-coffee-festival-2026",
-      "name": "HITACHINAKA COFFEE FESTIVAL",
-      "municipality": "hitachinaka",
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-15",
-      "officialUrl": "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1014541.html",
-      "discoveredAt": "2026-11-14",
-      "verifiedAt": "2026-11-14",
-      "articleUrl": "/events/hitachinaka-coffee-festival-2026/",
-      "articleUpdatedAt": "2026-11-14",
-      "status": "draft",
-      "importance": "large",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "high"
-      },
-      "notes": "ひたちなか市公式（11/5更新）に基づく未公開記事。開催時間は14日10:00〜19:00（コーヒー・マーケット17:00まで）、15日10:00〜16:00。会場駐車場利用不可、勝田駅シャトルバスあり。県観光公式の開始時刻と差があり編集確認が必要。検索需要は未取得。"
     }
   ]
 }
