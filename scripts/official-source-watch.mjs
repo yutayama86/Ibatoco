@@ -68,7 +68,7 @@ export function extractText(html) {
   return out.join('').replaceAll('&nbsp;', ' ').replaceAll('&amp;', '&')
     .replaceAll('&lt;', '<').replaceAll('&gt;', '>')
     .replaceAll('&quot;', '"').replaceAll('&#39;', "'")
-    .replace(/\\s+/g, ' ').trim();
+    .replace(/\s+/g, ' ').trim();
 }
 
 export function analyzePage(text, terms) {
