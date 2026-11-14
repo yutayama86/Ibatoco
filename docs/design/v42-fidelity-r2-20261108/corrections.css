@@ -1,0 +1,127 @@
+/* v42 fidelity supplement · design reference only · scoped for integration */
+.v42r-page{--r-paper:#fbf8ef;--r-ink:#24434a;--r-sage:#eaf0df;--r-moss:#53694f;--r-rule:#d5d9c7;--r-blue:#244f63;color:var(--r-ink);background:var(--r-paper)}
+.v42r-page main{overflow-wrap:anywhere}
+.v42r-page .v42r-label{margin:0 0 19px;font:500 13px/1.8 'IBATOCO Gothic',sans-serif;letter-spacing:.09em;color:var(--r-moss)}
+.v42r-page .v42r-display{margin:0;font:500 clamp(32px,3.65vw,52.56px)/1.38 'IBATOCO Mincho',serif;letter-spacing:.055em;color:var(--r-ink);text-wrap:balance}
+.v42r-page .v42r-real-title{max-width:960px;font-size:clamp(28px,3.2vw,46.08px);line-height:1.43;letter-spacing:.035em;word-break:normal;line-break:strict;text-wrap:balance}
+.v42r-page :is(input,select,textarea){font-size:16px}
+.v42r-page #overview-area{font-size:16px}
+.v42r-page[data-v42r="food-guide"] .v42r-hero{background:var(--r-paper);border-bottom:0}
+.v42r-page[data-v42r="food-guide"] .v42r-hero h1{font-size:46.08px;line-height:1.43}
+.v42r-page :is(input,select,button){min-height:44px}
+.v42r-page :is(p,li,dd){line-height:1.95}
+.v42r-page :is(img,svg){max-width:100%}
+.v42r-page .p41-toc{align-self:start;top:130px}
+.v42r-page .p41-article{min-width:0}
+.v42r-page .p41-card h3{overflow-wrap:anywhere;text-wrap:pretty}
+.v42r-page .p41-article :is(table,pre){max-width:100%;overflow-x:auto}
+.v42r-page .p41-facts>div{min-width:0}
+.v42r-page .v42r-caption{font:400 12px/1.8 'IBATOCO Gothic',sans-serif;color:var(--r-moss)}
+.v42r-page .v42r-folio{max-width:1160px;margin:0 auto;padding:72px 0;border-top:1px solid var(--r-rule)}
+.v42r-page .v42r-folio h2{margin:8px 0 20px;font:500 31px/1.55 'IBATOCO Mincho',serif;color:var(--r-ink)}
+.v42r-page .v42r-folio>p{max-width:680px}
+.v42r-page .v42r-hero{position:relative;background:var(--r-sage);border-bottom:1px solid var(--r-rule)}
+.v42r-page .v42r-hero-inner{max-width:1160px;margin:auto;padding:56px 0 64px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:60px;align-items:center}
+.v42r-page .v42r-hero-inner h1{margin:12px 0 24px;font:500 clamp(32px,3.65vw,52.56px)/1.38 'IBATOCO Mincho',serif;letter-spacing:.05em;text-wrap:balance}
+.v42r-page .v42r-hero-inner>img{width:100%;height:240px;object-fit:contain}
+.v42r-page .v42r-hero-inner .p41-lead{max-width:640px;margin-bottom:0}
+.v42r-page .v42r-empty{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;gap:64px;padding:48px 56px;background:#fffdf7;border:1px solid var(--r-rule);box-shadow:5px 6px 0 #e9e8db}
+.v42r-page .v42r-empty>img{width:200px;height:190px;object-fit:contain}
+.v42r-page .v42r-empty h2{font-size:30px;line-height:1.5;margin:8px 0 15px}
+.v42r-page .v42r-actions{display:flex;gap:14px 28px;flex-wrap:wrap;margin-top:24px;align-items:center}
+.v42r-page .v42r-actions a{min-height:44px;display:inline-flex;align-items:center;gap:18px;text-decoration:none;border-bottom:1px solid var(--r-moss);color:var(--r-ink)}
+.v42r-page .v42r-number{font:400 45px/1.1 'IBATOCO Mincho',serif;color:#8a916d}
+.v42r-page .v42r-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.v42r-page .v42r-book{padding:24px 18px 25px;border:1px solid var(--r-rule);border-left:9px solid var(--book,#718474);background:#fffdf7;box-shadow:3px 4px 0 #e2dfce;text-decoration:none;color:var(--r-ink);min-height:210px}
+.v42r-page .v42r-book h3{font:500 26px/1.5 'IBATOCO Mincho',serif;margin:24px 0 5px}
+.v42r-page .v42r-book .p41-read{margin-top:24px}
+.v42r-page .v42r-profile{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:72px;max-width:960px;margin:auto;padding:72px 0}
+.v42r-page .v42r-profile aside{padding:26px;border:1px solid var(--r-rule);background:#f2f1e5;align-self:start}
+.v42r-page .v42r-profile aside img{height:155px;width:100%;object-fit:contain;margin-bottom:22px}
+.v42r-page .v42r-notebook{padding:30px;border:1px solid var(--r-rule);background:#fffdf7}
+.v42r-page .v42r-notebook h2{font:500 29px/1.55 'IBATOCO Mincho',serif;margin:0 0 20px}
+.v42r-page .v42r-facts{display:grid;grid-template-columns:150px minmax(0,1fr);margin:0}
+.v42r-page .v42r-facts :is(dt,dd){margin:0;padding:17px 0;border-bottom:1px solid var(--r-rule);font-size:15px}
+.v42r-page .v42r-facts dt{color:var(--r-moss)}
+.v42r-page .v42r-data-slot{color:#5f7162;background:repeating-linear-gradient(0deg,transparent,transparent 28px,#dde0d2 29px);min-height:88px;line-height:29px!important}
+.v42r-page .v42r-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.v42r-page .v42r-steps article{padding:28px 0;border-top:1px solid var(--r-rule)}
+.v42r-page .v42r-steps h3{font:500 22px/1.6 'IBATOCO Mincho',serif;margin:15px 0 12px}
+.v42r-page .v42r-theme-strip{max-width:1160px;margin:0 auto;padding:52px 0 64px}
+.v42r-page .v42r-theme-strip h2{margin:0 0 26px;font:500 26px/1.55 'IBATOCO Mincho',serif}
+.v42r-page .v42r-theme-strip ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-block:1px solid var(--r-rule)}
+.v42r-page .v42r-theme-strip li+li{border-left:1px solid var(--r-rule)}
+.v42r-page .v42r-theme-strip a{display:block;padding:23px 16px;min-height:135px;color:var(--r-ink);text-decoration:none}
+.v42r-page .v42r-theme-strip small{display:block;letter-spacing:.12em;font-size:11px;color:var(--r-moss)}
+.v42r-page .v42r-theme-strip strong{display:block;margin:10px 0;font:500 20px/1.5 'IBATOCO Mincho',serif}
+.v42r-page .v42r-trust{background:var(--r-sage);padding:80px 0}
+.v42r-page .v42r-trust-inner{max-width:1160px;margin:auto}
+.v42r-page .v42r-trust-top{display:grid;grid-template-columns:240px minmax(0,1fr);gap:64px;align-items:center}
+.v42r-page .v42r-trust-top img{width:220px;height:230px;object-fit:contain}
+.v42r-page .v42r-trust h2{font:500 34px/1.55 'IBATOCO Mincho',serif;letter-spacing:.04em;margin:9px 0 22px}
+.v42r-page .v42r-trust .v42r-steps{margin-top:42px}
+.v42r-page .v42r-region-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 30px;border-top:1px solid var(--r-rule)}
+.v42r-page .v42r-region-links a{display:flex;justify-content:space-between;padding:20px 0;min-height:58px;border-bottom:1px solid var(--r-rule);color:var(--r-ink);text-decoration:none}
+.v42r-page .v42r-state-note{border-left:2px solid #839477;padding-left:20px;max-width:720px;font-size:14px}
+.v42r-page .v42r-preview-message{margin-top:16px;font-size:14px;color:var(--r-moss)}
+.v42r-page .v42r-tag{display:inline-flex;align-items:center;min-height:30px;padding:4px 9px;border:1px solid var(--r-rule);font-size:12px;background:#fffdf7}
+.v42r-page .v42r-variant-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}
+.v42r-page .v42r-variant-list a{padding:20px 24px;border-block:1px solid var(--r-rule);text-decoration:none;color:var(--r-ink);display:flex;gap:22px;align-items:center;min-height:76px}
+.v42r-page .v42r-variant-list strong{font:500 24px/1.5 'IBATOCO Mincho',serif}
+.v42r-home #town-news h2{font-size:35px;line-height:1.6}
+.v42r-home #area-title{font-size:44px;line-height:1.35;max-width:none;width:auto}
+.v42r-home #food-title{font-size:46px;line-height:1.35}
+.v42r-home #matchday-title,.v42r-home #sponsor-title{font-size:41px;line-height:1.45}
+@media(max-width:1200px){.v42r-page :is(.v42r-folio,.v42r-theme-strip,.v42r-trust-inner,.v42r-hero-inner){margin-inline:28px}.v42r-page .v42r-profile{margin-inline:28px}}
+@media(min-width:761px) and (max-width:920px){.v42r-page .v42r-profile{display:block;max-width:720px}.v42r-page .v42r-profile aside{margin-top:35px}.v42r-page .v42r-profile aside>img{height:140px}.v42r-page .v42r-hero-inner{grid-template-columns:minmax(0,1fr) 220px;gap:30px}}
+@media(max-width:760px){
+ .v42r-page .v42r-display{font-size:30px;line-height:1.43;letter-spacing:.04em}
+ .v42r-page .v42r-label{font-size:12px;margin-bottom:18px;line-height:1.8}
+ .v42r-page .v42r-real-title{font-size:28px;line-height:1.5;letter-spacing:.025em}
+ .v42r-page :is(.v42r-folio,.v42r-theme-strip,.v42r-trust-inner,.v42r-hero-inner,.v42r-profile){margin-inline:22px}
+ .v42r-page .v42r-folio{padding:50px 0}
+ .v42r-page .v42r-folio h2{font-size:24px;line-height:1.55}
+ .v42r-page .v42r-hero-inner{padding:34px 0 38px;display:block}
+ .v42r-page .v42r-hero-inner h1{font-size:30px;line-height:1.43;margin-block:10px 22px;grid-column:1/-1}
+ .v42r-page .v42r-hero-inner>img{display:block;width:95px;height:105px;margin:24px 0 0 auto}
+ .v42r-page[data-v42r="food-guide"] .v42r-hero h1{font-size:30px;line-height:1.43}
+ .v42r-page .v42r-hero-inner .p41-lead{font-size:15px}
+ .v42r-page .v42r-empty{display:flex;flex-direction:column;gap:16px;padding:30px 24px}
+ .v42r-page .v42r-empty>img{width:130px;height:115px;align-self:flex-end}
+ .v42r-page .v42r-empty h2{font-size:25px;line-height:1.5}
+ .v42r-page .v42r-empty p{font-size:15px}
+ .v42r-page .v42r-actions{gap:10px 22px;margin-top:18px}
+ .v42r-page .v42r-actions a{font-size:14px}
+ .v42r-page .v42r-book-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}
+ .v42r-page .v42r-book{min-height:180px;padding:19px 15px;border-left-width:6px}
+ .v42r-page .v42r-book h3{font-size:22px;margin-top:20px}
+ .v42r-page .v42r-book .p41-kicker{font-size:10px}
+ .v42r-page .v42r-book .p41-read{font-size:12px;margin-top:20px}
+ .v42r-page .v42r-profile{display:block;padding:42px 0}
+ .v42r-page .v42r-profile aside{margin-top:30px}
+ .v42r-page .v42r-notebook{padding:25px 21px}
+ .v42r-page .v42r-notebook h2{font-size:24px}
+ .v42r-page .v42r-facts{grid-template-columns:95px minmax(0,1fr)}
+ .v42r-page .v42r-facts :is(dt,dd){font-size:14px;line-height:1.8}
+ .v42r-page .v42r-theme-strip{padding-block:38px 45px}
+ .v42r-page .v42r-theme-strip h2{font-size:23px;margin-bottom:20px}
+ .v42r-page .v42r-theme-strip ol{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .v42r-page .v42r-theme-strip li+li{border-left:0}.v42r-page .v42r-theme-strip li:nth-child(even){border-left:1px solid var(--r-rule)}
+ .v42r-page .v42r-theme-strip li:nth-child(n+3){border-top:1px solid var(--r-rule)}
+ .v42r-page .v42r-theme-strip a{min-height:109px;padding:18px 15px}
+ .v42r-page .v42r-theme-strip strong{font-size:19px;margin:8px 0}
+ .v42r-page .v42r-trust{padding-block:50px}
+ .v42r-page .v42r-trust-top{grid-template-columns:1fr;gap:20px}
+ .v42r-page .v42r-trust-top img{width:110px;height:120px;justify-self:end;order:2}
+ .v42r-page .v42r-trust h2{font-size:26px;line-height:1.55}
+ .v42r-page .v42r-steps{grid-template-columns:1fr;gap:0}
+ .v42r-page .v42r-steps article{padding-block:23px}
+ .v42r-page .v42r-steps h3{font-size:21px;margin-block:9px}
+ .v42r-page .v42r-region-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px}
+ .v42r-page .v42r-variant-list{grid-template-columns:1fr;gap:0}
+ .v42r-page .v42r-variant-list strong{font-size:22px}
+ .v42r-home #town-news h2{font-size:28px;line-height:1.55}
+ .v42r-home #area-title,.v42r-home #food-title,.v42r-home #matchday-title,.v42r-home #sponsor-title{font-size:29px;line-height:1.5}
+}
+@media(max-width:370px){.v42r-page .v42r-hero-inner{grid-template-columns:1fr}.v42r-page .v42r-hero-inner h1{font-size:26px;letter-spacing:.02em}.v42r-page .v42r-hero-inner>img{margin:0 0 0 auto;height:100px}.v42r-page .v42r-display{font-size:28px}.v42r-page .v42r-real-title{font-size:26px}.v42r-page .v42r-book-grid{gap:14px 10px}.v42r-page .v42r-book h3{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.v42r-page *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}

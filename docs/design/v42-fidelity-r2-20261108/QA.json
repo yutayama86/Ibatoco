@@ -1,0 +1,22 @@
+{
+  "checked": 240,
+  "pageTypes": 42,
+  "additionalStates": 6,
+  "widths": [
+    320,
+    375,
+    390,
+    768,
+    1440
+  ],
+  "issues": 0,
+  "failures": [],
+  "checkedAt": "2026-11-08T08:44:19.887Z",
+  "checks": [
+    "horizontal-overflow",
+    "one-main-h1",
+    "preserved-current-h1-when-applicable",
+    "form-input-font-at-least-16px"
+  ],
+  "scope": "design prototypes; not production regression tests"
+}
