@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '利根町の見どころ（桜づつみ・古代ハス・大平野生植物園・冬のイルミネーション・歴史）の季節別ガイドを新規公開',
     queries: ['利根町 観光', '利根川桜づつみ', '利根親水公園 古代ハス', '大平野生植物園'],
-    commit: 'PENDING',
+    commit: '1cb3eab',
   },
   {
     id: '20261114-events-sugao-numa-swan-bando-guide',
