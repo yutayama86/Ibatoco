@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '龍ケ崎リレーマラソン大会2027（3/13）の種目・参加費・申込期間を新規公開',
     queries: ['龍ケ崎リレーマラソン 2027', '龍ケ崎 リレーマラソン', '茨城 リレーマラソン', '3時間耐久リレーマラソン 茨城'],
-    commit: 'PENDING',
+    commit: '19dd13f',
   },
   {
     id: '20261114-news-toride-cycle-art-festival-2026',
