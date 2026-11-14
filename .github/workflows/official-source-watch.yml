@@ -1,0 +1,63 @@
+name: Read-only official event source watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 06:20 JST, ahead of the 07:00 Growth OS review.
+    - cron: '20 21 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  official-watch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+      - name: Scan official source catalog (read only)
+        shell: bash
+        run: |
+          set +e
+          node scripts/official-source-watch.mjs --write > /tmp/ibatoco-official-source-watch.log 2>&1
+          code=$?
+          set -e
+          cat /tmp/ibatoco-official-source-watch.log
+          if [ "$code" -ne 0 ]; then
+            echo "::warning title=Some official sources were not fetched::Read reports/editorial/official-source-watch.json; a failed scan must never be interpreted as no events."
+          fi
+          test -s reports/editorial/official-source-watch.json
+      - name: Add actionable summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -s reports/editorial/official-source-watch.json ]; then
+            node --input-type=module <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import {readFileSync} from 'node:fs';
+          const r = JSON.parse(readFileSync('reports/editorial/official-source-watch.json', 'utf8'));
+          const c = r.municipalityCoverage;
+          console.log('### Official source watch (discovery signals only)');
+          console.log('- Sources attempted: ' + r.scanned + ', fetched: ' + r.fetched + ', failed: ' + r.failed);
+          console.log('- Unverified matching links: ' + r.candidateLinksFound);
+          console.log('- Cities with direct sources registered: ' + c.citiesWithDirectSource + '/' + c.totalMunicipalities);
+          const failed = r.results.filter(x => x.status !== 'fetched');
+          if (failed.length) console.log('- Failed sources: ' + failed.map(x=>x.id+' ('+x.status+')').join(', '));
+          console.log('- Not an event verification or coverage guarantee. Review artifact before editing the event registry.');
+          NODE
+          else
+            echo '### Official source watch failed before report generation' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload official source watch report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: official-source-watch-${{ github.run_id }}
+          path: reports/editorial/official-source-watch.json
+          retention-days: 14
+          if-no-files-found: warn
