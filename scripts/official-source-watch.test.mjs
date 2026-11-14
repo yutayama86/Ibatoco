@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks } from './official-source-watch.mjs';
+import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks, municipalityCoverage } from './official-source-watch.mjs';
 
 test('strip scripts and distinguish date mentions from verified event dates', () => {
   const text = extractText('<p>2026年11月14日 COFFEE FESTIVAL</p><script>fake date 2026年12月1日</script>');
@@ -62,4 +62,15 @@ test('compare candidate link exact URLs with existing registry and prior report'
   assert.equal(report.candidateLinksFound, 1);
   assert.equal(report.results[0].candidateLinks[0].firstSeenInCurrentReport, true);
   assert.equal(report.results[0].candidateLinks[0].registryMatchesByExactOfficialUrl[0].articleUrl, '/events/event-1/');
+});
+
+test('show exactly which municipality needs a direct official source', () => {
+  const areaSource = [
+    "{ slug: 'mito', name: '水戸市', region: 'keno' }",
+    "{ slug: 'koga', name: '古河市', region: 'kensei' }",
+  ].join('\n');
+  const coverage = municipalityCoverage(areaSource, [{municipality:'水戸市'}, {municipality:null}]);
+  assert.equal(coverage.citiesWithDirectSource, 1);
+  assert.equal(coverage.missing[0].name, '古河市');
+  assert.equal(coverage.status, 'incomplete-inventory');
 });
