@@ -308,6 +308,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "solana-smart-inn-kamisu-open-202610": "/images/card/solana-smart-inn-kamisu-open-202610-c90bfd4c.png",
   "sora-no-eki-sorara-omitama-guide": "/images/card/sora-no-eki-sorara-omitama-guide-fca89878.png",
   "soyora-hitachinoushiku-open-202611": "/images/card/soyora-hitachinoushiku-open-202611-cef3c0f9.png",
+  "sugao-numa-swan-bando-guide": "/images/card/sugao-numa-swan-bando-guide-032c39e9.png",
   "suigo-sakura-illumination-2026": "/images/card/suigo-sakura-illumination-2026-7f388fe6.png",
   "suigun-line-okukuji-guide": "/images/card/suigun-line-okukuji-guide-e425e1a2.png",
   "takahagi-relay-marathon-2026": "/images/card/takahagi-relay-marathon-2026-19f4a7d1.png",
