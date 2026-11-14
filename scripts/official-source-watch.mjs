@@ -14,18 +14,18 @@ const SOURCES = resolve(ROOT, 'data/editorial/official-source-watch.json');
 const OUTPUT = resolve(ROOT, 'reports/editorial/official-source-watch.json');
 
 export function extractText(html) {
-  return html.replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi, ' ')
-    .replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi, ' ')
+  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, ' ')
-    .replace(/\\s+/g, ' ').trim();
+    .replace(/\s+/g, ' ').trim();
 }
 
 export function analyzePage(text, terms) {
   const hits = terms.filter((term) => text.toLocaleLowerCase('ja').includes(term.toLocaleLowerCase('ja')));
   const dates = [...new Set([
-    ...text.matchAll(/20\\d{2}年\\s*\\d{1,2}月\\s*\\d{1,2}日/g),
-    ...text.matchAll(/20\\d{2}[-/]\\d{1,2}[-/]\\d{1,2}/g),
+    ...text.matchAll(/20\d{2}年\s*\d{1,2}月\s*\d{1,2}日/g),
+    ...text.matchAll(/20\d{2}[-/]\d{1,2}[-/]\d{1,2}/g),
   ].map((m) => m[0]))].slice(0, 30);
   return { matchedTerms: hits, dateMentions: dates, hash: createHash('sha256').update(text).digest('hex') };
 }
@@ -43,7 +43,7 @@ export async function watchSource(source, fetchFn = fetch) {
     if (!response.ok) return { id: source.id, url: source.url, status: 'http-error', httpStatus: response.status, checkedAt };
     if (!response.url?.startsWith('https://')) return { id: source.id, url: source.url, status: 'unsafe-redirect', checkedAt };
     const type = response.headers.get('content-type') ?? '';
-    if (!/text\\/html|text\\/plain/i.test(type)) return { id: source.id, url: source.url, status: 'unsupported-content-type', contentType: type, checkedAt };
+    if (!/text\/html|text\/plain/i.test(type)) return { id: source.id, url: source.url, status: 'unsupported-content-type', contentType: type, checkedAt };
     const size = Number(response.headers.get('content-length') || 0);
     if (size > 2_000_000) return { id: source.id, url: source.url, status: 'too-large', checkedAt };
     const html = await response.text();
@@ -71,7 +71,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const result = await runWatch(config.sources);
   if (process.argv.includes('--write')) {
     mkdirSync(dirname(OUTPUT), { recursive: true });
-    writeFileSync(OUTPUT, JSON.stringify(result, null, 2) + '\\n', 'utf8');
+    writeFileSync(OUTPUT, JSON.stringify(result, null, 2) + '\n', 'utf8');
   }
   console.log(JSON.stringify(result, null, 2));
   if (result.failed > 0) process.exitCode = 2;
