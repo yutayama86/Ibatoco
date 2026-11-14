@@ -76,6 +76,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "night-park-oarai-2026-guide": "/images/card/night-park-oarai-2026-guide-4c8cbdb8.png",
   "oarai-umimachi-line-2026": "/images/card/oarai-umimachi-line-2026-7e5f8ef8.png",
   "ringring-road-cycling-132k-2024": "/images/card/ringring-road-cycling-132k-2024-0eb0e425.png",
+  "ryugasaki-relay-marathon-2027": "/images/card/ryugasaki-relay-marathon-2027-3582e209.png",
   "shimotsuma-job-fair-2026": "/images/card/shimotsuma-job-fair-2026-7e804637.png",
   "shimotsuma-keisui-melon-ginza-2026": "/images/card/shimotsuma-keisui-melon-ginza-2026-7e804637.png",
   "shin-ibaraki-meshi-2026": "/images/card/shin-ibaraki-meshi-2026-6c5eb34d.png",
