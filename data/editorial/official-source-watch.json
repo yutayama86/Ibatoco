@@ -150,7 +150,8 @@
         "ステージ",
         "出演"
       ],
-      "note": "Current 2026 article confirmed; /sp/ version showed outdated 2024 content. Seasonal event detail, not a year-round feed."
+      "note": "Current 2026 article confirmed; /sp/ version showed outdated 2024 content. Seasonal event detail, not a year-round feed.",
+      "expectedText": "2026八千代の秋まつり"
     }
   ]
 }
