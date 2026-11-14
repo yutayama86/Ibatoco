@@ -101,3 +101,7 @@ test('do not treat malformed script closing tag as a valid end tag', () => {
   assert.ok(text.includes('駐車場'));
   assert.ok(!text.includes('SECRET'));
 });
+
+test('decode HTML entities once without cascading escapes', () => {
+  assert.equal(extractText('<p>&amp;lt; &lt; &amp;amp; &nbsp;</p>'), '&lt; < &amp;');
+});
