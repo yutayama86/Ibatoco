@@ -373,6 +373,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-sa-pa-guide/': '茨城県内のSA・PA',
   '/events/ibaraki-winter-odekake-2026/': '茨城の冬のおでかけ2026-2027',
   '/events/ryugasaki-igappe-ichi-croquette-2026/': '龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁2026（11月21日）',
+  '/news/ryugasaki-relay-marathon-2027/': '龍ケ崎リレーマラソン大会2027（3/13・申込12/11から）',
   '/events/toride-honjin-somenoke-guide/': '旧取手宿本陣染野家住宅（無料・金土日公開）',
   '/news/toride-cycle-art-festival-2026/': 'サイクルアートフェスティバル2026（11/15・取手競輪場）',
   '/events/yanagita-kunio-kinen-koen-tone-guide/': '柳田國男記念公苑（利根町・無料・間引き絵馬）',
