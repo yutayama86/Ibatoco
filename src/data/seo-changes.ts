@@ -58,6 +58,15 @@ export const SEO_CHANGES: SeoChange[] = [
     commit: '69c5679',
   },
   {
+    id: '20261114-news-ryugasaki-relay-marathon-2027',
+    date: '2026-11-14',
+    url: '/news/ryugasaki-relay-marathon-2027/',
+    kind: 'new-article',
+    change: '龍ケ崎リレーマラソン大会2027（3/13）の種目・参加費・申込期間を新規公開',
+    queries: ['龍ケ崎リレーマラソン 2027', '龍ケ崎 リレーマラソン', '茨城 リレーマラソン', '3時間耐久リレーマラソン 茨城'],
+    commit: '19dd13f',
+  },
+  {
     id: '20261114-news-toride-cycle-art-festival-2026',
     date: '2026-11-14',
     url: '/news/toride-cycle-art-festival-2026/',
