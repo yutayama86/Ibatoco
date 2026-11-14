@@ -317,6 +317,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tenshin-izura-museum-guide": "/images/card/tenshin-izura-museum-guide-0a1ec3c0.png",
   "the-hirosawa-city-guide": "/images/card/the-hirosawa-city-guide-480f2a7d.png",
   "tokugawa-museum-mito-guide": "/images/card/tokugawa-museum-mito-guide-6c5eb34d.png",
+  "tone-town-sightseeing-guide": "/images/card/tone-town-sightseeing-guide-c0724987.png",
   "tonegawa-hanabi-2026": "/images/card/tonegawa-hanabi-2026-8a53b596.png",
   "toride-honjin-somenoke-guide": "/images/card/toride-honjin-somenoke-guide-1f63e4a4.png",
   "torinokosan-jinja-guide": "/images/card/torinokosan-jinja-guide-026aa449.png",

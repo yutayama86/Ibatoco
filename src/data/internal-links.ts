@@ -379,6 +379,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/toride-honjin-somenoke-guide/': '旧取手宿本陣染野家住宅（無料・金土日公開）',
   '/news/toride-cycle-art-festival-2026/': 'サイクルアートフェスティバル2026（11/15・取手競輪場）',
   '/events/yanagita-kunio-kinen-koen-tone-guide/': '柳田國男記念公苑（利根町・無料・間引き絵馬）',
+  '/events/tone-town-sightseeing-guide/': '利根町の見どころ（季節ごと・駐車場と見ごろ）',
   '/events/meiji-naruhodo-factory-moriya-guide/': '明治なるほどファクトリー守谷の工場見学（無料・予約制）',
   '/news/yakult-swallows-farm-moriya-2027/': 'ヤクルト二軍の新施設が守谷市に2027年3月開業予定（解説）',
   '/news/miho-umamusume-collab-2026/': 'ウマ娘×美浦村コラボ2026（11月24日まで・カードと行き方）',

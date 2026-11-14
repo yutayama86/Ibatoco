@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261114-events-tone-town-sightseeing-guide',
+    date: '2026-11-14',
+    url: '/events/tone-town-sightseeing-guide/',
+    kind: 'new-article',
+    change: '利根町の見どころ（桜づつみ・古代ハス・大平野生植物園・冬のイルミネーション・歴史）の季節別ガイドを新規公開',
+    queries: ['利根町 観光', '利根川桜づつみ', '利根親水公園 古代ハス', '大平野生植物園'],
+    commit: '1cb3eab',
+  },
+  {
     id: '20261114-events-shirosato-keisokusan-gozenyama-hi',
     date: '2026-11-14',
     url: '/events/shirosato-keisokusan-gozenyama-hiking-guide/',
