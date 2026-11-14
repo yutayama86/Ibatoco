@@ -65,10 +65,10 @@ export function extractText(html) {
     if (!ignore) out.push(' ');
     index = cursor + 1;
   }
-  return out.join('').replaceAll('&nbsp;', ' ').replaceAll('&amp;', '&')
-    .replaceAll('&lt;', '<').replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"').replaceAll('&#39;', "'")
-    .replace(/\s+/g, ' ').trim();
+  const entities = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+  // Decode each original entity once; avoid cascading &amp;lt; into '<'.
+  return out.join('').replace(/&(?:nbsp|amp|lt|gt|quot|#39);/g, (entity) =>
+    entities[entity.slice(1, -1)] ?? entity).replace(/\s+/g, ' ').trim();
 }
 
 export function analyzePage(text, terms) {
