@@ -191,7 +191,7 @@ npm run editorial:staleness
 
 - `editorial:sync`：公開イベント記事を台帳へ同期。未掲載の手入力候補は保持
 - `editorial:check`：台帳と実装キューを検証
-- `editorial:daily`：同期・検証・在庫集計・日次ブリーフ生成
+- `editorial:daily`：同期・検証・在庫集計・日次ブリーフ生成。続けて `reports/editorial/area-coverage.md`（44市町村ごとの記事数と検索流入。記事が5本以下の市町村、市町村別のクリック・表示・閲覧と前週比）も生成する（単体は `npm run area:coverage`。計算は `src/lib/area-coverage.mjs`。ページ別の集計期間が無い日は「旧データ」と明示する）
 - `editorial:staleness`：日付を過ぎたのに「予定」「現在」「行われます」のまま残っている記述の候補を、記事ごとにまとめて点数順に出す（既定は優先度の高い記事だけ、`-- --all` で全件、`-- 2026-11-01` で基準日指定）。候補の抽出だけで記事は書き換えない。直すのは一次情報で確認してから
 
 ## イベント台帳の追加例
