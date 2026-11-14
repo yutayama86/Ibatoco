@@ -1697,6 +1697,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
+    },
+    {
+      "id": "hitachinaka-coffee-festival-2026",
+      "name": "HITACHINAKA COFFEE FESTIVAL",
+      "municipality": "hitachinaka",
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "officialUrl": "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/1014541.html",
+      "discoveredAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "articleUrl": "/events/hitachinaka-coffee-festival-2026/",
+      "articleUpdatedAt": "2026-11-14",
+      "status": "draft",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "high"
+      },
+      "notes": "ひたちなか市公式（11/5更新）に基づく未公開記事。開催時間は14日10:00〜19:00（コーヒー・マーケット17:00まで）、15日10:00〜16:00。会場駐車場利用不可、勝田駅シャトルバスあり。県観光公式の開始時刻と差があり編集確認が必要。検索需要は未取得。"
     }
   ]
 }
