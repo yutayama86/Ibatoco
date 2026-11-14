@@ -38,7 +38,7 @@ export function analyzePage(text, terms) {
  */
 export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
   const out = [], seen = new Set();
-  for (const match of html.matchAll(/<a\\b([^>]*)>([\\s\\S]*?)<\\/a>/gi)) {
+  for (const match of html.matchAll(new RegExp('<a\\b([^>]*)>([\\s\\S]*?)<\\/a>', 'gi'))) {
     const attrs = match[1];
     const href = attrs.match(/\\bhref\\s*=\\s*["']([^"']+)["']/i)?.[1];
     if (!href) continue;
