@@ -3,6 +3,8 @@ import ControlBase from '../../layouts/ControlBase.astro';
 import { todayDateOnlyString } from '../../lib/date-only.js';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
+import { loadAreaCoverage } from '../../lib/control-area-coverage';
+import { THIN_COVERAGE_MAX } from '../../lib/area-coverage.mjs';
 import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import actionQueue from '../../../data/editorial/action-queue.json';
@@ -282,6 +284,12 @@ const autoRunState = activeQueue.length > 0
   : '現在の実行待ちは0件。次回7時に再評価';
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
 const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）';
+// 44市町村ごとの記事数と検索流入（reports/editorial/area-coverage.md と同じ計算）
+const areaCoverage = await loadAreaCoverage(performance);
+const areaThin = areaCoverage.rows.filter((r) => r.articles <= THIN_COVERAGE_MAX);
+const areaPeriod = (areaCoverage.periods as { recent28?: { start: string; end: string } } | null)?.recent28;
+const areaNum = (v: number | null) => (v == null ? '—' : fmt.format(v));
+const areaTrend = (a: number | null, b: number | null) => (a == null || b == null ? '' : b === 0 ? (a === 0 ? '±0' : `+${a}`) : `${a - b >= 0 ? '+' : ''}${Math.round(((a - b) / b) * 100)}%`);
 ---
 
 <ControlBase>
@@ -621,6 +629,31 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
       </article>
     </section>
 
+    <section class="panel" id="areas">
+      <div class="panel__head"><div><span>地域</span><h2>44市町村の記事数と検索流入</h2></div><small>{areaCoverage.periodRecorded && areaPeriod ? `検索・閲覧 ${areaPeriod.start}〜${areaPeriod.end}` : '検索・閲覧は期間未記録'}</small></div>
+      {!areaCoverage.periodRecorded && <p class="note">クリック・表示・閲覧は集計期間が記録されていない旧データです。記事数は最新。日次同期で記事ごとの検索データが取れると、ここに期間が入ります。</p>}
+      <p class="note">公開中の記事 {fmt.format(areaCoverage.totals.publishedEntries)}本。記事が{THIN_COVERAGE_MAX}本以下の市町村：{areaThin.length ? areaThin.map((r) => `${r.name}（${r.articles}）`).join('、') : 'なし'}。1本の記事が複数の市町村にかかるときは、それぞれに数えます。ページ別のデータが無い記事は0ではなく「—」です。表は横にスクロールできます。</p>
+      <div class="table-wrap">
+        <table class="area-table">
+          <thead><tr><th>市町村</th><th>記事</th><th>最新の公開日</th><th>クリック28日</th><th>表示28日</th><th>クリック7日</th><th>閲覧28日</th><th>いちばんクリックされた記事</th></tr></thead>
+          <tbody>
+            {areaCoverage.rows.map((r) => (
+              <tr>
+                <td><a href={`/area/${r.slug}/`} target="_blank" rel="noreferrer">{r.name}</a> <small>{r.region}</small></td>
+                <td>{r.articles}</td>
+                <td>{r.newestPubDate ?? '—'}</td>
+                <td>{areaNum(r.clicks28)}</td>
+                <td>{areaNum(r.impressions28)}</td>
+                <td>{areaNum(r.clicks7)} <small>{areaTrend(r.clicks7, r.clicksPrev7)}</small></td>
+                <td>{areaNum(r.views28)}</td>
+                <td>{r.topPage ? <a href={r.topPage.path} target="_blank" rel="noreferrer">{r.topPage.title.slice(0, 28)}</a> : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="two-col" id="revenue">
       <article class="panel">
         <div class="panel__head"><div><span>収益</span><h2>予約導線の流れ</h2></div><small>{String(conv.start??'')} → {String(conv.end??'')}</small></div>
@@ -699,6 +732,7 @@ const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確�
   .signal-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.55rem}.signal{padding:.8rem;border-radius:10px;background:var(--panel-2)}.signal>div{display:flex;justify-content:space-between;gap:1rem}.signal b{font-size:.78rem}.signal p{margin:.45rem 0;color:var(--muted);font-size:.76rem;line-height:1.6}.signal a{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent);font-size:.65rem;text-decoration:none}.signal small{color:var(--muted);font-size:.63rem}
   .channels{display:grid;gap:.75rem}.channel>div:first-child{display:flex;justify-content:space-between;font-size:.75rem}.channel small{display:block;margin-top:.2rem;color:var(--muted);font-size:.62rem}.mini-bar{height:6px;margin-top:.35rem;background:#22304a;border-radius:99px;overflow:hidden}.mini-bar i{display:block;height:100%;background:var(--accent)}
   .funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}.funnel div,.b2b-grid div{display:grid;gap:.3rem;padding:.8rem;border-radius:10px;background:var(--panel-2)}.funnel span,.b2b-grid span{color:var(--muted);font-size:.65rem}.funnel strong,.b2b-grid b{font-size:1.25rem}.note{margin:.9rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.6}.b2b-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .area-table{min-width:760px}.area-table td:first-child,.area-table th:first-child{white-space:nowrap}.area-table td:last-child{text-align:left}
   .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{padding:.65rem .45rem;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:.62rem}
   .health{display:grid;gap:.15rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.7rem}.health dd{margin:0;font-size:.72rem;text-align:right}.good{color:var(--good)}.bad{color:var(--bad)}
   details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}
