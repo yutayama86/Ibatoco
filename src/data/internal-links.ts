@@ -379,6 +379,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/yakult-swallows-farm-moriya-2027/': 'ヤクルト二軍の新施設が守谷市に2027年3月開業予定（解説）',
   '/news/miho-umamusume-collab-2026/': 'ウマ娘×美浦村コラボ2026（11月24日まで・カードと行き方）',
   '/news/yachiyo-aki-matsuri-2026/': '八千代の秋まつり2026（11/14・15、ステージの時間とシャトルバス）',
+  '/news/yachiyo-illumination-hakusai-2026/': '八千代町イルミネーション点灯式（11/28・はくさいサミット プレイベント）',
   '/events/oarai-hatsuhinode-2027/': '大洗の初日の出・初詣2027（日の出時刻・駐車場・開門時間）',
   '/events/mito-ume-matsuri-2027/': '水戸の梅まつり2027（日程・料金・駐車場）',
   '/events/kasumi-oarai-open-202609/': 'カスミ大洗店の開店（2026年9月）',
