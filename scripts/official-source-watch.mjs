@@ -31,6 +31,37 @@ export function analyzePage(text, terms) {
   return { matchedTerms: hits, dateMentions: dates, hash: createHash('sha256').update(text).digest('hex') };
 }
 
+
+/**
+ * Link titles are discovery hints, never verified facts.
+ * No subpage requests; only links already present in the official page HTML.
+ */
+export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
+  const out = [], seen = new Set();
+  for (const match of html.matchAll(/<a\\b([^>]*)>([\\s\\S]*?)<\\/a>/gi)) {
+    const attrs = match[1];
+    const href = attrs.match(/\\bhref\\s*=\\s*["']([^"']+)["']/i)?.[1];
+    if (!href) continue;
+    let url;
+    try { url = new URL(href.replaceAll('&amp;', '&'), pageUrl); } catch { continue; }
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') continue;
+    if (url.username || url.password) continue;
+    if (!['http:', 'https:'].includes(url.protocol)) continue;
+    if (url.origin !== new URL(pageUrl).origin) continue;
+    url.hash = '';
+    const title = extractText(match[2]).slice(0, 180);
+    if (title.length < 4) continue;
+    const hits = terms.filter((term) => title.toLocaleLowerCase('ja').includes(term.toLocaleLowerCase('ja')));
+    if (!hits.length) continue;
+    const key = url.href;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ title, url: key, matchedTerms: hits, verification: 'unverified-link-title' });
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 export async function watchSource(source, fetchFn = fetch) {
   const checkedAt = new Date().toISOString();
   if (!source.id || !Array.isArray(source.watchTerms) || !source.url?.startsWith('https://')) {
@@ -51,7 +82,7 @@ export async function watchSource(source, fetchFn = fetch) {
     if (html.length > 2_000_000) return { id: source.id, url: source.url, status: 'too-large', checkedAt };
     const content = extractText(html);
     if (content.length < 80) return { id: source.id, url: source.url, status: 'empty-or-script-rendered', checkedAt };
-    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms) };
+    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: /text\\/html/i.test(type) ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
   } catch (error) {
     return { id: source.id, url: source.url, status: 'fetch-failed', checkedAt, error: error?.name === 'TimeoutError' ? 'timeout' : 'network-or-access-error' };
   }
@@ -70,12 +101,19 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
   return {
     ...watch,
     previousReportAvailable: !!previous,
+    candidateLinksFound: watch.results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
     results: watch.results.map((row) => ({
       ...row,
       change: row.status !== 'fetched' ? 'not-comparable'
         : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
         : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
       registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
+      candidateLinks: (row.candidateLinks ?? []).map((link) => ({
+        ...link,
+        // Exact URL match only: a nonmatch does not prove unpublished or new.
+        registryMatchesByExactOfficialUrl: knownUrls.get(link.url) ?? [],
+        firstSeenInCurrentReport: !(past.get(row.id)?.candidateLinks ?? []).some((old) => old.url === link.url),
+      })),
     })),
   };
 }
