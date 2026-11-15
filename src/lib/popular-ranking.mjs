@@ -33,8 +33,10 @@ export function selectConfirmedPopular(snapshot, eligiblePaths, today, limit = 8
     if (pages.length >= limit) break;
     const path = row?.path;
     if (!PUBLIC_ARTICLE.test(path ?? '') || !eligiblePaths.has(path) || seen.has(path)) continue;
-    if (!Number.isInteger(row.views) || row.views < 0) continue;
+    // An invalid first GA4 row must not be silently replaced by a later duplicate
+    // for the same URL; that could turn a corrupt response into a valid-looking rank.
     seen.add(path);
+    if (!Number.isInteger(row.views) || row.views < 0) continue;
     pages.push({ path, views: row.views });
   }
   return { pages, start: period.start, end: period.end };
