@@ -29,7 +29,6 @@ const REPORT_DIR = join(ROOT, 'reports/editorial');
 const EVENT_REGISTRY = join(DATA_DIR, 'event-registry.json');
 const ACTION_QUEUE = join(DATA_DIR, 'action-queue.json');
 const PERFORMANCE = join(DATA_DIR, 'performance-snapshot.json');
-const POPULAR = join(DATA_DIR, 'popular-pages.json');
 const SEO_CHANGES = join(ROOT, 'src/data/seo-changes.ts');
 const AREAS = join(ROOT, 'src/data/areas.ts');
 const CONTENT_DIRS = [
@@ -277,15 +276,17 @@ function validate(registry, actions, performance, inventory) {
     const age = dateDiff(performance.asOf, todayDateOnlyString());
     if (age > GOOGLE_CONFIRM_LAG_DAYS) warnings.push(`GA4/GSCスナップショットが${age}日前です。推測で数値を補わないでください。`);
   }
-  // 人気ページ（TOPの「いま読まれている」と GrowthNextReads の補完に使う）は日次で Growth Director が更新する。
-  // 10/10〜10/17 に更新が止まっても気づけなかったため、GA4 の確定日より2日以上古ければ警告する（自動では書き換えない）
-  const popular = existsSync(POPULAR) ? readJson(POPULAR) : null;
-  const popularEnd = popular?.source?.period?.end;
+  // TOP/関連記事の人気順位は日次GA4スナップショットのページ別実測が正本。
+  // 古い popular-pages.json ではなく、実際に表示に使う公式APIの期間と欠落を監査する。
+  const popularEnd = performance.source?.pageLevel?.periods?.recent7?.end;
   const ga4Latest = performance.source?.freshness?.ga4LatestConfirmedDate ?? performance.ga4LatestConfirmedDate;
-  if (!dateValue(popularEnd)) warnings.push('人気ページ（popular-pages.json）の集計期間が読めません。');
-  else if (dateValue(ga4Latest) && dateDiff(popularEnd, ga4Latest) >= 2) {
-    warnings.push(`人気ページ（popular-pages.json）の集計期間が${popularEnd}までで、GA4の確定日（${ga4Latest}）より${dateDiff(popularEnd, ga4Latest)}日古いです。直近7日の実測で更新してください（選定は Growth Director）。`);
-  }
+  if (!dateValue(popularEnd) || !performance.source?.pageLevel?.ga4TopPagesUpdated
+    || !Array.isArray(performance.ga4TopPages?.recent7))
+    warnings.push('人気記事のGA4ページ別7日実測がありません。ランキングは非表示になります。');
+  else if (performance.source?.pageLevel?.truncated?.ga4Pages !== false)
+    warnings.push('人気記事のGA4ページ別実測に欠落の可能性があります。ランキングは非表示になります。');
+  else if (dateValue(ga4Latest) && dateDiff(popularEnd, ga4Latest) >= 2)
+    warnings.push(`人気記事のGA4ページ別確定日が${popularEnd}までで、サイトのGA4確定日（${ga4Latest}）より${dateDiff(popularEnd, ga4Latest)}日古いです。日次同期のpageLevelを確認してください。`);
   return { errors, warnings };
 }
 
