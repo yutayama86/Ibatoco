@@ -210,7 +210,8 @@ export function checkBookingReferrals(ref, { confirmedThrough } = {}) {
 /** スナップショットの conversionDetail へ入れる項目（既存の項目名・形を保つ） */
 export function referralSnapshotFields(ref, fetchedAt) {
   return {
-    byProviderPage: ref.byProviderPage,
+    // 旧 consumer の event_count を維持し、28日値だと明示できる別名も提供する。
+    byProviderPage: ref.byProviderPage.map((row) => ({ ...row, event_count28: row.event_count })),
     byProviderPagePeriod: ref.periods.recent28,
     byProviderPagePeriod7: ref.periods.recent7,
     byProviderPageSource: ref.source,
