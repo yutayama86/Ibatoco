@@ -600,7 +600,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       </article>
 
       <article class="panel">
-        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodEnd}までの集計</small></div>
+        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodLabel}</small></div>
         <ol class="rank-list">
           {bookingPages.map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(Number(item.outbound_booking_click??0))}</strong></li>
