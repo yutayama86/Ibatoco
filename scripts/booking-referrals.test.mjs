@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   referralWindows, referralDimensions, referralTotals, buildByProviderPage, buildByPage, classifyReferral,
-  checkBookingReferrals, referralSnapshotFields,
+  checkBookingReferrals, referralSnapshotFields, referralReportQualityIssues,
 } from '../src/lib/booking-referrals.mjs';
 import { referralFreshness } from '../src/lib/analytics-freshness.mjs';
 import { businessReferrals } from '../src/lib/local-revenue.mjs';
@@ -106,11 +106,28 @@ test('検査：期間のずれ・内訳がサイト全体を超える・提携�
   assert.ok(bad((x) => { x.byProviderPage[0].link_url = ''; }).length >= 1);
 });
 
-test('送客クリックが本当に0件の日は、空の内訳で合格する（全体も null）', () => {
+test('送客イベントが返らない場合は真の0と未取得を区別できないため更新しない', () => {
   const x = good();
   x.totals = { recent28: { booking_guide_view: 10, outbound_booking_click: null, paid_booking_click: null }, recent7: { booking_guide_view: null, outbound_booking_click: null, paid_booking_click: null } };
   x.byProviderPage = []; x.byPage = []; x.unattributed = { recent28: 0, recent7: 0 };
-  assert.deepEqual(checkBookingReferrals(x, { confirmedThrough: '2026-11-12' }), []);
+  const errors = checkBookingReferrals(x, { confirmedThrough: '2026-11-12' });
+  assert.ok(errors.some((e) => e.includes('28日の送客クリック合計が未取得')));
+  assert.ok(errors.some((e) => e.includes('7日の送客クリック合計が未取得')));
+  const only7Missing = good();
+  only7Missing.totals.recent7.outbound_booking_click = null;
+  assert.ok(checkBookingReferrals(only7Missing, { confirmedThrough: '2026-11-12' }).some((e) => e.includes('7日の送客クリック合計が未取得')));
+});
+
+test('GA4送客レポート：欠落・しきい値・サンプリング・切り詰めを検知する', () => {
+  const base = { rowCount: 1, rows: [r([OUT], 2)], metadata: {} };
+  assert.deepEqual(referralReportQualityIssues(base, 'provider'), []);
+  assert.ok(referralReportQualityIssues({ ...base, rowCount: 2 }, 'provider').some((e) => e.includes('行数')));
+  assert.ok(referralReportQualityIssues({ ...base, metadata: { dataLossFromOtherRow: true } }).some((e) => e.includes('(other)')));
+  assert.ok(referralReportQualityIssues({ ...base, metadata: { subjectToThresholding: true } }).some((e) => e.includes('しきい値')));
+  assert.ok(referralReportQualityIssues({ ...base, metadata: { samplingMetadatas: [{ samplesReadCount: '100' }] } }).some((e) => e.includes('サンプリング')));
+  assert.ok(referralReportQualityIssues({ ...base, metadata: { dataTruncationReasons: [{ reason: 'DATA_TRUNCATION_REASON_USER_ID_LIMIT' }] } }).some((e) => e.includes('切り詰め')));
+  assert.deepEqual(referralReportQualityIssues({ ...base, metadata: { dataTruncationReasons: [{ reason: 'DATA_TRUNCATION_REASON_UNSPECIFIED' }] } }), []);
+  assert.ok(referralReportQualityIssues(null).length > 0);
 });
 
 test('スナップショットの項目：既存のレポート（local-revenue）がそのまま読める', () => {
