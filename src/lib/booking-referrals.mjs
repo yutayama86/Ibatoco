@@ -87,6 +87,31 @@ export function referralTotals(rows) {
 }
 
 /**
+ * GA4 Data API の集計品質。行数制限だけでなく (other) 集約、しきい値、
+ * サンプリング、切り詰めを検知する。URL 単位の営業実績は欠落した集計を使わない。
+ * 実データ（URL・トークン）はエラーメッセージへ含めない。
+ */
+export function referralReportQualityIssues(report, label = 'GA4') {
+  const errors = [];
+  if (!report || typeof report !== 'object') return [`${label}: API応答がありません`];
+  if (Number(report.rowCount ?? 0) > (report.rows ?? []).length)
+    errors.push(`${label}: 行数の上限に達した`);
+  const metadata = report.metadata ?? {};
+  if (metadata.dataLossFromOtherRow === true)
+    errors.push(`${label}: (other) 行への集約により一部の送り先が欠落`);
+  if (metadata.subjectToThresholding === true)
+    errors.push(`${label}: プライバシーしきい値により一部データが除外`);
+  if (Array.isArray(metadata.samplingMetadatas) && metadata.samplingMetadatas.length)
+    errors.push(`${label}: サンプリング集計`);
+  const truncations = [...(metadata.dataTruncationReasons ?? []), ...(report.dataTruncationReasons ?? [])];
+  if (truncations.some((reason) => {
+    const value = typeof reason === 'string' ? reason : reason?.reason;
+    return value && value !== 'DATA_TRUNCATION_REASON_UNSPECIFIED';
+  })) errors.push(`${label}: データが切り詰められています`);
+  return errors;
+}
+
+/**
  * eventName × pagePath × link_url × link_provider（× partner_status）（＋dateRange）の応答 → 送客先別の行。
  * event_count は直近28日の outbound_booking_click、event_count7 は直近7日。paid_count は28日の paid_booking_click（内数）。
  * link_url が (not set) の行は送り先が分からないので行にせず、unattributed に件数を残す。
@@ -151,6 +176,10 @@ export function checkBookingReferrals(ref, { confirmedThrough } = {}) {
   if (!Array.isArray(ref.byProviderPage) || !Array.isArray(ref.byPage)) { errors.push('bookingReferrals: byProviderPage・byPage が配列でない'); return errors; }
   const total28 = ref.totals?.recent28?.outbound_booking_click;
   const total7 = ref.totals?.recent7?.outbound_booking_click;
+  // GA4 は0件のイベント行を返さない。null は真の0と区別できないため、
+  // この export で期間だけを新しくして空の内訳を上書きしない。
+  if (total28 == null) errors.push('bookingReferrals: 28日の送客クリック合計が未取得（0と区別できないため更新保留）');
+  if (total7 == null) errors.push('bookingReferrals: 7日の送客クリック合計が未取得（0と区別できないため更新保留）');
   // サイト全体で送客クリックがあるのに内訳が空なら、ディメンションが効いていない疑い。0行で上書きしない
   if ((total28 ?? 0) > 0 && ref.byProviderPage.length === 0 && !(ref.unattributed?.recent28 > 0)) errors.push('bookingReferrals: 送客クリックがあるのに送客先別が空（0行で上書きしない）');
   if (total28 == null && ref.byProviderPage.length > 0) errors.push('bookingReferrals: サイト全体の件数が無いのに内訳がある');
