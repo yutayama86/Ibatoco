@@ -57,6 +57,14 @@ const warnings = performance.source?.warnings ?? [];
 const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
 const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
+const providerPeriod = performance.conversionDetail.byProviderPagePeriod;
+const providerPeriodLabel = providerPeriod?.start && providerPeriod?.end
+  ? `送客先別：${providerPeriod.start}〜${providerPeriod.end}（${performance.conversionDetail.byProviderPagePeriod7 ? '28日' : '旧集計期間'}）`
+  : '送客先別の集計期間は未確認';
+const bookingPagePeriod = performance.conversionDetail.byPagePeriod;
+const bookingPagePeriodLabel = bookingPagePeriod?.start && bookingPagePeriod?.end
+  ? `ページ別：${bookingPagePeriod.start}〜${bookingPagePeriod.end}`
+  : 'ページ別の集計期間は未確認';
 const providerRows = (performance.conversionDetail.byProviderPage ?? []) as Array<any>;
 const providerSummary = new Map<string, { provider: string; clicks: number; paid: number; candidate: number; official: number }>();
 for (const row of providerRows) {
@@ -680,7 +688,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
 
     <section class="two-col">
       <article class="panel">
-        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>GA4実測</small></div>
+        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>{providerPeriodLabel}・GA4実測</small></div>
         <div class="table-wrap"><table><thead><tr><th>提供元</th><th>クリック</th><th>成果リンク</th><th>未提携候補</th></tr></thead><tbody>{providerTable.map((row)=><tr><td>{row.provider}</td><td>{row.clicks}</td><td>{row.paid}</td><td>{row.candidate}</td></tr>)}</tbody></table></div>
       </article>
 
