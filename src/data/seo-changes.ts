@@ -49,6 +49,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261115-news-toride-cycle-art-festival-2026',
+    date: '2026-11-15',
+    url: '/news/toride-cycle-art-festival-2026/',
+    kind: 'on-page',
+    change: '開催終了（11/15）を冒頭に追記（事実更新）',
+    experimentType: 'fact',
+    queries: [],
+    commit: '2209e05',
+  },
+  {
+    id: '20261115-news-yachiyo-aki-matsuri-2026',
+    date: '2026-11-15',
+    url: '/news/yachiyo-aki-matsuri-2026/',
+    kind: 'on-page',
+    change: '開催終了（11/15）を冒頭に追記（事実更新）',
+    experimentType: 'fact',
+    queries: [],
+    commit: '2209e05',
+  },
+  {
+    id: '20261115-events-oarai-ankou-matsuri-2026',
+    date: '2026-11-15',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '開催終了（11/15）を冒頭に追記（事実更新）',
+    experimentType: 'fact',
+    queries: [],
+    commit: '2209e05',
+  },
+  {
     id: '20261114-events-tone-town-sightseeing-guide',
     date: '2026-11-14',
     url: '/events/tone-town-sightseeing-guide/',
