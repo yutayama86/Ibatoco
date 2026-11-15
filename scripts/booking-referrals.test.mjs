@@ -133,6 +133,9 @@ test('GA4送客レポート：欠落・しきい値・サンプリング・切�
 test('スナップショットの項目：既存のレポート（local-revenue）がそのまま読める', () => {
   const fields = referralSnapshotFields(good(), '2026-11-15T08:30:00.000Z');
   assert.deepEqual(fields.byProviderPagePeriod, { start: '2026-10-16', end: '2026-11-12' });
+  assert.equal(fields.byProviderPage[0].event_count28, 12);
+  assert.equal(fields.byProviderPage[0].event_count, 12);
+  assert.equal(fields.byProviderPage[0].event_count7, 5);
   assert.deepEqual(fields.byPagePeriod, { start: '2026-11-06', end: '2026-11-12' });
   assert.equal(fields.byProviderPageTotals.unattributed.recent28, 2);
   const ref = businessReferrals({ snapshot: { conversionDetail: fields } });
