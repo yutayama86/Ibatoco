@@ -8,6 +8,7 @@ import { addDays } from '../src/lib/growth-engine.mjs';
 import { checkDaily, confirmedDateMismatches } from '../src/lib/ga4-daily.mjs';
 import { checkGscDaily } from '../src/lib/measurement-monitor.mjs';
 import { checkPageLevel } from '../src/lib/gsc-page-level.mjs';
+import { checkBookingReferrals, referralSnapshotFields } from '../src/lib/booking-referrals.mjs';
 
 const inputPath = process.argv[2];
 if (!inputPath) throw new Error('Usage: node scripts/google-analytics-sync.mjs <verified-export.json>');
@@ -105,6 +106,10 @@ if(pl){
 }
 const pageLevelMeta=pl?{source:pl.source,fetchedAt:input.fetchedAt,periods:pl.periods,truncated:pl.truncated,
  rows:{gscQueries:pl.gscQueries.length,pageMetrics:pl.pageMetrics.length},ga4TopPagesUpdated:Boolean(pl.ga4TopPages)}:data.source?.pageLevel;
+// 送客先別・ページ別の送客クリック（Issue #612）。取得できた日だけ置き換える。無い日は前の値と期間をそのまま残す
+const referralIssues=checkBookingReferrals(input.bookingReferrals,{confirmedThrough:gaEnd});
+if(referralIssues.length) throw new Error('Booking referrals check failed: '+referralIssues.join(' | '));
+if(input.bookingReferrals) data.conversionDetail={...data.conversionDetail,...referralSnapshotFields(input.bookingReferrals,input.fetchedAt)};
 data.asOf=gaEnd;
 // 最上位の確定日は editorial-os が読む（Windsor 時代の項目）。source 側だけ更新すると古い日付が残る（#445）
 data.ga4LatestConfirmedDate=gaEnd;

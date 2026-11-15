@@ -9,6 +9,9 @@ import { addDays } from '../src/lib/growth-engine.mjs';
 import {
   GSC_ROW_LIMIT, pageLevelWindows, buildGscQueries, buildPageMetrics, buildTopPages, ga4ViewsByWindow, checkPageLevel,
 } from '../src/lib/gsc-page-level.mjs';
+import {
+  REFERRAL_EVENTS, CLICK_EVENTS, referralWindows, referralDimensions, referralTotals, buildByProviderPage, buildByPage, checkBookingReferrals,
+} from '../src/lib/booking-referrals.mjs';
 
 const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
@@ -131,6 +134,49 @@ try {
   console.warn(`::warning title=ページ別データ::取得できませんでした（${error.message}）。サイト全体の日別だけを同期します。`);
   pageLevel = null;
 }
+// 送客クリックの内訳（Issue #612）。同じ読み取りトークンで、登録済みのカスタムディメンションだけを使う。
+// 失敗・不整合のときは bookingReferrals を出さない（前の値と期間が残る。0 や古い値で上書きしない）
+let bookingReferrals = null;
+try {
+  const reportUrl = `https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`;
+  const metaRes = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}/metadata`, {
+    headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(30000),
+  });
+  if (!metaRes.ok) throw new Error(`metadata HTTP ${metaRes.status}`);
+  const dims = referralDimensions(await metaRes.json());
+  if (dims.missing.length) throw new Error(`未登録のディメンション: ${dims.missing.join(', ')}（新しく登録はしない）`);
+  const periods = referralWindows(through);
+  const dateRanges = [periods.recent28, periods.recent7].map((p) => ({ startDate: p.start, endDate: p.end }));
+  const eventFilter = (values) => ({ filter: { fieldName: 'eventName', inListFilter: { values } } });
+  const complete = (res, label) => {
+    if (Number(res.rowCount ?? 0) > (res.rows ?? []).length) throw new Error(`${label} が行数の上限に達した`);
+    return res.rows ?? [];
+  };
+  const totals = referralTotals(complete(await request(reportUrl, {
+    dateRanges, dimensions: [{ name: 'eventName' }], metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(REFERRAL_EVENTS), limit: '100',
+  }), 'totals'));
+  const provider = buildByProviderPage(complete(await request(reportUrl, {
+    dateRanges,
+    dimensions: ['eventName', 'pagePath', 'customEvent:link_url', 'customEvent:link_provider', ...(dims.partnerStatus ? ['customEvent:partner_status'] : [])].map((name) => ({ name })),
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(CLICK_EVENTS), limit: '100000',
+  }), 'byProviderPage'), { partnerStatus: dims.partnerStatus });
+  const byPage = buildByPage(complete(await request(reportUrl, {
+    dateRanges: [dateRanges[1]], dimensions: [{ name: 'eventName' }, { name: 'pagePath' }], metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(REFERRAL_EVENTS), limit: '100000',
+  }), 'byPage'));
+  bookingReferrals = {
+    source: `Google official GA4 Data API: pagePath × link_url × link_provider${dims.partnerStatus ? ' × partner_status' : ''}`,
+    periods, partnerStatus: dims.partnerStatus, totals,
+    byProviderPage: provider.rows, unattributed: provider.unattributed, dropped: provider.dropped, byPage,
+  };
+  const errors = checkBookingReferrals(bookingReferrals, { confirmedThrough: through });
+  if (errors.length) { console.warn('::warning title=送客先別データ::' + errors.join(' / ') + '（送客先別は今回は反映しない）'); bookingReferrals = null; }
+} catch (error) {
+  console.warn(`::warning title=送客先別データ::取得できませんでした（${error.message}）。前回の値と期間を残します。`);
+  bookingReferrals = null;
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -139,6 +185,7 @@ const output = {
   gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
   bookingCtaExperiment,
   ...(pageLevel ? { pageLevel } : {}),
+  ...(bookingReferrals ? { bookingReferrals } : {}),
 };
 writeFileSync(env.OUTPUT_PATH || '/tmp/ibatoco-google-daily.json', JSON.stringify(output, null, 2) + '\n');
-console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates, page-level ${pageLevel ? `${pageLevel.gscQueries.length} query rows / ${pageLevel.pageMetrics.length} pages` : 'not included'}. No snapshot modified.`);
+console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates, page-level ${pageLevel ? `${pageLevel.gscQueries.length} query rows / ${pageLevel.pageMetrics.length} pages` : 'not included'}, booking referrals ${bookingReferrals ? `${bookingReferrals.byProviderPage.length} destination rows / ${bookingReferrals.byPage.length} pages` : 'not included'}. No snapshot modified.`);

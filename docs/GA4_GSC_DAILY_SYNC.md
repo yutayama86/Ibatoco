@@ -152,3 +152,21 @@
 4. PR を作り、CI 成功後にマージ。元の同期PRは理由をコメントしてクローズ（オーナー了承済みの運用）
 
 根本対応（ボットPRに必須チェックが紐づくようにする）は、ワークフローかルールセットの変更が必要なため、オーナーの個別承認事項として保留。
+
+## 2026-11-15：送客先別の送客クリックも毎日取る（Issue #612）
+
+サイト全体とページ別は 11/12 まで更新されていたが、`conversionDetail.byProviderPage`（送客先別）は Windsor.ai の手取得（2026-09-27〜10-03）のまま、`byPage` は 10/13〜10/19 のままだった。Windsor.ai は現在のプランでは読めない。協賛候補を選ぶ材料なので、日次同期と同じ経路で取り直す。
+
+- 取得（`scripts/google-api-daily.mjs`）：既存と同じトークン・読み取りスコープだけ。workflow・認証・Secret・Variable は変えていない。GA4 Data API へ足したのは次の4回
+  1. メタデータ（`properties/<id>/metadata`）で、`customEvent:link_url`・`customEvent:link_provider` が登録済みかを確かめる。**無ければ取得しない**（新しいカスタムディメンションは登録しない）。`customEvent:partner_status` は登録されていれば使う
+  2. `eventName` 別の件数（`booking_guide_view`・`outbound_booking_click`・`paid_booking_click`。直近28日・直近7日）。内訳との照合に使う
+  3. `eventName × pagePath × link_url × link_provider`（同じ2つの期間）
+  4. `eventName × pagePath`（直近7日。既存の `byPage` の形）
+- 計算（`src/lib/booking-referrals.mjs`、テスト `scripts/booking-referrals.test.mjs`）：既存の行の形（`path`・`link_url`・`link_provider`・`partner_status`・`event_count`・`classification`）を保ち、`event_count7`（直近7日）と `paid_count`（提携リンクの内数）を足した。`event_count` は直近28日
+  - 区分：`paid_booking_click` が出た行と ASP のホストは `paid`、`link_provider` が `official`／`*-official` は `official`、それ以外は `non-partner-candidate`。`active-unmapped` は `partner_status` が登録されているときだけ判定できる
+  - `link_url` が `(not set)` の件数は行にせず、`byProviderPageTotals.unattributed` に残す（送り先を推測しない）
+- 検査（preflight と sync の両方）：期間が確定日で終わること、送客先別・ページ別の合計がサイト全体の件数を超えないこと、`paid_booking_click` が `outbound_booking_click` を超えないこと、送客クリックがあるのに内訳が空なら上書きしないこと
+- 反映（`scripts/google-analytics-sync.mjs`）：取れた日だけ `byProviderPage`・`byProviderPagePeriod`（28日）・`byProviderPagePeriod7`・`byProviderPageSource`・`byProviderPageCheckedAt`・`byProviderPageTotals`・`byPage`・`byPagePeriod`（7日）・`byPageSource`・`byPageCheckedAt` を置き換える。取れなかった日は前の値と期間を残す（送客先別の失敗で日次同期は止めない）
+- 鮮度：`node scripts/analytics-freshness.mjs` が送客先別の期間も報告する（警告だけ。`--strict` でも止めない）
+- 変えていないこと：`conversionDetail.recent7`・`previous7`・`recent28`（イベント別の件数。10月の手取得のまま）は、この変更の対象外。計測（送るイベント・パラメータ）も変えていない
+- **未確認**：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。API を模した応答で、取得 → preflight → sync → レポートの流れだけを確かめた。最初の日次実行のログ「booking referrals N destination rows」と、同期 PR の `conversionDetail.byProviderPagePeriod` で確認する。`link_url` はカスタムディメンションの登録日（2026-09-27）以降の分しか付かない
