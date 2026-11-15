@@ -153,3 +153,10 @@ test('確定日の調整：GSC が1〜2日遅れたら最新の確定日まで�
   // 月をまたいでも暦日で数える
   assert.equal(alignConfirmedThrough('2026-12-01', ['2026-11-29', '2026-11-30']), '2026-11-30');
 });
+
+test('確定日の調整：GA4 が遅れた日（2026-11-15 の実例）も、両方にある日まで下げる', async () => {
+  const { alignConfirmedThrough } = await import('../src/lib/ga4-daily.mjs');
+  const gsc = ['2026-11-10', '2026-11-11', '2026-11-12'];
+  const ga4 = new Set(['2026-11-10', '2026-11-11']);
+  assert.equal(alignConfirmedThrough('2026-11-12', gsc.filter((d) => ga4.has(d))), '2026-11-11');
+});
