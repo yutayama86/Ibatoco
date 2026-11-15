@@ -47,7 +47,6 @@ const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
 const gscSignalsChecked = performance.gscDiscovery?.checkedAt?.slice(0, 10) ?? '不明';
-const bookingPagePeriodEnd = performance.conversionDetail?.byPagePeriod?.end ?? '不明';
 // ページ別の期間が記録されているとき（日次同期で取得できた日）だけ期間を示す。無ければ直近7日の最新実績だと断定しない。
 const pageLevelPeriods = (performance.source as { pageLevel?: { periods?: Record<string, { start: string; end: string }> } } | undefined)?.pageLevel?.periods;
 const topPagesPeriodNote = pageLevelPeriods?.recent7
@@ -57,6 +56,14 @@ const warnings = performance.source?.warnings ?? [];
 const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
 const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
+const providerPeriod = performance.conversionDetail.byProviderPagePeriod;
+const providerPeriodLabel = providerPeriod?.start && providerPeriod?.end
+  ? `送客先別：${providerPeriod.start}〜${providerPeriod.end}（集計期間を明示）`
+  : '送客先別の集計期間は未確認';
+const bookingPagePeriod = performance.conversionDetail.byPagePeriod;
+const bookingPagePeriodLabel = bookingPagePeriod?.start && bookingPagePeriod?.end
+  ? `ページ別：${bookingPagePeriod.start}〜${bookingPagePeriod.end}`
+  : 'ページ別の集計期間は未確認';
 const providerRows = (performance.conversionDetail.byProviderPage ?? []) as Array<any>;
 const providerSummary = new Map<string, { provider: string; clicks: number; paid: number; candidate: number; official: number }>();
 for (const row of providerRows) {
@@ -592,7 +599,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       </article>
 
       <article class="panel">
-        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodEnd}までの集計</small></div>
+        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodLabel}</small></div>
         <ol class="rank-list">
           {bookingPages.map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(Number(item.outbound_booking_click??0))}</strong></li>
@@ -680,7 +687,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
 
     <section class="two-col">
       <article class="panel">
-        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>GA4実測</small></div>
+        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>{providerPeriodLabel}・GA4実測</small></div>
         <div class="table-wrap"><table><thead><tr><th>提供元</th><th>クリック</th><th>成果リンク</th><th>未提携候補</th></tr></thead><tbody>{providerTable.map((row)=><tr><td>{row.provider}</td><td>{row.clicks}</td><td>{row.paid}</td><td>{row.candidate}</td></tr>)}</tbody></table></div>
       </article>
 

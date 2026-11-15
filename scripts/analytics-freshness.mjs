@@ -8,7 +8,7 @@
  * 復旧手順は docs/GA4_GSC_DAILY_SYNC.md「数字が止まったとき」。
  */
 import { existsSync, readFileSync } from 'node:fs';
-import { analyticsFreshness, analyticsFreshnessMessages, pageLevelFreshness, pageLevelFreshnessMessage } from '../src/lib/analytics-freshness.mjs';
+import { analyticsFreshness, analyticsFreshnessMessages, pageLevelFreshness, pageLevelFreshnessMessage, referralFreshness, referralFreshnessMessage } from '../src/lib/analytics-freshness.mjs';
 import { todayJst } from '../src/lib/growth-engine.mjs';
 
 const SNAPSHOT = 'data/editorial/performance-snapshot.json';
@@ -17,7 +17,7 @@ const snapshot = existsSync(SNAPSHOT) ? JSON.parse(readFileSync(SNAPSHOT, 'utf8'
 const result = analyticsFreshness(snapshot, todayJst());
 
 if (args.includes('--json')) {
-  console.log(JSON.stringify({ ...result, pageLevel: pageLevelFreshness(snapshot, todayJst()) }, null, 2));
+  console.log(JSON.stringify({ ...result, pageLevel: pageLevelFreshness(snapshot, todayJst()), referrals: referralFreshness(snapshot, todayJst()) }, null, 2));
 } else if (result.status === 'fresh') {
   console.log(`ANALYTICS_FRESHNESS_OK: GA4 ${result.sources.ga4.latestConfirmedDate} / GSC ${result.sources.gsc.latestConfirmedDate}（本来の確定日 ${result.expectedConfirmedDate}）`);
 } else {
@@ -34,5 +34,13 @@ if (!args.includes('--json')) {
   if (!pageLevelMessage) console.log(`PAGE_LEVEL_FRESHNESS_OK: 直近28日 〜${pageLevel.end}`);
   else if (process.env.GITHUB_ACTIONS) console.log(`::warning title=ページ別データの鮮度::${pageLevelMessage}`);
   else console.warn(`[P1] ${pageLevelMessage}`);
+}
+// 送客先別の鮮度も報告だけ（Issue #612）
+const referrals = referralFreshness(snapshot, todayJst());
+const referralMessage = referralFreshnessMessage(referrals);
+if (!args.includes('--json')) {
+  if (!referralMessage) console.log(`REFERRAL_FRESHNESS_OK: 直近28日 〜${referrals.end}`);
+  else if (process.env.GITHUB_ACTIONS) console.log(`::warning title=送客先別データの鮮度::${referralMessage}`);
+  else console.warn(`[P1] ${referralMessage}`);
 }
 if (args.includes('--strict') && result.status !== 'fresh') process.exit(1);
