@@ -56,7 +56,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '開催終了（11/15）を冒頭に追記（事実更新）',
     experimentType: 'fact',
     queries: [],
-    commit: 'PENDING',
+    commit: '2209e05',
   },
   {
     id: '20261115-news-yachiyo-aki-matsuri-2026',
@@ -66,7 +66,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '開催終了（11/15）を冒頭に追記（事実更新）',
     experimentType: 'fact',
     queries: [],
-    commit: 'PENDING',
+    commit: '2209e05',
   },
   {
     id: '20261115-events-oarai-ankou-matsuri-2026',
@@ -76,7 +76,7 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '開催終了（11/15）を冒頭に追記（事実更新）',
     experimentType: 'fact',
     queries: [],
-    commit: 'PENDING',
+    commit: '2209e05',
   },
   {
     id: '20261114-events-tone-town-sightseeing-guide',
