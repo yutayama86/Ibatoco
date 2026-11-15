@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'titleを「入手方法と受け取り」を先頭にした形に変更（監査の指示2。28日：表示4,921・CTR1.8%・平均6.2位）',
     queries: ['茨城パスポート 入手 方法', '茨城パスポート 受け取り', '茨城パスポート どこでもらえる'],
-    commit: 'PENDING',
+    commit: '35c5c8e',
   },
   {
     id: '20261115-events-ushiku-daibutsu-guide',
@@ -64,7 +64,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'titleの「拝観料」を検索語に合わせ「料金（入場料）」に変更（28日：表示1,986・CTR0.7%・平均7.5位）',
     queries: ['牛久大仏 料金', '牛久大仏 入場料', '牛久大仏 チケット'],
-    commit: 'PENDING',
+    commit: '35c5c8e',
   },
   {
     id: '20261115-events-kasama-kiku-matsuri-2026',
@@ -73,7 +73,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'titleを会期中（11月23日まで）と駐車場・夜祭りを前に出す形に変更（28日：表示14,312・CTR2.3%・平均6.9位）',
     queries: ['笠間菊まつり 2026', '笠間 菊まつり 駐車場', '笠間の菊まつり 2026'],
-    commit: 'PENDING',
+    commit: '35c5c8e',
   },
   {
     id: '20261114-events-tone-town-sightseeing-guide',
