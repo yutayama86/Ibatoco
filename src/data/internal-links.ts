@@ -201,6 +201,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/mito-hollyhock-yokohama-away-guide-2026-09-19/': '水戸ホーリーホック横浜遠征ガイド（9/19 日産スタジアム）',
   '/news/ibaraki-robots-ouenten-docomo-2026/': '茨城ロボッツ応援店制度の仕組み（解説）',
   '/news/ibaraki-passport-2026/': '茨城パスポートの申請方法・期限・受取場所（2026年）',
+  '/news/ibaraki-passport-additional-issuance-2026/': '茨城パスポートの追加交付（初回落選11/10・追加申請11/24と12/14から）',
   '/news/kasama-shinguri-matsuri-2026/': '第20回かさま新栗まつり2026（日程・体験・ふるさと納税）',
   '/news/kashima-antlers-kawasaki-away-guide-2026-09-19/': '鹿島アントラーズ川崎遠征ガイド（9/19 U等々力）',
   '/news/mito-shinkin-stadium-parking/': '水戸信用金庫スタジアムの駐車場（予約制と先着順）',
