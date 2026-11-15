@@ -47,7 +47,6 @@ const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
 const gscSignalsChecked = performance.gscDiscovery?.checkedAt?.slice(0, 10) ?? '不明';
-const bookingPagePeriodEnd = performance.conversionDetail?.byPagePeriod?.end ?? '不明';
 // ページ別の期間が記録されているとき（日次同期で取得できた日）だけ期間を示す。無ければ直近7日の最新実績だと断定しない。
 const pageLevelPeriods = (performance.source as { pageLevel?: { periods?: Record<string, { start: string; end: string }> } } | undefined)?.pageLevel?.periods;
 const topPagesPeriodNote = pageLevelPeriods?.recent7
@@ -59,7 +58,7 @@ const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
 const providerPeriod = performance.conversionDetail.byProviderPagePeriod;
 const providerPeriodLabel = providerPeriod?.start && providerPeriod?.end
-  ? `送客先別：${providerPeriod.start}〜${providerPeriod.end}（${performance.conversionDetail.byProviderPagePeriod7 ? '28日' : '旧集計期間'}）`
+  ? `送客先別：${providerPeriod.start}〜${providerPeriod.end}（集計期間を明示）`
   : '送客先別の集計期間は未確認';
 const bookingPagePeriod = performance.conversionDetail.byPagePeriod;
 const bookingPagePeriodLabel = bookingPagePeriod?.start && bookingPagePeriod?.end
