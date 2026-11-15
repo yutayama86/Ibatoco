@@ -180,3 +180,11 @@
 - `partner_status`は本番APIメタデータに登録がある場合のみ使用し、`byProviderPageTotals.partnerStatusAvailable`に結果を記録する。未登録の場合に提携先との契約関係を推測しない。
 - `src/pages/control/index.astro`と`scripts/partner-opportunity.mjs`は集計期間を明示する。期間の異なるPV/予約送客/広告クリックを混同しない。
 - **実APIへの接続はGitHub Actionsの既存Workload Identityによる次の日次fetchで実施**。本番実測に成功し、対象期間の同期PRに反映されたことを確認するまでは完了と判定しない。
+
+### 2026-11-15 TOP人気記事の再発防止（Issue #619）
+
+- 従来の `data/editorial/popular-pages.json` は手動更新の記録で、TOPの「よく読まれている記事」と本文下部の「あわせて読みたい」の表示正本にはしない。停止していた10月の実績が再利用されないよう、両コンポーネントは `data/editorial/performance-snapshot.json` をビルド時に参照する。
+- `src/lib/popular-ranking.mjs` が Google公式GA4 Data API の `ga4TopPages.recent7` の実測を、`source.pageLevel.periods.recent7`・`asOf`・`windows.ga4.recent7` と照合して候補にする。ページ別実測が未更新、欠落あり、確定日が未来、14日超の古い値の場合は**ランキングを表示しない**。欠落を0で補うことはしない。
+- TOPは公開済みで index 可能かつ終了していない記事だけを選び、既存の同一話題まとめで順位を表示。GrowthNextReadsは関連記事を先に表示し、足りない数だけ同じGA4確定順位で補完する。いずれも表示は最大数を変えずデザインは変更しない。
+- 日次公式APIのスナップショットが正規のPR経路でmainへ入ると、既存のmain CI→Deploy productionで次回ビルド時に順位が更新される。**新しいworkflow、Secrets、Google API、課金、直接main書き込みは追加しない**。公式スナップショットの同期が停止した場合は最大14日で順位を非表示とし、編集OS警告から原因を確認する。
+- `data/editorial/popular-pages.json` は移行時点の過去データとして保持するが、ランキング表示の正本ではない。削除の必要性は別途監査・承認で判断する。
