@@ -9,7 +9,7 @@ import { parseDateOnly } from './date-only.js';
 
 const EMPTY = Object.freeze({ pages: [], start: null, end: null });
 const DAY_MS = 86_400_000;
-const PUBLIC_ARTICLE = /^\\/(?:events|news)\\/[a-z0-9-]+\\/$/;
+const PUBLIC_ARTICLE = /^\/(?:events|news)\/[a-z0-9-]+\/$/;
  
 // Legacy seasonal *guide* pages without eventInfo/endDate cannot be classified
 // as ended by taxonomy. Do not recommend them after the actual 2026 event date.
