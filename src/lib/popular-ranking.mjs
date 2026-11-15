@@ -9,7 +9,16 @@ import { parseDateOnly } from './date-only.js';
 
 const EMPTY = Object.freeze({ pages: [], start: null, end: null });
 const DAY_MS = 86_400_000;
-const PUBLIC_ARTICLE = /^\/(?:events|news)\/[a-z0-9-]+\/$/;
+const PUBLIC_ARTICLE = /^\\/(?:events|news)\\/[a-z0-9-]+\\/$/;
+ 
+// Legacy seasonal *guide* pages without eventInfo/endDate cannot be classified
+// as ended by taxonomy. Do not recommend them after the actual 2026 event date.
+// Evidence: their own official-source-grounded 2026 event guides. This changes
+// recommendations only; published URLs and article content remain unchanged.
+const KNOWN_ENDED_GUIDES = new Map([
+  ['/events/tsuchiura-hanabi-2026-kaeri/', '2026-11-07'],
+  ['/events/ibaraki-kenmin-no-hi-2026/', '2026-11-13'],
+]);
 
 export function selectConfirmedPopular(snapshot, eligiblePaths, today, limit = 8) {
   const period = snapshot?.source?.pageLevel?.periods?.recent7;
@@ -33,6 +42,8 @@ export function selectConfirmedPopular(snapshot, eligiblePaths, today, limit = 8
     if (pages.length >= limit) break;
     const path = row?.path;
     if (!PUBLIC_ARTICLE.test(path ?? '') || !eligiblePaths.has(path) || seen.has(path)) continue;
+    const knownEnd = KNOWN_ENDED_GUIDES.get(path);
+    if (knownEnd && today > knownEnd) continue;
     // An invalid first GA4 row must not be silently replaced by a later duplicate
     // for the same URL; that could turn a corrupt response into a valid-looking rank.
     seen.add(path);
