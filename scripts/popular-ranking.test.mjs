@@ -62,3 +62,17 @@ test('top N applies after public/linkable filtering, and empty set never exposes
   ]);
   assert.deepEqual(selectConfirmedPopular(good(), new Set(), '2026-11-15').pages, []);
 });
+
+test('ended one-off seasonal guides without eventInfo never re-enter current recommendations', () => {
+  const d = good();
+  d.ga4TopPages.recent7.unshift(
+    { path: '/events/tsuchiura-hanabi-2026-kaeri/', views: 283 },
+    { path: '/events/ibaraki-kenmin-no-hi-2026/', views: 167 },
+  );
+  const paths = new Set([...eligible, '/events/tsuchiura-hanabi-2026-kaeri/', '/events/ibaraki-kenmin-no-hi-2026/']);
+  const now = selectConfirmedPopular(d, paths, '2026-11-15').pages;
+  assert.deepEqual(now.map((row) => row.path), ['/events/live-event/', '/events/other-live/']);
+  // On the event date itself, calendar-only data cannot assert it has closed yet.
+  const early = selectConfirmedPopular(d, paths, '2026-11-13').pages;
+  assert.ok(early.some((row) => row.path === '/events/ibaraki-kenmin-no-hi-2026/'));
+});
