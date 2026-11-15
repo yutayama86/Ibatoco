@@ -180,3 +180,16 @@
 - `partner_status`は本番APIメタデータに登録がある場合のみ使用し、`byProviderPageTotals.partnerStatusAvailable`に結果を記録する。未登録の場合に提携先との契約関係を推測しない。
 - `src/pages/control/index.astro`と`scripts/partner-opportunity.mjs`は集計期間を明示する。期間の異なるPV/予約送客/広告クリックを混同しない。
 - **実APIへの接続はGitHub Actionsの既存Workload Identityによる次の日次fetchで実施**。本番実測に成功し、対象期間の同期PRに反映されたことを確認するまでは完了と判定しない。
+
+## 2026-11-15：人気記事データのGA4公式同期（Issue #619）
+
+`data/editorial/popular-pages.json` はTOPの `HomeNow` と記事末尾 `GrowthNextReads` の推薦基準。従来の手動更新は2026-10-19で停止し、TOPの14日鮮度ガードで「よく読まれている記事」が非表示になった。
+
+- 同期後に `node scripts/popular-pages-sync.mjs --write` を実行。追加API・追加トークン・有料契約は不要。確定済み `performance-snapshot.json` 内の `ga4TopPages.recent7`（同一期間の `pageMetrics` を補助）から `screenPageViews` を使用。
+- `source.pageLevel.ga4TopPagesUpdated === true`、`source.pageLevel.periods.recent7` と `windows.ga4.recent7` と `asOf` が一致、GA4ページ集計が切り詰められていない、直近7日35日分の集計が所定どおり完結、確定日が日本時間の当日から5日以内、の全条件を満たす場合のみ再生成。
+- `src/content/events`・`src/content/news` のfrontmatterを参照し、非公開・noindex・未レビュー・中止済み・終了済みイベントを除外。終了日当日の単発イベントも翌日に古くなるため除外。日付の無い季節ガイドは最終更新が45日以内のものだけ候補に含める。
+- 上位8件のパスと Views、実測期間・確定日を記録し、表示時も既存の `HomeNow`・`GrowthNextReads` の lifecycle 判定を維持。期間違いの数値を混在させない。
+- データ取得欠落・期間不一致・GA4レポートの切り詰め・上位行の矛盾などの場合は**元の人気記事ファイル・その期間を保持**する。勝手にゼロで埋めず警告をログへ出す。公式日次のGA4/GSC全体同期は継続できる。
+- `google-analytics-daily.yml` の同期PRに追加してよいファイルは `performance-snapshot.json` と `popular-pages.json` の**2つだけ**。それ以外のファイルが入ったPRは自動マージを拒否し、CIとブランチの上書き防止を従来どおり要求する。
+- テスト：`scripts/popular-pages-sync.test.mjs` を `npm run verify` に追加。期間・未取得・不一致・終了判定をテストする。
+- この同期運用のワークフロー変更はオーナーの**個別承認事項**。PRの必須CI成功を確認し、認証・Secrets・GA4の計測イベント・公開URL・デザインを変えないことを確認するまでマージしない。
