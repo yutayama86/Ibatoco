@@ -6,7 +6,7 @@
  *
  * - 検索窓 … /search/?q=（GA4の拡張計測がサイト内検索として記録する）
  * - いま見頃・開催中 … src/lib/happenings.ts の期間もの。表示は日本時間で画面側が判定する
- * - いま読まれている … data/editorial/popular-pages.json（保存済みの7日間の実測）。終了イベントは出さない。
+ * - いま読まれている … Google公式GA4の performance-snapshot.json 直近7日実測をビルド時に選定。終了記事・古い集計は出さない。
  *   同じ話題の記事（src/data/topics.ts）は1行にまとめ、閲覧数を合算して順位を決める
  * - 行き先診断 … /shindan/
  * TOPの必須構成（FV3枚・つくった理由・テーマ6・地図44・取材と編集3・事業者導線）には触れない。
