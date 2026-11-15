@@ -170,3 +170,13 @@
 - 鮮度：`node scripts/analytics-freshness.mjs` が送客先別の期間も報告する（警告だけ。`--strict` でも止めない）
 - 変えていないこと：`conversionDetail.recent7`・`previous7`・`recent28`（イベント別の件数。10月の手取得のまま）は、この変更の対象外。計測（送るイベント・パラメータ）も変えていない
 - **未確認**：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。API を模した応答で、取得 → preflight → sync → レポートの流れだけを確かめた。最初の日次実行のログ「booking referrals N destination rows」と、同期 PR の `conversionDetail.byProviderPagePeriod` で確認する。`link_url` はカスタムディメンションの登録日（2026-09-27）以降の分しか付かない
+
+### 2026-11-15 レビュー反映：内訳データの品質と比較ルール
+
+- `outbound_booking_click` の直近28日・7日合計がどちらか一方でも欠けている（`null`）場合、真の0件と未取得を区別できないため**送客先別データは更新しない**。実測0件を推測で補完しない。
+- GA4の`rowCount`に加え、`metadata.dataLossFromOtherRow`、`metadata.subjectToThresholding`、`metadata.samplingMetadatas`、`dataTruncationReasons`を検査し、欠落・サンプリング等があれば送客データを更新しない。既存のスナップショットを保持してログに警告を出す。営業用の完全な件数と誤認させない。
+- `conversionDetail.byProviderPage[*].event_count`は**直近28日**（旧7日と意味が変更）。互換性を保つため同値の`event_count28`も付与し、直近7日は`event_count7`。レポートには`byProviderPagePeriod`（28日）を表示する。変更前後を同条件の時系列として比較しない。
+- `conversionDetail.byPage`の`booking_guide_view`、`outbound_booking_click`、`monetized_booking_click`は**直近7日**。28日送客先クリックとページ別7日クリックを同じ母数とみなさない。
+- `partner_status`は本番APIメタデータに登録がある場合のみ使用し、`byProviderPageTotals.partnerStatusAvailable`に結果を記録する。未登録の場合に提携先との契約関係を推測しない。
+- `src/pages/control/index.astro`と`scripts/partner-opportunity.mjs`は集計期間を明示する。期間の異なるPV/予約送客/広告クリックを混同しない。
+- **実APIへの接続はGitHub Actionsの既存Workload Identityによる次の日次fetchで実施**。本番実測に成功し、対象期間の同期PRに反映されたことを確認するまでは完了と判定しない。
