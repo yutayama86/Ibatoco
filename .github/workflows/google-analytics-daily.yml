@@ -88,6 +88,7 @@ jobs:
       - name: Integrate verified rolling metrics
         run: |
           node scripts/google-analytics-sync.mjs /tmp/ibatoco-google-verified/ibatoco-google-daily.json
+          node scripts/popular-pages-sync.mjs --write
           node scripts/ga4-daily.mjs --check
           npm run verify
       # Branch protection requires a PR. Never push directly to main.
@@ -102,7 +103,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- data/editorial/performance-snapshot.json; then
+          if git diff --quiet -- data/editorial/performance-snapshot.json data/editorial/popular-pages.json; then
             echo "No changes in confirmed metrics."
             exit 0
           fi
@@ -131,13 +132,13 @@ jobs:
             fi
           fi
           git switch -C "$branch"
-          git add data/editorial/performance-snapshot.json
+          git add data/editorial/performance-snapshot.json data/editorial/popular-pages.json
           git commit -m "chore(metrics): propose verified Google daily analytics (run $RUN_ID)"
           # bot 専用のブランチ。人はコミットしない。毎回「最新の main ＋ 当日のスナップショット」の1コミットに置き換える
           git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin "HEAD:refs/heads/$branch"
           existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
           title="metrics: verified GA4/GSC daily snapshot"
-          body="Official Google API daily sync (latest run $RUN_ID). Generated from successfully preflighted GA4/GSC data; npm run verify succeeded. This PR changes only data/editorial/performance-snapshot.json and is refreshed in place by each daily run (one PR, no duplicates). Review and required checks before merge. No direct protected-branch write."
+          body="Official Google API daily sync (latest run $RUN_ID). Generated from preflighted GA4/GSC data; npm run verify succeeded. Allowed data files: data/editorial/performance-snapshot.json and data/editorial/popular-pages.json only. Popular ranking changes only with a complete matching GA4 page-level 7d report; otherwise its previous date/data remain. One PR, required checks and current auto-merge safeguards apply. No direct protected-branch write."
           if [ -n "$existing" ]; then
             # 中身はブランチの push で更新済み。題名・本文の更新が権限で断られても失敗にしない
             gh pr edit "$existing" --repo "$REPOSITORY" --title "$title" --body "$body" || echo "::warning::PR #$existing の題名・本文は更新できなかった（中身は更新済み）"
@@ -169,8 +170,21 @@ jobs:
             exit 1
           fi
           changed="$(gh api --paginate "repos/$REPOSITORY/pulls/$existing/files?per_page=100" --jq '.[].filename')"
-          if [ "$changed" != "data/editorial/performance-snapshot.json" ]; then
-            echo "::error title=自動マージ中止::PR #$existing は許可された1ファイル以外を変更しています：$changed"
+          if [ -z "$changed" ] || printf '%s\n' "$changed" | grep -Ev '^(data/editorial/performance-snapshot\.json|data/editorial/popular-pages\.json)
+          pr_head="$(gh pr view "$existing" --repo "$REPOSITORY" --json headRefOid --jq '.headRefOid')"
+          branch_head="$(git rev-parse HEAD)"
+          if [ "$pr_head" != "$branch_head" ]; then
+            echo "::error title=自動マージ中止::同期PRのheadが変更されました。"
+            exit 1
+          fi
+          # 失敗時は workflow を赤くし、承認待ちを隠さない。GitHubの必須チェックを回避しない。
+          if ! gh pr merge "$existing" --repo "$REPOSITORY" --auto --squash; then
+            echo "::error title=自動マージ設定が必要::Auto-merge が利用できない、または PR CI が承認待ちです。Settings → General → Allow auto-merge を確認し、PR の Approve workflows to run が表示されていれば承認してください。"
+            exit 1
+          fi
+          echo "::notice::PR #$existing auto-merge を設定。必須チェック成功後だけ main に反映されます。"
+ | grep -q .; then
+            echo "::error title=自動マージ中止::PR #$existing に許可外の変更または空の差分があります：$changed"
             exit 1
           fi
           pr_head="$(gh pr view "$existing" --repo "$REPOSITORY" --json headRefOid --jq '.headRefOid')"
