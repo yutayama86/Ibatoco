@@ -14,7 +14,7 @@ const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
 // 35 days so the 28+7 day windows never depend on rows left over from an earlier (possibly failed) sync.
 const { from, through: plannedThrough } = googleDailyRange(Date.now());
-// GSC の確定が遅れた日は、GSC の最新の確定日まで確定日を下げる（下の alignConfirmedThrough）
+// GA4 か GSC の確定が遅れた日は、両方がそろっている最新の日まで確定日を下げる（下の alignConfirmedThrough）
 let through = plannedThrough;
 const token = env.GOOGLE_ACCESS_TOKEN;
 const property = env.GA4_PROPERTY_ID;
@@ -60,11 +60,13 @@ const gscDaily = (gsc.rows ?? []).map(r => ({
 if (!gscDaily.length) throw new Error('GSC response empty; do not publish zero-filled data');
 // GSC の確定データ（final）は予定の確定日に届かないことがある（2026-11-14 は 11-11 が未確定で preflight が止まった）。
 // その日は GSC の最新の確定日まで確定日を下げ、GA4 もその日までで切る。遅れが2日を超えたら止める
-through = alignConfirmedThrough(plannedThrough, gscDaily.map((d) => d.date));
+// GA4 も確定が遅れることがある（2026-11-15 は GA4 が 11-11 まで・GSC は 11-12 まで）。両方にある日だけを候補にする
+const ga4Dates = new Set(dailyMap.keys());
+through = alignConfirmedThrough(plannedThrough, gscDaily.map((d) => d.date).filter((d) => ga4Dates.has(d)));
 if (through !== plannedThrough) {
   for (const date of [...dailyMap.keys()]) if (date > through) dailyMap.delete(date);
   for (let i = gscDaily.length - 1; i >= 0; i--) if (gscDaily[i].date > through) gscDaily.splice(i, 1);
-  console.warn(`::warning title=確定日を${through}に調整::Search Console の確定データが ${plannedThrough} にまだ届いていないため、${through} までを同期します（0 や推計では埋めません）。`);
+  console.warn(`::warning title=確定日を${through}に調整::GA4 または Search Console の確定データが ${plannedThrough} にまだ届いていないため、両方がそろっている ${through} までを同期します（0 や推計では埋めません）。`);
 }
 // 予約ボタンの A/B 実験の4イベント（直近7日・確定日まで）。行の無いイベントは null のまま（0 で埋めない）
 const abPeriod = { start: addDays(through, -6), end: through };
