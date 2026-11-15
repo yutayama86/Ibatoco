@@ -1,59 +1,60 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T07:00:08+09:00",
+  "generatedAt": "2026-11-15T12:51:31.418Z",
   "source": {
-    "connector": "Windsor.ai GA4",
-    "accountId": "547804264",
-    "metric": "screen_page_views",
+    "connector": "Google official GA4 Data API",
+    "metric": "screenPageViews",
+    "confirmedThrough": "2026-11-12",
     "period": {
-      "start": "2026-10-13",
-      "end": "2026-10-19"
+      "start": "2026-11-06",
+      "end": "2026-11-12"
     }
   },
   "baseline": {
-    "views": 4333,
-    "sessions": 3725,
-    "viewsPerSession": 1.1632
+    "views": 5640,
+    "sessions": 5092,
+    "viewsPerSession": 1.1076
   },
   "refreshRule": "直近7日GA4 Views上位。ホーム、noindex、404、終了済みイベントを除外し、最大8件を保存。同一テーマの記事はHomeNow側でtopic単位に合算して表示順位を決める。終了判定は正本データに基づく。",
   "pages": [
     {
-      "path": "/events/oarai-ankou-matsuri-2026/",
-      "views": 1586
+      "path": "/events/fukuroda-falls-autumn-2026/",
+      "views": 256
     },
     {
       "path": "/events/hananuki-gorge-autumn-2026/",
-      "views": 308
+      "views": 227
     },
     {
       "path": "/events/kasama-kiku-matsuri-2026/",
-      "views": 197
+      "views": 178
+    },
+    {
+      "path": "/events/daigo-hanabi-2026/",
+      "views": 175
     },
     {
       "path": "/events/tsuchiura-curry-festival-2026/",
-      "views": 163
+      "views": 111
     },
     {
-      "path": "/events/fukuroda-falls-autumn-2026/",
-      "views": 97
+      "path": "/events/ibaraki-christmas-events-2026/",
+      "views": 106
     },
     {
-      "path": "/news/mito-hollyhock-new-stadium-access/",
-      "views": 90
+      "path": "/events/satomi-kakashi-matsuri-2026/",
+      "views": 79
     },
     {
-      "path": "/events/oarai-ankou-nabe-guide/",
-      "views": 81
-    },
-    {
-      "path": "/events/ibaraki-kenmin-no-hi-2026/",
-      "views": 73
+      "path": "/events/suigo-sakura-illumination-2026/",
+      "views": 69
     }
   ],
   "notes": [
-    "2026-10-21更新。GA4 2026-10-13〜10-19の確定値（Windsor.ai GA4 direct、performance-snapshot.json の ga4TopPages.recent7）。",
-    "refreshRule どおり上位から機械的に選定。除外：ホーム（/・52 Views）、終了済みのIBARAKI DREAM LAND（185 Views）とかさま新栗まつりのニュース（77 Views）。",
-    "/news/ibaraki-passport-2026/（245 Views）は追加申請終了後のため人気記事枠から除外。記事自体は追加交付・受け取り情報として維持。",
-    "集計期間は10/8〜10のGA4計測障害を含まない連続7日。"
+    "Google公式GA4 Data APIの pagePath×screenPageViews 確定値を使用（2026-11-06〜11-12）。集計期間外の日付を加算・推定していない。",
+    "選定確認日2026-11-15：下書き・noindex・非記事URL、および終了日が11月15日以前の単発イベント（大洗あんこう祭、つくば全国陶器まつり、土浦花火、茨城県民の日等）を除外。",
+    "袋田の滝・花貫渓谷は最新の公式紅葉情報を反映した季節ガイド。会期のある催しは各記事の終了日を参照し、サイト側でも終了後のリンク推薦を除外する。",
+    "終了した催しのGA4過去7日の閲覧数は改変せず、人気記事の推薦対象からのみ外した。欠損値を0で補っていない。",
+    "サイト全体のViewsはGA4の直近7日確定値。記事ごとのViewsはページ別レポートの実測であり、GSCクリックと混同しない。"
   ]
 }
