@@ -10,7 +10,7 @@ import {
   GSC_ROW_LIMIT, pageLevelWindows, buildGscQueries, buildPageMetrics, buildTopPages, ga4ViewsByWindow, checkPageLevel,
 } from '../src/lib/gsc-page-level.mjs';
 import {
-  REFERRAL_EVENTS, CLICK_EVENTS, referralWindows, referralDimensions, referralTotals, buildByProviderPage, buildByPage, checkBookingReferrals,
+  REFERRAL_EVENTS, CLICK_EVENTS, referralWindows, referralDimensions, referralTotals, buildByProviderPage, buildByPage, checkBookingReferrals, referralReportQualityIssues,
 } from '../src/lib/booking-referrals.mjs';
 
 const env = process.env;
@@ -149,7 +149,8 @@ try {
   const dateRanges = [periods.recent28, periods.recent7].map((p) => ({ startDate: p.start, endDate: p.end }));
   const eventFilter = (values) => ({ filter: { fieldName: 'eventName', inListFilter: { values } } });
   const complete = (res, label) => {
-    if (Number(res.rowCount ?? 0) > (res.rows ?? []).length) throw new Error(`${label} が行数の上限に達した`);
+    const issues = referralReportQualityIssues(res, label);
+    if (issues.length) throw new Error(issues.join(' / '));
     return res.rows ?? [];
   };
   const totals = referralTotals(complete(await request(reportUrl, {
