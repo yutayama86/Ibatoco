@@ -141,3 +141,14 @@
 ## 2026-11-15：GA4 の確定が遅れた日も同じく調整する
 
 11月15日の日次同期は `GA4: latest date 2026-11-11 != confirmedThrough 2026-11-12` で止まった（GSC は 11-12 まであった。ページ別の取得は成功）。#592 は GSC の遅れだけを見ていたため、GA4 と GSC の**両方にある日付**の最新日まで確定日を下げるよう直した。遅れの上限（2日）と、0 や推計で埋めない原則は同じ。
+
+## 2026-11-15：同期PR（bot/google-analytics-daily）がマージできないときの取り込み手順
+
+ボット（github-actions）が作る同期PRは、必須チェック（build・Analyze）が実行・成功していても `2 of 2 required status checks are expected` でマージできないことがある（11/15 の #605）。ワークフローや main のルールセットは変えずに、次の手順で取り込む（11/15 は #607 で実施）。
+
+1. 同期PRの変更が `data/editorial/performance-snapshot.json` だけであることを確認する
+2. main から作業ブランチを作り、`git checkout origin/bot/google-analytics-daily -- data/editorial/performance-snapshot.json`
+3. `node scripts/ga4-daily.mjs --check` と `node scripts/analytics-freshness.mjs` で照合・鮮度を確かめる（ページ別は `PAGE_LEVEL_FRESHNESS_OK` が出ること）
+4. PR を作り、CI 成功後にマージ。元の同期PRは理由をコメントしてクローズ（オーナー了承済みの運用）
+
+根本対応（ボットPRに必須チェックが紐づくようにする）は、ワークフローかルールセットの変更が必要なため、オーナーの個別承認事項として保留。
