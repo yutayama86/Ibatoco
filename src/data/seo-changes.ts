@@ -49,6 +49,43 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261116-events-ibaraki-sakagura-roundup',
+    date: '2026-11-16',
+    url: '/events/ibaraki-sakagura-roundup/',
+    kind: 'on-page',
+    change: '酒蔵まとめを7蔵へ拡張し県北の直売と個別3ガイドへの導線を追加。公式条件を再確認',
+    queries: ['茨城 酒蔵見学', '茨城 酒蔵 直売'],
+    commit: '8f91afe',
+    note: 'URL維持。新記事の公開と同時に相互リンク。コース名と20歳未満の条件は公式案内に統一',
+  },
+  {
+    id: '20261116-events-raifuku-shuzo-tour-guide',
+    date: '2026-11-16',
+    url: '/events/raifuku-shuzo-tour-guide/',
+    kind: 'new-article',
+    change: '来福酒造の見学申込・例年の時期と直売所を区別した常設ガイドを追加',
+    queries: ['来福酒造 見学', '来福酒造 予約', '来福 大吉蔵'],
+    commit: '8f91afe',
+  },
+  {
+    id: '20261116-events-isokura-shuzo-tour-guide',
+    date: '2026-11-16',
+    url: '/events/isokura-shuzo-tour-guide/',
+    kind: 'new-article',
+    change: '磯蔵酒造の見学コース・予約・年齢条件と電車での行き方の常設ガイドを追加',
+    queries: ['磯蔵酒造 見学', '磯蔵 料金', '磯蔵 稲田駅'],
+    commit: '8f91afe',
+  },
+  {
+    id: '20261116-events-shiina-shuzo-fukugokoro-guide',
+    date: '2026-11-16',
+    url: '/events/shiina-shuzo-fukugokoro-guide/',
+    kind: 'new-article',
+    change: '椎名酒造店の直売・見学相談・駐車場を公式情報で案内する常設ガイドを追加',
+    queries: ['椎名酒造店', '富久心 直売', '椎名酒造 見学'],
+    commit: '8f91afe',
+  },
+  {
     id: '20261115-news-ibaraki-passport-2026',
     date: '2026-11-15',
     url: '/news/ibaraki-passport-2026/',
