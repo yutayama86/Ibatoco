@@ -150,8 +150,7 @@
         "ステージ",
         "出演"
       ],
-      "note": "Official rolling news list currently includes 2026 autumn festival. This is a listing, not the detailed event primary source; expectedText is a temporary regression check, remove/refresh after the event.",
-      "expectedText": "2026八千代の秋まつり"
+      "note": "Official rolling news listing. The one-off 2026 autumn festival expectedText regression check expired after the event; continue watching broad discovery terms. Missing terms or zero candidate links do not prove that no event exists."
     }
   ]
 }
