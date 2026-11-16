@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '月の井直売所の営業・見学不可・銘柄と彦市の購入条件を公式情報で追加',
     queries: ['月の井酒造店 直売所', '月の井 見学', '彦市 販売店'],
-    commit: 'PENDING',
+    commit: '44b2d4a',
     note: '2026-11-16公式確認。需要・在庫・来訪成果は未測定。既存7蔵まとめは観測中のため変更なし。',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '木内酒造本店の営業と酒蔵見学休止を区別し、きき酒処・常陸鴻巣駅からの行き方を追加',
     queries: ['木内酒造 本店 営業時間', '木内酒造 見学', '木内酒造 試飲'],
-    commit: 'PENDING',
+    commit: '44b2d4a',
     note: '2026-11-16公式確認。需要・在庫・来訪成果は未測定。既存7蔵まとめは観測中のため変更なし。',
   },
   {
@@ -75,7 +75,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '愛友酒造の無料見学、開始時刻、団体予約と潮来駅からのアクセスを公式情報で追加',
     queries: ['愛友酒造 酒蔵見学', '愛友酒造 予約', '愛友酒造 アクセス'],
-    commit: 'PENDING',
+    commit: '44b2d4a',
     note: '2026-11-16公式確認。需要・在庫・来訪成果は未測定。既存7蔵まとめは観測中のため変更なし。',
   },
   {
