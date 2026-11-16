@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '西岡本店の見学予約・製造期間の条件・直売所・土曜営業を公式情報で追加',
     queries: ['西岡本店 酒蔵見学', '花の井 直売所', '花の井 営業時間'],
-    commit: 'PENDING',
+    commit: '754c4aa',
     note: '蔵元等の一次情報を2026-11-16確認。需要・在庫・来訪成果は未測定。既存まとめは観測中のため変更なし。',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '蔵元取扱店一覧に基づく森嶋の県内購入先4店と商品・保管条件のガイドを追加',
     queries: ['森嶋 販売店 茨城', '森嶋 日本酒 どこで買える', '森島酒造'],
-    commit: 'PENDING',
+    commit: '754c4aa',
     note: '蔵元等の一次情報を2026-11-16確認。需要・在庫・来訪成果は未測定。既存まとめは観測中のため変更なし。',
   },
   {
@@ -75,7 +75,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '日乃出鶴の購入先、里美直売所の季節営業時間、井坂酒造店の見学相談を公式情報で追加',
     queries: ['井坂酒造店 見学', '日乃出鶴 販売店', '里美 日本酒'],
-    commit: 'PENDING',
+    commit: '754c4aa',
     note: '蔵元等の一次情報を2026-11-16確認。需要・在庫・来訪成果は未測定。既存まとめは観測中のため変更なし。',
   },
   {
