@@ -105,3 +105,53 @@ test('do not treat malformed script closing tag as a valid end tag', () => {
 test('decode HTML entities once without cascading escapes', () => {
   assert.equal(extractText('<p>&amp;lt; &lt; &amp;amp; &nbsp;</p>'), '&lt; < &amp;');
 });
+
+
+test('do not claim a candidate is new without a persisted prior scan', () => {
+  const eventUrl = 'https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html';
+  const row = { id: 'itako', area: '鹿行', url: 'https://www.city.itako.lg.jp/kankou/kankou-info/', status: 'fetched', hash: 'abc', candidateLinks: [
+    { title: '水の郷 水辺イルミネーション Riverside Illumination', url: eventUrl, verification: 'unverified-link-title' }
+  ] };
+  const result = annotateWatch({ results: [row] }, null, { events: [] });
+  assert.equal(result.previousReportAvailable, false);
+  assert.equal(result.candidateLinksFound, 1);
+  assert.equal(result.unregisteredCandidateCount, 1);
+  assert.equal(result.results[0].candidateLinks[0].firstSeenInCurrentReport, null);
+  assert.equal(result.unregisteredCandidateLinks[0].url, eventUrl);
+});
+
+test('known missed Ibaraki events are matched against a registry, including related official URLs', () => {
+  const imo = 'https://tokai-kanko.com/events/p-01142';
+  const itako = 'https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html';
+  const html = '<a href="/events/p-01142">IMOフェス2026</a>';
+  const links = extractCandidateLinks(html, 'https://tokai-kanko.com/events', ['IMOフェス']);
+  const registry = { events: [
+    { id: 'tokai-imo-fes-2026', name: 'IMOフェス2026', officialUrl: imo, articleUrl: null },
+    { id: 'itako-riverside-illumination-2026', name: 'Riverside Illumination', officialUrl: 'https://example.org/itako', relatedOfficialUrls: [itako], articleUrl: null },
+  ] };
+  const watch = { results: [
+    { id: 'tokai', status: 'fetched', hash: 'a', url: 'https://tokai-kanko.com/events', candidateLinks: links },
+    { id: 'itako', status: 'fetched', hash: 'b', url: 'https://www.city.itako.lg.jp/kankou/', candidateLinks: [{ title: 'Riverside Illumination', url: itako }] },
+  ] };
+  const result = annotateWatch(watch, null, registry);
+  assert.equal(result.unregisteredCandidateCount, 0);
+  assert.equal(result.results[0].candidateLinks[0].registryMatchesByExactOfficialUrl[0].id, 'tokai-imo-fes-2026');
+  assert.equal(result.results[1].candidateLinks[0].registryMatchesByExactOfficialUrl[0].id, 'itako-riverside-illumination-2026');
+});
+
+test('Tokyo Ibaraki sources are separate from 44-city coverage', async () => {
+  const sources = [
+    { id: 'food', url: 'https://ibaraki-shokusai.net/info', watchTerms: ['収穫祭'], area: '東京', scope: 'tokyo-ibaraki' },
+    { id: 'itako', url: 'https://www.city.itako.lg.jp/kankou/', watchTerms: ['イルミ'], area: '鹿行', municipality: '潮来市' },
+  ];
+  const html = '<html><body><a href="/info/detail/18485">茨城をたべよう収穫祭2026</a><p>イベントのお知らせ</p></body></html>';
+  const report = annotateWatch(await runWatch(sources, async (url) => ({
+    ok: true, url, headers: new Headers({ 'content-type': 'text/html' }), text: async () => html,
+  })));
+  assert.equal(report.tokyoIbarakiSourceCount, 1);
+  assert.equal(report.scanned, 2);
+  assert.equal(report.results[0].scope, 'tokyo-ibaraki');
+  assert.equal(report.results[0].candidateLinks[0].title, '茨城をたべよう収穫祭2026');
+  const areas = "{ slug: 'itako', name: '潮来市', region: 'rokko' }";
+  assert.equal(municipalityCoverage(areas, sources).citiesWithDirectSource, 1);
+});
