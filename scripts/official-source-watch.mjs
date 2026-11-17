@@ -158,7 +158,7 @@ function officialUrlKey(raw) {
  * Keep all low-score candidates in the artifact; menus, old lists and category links
  * must not displace time-sensitive local items in the first 20 links in the summary.
  */
-export function scoreReviewCandidate(candidate) {
+export function scoreReviewCandidate(candidate, referenceDate = new Date()) {
   const title = String(candidate.title ?? '').trim();
   const url = String(candidate.url ?? '');
   let score = 0;
@@ -187,6 +187,29 @@ export function scoreReviewCandidate(candidate) {
   if (candidate.verification === 'unverified-single-source') {
     score += 1;
     reasons.push('direct-official-page');
+  }
+  // Do not let a 2025 notice, or an event that ended months ago, outrank
+  // current dates merely because its title contains "2026" and "フェス".
+  if (/(?:終了しました|開催しました|募集終了|受付終了|開催終了)/.test(title)) {
+    score -= 8;
+    reasons.push('finished-or-closed');
+  }
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: 'numeric', day: 'numeric',
+  }).formatToParts(referenceDate);
+  const part = (key) => Number(parts.find((x) => x.type === key)?.value);
+  const thisYear = part('year'), thisMonth = part('month'), thisDay = part('day');
+  const western = title.match(/(20\\d{2})年\\s*(\\d{1,2})月(?:\\s*(\\d{1,2})日)?/);
+  const era = title.match(/令和(\\d{1,2})年\\s*(\\d{1,2})月(?:\\s*(\\d{1,2})日)?/);
+  const dated = western
+    ? [Number(western[1]), Number(western[2]), western[3] ? Number(western[3]) : null]
+    : era ? [2018 + Number(era[1]), Number(era[2]), era[3] ? Number(era[3]) : null] : null;
+  const oldYear = title.match(/20\\d{2}/)?.[0];
+  if ((dated && (dated[0] < thisYear || (dated[0] === thisYear && dated[1] < thisMonth)
+    || (dated[0] === thisYear && dated[1] === thisMonth && dated[2] !== null && dated[2] < thisDay)))
+    || (!dated && oldYear && Number(oldYear) < thisYear)) {
+    score -= 7;
+    reasons.push('explicit-past-date');
   }
   return { score, reasons };
 }
