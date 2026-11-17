@@ -209,7 +209,12 @@ export async function runWatch(sources, fetchFn = fetch) {
   // Bounded concurrency keeps 44-municipality expansion feasible without a burst of requests.
   const results = [];
   for (let i = 0; i < sources.length; i += 4) {
-    const batch = await Promise.all(sources.slice(i, i + 4).map((source) => watchSource(source, fetchFn)));
+    const batch = await Promise.all(sources.slice(i, i + 4).map(async (source) => ({
+      area: source.area ?? null,
+      municipality: source.municipality ?? null,
+      scope: source.scope ?? 'ibaraki',
+      ...await watchSource(source, fetchFn),
+    })));
     results.push(...batch);
   }
   return { schemaVersion: 1, generatedAt: new Date().toISOString(), scanned: results.length,
