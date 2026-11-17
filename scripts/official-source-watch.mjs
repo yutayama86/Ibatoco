@@ -96,7 +96,10 @@ export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
     if (url.protocol !== 'https:' && url.protocol !== 'http:') continue;
     if (url.username || url.password) continue;
     if (!['http:', 'https:'].includes(url.protocol)) continue;
-    if (url.origin !== new URL(pageUrl).origin) continue;
+    // Accept only the same official host, allowing the common www/non-www alias.
+    const page = new URL(pageUrl);
+    const hostKey = (host) => host.replace(/^www\./, '');
+    if (url.protocol !== page.protocol || hostKey(url.hostname) !== hostKey(page.hostname) || url.port !== page.port) continue;
     url.hash = '';
     const title = extractText(match[2]).slice(0, 180);
     if (title.length < 4) continue;
@@ -138,15 +141,29 @@ export async function watchSource(source, fetchFn = fetch) {
   }
 }
 
+function officialUrlKey(raw) {
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    url.hostname = url.hostname.replace(/^www\./, '');
+    url.hash = '';
+    url.pathname = url.pathname.replace(/\/+$/, '') || '/';
+    return url.href;
+  } catch { return null; }
+}
+
 export function annotateWatch(watch, previous = null, registry = { events: [] }) {
   const past = new Map((previous?.results ?? []).map((row) => [row.id, row]));
   const knownUrls = new Map();
   for (const event of registry.events ?? []) {
     // Multiple official references may describe the same event.
     for (const url of [event.officialUrl, ...(event.relatedOfficialUrls ?? [])].filter(Boolean)) {
-      const entries = knownUrls.get(url) ?? [];
+      const key = officialUrlKey(url);
+      if (!key) continue;
+      const entries = knownUrls.get(key) ?? [];
       entries.push({ id: event.id, name: event.name, articleUrl: event.articleUrl ?? null, status: event.status });
-      knownUrls.set(url, entries);
+      knownUrls.set(key, entries);
     }
   }
   const results = watch.results.map((row) => ({
@@ -154,11 +171,11 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
     change: row.status !== 'fetched' ? 'not-comparable'
       : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
       : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
-    registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
+    registryMatchesByExactOfficialUrl: knownUrls.get(officialUrlKey(row.url)) ?? [],
     candidateLinks: (row.candidateLinks ?? []).map((link) => ({
       ...link,
       // Exact URL match is a hint only. No match is NOT evidence of an unpublished event.
-      registryMatchesByExactOfficialUrl: knownUrls.get(link.url) ?? [],
+      registryMatchesByExactOfficialUrl: knownUrls.get(officialUrlKey(link.url)) ?? [],
       // Scheduled GitHub jobs start from a clean checkout: absence of history is unknown.
       firstSeenInCurrentReport: !past.has(row.id) || !Array.isArray(past.get(row.id).candidateLinks)
         ? null
