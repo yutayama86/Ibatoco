@@ -163,7 +163,7 @@ export function scoreReviewCandidate(candidate) {
   const url = String(candidate.url ?? '');
   let score = 0;
   const reasons = [];
-  if (/(?:20(?:2[6-9]|3[0-9])|令和[89]|(?:1[0-2]|[1-9])月(?:[1-3]?\\d日)?)/.test(title)) {
+  if (/(?:20(?:2[6-9]|3[0-9])|令和[89]|(?:1[0-2]|[1-9])月(?:[1-3]?\d日)?)/.test(title)) {
     score += 4;
     reasons.push('date-or-season');
   }
@@ -180,7 +180,7 @@ export function scoreReviewCandidate(candidate) {
     score -= 10;
     reasons.push('generic-navigation');
   }
-  if (/(?:\\/search\\.|[?&](?:keyword|q)=|\\/tags?\\/|\\/category\\/)/i.test(url)) {
+  if (/(?:\/search\.|[?&](?:keyword|q)=|\/tags?\/|\/category\/)/i.test(url)) {
     score -= 3;
     reasons.push('navigation-url');
   }
