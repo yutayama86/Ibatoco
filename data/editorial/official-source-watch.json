@@ -13,7 +13,8 @@
         "シャトルバス",
         "出店"
       ],
-      "note": "Known missed event regression source; individual page, not a municipality-wide feed."
+      "note": "Known missed event regression source; individual page, not a municipality-wide feed.",
+      "watchType": "single-event"
     },
     {
       "id": "ibaraki-guide-events",
@@ -28,7 +29,8 @@
         "コーヒー",
         "出演"
       ],
-      "note": "Prefecture tourism listing; listings may be partial or paginated."
+      "note": "Prefecture tourism listing; listings may be partial or paginated.",
+      "watchType": "regional-aggregator"
     },
     {
       "id": "kenpoku-2026-november",
@@ -42,7 +44,8 @@
         "マルシェ",
         "出演"
       ],
-      "note": "Six north municipalities monthly listing; not 44-municipality coverage."
+      "note": "Six north municipalities monthly listing; not 44-municipality coverage.",
+      "watchType": "regional-aggregator"
     },
     {
       "id": "mito-city-calendar",
@@ -57,7 +60,8 @@
         "出演",
         "フェス"
       ],
-      "note": "Calendar may have dynamic views; only currently rendered HTML is inspected."
+      "note": "Calendar may have dynamic views; only currently rendered HTML is inspected.",
+      "watchType": "calendar"
     },
     {
       "id": "tsukuba-city-calendar",
@@ -72,7 +76,8 @@
         "コンサート",
         "講演"
       ],
-      "note": "Calendar listing; coverage depends on site rendering and pagination."
+      "note": "Calendar listing; coverage depends on site rendering and pagination.",
+      "watchType": "calendar"
     },
     {
       "id": "tsukuba-center-events",
@@ -86,7 +91,8 @@
         "よさこい",
         "イベント"
       ],
-      "note": "Cross-check specialized festivals that may not appear on generic calendars."
+      "note": "Cross-check specialized festivals that may not appear on generic calendars.",
+      "watchType": "single-event"
     },
     {
       "id": "kashima-city-events",
@@ -101,7 +107,8 @@
         "アントラーズ",
         "コンサート"
       ],
-      "note": "Official events category, not necessarily exhaustive."
+      "note": "Official events category, not necessarily exhaustive.",
+      "watchType": "event-index"
     },
     {
       "id": "koga-city-calendar",
@@ -118,7 +125,8 @@
         "ライブ",
         "トークショー"
       ],
-      "note": "Official city calendar; verify subpage details and upcoming months separately."
+      "note": "Official city calendar; verify subpage details and upcoming months separately.",
+      "watchType": "calendar"
     },
     {
       "id": "chikusei-city-calendar",
@@ -135,7 +143,8 @@
         "商工祭",
         "フェス"
       ],
-      "note": "Official ongoing event calendar; validate month changes and subpage detail separately."
+      "note": "Official ongoing event calendar; validate month changes and subpage detail separately.",
+      "watchType": "calendar"
     },
     {
       "id": "yachiyo-autumn-festival-2026",
@@ -151,7 +160,8 @@
         "出演"
       ],
       "note": "Official rolling news list currently includes 2026 autumn festival. This is a listing, not the detailed event primary source; expectedText is a temporary regression check, remove/refresh after the event.",
-      "expectedText": "2026八千代の秋まつり"
+      "expectedText": "2026八千代の秋まつり",
+      "watchType": "news-index"
     },
     {
       "id": "tokai-tourism-event-list",
@@ -169,7 +179,8 @@
         "出店",
         "パブリックビューイング"
       ],
-      "note": "Official tourism association event listing; IMOフェス2026 appeared 2026-10-19. Link titles are only unverified leads; page may be paginated."
+      "note": "Official tourism association event listing; IMOフェス2026 appeared 2026-10-19. Link titles are only unverified leads; page may be paginated.",
+      "watchType": "event-index"
     },
     {
       "id": "itako-city-tourism-notices",
@@ -185,9 +196,12 @@
         "花火",
         "フェス",
         "開催",
-        "マルシェ"
+        "マルシェ",
+        "Riverside",
+        "Illumination"
       ],
-      "note": "Official tourism notice listing; Riverside Illumination was announced 2026-11-12. Link titles alone do not verify dates or details."
+      "note": "Official tourism notice listing; Riverside Illumination was announced 2026-11-12. Link titles alone do not verify dates or details.",
+      "watchType": "news-index"
     },
     {
       "id": "tokyo-ibaraki-food-news",
@@ -207,7 +221,8 @@
         "イベント",
         "フェア"
       ],
-      "note": "茨城県食と農公式ニュース。県産品の東京販売イベント・マルシェの発表を探す。県内情報も含むので場所は必ず個別確認。ページ分割あり。"
+      "note": "茨城県食と農公式ニュース。県産品の東京販売イベント・マルシェの発表を探す。県内情報も含むので場所は必ず個別確認。ページ分割あり。",
+      "watchType": "news-index"
     },
     {
       "id": "tokyo-ibaraki-sense",
@@ -225,7 +240,8 @@
         "茨城",
         "催事"
       ],
-      "note": "茨城県アンテナショップ公式の案内。ホームは催事一覧の完全な代替ではない。別の開催告知は県公式・主催者公式と照合する。"
+      "note": "茨城県アンテナショップ公式の案内。ホームは催事一覧の完全な代替ではない。別の開催告知は県公式・主催者公式と照合する。",
+      "watchType": "news-index"
     },
     {
       "id": "tokyo-ibaraki-shukakusai-2026",
@@ -242,7 +258,8 @@
         "ステージ",
         "出演"
       ],
-      "note": "東京・駒沢開催の茨城をたべよう収穫祭2026公式特設ページ。イベント詳細変更の監視用（新イベントの全体発見には用いない）。"
+      "note": "東京・駒沢開催の茨城をたべよう収穫祭2026公式特設ページ。イベント詳細変更の監視用（新イベントの全体発見には用いない）。",
+      "watchType": "single-event"
     },
     {
       "id": "daigo-tourism-news",
@@ -262,7 +279,8 @@
         "サウナ",
         "交流"
       ],
-      "note": "大子町観光協会の公式新着一覧。東京開催の大子関連事業は別途主催者も確認する。"
+      "note": "大子町観光協会の公式新着一覧。東京開催の大子関連事業は別途主催者も確認する。",
+      "watchType": "news-index"
     },
     {
       "id": "tokyo-daigo-redaigo",
@@ -281,7 +299,8 @@
         "食のビジネス",
         "交流"
       ],
-      "note": "茨城県大子町で活動する一般社団法人リダイゴの一次発信。東京開催の大子関連交流イベントを探索。note掲載の有無は地域の完全網羅を示さない。"
+      "note": "茨城県大子町で活動する一般社団法人リダイゴの一次発信。東京開催の大子関連交流イベントを探索。note掲載の有無は地域の完全網羅を示さない。",
+      "watchType": "news-index"
     },
     {
       "id": "hitachi-city-events",
@@ -549,8 +568,8 @@
       "category": "government",
       "area": "県央",
       "municipality": "大洗町",
-      "url": "https://www.oarai-info.jp/news/",
-      "watchType": "news-index",
+      "url": "https://www.oarai-info.jp/event/",
+      "watchType": "event-index",
       "watchTerms": [
         "イベント",
         "まつり",
@@ -571,7 +590,7 @@
         "展示",
         "開催"
       ],
-      "note": "2026-11-17 official-source inventory. Oarai tourism association announcements; verify access and link structure in daily runs."
+      "note": "2026-11-17 verified official tourism association event list with current 2026 announcements. Individual notices require checking dates."
     },
     {
       "id": "omitama-city-calendar",
@@ -694,8 +713,8 @@
       "category": "government",
       "area": "県南",
       "municipality": "阿見町",
-      "url": "https://www.town.ami.lg.jp/",
-      "watchType": "fallback-home",
+      "url": "https://www.town.ami.lg.jp/news/0001.html",
+      "watchType": "news-index",
       "watchTerms": [
         "イベント",
         "まつり",
@@ -716,7 +735,7 @@
         "展示",
         "開催"
       ],
-      "note": "2026-11-17 official-source inventory. Homepage has event-tagged notices; not a complete event list. Dedicated category link must be found."
+      "note": "2026-11-17 verified official new-information index including event-tagged posts; general notices, not complete event coverage."
     },
     {
       "id": "miho-village-tourism",
@@ -1267,7 +1286,47 @@
         "展示",
         "開催"
       ],
-      "note": "2026-11-17 official-source inventory. Official homepage event block; source is NOT comprehensive, seek dedicated event category."
+      "note": "Official homepage fallback only: dedicated event list https://www.town.ibaraki-sakai.lg.jp/news.php?type=2 last showed 2016 information; calendar https://www.town.ibaraki-sakai.lg.jp/cal.php?category=1 displayed no events for 2026-11. Do not treat as reliable complete coverage."
+    },
+    {
+      "id": "hitachinaka-city-event-index",
+      "category": "government",
+      "area": "県央",
+      "municipality": "ひたちなか市",
+      "url": "https://www.city.hitachinaka.lg.jp/business/kankoshinko/1002695/index.html",
+      "watchType": "event-index",
+      "watchTerms": [
+        "イベント",
+        "フェス",
+        "まつり",
+        "祭り",
+        "花火",
+        "マーケット",
+        "マルシェ",
+        "開催",
+        "IBAFORNIA",
+        "COFFEE"
+      ],
+      "note": "2026-11-17 verified direct municipal tourism event listing (IBAFORNIA, COFFEE FESTIVAL, rockin'star Carnival). Complements one-off COFFEE regression page and JS calendar."
+    },
+    {
+      "id": "hitachinaka-city-calendar",
+      "category": "government",
+      "area": "県央",
+      "municipality": "ひたちなか市",
+      "url": "https://www.city.hitachinaka.lg.jp/event_calendar.html",
+      "watchType": "calendar",
+      "watchTerms": [
+        "イベント",
+        "フェス",
+        "まつり",
+        "祭り",
+        "展示",
+        "開催",
+        "募集",
+        "フェア"
+      ],
+      "note": "City calendar is JS-rendered and may be empty to text-only HTML watcher; treat successful HTML fetch as insufficient without candidate links. Broad event index separately monitored."
     }
   ]
 }
