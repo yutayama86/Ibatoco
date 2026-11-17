@@ -209,16 +209,34 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
  * Measure direct city-specific source coverage only.
  * Prefecture-wide sources do not count as direct coverage of all municipalities.
  */
-export function municipalityCoverage(areaSource, sources) {
-  const municipalities = [...areaSource.matchAll(/\{ slug: '([^']+)', name: '([^']+)', region: '([^']+)'/g)]
+export function municipalityCoverage(areaSource, sources, results = []) {
+  const municipalities = [...areaSource.matchAll(/\\{ slug: '([^']+)', name: '([^']+)', region: '([^']+)'/g)]
     .map((m) => ({ slug: m[1], name: m[2], region: m[3] }));
-  const directlyCovered = new Set(sources.map((s) => s.municipality).filter(Boolean));
+  const broadTypes = new Set(['event-index', 'news-index', 'calendar']);
+  const isBroad = (source) => broadTypes.has(source.watchType);
+  const configured = new Set(sources.map((source) => source.municipality).filter(Boolean));
+  const broadConfigured = new Set(sources.filter(isBroad).map((source) => source.municipality).filter(Boolean));
+  const liveBroad = new Set(results.filter((row) => row.status === 'fetched'
+    && broadTypes.has(row.watchType)).map((row) => row.municipality).filter(Boolean));
+  const signaled = new Set(results.filter((row) => row.status === 'fetched'
+    && (row.candidateLinks?.length ?? 0) > 0).map((row) => row.municipality).filter(Boolean));
+  const fallbackOnly = municipalities.filter((municipality) => configured.has(municipality.name)
+    && !broadConfigured.has(municipality.name));
   return {
     totalMunicipalities: municipalities.length,
-    citiesWithDirectSource: municipalities.filter((m) => directlyCovered.has(m.name)).length,
-    missing: municipalities.filter((m) => !directlyCovered.has(m.name)),
+    citiesWithDirectSource: municipalities.filter((municipality) => configured.has(municipality.name)).length,
+    citiesWithBroadSource: municipalities.filter((municipality) => broadConfigured.has(municipality.name)).length,
+    citiesWithFallbackOnly: fallbackOnly.length,
+    fallbackOnly,
+    citiesWithFetchedBroadSource: results.length
+      ? municipalities.filter((municipality) => liveBroad.has(municipality.name)).length : null,
+    citiesWithCandidateLinks: results.length
+      ? municipalities.filter((municipality) => signaled.has(municipality.name)).length : null,
+    scanEvaluated: results.length > 0,
+    missing: municipalities.filter((municipality) => !configured.has(municipality.name)),
+    missingBroadSource: municipalities.filter((municipality) => !broadConfigured.has(municipality.name)),
     status: municipalities.length === 44 ? 'complete-inventory' : 'incomplete-inventory',
-    note: 'Measures configured direct municipality references, not successful crawling or event coverage.',
+    note: 'Direct configuration is NOT event recall or successful fetching. Broad sources are a configured category only; calendar pages can be JavaScript-rendered. Candidate links are unverified.',
   };
 }
 
@@ -230,6 +248,7 @@ export async function runWatch(sources, fetchFn = fetch) {
       area: source.area ?? null,
       municipality: source.municipality ?? null,
       scope: source.scope ?? 'ibaraki',
+      watchType: source.watchType ?? 'unclassified',
       ...await watchSource(source, fetchFn),
     })));
     results.push(...batch);
@@ -248,7 +267,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     existsSync(OUTPUT) ? JSON.parse(readFileSync(OUTPUT, 'utf8')) : null,
     existsSync(REGISTRY) ? JSON.parse(readFileSync(REGISTRY, 'utf8')) : { events: [] },
   );
-  result.municipalityCoverage = municipalityCoverage(readFileSync(MUNICIPALITIES, 'utf8'), config.sources);
+  result.municipalityCoverage = municipalityCoverage(readFileSync(MUNICIPALITIES, 'utf8'), config.sources, result.results);
   if (process.argv.includes('--write')) {
     mkdirSync(dirname(OUTPUT), { recursive: true });
     writeFileSync(OUTPUT, JSON.stringify(result, null, 2) + '\n', 'utf8');
