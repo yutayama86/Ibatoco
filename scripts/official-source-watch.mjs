@@ -96,7 +96,10 @@ export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
     if (url.protocol !== 'https:' && url.protocol !== 'http:') continue;
     if (url.username || url.password) continue;
     if (!['http:', 'https:'].includes(url.protocol)) continue;
-    if (url.origin !== new URL(pageUrl).origin) continue;
+    // Accept only the same official host, allowing the common www/non-www alias.
+    const page = new URL(pageUrl);
+    const hostKey = (host) => host.replace(/^www\./, '');
+    if (url.protocol !== page.protocol || hostKey(url.hostname) !== hostKey(page.hostname) || url.port !== page.port) continue;
     url.hash = '';
     const title = extractText(match[2]).slice(0, 180);
     if (title.length < 4) continue;
@@ -132,42 +135,75 @@ export async function watchSource(source, fetchFn = fetch) {
     const content = extractText(html);
     if (content.length < 80) return { id: source.id, url: source.url, status: 'empty-or-script-rendered', checkedAt };
     if (source.expectedText && !content.includes(source.expectedText)) return { id: source.id, url: source.url, status: 'expected-text-missing', expectedText: source.expectedText, checkedAt };
-    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: type.toLowerCase().includes('text/html') ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
+    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, scope: source.scope ?? 'ibaraki', status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: type.toLowerCase().includes('text/html') ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
   } catch (error) {
     return { id: source.id, url: source.url, status: 'fetch-failed', checkedAt, error: error?.name === 'TimeoutError' ? 'timeout' : 'network-or-access-error' };
   }
+}
+
+function officialUrlKey(raw) {
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    url.hostname = url.hostname.replace(/^www\./, '');
+    url.hash = '';
+    url.pathname = url.pathname.replace(/\/+$/, '') || '/';
+    return url.href;
+  } catch { return null; }
 }
 
 export function annotateWatch(watch, previous = null, registry = { events: [] }) {
   const past = new Map((previous?.results ?? []).map((row) => [row.id, row]));
   const knownUrls = new Map();
   for (const event of registry.events ?? []) {
-    if (event.officialUrl) {
-      const entries = knownUrls.get(event.officialUrl) ?? [];
+    // Multiple official references may describe the same event.
+    for (const url of [event.officialUrl, ...(event.relatedOfficialUrls ?? [])].filter(Boolean)) {
+      const key = officialUrlKey(url);
+      if (!key) continue;
+      const entries = knownUrls.get(key) ?? [];
       entries.push({ id: event.id, name: event.name, articleUrl: event.articleUrl ?? null, status: event.status });
-      knownUrls.set(event.officialUrl, entries);
+      knownUrls.set(key, entries);
     }
   }
+  const results = watch.results.map((row) => ({
+    ...row,
+    change: row.status !== 'fetched' ? 'not-comparable'
+      : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
+      : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
+    registryMatchesByExactOfficialUrl: knownUrls.get(officialUrlKey(row.url)) ?? [],
+    candidateLinks: (row.candidateLinks ?? []).map((link) => ({
+      ...link,
+      // Exact URL match is a hint only. No match is NOT evidence of an unpublished event.
+      registryMatchesByExactOfficialUrl: knownUrls.get(officialUrlKey(link.url)) ?? [],
+      // Scheduled GitHub jobs start from a clean checkout: absence of history is unknown.
+      firstSeenInCurrentReport: !past.has(row.id) || !Array.isArray(past.get(row.id).candidateLinks)
+        ? null
+        : !past.get(row.id).candidateLinks.some((old) => old.url === link.url),
+    })),
+  }));
+  const reviewCandidates = results.flatMap((row) => (row.candidateLinks ?? [])
+    .filter((link) => link.registryMatchesByExactOfficialUrl.length === 0)
+    .map((link) => ({
+      sourceId: row.id,
+      area: row.area ?? null,
+      title: link.title,
+      url: link.url,
+      verification: 'unverified-link-title',
+      firstSeenInCurrentReport: link.firstSeenInCurrentReport,
+    })));
   return {
     ...watch,
     previousReportAvailable: !!previous,
-    candidateLinksFound: watch.results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
-    results: watch.results.map((row) => ({
-      ...row,
-      change: row.status !== 'fetched' ? 'not-comparable'
-        : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
-        : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
-      registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
-      candidateLinks: (row.candidateLinks ?? []).map((link) => ({
-        ...link,
-        // Exact URL match only: a nonmatch does not prove unpublished or new.
-        registryMatchesByExactOfficialUrl: knownUrls.get(link.url) ?? [],
-        firstSeenInCurrentReport: !(past.get(row.id)?.candidateLinks ?? []).some((old) => old.url === link.url),
-      })),
-    })),
+    candidateLinksFound: results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
+    // Unmatched links require editorial review. They are not confirmed events or known omissions.
+    unregisteredCandidateCount: reviewCandidates.length,
+    unregisteredCandidateLinks: reviewCandidates.slice(0, 100),
+    reviewCandidatesTruncated: reviewCandidates.length > 100,
+    tokyoIbarakiSourceCount: results.filter((row) => row.area === '東京').length,
+    results,
   };
 }
-
 
 /**
  * Measure direct city-specific source coverage only.
@@ -187,8 +223,17 @@ export function municipalityCoverage(areaSource, sources) {
 }
 
 export async function runWatch(sources, fetchFn = fetch) {
+  // Bounded concurrency keeps 44-municipality expansion feasible without a burst of requests.
   const results = [];
-  for (const source of sources) results.push(await watchSource(source, fetchFn));
+  for (let i = 0; i < sources.length; i += 4) {
+    const batch = await Promise.all(sources.slice(i, i + 4).map(async (source) => ({
+      area: source.area ?? null,
+      municipality: source.municipality ?? null,
+      scope: source.scope ?? 'ibaraki',
+      ...await watchSource(source, fetchFn),
+    })));
+    results.push(...batch);
+  }
   return { schemaVersion: 1, generatedAt: new Date().toISOString(), scanned: results.length,
     fetched: results.filter((row) => row.status === 'fetched').length,
     failed: results.filter((row) => row.status !== 'fetched').length,
