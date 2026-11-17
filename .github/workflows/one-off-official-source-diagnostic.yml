@@ -1,0 +1,63 @@
+name: One-off official-source coverage diagnostic
+
+on:
+  push:
+    branches: [quality/20261117-live-event-qa-watch]
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+      - name: Run the 53-source scan (read-only)
+        shell: bash
+        run: |
+          set +e
+          node scripts/official-source-watch.mjs --write > /tmp/watch.log 2>&1
+          result=$?
+          set -e
+          cat /tmp/watch.log
+          echo "Scan exit status: $result"
+          test -s reports/editorial/official-source-watch.json
+      - name: Emit source failures and editorial hints
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const r=JSON.parse(readFileSync('reports/editorial/official-source-watch.json','utf8'));
+          const c=r.municipalityCoverage;
+          const failed=r.results.filter(x=>x.status !== 'fetched');
+          const empty=r.results.filter(x=>x.status === 'fetched' && !x.candidateLinks?.length);
+          const weak=r.results.filter(x=>x.status === 'fetched' && ['calendar','fallback-home'].includes(x.watchType));
+          const report=[
+            '### Official source diagnostic (53 configured sources)',
+            'Scanned: '+r.scanned+', fetched: '+r.fetched+', failed: '+r.failed,
+            'Candidate links: '+r.candidateLinksFound+', unmatched exact URLs: '+r.unregisteredCandidateCount,
+            'Municipalities with fetched broad source: '+c.citiesWithFetchedBroadSource+'/44',
+            'Municipalities with candidate links: '+c.citiesWithCandidateLinks+'/44',
+            'Failed sources: '+failed.map(x=>x.id+':'+x.status+(x.httpStatus?' '+x.httpStatus:'')).join('; '),
+            'Fetched but zero candidates: '+empty.map(x=>x.id).join(', '),
+            'Weak fetched calendar/fallback: '+weak.map(x=>x.id).join(', '),
+            'Unmatched title+URL candidates (first 15):',
+            ...r.unregisteredCandidateLinks.slice(0,15).map(x=>'- '+x.sourceId+': '+x.title.replaceAll('\n',' ')+' '+x.url),
+            'This is a discovery diagnostic, not evidence of complete event coverage.'
+          ];
+          console.log(report.join('\n'));
+          const {appendFileSync}=await import('node:fs');
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY,report.join('\n')+'\n');
+          NODE
+      - name: Save current scan
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: one-off-53-source-diagnostic
+          path: reports/editorial/official-source-watch.json
+          retention-days: 7
