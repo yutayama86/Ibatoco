@@ -166,3 +166,16 @@ test('failed Tokyo official source still counts as attempted and is not misrepor
   assert.equal(report.results[0].status, 'http-error');
   assert.equal(report.candidatesVerified, 0);
 });
+
+test('www aliases on the same official host are not missed or treated as external hosts', () => {
+  const html = '<a href="https://www.ibaraki-shokusai.net/info/detail/18485">茨城をたべよう収穫祭2026</a>' +
+    '<a href="https://ibaraki-shokusai.net.evil.example/info/99">茨城イベント</a>';
+  const links = extractCandidateLinks(html, 'https://ibaraki-shokusai.net/info', ['茨城', '収穫祭']);
+  assert.equal(links.length, 1);
+  assert.equal(links[0].url, 'https://www.ibaraki-shokusai.net/info/detail/18485');
+  const report = annotateWatch({ results: [{ id: 'food', status: 'fetched', url: 'https://ibaraki-shokusai.net/info', candidateLinks: links }] }, null, {
+    events: [{ id: 'harvest', name: '茨城収穫祭', officialUrl: 'https://ibaraki-shokusai.net/info/detail/18485/', articleUrl: null }],
+  });
+  assert.equal(report.unregisteredCandidateCount, 0);
+  assert.equal(report.results[0].candidateLinks[0].registryMatchesByExactOfficialUrl[0].id, 'harvest');
+});
