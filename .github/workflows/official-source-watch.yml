@@ -46,6 +46,8 @@ jobs:
           console.log('- Sources attempted: ' + r.scanned + ', fetched: ' + r.fetched + ', failed: ' + r.failed);
           console.log('- Unverified matching links: ' + r.candidateLinksFound);
           console.log('- Links with no exact registry URL match (editorial review, not verified omissions): ' + r.unregisteredCandidateCount);
+          console.log('- Prioritized hints (score >= 5, not verified events): ' + (r.prioritizedCandidateCount ?? 'unmeasured'));
+          console.log('- Direct official event pages awaiting URL reconciliation: ' + (r.directSourceCandidateCount ?? 'unmeasured'));
           console.log('- Tokyo-based Ibaraki official sources attempted: ' + r.tokyoIbarakiSourceCount);
           console.log('- Municipalities with at least one configured source: ' + c.citiesWithDirectSource + '/' + c.totalMunicipalities + ' (NOT detection coverage)');
           console.log('- Municipalities with event/news/calendar source configured: ' + c.citiesWithBroadSource + '/' + c.totalMunicipalities);
@@ -59,7 +61,11 @@ jobs:
             console.log('#### Unmatched source links (first 20, verify before publishing)');
             for (const link of review.slice(0, 20)) console.log('- [' + link.sourceId + '] ' + link.title.replace(/[\r\n]/g, ' ') + ' — ' + link.url);
             if (r.reviewCandidatesTruncated || review.length > 20) console.log('- More candidates in artifact; no automatic article publication');
-            console.log('::warning title=Editorial candidates need review::' + r.unregisteredCandidateCount + ' official-page links require triage; not all are events.');
+            if ((r.prioritizedCandidateCount ?? 0) > 0) {
+              console.log('::warning title=Time-sensitive official link hints need review::' + r.prioritizedCandidateCount + ' prioritized hints; NONE are verified events without editorial checking.');
+            } else {
+              console.log('::notice title=Official link hints::' + r.unregisteredCandidateCount + ' total raw links; no prioritized hints scored >= 5.');
+            }
           }
           const failed = r.results.filter(x => x.status !== 'fetched');
           if (failed.length) console.log('- Failed sources: ' + failed.map(x=>x.id+' ('+x.status+')').join(', '));
