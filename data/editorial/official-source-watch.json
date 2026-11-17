@@ -298,7 +298,7 @@
         "食のビジネス",
         "交流"
       ],
-      "note": "茨城県大子町で活動する一般社団法人リダイゴの一次発信。東京開催の大子関連交流イベントを探索。note掲載の有無は地域の完全網羅を示さない。",
+      "note": "Official ReDaigo note profile may be JS-rendered with zero discoverable anchor titles in the Node watcher (2026-11-17 Actions). Continue manual organizer review and single-event source page below. A successful HTML fetch alone is not event coverage.",
       "watchType": "news-index"
     },
     {
@@ -596,7 +596,7 @@
       "category": "government",
       "area": "県央",
       "municipality": "小美玉市",
-      "url": "https://city.omitama.lg.jp/viewer/calendar-monthly.html?idSubTop=0",
+      "url": "https://www.city.omitama.lg.jp/viewer/calendar-monthly.html?idSubTop=0",
       "watchType": "calendar",
       "watchTerms": [
         "イベント",
@@ -618,7 +618,7 @@
         "展示",
         "開催"
       ],
-      "note": "2026-11-17 official-source inventory. Official calendar; month-specific rendering."
+      "note": "2026-11-17 live diagnostic: city.omitama.lg.jp timed out or failed in Actions. Switched to municipality's verified www official alias. Monthly event calendar is paginated and not full recall; verify in next action run."
     },
     {
       "id": "ishioka-city-calendar",
@@ -966,7 +966,7 @@
         "展示",
         "開催"
       ],
-      "note": "2026-11-17 official-source inventory. Official homepage only. Direct event notices/illumination organizer require separate manual verification."
+      "note": "2026-11-17 read-only Actions diagnostic: www.town.ibaraki-kawachi.lg.jp homepage returned anti-bot JavaScript challenge (empty-or-script-rendered). Do not report no events or successful direct municipal feed. Dedicated officially linked annual illumination organizer page monitored separately."
     },
     {
       "id": "tone-town-events",
@@ -1263,8 +1263,8 @@
       "category": "government",
       "area": "県西",
       "municipality": "境町",
-      "url": "https://www.town.ibaraki-sakai.lg.jp/",
-      "watchType": "fallback-home",
+      "url": "https://www.town.ibaraki-sakai.lg.jp/news.php?type=0",
+      "watchType": "news-index",
       "watchTerms": [
         "イベント",
         "まつり",
@@ -1285,7 +1285,7 @@
         "展示",
         "開催"
       ],
-      "note": "Official homepage fallback only: dedicated event list https://www.town.ibaraki-sakai.lg.jp/news.php?type=2 last showed 2016 information; calendar https://www.town.ibaraki-sakai.lg.jp/cal.php?category=1 displayed no events for 2026-11. Do not treat as reliable complete coverage."
+      "note": "2026-11-17 verified rolling official Latest Information feed with dated entries, includes some events but mixed with general notices; more reliable than old homepage only, NOT a complete event calendar. 2016 type=2 index excluded; manual review of event guide and municipal notices continues."
     },
     {
       "id": "hitachinaka-city-event-index",
@@ -1326,6 +1326,45 @@
         "フェア"
       ],
       "note": "City calendar is JS-rendered and may be empty to text-only HTML watcher; treat successful HTML fetch as insufficient without candidate links. Broad event index separately monitored."
+    },
+    {
+      "id": "kawachi-illumination-2026-official",
+      "category": "organizer",
+      "area": "県南",
+      "municipality": "河内町",
+      "watchType": "single-event",
+      "url": "https://kawachi-illumination.lanitech.jp/",
+      "watchTerms": [
+        "かわちイルミネーション",
+        "イベント",
+        "12月",
+        "クリスマス",
+        "こたつ",
+        "キッチンカー",
+        "投稿",
+        "点灯",
+        "駐車場"
+      ],
+      "note": "Official dedicated 2026 winter illumination event site linked by town; public HTML updates for this seasonal event only. NOT a replacement for municipality general event list."
+    },
+    {
+      "id": "tokyo-daigo-talk-2026-direct",
+      "category": "organizer",
+      "area": "東京",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "watchType": "single-event",
+      "url": "https://note.com/re_daigo/n/n82d06dbb3658",
+      "watchTerms": [
+        "大子町",
+        "下北沢",
+        "BONUS TRACK",
+        "イベント",
+        "交流",
+        "ローカル",
+        "ビジネス"
+      ],
+      "note": "Specific 2026-11-19 Daigo-town official organizer event page. Direct-event signal remains possible when profile feeds contain no candidate anchors; do not generalize to other upcoming events."
     }
   ]
 }
