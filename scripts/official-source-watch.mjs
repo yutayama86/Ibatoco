@@ -153,6 +153,67 @@ function officialUrlKey(raw) {
   } catch { return null; }
 }
 
+/**
+ * A review-only queue priority heuristic, not event verification or demand estimation.
+ * Keep all low-score candidates in the artifact; menus, old lists and category links
+ * must not displace time-sensitive local items in the first 20 links in the summary.
+ */
+export function scoreReviewCandidate(candidate, referenceDate = new Date()) {
+  const title = String(candidate.title ?? '').trim();
+  const url = String(candidate.url ?? '');
+  let score = 0;
+  const reasons = [];
+  if (/(?:20(?:2[6-9]|3[0-9])|令和[89]|(?:1[0-2]|[1-9])月(?:[1-3]?\d日)?)/.test(title)) {
+    score += 4;
+    reasons.push('date-or-season');
+  }
+  if (/(?:フェス|イルミネーション|花火|マルシェ|収穫祭|お祭り|まつり|コンサート|ライブ|交流会|見学|展示会|産業祭|グルメ|体験|物産展|マーケット)/.test(title)) {
+    score += 3;
+    reasons.push('specific-event-theme');
+  }
+  if (/(?:開催|出店|開幕|参加募集|限定|申し込み|募集開始|点灯)/.test(title)) {
+    score += 2;
+    reasons.push('action-or-status');
+  }
+  if (title.length >= 12 && title.length <= 110) score += 1;
+  if (/^(?:#?イベント|イベント情報|観光|お知らせ|新着情報|詳細|一覧|カレンダー|イベント一覧)$/.test(title)) {
+    score -= 10;
+    reasons.push('generic-navigation');
+  }
+  if (/(?:\/search\.|[?&](?:keyword|q)=|\/tags?\/|\/category\/)/i.test(url)) {
+    score -= 3;
+    reasons.push('navigation-url');
+  }
+  if (candidate.verification === 'unverified-single-source') {
+    score += 1;
+    reasons.push('direct-official-page');
+  }
+  // Do not let a 2025 notice, or an event that ended months ago, outrank
+  // current dates merely because its title contains "2026" and "フェス".
+  if (/(?:終了しました|開催しました|募集終了|受付終了|開催終了)/.test(title)) {
+    score -= 8;
+    reasons.push('finished-or-closed');
+  }
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: 'numeric', day: 'numeric',
+  }).formatToParts(referenceDate);
+  const part = (key) => Number(parts.find((x) => x.type === key)?.value);
+  const thisYear = part('year'), thisMonth = part('month'), thisDay = part('day');
+  const western = title.match(/(20\d{2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
+  const era = title.match(/令和(\d{1,2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
+  const dated = western
+    ? [Number(western[1]), Number(western[2]), western[3] ? Number(western[3]) : null]
+    : era ? [2018 + Number(era[1]), Number(era[2]), era[3] ? Number(era[3]) : null] : null;
+  const oldYear = title.match(/20\d{2}/)?.[0];
+  if ((dated && (dated[0] < thisYear || (dated[0] === thisYear && dated[1] < thisMonth)
+    || (dated[0] === thisYear && dated[1] === thisMonth && dated[2] !== null && dated[2] < thisDay)))
+    || (!dated && oldYear && Number(oldYear) < thisYear)) {
+    score -= 7;
+    reasons.push('explicit-past-date');
+  }
+  return { score, reasons };
+}
+
 export function annotateWatch(watch, previous = null, registry = { events: [] }) {
   const past = new Map((previous?.results ?? []).map((row) => [row.id, row]));
   const knownUrls = new Map();
@@ -182,7 +243,7 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
         : !past.get(row.id).candidateLinks.some((old) => old.url === link.url),
     })),
   }));
-  const reviewCandidates = results.flatMap((row) => (row.candidateLinks ?? [])
+  const linkCandidates = results.flatMap((row) => (row.candidateLinks ?? [])
     .filter((link) => link.registryMatchesByExactOfficialUrl.length === 0)
     .map((link) => ({
       sourceId: row.id,
@@ -192,14 +253,40 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
       verification: 'unverified-link-title',
       firstSeenInCurrentReport: link.firstSeenInCurrentReport,
     })));
+  // The source URL itself may be a single official event announcement, not a
+  // listing with links. This matters for organizer blogs that render lists in JS.
+  // Its text is a signal only; it is NOT a verified event.
+  const directSourceCandidates = results
+    .filter((row) => row.status === 'fetched' && row.watchType === 'single-event'
+      && row.registryMatchesByExactOfficialUrl.length === 0
+      && (row.matchedTerms?.length ?? 0) > 0)
+    .map((row) => ({
+      sourceId: row.id,
+      area: row.area ?? null,
+      title: `公式個別告知（${row.id}、キーワード一致のみ）`,
+      url: row.url,
+      verification: 'unverified-single-source',
+      firstSeenInCurrentReport: null,
+    }));
+  const combined = [...linkCandidates, ...directSourceCandidates];
+  const deduped = [...new Map(combined.map((link) => [officialUrlKey(link.url) ?? link.url, link])).values()];
+  const reviewCandidates = deduped
+    .map((link) => ({ ...link, priority: scoreReviewCandidate(link) }))
+    .sort((a, b) => b.priority.score - a.priority.score
+      || a.sourceId.localeCompare(b.sourceId)
+      || a.url.localeCompare(b.url));
   return {
     ...watch,
     previousReportAvailable: !!previous,
     candidateLinksFound: results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
     // Unmatched links require editorial review. They are not confirmed events or known omissions.
     unregisteredCandidateCount: reviewCandidates.length,
-    unregisteredCandidateLinks: reviewCandidates.slice(0, 100),
-    reviewCandidatesTruncated: reviewCandidates.length > 100,
+    // Preserve the full sorted queue, including low-priority items. The summary
+    // displays only the first 20, but an editor can inspect every URL in the artifact.
+    unregisteredCandidateLinks: reviewCandidates,
+    prioritizedCandidateCount: reviewCandidates.filter((link) => link.priority.score >= 5).length,
+    directSourceCandidateCount: directSourceCandidates.length,
+    reviewCandidatesTruncated: false,
     tokyoIbarakiSourceCount: results.filter((row) => row.area === '東京').length,
     results,
   };

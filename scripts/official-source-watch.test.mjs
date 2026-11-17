@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks, municipalityCoverage } from './official-source-watch.mjs';
+import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks, municipalityCoverage, scoreReviewCandidate } from './official-source-watch.mjs';
 
 test('strip scripts and distinguish date mentions from verified event dates', () => {
   const text = extractText('<p>2026年11月14日 COFFEE FESTIVAL</p><script>fake date 2026年12月1日</script>');
@@ -188,9 +188,9 @@ test('44 municipalities are registered, but fallback-only and live scan coverage
   const inventory = municipalityCoverage(source, config.sources);
   assert.equal(inventory.totalMunicipalities, 44);
   assert.equal(inventory.citiesWithDirectSource, 44);
-  assert.equal(inventory.citiesWithBroadSource, 42);
-  assert.equal(inventory.citiesWithFallbackOnly, 2);
-  assert.deepEqual(inventory.fallbackOnly.map((m) => m.name).sort(), ['境町','河内町'].sort());
+  assert.equal(inventory.citiesWithBroadSource, 43);
+  assert.equal(inventory.citiesWithFallbackOnly, 1);
+  assert.deepEqual(inventory.fallbackOnly.map((m) => m.name).sort(), ['河内町']);
   assert.equal(inventory.scanEvaluated, false);
   assert.equal(inventory.citiesWithFetchedBroadSource, null);
   assert.equal(inventory.citiesWithCandidateLinks, null);
@@ -217,4 +217,73 @@ test('unresponsive calendar stays unverified, even if a source was configured', 
   assert.equal(actual.citiesWithFetchedBroadSource, 1);
   assert.equal(actual.citiesWithCandidateLinks, 1);
   assert.equal(actual.status, 'incomplete-inventory'); // Fixture intentionally contains only two municipalities.
+});
+
+
+test('live diagnosis fallbacks use official URLs without pretending Kawachi municipality feed works', () => {
+  const config = JSON.parse(readFileSync(new URL('../data/editorial/official-source-watch.json', import.meta.url), 'utf8'));
+  const find = (id) => config.sources.find((x) => x.id === id);
+  assert.ok(find('omitama-city-calendar').url.startsWith('https://www.city.omitama.lg.jp/'));
+  assert.equal(find('sakai-town-home').watchType, 'news-index');
+  assert.ok(find('sakai-town-home').url.includes('/news.php?type=0'));
+  assert.equal(find('kawachi-town-home').watchType, 'fallback-home');
+  assert.equal(find('kawachi-illumination-2026-official').watchType, 'single-event');
+  assert.equal(find('tokyo-daigo-talk-2026-direct').scope, 'tokyo-ibaraki');
+  assert.equal(config.sources.length, 55);
+});
+
+test('unverified-specific-event candidates outrank generic menus but all remain available', () => {
+  const menu = {title:'イベント',url:'https://city.example.jp/event.php'};
+  const upcoming = {title:'2026年11月29日 潮来水辺イルミネーションを開催',url:'https://city.example.jp/page/2026'};
+  assert.ok(scoreReviewCandidate(upcoming).score > scoreReviewCandidate(menu).score);
+  const links = [
+    { ...menu, verification:'unverified-link-title' },
+    { ...upcoming, verification:'unverified-link-title' },
+  ];
+  const report = annotateWatch({results:[{id:'official',status:'fetched',url:'https://city.example.jp/',candidateLinks:links}]});
+  assert.equal(report.unregisteredCandidateCount, 2);
+  assert.equal(report.reviewCandidatesTruncated, false);
+  assert.equal(report.unregisteredCandidateLinks[0].url, upcoming.url);
+  assert.equal(report.unregisteredCandidateLinks[1].url, menu.url);
+  assert.equal(report.prioritizedCandidateCount, 1);
+  assert.equal(report.candidatesVerified, undefined);
+});
+
+test('unregistered individual official page becomes unverified direct-source candidate, not an automatically verified event', async () => {
+  const source = {id:'town-event',url:'https://town.example.jp/page/2026',watchType:'single-event',watchTerms:['まつり'],municipality:'河内町'};
+  const fetched = await runWatch([source], async () => ({
+    ok:true,url:source.url,headers:new Headers({'content-type':'text/html'}),
+    text:async()=>'<html><body>2026年11月29日 まつりを開催します。来場前に最新の案内をご確認ください。</body></html>'.repeat(4),
+  }));
+  const pending = annotateWatch(fetched, null, {events:[]});
+  assert.equal(pending.unregisteredCandidateCount, 1);
+  assert.equal(pending.directSourceCandidateCount, 1);
+  assert.equal(pending.unregisteredCandidateLinks[0].verification,'unverified-single-source');
+  assert.equal(pending.unregisteredCandidateLinks[0].firstSeenInCurrentReport,null);
+  const alreadyKnown = annotateWatch(fetched, null, {events:[{id:'known',officialUrl:source.url,name:'まつり',status:'published'}]});
+  assert.equal(alreadyKnown.directSourceCandidateCount,0);
+});
+
+test('keep every unmatched source link in artifact rather than losing candidates after position 100', () => {
+  const candidateLinks = Array.from({length:105},(_,i)=>({
+    title:`2026年12月 地域フェス${String(i).padStart(3,'0')}`,
+    url:`https://city.example.jp/announcements/${i}`,
+    verification:'unverified-link-title',
+  }));
+  const result = annotateWatch({results:[{id:'official',status:'fetched',url:'https://city.example.jp/news',candidateLinks}]});
+  assert.equal(result.unregisteredCandidateCount,105);
+  assert.equal(result.unregisteredCandidateLinks.length,105);
+  assert.equal(result.reviewCandidatesTruncated,false);
+});
+
+
+test('past or already ended event notices never outrank upcoming event hints', () => {
+  const now = new Date('2026-11-17T06:00:00Z');
+  const upcoming = scoreReviewCandidate({title:'2026年12月12日 第2回さかさマルシェを開催します',url:'https://city.example.jp/event/12'}, now);
+  const past = scoreReviewCandidate({title:'2026年1月24日 ほこたおいもフェス2026を開催します',url:'https://city.example.jp/event/1'}, now);
+  const finished = scoreReviewCandidate({title:'2026年11月2日 祭りを開催しました',url:'https://city.example.jp/event/2'}, now);
+  assert.ok(upcoming.score > past.score);
+  assert.ok(upcoming.score > finished.score);
+  assert.ok(past.reasons.includes('explicit-past-date'));
+  assert.ok(finished.reasons.includes('finished-or-closed'));
 });
