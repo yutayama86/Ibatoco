@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { extractText, analyzePage, runWatch, annotateWatch, extractCandidateLinks, municipalityCoverage } from './official-source-watch.mjs';
 
 test('strip scripts and distinguish date mentions from verified event dates', () => {
@@ -178,4 +179,42 @@ test('www aliases on the same official host are not missed or treated as externa
   });
   assert.equal(report.unregisteredCandidateCount, 0);
   assert.equal(report.results[0].candidateLinks[0].registryMatchesByExactOfficialUrl[0].id, 'harvest');
+});
+
+
+test('44 municipalities are registered, but fallback-only and live scan coverage remain distinct', () => {
+  const config = JSON.parse(readFileSync(new URL('../data/editorial/official-source-watch.json', import.meta.url), 'utf8'));
+  const source = readFileSync(new URL('../src/data/areas.ts', import.meta.url), 'utf8');
+  const inventory = municipalityCoverage(source, config.sources);
+  assert.equal(inventory.totalMunicipalities, 44);
+  assert.equal(inventory.citiesWithDirectSource, 44);
+  assert.equal(inventory.citiesWithBroadSource, 42);
+  assert.equal(inventory.citiesWithFallbackOnly, 2);
+  assert.deepEqual(inventory.fallbackOnly.map((m) => m.name).sort(), ['境町','河内町'].sort());
+  assert.equal(inventory.scanEvaluated, false);
+  assert.equal(inventory.citiesWithFetchedBroadSource, null);
+  assert.equal(inventory.citiesWithCandidateLinks, null);
+  assert.ok(config.sources.some((s) => s.id === 'hitachinaka-city-event-index'));
+  assert.ok(config.sources.some((s) => s.area === '東京'));
+  assert.equal(new Set(config.sources.map((s) => s.id)).size, config.sources.length);
+});
+
+test('unresponsive calendar stays unverified, even if a source was configured', () => {
+  const areaSource = [
+    "{ slug: 'itako', name: '潮来市', region: 'rokko' }",
+    "{ slug: 'hitachi', name: '日立市', region: 'kenpoku' }",
+  ].join('\n');
+  const sources = [
+    { municipality: '潮来市', watchType: 'news-index' },
+    { municipality: '日立市', watchType: 'calendar' },
+  ];
+  const actual = municipalityCoverage(areaSource, sources, [
+    { municipality: '潮来市', watchType: 'news-index', status: 'fetched', candidateLinks: [{ title: 'イベント候補' }] },
+    { municipality: '日立市', watchType: 'calendar', status: 'http-error', candidateLinks: [] },
+  ]);
+  assert.equal(actual.citiesWithDirectSource, 2);
+  assert.equal(actual.citiesWithBroadSource, 2);
+  assert.equal(actual.citiesWithFetchedBroadSource, 1);
+  assert.equal(actual.citiesWithCandidateLinks, 1);
+  assert.equal(actual.status, 'incomplete-inventory'); // Fixture intentionally contains only two municipalities.
 });
