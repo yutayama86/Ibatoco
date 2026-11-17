@@ -155,3 +155,14 @@ test('Tokyo Ibaraki sources are separate from 44-city coverage', async () => {
   const areas = "{ slug: 'itako', name: '潮来市', region: 'rokko' }";
   assert.equal(municipalityCoverage(areas, sources).citiesWithDirectSource, 1);
 });
+
+test('failed Tokyo official source still counts as attempted and is not misreported as no events', async () => {
+  const report = annotateWatch(await runWatch([
+    { id: 'tokyo-site', url: 'https://tokyo.example.org/news', area: '東京', scope: 'tokyo-ibaraki', watchTerms: ['茨城'] },
+  ], async () => ({ ok: false, status: 503 })));
+  assert.equal(report.scanned, 1);
+  assert.equal(report.failed, 1);
+  assert.equal(report.tokyoIbarakiSourceCount, 1);
+  assert.equal(report.results[0].status, 'http-error');
+  assert.equal(report.candidatesVerified, 0);
+});
