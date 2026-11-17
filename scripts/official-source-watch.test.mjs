@@ -144,7 +144,7 @@ test('Tokyo Ibaraki sources are separate from 44-city coverage', async () => {
     { id: 'food', url: 'https://ibaraki-shokusai.net/info', watchTerms: ['収穫祭'], area: '東京', scope: 'tokyo-ibaraki' },
     { id: 'itako', url: 'https://www.city.itako.lg.jp/kankou/', watchTerms: ['イルミ'], area: '鹿行', municipality: '潮来市' },
   ];
-  const html = '<html><body><a href="/info/detail/18485">茨城をたべよう収穫祭2026</a><p>イベントのお知らせ</p></body></html>';
+  const html = '<html><body><a href="/info/detail/18485">茨城をたべよう収穫祭2026</a><p>イベントのお知らせ。公式の情報を確認してください。</p>'.repeat(5) + '</body></html>';
   const report = annotateWatch(await runWatch(sources, async (url) => ({
     ok: true, url, headers: new Headers({ 'content-type': 'text/html' }), text: async () => html,
   })));
