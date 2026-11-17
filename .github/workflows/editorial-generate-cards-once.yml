@@ -24,9 +24,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Generate exact deterministic site card assets
-        env:
-          GITHUB_ACTIONS: 'false'
-        run: npm run og:cards
+        run: env -u GITHUB_ACTIONS npm run og:cards
       - name: Commit generated assets back to this editorial branch
         shell: bash
         run: |
