@@ -45,7 +45,17 @@ jobs:
           console.log('### Official source watch (discovery signals only)');
           console.log('- Sources attempted: ' + r.scanned + ', fetched: ' + r.fetched + ', failed: ' + r.failed);
           console.log('- Unverified matching links: ' + r.candidateLinksFound);
+          console.log('- Links with no exact registry URL match (editorial review, not verified omissions): ' + r.unregisteredCandidateCount);
+          console.log('- Tokyo-based Ibaraki official sources attempted: ' + r.tokyoIbarakiSourceCount);
           console.log('- Cities with direct sources registered: ' + c.citiesWithDirectSource + '/' + c.totalMunicipalities);
+          console.log('- Cities without direct sources: ' + c.missing.length + ' — **coverage is NOT complete**');
+          const review = r.unregisteredCandidateLinks ?? [];
+          if (review.length) {
+            console.log('#### Unmatched source links (first 20, verify before publishing)');
+            for (const link of review.slice(0, 20)) console.log('- [' + link.sourceId + '] ' + link.title.replace(/[\r\n]/g, ' ') + ' — ' + link.url);
+            if (r.reviewCandidatesTruncated || review.length > 20) console.log('- More candidates in artifact; no automatic article publication');
+            console.log('::warning title=Editorial candidates need review::' + r.unregisteredCandidateCount + ' official-page links require triage; not all are events.');
+          }
           const failed = r.results.filter(x => x.status !== 'fetched');
           if (failed.length) console.log('- Failed sources: ' + failed.map(x=>x.id+' ('+x.status+')').join(', '));
           console.log('- Not an event verification or coverage guarantee. Review artifact before editing the event registry.');
