@@ -199,12 +199,12 @@ export function scoreReviewCandidate(candidate, referenceDate = new Date()) {
   }).formatToParts(referenceDate);
   const part = (key) => Number(parts.find((x) => x.type === key)?.value);
   const thisYear = part('year'), thisMonth = part('month'), thisDay = part('day');
-  const western = title.match(/(20\\d{2})年\\s*(\\d{1,2})月(?:\\s*(\\d{1,2})日)?/);
-  const era = title.match(/令和(\\d{1,2})年\\s*(\\d{1,2})月(?:\\s*(\\d{1,2})日)?/);
+  const western = title.match(/(20\d{2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
+  const era = title.match(/令和(\d{1,2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
   const dated = western
     ? [Number(western[1]), Number(western[2]), western[3] ? Number(western[3]) : null]
     : era ? [2018 + Number(era[1]), Number(era[2]), era[3] ? Number(era[3]) : null] : null;
-  const oldYear = title.match(/20\\d{2}/)?.[0];
+  const oldYear = title.match(/20\d{2}/)?.[0];
   if ((dated && (dated[0] < thisYear || (dated[0] === thisYear && dated[1] < thisMonth)
     || (dated[0] === thisYear && dated[1] === thisMonth && dated[2] !== null && dated[2] < thisDay)))
     || (!dated && oldYear && Number(oldYear) < thisYear)) {
