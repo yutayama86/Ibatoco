@@ -275,3 +275,15 @@ test('keep every unmatched source link in artifact rather than losing candidates
   assert.equal(result.unregisteredCandidateLinks.length,105);
   assert.equal(result.reviewCandidatesTruncated,false);
 });
+
+
+test('past or already ended event notices never outrank upcoming event hints', () => {
+  const now = new Date('2026-11-17T06:00:00Z');
+  const upcoming = scoreReviewCandidate({title:'2026年12月12日 第2回さかさマルシェを開催します',url:'https://city.example.jp/event/12'}, now);
+  const past = scoreReviewCandidate({title:'2026年1月24日 ほこたおいもフェス2026を開催します',url:'https://city.example.jp/event/1'}, now);
+  const finished = scoreReviewCandidate({title:'2026年11月2日 祭りを開催しました',url:'https://city.example.jp/event/2'}, now);
+  assert.ok(upcoming.score > past.score);
+  assert.ok(upcoming.score > finished.score);
+  assert.ok(past.reasons.includes('explicit-past-date'));
+  assert.ok(finished.reasons.includes('finished-or-closed'));
+});
