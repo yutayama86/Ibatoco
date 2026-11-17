@@ -132,7 +132,7 @@ export async function watchSource(source, fetchFn = fetch) {
     const content = extractText(html);
     if (content.length < 80) return { id: source.id, url: source.url, status: 'empty-or-script-rendered', checkedAt };
     if (source.expectedText && !content.includes(source.expectedText)) return { id: source.id, url: source.url, status: 'expected-text-missing', expectedText: source.expectedText, checkedAt };
-    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: type.toLowerCase().includes('text/html') ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
+    return { id: source.id, url: source.url, category: source.category, area: source.area, municipality: source.municipality, scope: source.scope ?? 'ibaraki', status: 'fetched', checkedAt, ...analyzePage(content, source.watchTerms), candidateLinks: type.toLowerCase().includes('text/html') ? extractCandidateLinks(html, response.url, source.watchTerms) : [] };
   } catch (error) {
     return { id: source.id, url: source.url, status: 'fetch-failed', checkedAt, error: error?.name === 'TimeoutError' ? 'timeout' : 'network-or-access-error' };
   }
@@ -142,32 +142,51 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
   const past = new Map((previous?.results ?? []).map((row) => [row.id, row]));
   const knownUrls = new Map();
   for (const event of registry.events ?? []) {
-    if (event.officialUrl) {
-      const entries = knownUrls.get(event.officialUrl) ?? [];
+    // Multiple official references may describe the same event.
+    for (const url of [event.officialUrl, ...(event.relatedOfficialUrls ?? [])].filter(Boolean)) {
+      const entries = knownUrls.get(url) ?? [];
       entries.push({ id: event.id, name: event.name, articleUrl: event.articleUrl ?? null, status: event.status });
-      knownUrls.set(event.officialUrl, entries);
+      knownUrls.set(url, entries);
     }
   }
+  const results = watch.results.map((row) => ({
+    ...row,
+    change: row.status !== 'fetched' ? 'not-comparable'
+      : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
+      : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
+    registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
+    candidateLinks: (row.candidateLinks ?? []).map((link) => ({
+      ...link,
+      // Exact URL match is a hint only. No match is NOT evidence of an unpublished event.
+      registryMatchesByExactOfficialUrl: knownUrls.get(link.url) ?? [],
+      // Scheduled GitHub jobs start from a clean checkout: absence of history is unknown.
+      firstSeenInCurrentReport: !past.has(row.id) || !Array.isArray(past.get(row.id).candidateLinks)
+        ? null
+        : !past.get(row.id).candidateLinks.some((old) => old.url === link.url),
+    })),
+  }));
+  const reviewCandidates = results.flatMap((row) => (row.candidateLinks ?? [])
+    .filter((link) => link.registryMatchesByExactOfficialUrl.length === 0)
+    .map((link) => ({
+      sourceId: row.id,
+      area: row.area ?? null,
+      title: link.title,
+      url: link.url,
+      verification: 'unverified-link-title',
+      firstSeenInCurrentReport: link.firstSeenInCurrentReport,
+    })));
   return {
     ...watch,
     previousReportAvailable: !!previous,
-    candidateLinksFound: watch.results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
-    results: watch.results.map((row) => ({
-      ...row,
-      change: row.status !== 'fetched' ? 'not-comparable'
-        : past.get(row.id)?.status !== 'fetched' ? 'no-previous-fetch'
-        : past.get(row.id).hash === row.hash ? 'unchanged' : 'changed',
-      registryMatchesByExactOfficialUrl: knownUrls.get(row.url) ?? [],
-      candidateLinks: (row.candidateLinks ?? []).map((link) => ({
-        ...link,
-        // Exact URL match only: a nonmatch does not prove unpublished or new.
-        registryMatchesByExactOfficialUrl: knownUrls.get(link.url) ?? [],
-        firstSeenInCurrentReport: !(past.get(row.id)?.candidateLinks ?? []).some((old) => old.url === link.url),
-      })),
-    })),
+    candidateLinksFound: results.reduce((count, row) => count + (row.candidateLinks?.length ?? 0), 0),
+    // Unmatched links require editorial review. They are not confirmed events or known omissions.
+    unregisteredCandidateCount: reviewCandidates.length,
+    unregisteredCandidateLinks: reviewCandidates.slice(0, 100),
+    reviewCandidatesTruncated: reviewCandidates.length > 100,
+    tokyoIbarakiSourceCount: results.filter((row) => row.area === '東京').length,
+    results,
   };
 }
-
 
 /**
  * Measure direct city-specific source coverage only.
@@ -187,8 +206,12 @@ export function municipalityCoverage(areaSource, sources) {
 }
 
 export async function runWatch(sources, fetchFn = fetch) {
+  // Bounded concurrency keeps 44-municipality expansion feasible without a burst of requests.
   const results = [];
-  for (const source of sources) results.push(await watchSource(source, fetchFn));
+  for (let i = 0; i < sources.length; i += 4) {
+    const batch = await Promise.all(sources.slice(i, i + 4).map((source) => watchSource(source, fetchFn)));
+    results.push(...batch);
+  }
   return { schemaVersion: 1, generatedAt: new Date().toISOString(), scanned: results.length,
     fetched: results.filter((row) => row.status === 'fetched').length,
     failed: results.filter((row) => row.status !== 'fetched').length,
