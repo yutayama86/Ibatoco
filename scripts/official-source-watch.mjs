@@ -85,8 +85,9 @@ export function analyzePage(text, terms) {
  * Link titles are discovery hints, never verified facts.
  * No subpage requests; only links already present in the official page HTML.
  */
-export function extractCandidateLinks(html, pageUrl, terms, limit = 40) {
+export function extractCandidateLinks(html, pageUrl, terms, limit = Infinity) {
   const out = [], seen = new Set();
+  if (limit <= 0) return out;
   for (const match of html.matchAll(new RegExp('<a\\b([^>]*)>([\\s\\S]*?)<\\/a>', 'gi'))) {
     const attrs = match[1];
     const href = attrs.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1];
@@ -199,15 +200,20 @@ export function scoreReviewCandidate(candidate, referenceDate = new Date()) {
   }).formatToParts(referenceDate);
   const part = (key) => Number(parts.find((x) => x.type === key)?.value);
   const thisYear = part('year'), thisMonth = part('month'), thisDay = part('day');
-  const western = title.match(/(20\d{2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
-  const era = title.match(/令和(\d{1,2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
+  const normalized = title.normalize('NFKC').replace(/令和(\d{1,2})年/g, (_, year) => `${2018 + Number(year)}年`);
+  const western = normalized.match(/(20\d{2})年\s*(\d{1,2})月(?:\s*(\d{1,2})日)?/);
+  // Municipal headlines often use "1/24(土)・1/25(日) …2026" or omit
+  // the year. This is review ordering only, never an inferred event date.
+  const shortDate = normalized.match(/(?:^|[^\d])(\d{1,2})[\/月]\s*(\d{1,2})(?:日|\b)/);
+  const headlineYear = normalized.match(/20\d{2}/)?.[0];
   const dated = western
     ? [Number(western[1]), Number(western[2]), western[3] ? Number(western[3]) : null]
-    : era ? [2018 + Number(era[1]), Number(era[2]), era[3] ? Number(era[3]) : null] : null;
-  const oldYear = title.match(/20\d{2}/)?.[0];
-  if ((dated && (dated[0] < thisYear || (dated[0] === thisYear && dated[1] < thisMonth)
+    : shortDate ? [Number(headlineYear ?? thisYear), Number(shortDate[1]), Number(shortDate[2])] : null;
+  // A range's start being in the past does not mean the event has ended.
+  const mayBeOngoingRange = /[〜～]|から/.test(normalized);
+  if ((!mayBeOngoingRange && dated && (dated[0] < thisYear || (dated[0] === thisYear && dated[1] < thisMonth)
     || (dated[0] === thisYear && dated[1] === thisMonth && dated[2] !== null && dated[2] < thisDay)))
-    || (!dated && oldYear && Number(oldYear) < thisYear)) {
+    || (headlineYear && Number(headlineYear) < thisYear)) {
     score -= 7;
     reasons.push('explicit-past-date');
   }
@@ -238,7 +244,7 @@ export function annotateWatch(watch, previous = null, registry = { events: [] })
       // Exact URL match is a hint only. No match is NOT evidence of an unpublished event.
       registryMatchesByExactOfficialUrl: knownUrls.get(officialUrlKey(link.url)) ?? [],
       // Scheduled GitHub jobs start from a clean checkout: absence of history is unknown.
-      firstSeenInCurrentReport: !past.has(row.id) || !Array.isArray(past.get(row.id).candidateLinks)
+      firstSeenInCurrentReport: past.get(row.id)?.status !== 'fetched' || !Array.isArray(past.get(row.id).candidateLinks)
         ? null
         : !past.get(row.id).candidateLinks.some((old) => old.url === link.url),
     })),
