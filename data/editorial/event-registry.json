@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-14",
+  "updatedAt": "2026-11-17",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1739,6 +1739,90 @@
         "logisticsDemand": "unknown"
       },
       "notes": "水戸観光コンベンション協会が第131回の日程を公開。主な行事・開花状況・偕楽園臨時駅は2026-11-10時点で未発表のため、発表後に更新する。検索需要は未取得。"
+    },
+    {
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "id": "tokai-imo-fes-2026",
+      "name": "IMOフェス2026（東海村）",
+      "municipality": "tokai",
+      "startDate": "2026-11-23",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://tokai-kanko.com/events/p-01142",
+      "status": "verified",
+      "importance": "large",
+      "notes": "2026-11-17発見漏れ是正。東海村観光協会2026-10-19発表、東海村公式で11/23（月祝）10:00～15:00、阿漕ヶ浦公園、約60店がサツマイモ料理・スイーツ提供。https://www.vill.tokai.ibaraki.jp/soshikikarasagasu/sangyobu/sangyoseisakuka/4/3/13641.html 。記事未掲載。"
+    },
+    {
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "id": "itako-riverside-illumination-2026",
+      "name": "水の郷 水辺イルミネーション Riverside Illumination 2026",
+      "municipality": "itako",
+      "startDate": "2026-11-29",
+      "endDate": "2027-01-31",
+      "officialUrl": "https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html",
+      "status": "verified",
+      "importance": "large",
+      "notes": "2026-11-17発見漏れ是正。潮来市公式2026-11-12発表。点灯17:00～22:00、3会場：水郷潮来あやめ園・道の駅いたこ・津軽河岸あと広場。11/29点灯式、開催期間中に会場別イベント。土浦市の水郷桜イルミネーションとは別イベント。独立記事・県内イルミネーションまとめとも未掲載。"
+    },
+    {
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "id": "tokyo-ibaraki-shukakusai-2026",
+      "name": "茨城をたべよう収穫祭2026 ～秋の大ごちそう博～（東京・駒沢）",
+      "municipality": "tokyo",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18485",
+      "status": "verified",
+      "importance": "large",
+      "notes": "開催地：東京都世田谷区駒沢公園1-1 駒沢オリンピック公園中央広場（茨城県主催）。2026年11月21～23日10:00～20:00（最終日17:00まで）、入場無料。主催特設サイト https://ibaraki-shukakusai2026.jp/ 。東京開催の茨城関連イベントとして発見対象へ追加。登壇者など変動する情報は都度再確認。"
+    },
+    {
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": null,
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "id": "tokyo-ibakyun-marche-2026",
+      "name": "いばキュン！マルシェ2026（東京・二子玉川）",
+      "municipality": "tokyo",
+      "startDate": "2026-12-19",
+      "endDate": "2026-12-20",
+      "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18469",
+      "status": "discovered",
+      "importance": "normal",
+      "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。"
     }
   ]
 }
