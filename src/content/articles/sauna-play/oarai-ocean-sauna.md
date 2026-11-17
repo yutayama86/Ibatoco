@@ -9,7 +9,6 @@ author: イバトコ編集部
 reporter: 公式レポーター みお
 area: 大洗町
 tags: [サウナ, ととのう, 大洗, 海]
-place: oarai-sauna-nagisa
 featured: true
 draft: true
 ---

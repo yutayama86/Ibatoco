@@ -98,6 +98,7 @@ relatedArticleUrls:
   - "/events/aquaworld-oarai-guide/"
   - "/events/oarai-isosaki-jinja-guide/"
   - "/events/oarai-ankou-nabe-guide/"
+  - "/events/ibaraki-factory-tour-roundup/"
   - "/area/oarai/"
 ---
 

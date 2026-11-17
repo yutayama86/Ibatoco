@@ -1,7 +1,10 @@
 ---
 import ControlBase from '../../layouts/ControlBase.astro';
+import { todayDateOnlyString } from '../../lib/date-only.js';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
+import { loadAreaCoverage } from '../../lib/control-area-coverage';
+import { THIN_COVERAGE_MAX } from '../../lib/area-coverage.mjs';
 import performance from '../../../data/editorial/performance-snapshot.json';
 import ledger from '../../../data/editorial/revenue-ledger.json';
 import actionQueue from '../../../data/editorial/action-queue.json';
@@ -43,10 +46,24 @@ const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
 
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
+const gscSignalsChecked = performance.gscDiscovery?.checkedAt?.slice(0, 10) ?? '不明';
+// ページ別の期間が記録されているとき（日次同期で取得できた日）だけ期間を示す。無ければ直近7日の最新実績だと断定しない。
+const pageLevelPeriods = (performance.source as { pageLevel?: { periods?: Record<string, { start: string; end: string }> } } | undefined)?.pageLevel?.periods;
+const topPagesPeriodNote = pageLevelPeriods?.recent7
+  ? `集計期間 ${pageLevelPeriods.recent7.start}〜${pageLevelPeriods.recent7.end}（直近7日・確定値）`
+  : '集計期間未記録・直近7日の最新実績とは限りません';
 const warnings = performance.source?.warnings ?? [];
 const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
 const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
 
+const providerPeriod = performance.conversionDetail.byProviderPagePeriod;
+const providerPeriodLabel = providerPeriod?.start && providerPeriod?.end
+  ? `送客先別：${providerPeriod.start}〜${providerPeriod.end}（集計期間を明示）`
+  : '送客先別の集計期間は未確認';
+const bookingPagePeriod = performance.conversionDetail.byPagePeriod;
+const bookingPagePeriodLabel = bookingPagePeriod?.start && bookingPagePeriod?.end
+  ? `ページ別：${bookingPagePeriod.start}〜${bookingPagePeriod.end}`
+  : 'ページ別の集計期間は未確認';
 const providerRows = (performance.conversionDetail.byProviderPage ?? []) as Array<any>;
 const providerSummary = new Map<string, { provider: string; clicks: number; paid: number; candidate: number; official: number }>();
 for (const row of providerRows) {
@@ -151,8 +168,17 @@ const previousReference30 = Math.round((performance.windows.ga4.previous7.views 
 const currentReference30 = pace.referenceRunRate30FromRecent7;
 const targetDailyGap = Math.max(0, Math.round(requiredDaily - ga7.views / 7));
 const searchOpportunity = gscCompare.impressionsPct > 0 && gscCompare.ctrPct < 0;
-const dataAgeGa4 = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.ga4LatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
-const dataAgeGsc = Math.max(0, Math.floor((Date.parse(performance.asOf + 'T00:00:00+09:00') - Date.parse(String(freshness?.gscLatestConfirmedDate ?? performance.asOf) + 'T00:00:00+09:00')) / 86400000));
+// スナップショット自身の基準日との比較では、同期停止を検出できない。
+const todayJst = todayDateOnlyString();
+const confirmedAgeDays = (date: unknown): number => {
+  if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
+  const confirmed = Date.parse(date + 'T00:00:00+09:00');
+  const today = Date.parse(todayJst + 'T00:00:00+09:00');
+  return Number.isFinite(confirmed) && confirmed <= today ? Math.floor((today - confirmed) / 86400000) : Infinity;
+};
+const dataAgeGa4 = confirmedAgeDays(freshness?.ga4LatestConfirmedDate);
+const dataAgeGsc = confirmedAgeDays(freshness?.gscLatestConfirmedDate);
+const analyticsFresh = dataAgeGa4 <= 5 && dataAgeGsc <= 6;
 
 const scenarioRows = [
   { label:'前週参考', value:previousReference30, note:'前週7日平均の30日単純換算' },
@@ -166,7 +192,7 @@ const operatingStatus = [
   { label:'検索CTR', state: gscCompare.ctrPct >= 0 ? '好調' : '要改善', good:gscCompare.ctrPct >= 0 },
   { label:'収益導線', state: observedNumber(conv.active_unmapped_booking_click) == null ? '区分未取得' : observedNumber(conv.active_unmapped_booking_click) === 0 ? '正常' : '要修正', good:observedNumber(conv.active_unmapped_booking_click) === 0 },
   { label:'売上計測', state: confirmedRevenue > 0 ? '稼働中' : '未接続', good:confirmedRevenue > 0 },
-  { label:'データ鮮度', state: dataAgeGa4 <= 2 && dataAgeGsc <= 7 ? '正常' : '要確認', good:dataAgeGa4 <= 2 && dataAgeGsc <= 7 },
+  { label:'データ鮮度', state: analyticsFresh ? '正常' : '要確認', good: analyticsFresh },
 ];
 
 const focusPages = [
@@ -229,8 +255,8 @@ const pageOpportunity = [...pageCandidates.values()]
   .slice(0,6);
 
 const confidenceRows = [
-  { label:'集客判断', level:dataAgeGa4 <= 2 ? '高' : dataAgeGa4 <= 4 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
-  { label:'SEO判断', level:dataAgeGsc <= 4 ? '高' : dataAgeGsc <= 7 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
+  { label:'集客判断', level:dataAgeGa4 <= 5 ? '高' : dataAgeGa4 <= 7 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
+  { label:'SEO判断', level:dataAgeGsc <= 6 ? '高' : dataAgeGsc <= 9 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
   { label:'収益判断', level:confirmedRevenue > 0 ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:confirmedRevenue > 0 ? '確定売上あり' : '確定売上未接続' },
   { label:'提携判断', level:Number(conv.non_partner_candidate_click ?? 0) > 0 ? '中' : '高', note:`未提携候補 ${fmt.format(Number(conv.non_partner_candidate_click ?? 0))} click` },
 ];
@@ -264,6 +290,13 @@ const autoRunState = activeQueue.length > 0
   ? `${activeQueue.length}件が自動実行キュー待ち`
   : '現在の実行待ちは0件。次回7時に再評価';
 const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC ${freshness?.gscLatestConfirmedDate ?? '—'}`;
+const freshnessLabel = analyticsFresh ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）';
+// 44市町村ごとの記事数と検索流入（reports/editorial/area-coverage.md と同じ計算）
+const areaCoverage = await loadAreaCoverage(performance);
+const areaThin = areaCoverage.rows.filter((r) => r.articles <= THIN_COVERAGE_MAX);
+const areaPeriod = (areaCoverage.periods as { recent28?: { start: string; end: string } } | null)?.recent28;
+const areaNum = (v: number | null) => (v == null ? '—' : fmt.format(v));
+const areaTrend = (a: number | null, b: number | null) => (a == null || b == null ? '' : b === 0 ? (a === 0 ? '±0' : `+${a}`) : `${a - b >= 0 ? '+' : ''}${Math.round(((a - b) / b) * 100)}%`);
 ---
 
 <ControlBase>
@@ -274,12 +307,57 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         <h1>Ibatoco Control Center</h1>
         <p class="sub">今の状況・勝ち筋・改善点・次の一手を、迷わず判断するための画面。</p>
       </div>
-      <div class="freshness">
+      <div class="freshness" data-ga4-confirmed={freshness?.ga4LatestConfirmedDate ?? ''} data-gsc-confirmed={freshness?.gscLatestConfirmedDate ?? ''}>
         <span>データ更新状況</span>
         <strong>{generatedLabel}</strong>
-        <small>snapshot {performance.asOf}</small>
+        <small data-control-freshness-label>{freshnessLabel}｜判定日 {todayJst}｜snapshot {performance.asOf}</small>
+        <small>注意：GA4上位ページ・SEO改善候補・送客クリックの内訳は最新7日と更新周期が異なります。</small>
       </div>
     </header>
+
+  <script>
+    import { todayDateOnlyString } from '../../lib/date-only.js';
+    // 表示後も日本時間の当日で判定する。デプロイ停止中でも「正常」を固定しない。
+    (() => {
+      const header = document.querySelector<HTMLElement>('.freshness[data-ga4-confirmed]');
+      if (!header) return;
+      const snapshotDate = header.querySelector('[data-control-freshness-label]')?.textContent?.match(/snapshot (\d{4}-\d{2}-\d{2})/)?.[1] ?? '—';
+      const ageDays = (date: string | undefined, today: string): number => {
+        if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return Infinity;
+        const parsed = Date.parse(date + 'T00:00:00+09:00');
+        const current = Date.parse(today + 'T00:00:00+09:00');
+        return Number.isFinite(parsed) && parsed <= current ? Math.floor((current - parsed) / 86400000) : Infinity;
+      };
+      const refresh = () => {
+        const today = todayDateOnlyString();
+        const ga = ageDays(header.dataset.ga4Confirmed, today);
+        const gs = ageDays(header.dataset.gscConfirmed, today);
+        const normal = ga <= 5 && gs <= 6;
+        const freshnessLabel = header.querySelector('[data-control-freshness-label]');
+        if (freshnessLabel) freshnessLabel.textContent = `${normal ? '確定データ更新：正常' : '確定データ更新：要確認（最新値とは限りません）'}｜判定日 ${today}｜snapshot ${snapshotDate}`;
+        const status = document.querySelector('[data-control-data-status]');
+        if (status) {
+          status.classList.toggle('is-good', normal);
+          status.classList.toggle('is-bad', !normal);
+          const value = status.querySelector('b');
+          if (value) value.textContent = normal ? '正常' : '要確認';
+        }
+        for (const [name, age] of [['ga4', ga], ['gsc', gs]] as const) {
+          const row = document.querySelector(`[data-control-confidence="${name}"]`);
+          const level = row?.querySelector('.confidence-level');
+          if (!level) continue;
+          const rank = name === 'ga4' ? (age <= 5 ? '高' : age <= 7 ? '中' : '低') : (age <= 6 ? '高' : age <= 9 ? '中' : '低');
+          level.textContent = rank;
+          level.classList.toggle('high', rank === '高');
+          level.classList.toggle('mid', rank === '中');
+          level.classList.toggle('low', rank === '低');
+        }
+      };
+      refresh();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+      window.addEventListener('pageshow', refresh);
+    })();
+  </script>
 
     <GrowthControl />
 
@@ -346,7 +424,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
         <div class="panel__head"><div><span>運営状態</span><h2>いま正常か、詰まっているか</h2></div></div>
         <div class="status-grid">
           {operatingStatus.map((item)=>(
-            <div class:list={['status-pill',item.good?'is-good':'is-bad']}>
+            <div class:list={['status-pill',item.good?'is-good':'is-bad']} data-control-data-status={item.label === 'データ鮮度' ? 'true' : undefined}>
               <span>{item.label}</span><b>{item.state}</b>
             </div>
           ))}
@@ -370,14 +448,14 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
             </a>
           ))}
         </div>
-        <p class="note">売上予測ではなく、直近PV・検索表示・予約クリックを合成した<strong>相対的な改善優先度</strong>。</p>
+        <p class="note">過去に取得したページ別PV・検索表示・予約クリックの相対スコアです。データの更新時点が一致していないため、最新の改善優先順位としては扱わないでください。</p>
       </article>
 
       <article class="panel">
         <div class="panel__head"><div><span>判断の信頼度</span><h2>どこまで信じてよいか</h2></div><small>データ鮮度ベース</small></div>
         <div class="confidence-list">
           {confidenceRows.map((row)=>(
-            <div class="confidence-row">
+            <div class="confidence-row" data-control-confidence={row.label === '集客判断' ? 'ga4' : row.label === 'SEO判断' ? 'gsc' : undefined}>
               <span>{row.label}</span>
               <div>
                 <b class:list={['confidence-level',row.level==='高'?'high':row.level==='中'?'mid':'low']}>{row.level}</b>
@@ -406,7 +484,8 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
 
     <section class="two-col">
       <article class="panel panel--focus">
-        <div class="panel__head"><div><span>重点ページ</span><h2>今日触るならここ</h2></div><small>実測ベース</small></div>
+        <div class="panel__head"><div><span>重点ページ</span><h2>今日触るならここ</h2></div><small>参考候補・期間混在</small></div>
+        <p class="note">GA4ページ別：{topPagesPeriodNote}／GSC改善候補：{gscSignalsChecked}確認。最新データとしての優先順位には使わず、GSCで再照合してください。</p>
         <div class="focus-list">
           {focusPages.map((item,index)=>(
             <a class="focus-item" href={item.path} target="_blank" rel="noreferrer">
@@ -510,7 +589,8 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
 
     <section class="two-col" id="traffic">
       <article class="panel">
-        <div class="panel__head"><div><span>集客</span><h2>アクセス上位ページ</h2></div><small>直近7日</small></div>
+        <div class="panel__head"><div><span>集客</span><h2>アクセス上位ページ</h2></div><small>過去取得・要更新</small></div>
+        <p class="note">{topPagesPeriodNote}。上部の直近7日PV（公式確定値）とは集計期間が一致する保証がありません。</p>
         <ol class="rank-list">
           {topPages.slice(0,8).map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(item.views)}</strong></li>
@@ -519,7 +599,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
       </article>
 
       <article class="panel">
-        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>実クリック</small></div>
+        <div class="panel__head"><div><span>予約導線</span><h2>予約クリックが多いページ</h2></div><small>{bookingPagePeriodLabel}</small></div>
         <ol class="rank-list">
           {bookingPages.map((item,index)=>(
             <li><span class="rank">{String(index+1).padStart(2,'0')}</span><a href={item.path} target="_blank" rel="noreferrer">{item.path}</a><strong>{fmt.format(Number(item.outbound_booking_click??0))}</strong></li>
@@ -530,7 +610,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
 
     <section class="two-col" id="seo">
       <article class="panel">
-        <div class="panel__head"><div><span>SEO</span><h2>Google検索の改善候補</h2></div><small>GSC</small></div>
+        <div class="panel__head"><div><span>SEO</span><h2>Google検索の改善候補</h2></div><small>{gscSignalsChecked}確認の候補</small></div>
         <div class="signal-list">
           {gscSignals.map((item)=>(
             <div class="signal">
@@ -554,6 +634,31 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
           ))}
         </div>
       </article>
+    </section>
+
+    <section class="panel" id="areas">
+      <div class="panel__head"><div><span>地域</span><h2>44市町村の記事数と検索流入</h2></div><small>{areaCoverage.periodRecorded && areaPeriod ? `検索・閲覧 ${areaPeriod.start}〜${areaPeriod.end}` : '検索・閲覧は期間未記録'}</small></div>
+      {!areaCoverage.periodRecorded && <p class="note">クリック・表示・閲覧は集計期間が記録されていない旧データです。記事数は最新。日次同期で記事ごとの検索データが取れると、ここに期間が入ります。</p>}
+      <p class="note">公開中の記事 {fmt.format(areaCoverage.totals.publishedEntries)}本。記事が{THIN_COVERAGE_MAX}本以下の市町村：{areaThin.length ? areaThin.map((r) => `${r.name}（${r.articles}）`).join('、') : 'なし'}。1本の記事が複数の市町村にかかるときは、それぞれに数えます。ページ別のデータが無い記事は0ではなく「—」です。表は横にスクロールできます。</p>
+      <div class="table-wrap">
+        <table class="area-table">
+          <thead><tr><th>市町村</th><th>記事</th><th>最新の公開日</th><th>クリック28日</th><th>表示28日</th><th>クリック7日</th><th>閲覧28日</th><th>いちばんクリックされた記事</th></tr></thead>
+          <tbody>
+            {areaCoverage.rows.map((r) => (
+              <tr>
+                <td><a href={`/area/${r.slug}/`} target="_blank" rel="noreferrer">{r.name}</a> <small>{r.region}</small></td>
+                <td>{r.articles}</td>
+                <td>{r.newestPubDate ?? '—'}</td>
+                <td>{areaNum(r.clicks28)}</td>
+                <td>{areaNum(r.impressions28)}</td>
+                <td>{areaNum(r.clicks7)} <small>{areaTrend(r.clicks7, r.clicksPrev7)}</small></td>
+                <td>{areaNum(r.views28)}</td>
+                <td>{r.topPage ? <a href={r.topPage.path} target="_blank" rel="noreferrer">{r.topPage.title.slice(0, 28)}</a> : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="two-col" id="revenue">
@@ -582,7 +687,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
 
     <section class="two-col">
       <article class="panel">
-        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>GA4実測</small></div>
+        <div class="panel__head"><div><span>提携</span><h2>提携先ごとのクリック</h2></div><small>{providerPeriodLabel}・GA4実測</small></div>
         <div class="table-wrap"><table><thead><tr><th>提供元</th><th>クリック</th><th>成果リンク</th><th>未提携候補</th></tr></thead><tbody>{providerTable.map((row)=><tr><td>{row.provider}</td><td>{row.clicks}</td><td>{row.paid}</td><td>{row.candidate}</td></tr>)}</tbody></table></div>
       </article>
 
@@ -634,6 +739,7 @@ const generatedLabel = `GA4 ${freshness?.ga4LatestConfirmedDate ?? '—'} / GSC 
   .signal-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.55rem}.signal{padding:.8rem;border-radius:10px;background:var(--panel-2)}.signal>div{display:flex;justify-content:space-between;gap:1rem}.signal b{font-size:.78rem}.signal p{margin:.45rem 0;color:var(--muted);font-size:.76rem;line-height:1.6}.signal a{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--accent);font-size:.65rem;text-decoration:none}.signal small{color:var(--muted);font-size:.63rem}
   .channels{display:grid;gap:.75rem}.channel>div:first-child{display:flex;justify-content:space-between;font-size:.75rem}.channel small{display:block;margin-top:.2rem;color:var(--muted);font-size:.62rem}.mini-bar{height:6px;margin-top:.35rem;background:#22304a;border-radius:99px;overflow:hidden}.mini-bar i{display:block;height:100%;background:var(--accent)}
   .funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}.funnel div,.b2b-grid div{display:grid;gap:.3rem;padding:.8rem;border-radius:10px;background:var(--panel-2)}.funnel span,.b2b-grid span{color:var(--muted);font-size:.65rem}.funnel strong,.b2b-grid b{font-size:1.25rem}.note{margin:.9rem 0 0;color:var(--muted);font-size:.72rem;line-height:1.6}.b2b-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+  .area-table{min-width:760px}.area-table td:first-child,.area-table th:first-child{white-space:nowrap}.area-table td:last-child{text-align:left}
   .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.72rem}th,td{padding:.65rem .45rem;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{color:var(--muted);font-size:.62rem}
   .health{display:grid;gap:.15rem;margin:0}.health div{display:flex;justify-content:space-between;gap:1rem;padding:.65rem 0;border-bottom:1px solid var(--line)}.health dt{color:var(--muted);font-size:.7rem}.health dd{margin:0;font-size:.72rem;text-align:right}.good{color:var(--good)}.bad{color:var(--bad)}
   details{margin-top:1rem;color:var(--muted);font-size:.7rem}details ul{display:grid;gap:.5rem;padding-left:1.1rem;line-height:1.55}

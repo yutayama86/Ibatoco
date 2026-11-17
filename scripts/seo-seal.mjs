@@ -39,10 +39,39 @@ if (dirty.length > 0) {
 const head = git('git rev-parse --short HEAD');
 const subject = git('git log -1 --format=%s');
 
-writeFileSync(file, src.replaceAll("commit: 'PENDING'", `commit: '${head}'`), 'utf8');
+// 確定するのは、直前のコミット（HEAD）で追加された記録だけ。
+// main には別の作業の PENDING が残っていることがあり、すべてを HEAD で埋めると
+// 関係のない変更まで HEAD に紐づいてしまう（2026-11-10 に14件を誤って上書きしかけた）。
+const addedIds = new Set(
+  git('git show --format= --unified=0 HEAD -- src/data/seo-changes.ts')
+    .split('\n')
+    .map((line) => line.match(/^\+\s*id: '([^']+)'/)?.[1])
+    .filter(Boolean),
+);
+if (addedIds.size === 0) {
+  console.error('直前のコミットで src/data/seo-changes.ts に追加された記録がありません。');
+  console.error('記録を追加したコミットの直後に実行してください（他の作業の PENDING は書き換えません）。');
+  process.exit(1);
+}
+
+let sealed = 0;
+const next = src.replace(/  \{\n([\s\S]*?)\n  \},?/g, (block, body) => {
+  const id = body.match(/^\s*id: '([^']+)'/m)?.[1];
+  if (!id || !addedIds.has(id) || !body.includes("commit: 'PENDING'")) return block;
+  sealed += 1;
+  return block.replace("commit: 'PENDING'", `commit: '${head}'`);
+});
+if (sealed === 0) {
+  console.error(`直前のコミットで追加された記録（${[...addedIds].join(', ')}）に PENDING がありません。何もしませんでした。`);
+  process.exit(1);
+}
+
+writeFileSync(file, next, 'utf8');
 git('git add src/data/seo-changes.ts');
 git(`git commit -m "chore(seo): 変更履歴の参照コミットを ${head} で確定"`);
 
-console.log(`PENDING ${pending}件 を ${head} で確定しました。`);
+const untouched = pending - sealed;
+console.log(`PENDING ${sealed}件 を ${head} で確定しました。`);
+if (untouched > 0) console.log(`  ほかの作業の PENDING ${untouched}件 は書き換えていません。`);
 console.log(`  参照先: ${head}  ${subject}`);
 console.log(`  確定コミット: ${git('git rev-parse --short HEAD')}`);
