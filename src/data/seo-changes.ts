@@ -49,6 +49,42 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261117-events-mentai-park-oarai-guide',
+    date: '2026-11-17',
+    url: '/events/mentai-park-oarai-guide/',
+    kind: 'internal-link',
+    change: '関連記事に茨城の工場見学まとめを追加',
+    queries: ['めんたいパーク大洗'],
+    commit: 'PENDING',
+  },
+  {
+    id: '20261117-events-kewpie-goka-factory-guide',
+    date: '2026-11-17',
+    url: '/events/kewpie-goka-factory-guide/',
+    kind: 'new-article',
+    change: '工場見学クラスタの新規記事（各社公式で2026-11-17確認）',
+    queries: ['キユーピー 五霞工場 見学', 'マヨネーズ 工場見学 茨城'],
+    commit: 'PENDING',
+  },
+  {
+    id: '20261117-events-takano-nattoku-factory-kasama-gui',
+    date: '2026-11-17',
+    url: '/events/takano-nattoku-factory-kasama-guide/',
+    kind: 'new-article',
+    change: '工場見学クラスタの新規記事（各社公式で2026-11-17確認）',
+    queries: ['なっとくファクトリー', '納豆 工場見学 茨城', '納豆博物館'],
+    commit: 'PENDING',
+  },
+  {
+    id: '20261117-events-ibaraki-factory-tour-roundup',
+    date: '2026-11-17',
+    url: '/events/ibaraki-factory-tour-roundup/',
+    kind: 'new-article',
+    change: '工場見学クラスタの新規記事（各社公式で2026-11-17確認）',
+    queries: ['茨城 工場見学', '茨城 工場見学 無料', '茨城 工場見学 子供'],
+    commit: 'PENDING',
+  },
+  {
     id: '20261116-events-tsukinoi-shuzo-shop-guide',
     date: '2026-11-16',
     url: '/events/tsukinoi-shuzo-shop-guide/',
