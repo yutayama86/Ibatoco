@@ -188,6 +188,61 @@
         "マルシェ"
       ],
       "note": "Official tourism notice listing; Riverside Illumination was announced 2026-11-12. Link titles alone do not verify dates or details."
+    },
+    {
+      "id": "tokyo-ibaraki-food-news",
+      "category": "government",
+      "area": "東京",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "url": "https://ibaraki-shokusai.net/info",
+      "watchTerms": [
+        "収穫祭",
+        "いばキュン",
+        "マルシェ",
+        "東京",
+        "有楽町",
+        "銀座",
+        "二子玉川",
+        "イベント",
+        "フェア"
+      ],
+      "note": "茨城県食と農公式ニュース。県産品の東京販売イベント・マルシェの発表を探す。県内情報も含むので場所は必ず個別確認。ページ分割あり。"
+    },
+    {
+      "id": "tokyo-ibaraki-sense",
+      "category": "venue",
+      "area": "東京",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "url": "https://ibaraki-sense.com/",
+      "watchTerms": [
+        "イベント",
+        "フェア",
+        "出店",
+        "販売会",
+        "ポップアップ",
+        "茨城",
+        "催事"
+      ],
+      "note": "茨城県アンテナショップ公式の案内。ホームは催事一覧の完全な代替ではない。別の開催告知は県公式・主催者公式と照合する。"
+    },
+    {
+      "id": "tokyo-ibaraki-shukakusai-2026",
+      "category": "organizer",
+      "area": "東京",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "url": "https://ibaraki-shukakusai2026.jp/",
+      "watchTerms": [
+        "収穫祭",
+        "駒沢",
+        "イベント",
+        "出店者",
+        "ステージ",
+        "出演"
+      ],
+      "note": "東京・駒沢開催の茨城をたべよう収穫祭2026公式特設ページ。イベント詳細変更の監視用（新イベントの全体発見には用いない）。"
     }
   ]
 }
