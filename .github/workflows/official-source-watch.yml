@@ -47,8 +47,13 @@ jobs:
           console.log('- Unverified matching links: ' + r.candidateLinksFound);
           console.log('- Links with no exact registry URL match (editorial review, not verified omissions): ' + r.unregisteredCandidateCount);
           console.log('- Tokyo-based Ibaraki official sources attempted: ' + r.tokyoIbarakiSourceCount);
-          console.log('- Cities with direct sources registered: ' + c.citiesWithDirectSource + '/' + c.totalMunicipalities);
-          console.log('- Cities without direct sources: ' + c.missing.length + ' — **coverage is NOT complete**');
+          console.log('- Municipalities with at least one configured source: ' + c.citiesWithDirectSource + '/' + c.totalMunicipalities + ' (NOT detection coverage)');
+          console.log('- Municipalities with event/news/calendar source configured: ' + c.citiesWithBroadSource + '/' + c.totalMunicipalities);
+          console.log('- Fallback-only municipalities: ' + c.fallbackOnly.map(x => x.name).join('、'));
+          console.log('- Municipalities with successfully fetched broad source: ' + (c.citiesWithFetchedBroadSource ?? 'unmeasured') + '/' + c.totalMunicipalities);
+          console.log('- Municipalities with any keyword-matched candidate link: ' + (c.citiesWithCandidateLinks ?? 'unmeasured') + '/' + c.totalMunicipalities + ' (unverified signals only)');
+          console.log('- Municipalities with no configured source: ' + c.missing.map(x => x.name).join('、'));
+          console.log('- Neither registration nor fetch success proves event coverage; JS calendars and pagination require cross-check.');
           const review = r.unregisteredCandidateLinks ?? [];
           if (review.length) {
             console.log('#### Unmatched source links (first 20, verify before publishing)');
