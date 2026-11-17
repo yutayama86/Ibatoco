@@ -1823,6 +1823,27 @@
       "status": "discovered",
       "importance": "normal",
       "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。"
+    },
+    {
+      "id": "tokyo-daigo-food-business-talk-2026",
+      "name": "ローカルで食のビジネスを経営するリアル｜通える田舎で、ワガママに仕事をつくる",
+      "municipality": "tokyo",
+      "startDate": "2026-11-19",
+      "endDate": "2026-11-19",
+      "officialUrl": "https://note.com/re_daigo/n/n82d06dbb3658",
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "verified",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "low",
+        "localSpend": "unknown",
+        "logisticsDemand": "low"
+      },
+      "notes": "東京での茨城県大子町関連イベント（大子町主催、一般社団法人リダイゴ企画・運営）。2026-11-19（木）19:00〜21:00、BONUS TRACK HOUSE（東京・下北沢）、18:30開場。参加費1,000円、定員25名（先着）、Peatix申込。一般社団法人リダイゴの公式告知（2026-10-24公開）で確認。出席・満席状況は未確認。"
     }
   ]
 }
