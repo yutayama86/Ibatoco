@@ -243,6 +243,45 @@
         "出演"
       ],
       "note": "東京・駒沢開催の茨城をたべよう収穫祭2026公式特設ページ。イベント詳細変更の監視用（新イベントの全体発見には用いない）。"
+    },
+    {
+      "id": "daigo-tourism-news",
+      "category": "tourism",
+      "area": "県北",
+      "municipality": "大子町",
+      "url": "https://www.daigo-kanko.jp/news",
+      "watchTerms": [
+        "イベント",
+        "祭り",
+        "フェス",
+        "花火",
+        "開催",
+        "出店",
+        "体験",
+        "マルシェ",
+        "サウナ",
+        "交流"
+      ],
+      "note": "大子町観光協会の公式新着一覧。東京開催の大子関連事業は別途主催者も確認する。"
+    },
+    {
+      "id": "tokyo-daigo-redaigo",
+      "category": "organizer",
+      "area": "東京",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "url": "https://note.com/re_daigo",
+      "watchTerms": [
+        "大子",
+        "イベント",
+        "下北沢",
+        "東京",
+        "商店街",
+        "地域",
+        "食のビジネス",
+        "交流"
+      ],
+      "note": "茨城県大子町で活動する一般社団法人リダイゴの一次発信。東京開催の大子関連交流イベントを探索。note掲載の有無は地域の完全網羅を示さない。"
     }
   ]
 }
