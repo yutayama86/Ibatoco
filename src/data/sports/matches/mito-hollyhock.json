@@ -1,6 +1,6 @@
 {
   "team": "mito-hollyhock",
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-18",
   "matches": [
     {
       "id": "mito-hollyhock-2026-08-08-j1-01",
@@ -481,23 +481,23 @@
       "kind": "league",
       "opponent": "ジェフユナイテッド千葉",
       "homeAway": "away",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "水戸ホーリーホック公式｜試合日程",
-          "url": "https://www.mito-hollyhock.net/",
-          "accessedAt": "2026-11-01"
-        },
-        {
-          "label": "Ｊリーグ公式｜11月配信日程",
-          "url": "https://www.jleague.jp/j1/tv/stream/search-list/?club=mito&enddate=2026-11-30&period=custom&startdate=2026-11-01",
-          "accessedAt": "2026-11-01"
+          "label": "Ｊリーグ公式｜試合結果",
+          "url": "https://www.jleague.jp/match/j1/2026/110805/summary/",
+          "accessedAt": "2026-11-18"
         }
       ],
       "broadcast": [
         "DAZN"
       ],
-      "venue": "フクダ電子アリーナ"
+      "venue": "フクダ電子アリーナ",
+      "score": {
+        "own": 0,
+        "opponent": 1
+      },
+      "recap": "フクダ電子アリーナでジェフユナイテッド千葉に0-1で敗れました。"
     },
     {
       "id": "mito-hollyhock-2026-11-20-j1-15",
