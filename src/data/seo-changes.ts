@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261118-odekake-model-course-links',
+    date: '2026-11-18',
+    url: '/odekake/',
+    kind: 'internal-link',
+    change: '既存の公開モデルコース8本への入口を追加し、フィルターとItemListに同じリンクを反映',
+    queries: [],
+    commit: '5f75df384f328b0b108024691676eebff9add8a6',
+    note: 'PR #516の旧案を最新mainに合わせて再実装。title/description/H1/URLは維持。既存カードを再利用し、7日/28日で検索・回遊を観測する。',
+  },
+  {
     id: '20261117-events-tokai-imo-fes-2026',
     date: '2026-11-17',
     url: '/events/tokai-imo-fes-2026/',

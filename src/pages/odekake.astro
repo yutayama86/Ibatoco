@@ -2,7 +2,7 @@
 /**
  * /odekake/ — 「茨城でどこへ行くか」を決めるための入口ハブ。
  *
- * 新しい事実は一切書かない。すでに公開・検証済みのページ（テーマ9・44市町村・
+ * 新しい事実は一切書かない。すでに公開・検証済みのページ（テーマ・モデルコース・44市町村・
  * ニュース解説）へ振り分けるだけの回遊ページとして作る。
  * ヘッダーの探すメニューと役割は似ているが、あちらは全ページ共通のナビで
  * トピック上の signal にならない。ここはクロール可能な独立ハブとして置く。
@@ -15,11 +15,22 @@ import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
 import { MICHINOEKI, michinoekiAreaSlugs } from '../data/michinoeki';
 import { MUNICIPALITIES, REGION_ORDER, REGIONS, municipalitiesByRegion, type RegionKey } from '../data/areas';
-import { getNews } from '../lib/content';
+import { getIndexableEvents, getNews } from '../lib/content';
 import { wikimediaImage } from '../lib/wikimedia-image';
 import V42Cards, { type V42CardItem } from '../components/V42Cards.astro';
 
 const news = (await getNews()).slice(0, 4);
+const modelCourses = (await getIndexableEvents())
+  .filter(({ data }) => data.tags.includes('モデルコース'))
+  .map(({ id, data }) => {
+    const [title, detail] = data.title.split('｜', 2);
+    const format = title.match(/^(.+)の(日帰り|1泊2日)モデルコース$/);
+    return {
+      href: `/events/${id.split('/').pop()}/`,
+      label: format?.[1] ?? title,
+      note: [format?.[2], detail].filter(Boolean).join(' ／ '),
+    };
+  });
 
 /** 自然・季節・目的の3軸。リンク先はすべて実在ページ。 */
 const groups = [
@@ -58,6 +69,13 @@ const groups = [
       { href: '/news/', label: 'ニュース解説', note: 'いま茨城で起きていることを、地域の視点で。' },
     ],
   },
+  ...(modelCourses.length > 0 ? [{
+    key: 'courses',
+    kicker: 'MODEL COURSES',
+    title: 'モデルコースから決める',
+    lead: '日帰りや1泊2日の行程から、立ち寄る場所と回る順番を考えられます。',
+    items: modelCourses,
+  }] : []),
 ];
 
 /**
