@@ -217,7 +217,8 @@ export function experimentTypeOf(change) {
 }
 
 /**
- * ページごとの最新の変更と観測期限。
+ * ページごとの観測起点と期限。進行中の観測は、後の事実訂正で解除しない。
+ * 複数の観測が重なる場合は最も遅い期限を守り、観測がなければ最新の変更を返す。
  * 観測中のページは、事実・計測の不具合の修正（fact / measurement）以外を変えない。
  * 季節イベントの公式発表・期限変更は例外として扱う（seasonalException）。
  */
@@ -225,17 +226,12 @@ export function observationWindows({ changes, config, today }) {
   const byPath = new Map();
   for (const change of changes) {
     if (!change.url || !isDate(change.date)) continue;
-    const current = byPath.get(change.url);
-    if (!current || change.date > current.date) byPath.set(change.url, change);
-  }
-  const rows = [];
-  for (const [path, change] of byPath) {
     const type = experimentTypeOf(change);
     const days = config.observationWindows[type] ?? 28;
     const observeUntil = addDays(change.date, days);
-    const observing = daysBetween(today, observeUntil) > 0;
-    rows.push({
-      path,
+    const observing = days > 0 && daysBetween(today, observeUntil) > 0;
+    const row = {
+      path: change.url,
       lastChange: change.date,
       changeId: change.id,
       experimentType: type,
@@ -243,9 +239,16 @@ export function observationWindows({ changes, config, today }) {
       observeUntil,
       status: observing ? 'observing' : 'open',
       allowed: observing ? '事実・計測の不具合の修正、季節イベントの公式発表の反映のみ' : 'すべて',
-    });
+    };
+    const current = byPath.get(change.url);
+    const longerObservation = observing && (!current || current.status !== 'observing'
+      || observeUntil > current.observeUntil
+      || (observeUntil === current.observeUntil && change.date > current.lastChange));
+    const newerOpenChange = !observing && current?.status !== 'observing'
+      && (!current || change.date > current.lastChange);
+    if (!current || longerObservation || newerOpenChange) byPath.set(change.url, row);
   }
-  return rows.sort((a, b) => b.lastChange.localeCompare(a.lastChange));
+  return [...byPath.values()].sort((a, b) => b.lastChange.localeCompare(a.lastChange));
 }
 
 // ---------------------------------------------------------------------------

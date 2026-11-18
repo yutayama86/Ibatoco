@@ -130,6 +130,46 @@ test('Observation Window：変更の種類ごとの観測日数', () => {
   assert.equal(rows.find((r) => r.path === '/y/').status, 'open');
 });
 
+for (const type of ['fact', 'measurement']) {
+  test(`Observation Window：後の${type}訂正は本文の観測期限を解除しない`, () => {
+    const changes = [
+      { id: 'body', date: '2026-11-15', url: '/joban/', kind: 'on-page', experimentType: 'body' },
+      { id: 'correction', date: '2026-11-20', url: '/joban/', kind: 'on-page', experimentType: type },
+    ];
+    for (const ordered of [changes, [...changes].reverse()]) {
+      const [row] = observationWindows({ changes: ordered, config, today: '2026-11-20' });
+      assert.equal(row.changeId, 'body');
+      assert.equal(row.observeUntil, '2026-12-13');
+      assert.equal(row.status, 'observing');
+    }
+  });
+}
+
+test('Observation Window：後の短い観測期間でも、進行中の長い期限を短縮しない', () => {
+  const changes = [
+    { id: 'body', date: '2026-11-15', url: '/joban/', kind: 'on-page', experimentType: 'body' },
+    { id: 'link', date: '2026-11-20', url: '/joban/', kind: 'internal-link' },
+  ];
+  for (const ordered of [changes, [...changes].reverse()]) {
+    const [row] = observationWindows({ changes: ordered, config, today: '2026-11-21' });
+    assert.equal(row.changeId, 'body');
+    assert.equal(row.observeUntil, '2026-12-13');
+  }
+});
+
+test('Observation Window：終了後は最新の変更を返し、事実訂正のみなら観測を開始しない', () => {
+  const changes = [
+    { id: 'body', date: '2026-11-15', url: '/joban/', kind: 'on-page', experimentType: 'body' },
+    { id: 'fact', date: '2026-11-20', url: '/joban/', kind: 'on-page', experimentType: 'fact' },
+  ];
+  const [expired] = observationWindows({ changes, config, today: '2026-12-13' });
+  assert.equal(expired.changeId, 'fact');
+  assert.equal(expired.status, 'open');
+  const [onlyFact] = observationWindows({ changes: changes.slice(1), config, today: '2026-11-20' });
+  assert.equal(onlyFact.status, 'open');
+  assert.equal(onlyFact.observeDays, 0);
+});
+
 test('SEO Opportunity：8〜20位・上位の低CTR・急増を分類する', () => {
   const snapshot = {
     windows: { ga4: { recent7: { viewsPerSession: 1 } } },

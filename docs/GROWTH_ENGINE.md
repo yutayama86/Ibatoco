@@ -138,6 +138,11 @@ prepare → index-window（公開・更新の締切）→ demand-rising（需要
 種類は `kind` から決める（on-page は title/description だけの変更なら metadata、それ以外は body）。
 seo-changes.ts のエントリに `experimentType: 'cta'` などを書けば、それを優先する。
 
+進行中の観測がある場合は、後から記録した `fact`・`measurement`（0日）で解除しない。
+複数の観測が重なっている場合は、最も遅い観測期限を守る。`lastChange` と `changeId` は
+その観測の起点を示す。観測がすべて終了した場合は、最新の変更を表示する。
+履歴を後から補記するときも、補記日ではなく実際の本番反映日と根拠コミットを記録する。
+
 変更前の確認：
 
 ```bash
