@@ -287,3 +287,28 @@ test('past or already ended event notices never outrank upcoming event hints', (
   assert.ok(past.reasons.includes('explicit-past-date'));
   assert.ok(finished.reasons.includes('finished-or-closed'));
 });
+
+test('extract every same-host candidate beyond the previous 40-link cutoff', () => {
+  const html = Array.from({ length: 75 }, (_, i) => `<a href="/event/${i}">地域フェス${i}</a>`).join('');
+  const links = extractCandidateLinks(html, 'https://city.example.jp/news', ['フェス']);
+  assert.equal(links.length, 75);
+  assert.equal(links.at(-1).url, 'https://city.example.jp/event/74');
+  assert.equal(extractCandidateLinks(html, 'https://city.example.jp/news', ['フェス'], 0).length, 0);
+});
+
+test('recovery after failed source fetch cannot establish first appearance', () => {
+  const row = { id: 'town', status: 'fetched', url: 'https://town.example.jp/news', candidateLinks: [
+    { title: '地域フェス2026', url: 'https://town.example.jp/event/1' },
+  ] };
+  const previous = { results: [{ id: 'town', status: 'http-error', candidateLinks: [] }] };
+  const result = annotateWatch({ results: [row] }, previous);
+  assert.equal(result.unregisteredCandidateLinks[0].firstSeenInCurrentReport, null);
+});
+
+test('short dates are review hints, and an ongoing range is not treated as ended', () => {
+  const now = new Date('2026-11-18T00:00:00Z');
+  for (const title of ['1/24(土)・1/25(日)ほこたおいもフェス2026を開催します', '10月10日さかさマルシェを開催します']) {
+    assert.ok(scoreReviewCandidate({ title }, now).reasons.includes('explicit-past-date'));
+  }
+  assert.ok(!scoreReviewCandidate({ title: '2026年11月1日〜30日 菊まつりを開催' }, now).reasons.includes('explicit-past-date'));
+});
