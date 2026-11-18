@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: '既存の公開モデルコース8本への入口を追加し、フィルターとItemListに同じリンクを反映',
     queries: [],
-    commit: 'PENDING',
+    commit: '5f75df384f328b0b108024691676eebff9add8a6',
     note: 'PR #516の旧案を最新mainに合わせて再実装。title/description/H1/URLは維持。既存カードを再利用し、7日/28日で検索・回遊を観測する。',
   },
   {
