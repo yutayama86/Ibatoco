@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-17",
+  "updatedAt": "2026-11-18",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -75,7 +75,7 @@
       "discoveredAt": "2026-09-22",
       "verifiedAt": "2026-09-22",
       "articleUrl": "/events/hitachi-seaside-kochia-carnival-2026/",
-      "articleUpdatedAt": "2026-10-23",
+      "articleUpdatedAt": "2026-11-01",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -436,7 +436,7 @@
       "discoveredAt": "2026-09-27",
       "verifiedAt": "2026-09-27",
       "articleUrl": "/events/ibaraki-flowerpark-illumination-2026/",
-      "articleUpdatedAt": "2026-09-27",
+      "articleUpdatedAt": "2026-11-15",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1132,7 +1132,7 @@
       "discoveredAt": "2026-10-05",
       "verifiedAt": "2026-11-03",
       "articleUrl": "/events/kawachi-christmas-illumination-2026/",
-      "articleUpdatedAt": "2026-11-03",
+      "articleUpdatedAt": "2026-11-18",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1198,7 +1198,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-10-06",
       "articleUrl": "/events/tsuchiura-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-23",
+      "articleUpdatedAt": "2026-11-18",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1265,7 +1265,7 @@
       "verifiedAt": "2026-11-14",
       "articleUrl": "/events/hitachinaka-coffee-festival-2026/",
       "articleUpdatedAt": "2026-11-14",
-      "status": "draft",
+      "status": "published",
       "importance": "large",
       "signals": {
         "searchDemand": "unknown",
@@ -1327,7 +1327,7 @@
       "discoveredAt": "2026-09-02",
       "verifiedAt": "2026-09-20",
       "articleUrl": "/events/oarai-ankou-matsuri-2026/",
-      "articleUpdatedAt": "2026-10-23",
+      "articleUpdatedAt": "2026-11-15",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1411,7 +1411,7 @@
       "discoveredAt": "2026-10-18",
       "verifiedAt": "2026-10-18",
       "articleUrl": "/events/suigo-sakura-illumination-2026/",
-      "articleUpdatedAt": "2026-11-03",
+      "articleUpdatedAt": "2026-11-15",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1435,7 +1435,7 @@
       "discoveredAt": "2026-09-29",
       "verifiedAt": "2026-09-29",
       "articleUrl": "/events/tsuchiura-curry-festival-2026/",
-      "articleUpdatedAt": "2026-09-29",
+      "articleUpdatedAt": "2026-10-31",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1519,7 +1519,7 @@
       "discoveredAt": "2026-09-30",
       "verifiedAt": "2026-09-30",
       "articleUrl": "/events/tsukuba-marathon-2026/",
-      "articleUpdatedAt": "2026-10-15",
+      "articleUpdatedAt": "2026-11-10",
       "status": "published",
       "importance": "normal",
       "signals": {
