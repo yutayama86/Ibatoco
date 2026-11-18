@@ -74,6 +74,12 @@ export function qaPages(root = process.cwd()) {
   const latest = latestNewsPath(root);
   const pages = [
     {
+      name: 'おでかけ・モデルコースの入口',
+      path: '/odekake/',
+      canonical: '/odekake/',
+      required: [['h1', 1], ['#courses a[href^="/events/"]', 8], ['[data-odekake-nav] a[data-filter="courses"]', 1]],
+    },
+    {
       name: '花貫渓谷アクセスガイド',
       path: '/access/hananuki/',
       canonical: '/access/hananuki/',
