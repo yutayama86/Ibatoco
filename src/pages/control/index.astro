@@ -1,6 +1,7 @@
 ---
 import ControlBase from '../../layouts/ControlBase.astro';
 import { todayDateOnlyString } from '../../lib/date-only.js';
+import { confirmedControlMetrics } from '../../lib/confirmed-control-metrics.mjs';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
 import { loadAreaCoverage } from '../../lib/control-area-coverage';
@@ -23,7 +24,6 @@ const observedRatio = (clicks: unknown, views: unknown): number | null => {
 
 const north = performance.northStar;
 const ga7 = performance.windows.ga4.recent7;
-const ga28 = performance.windows.ga4.recent28;
 const gaCompare = performance.windows.ga4.recent7VsPrevious7;
 const gsc7 = performance.windows.gsc.recent7;
 const gscCompare = performance.windows.gsc.recent7VsPrevious7;
@@ -31,18 +31,21 @@ const conv = performance.conversionDetail.recent7 as Record<string, number | str
 const prevConv = performance.conversionDetail.previous7 as Record<string, number | string | null>;
 const freshness = performance.source?.freshness;
 const acquisition = performance.acquisitionControl;
-const pace = performance.paceDiagnostics;
-const monthToDate = (performance as unknown as { monthToDate?: { month: string; views: number | null; through: string } }).monthToDate;
+const confirmedMetrics = confirmedControlMetrics(performance);
+const pace = confirmedMetrics?.pace ?? { referenceRunRate30FromRecent7: null, recent3DailyAverage: null, recent3DailyVsRecent7DailyPct: null, trend: 'unknown' };
+const monthToDate = confirmedMetrics?.monthToDate;
 const novemberViews = monthToDate?.month === '2026-11' ? monthToDate.views : null;
 const novemberHasStarted = performance.asOf >= '2026-11-01';
-const requiredDaily = pace.requiredNovemberDailyAverage;
+const requiredDaily = north.target / 30;
 const requiredMultiplier = requiredDaily / (ga7.views / 7);
 
 const ledgerEntries = (ledger.entries ?? []) as Array<{ status?: string; revenueYen?: number }>;
-const confirmedRevenue = ledgerEntries
-  .filter((entry) => entry.status === 'confirmed')
-  .reduce((sum, entry) => sum + Number(entry.revenueYen ?? 0), 0);
-const siteRpm = ga28.views > 0 ? confirmedRevenue / ga28.views * 1000 : 0;
+const confirmedEntries = ledgerEntries.filter((entry) => entry.status === 'confirmed');
+const confirmedRevenue = confirmedEntries.length && confirmedEntries.every((entry) => observedNumber(entry.revenueYen) != null)
+  ? confirmedEntries.reduce((sum, entry) => sum + Number(entry.revenueYen), 0) : null;
+const hasConfirmedRevenue = confirmedRevenue != null;
+// The ledger is cumulative and does not establish full coverage of the GA4
+// 28-day period. A cumulative/28d ratio must not be reported as measured RPM.
 
 const topPages = (performance.ga4TopPages?.recent7 ?? []) as Array<{path:string;views:number}>;
 const gscSignals = (performance.gscDiscovery?.findings ?? []).slice(0, 8) as Array<any>;
@@ -53,8 +56,7 @@ const topPagesPeriodNote = pageLevelPeriods?.recent7
   ? `集計期間 ${pageLevelPeriods.recent7.start}〜${pageLevelPeriods.recent7.end}（直近7日・確定値）`
   : '集計期間未記録・直近7日の最新実績とは限りません';
 const warnings = performance.source?.warnings ?? [];
-const channelRows = (performance.windows.ga4.channelRecent7 ?? []) as Array<{channel:string;sessions:number}>;
-const channelTotal = channelRows.reduce((s,r)=>s+Number(r.sessions??0),0);
+const organicViews7 = confirmedMetrics?.organicViews7 ?? null;
 
 const providerPeriod = performance.conversionDetail.byProviderPagePeriod;
 const providerPeriodLabel = providerPeriod?.start && providerPeriod?.end
@@ -97,9 +99,9 @@ const wins = [
 ].filter(Boolean) as string[];
 
 const issues = [
-  north.status === 'below-pace' ? `11月10万PVに対して現状ペースの30日換算${fmt.format(pace.referenceRunRate30FromRecent7)}。参考値との差は${fmt.format(Math.max(0, 100000-pace.referenceRunRate30FromRecent7))} PV。季節需要の見通しは未確定。` : null,
+  north.status === 'below-pace' ? `11月10万PVに対して現状ペースの30日換算${observedCount(pace.referenceRunRate30FromRecent7)}。参考値との差は${fmt.format(Math.max(0, 100000-(pace.referenceRunRate30FromRecent7 ?? 0)))} PV。季節需要の見通しは未確定。` : null,
   gscCompare.ctrPct < -5 ? `GSC CTRが前週比${signed(gscCompare.ctrPct)}。表示増に対してクリック効率が低下。` : null,
-  confirmedRevenue === 0 ? '確定売上が未接続。Actual RPMはまだ0円。' : null,
+  !hasConfirmedRevenue ? '確定売上は未取得。売上・RPMを0円として扱わない。' : null,
   Number(conv.non_partner_candidate_click ?? 0) > 0 ? `未提携候補クリックが${fmt.format(Number(conv.non_partner_candidate_click))}件。提携価値の判定余地あり。` : null,
   businessCtr != null && businessCtr < 0.01 && Number(conv.business_cta_view ?? 0) >= 100 ? `事業者CTAクリック率が${pct(businessCtr)}。事業者向け導線は弱い。` : null,
 ].filter(Boolean) as string[];
@@ -108,7 +110,7 @@ const actions = [
   {
     priority:'P1',
     title:'11月需要へ流入を集中',
-    detail:`現状ペースの30日換算は${fmt.format(pace.referenceRunRate30FromRecent7)}。紅葉・あんこう・土浦花火の需要と、実行できる施策の根拠を最優先で確認。`,
+    detail:`現状ペースの30日換算は${observedCount(pace.referenceRunRate30FromRecent7)}。紅葉・あんこう・土浦花火の需要と、実行できる施策の根拠を最優先で確認。`,
     tone:'danger'
   },
   {
@@ -132,10 +134,9 @@ const actions = [
 ].filter((a)=> !(a.title.includes('未提携') && Number(conv.non_partner_candidate_click ?? 0)===0));
 
 const projectedMonthlyViews = pace.referenceRunRate30FromRecent7;
-const pacePct = Math.min(1, projectedMonthlyViews / north.target);
-const remainingViews = Math.max(0, north.target - projectedMonthlyViews);
-const organicSessions = channelRows.find((row)=>row.channel === 'Organic Search')?.sessions ?? 0;
-const organicShare = channelTotal > 0 ? organicSessions / channelTotal : 0;
+const pacePct = projectedMonthlyViews == null ? 0 : Math.min(1, projectedMonthlyViews / north.target);
+const remainingViews = projectedMonthlyViews == null ? null : Math.max(0, north.target - projectedMonthlyViews);
+const organicShare = confirmedMetrics?.organicShare ?? null;
 const topPageShare = ga7.views > 0 && topPages[0] ? Number(topPages[0].views ?? 0) / ga7.views : 0;
 const conversionDate = (v: unknown) => Date.parse(`${String(v ?? '')}T00:00:00+09:00`);
 const conversionWindowsAligned = conversionDate(conv.start) - conversionDate(prevConv.end) === 86400000
@@ -147,8 +148,8 @@ const bookingGrowth = conversionWindowsAligned && currentBookingClicks != null &
   ? (currentBookingClicks - previousBookingClicks) / previousBookingClicks
   : null;
 
-const todaySummary = north.status === 'below-pace'
-  ? `7日PVは前週比${signed(gaCompare.viewsPct)}ですが、最新3日は${fmt.format(pace.recent3DailyAverage)} PV/日で減速しています。11月10万PVには大きく不足。重点ページの需要獲得と配信を優先します。`
+const todaySummary = !confirmedMetrics ? '確定日別データの期間・欠落を確認してください。古いペース判定は使用しません。' : north.status === 'below-pace'
+  ? `7日PVは前週比${signed(gaCompare.viewsPct)}。最新3日は${observedCount(Math.round(pace.recent3DailyAverage!))} PV/日、7日平均比${signed(pace.recent3DailyVsRecent7DailyPct)}です。11月10万PVに向け、需要獲得と送客を優先します。`
   : `目標ペースは順調。勝っているページと収益導線への集中を継続。`;
 
 const weeklySignals = [
@@ -159,7 +160,7 @@ const weeklySignals = [
 ];
 
 const riskNotes = [
-  organicShare >= 0.85 ? `流入の${pct(organicShare)}がGoogle検索。強みだが、流入源の偏りは大きい。` : null,
+  organicShare != null && organicShare >= 0.85 ? `直近7日PVの${pct(organicShare)}が自然検索。検索エンジン全体の比率です。` : null,
   topPageShare >= 0.25 ? `1位ページだけで直近7日PVの${pct(topPageShare)}。勝ちページへの依存が高い。` : null,
   gscCompare.ctrPct < -5 ? '検索表示は増えている一方、CTRが落ちている。タイトル改善の効果余地が大きい。' : null,
 ].filter(Boolean) as string[];
@@ -191,7 +192,7 @@ const operatingStatus = [
   { label:'検索露出', state: gscCompare.impressionsPct >= 10 ? '好調' : gscCompare.impressionsPct >= 0 ? '維持' : '要改善', good:gscCompare.impressionsPct >= 0 },
   { label:'検索CTR', state: gscCompare.ctrPct >= 0 ? '好調' : '要改善', good:gscCompare.ctrPct >= 0 },
   { label:'収益導線', state: observedNumber(conv.active_unmapped_booking_click) == null ? '区分未取得' : observedNumber(conv.active_unmapped_booking_click) === 0 ? '正常' : '要修正', good:observedNumber(conv.active_unmapped_booking_click) === 0 },
-  { label:'売上計測', state: confirmedRevenue > 0 ? '稼働中' : '未接続', good:confirmedRevenue > 0 },
+  { label:'売上計測', state: hasConfirmedRevenue ? '確定記録あり' : '未取得', good:hasConfirmedRevenue },
   { label:'データ鮮度', state: analyticsFresh ? '正常' : '要確認', good: analyticsFresh },
 ];
 
@@ -205,8 +206,8 @@ const focusPages = [
 
 const doNotDo = [
   north.status === 'below-pace' ? 'PV目標と関係が薄い新機能を増やさない' : null,
-  confirmedRevenue === 0 ? '推定CVやクリックを売上として扱わない' : null,
-  organicShare >= 0.85 ? 'SEO一本足のまま長期固定しない' : null,
+  !hasConfirmedRevenue ? '推定CVやクリックを売上として扱わない' : null,
+  organicShare != null && organicShare >= 0.85 ? 'SEO一本足のまま長期固定しない' : null,
   '手作業が比例して増える運用を新しく始めない',
 ].filter(Boolean) as string[];
 
@@ -257,7 +258,7 @@ const pageOpportunity = [...pageCandidates.values()]
 const confidenceRows = [
   { label:'集客判断', level:dataAgeGa4 <= 5 ? '高' : dataAgeGa4 <= 7 ? '中' : '低', note:`GA4最新 ${freshness?.ga4LatestConfirmedDate ?? '—'}` },
   { label:'SEO判断', level:dataAgeGsc <= 6 ? '高' : dataAgeGsc <= 9 ? '中' : '低', note:`検索データ最新 ${freshness?.gscLatestConfirmedDate ?? '—'}` },
-  { label:'収益判断', level:confirmedRevenue > 0 ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:confirmedRevenue > 0 ? '確定売上あり' : '確定売上未接続' },
+  { label:'収益判断', level:hasConfirmedRevenue ? '高' : Number(conv.paid_booking_click ?? 0) > 0 ? '中' : '低', note:hasConfirmedRevenue ? '確定記録あり' : '確定売上未取得' },
   { label:'提携判断', level:Number(conv.non_partner_candidate_click ?? 0) > 0 ? '中' : '高', note:`未提携候補 ${fmt.format(Number(conv.non_partner_candidate_click ?? 0))} click` },
 ];
 
@@ -379,9 +380,9 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
         <p class="executive__label">今日の結論</p>
         <h2>{todaySummary}</h2>
         <div class="executive__chips">
-          <span>参考値との差 <b>{fmt.format(remainingViews)} PV</b></span>
+          <span>参考値との差 <b>{observedCount(remainingViews)} PV</b></span>
           <span>現状ペース <b>{pct(pacePct)}</b></span>
-          <span>30日参考換算 <b>{fmt.format(projectedMonthlyViews)} PV</b></span>
+          <span>30日参考換算 <b>{observedCount(projectedMonthlyViews)} PV</b></span>
         </div>
       </div>
       <div class="weekly-box">
@@ -412,8 +413,8 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
           {scenarioRows.map((row)=>(
             <div class="scenario">
               <div><b>{row.label}</b><span>{row.note}</span></div>
-              <strong>{fmt.format(row.value)} <small>PV</small></strong>
-              <div class="scenario-bar"><i style={`width:${Math.min(100,row.value/north.target*100)}%`}></i></div>
+              <strong>{observedCount(row.value)} <small>PV</small></strong>
+              <div class="scenario-bar"><i style={`width:${row.value == null ? 0 : Math.min(100,row.value/north.target*100)}%`}></i></div>
             </div>
           ))}
         </div>
@@ -479,7 +480,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
           </div>
         ))}
       </div>
-      <p class="note">予測値ではなく、現在観測できている流入の下限。どの需要群に依存しているかを見るための内訳。</p>
+      <p class="note">過去に確認した需要群の参考値。集計期間が最新の確定日と一致しないため、現在の内訳・予測値としては扱いません。</p>
     </section>
 
     <section class="two-col">
@@ -555,11 +556,11 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       <div class="north-card__main">
         <span>11月 月間10万PV</span>
         <strong>{novemberViews == null ? (novemberHasStarted ? '未取得' : '未開始') : fmt.format(novemberViews)}</strong>
-        <small>11月MTD実測。直近28日 {fmt.format(north.current)} PVは補助指標</small>
+        <small>11月MTD実測（{monthToDate?.start ?? '未取得'}〜{monthToDate?.through ?? '未取得'}）。直近28日 {fmt.format(north.current)} PVは補助指標</small>
       </div>
       <div class="north-card__pace">
         <div><span>11月実績進捗</span><b>{novemberViews == null ? '—' : pct(novemberViews / north.target)}</b></div>
-        <div><span>30日参考換算</span><b>{fmt.format(projectedMonthlyViews)}</b></div>
+        <div><span>30日参考換算</span><b>{observedCount(projectedMonthlyViews)}</b></div>
         <div><span>必要日次</span><b>{fmt.format(Math.round(requiredDaily))}</b></div>
       </div>
       <div class="goalbar"><i style={`width:${Math.max(2,Math.min(100,pacePct*100))}%`}></i></div>
@@ -572,7 +573,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       <article class="metric"><span>次の記事クリック率</span><strong>{pct(growthCtr)}</strong><small>おすすめ表示から次の記事へ進んだ割合</small></article>
       <article class="metric"><span>予約導線クリック率</span><strong>{pct(bookingCtr)}</strong><small>予約案内を見た人がリンクを押した割合</small></article>
       <article class="metric"><span>提携リンク収益化率</span><strong>{pct(observedNumber(conv.monetized_click_share))}</strong><small>未取得は—。提携済みクリックのうち成果リンクだった割合</small></article>
-      <article class="metric"><span>確定売上</span><strong>{yen(confirmedRevenue)}</strong><small>1,000PVあたり売上 {yen(siteRpm)}</small></article>
+      <article class="metric"><span>確定売上（台帳記録の累計）</span><strong>{hasConfirmedRevenue ? yen(confirmedRevenue) : '未取得'}</strong><small>期間を揃えたRPMは未取得</small></article>
     </section>
 
     <section class="action-panel">
@@ -623,16 +624,15 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       </article>
 
       <article class="panel">
-        <div class="panel__head"><div><span>流入元</span><h2>どこから来ているか</h2></div><small>直近7日 訪問</small></div>
+        <div class="panel__head"><div><span>流入元</span><h2>どこから来ているか</h2></div><small>{ga7.start}〜{ga7.end}・PV</small></div>
         <div class="channels">
-          {channelRows.map((row)=>(
-            <div class="channel">
-              <div><span>{row.channel}</span><b>{fmt.format(row.sessions)}</b></div>
-              <div class="mini-bar"><i style={`width:${channelTotal?Math.max(1,row.sessions/channelTotal*100):0}%`}></i></div>
-              <small>{channelTotal?pct(row.sessions/channelTotal):'—'}</small>
-            </div>
-          ))}
+          <div class="channel">
+            <div><span>自然検索（Organic Search）</span><b>{observedCount(organicViews7)}</b></div>
+            <div class="mini-bar"><i style={`width:${organicShare == null ? 0 : organicShare * 100}%`}></i></div>
+            <small>{pct(organicShare)}</small>
+          </div>
         </div>
+        <p class="note">公式APIの確定日別PVから計算。その他チャネル別の訪問数は最新期間を確認できないため未取得です。</p>
       </article>
     </section>
 
