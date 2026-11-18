@@ -3,6 +3,35 @@
   "updatedAt": "2026-11-18",
   "actions": [
     {
+      "id": "20261120-joban-tokuwari-application-end",
+      "title": "常磐線特急ガイド：50％割引の申込期限後の事実更新",
+      "kind": "update",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-18",
+      "notBefore": "2026-11-20",
+      "dueDate": "2026-11-20",
+      "confidence": "high",
+      "effort": "S",
+      "targetUrl": "/events/joban-line-hitachi-tokiwa-guide/",
+      "targetFile": "src/content/events/joban-line-hitachi-tokiwa-guide.md",
+      "specPath": "docs/editorial/specs/20261120-joban-tokuwari-application-end.md",
+      "primarySourceUrls": [
+        "https://www.eki-net.com/top/ticketless/",
+        "https://www.eki-net.com/top/product/tokkyu/tl-tokuwari.html",
+        "https://www.eki-net.com/top/tokudane/pdf/price/zairai/tl_sp28_joban.pdf"
+      ],
+      "source": "2026-11-18にえきねっと公式の対象乗車日と乗車28日前23:50の申込条件を確認。最終12/17乗車分から11/19を算出。",
+      "reason": "申込期限と乗車期間が異なるため、11/20以降の発売中と読める表現を点検する。延長・別企画は実行時に再確認し、未確認のまま終了や継続を断定しない。",
+      "acceptanceCriteria": [
+        "2026-11-20以降に公式本文を再確認。取得不可や延長条件不明なら公開せず未確認を報告する",
+        "申込期限と乗車期間を区別し、summary/keyPoints/highlights/FAQ/本文の対象表現と表示・JSON-LDを一致させる",
+        "title/H1/URL/canonical/計測/デザインを維持し、事実修正の履歴と台帳更新日を同期する",
+        "verify:article・date:check・verifyと必須CI、本番QAを行い、事実訂正で既存の本文観測期間を解除しない"
+      ],
+      "notes": "Issue #279。期限前に申込終了へ書き換えない。11/15改稿の最初の完全な後7日は11/16〜22（11/25以降に確定日を確認）、後28日は11/16〜12/13（12/16以降が目安）。観測のガード期限到達と実測の取得完了を区別する。"
+    },
+    {
       "id": "20261108-antlers-app-transition",
       "title": "鹿島公式アプリ切替の現行一次情報を確認して掲載判断",
       "kind": "sports",
