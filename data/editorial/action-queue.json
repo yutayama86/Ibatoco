@@ -1,7 +1,24 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-02",
+  "updatedAt": "2026-11-18",
   "actions": [
+    {
+      "id": "20261108-antlers-app-transition",
+      "title": "鹿島公式アプリ切替の現行一次情報を確認して掲載判断",
+      "kind": "sports",
+      "status": "candidate",
+      "priority": "medium",
+      "createdAt": "2026-11-08",
+      "dueDate": "2026-11-19",
+      "confidence": "low",
+      "effort": "S",
+      "source": "旧Draft PR #519の候補を引継ぎ。2026-11-18時点で公式個別本文は未再確認。",
+      "reason": "旧PRには新公式アプリ開始・旧アプリ2027年1月31日終了予定という記録がある。現在の一次情報は未再確認で、期日・再連携手順を確認済み事実として掲載しない。既存観戦記事との重複を先に照合する。",
+      "primarySourceUrls": [
+        "https://www.antlers.co.jp/"
+      ],
+      "nextAction": "公式の個別発表URLと最新の切替条件を特定し、既存記事への追記と独立記事を比較。一次情報で確認できなければ掲載しない。Issue #279で管理。"
+    },
     {
       "id": "20261102-ibaraki-shirasu-fair",
       "title": "秋のしらすフェア（11月1〜30日・県内40店超）の掲載判断",
@@ -9,7 +26,7 @@
       "status": "candidate",
       "priority": "medium",
       "createdAt": "2026-11-02",
-      "dueDate": "2026-11-04",
+      "dueDate": "2026-11-19",
       "confidence": "high",
       "effort": "M",
       "source": "茨城県広報紙ひばり2026年11月号",
@@ -17,7 +34,8 @@
       "primarySourceUrls": [
         "https://www.pref.ibaraki.jp/bugai/koho/kenmin/hibari/hibari-site/hibari202611/11oshirase.html"
       ],
-      "nextAction": "県漁政課またはフェア公式の参加店一覧を確認し、地域別に実用的な選び方を作れる場合のみ記事化。既存のしらす記事・飲食記事との重複を先に照合する。"
+      "nextAction": "県漁政課またはフェア公式の参加店一覧を確認し、地域別に実用的な選び方を作れる場合のみ記事化。既存のしらす記事・飲食記事との重複を先に照合する。",
+      "notes": " 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。"
     },
     {
       "id": "20261102-kashima-mineral-spa-close",
@@ -26,7 +44,7 @@
       "status": "candidate",
       "priority": "high",
       "createdAt": "2026-11-02",
-      "dueDate": "2026-11-03",
+      "dueDate": "2026-11-19",
       "confidence": "high",
       "effort": "S",
       "source": "鹿島アントラーズ公式 2026年10月29日発表",
@@ -34,7 +52,8 @@
       "primarySourceUrls": [
         "https://www.antlers.co.jp/blogs/news/261029nbotoj"
       ],
-      "nextAction": "既存の鹿嶋市・スタジアム・温浴関連記事と重複を確認し、閉店日、平日営業時間、ホームゲーム開催日の休業を一次情報どおりに整理。独立短報ではなく周辺利用者向け実用情報として記事化可否を判断する。"
+      "nextAction": "既存の鹿嶋市・スタジアム・温浴関連記事と重複を確認し、閉店日、平日営業時間、ホームゲーム開催日の休業を一次情報どおりに整理。独立短報ではなく周辺利用者向け実用情報として記事化可否を判断する。",
+      "notes": " 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。"
     },
     {
       "id": "20261030-ibako-november-timetable-discovery",
@@ -43,7 +62,7 @@
       "status": "candidate",
       "priority": "high",
       "createdAt": "2026-10-30",
-      "dueDate": "2026-10-31",
+      "dueDate": "2026-11-19",
       "confidence": "high",
       "effort": "S",
       "source": "茨城交通10月27日発表（10月30日に本文確認）",
@@ -51,7 +70,8 @@
       "primarySourceUrls": [
         "https://www.ibako.co.jp/contents/newsrelease/2026/10/32658.html"
       ],
-      "nextAction": "11月2日以降に利用する平日の時刻を公式検索で確認。掲載価値を判断し、実用情報が揃えば記事化。取得できなければ未確認のまま残す。"
+      "nextAction": "11月2日以降に利用する平日の時刻を公式検索で確認。掲載価値を判断し、実用情報が揃えば記事化。取得できなければ未確認のまま残す。",
+      "notes": " 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。"
     },
     {
       "id": "20261030-tsukuba-cablecar-last-run-discovery",
@@ -60,7 +80,7 @@
       "status": "candidate",
       "priority": "high",
       "createdAt": "2026-10-30",
-      "dueDate": "2026-10-31",
+      "dueDate": "2026-11-19",
       "confidence": "high",
       "effort": "S",
       "source": "京成電鉄10月30日発表・同社配信のリリースを確認",
@@ -69,7 +89,8 @@
         "https://www.keisei.co.jp/news/detail.php?CN=8103",
         "https://prtimes.jp/main/html/rd/p/000000104.000164008.html"
       ],
-      "nextAction": "公式PDFで企画別期間と条件を確認し、筑波山紅葉記事・11月まとめ・PRの重複を再照合。新車両の2027年2月は予定を維持。"
+      "nextAction": "公式PDFで企画別期間と条件を確認し、筑波山紅葉記事・11月まとめ・PRの重複を再照合。新車両の2027年2月は予定を維持。",
+      "notes": " 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。"
     },
     {
       "id": "20261030-nakanishi-natsuyuki-exhibition-discovery",
@@ -93,7 +114,7 @@
       "id": "20261030-antlers-yokohama-tickets-discovery",
       "title": "鹿島・横浜FM戦（11月15日）のチケット発売案内を確認",
       "kind": "sports",
-      "status": "candidate",
+      "status": "rejected",
       "priority": "medium",
       "createdAt": "2026-10-30",
       "dueDate": "2026-10-31",
@@ -104,7 +125,8 @@
       "primarySourceUrls": [
         "https://www.antlers.co.jp/ja-world/blogs/news"
       ],
-      "nextAction": "公式の個別記事を特定し、対象席・価格・会員区分・発売段階を確認。既存の試合記事があれば更新を優先。"
+      "nextAction": "旧依頼を再実行しない。必要な残件は https://github.com/yutayama86/Ibatoco/issues/279 または /issues/569 で管理。",
+      "notes": " 2026-11-18棚卸し：対象試合11/15の発売案内候補は期日経過のため終了。次試合の観戦案内はIssue #279で別途管理する。チケット発売の詳細を未確認のまま掲載しない。"
     },
     {
       "id": "20261027-hananuki-shuttle-official",
@@ -353,7 +375,7 @@
       "priority": "medium",
       "status": "candidate",
       "createdAt": "2026-10-11",
-      "dueDate": "2026-10-24",
+      "dueDate": "2026-11-19",
       "confidence": "medium",
       "effort": "M",
       "primarySourceUrls": [
@@ -361,7 +383,7 @@
       ],
       "source": "event-registry：下妻市菊まつり（11/1〜11/25・公式URLあり・未掲載）",
       "reason": "11月に会期がある菊まつりを、笠間の菊まつりと合わせて案内する。公式一次情報で会期・会場・駐車場を確認してから記事化する。検索需要の実測が無いため期待PVは設定しない。docs/editorial/specs/20261011-november-growth-plan.md の5.",
-      "notes": "2026-10-12：2026年の開催要項を公式で確認できず保留。大宝八幡宮の年中行事は「11月1〜23日頃」、台帳は11/1〜11/25で食い違うため記事化しない（出典間で食い違う日付は書かない）。下妻市・主催者の2026年の要項が出たら着手。"
+      "notes": "2026-10-12：2026年の開催要項を公式で確認できず保留。大宝八幡宮の年中行事は「11月1〜23日頃」、台帳は11/1〜11/25で食い違うため記事化しない（出典間で食い違う日付は書かない）。下妻市・主催者の2026年の要項が出たら着手。 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。"
     },
     {
       "id": "20261010-paid-booking-click",
@@ -656,13 +678,11 @@
       "kind": "measurement",
       "targetUrl": "/control/",
       "targetFile": "data/editorial/localos-place-schema.json",
-      "priority": "high",
+      "priority": "low",
       "status": "candidate",
       "createdAt": "2026-10-08",
-      "dueDate": "2026-10-14",
       "confidence": "high",
       "effort": "S",
-      "deadline": "2026-10-14",
       "source": "イバトコを需要獲得、LocalOSを予約/CRM・店舗データ層として分離する長期設計。",
       "reason": "LocalOS本体を先に作らず、イバトコで蓄積する店舗・施設情報を将来再利用できる共通スキーマにする。店舗ID・所在地・営業時間・予約URL・LINE・Google Maps・料金・駐車場・クーポン・送客計測を標準化する。",
       "acceptanceCriteria": [
@@ -672,7 +692,7 @@
         "将来LocalOSへ移行しても破壊的変更を避けられるversioned schemaにする",
         "未確認情報はnullで保持し推測で埋めない"
       ],
-      "notes": "10万PV Recovery中のため保留。新規機能・LocalOS拡張より需要獲得施策を優先する。"
+      "notes": "10万PV Recovery中のため保留。新規機能・LocalOS拡張より需要獲得施策を優先する。 2026-11-18棚卸し：検索流入を優先するため実装保留を継続。期限切れの着手要求は解除し、再開はIssue #279で投資対効果を判断してから。"
     },
     {
       "id": "20261008-chikusei-shinycolors-snippet",
@@ -1303,13 +1323,13 @@
       "targetUrl": "/events/tsuchiura-hanabi-2026-kaisai/",
       "targetFile": "src/content/events/tsuchiura-hanabi-2026-kaisai.md",
       "priority": "critical",
-      "status": "candidate",
+      "status": "rejected",
       "createdAt": "2026-09-28",
       "dueDate": "2026-11-07",
       "primarySourceUrls": [
         "https://www.tsuchiura-hanabi.jp/"
       ],
-      "notes": "ユーザーが当日にClaudeを起動する予定。公式の開催・延期・中止の発表を確認し、延期・中止ページ、本体記事、帰り方、11月まとめの冒頭に反映する。発表前の推測は書かない。",
+      "notes": "ユーザーが当日にClaudeを起動する予定。公式の開催・延期・中止の発表を確認し、延期・中止ページ、本体記事、帰り方、11月まとめの冒頭に反映する。発表前の推測は書かない。 2026-11-18棚卸し：当日運用の依頼期限を経過したため終了。古い11/7の指示を再実行しない。公開済み記事の訂正や翌年への案内が必要な場合はIssue #279/#569で別途判断する。",
       "additionalTargetFiles": [
         "src/content/events/tsuchiura-hanabi-2026.md",
         "src/content/events/tsuchiura-hanabi-2026-kaeri.md",
@@ -1320,7 +1340,8 @@
       "deadline": "2026-11-07",
       "page": "/events/tsuchiura-hanabi-2026-kaisai/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "nextAction": "旧依頼を再実行しない。必要な残件は https://github.com/yutayama86/Ibatoco/issues/279 または /issues/569 で管理。"
     },
     {
       "id": "20261101-kenmin-no-hi-list",
@@ -1329,19 +1350,20 @@
       "targetUrl": "/events/ibaraki-kenmin-no-hi-2026/",
       "targetFile": "src/content/events/ibaraki-kenmin-no-hi-2026.md",
       "priority": "critical",
-      "status": "candidate",
+      "status": "rejected",
       "createdAt": "2026-09-28",
       "dueDate": "2026-11-01",
       "primarySourceUrls": [
         "https://www.pref.ibaraki.jp/bugai/koho/kenmin/kenminnohi/kenmin/discount.html"
       ],
-      "notes": "9/28時点で県の一覧は令和7年度のまま（前年は2025/11/1更新）。民間取り組みの募集は10/28まで。令和8年度の一覧が出たら、無料・割引・イベントを施設名と条件（県内在住者限定など）のとおりに載せ替え、前年の実績の段落を縮める。10月下旬から毎日確認する。",
+      "notes": "9/28時点で県の一覧は令和7年度のまま（前年は2025/11/1更新）。民間取り組みの募集は10/28まで。令和8年度の一覧が出たら、無料・割引・イベントを施設名と条件（県内在住者限定など）のとおりに載せ替え、前年の実績の段落を縮める。10月下旬から毎日確認する。 2026-11-18棚卸し：2026年11月13日の県民の日を過ぎたため当日向け更新依頼を終了。過去年度の開催条件を新たに有効なものとして表示しない。残る記事の訂正はIssue #569で管理する。",
       "confidence": "high",
       "effort": "S",
       "deadline": "2026-11-01",
       "page": "/events/ibaraki-kenmin-no-hi-2026/",
       "source": "公式発表",
-      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
+      "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。",
+      "nextAction": "旧依頼を再実行しない。必要な残件は https://github.com/yutayama86/Ibatoco/issues/279 または /issues/569 で管理。"
     },
     {
       "id": "20260929-kouyou-freshness-fix",
@@ -1450,14 +1472,14 @@
       "priority": "medium",
       "status": "candidate",
       "createdAt": "2026-09-29",
-      "dueDate": "2026-11-14",
+      "dueDate": "2026-11-19",
       "primarySourceUrls": [
         "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html"
       ],
-      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。 2026-10-25確認：カレーフェスの開催案内（2026-08-05更新）に出店一覧・駐車場・入場料の記載はまだ無い。産業祭は開催案内（2026-09-10更新）で日時・会場3か所・駐車場が確定したため、20261025-tsuchiura-sangyosai-confirmed として切り出した。",
+      "notes": "9/29時点で公表は日時（11/21・22 10〜15時）・会場（J:COMフィールド土浦）・主催と出店要項のみ。出店一覧、駐車場、入場料、C-1グランプリの有無が出たら反映する。11/23の第50回土浦市産業祭（予定）の確定情報もあわせて確認。 2026-10-25確認：カレーフェスの開催案内（2026-08-05更新）に出店一覧・駐車場・入場料の記載はまだ無い。産業祭は開催案内（2026-09-10更新）で日時・会場3か所・駐車場が確定したため、20261025-tsuchiura-sangyosai-confirmed として切り出した。 2026-11-18棚卸し：候補を保存し、11/19を内部の再確認期限に設定。開催/受付/運行の現在の状態と既存記事の重複を一次情報で再確認してから掲載判断。イベント自体の期日を変更するものではない。",
       "confidence": "high",
       "effort": "S",
-      "deadline": "2026-11-14",
+      "deadline": "2026-11-19",
       "page": "/events/tsuchiura-curry-festival-2026/",
       "source": "公式発表",
       "reason": "公式情報の更新・期限に連動する鮮度施策。現時点では11月追加Viewsを再現可能に見積もる因果根拠がないため expectedPvImpact は設定しない。"
