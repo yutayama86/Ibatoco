@@ -1,0 +1,892 @@
+/* =============================================================
+   IBATOCO v42 — サイト共通の文字・色・改行（2026-11-06 デザイン）
+   正本は CLAUDE-HANDOFF-v42.md と COPY-LINES-v42.json。
+   既存の部品の上に重ねる層なので、BrandBase で interior.css の後に読む。
+   - 記事本文：スマホ15px・PC16px、行間およそ2em
+   - スマホの公開日・開催日：12px
+   - 検索・フォームの入力欄：16px
+   - 固定の編集見出しの改行：.v42-br-phone（760px以下）・.v42-br-narrow（370px以下）・.v42-br-mid（920px以下）
+   overflow-wrap: anywhere は使わない（短い見出しが縦に割れる）。
+   ============================================================= */
+
+:root {
+  --v42-ink: #24434a;
+  --v42-copy: #3c5546;
+  --v42-secondary: #53694f;
+  --v42-note: #617357;
+  --v42-rule: #d4dcc6;
+  --v42-gold: #a99a67;
+  --v42-blue: #2c4fb5;
+  --v42-paper: #f7f3e9;
+  --v42-navy: #253f4c;
+}
+
+.v42-br-phone,
+.v42-br-narrow,
+.v42-br-mid { display: none; }
+@media (max-width: 920px) { .v42-br-mid { display: initial; } }
+@media (max-width: 760px) { .v42-br-phone { display: initial; } }
+@media (max-width: 370px) { .v42-br-narrow { display: initial; } }
+
+/* ページ内リンク（月別・目次など）で飛んだ見出しが固定ヘッダーの下に隠れないように。
+   :where で詳細度を低くし、記事側の既存の scroll-margin-top を優先する */
+:where(body.brand-site) :where(h2, h3, section, .ax-region)[id] { scroll-margin-top: calc(var(--site-header-height) + 1rem); }
+
+/* 入力欄は16px。iOSのフォーカス時の拡大を防ぎ、スマホでも読める大きさにする */
+body.brand-site :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="hidden"]), select, textarea) {
+  font-size: 16px !important;
+}
+
+/* ── 下層の見出し：金の短い罫＋明朝。改行は文節を優先し、語の途中で割らない ── */
+body.interior-site :is(
+  .news-index__head,
+  .category-head,
+  .about-head,
+  .biz-head,
+  .places-head,
+  .tg-head__copy,
+  .hanabi-head,
+  .ok-head,
+  .person-head,
+  .sp-head,
+  .tm-head
+) h1,
+body.interior-site .news-detail__head h1,
+body.interior-site .ev-head h1 {
+  color: var(--v42-ink);
+  font-weight: 600 !important;
+  letter-spacing: .022em;
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+body.interior-site .crumbs { color: var(--v42-note); font-size: 11px; }
+body.interior-site :is(.bp-kicker, .section-number) { color: var(--v42-note); letter-spacing: .12em; }
+
+/* 固定の編集見出し（COPY-LINES-v42.json）。H1 は既存の文言のまま、その上に置く */
+.v42-display {
+  margin-top: .75rem;
+  color: var(--v42-ink);
+  font: 600 clamp(34px, 3.65vw, 54px) / 1.38 var(--font-brand-display);
+  letter-spacing: .022em;
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.v42-display + h1,
+h1 + .v42-display { margin-top: .5rem; }
+body.interior-site .v42-hub-label h1 {
+  max-width: none !important;
+  margin-top: .9rem !important;
+  color: var(--v42-note) !important;
+  font: 500 .8125rem / 1.6 var(--font-brand-body) !important;
+  letter-spacing: .12em !important;
+}
+body.interior-site .v42-hub-label h1::before {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  margin-right: 9px;
+  background: var(--v42-gold);
+  vertical-align: .31em;
+  content: "";
+}
+@media (max-width: 760px) {
+  .v42-display { font-size: clamp(26px, calc(10px + 5vw), 36px); line-height: 1.43; letter-spacing: .018em; }
+  body.interior-site .crumbs { font-size: 10px; }
+}
+
+/* ── 記事本文：PC16px・スマホ15px、行間2em ── */
+body.interior-site :is(.news-detail__body, .ev-body, .story-body) :is(p, li, dd) {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--v42-copy);
+  line-break: strict;
+}
+body.interior-site :is(.news-detail__body, .ev-body) h2 {
+  color: var(--v42-ink);
+  line-height: 1.5;
+  line-break: strict;
+  word-break: normal;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  /* ページ側のスコープ付きCSS（属性セレクタで詳細度が上がる）より優先させる */
+  body.interior-site :is(.news-detail__body, .ev-body, .story-body) :is(p, li, dd) { font-size: 15px !important; line-height: 2.04 !important; }
+  body.interior-site :is(.news-detail__body, .ev-body) h2 { font-size: 23px !important; }
+  /* 公開日・開催日などの日付はスマホで12px */
+  body.interior-site :is(.news-detail__dates, .news-card__dates, .ev-meta time, .tw__meta time) { font-size: 12px !important; }
+  /* 出典・長い日付も折り返せるように */
+  body.interior-site :is(.source-list a, .ev-sources a) { overflow-wrap: break-word; }
+}
+
+/* ── 目次：スマホは2列 ── */
+@media (max-width: 900px) {
+  body.interior-site .news-detail__mobile-toc ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 17px;
+  }
+  body.interior-site .news-detail__mobile-toc a {
+    border-bottom: 1px solid var(--v42-rule);
+    color: var(--v42-ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+@media (max-width: 900px) {
+  /* タブレット幅も1列にし、目次は本文の前に2列で置く（左の細い目次で本文が狭くならないように） */
+  body.interior-site .ev-layout { grid-template-columns: minmax(0, 1fr); }
+  body.interior-site .ev-toc { position: static; }
+  body.interior-site .ev-toc {
+    padding-block: .9rem;
+    border-block: 1px solid var(--v42-rule);
+  }
+  body.interior-site .ev-toc ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 17px;
+    padding-left: 0 !important;
+    list-style: none !important;
+  }
+  body.interior-site .ev-toc ol a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    border-bottom: 1px solid var(--v42-rule);
+    color: var(--v42-ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+/* ── 関連記事：PCは3件を横一列、スマホは写真の横に文字を置いて3件を縦に ── */
+@media (min-width: 761px) {
+  body.interior-site .news-related__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  body.interior-site .ev-discovery__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  body.interior-site .news-related__grid { gap: 0; }
+  body.interior-site .news-related__grid .news-card.has-image {
+    grid-template-columns: clamp(96px, 27vw, 115px) minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 0 15px;
+    align-items: center;
+    padding-block: 13px;
+    border: 0;
+    border-bottom: 1px solid var(--v42-rule);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  body.interior-site .news-related__grid .news-card.has-image .news-card__image {
+    aspect-ratio: 1 / 1;
+    height: 100px;
+    border: 4px solid #fffefa;
+    box-shadow: 0 4px 10px #263b3814;
+  }
+  body.interior-site .news-related__grid .news-card.has-image .news-card__body { padding: 0; }
+  body.interior-site .news-related__grid .news-card h3 {
+    font-size: 17px;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+}
+
+/* ── 記事の紙面（提出版 p41-article）：PCは本文を左に約720px、目次を右に270px ──
+ * ニュース詳細・イベント詳細の共通。DOM の順（目次→本文）は変えず、置き場所だけを入れ替える。
+ * 900px 以下は従来どおり1列（ニュースはスマホ用の目次、イベントは2列の目次）。
+ */
+@media (min-width: 901px) {
+  body.interior-site :is(.ev-layout, .news-detail__layout) {
+    grid-template-columns: minmax(0, 720px) minmax(200px, 270px);
+    gap: 0 clamp(2.5rem, 7.5vw, 110px);
+    justify-content: center;
+  }
+  body.interior-site :is(.ev-layout, .news-detail__layout) > :is(.ev-body, .news-detail__body) { grid-column: 1; grid-row: 1; }
+  body.interior-site :is(.ev-layout, .news-detail__layout) > :is(.ev-toc, .news-detail__toc) { grid-column: 2; grid-row: 1; }
+  body.interior-site :is(.ev-toc, .news-detail__toc) { font-size: 15px; line-height: 1.95; }
+  body.interior-site :is(.ev-toc, .news-detail__toc) > p { font-size: 13px; letter-spacing: .08em; }
+  body.interior-site :is(.news-detail__body, .ev-body) h2 { font-size: 30px; }
+  /* イベントの見出しブロックは提出版の900px幅に（ニュースは既に960px） */
+  body.interior-site .ev-head:not(.v42-hub-label) { --reading-col: 900px; }
+}
+/* 記事タイトルは実際の長さのまま、提出版の字級で自然に折り返す */
+body.interior-site :is(.news-detail__head, .ev-head):not(.v42-hub-label) h1 {
+  font-size: clamp(28px, 3.2vw, 46.08px) !important;
+  line-height: 1.43 !important;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  body.interior-site :is(.news-detail__head, .ev-head):not(.v42-hub-label) h1 { font-size: 28px !important; line-height: 1.5 !important; }
+}
+@media (max-width: 370px) {
+  body.interior-site :is(.news-detail__head, .ev-head):not(.v42-hub-label) h1 { font-size: 26px !important; }
+}
+
+/* ── 市町村ページの表紙（提出版 area-city）：市町村名の H1 は小さなラベル、既存のキャッチを大きな一文に ──
+ * H1 の文字列（市町村名）とキャッチ・紹介文はそのまま。字の大きさと順序の見せ方だけを変える。
+ */
+body.interior-site .city-hero h1.city-hero__name.city-hero__name {
+  margin-top: 1rem !important;
+  color: var(--v42-note) !important;
+  font: 500 14px / 1.8 var(--font-brand-body) !important;
+  letter-spacing: .09em !important;
+}
+body.interior-site .city-hero h1.city-hero__name::before {
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  margin-right: 9px;
+  background: var(--v42-gold);
+  vertical-align: .31em;
+  content: "";
+}
+body.interior-site .city-hero .city-hero__catch {
+  max-width: 15em;
+  margin-top: .9rem;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.43;
+  letter-spacing: .04em;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+/* 節の見出しは提出版の紙面（31px）に */
+body.interior-site :is(.area-guide, .hitachi-guide, .daigo-guide, .area-page) .bp-section-title {
+  font-size: clamp(24px, 2.2vw, 31px);
+  line-height: 1.55;
+}
+
+/*
+ * v42 修正案 D：スポット詳細・/place/（店の一覧・掲載0件）・/discover/（一覧と地図）の文字組み。
+ * 提出版の実測は H1 52.4px（スマホ30px）、区画の h2 31px（スマホ24〜26px）。
+ * スポット名の「1行に収まる大きさまで下げる」仕組み（--fit-len）は残し、上限だけ提出版に合わせる（字間は1行に収める計算の前提なので変えない）。
+ */
+body.interior-site.route-spot .spot-head h1 { font-size: clamp(1.6rem, calc(100cqi / var(--fit-len, 1)), clamp(30px, 3.64vw, 52.4px)); line-height: 1.43; font-weight: 500; }
+body.interior-site.route-spot :is(.spot-facts, .spot-nearby) h2 { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; text-wrap: balance; }
+/* 見出しの帯：提出版は幅いっぱいの薄い緑（rgb(234,240,223)）、上56px・下64px。中の幅は今のまま */
+body.interior-site :is(.route-spot .spot-head, .route-place .places-head) { padding-block: 56px 64px !important; background: #eaf0df; box-shadow: 0 0 0 100vmax #eaf0df; clip-path: inset(0 -100vmax); border-bottom: 0 !important; }
+body.interior-site.route-spot .spot-head { margin-bottom: clamp(32px, 4vw, 56px); }
+@media (max-width: 760px) { body.interior-site :is(.route-spot .spot-head, .route-place .places-head) { padding-block: 32px 40px !important; } }
+body.interior-site.route-place .places-head h1 { font-size: clamp(30px, 3.64vw, 52.4px) !important; line-height: 1.43 !important; text-wrap: balance; }
+body.interior-site.route-place .place-empty h2 { font-size: clamp(24px, 2.2vw, 31px) !important; line-height: 1.55 !important; word-break: auto-phrase; text-wrap: balance; }
+body.interior-site.route-discover .discover-tool__intro h2,
+body.interior-site.route-discover .v42-featured__title { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; text-wrap: balance; }
+@media (min-width: 901px) {
+  body.interior-site.route-place .places-head h1 { max-width: none !important; }
+  body.interior-site.route-place .places-head h1 br { display: none; }
+}
+@media (max-width: 760px) {
+  body.interior-site.route-discover :is(.discover-tool__intro h2, .v42-featured__title) { font-size: 26px; }
+}
+@media (max-width: 360px) {
+  body.interior-site :is(.route-place .place-empty h2, .route-discover .discover-tool__intro h2, .route-discover .v42-featured__title) { font-size: 24px !important; }
+}
+
+/* 公開データ0件でも使える店舗・書き手のテンプレート。内容・公開判定はページ側の既存データを使う。 */
+body.interior-site :is(.place, .person):has(.v42-template-hero) { padding-top: 0; }
+body.interior-site .v42-template-hero.v42-hero { width: auto !important; max-width: none !important; margin: 0; padding-inline: var(--interior-gutter) !important; row-gap: 0; grid-template-rows: auto; }
+body.interior-site .v42-template-hero.v42-hero::before { background: #edf0e3 !important; }
+body.interior-site .v42-template-hero.v42-hero > div:first-child { min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+body.interior-site .v42-template-hero.v42-hero > .v42-hero__art { grid-row: 1; max-height: 240px; }
+body.interior-site .v42-template-hero.v42-hero h1 { font-size: clamp(30px, 3.64vw, 52.4px) !important; font-weight: 500 !important; line-height: 1.43 !important; text-wrap: balance; }
+body.interior-site .v42-template-grid { max-width: 960px; grid-template-columns: minmax(0, 1fr) 290px; gap: clamp(32px, 5vw, 72px); padding-top: clamp(40px, 5vw, 64px); }
+body.interior-site .v42-template-grid h2 { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; }
+body.interior-site .v42-template-note { align-self: start; min-width: 0; padding: 26px; border: 1px solid var(--v42-rule); background: #f2f1e5; }
+body.interior-site .v42-template-note > img { display: block; width: 100%; height: 155px; object-fit: contain; margin-bottom: 22px; }
+body.interior-site .v42-template-note .v42-template-caption { margin: -.5rem 0 1.4rem; font-size: 12px; line-height: 1.8; color: var(--v42-note); }
+body.interior-site .v42-template-note .place-note { margin-top: 1rem; padding-left: 0; border-left: 0; font-size: 14px; line-height: 1.9; }
+body.interior-site .v42-template-grid .person-initial { margin-block: 1rem 1.5rem; }
+body.interior-site .v42-template-grid .person-bio { font-size: 16px; line-height: 2; }
+@media (max-width: 920px) {
+  body.interior-site .v42-template-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  body.interior-site .v42-template-hero.v42-hero > .v42-hero__art { grid-row: auto; max-height: 120px; }
+  body.interior-site .v42-template-hero.v42-hero h1 { font-size: 30px !important; line-height: 1.5 !important; }
+}
+
+/*
+ * v42 修正案 E：英語・韓国語・繁体字のTOP（IntlHomeView）と /reserve/ の文字組み。
+ * 提出版（別紙 annex-*）の実測：多言語 H1 48px（スマホ31px）、節 32px／26px、理由の見出し 22px／21px、記事の見出し 25px／23px。
+ * /reserve/ は H1 52.4px・PC1行（スマホ30px）、注記の見出し 31px／24px。文言・lang・hreflang・canonical は変えない。
+ * 部品側の scoped style（属性セレクタ付き）より強くするため !important を付ける。
+ */
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-hero h1 { max-width: 16em !important; font-size: clamp(31px, 3.34vw, 48px) !important; font-weight: 500 !important; line-height: 1.5 !important; text-wrap: balance; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih .bp-section-title { font-size: clamp(26px, 2.23vw, 32px) !important; font-weight: 500 !important; line-height: 1.5; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-why-grid h3 { font-size: clamp(21px, 1.53vw, 22px) !important; font-weight: 500 !important; line-height: 1.55 !important; }
+body:is(.route-en, .route-ko, .route-zh-tw) .ih-guide h3 { font-size: clamp(23px, 1.74vw, 25px) !important; font-weight: 500 !important; line-height: 1.55 !important; text-wrap: balance; }
+body.interior-site.route-reserve .rsv-title { color: var(--v42-ink) !important; font-size: clamp(30px, 3.64vw, 52.4px) !important; font-weight: 500 !important; line-height: 1.43 !important; text-wrap: balance; }
+body.interior-site.route-reserve .rsv-note h2 { font-size: clamp(24px, 2.2vw, 31px) !important; font-weight: 500 !important; line-height: 1.55 !important; }
+@media (min-width: 901px) {
+  body.interior-site.route-reserve .rsv-title { max-width: none !important; }
+  body.interior-site.route-reserve .rsv-title br { display: none; }
+}
+
+/* ── 運営・方針・事業者・フォーム・検索（Issue #532 C）：提出版の字級と配置 ──
+ * H1の文言・料金・区分・規約・開示・フォームの項目と処理はそのまま。見出しの大きさと並びだけを揃える。
+ */
+/* 表紙のH1：提出版は PC 52px、スマホ 29px */
+body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) {
+  font-size: clamp(30px, 3.64vw, 52.4px) !important;
+  line-height: 1.43 !important;
+  text-wrap: balance;
+}
+@media (max-width: 760px) {
+  body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) {
+    font-size: 29px !important;
+    line-height: 1.5 !important;
+  }
+}
+@media (max-width: 340px) {
+  body.interior-site :is(.pv-title, .policy-head:not(.v42-hub-label) .policy-title, .route-sponsor .sp-head h1, .biz-head h1, .contact-intro h1, .submit-head h1, section.search > h1, .nf-title) { font-size: 26px !important; }
+}
+/* 節の見出し：提出版は PC 31px・スマホ 26px（/biz/ の64px、/sponsor/ の51px の区画を揃える） */
+body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+body.interior-site main:has(.category-empty) h2 {
+  font-size: clamp(24px, 2.2vw, 31px) !important;
+  line-height: 1.55 !important;
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+/* 規約・方針の本文見出しは本文の段に合わせて一段小さく（提出版 30px・スマホ 23px） */
+body.interior-site.interior-site :is(.policy-body, .pv-body) h2 {
+  font-size: clamp(22px, 2.1vw, 30px) !important;
+  line-height: 1.55 !important;
+}
+@media (max-width: 760px) {
+  body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+  body.interior-site main:has(.category-empty) h2 { font-size: 26px !important; }
+  body.interior-site.interior-site :is(.policy-body, .pv-body) h2 { font-size: 23px !important; }
+}
+@media (max-width: 360px) {
+  body.interior-site:is(.route-about, .route-reporters, .route-sponsor, .route-biz, .route-submit) main h2,
+  body.interior-site main:has(.category-empty) h2 { font-size: 24px !important; }
+}
+/* 事業者・協賛の節の上下余白（旧版の96〜112pxを、提出版の詰まった紙面に寄せる） */
+body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) { padding-block: clamp(44px, 5vw, 72px); }
+body.interior-site:is(.route-biz, .route-sponsor) main > section:not(.biz-cta) > .bp-wrap { padding-block: 0; }
+/* お問い合わせ：見出しを全幅で上に置き、フォームを左、連絡先と挿絵を右に（PC） */
+body.interior-site.route-contact .contact-aside { grid-area: aside; min-width: 0; }
+@media (max-width: 900px) {
+  body.interior-site.route-contact .contact.bp-wrap { grid-template-columns: minmax(0, 1fr); grid-template-areas: "crumbs" "intro" "form" "aside"; }
+  body.interior-site.route-contact .contact-aside .contact-mail { margin-top: 0; }
+}
+@media (min-width: 901px) {
+  body.interior-site.route-contact .contact.bp-wrap {
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 270px);
+    grid-template-areas: "crumbs crumbs" "kicker kicker" "title title" "lead lead" "form mail" "form art" "form .";
+    grid-template-rows: auto auto auto auto auto auto 1fr;
+    row-gap: 0;
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+  body.interior-site.route-contact .contact-intro { display: contents; }
+  body.interior-site.route-contact .contact-aside { display: contents; }
+  body.interior-site.route-contact .contact-intro > .bp-kicker { grid-area: kicker; margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+  body.interior-site.route-contact .contact-intro > h1 { grid-area: title; max-width: none; }
+  body.interior-site.route-contact .contact-intro > h1 br { display: none; }
+  body.interior-site .submit-head h1 br { display: none; }
+  body.interior-site.route-contact .contact-intro > p:not(.bp-kicker) { grid-area: lead; }
+  body.interior-site.route-contact .contact-form { margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+  body.interior-site.route-contact .contact-mail { grid-area: mail; margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+  body.interior-site.route-contact .contact-intro__art { grid-area: art; }
+}
+/* フォームの見出しは項目の見出しとして控えめに（提出版 22px） */
+body.interior-site.route-contact .contact-form__head h2 { font-size: clamp(22px, 1.9vw, 26px); }
+
+/* ── サイト末尾の帯（全ページ共通） ── */
+.v42-closing {
+  padding-block: 2.25rem;
+  background: var(--v42-paper);
+  border-top: 1px solid #e6e1d0;
+}
+.v42-closing__inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 1.6rem;
+  width: min(calc(100% - 2.5rem), 1160px);
+  margin-inline: auto;
+}
+.v42-closing img { width: 52px; height: auto; }
+.v42-closing__label { color: var(--v42-note); font-size: .6875rem; letter-spacing: .06em; }
+.v42-closing__title {
+  margin-top: .3rem;
+  color: var(--v42-ink);
+  font: 500 clamp(1.25rem, 2.2vw, 1.6rem) / 1.6 var(--font-brand-display);
+  letter-spacing: .04em;
+  line-break: strict;
+}
+.v42-closing__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 44px;
+  border-bottom: 1px solid var(--v42-ink);
+  color: var(--v42-ink);
+  font-size: .8125rem;
+  letter-spacing: .06em;
+}
+@media (max-width: 760px) {
+  .v42-closing__inner { grid-template-columns: auto minmax(0, 1fr); }
+  .v42-closing__link { grid-column: 1 / -1; justify-self: end; }
+}
+
+/* =============================================================
+   下層ページの v42 レイアウト部品（エリア・市町村・スポーツ・協賛・事業者・問い合わせ・検索など）
+   既存の見出し（H1）と URL はそのまま、見た目の型だけを v42 にそろえる。
+   ============================================================= */
+
+/* 節の見出し：小さな欧文の見出し＋金の短い罫、明朝の h2 */
+body.interior-site .bp-kicker {
+  color: var(--v42-note);
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+}
+body.interior-site .bp-kicker::before {
+  width: 18px;
+  height: 1px;
+  margin-right: 9px;
+  border-radius: 0;
+  background: var(--v42-gold);
+  vertical-align: .31em;
+}
+body.interior-site .bp-section-title {
+  color: var(--v42-ink);
+  font-weight: 500;
+  letter-spacing: .05em;
+  line-break: strict;
+}
+
+/*
+ * ページ冒頭の帯（.v42-hero）。既存の見出しブロックに足すだけで、
+ * 薄い緑の全幅帯＋左に文字・右に挿絵の2列になる。挿絵は装飾（alt=""）。
+ */
+body.interior-site .v42-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, clamp(150px, 24vw, 320px)) !important;
+  justify-content: stretch !important;
+  align-items: center;
+  column-gap: clamp(1.25rem, 4vw, 4rem);
+  padding-block: clamp(1.75rem, 3.4vw, 3.25rem) !important;
+}
+body.interior-site .v42-hero::before { background: #edf0e3 !important; }
+body.interior-site .v42-hero > * { grid-column: 1; }
+body.interior-site .v42-hero > .v42-hero__art {
+  grid-column: 2;
+  grid-row: 1 / span 12;
+  justify-self: end;
+  width: 100%;
+  max-height: 300px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+/* スマホは見出しの幅を削らない。挿絵は文字の下、右寄せで小さく */
+@media (max-width: 760px) {
+  body.interior-site .v42-hero { grid-template-columns: minmax(0, 1fr) !important; }
+  body.interior-site .v42-hero > .v42-hero__art {
+    grid-column: 1;
+    grid-row: auto;
+    order: 99;
+    justify-self: end;
+    width: auto;
+    max-width: 45%;
+    max-height: 120px;
+    margin-top: .8rem;
+  }
+}
+/* 見出しブロックが帯の仕組み（::before）を持たないページ用 */
+body.interior-site .v42-hero--fill {
+  position: relative;
+  isolation: isolate;
+}
+body.interior-site .v42-hero--fill::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #edf0e3;
+  box-shadow: 0 0 0 100vmax #edf0e3;
+  clip-path: inset(0 -100vmax);
+}
+
+/* 薄い緑の全幅帯（節を交互に分ける） */
+.v42-band {
+  position: relative;
+  isolation: isolate;
+}
+.v42-band::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #edf0e3;
+  box-shadow: 0 0 0 100vmax #edf0e3;
+  clip-path: inset(0 -100vmax);
+}
+
+/* 写真の上に札を重ねたカード（「もっと読む →」まで全体がリンク） */
+.v42-cards {
+  display: grid;
+  grid-template-columns: repeat(var(--v42-cols-pc, 3), minmax(0, 1fr));
+  gap: clamp(1.4rem, 2.6vw, 2.4rem) clamp(1rem, 2vw, 1.6rem);
+  margin-top: clamp(1.4rem, 2.6vw, 2.2rem);
+  padding: 0;
+  list-style: none;
+}
+.v42-card > a {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  height: 100%;
+  color: var(--v42-ink);
+  text-decoration: none;
+}
+.v42-card__photo {
+  position: relative;
+  margin: 0;
+  border: 6px solid #fffefa;
+  background: #e8e3d7;
+  box-shadow: 0 6px 16px #263b381a;
+}
+.v42-card__photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.v42-card__photo figcaption {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 2px 6px;
+  background: #fffdf4e8;
+  color: #4f5d4f;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.v42-card__kicker { margin-top: 1rem; color: var(--v42-note); font: 500 .6875rem/1.5 var(--font-brand-meta); letter-spacing: .14em; }
+.v42-card h3 { margin-top: .45rem; color: var(--v42-ink); font: 500 clamp(1.15rem, 1.6vw, 1.35rem)/1.55 var(--font-brand-display); letter-spacing: .05em; line-break: strict; text-wrap: pretty; }
+.v42-card p { margin-top: .45rem; color: var(--v42-copy); font-size: .8125rem; line-height: 1.8; }
+.v42-card__more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  margin-top: .9rem;
+  border-bottom: 1px solid var(--v42-rule);
+  color: var(--v42-ink);
+  font-size: .75rem;
+  letter-spacing: .06em;
+}
+.v42-card > a:hover .v42-card__more,
+.v42-card > a:focus-visible .v42-card__more { border-color: var(--v42-ink); }
+.v42-card > a:hover h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.v42-card > a:focus-visible { outline: 2px solid var(--v42-blue); outline-offset: 4px; }
+@media (max-width: 900px) { .v42-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
+  .v42-cards { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .v42-card > a {
+    grid-template-columns: clamp(96px, 27vw, 115px) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    column-gap: 15px;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--v42-rule);
+  }
+  .v42-card__photo { grid-row: 1 / span 4; align-self: start; border-width: 4px; }
+  .v42-card__photo img { aspect-ratio: 1 / 1; }
+  .v42-card__photo figcaption { display: none; }
+  .v42-card__kicker { margin-top: 0; }
+  .v42-card h3 { font-size: 1.0625rem; }
+  .v42-card__more { min-height: 32px; margin-top: .3rem; border-bottom: 0; }
+}
+
+/* 節の上下の余白（帯の中・外で共通） */
+.v42-section { padding-block: clamp(2.6rem, 5vw, 4.5rem); }
+.v42-section__head h2 {
+  margin-top: .5rem;
+  color: var(--v42-ink);
+  font: 500 clamp(1.5rem, 2.4vw, 2rem)/1.5 var(--font-brand-display);
+  letter-spacing: .06em;
+  line-break: strict;
+}
+.v42-section__head p:not(.bp-kicker) { margin-top: .6rem; color: var(--v42-copy); font-size: .875rem; line-height: 1.9; }
+.v42-credit { margin-top: 1.2rem; color: var(--v42-note); font-size: .6875rem; line-height: 1.8; }
+.v42-credit a { text-decoration: underline; text-underline-offset: .15em; }
+
+/* 問い合わせ・協賛の挿絵（装飾） */
+body.interior-site .contact-intro__art { display: block; width: clamp(92px, 13vw, 150px); height: auto; margin-top: 1.6rem; }
+body.interior-site .sp-cta.v42-band { padding-block: clamp(2.6rem, 5vw, 4rem); }
+body.interior-site .sp-cta__art {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  margin: 0 auto 1.8rem;
+  border: 8px solid #fffefa;
+  box-shadow: 0 10px 24px #263b3824;
+}
+
+/* 協賛の申し込み：見出しを v42 の配色に（フォームの項目と送信の挙動は変えない） */
+body.interior-site .apply__head h1 { color: var(--v42-ink) !important; font-weight: 500 !important; }
+body.interior-site .apply__head > p:not(.bp-kicker) { color: var(--v42-copy) !important; }
+body.interior-site .apply__head b { color: var(--v42-ink) !important; }
+
+/* 帯の中の文は挿絵の列のぶん狭くなる。最後の行が1文字だけにならないように */
+body.interior-site .v42-hero > p { text-wrap: pretty; }
+/* 市町村ページの写真の札（例「日立駅 × かみね公園」）：狭い幅で「園」だけが次の行に落ちないよう、語の区切りで折る */
+body.interior-site .city-hero__art-tag strong { word-break: keep-all; overflow-wrap: break-word; }
+
+/*
+ * 残りのページ種別（#515）：about・運営/方針・reporters・診断・おでかけ・discover・today・
+ * テーマ一覧（/umi/・/hanabi/・/michinoeki/ など）・カテゴリ（/life/ など）・スポット一覧（/place/）・
+ * ガイド一覧・リポーター・おいしい図鑑。
+ * 正本は提出版 ibatoco-all-pages-design-v42.zip（subpages41.css）。冒頭は紙色の上に文字と挿絵、
+ * 薄い緑（#eef2e5）は次の段だけに使う。H1 の文言は変えず、提出版の大きな見出しは COPY-LINES の表示コピー。
+ */
+body.interior-site :is(.about-head, .category-head, .ok-head, .tg-head__copy, .places-head, .hanabi-head, .person-head, .guide-index-head, .rp-hero)::before { background: transparent !important; }
+body.interior-site :is(.about-head, .category-head, .ok-head, .rp-hero, .discover-head, .today-head) { border-bottom: 0 !important; }
+body.interior-site :is(.about-head, .ok-head, .rp-hero, .tg-head:where(:not(.tg-head--preserve-heading)), .discover-head, .today-head, .sd-head, .category-head, .places-head, .hanabi-head, .person-head, .guide-index-head, .me-head) h1,
+body.interior-site :is(.policy-title, .pv-title) {
+  color: var(--v42-ink) !important;
+  font-weight: 600 !important;
+}
+/* H1 を小さなラベルにしたとき、元の改行（<br>）で1語ずつ折れないように */
+body.interior-site .v42-hub-label h1 br { display: none; }
+body.interior-site .v42-hero > .v42-display { margin-bottom: .4rem; }
+body.interior-site :is(.ok-head, .rp-hero) > .v42-hero { padding-block: 0 !important; }
+/* 提出版の段（.p41-section.is-sage）と同じ緑 */
+body.interior-site .v42-band::before { background: #eef2e5; box-shadow: 0 0 0 100vmax #eef2e5; }
+
+/* 冒頭の見出しの大きさを提出版（.p41-title、PC 約47px／スマホ 30px 前後）にそろえる */
+body.interior-site :is(.discover-head, .today-head, .tg-head:where(:not(.tg-head--preserve-heading)), .category-head, .sd-head, .about-head):not(.v42-hub-label) h1,
+body.interior-site :is(.rp-hero, .ok-head) > .v42-hero:not(.v42-hub-label) h1 {
+  font-size: clamp(30px, 3.65vw, 54px) !important;
+  line-height: 1.45 !important;
+  letter-spacing: .04em !important;
+}
+/* カテゴリの段落指定（.category-head > p）より、表示コピーの大きさを優先する */
+body.interior-site .category-head > .v42-display { margin-top: .5rem !important; color: var(--v42-ink) !important; font: 600 clamp(26px, 3.65vw, 54px) / 1.43 var(--font-brand-display) !important; }
+
+/* おでかけ（theme-hub.html）：枠付きの色パネルをやめ、紙のカードを並べる。地域の段は薄い緑 */
+body.interior-site .ok-group { padding: clamp(1.4rem, 3vw, 2.2rem) 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; }
+body.interior-site .ok-group ul { gap: clamp(12px, 1.6vw, 20px) !important; background: transparent !important; border: 0 !important; }
+body.interior-site .ok-group li { border-top: 0 !important; }
+body.interior-site :is(.ok-group, .ok-region) a {
+  min-height: 100% !important;
+  padding: 18px 2.4rem 18px 20px !important;
+  background: #fffdf6 !important;
+  border: 1px solid #dce0cf;
+  border-radius: 2px;
+  box-shadow: 3px 5px 0 #adbb9620;
+}
+body.interior-site :is(.ok-group, .ok-region) strong { color: var(--v42-ink); }
+body.interior-site :is(.ok-group b, .ok-region small) { color: #8da17a !important; }
+body.interior-site .ok-region { border-radius: 0 !important; background: #eef2e5 !important; box-shadow: 0 0 0 100vmax #eef2e5 !important; clip-path: inset(0 -100vmax); }
+body.interior-site .ok-region ul { gap: clamp(12px, 1.6vw, 20px); background: transparent; border: 0; }
+body.interior-site .ok-region li { background: transparent !important; }
+
+/* 方針・規約（policy*.html）：帯なし。PC は左に目次（230px）、右に本文（760px まで） */
+body.interior-site .policy-head { padding-block: .4rem clamp(1.4rem, 2.6vw, 2.2rem); }
+body.interior-site :is(.policy, .pv) .eyebrow { color: var(--v42-note); letter-spacing: .14em; font-size: 11px; }
+body.interior-site :is(.policy, .pv) { max-width: none !important; padding-inline: var(--interior-gutter) !important; }
+body.interior-site :is(.policy, .pv)::before { background: transparent !important; }
+body.interior-site .policy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.6rem;
+  max-width: 1060px;
+  margin-inline: auto;
+}
+body.interior-site .policy-head { max-width: 1060px; margin-inline: auto; }
+body.interior-site .policy-toc { border-top: 2px solid #8e9f78; padding-top: 18px; }
+body.interior-site .policy-toc > p { font-size: 10px; letter-spacing: .15em; color: #8a987a; margin-bottom: 10px; }
+body.interior-site .policy-toc > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 10px;
+  border-bottom: 1px solid #d7dfca;
+  color: #6a815d;
+  font-size: 12px;
+  line-height: 1.9;
+  text-decoration: none;
+}
+body.interior-site .policy-toc > a:hover { color: var(--v42-ink); }
+body.interior-site .policy-toc__art { display: none; }
+body.interior-site .policy-layout :is(.policy-body, .pv-body) { margin-top: 0 !important; max-width: 760px; }
+body.interior-site .policy-layout :is(.policy-body, .pv-body) h2 {
+  margin: 43px 0 20px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #cad4bd;
+  color: var(--v42-ink);
+  font: 600 clamp(21px, 2.3vw, 29px) / 1.7 var(--font-brand-display);
+  scroll-margin-top: calc(var(--site-header-height, 72px) + 16px);
+}
+@media (min-width: 900px) {
+  body.interior-site .policy-layout { grid-template-columns: 230px minmax(0, 760px); gap: 70px; }
+  body.interior-site .policy-toc { position: sticky; top: calc(var(--site-header-height, 72px) + 22px); align-self: start; }
+  body.interior-site .policy-toc__art { display: block; width: 130px; height: 173px; object-fit: contain; margin: 25px auto 0; }
+}
+/* スマホは提出版どおり、目次を本文の前に1列で（各行44px以上） */
+
+/* 運営・チーム（team.html）：紙色の冒頭に表示コピーと地図を持つ二人。本文は読みカラムのまま */
+body.interior-site .team-head { margin-bottom: clamp(1.5rem, 3vw, 2.4rem); }
+body.interior-site .team-head > .policy-updated { margin-top: .6rem; }
+
+/* about（about.html）：冒頭の下端に版画調の茨城の風景（提出版 .p41-brand-hero）。取材と編集の3項目は薄い緑の段に */
+body.interior-site .about-head {
+  /* 風景は幅いっぱい（縦横比 3:1）。提出版どおり、空の部分が一文の下に入る高さだけ下を空ける */
+  padding-bottom: calc(min(100vw, 1440px) * .25) !important;
+  background: url(/images/v42/ibarakiscape.webp) center bottom / 100% auto no-repeat !important;
+}
+body.interior-site .about-head .ab-tagline br { display: none; }
+/* タブレット幅は一文が2行になるので、木の上に文字が乗らないよう風景の分だけ空ける */
+@media (min-width: 761px) and (max-width: 1023px) {
+  body.interior-site .about-head { padding-bottom: calc(100vw * .32) !important; }
+}
+@media (max-width: 760px) {
+  /* 提出版（.v42-hero-compact）：表示コピーは全幅、その下に一文と二人の挿絵を左右に並べ、下端に風景 */
+  body.interior-site .about-head.v42-hero {
+    grid-template-columns: minmax(0, 1fr) clamp(76px, 24vw, 115px) !important;
+    column-gap: 15px;
+    align-items: end;
+    padding-bottom: 128px !important;
+    background-size: 100% auto !important;
+  }
+  body.interior-site .about-head > * { grid-column: 1 / -1; }
+  body.interior-site .about-head > .ab-tagline { grid-column: 1; margin: 0; font-size: 14px; line-height: 1.94; }
+  body.interior-site .about-head > .v42-hero__art {
+    grid-column: 2;
+    grid-row: auto;
+    order: 0;
+    width: 100%;
+    max-width: none;
+    height: clamp(85px, 27vw, 116px);
+    max-height: none;
+    margin: 0;
+  }
+}
+body.interior-site .ab-process > .bp-wrap { padding-block: clamp(2.6rem, 4.6vw, 3.4rem); }
+body.interior-site .ab-policies { background: transparent !important; }
+body.interior-site .ab-policy-list strong { color: var(--v42-ink) !important; }
+body.interior-site :is(.ab-policy-list b, .ab-policy-list em, .ab-close__mail a) { color: var(--v42-secondary) !important; }
+
+/* 行き先診断（discover.html）：設問を紙のカードに。右上に番号 */
+/* 帯をやめたので、冒頭の余白はパンくずの上だけ（提出版 .p41-crumb） */
+body.interior-site .sd { padding-top: .4rem !important; }
+body.interior-site .sd-form { counter-reset: sd-q; }
+body.interior-site .sd-form fieldset {
+  position: relative;
+  padding: clamp(20px, 3vw, 30px) !important;
+  background: #fffdf6;
+  border: 1px solid #dce0cf !important;
+  border-radius: 2px;
+  box-shadow: 4px 6px 0 #a8b6931a;
+  counter-increment: sd-q;
+}
+body.interior-site .sd-form fieldset::after {
+  position: absolute;
+  top: clamp(12px, 2vw, 20px);
+  right: clamp(16px, 3vw, 30px);
+  color: var(--v42-gold);
+  font: 400 clamp(32px, 4vw, 50px) / 1 var(--font-brand-display);
+  opacity: .55;
+  content: counter(sd-q, decimal-leading-zero);
+  pointer-events: none;
+}
+body.interior-site .sd-form legend { float: left; width: 100%; margin-bottom: 1rem; padding-right: 3.2rem; color: var(--v42-ink) !important; }
+body.interior-site .sd-form legend + * { clear: both; }
+
+/* 診断結果（discover-result.html）：結果は薄い緑の段に。候補の行は検索結果と同じ v42 の行 */
+body.interior-site .sd-result {
+  position: relative;
+  isolation: isolate;
+  margin-top: clamp(2.4rem, 4vw, 3.4rem) !important;
+  padding-block: clamp(2rem, 4vw, 3rem) !important;
+  border-top: 0 !important;
+}
+body.interior-site .sd-result::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #eef2e5;
+  box-shadow: 0 0 0 100vmax #eef2e5;
+  clip-path: inset(0 -100vmax);
+  content: '';
+}
+body.interior-site .sd-result h2 { color: var(--v42-ink) !important; }
+body.interior-site .sd-areas a { border-color: #cfd6c4 !important; border-radius: 3px !important; background: #fffdf6 !important; color: var(--v42-ink) !important; }
+body.interior-site .sd-more a { color: var(--v42-blue) !important; }
+
+/* おいしい図鑑：図鑑の配色（--fg-*）を v42 の色へ。食材ごとの差し色（--fg-accent）はそのまま */
+body.interior-site .fg {
+  --fg-paper: #faf7ee;
+  --fg-ink: var(--v42-ink);
+  --fg-navy: var(--v42-ink);
+  --fg-mute: var(--v42-note);
+  --fg-soil: var(--v42-secondary);
+  --fg-line: var(--v42-rule);
+}
+body.interior-site .fg-hero h1 { font-weight: 600; }
+/* 提出版の字級：図鑑の表紙は46px、節の見出しは31px（1行9字の組みはそのまま） */
+body.interior-site .fg-hero h1 { font-size: clamp(30px, 3.2vw, 46.08px); line-height: 1.43; }
+body.interior-site .fg .fg-section h2 { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; }
+/* クラブの節の見出しも同じ紙面の字級に */
+body.interior-site .tm-title { font-size: clamp(24px, 2.2vw, 31px); line-height: 1.55; }
+
+/* ===== v42 の追補：写真の特集・入口ボタン・地図の段（提出版 p41-featured / p41-photo / p41-theme-nav / p41-area-columns） ===== */
+.v42-featured { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; align-items: center; padding-block: 1.2rem 2.4rem; }
+.v42-featured > div { min-width: 0; }
+.v42-featured__title { margin: .9rem 0 1rem; color: var(--v42-ink); font: 600 clamp(29px, 2.8vw, 40px) / 1.6 var(--font-brand-display); letter-spacing: .035em; text-wrap: balance; }
+.v42-featured__lead { color: var(--v42-copy); font-size: .9375rem; line-height: 1.95; }
+.v42-photo { position: relative; margin: 0; padding: 7px 7px 0; background: #fffdf5; box-shadow: 4px 7px 0 #a8b69326, 0 6px 22px #3549360a; transform: rotate(-.7deg); }
+.v42-photo > img { display: block; width: 100%; height: 240px; object-fit: cover; }
+.v42-photo figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .4rem; min-height: 30px; padding: 6px 7px; color: #869176; font-size: .6875rem; line-height: 1.8; }
+.v42-photo figcaption a { text-decoration: underline; text-underline-offset: .15em; }
+.v42-tape { position: absolute; top: -10px; left: 36%; z-index: 1; width: 80px; height: 20px; background: #d0c5a39c; transform: rotate(-5deg); clip-path: polygon(2% 0, 100% 4%, 97% 100%, 0 97%); }
+.v42-stamp { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100px; height: 100px; margin: 0 0 .4rem; border: 1px solid #99ad7c; border-radius: 50%; outline: 1px solid #c3cfb158; outline-offset: -7px; color: #738c5e; font: 600 1.05rem / 1.4 var(--font-brand-display); text-align: center; transform: rotate(-8deg); }
+.v42-stamp small { margin-top: 4px; font: 400 8px var(--font-brand-body); letter-spacing: .2em; }
+.v42-solid-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-width: 230px; min-height: 48px; margin-top: 1.2rem; padding: .75rem 1.3rem; background: var(--v42-ink); color: #fffdf6; font-size: .875rem; font-weight: 700; }
+.v42-solid-button:hover { background: #1b363c; }
+.v42-solid-button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 3px; }
+.v42-chipnav { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 1rem 1.4rem; }
+.v42-chipnav a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px; border: 1px solid #c9d3bb; border-radius: 2px; background: #fffcf3; color: #617c56; font-size: .75rem; }
+.v42-chipnav a[aria-current="true"] { border-color: #6e835d; background: #6e835d; color: #fffdf2; }
+.v42-chipnav a:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 2px; }
+@media (min-width: 900px) {
+  .v42-featured { grid-template-columns: 1.4fr 1fr; gap: 48px; padding-block: 1.8rem 2.8rem; }
+  .v42-photo > img { height: 350px; }
+  .v42-stamp { width: 130px; height: 130px; font-size: 1.3rem; }
+  .v42-chipnav { gap: 10px; padding-block: 1.4rem 1.9rem; }
+  .v42-chipnav a { padding: 10px 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .v42-photo, .v42-stamp { transform: none; } }
+
+/* 診断結果の冒頭：文が左、写真が右（提出版 discover-result） */
+body.interior-site .sd-feature { margin-bottom: 1.2rem; scroll-margin-top: calc(var(--site-header-height, 72px) + 16px); }
+@media (min-width: 900px) { body.interior-site .sd-feature { grid-template-columns: 1fr 1fr; } }
+body.interior-site .sd-feature[hidden] { display: none; }
+
+/* /odekake/：見出しは文と風景の2列（提出版 p41-hub-hero）、写真の特集は写真が左 */
+body.interior-site .ok-hero__scape { display: block; width: 100%; height: auto; max-height: 335px; margin-top: 1.4rem; object-fit: contain; }
+/* .v42-hero の列指定（!important）より、この見出しの2列を優先する */
+body.interior-site .v42-hero.ok-hero { grid-template-columns: minmax(0, 1fr) !important; }
+@media (min-width: 900px) {
+  body.interior-site .v42-hero.ok-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) !important; column-gap: 45px; align-items: center; }
+  body.interior-site .v42-hero.ok-hero > :first-child { grid-column: 1 / -1; }
+  body.interior-site .v42-hero.ok-hero > .ok-hero__scape { grid-column: 2; margin-top: 0; }
+}
+body.interior-site .ok-feature { padding-top: 0; }
+body.interior-site .ok-body > [hidden] { display: none !important; }
+body.interior-site :is(.ok-body, .ok-group, .ok-region) { scroll-margin-top: calc(var(--site-header-height, 72px) + 16px); }
+body.interior-site .ok-walk .v42-section__head { margin-bottom: 1.4rem; }
+
+/* /discover/：地図と文の2列（提出版 p41-area-columns） */
+.discover-map__grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "map" "copy"; gap: 26px; align-items: start; }
+.discover-map__heading { grid-area: heading; min-width: 0; }
+.discover-map__copy { grid-area: copy; min-width: 0; }
+.discover-map__map { grid-area: map; min-width: 0; padding: 16px; border: 1px solid var(--v42-rule); background: #fafcf2; }
+.discover-map__hint, .discover-map__note { margin-top: .8rem; color: var(--v42-note); font-size: .75rem; line-height: 1.8; }
+.discover-map__regions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 1.2rem; }
+.discover-map__regions button:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.discover-map__regions button { min-height: 44px; padding: 10px 14px; border: 1px solid #c9d3bb; border-radius: 2px; background: #fffcf3; color: #617c56; font: inherit; font-size: .8125rem; cursor: pointer; }
+.discover-map__regions button:hover { border-color: #6e835d; color: var(--v42-ink); }
+.discover-map__regions button:focus-visible { outline: 2px solid var(--v42-ink); outline-offset: 2px; }
+/* スマホは見出しが先、PC は地図を左に */
+@media (min-width: 901px) { .discover-map__grid { grid-template-columns: minmax(0, 548fr) minmax(0, 576fr); grid-template-areas: "heading heading" "map copy"; gap: 32px; } .discover-map__map { padding: 20px; } }

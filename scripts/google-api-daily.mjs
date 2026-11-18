@@ -4,13 +4,21 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
-import { BOOKING_CTA_AB_EVENTS, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
+import { BOOKING_CTA_AB_EVENTS, alignConfirmedThrough, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
+import {
+  GSC_ROW_LIMIT, pageLevelWindows, buildGscQueries, buildPageMetrics, buildTopPages, ga4ViewsByWindow, checkPageLevel,
+} from '../src/lib/gsc-page-level.mjs';
+import {
+  REFERRAL_EVENTS, CLICK_EVENTS, referralWindows, referralDimensions, referralTotals, buildByProviderPage, buildByPage, checkBookingReferrals, referralReportQualityIssues,
+} from '../src/lib/booking-referrals.mjs';
 
 const env = process.env;
 // Allow both GA4 and GSC processing lag; do not infer missing days are zero.
 // 35 days so the 28+7 day windows never depend on rows left over from an earlier (possibly failed) sync.
-const { from, through } = googleDailyRange(Date.now());
+const { from, through: plannedThrough } = googleDailyRange(Date.now());
+// GA4 か GSC の確定が遅れた日は、両方がそろっている最新の日まで確定日を下げる（下の alignConfirmedThrough）
+let through = plannedThrough;
 const token = env.GOOGLE_ACCESS_TOKEN;
 const property = env.GA4_PROPERTY_ID;
 const site = env.GSC_SITE_URL;
@@ -53,6 +61,16 @@ const gscDaily = (gsc.rows ?? []).map(r => ({
   date: r.keys[0], clicks: r.clicks, impressions: r.impressions, position: r.position
 }));
 if (!gscDaily.length) throw new Error('GSC response empty; do not publish zero-filled data');
+// GSC の確定データ（final）は予定の確定日に届かないことがある（2026-11-14 は 11-11 が未確定で preflight が止まった）。
+// その日は GSC の最新の確定日まで確定日を下げ、GA4 もその日までで切る。遅れが2日を超えたら止める
+// GA4 も確定が遅れることがある（2026-11-15 は GA4 が 11-11 まで・GSC は 11-12 まで）。両方にある日だけを候補にする
+const ga4Dates = new Set(dailyMap.keys());
+through = alignConfirmedThrough(plannedThrough, gscDaily.map((d) => d.date).filter((d) => ga4Dates.has(d)));
+if (through !== plannedThrough) {
+  for (const date of [...dailyMap.keys()]) if (date > through) dailyMap.delete(date);
+  for (let i = gscDaily.length - 1; i >= 0; i--) if (gscDaily[i].date > through) gscDaily.splice(i, 1);
+  console.warn(`::warning title=確定日を${through}に調整::GA4 または Search Console の確定データが ${plannedThrough} にまだ届いていないため、両方がそろっている ${through} までを同期します（0 や推計では埋めません）。`);
+}
 // 予約ボタンの A/B 実験の4イベント（直近7日・確定日まで）。行の無いイベントは null のまま（0 で埋めない）
 const abPeriod = { start: addDays(through, -6), end: through };
 const abReport = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
@@ -63,6 +81,103 @@ const abReport = await request(`https://analyticsdata.googleapis.com/v1beta/prop
   limit: '100',
 });
 const bookingCtaExperiment = bookingCtaAbCounts(abReport.rows, abPeriod);
+// ページ別・検索語別（監査 A1）。読み取りだけ。失敗してもサイト全体の日別の同期は止めず、pageLevel を出さない
+// （その日は従来どおり pageMetrics・gscQueries を書き換えない。0 や古い値で埋めない）
+async function gscRows(dimensions, period) {
+  const rows = [];
+  // 1回の上限は25,000行。最大4回（10万行）まで続きを取り、それでも残れば truncated（行の無い値を0と見なさない）
+  for (let page = 0; page < 4; page++) {
+    const res = await request(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`, {
+      startDate: period.start, endDate: period.end, dimensions, rowLimit: GSC_ROW_LIMIT, startRow: page * GSC_ROW_LIMIT, dataState: 'final',
+    });
+    const got = res.rows ?? [];
+    rows.push(...got);
+    if (got.length < GSC_ROW_LIMIT) return { rows, truncated: false };
+  }
+  return { rows, truncated: true };
+}
+let pageLevel = null;
+try {
+  const periods = pageLevelWindows(through);
+  const queryWindows = {}, pageWindows = {};
+  for (const [name, period] of Object.entries(periods)) {
+    queryWindows[name] = await gscRows(['page', 'query'], period);
+    pageWindows[name] = await gscRows(['page'], period);
+  }
+  const gaPages = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    dateRanges: [
+      { startDate: periods.recent7.start, endDate: periods.recent7.end },
+      { startDate: periods.previous7.start, endDate: periods.previous7.end },
+      { startDate: periods.recent28.start, endDate: periods.recent28.end },
+    ],
+    dimensions: [{ name: 'pagePath' }],
+    metrics: [{ name: 'screenPageViews' }],
+    limit: '100000',
+  });
+  const gaTruncated = Number(gaPages.rowCount ?? 0) > (gaPages.rows ?? []).length;
+  const views = gaTruncated ? null : ga4ViewsByWindow(gaPages.rows);
+  pageLevel = {
+    source: 'Search Console API (page, page×query) + GA4 Data API (pagePath)',
+    periods,
+    truncated: {
+      gscQueries: Object.fromEntries(Object.entries(queryWindows).map(([k, w]) => [k, w.truncated])),
+      gscPages: Object.fromEntries(Object.entries(pageWindows).map(([k, w]) => [k, w.truncated])),
+      ga4Pages: gaTruncated,
+    },
+    gscQueries: buildGscQueries(queryWindows),
+    pageMetrics: buildPageMetrics(pageWindows, views),
+    ga4TopPages: views ? buildTopPages(views) : null,
+  };
+  const errors = checkPageLevel(pageLevel, { confirmedThrough: through, gscDaily });
+  if (errors.length) { console.warn('::warning title=ページ別データ::' + errors.join(' / ') + '（ページ別は今回は反映しない）'); pageLevel = null; }
+} catch (error) {
+  console.warn(`::warning title=ページ別データ::取得できませんでした（${error.message}）。サイト全体の日別だけを同期します。`);
+  pageLevel = null;
+}
+// 送客クリックの内訳（Issue #612）。同じ読み取りトークンで、登録済みのカスタムディメンションだけを使う。
+// 失敗・不整合のときは bookingReferrals を出さない（前の値と期間が残る。0 や古い値で上書きしない）
+let bookingReferrals = null;
+try {
+  const reportUrl = `https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`;
+  const metaRes = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${property}/metadata`, {
+    headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(30000),
+  });
+  if (!metaRes.ok) throw new Error(`metadata HTTP ${metaRes.status}`);
+  const dims = referralDimensions(await metaRes.json());
+  if (dims.missing.length) throw new Error(`未登録のディメンション: ${dims.missing.join(', ')}（新しく登録はしない）`);
+  const periods = referralWindows(through);
+  const dateRanges = [periods.recent28, periods.recent7].map((p) => ({ startDate: p.start, endDate: p.end }));
+  const eventFilter = (values) => ({ filter: { fieldName: 'eventName', inListFilter: { values } } });
+  const complete = (res, label) => {
+    const issues = referralReportQualityIssues(res, label);
+    if (issues.length) throw new Error(issues.join(' / '));
+    return res.rows ?? [];
+  };
+  const totals = referralTotals(complete(await request(reportUrl, {
+    dateRanges, dimensions: [{ name: 'eventName' }], metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(REFERRAL_EVENTS), limit: '100',
+  }), 'totals'));
+  const provider = buildByProviderPage(complete(await request(reportUrl, {
+    dateRanges,
+    dimensions: ['eventName', 'pagePath', 'customEvent:link_url', 'customEvent:link_provider', ...(dims.partnerStatus ? ['customEvent:partner_status'] : [])].map((name) => ({ name })),
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(CLICK_EVENTS), limit: '100000',
+  }), 'byProviderPage'), { partnerStatus: dims.partnerStatus });
+  const byPage = buildByPage(complete(await request(reportUrl, {
+    dateRanges: [dateRanges[1]], dimensions: [{ name: 'eventName' }, { name: 'pagePath' }], metrics: [{ name: 'eventCount' }],
+    dimensionFilter: eventFilter(REFERRAL_EVENTS), limit: '100000',
+  }), 'byPage'));
+  bookingReferrals = {
+    source: `Google official GA4 Data API: pagePath × link_url × link_provider${dims.partnerStatus ? ' × partner_status' : ''}`,
+    periods, partnerStatus: dims.partnerStatus, totals,
+    byProviderPage: provider.rows, unattributed: provider.unattributed, dropped: provider.dropped, byPage,
+  };
+  const errors = checkBookingReferrals(bookingReferrals, { confirmedThrough: through });
+  if (errors.length) { console.warn('::warning title=送客先別データ::' + errors.join(' / ') + '（送客先別は今回は反映しない）'); bookingReferrals = null; }
+} catch (error) {
+  console.warn(`::warning title=送客先別データ::取得できませんでした（${error.message}）。前回の値と期間を残します。`);
+  bookingReferrals = null;
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -70,6 +185,8 @@ const output = {
   daily: [...dailyMap.values()].sort((a,b)=>a.date.localeCompare(b.date)),
   gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
   bookingCtaExperiment,
+  ...(pageLevel ? { pageLevel } : {}),
+  ...(bookingReferrals ? { bookingReferrals } : {}),
 };
 writeFileSync(env.OUTPUT_PATH || '/tmp/ibatoco-google-daily.json', JSON.stringify(output, null, 2) + '\n');
-console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates. No snapshot modified.`);
+console.log(`Read-only: GA4 ${output.daily.length} dates, GSC ${gscDaily.length} dates, page-level ${pageLevel ? `${pageLevel.gscQueries.length} query rows / ${pageLevel.pageMetrics.length} pages` : 'not included'}, booking referrals ${bookingReferrals ? `${bookingReferrals.byProviderPage.length} destination rows / ${bookingReferrals.byPage.length} pages` : 'not included'}. No snapshot modified.`);

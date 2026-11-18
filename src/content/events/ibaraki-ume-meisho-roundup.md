@@ -132,6 +132,7 @@ sourceUrls:
     url: "https://ttca.jp/tourisminfo/mttsukuba/seasons/"
     accessedAt: 2026-11-03
 relatedArticleUrls:
+  - "/events/mito-ume-matsuri-2027/"
   - "/events/kairakuen-guide/"
   - "/events/kodokan-mito-guide/"
   - "/events/senbako-guide/"

@@ -18,8 +18,9 @@ const municipalityGroups = REGION_ORDER.map((region) => ({
   description="茨城県内のイベント情報、店舗・施設情報の新規掲載・修正依頼を、公式URLと一緒に送れます。掲載前にイバトコで一次情報を確認します。"
   jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}
 >
-  <header class="submit-head bp-wrap">
+  <header class="submit-head v42-hero v42-hero--fill bp-wrap">
     <Breadcrumbs items={crumbs} />
+    <img class="v42-hero__art" src="/images/v42/route-reporters.webp" alt="" width="480" height="720" decoding="async" />
     <p class="bp-kicker">SEND LOCAL INFO</p>
     <h1>情報を、<br />そのまま送れます。</h1>
     <p>イベント主催者・店舗・施設の方から、掲載候補や修正情報を受け付けています。送信内容をそのまま公開するのではなく、イバトコで一次情報を確認したうえで反映します。</p>

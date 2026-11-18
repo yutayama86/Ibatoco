@@ -46,6 +46,10 @@ const pageFunnel = new Map(
     monetizedClicks: Number(row.monetized_booking_click ?? 0),
   }])
 );
+const referralPeriod = performance.conversionDetail?.byProviderPagePeriod ?? null;
+const referralPeriodLabel = referralPeriod?.start && referralPeriod?.end
+  ? `${referralPeriod.start}〜${referralPeriod.end}`
+  : '集計期間未取得';
 const actualCandidateClicks = new Map();
 for (const row of performance.conversionDetail?.byProviderPage ?? []) {
   if (row.classification !== 'non-partner-candidate') continue;
@@ -181,6 +185,7 @@ const categoryOpportunities = [...categoryMap.values()]
 const state = {
   generatedAt: new Date().toISOString(),
   asOf: performance.asOf ?? null,
+  referralPeriod,
   providerOpportunities,
   categoryOpportunities,
 };
@@ -189,6 +194,7 @@ const lines = [
   '# Partner Opportunity Engine',
   '',
   freshness.line,
+  `- 送客先別の未提携候補クリック：${referralPeriodLabel}（同期間の実測。ページ別7日クリックや28日Viewsとは比較しない）`,
   `- 終了判定の基準: 今日（${today}・日本時間）。終了したイベントは候補から外す`,
   '- Views の合計は GA4 上位ページに入ったページの分だけ（上位外は値が無いので足していない）',
   '- 方針: 実需要が見えるまで新規提携を増やさない。追加費用がかかる提携・SaaSは対象外。',

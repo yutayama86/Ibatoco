@@ -79,10 +79,12 @@ const jsonLd = [
 >
   <!-- HERO -->
   <header class="rp-hero">
-    <div class="bp-wrap">
+    <div class="bp-wrap v42-hero v42-hub-label">
       <Breadcrumbs items={crumbs} />
+      <img class="v42-hero__art" src="/images/v42/field-reporters.webp" alt="" width="360" height="540" decoding="async" />
       <p class="bp-kicker">JOIN IBATOCO ／ 協力してくれる人へ</p>
       <h1>その街のこと、<br />あなたが一番<br />知っている。</h1>
+      <p class="v42-display" data-copy-key="reporters.title">あなたの「いつも」を、<br />誰かのよりみちに。</p>
       <div class="rp-hero-body">
         <div class="rp-hero-lead">
           <p>イバトコは、茨城を自分の足で歩き、人に会い、確かめたことだけを書くローカルメディアです。</p>
@@ -107,7 +109,7 @@ const jsonLd = [
   </div></section>
 
   <!-- WAYS TO JOIN -->
-  <section class="rp-ways bp-wrap">
+  <section class="rp-ways v42-band bp-wrap">
     <header><p class="bp-kicker">WAYS TO JOIN</p><h2 class="bp-section-title">参加のかたちは、ひとつじゃない。</h2><p>「書く」だけが参加ではありません。あなたに合った関わり方から、無理なく始められます。</p></header>
     <div class="rp-ways-grid">{ways.map((w) => (
       <article class="rp-way">

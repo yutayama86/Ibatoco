@@ -26,6 +26,29 @@ export const SEASONAL_GUIDE_PATHS = [
   '/events/tsukuba-autumn-2026/',
 ];
 
+/**
+ * Recent editorial launches should receive the same real-browser and production
+ * checks as existing key pages, not just pass a build/sitemap audit.
+ * Keep these 4 paths through the 7/28-day SEO observation window.
+ */
+export const RECENT_EVENT_PATHS = [
+  '/events/tokai-imo-fes-2026/',
+  '/events/tokyo-ibaraki-shukakusai-2026/',
+  '/events/tokyo-daigo-food-business-talk-2026/',
+  '/events/itako-riverside-illumination-2026/',
+];
+
+export const EDITORIAL_HUB_EXPECTED_LINKS = [
+  {
+    path: '/events/ibaraki-events-november-2026/',
+    linked: ['/events/tokai-imo-fes-2026/', '/events/tokyo-ibaraki-shukakusai-2026/', '/events/tokyo-daigo-food-business-talk-2026/', '/events/itako-riverside-illumination-2026/'],
+  },
+  {
+    path: '/events/ibaraki-illumination-2026/',
+    linked: ['/events/itako-riverside-illumination-2026/'],
+  },
+];
+
 /** 一般ページの骨格。ヘッダー・ナビ・本文・フッターが欠けたら表示崩れとして扱う（本番HTMLでは data 属性だけ数える） */
 const SITE_FRAME = [['[data-site-header]', 1], ['nav', 1, 'js'], ['main', 1, 'js'], ['footer', 1, 'js']];
 
@@ -68,6 +91,9 @@ export function qaPages(root = process.cwd()) {
         ['[data-module="home_area"] a[href^="/area/"]', 44],
         ['[data-module="home_news"] a[href^="/news/"]', 1],
         ['[data-module="home_process"]', 1],
+        ['[data-module="home_trips"] a[href^="/course/"]', 2],
+        ['[data-module="home_pets"] a[href^="https://"]', 6],
+        ['[data-module="home_pets"] a[href="/pet/"]', 1],
         ['[data-module="home_partner"] a[href^="/biz/"], [data-module="home_partner"] a[href^="/sponsor/"]', 1],
       ],
     },
@@ -88,6 +114,30 @@ export function qaPages(root = process.cwd()) {
       path,
       canonical: path,
       required: [['h1', 1], ['#facts', 1], ['[data-growth-next] a[href^="/"]', 1], ['#booking[data-booking-guide]', 1], ['.ev-head__quick a[href="#booking"]', 1], ['.ev-toc a[href="#booking"]', 1], ['#sources a[href^="http"]', 1]],
+    })),
+    ...RECENT_EVENT_PATHS.map((path) => ({
+      name: `公開直後の重点イベント ${path}`,
+      path,
+      canonical: path,
+      required: [
+        ['h1', 1],
+        ['#facts', 1],
+        ['#highlights', 1],
+        ['#faq', 1],
+        ['#booking[data-booking-guide]', 1, 'js'],
+        ['#sources a[href^="http"]', 1],
+      ],
+    })),
+    ...EDITORIAL_HUB_EXPECTED_LINKS.map(({ path, linked }) => ({
+      name: `最新特集の内部リンク ${path}`,
+      path,
+      canonical: path,
+      required: [
+        ['h1', 1],
+        ['#picks', 1],
+        ...linked.map((href) => [`a[href="${href}"]`, 1]),
+        ['#sources a[href^="http"]', 1],
+      ],
     })),
     ...SEASONAL_GUIDE_PATHS.map((path) => ({
       name: `季節の重点 ${path}`,

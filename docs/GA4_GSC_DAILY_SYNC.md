@@ -79,3 +79,112 @@
 ## ChatGPT の日次運用（Windsor.ai）との関係
 
 スナップショットは ChatGPT の日次運用でも更新されることがある（`source.primary` が Windsor.ai の日）。同じ日に両方が `windows.ga4`・`windows.gsc` を書くと PR が競合する。この同期が動き出したら、日別の GA4/GSC は**この同期を正**とし、ChatGPT は Windsor でしか取れない項目（上位ページ・検索語・送客イベントのページ別など）だけを更新する。
+
+## 数字が止まったとき（2026-11-10、Issue #545 の復旧手順）
+
+2026-10-29〜11-09 に main のスナップショットが `asOf: 2026-10-28` で止まった。取得は毎日成功していて、**同期 PR が開かれていなかった**のが原因だった（Windsor.ai とフォールバックの Google Sheet は、この経路に関係しない）。秘密値はどの手順でも表示・変更しない。
+
+1. **検知**：`npm run verify`（CI の Validate site）が `GA4/GSC の鮮度（P0）` の警告を出す。手元では `node scripts/analytics-freshness.mjs`。判定は `src/lib/analytics-freshness.mjs`
+   - 同期が毎日成功していても確定日は「今日の3日前」。遅れは、そこからの日数で数える
+   - GA4 は3日（72時間）以上、GSC は4日（96時間）以上の遅れで警告。確定日が読めないときは「未取得」とし、前回の値を最新扱いしない
+   - 警告は記事の公開を止めない（終了コード0）。止めたい場面では `--strict`
+2. **切り分け**（上から順に）
+   - Actions →「Read-only GA4 and GSC via Google API」の直近の実行が成功しているか
+   - 成功している → ブランチ `bot/google-analytics-daily` の最新コミットの日付を見る。新しければ、**PR が開いていないだけ**。`bot/google-analytics-daily` → `main` の PR を開く（1回開けば、以後は毎日その PR が更新される。マージした翌日にまた1回開く）
+   - fetch ジョブが失敗 → ログの preflight の行を読む。認証（Workload Identity）や Google 側の権限に見える失敗は、設定を変えずにオーナーへ報告する
+   - sync ジョブが失敗 → `npm run verify` のどの検査で落ちたかを読む（スナップショット以外の原因で落ちることがある）
+3. **復旧後の確認**：PR の `data/editorial/performance-snapshot.json` だけが変わっていること、確定日が GA4・GSC とも進んでいること、0埋めが無いこと。マージ後、翌日の実行でブランチが更新されること
+4. **35日を超えて止まった場合**：ワークフローは直近35日しか書かない。それより前は Google 側に残っているので、必要ならオーナーの判断で手動で取り出す（推測で埋めない）
+
+恒久対応の選択肢は上の「選択肢の比較と推奨」のとおり（PR を人が開く運用 B か、Actions に PR 作成を許す設定 A）。どちらにするかはオーナーが決める。
+
+## 2026-11-13：安全な日次自動マージ（設定が揃った場合のみ）
+
+- 05:30 JST：Google公式APIの確定値を取得し、欠測・巻き戻り・不自然な0埋めを検査
+- 同期専用ブランチを最新mainから再作成し、既存PRを更新（無ければ新規作成を試行）
+- プロポーザルの差分が `data/editorial/performance-snapshot.json` **1ファイルのみ**か、PRのheadが同期実行コミットと一致するかを確認
+- Validate site / CodeQLを起動し、GitHubの保護ルールを維持したまま `gh pr merge --auto --squash` を要求。必須チェックを満たすまでmainへは入らない
+- PRを作れない、auto-mergeが無効、ボットPRのCIが承認待ちの場合は**ワークフローを失敗**させ、Job SummaryとActions上で分かるようにする。制限を迂回しない
+- mainマージ後、`Validate site` のmain push成功を条件に `Deploy production` が起動する。公開確認は `/build.json` のSHA一致による
+
+### オーナーによる1回限りの設定（自動反映に必須）
+
+1. GitHubの `Settings → Actions → General` で **Allow GitHub Actions to create and approve pull requests** を有効にする。これはリポジトリ全体の権限なので、変更リスクを了承した場合のみ行う
+2. `Settings → General → Pull Requests` の **Allow auto-merge** を有効にする
+3. PRで **Approve workflows to run** が出た場合は一度承認する（GitHubが毎回要求する設定であれば無人運用にはできない）
+4. `Actions → Read-only GA4 and GSC via Google API` をmainから手動起動し、PRの差分1ファイル・必須チェック成功・マージ・Deploy production・本番SHA一致を確認
+5. 翌日以降、完了日が進まないときはActionsを赤色で検知する。GA4・GSCの確定日遅延そのものは正常（通常数日）
+
+**注意**：この変更だけで現状のGitHub設定を自動変更したことにはならない。また、PRの自動マージが許可されても、CIの承認待ち（action_required）が解除される保証はない。最終的な無人反映は本番で連続実行を確認してから「復旧」と判定する。
+
+## 2026-11-13：ページ別・検索語別も毎日取る（監査 A1）
+
+監査（`docs/audit-20261113/SEO_INDEPENDENT_AUDIT.md` の A1）で、日次同期がサイト全体の日別しか取っておらず、`pageMetrics`・`gscQueries`・`ga4TopPages` が11月より前の古いデータのまま（期間も未記録）だと分かった。記事の優先順位と効果測定を、同じ日の確定値でできるようにする。
+
+- 取得（`scripts/google-api-daily.mjs`）：既存と同じトークン・読み取りだけで、GSC の `page×query` と `page`（直近28日・前28日・直近7日・前7日の4窓）と、GA4 の `pagePath` 別 Views（直近7日・前7日・直近28日）を足した。出力に `pageLevel` が加わる。workflow は変えていない
+- 計算（`src/lib/gsc-page-level.mjs`、テスト `scripts/gsc-page-level.test.mjs`）：既存の行の形のまま作る。GSC は表示0の行を返さないので、窓の応答が上限未満なら「行が無い＝0」、上限に達した窓では null（不明）。GA4 が取れなかったときの Views は null
+- 検査（preflight と sync の両方）：期間が確定日で終わること、0行で上書きしないこと、検索語×ページの28日クリック合計がサイト全体を超えないこと
+- 反映（`scripts/google-analytics-sync.mjs`）：取れた日だけ置き換え、`source.pageLevel.periods` に期間を記録する。取れなかった日はサイト全体の日別だけを同期し、前の値と期間を残す（ページ別の失敗で日次同期は止めない）
+- 鮮度：`node scripts/analytics-freshness.mjs` がページ別の期間も報告する（警告だけで、`--strict` でも止めない）。`/control/` の「集計期間未記録」は期間が記録されていれば期間の表示に変わる
+- 未確認：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。最初の日次実行のログ「page-level N query rows」と、同期 PR の `source.pageLevel` で確認する
+- 直した既存の不具合：`source.warnings` に同じ2文が毎日追加されて重複していた。同じ文は置き換えるようにした
+
+## 2026-11-14：GSC の確定が遅れた日の扱い
+
+11月14日の日次同期は、fetch で `GSC: latest date 2026-11-10 != confirmedThrough 2026-11-11` となり止まった。Search Console の確定データ（`dataState: 'final'`）が、予定の確定日（今日−3日）にまだ届いていなかったため。ページ別の取得（A1）は成功していた（`page-level 3000 query rows / 200 pages`）。
+
+- 対応：`scripts/google-api-daily.mjs` は、GSC の最新の確定日が予定より1〜2日遅れているときは、その日まで確定日を下げて同期する（GA4 の日別もその日までで切る。ページ別・A/B の期間も同じ確定日で取る）。`::warning title=確定日を…に調整` を出す
+- 3日以上遅れたときは従来どおり止める（`alignConfirmedThrough`、テストは `scripts/gsc-page-level.test.mjs`）
+- 確定日が前回と同じ日になることはあるが、前回より前には戻さない（sync の regression 検査はそのまま）
+- 0 や推計で埋めない原則は変えていない
+
+## 2026-11-15：GA4 の確定が遅れた日も同じく調整する
+
+11月15日の日次同期は `GA4: latest date 2026-11-11 != confirmedThrough 2026-11-12` で止まった（GSC は 11-12 まであった。ページ別の取得は成功）。#592 は GSC の遅れだけを見ていたため、GA4 と GSC の**両方にある日付**の最新日まで確定日を下げるよう直した。遅れの上限（2日）と、0 や推計で埋めない原則は同じ。
+
+## 2026-11-15：同期PR（bot/google-analytics-daily）がマージできないときの取り込み手順
+
+ボット（github-actions）が作る同期PRは、必須チェック（build・Analyze）が実行・成功していても `2 of 2 required status checks are expected` でマージできないことがある（11/15 の #605）。ワークフローや main のルールセットは変えずに、次の手順で取り込む（11/15 は #607 で実施）。
+
+1. 同期PRの変更が `data/editorial/performance-snapshot.json` だけであることを確認する
+2. main から作業ブランチを作り、`git checkout origin/bot/google-analytics-daily -- data/editorial/performance-snapshot.json`
+3. `node scripts/ga4-daily.mjs --check` と `node scripts/analytics-freshness.mjs` で照合・鮮度を確かめる（ページ別は `PAGE_LEVEL_FRESHNESS_OK` が出ること）
+4. PR を作り、CI 成功後にマージ。元の同期PRは理由をコメントしてクローズ（オーナー了承済みの運用）
+
+根本対応（ボットPRに必須チェックが紐づくようにする）は、ワークフローかルールセットの変更が必要なため、オーナーの個別承認事項として保留。
+
+## 2026-11-15：送客先別の送客クリックも毎日取る（Issue #612）
+
+サイト全体とページ別は 11/12 まで更新されていたが、`conversionDetail.byProviderPage`（送客先別）は Windsor.ai の手取得（2026-09-27〜10-03）のまま、`byPage` は 10/13〜10/19 のままだった。Windsor.ai は現在のプランでは読めない。協賛候補を選ぶ材料なので、日次同期と同じ経路で取り直す。
+
+- 取得（`scripts/google-api-daily.mjs`）：既存と同じトークン・読み取りスコープだけ。workflow・認証・Secret・Variable は変えていない。GA4 Data API へ足したのは次の4回
+  1. メタデータ（`properties/<id>/metadata`）で、`customEvent:link_url`・`customEvent:link_provider` が登録済みかを確かめる。**無ければ取得しない**（新しいカスタムディメンションは登録しない）。`customEvent:partner_status` は登録されていれば使う
+  2. `eventName` 別の件数（`booking_guide_view`・`outbound_booking_click`・`paid_booking_click`。直近28日・直近7日）。内訳との照合に使う
+  3. `eventName × pagePath × link_url × link_provider`（同じ2つの期間）
+  4. `eventName × pagePath`（直近7日。既存の `byPage` の形）
+- 計算（`src/lib/booking-referrals.mjs`、テスト `scripts/booking-referrals.test.mjs`）：既存の行の形（`path`・`link_url`・`link_provider`・`partner_status`・`event_count`・`classification`）を保ち、`event_count7`（直近7日）と `paid_count`（提携リンクの内数）を足した。`event_count` は直近28日
+  - 区分：`paid_booking_click` が出た行と ASP のホストは `paid`、`link_provider` が `official`／`*-official` は `official`、それ以外は `non-partner-candidate`。`active-unmapped` は `partner_status` が登録されているときだけ判定できる
+  - `link_url` が `(not set)` の件数は行にせず、`byProviderPageTotals.unattributed` に残す（送り先を推測しない）
+- 検査（preflight と sync の両方）：期間が確定日で終わること、送客先別・ページ別の合計がサイト全体の件数を超えないこと、`paid_booking_click` が `outbound_booking_click` を超えないこと、送客クリックがあるのに内訳が空なら上書きしないこと
+- 反映（`scripts/google-analytics-sync.mjs`）：取れた日だけ `byProviderPage`・`byProviderPagePeriod`（28日）・`byProviderPagePeriod7`・`byProviderPageSource`・`byProviderPageCheckedAt`・`byProviderPageTotals`・`byPage`・`byPagePeriod`（7日）・`byPageSource`・`byPageCheckedAt` を置き換える。取れなかった日は前の値と期間を残す（送客先別の失敗で日次同期は止めない）
+- 鮮度：`node scripts/analytics-freshness.mjs` が送客先別の期間も報告する（警告だけ。`--strict` でも止めない）
+- 変えていないこと：`conversionDetail.recent7`・`previous7`・`recent28`（イベント別の件数。10月の手取得のまま）は、この変更の対象外。計測（送るイベント・パラメータ）も変えていない
+- **未確認**：本物の API 応答ではまだ動かしていない（手元にトークンが無い）。API を模した応答で、取得 → preflight → sync → レポートの流れだけを確かめた。最初の日次実行のログ「booking referrals N destination rows」と、同期 PR の `conversionDetail.byProviderPagePeriod` で確認する。`link_url` はカスタムディメンションの登録日（2026-09-27）以降の分しか付かない
+
+### 2026-11-15 レビュー反映：内訳データの品質と比較ルール
+
+- `outbound_booking_click` の直近28日・7日合計がどちらか一方でも欠けている（`null`）場合、真の0件と未取得を区別できないため**送客先別データは更新しない**。実測0件を推測で補完しない。
+- GA4の`rowCount`に加え、`metadata.dataLossFromOtherRow`、`metadata.subjectToThresholding`、`metadata.samplingMetadatas`、`dataTruncationReasons`を検査し、欠落・サンプリング等があれば送客データを更新しない。既存のスナップショットを保持してログに警告を出す。営業用の完全な件数と誤認させない。
+- `conversionDetail.byProviderPage[*].event_count`は**直近28日**（旧7日と意味が変更）。互換性を保つため同値の`event_count28`も付与し、直近7日は`event_count7`。レポートには`byProviderPagePeriod`（28日）を表示する。変更前後を同条件の時系列として比較しない。
+- `conversionDetail.byPage`の`booking_guide_view`、`outbound_booking_click`、`monetized_booking_click`は**直近7日**。28日送客先クリックとページ別7日クリックを同じ母数とみなさない。
+- `partner_status`は本番APIメタデータに登録がある場合のみ使用し、`byProviderPageTotals.partnerStatusAvailable`に結果を記録する。未登録の場合に提携先との契約関係を推測しない。
+- `src/pages/control/index.astro`と`scripts/partner-opportunity.mjs`は集計期間を明示する。期間の異なるPV/予約送客/広告クリックを混同しない。
+- **実APIへの接続はGitHub Actionsの既存Workload Identityによる次の日次fetchで実施**。本番実測に成功し、対象期間の同期PRに反映されたことを確認するまでは完了と判定しない。
+
+### 2026-11-15 TOP人気記事の再発防止（Issue #619）
+
+- 従来の `data/editorial/popular-pages.json` は手動更新の記録で、TOPの「よく読まれている記事」と本文下部の「あわせて読みたい」の表示正本にはしない。停止していた10月の実績が再利用されないよう、両コンポーネントは `data/editorial/performance-snapshot.json` をビルド時に参照する。
+- `src/lib/popular-ranking.mjs` が Google公式GA4 Data API の `ga4TopPages.recent7` の実測を、`source.pageLevel.periods.recent7`・`asOf`・`windows.ga4.recent7` と照合して候補にする。ページ別実測が未更新、欠落あり、確定日が未来、14日超の古い値の場合は**ランキングを表示しない**。欠落を0で補うことはしない。
+- TOPは公開済みで index 可能かつ終了していない記事だけを選び、既存の同一話題まとめで順位を表示。GrowthNextReadsは関連記事を先に表示し、足りない数だけ同じGA4確定順位で補完する。いずれも表示は最大数を変えずデザインは変更しない。
+- 日次公式APIのスナップショットが正規のPR経路でmainへ入ると、既存のmain CI→Deploy productionで次回ビルド時に順位が更新される。**新しいworkflow、Secrets、Google API、課金、直接main書き込みは追加しない**。公式スナップショットの同期が停止した場合は最大14日で順位を非表示とし、編集OS警告から原因を確認する。
+- `data/editorial/popular-pages.json` は移行時点の過去データとして保持するが、ランキング表示の正本ではない。削除の必要性は別途監査・承認で判断する。

@@ -9,6 +9,7 @@
  * トリガーのボタンは呼び出し側に置く（data-menu-trigger と id を合わせること）。
  */
 import NavCaret from './NavCaret.astro';
+import V42Icon from './V42Icon.astro';
 
 export interface NavDropdownItem {
   label: string;
@@ -27,6 +28,7 @@ interface Props {
   /** ナビに出す見出し（ボタンの文言） */
   label: string;
   items: NavDropdownItem[];
+  icon?: 'sports' | 'news';
   /** 現在地の判定に使う。前方一致ではなく完全一致で見る */
   currentPath?: string;
   /** 幅を広めにする（noteが入るとき） */
@@ -34,7 +36,7 @@ interface Props {
   isCurrent?: boolean;
 }
 
-const { id, name, label, items, currentPath, wide = false, isCurrent = false } = Astro.props;
+const { id, name, label, items, icon, currentPath, wide = false, isCurrent = false } = Astro.props;
 ---
 
 <div class="nav-dropdown">
@@ -45,7 +47,7 @@ const { id, name, label, items, currentPath, wide = false, isCurrent = false } =
     aria-expanded="false"
     aria-controls={id}
   >
-    {label} <NavCaret />
+    {icon && <V42Icon name={icon} />} {label} <NavCaret />
   </button>
 
   <div class:list={['nav-drop', wide ? 'nav-drop--wide' : 'nav-drop--about']} id={id} data-menu-panel={name} aria-hidden="true">

@@ -9,7 +9,7 @@
  * 「大洗の次に大洗を読む」ようにしないと押されない。
  *
  * ## なぜ終了判定を毎回するか
- * popular-pages.json は生成時点の順位なので、そのあと終わったイベントが残る。
+ * 現在は日次同期される performance-snapshot.json の公式GA4確定値で順位を生成するが、終了判定は常に必要。
  * 実際 9月27日に、9月26日で終わった大洗海上花火を出していた。
  * 保存した値は必ず古くなる（docs/PLATFORM.md §6）。findRelated は既定で
  * 終了イベントを外すので、人気順で埋めるぶんも同じ基準で落とす。
@@ -19,7 +19,9 @@
  * 2. 足りない分を全体人気で埋める
  * どちらも終了イベントと現在のページは出さない。
  */
-import popular from '../../data/editorial/popular-pages.json';
+import snapshot from '../../data/editorial/performance-snapshot.json';
+import { selectConfirmedPopular } from '../lib/popular-ranking.mjs';
+import { todayDateOnlyString } from '../lib/date-only.js';
 import { getEvents, getNews } from '../lib/content';
 import { facetsOfEvent, facetsOfNews, getAllFacets, type ContentFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
@@ -76,7 +78,7 @@ if (currentFacets) {
   for (const candidate of findRelated(currentFacets, allFacets, { limit: 3 })) push(candidate.facets.path);
 }
 // 2) 足りない分を全体人気で埋める
-for (const entry of popular.pages) {
+for (const entry of selectConfirmedPopular(snapshot, linkable, todayDateOnlyString()).pages) {
   if (picked.length >= 3) break;
   push(entry.path);
 }
@@ -188,7 +190,7 @@ const hasItems = items.length > 0;
     text-decoration: none;
   }
   .growth-next__meta { grid-column: 1; color: var(--color-soil); font: 500 .8125rem/1.65 var(--font-brand-meta); }
-  .growth-next strong { grid-column: 1; font: 600 1.0625rem/1.75 var(--font-brand-display); word-break: normal; overflow-wrap: anywhere; line-break: strict; }
+  .growth-next strong { grid-column: 1; font: 600 1.0625rem/1.75 var(--font-brand-display); word-break: normal; overflow-wrap: break-word; line-break: strict; }
   .growth-next__arrow { grid-column: 2; grid-row: 1 / 3; color: var(--color-tide); }
   .growth-next a:hover strong { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
   .growth-next a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }

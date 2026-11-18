@@ -1,0 +1,104 @@
+{
+  "widthChecks": [
+    {
+      "heroTitleInside": true,
+      "inputFont": "16px",
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 320,
+      "slides": 3,
+      "tabs": 3,
+      "width": 320
+    },
+    {
+      "heroTitleInside": true,
+      "inputFont": "16px",
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 360,
+      "slides": 3,
+      "tabs": 3,
+      "width": 360
+    },
+    {
+      "heroTitleInside": true,
+      "inputFont": "16px",
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 390,
+      "slides": 3,
+      "tabs": 3,
+      "width": 390
+    },
+    {
+      "heroTitleInside": true,
+      "inputFont": "16px",
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 430,
+      "slides": 3,
+      "tabs": 3,
+      "width": 430
+    },
+    {
+      "desktopNavFits": true,
+      "icons": 7,
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 768,
+      "width": 768
+    },
+    {
+      "desktopNavFits": true,
+      "icons": 7,
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 1024,
+      "width": 1024
+    },
+    {
+      "desktopNavFits": true,
+      "icons": 7,
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 1280,
+      "width": 1280
+    },
+    {
+      "desktopNavFits": true,
+      "icons": 7,
+      "mapLinks": 44,
+      "overflow": 0,
+      "scrollWidth": 1440,
+      "width": 1440
+    }
+  ],
+  "slides": [
+    {
+      "activeTab": "0",
+      "href": "/area/hitachinaka/",
+      "slide": "0",
+      "title": "この青を、歩きにいこう。"
+    },
+    {
+      "activeTab": "1",
+      "href": "/food-library/",
+      "slide": "1",
+      "title": "ひと口めから、好きになる。"
+    },
+    {
+      "activeTab": "2",
+      "href": "/events/",
+      "slide": "2",
+      "title": "今週末、茨城でなにしよう。"
+    }
+  ],
+  "menu": {
+    "opened": true,
+    "closedWithEscape": true
+  },
+  "search": {
+    "query": "笠間",
+    "results": 30
+  }
+}

@@ -9,7 +9,6 @@ author: イバトコ編集部
 reporter: 編集長 大和
 area: つくば市
 tags: [ラーメン, 中華蕎麦, つくば, 行列店]
-place: tsukuba-ramen-kaze
 featured: true
 draft: true
 ---

@@ -15,6 +15,7 @@ import { MUNICIPALITIES } from '../../data/areas';
 import { getSportsNews, getSportsNewsByKeyword } from '../../lib/content';
 import { getTeamMatches } from '../../lib/sports';
 import { formatJapaneseDate } from '../../lib/date-only.js';
+import '../../styles/course.css';
 
 /** カードの1行。1市町村なら数ではなく市町村名を出す（「1市町村」は読みにくい） */
 const townLabel = (group: { label: string; slugs: string[] }) => {
@@ -45,6 +46,7 @@ const articles = [...tagged, ...legacy].filter((item) => {
 
 const newsPath = (id: string) => `/news/${id.split('/').pop()}/`;
 
+
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
   {
@@ -62,11 +64,12 @@ const jsonLd = [
   description="水戸ホーリーホック、鹿島アントラーズ、茨城ロボッツ、茨城アストロプラネッツ、日立ハイテク クーガーズ。試合の結果だけでなく、行き方や街での過ごし方まで含めて記録します。"
   jsonLd={jsonLd}
 >
-  <header class="sp-head bp-wrap">
+  <header class="sp-head v42-hero bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">IBARAKI SPORTS</p>
     <h1>試合の外にも、<br />茨城がある。</h1>
     <p>勝ち負けは翌日には流れていきます。けれど、スタジアムへの行き方、待ち時間に寄った店、帰りに見た景色は残ります。イバトコは茨城のスポーツを、観戦と遠征と地域までひとつづきのものとして記録します。</p>
+    <img class="v42-hero__art" src="/images/v42/matchday-supporters.webp" alt="" width="520" height="347" decoding="async" />
   </header>
 
   <section class="sp-teams bp-wrap bp-section" aria-labelledby="sp-teams-title">
@@ -129,6 +132,35 @@ const jsonLd = [
     <p class="sp-more"><a href="/news/">茨城ニュース解説をすべて見る →</a></p>
   </section>
 
+  <div class="p41-main sp-walk">
+    <section class="p41-section is-sage" aria-labelledby="sp-walk-title">
+      <div class="p41-wrap">
+        <header class="p41-section-head">
+          <div>
+            <p class="p41-kicker">MORE THAN A GAME</p>
+            <h2 id="sp-walk-title">試合のある街を、歩く。</h2>
+          </div>
+        </header>
+        <div class="p41-grid two">
+          <a class="p41-card" href="/area/">
+            <figure><img src="/images/area/hitachi/station.jpg" alt="" width="1280" height="853" loading="lazy" decoding="async" /><span>実写</span></figure>
+            <p class="p41-kicker">AREA GUIDE</p>
+            <h3>観戦前に、街を知る。</h3>
+            <p>44市町村のガイドから、次の行き先へ。</p>
+            <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+          </a>
+          <a class="p41-card" href="/course/">
+            <figure><img src="/images/v42/v39-route-reporters.webp" alt="" width="360" height="540" loading="lazy" decoding="async" /><span>イメージイラスト</span></figure>
+            <p class="p41-kicker">MODEL COURSE</p>
+            <h3>帰り道も、ひとつの旅に。</h3>
+            <p>半日のモデルコースを探す。</p>
+            <span class="p41-read">もっと読む <b aria-hidden="true">→</b></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
   {matchCount === 0 && (
     <section class="sp-note bp-wrap bp-section">
       <p><strong>試合の日程と結果について。</strong>公式で確認できた情報だけを載せる方針のため、日程・結果・順位の掲載はまだ準備中です。確認が取れ次第、各チームのページへ追加します。</p>
@@ -137,6 +169,7 @@ const jsonLd = [
 </BrandBase>
 
 <style>
+  .sp-walk{margin-top:clamp(2rem,5vw,3rem)}
   /* 上下の余白と全幅の背景は interior.css の見出しバンドが持つ */
   .sp-head h1{margin-top:1rem;font:600 clamp(2.4rem,6vw,4.4rem)/1.25 var(--font-brand-display);color:var(--color-ink)}
   .sp-head>p:last-child{max-width:var(--measure);margin-top:1.6rem;line-height:2;color:var(--color-soil)}

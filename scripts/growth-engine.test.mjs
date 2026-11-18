@@ -10,9 +10,56 @@ import {
   scoreActions, seasonalPhase, seoOpportunities,
 } from '../src/lib/growth-engine.mjs';
 import { auditFreshness } from './freshness-guard.mjs';
+import { approvedUiResetFor } from './lib/approved-ui-reset.mjs';
 
 const config = JSON.parse(readFileSync('data/editorial/growth-engine.json', 'utf8'));
 const snap = (recent7, previous7, extra = {}) => ({ windows: { ga4: { recent7: { views: recent7, viewsPerSession: 1.15 }, previous7: { views: previous7 }, recent28: { views: 10469 } } }, ...extra });
+
+const uiResetFixture = () => {
+  const sourceBlobs = { 'src/pages/index.astro': 'a'.repeat(40), 'src/components/SiteHeader.astro': 'b'.repeat(40) };
+  const changedFiles = [...Object.keys(sourceBlobs), 'src/data/seo-changes.ts', 'data/editorial/approved-ui-resets.json'];
+  return {
+    approvals: [{ id: 'approved-fix', repository: 'owner/site', pullRequest: 517, baseSha: 'c'.repeat(40), path: '/', previousChangeId: 'previous', approvedBy: 'owner', approvedOn: '2026-11-07', validThrough: '2026-11-08', reason: '提出版のデザインへの復元を個別承認', allowedFiles: [...changedFiles], sourceBlobs, restartChangeId: 'restart' }],
+    repository: 'owner/site', prNumber: 517, baseSha: 'c'.repeat(40), today: '2026-11-07', path: '/', type: 'template', observedChangeId: 'previous', changedFiles, deletedFiles: [], fileHashes: { ...sourceBlobs },
+    changes: [{ id: 'restart', url: '/', date: '2026-11-07', experimentType: 'template' }],
+  };
+};
+
+test('個別承認UI：指定PR・基点・確認済みソース・公開日が一致した復元だけを許可', () => {
+  assert.equal(approvedUiResetFor(uiResetFixture())?.id, 'approved-fix');
+});
+
+for (const [name, alter] of [
+  ['別のPR', (c) => { c.prNumber = 518; }],
+  ['別のリポジトリ', (c) => { c.repository = 'owner/other'; }],
+  ['基点が進んだ後', (c) => { c.baseSha = 'd'.repeat(40); }],
+  ['次の観測記録', (c) => { c.observedChangeId = 'next'; }],
+  ['オーナー以外の承認名', (c) => { c.approvals[0].approvedBy = 'someone'; }],
+  ['承認前の日付', (c) => { c.today = '2026-11-06'; }],
+  ['承認の期限切れ', (c) => { c.today = '2026-11-09'; c.changes[0].date = c.today; }],
+  ['公開日が古い記録', (c) => { c.today = '2026-11-08'; }],
+  ['新しい観測記録なし', (c) => { c.changes = []; }],
+  ['本文を事実訂正とする記録', (c) => { c.changes[0].experimentType = 'fact'; }],
+  ['別ページ', (c) => { c.path = '/news/'; }],
+  ['記事本文の変更', (c) => { c.type = 'body'; }],
+  ['確認後のソース変更', (c) => { c.fileHashes['src/pages/index.astro'] = 'e'.repeat(40); }],
+  ['承認にないUIファイル', (c) => { c.changedFiles.push('src/components/Other.astro'); }],
+  ['ソースhashの記録漏れ', (c) => { delete c.approvals[0].sourceBlobs['src/components/SiteHeader.astro']; }],
+  ['ファイル削除', (c) => { c.deletedFiles.push('src/pages/index.astro'); }],
+  ['許可リストに足された記事', (c) => { c.changedFiles.push('src/content/news/example.md'); c.approvals[0].allowedFiles.push('src/content/news/example.md'); }],
+  ['許可リストに足されたworkflow', (c) => { c.changedFiles.push('.github/workflows/deploy.yml'); c.approvals[0].allowedFiles.push('.github/workflows/deploy.yml'); }],
+]) {
+  test(`個別承認UI：${name}には適用しない`, () => {
+    const context = uiResetFixture(); alter(context);
+    assert.equal(approvedUiResetFor(context), null);
+  });
+}
+
+test('個別承認UI：期限内でも実公開日に新しい観測記録が必要', () => {
+  const context = uiResetFixture();
+  context.today = '2026-11-08'; context.changes[0].date = context.today;
+  assert.equal(approvedUiResetFor(context)?.id, 'approved-fix');
+});
 
 test('Gap Controller：11月前は直近7日の1日平均×30日', () => {
   const g = gapController({ snapshot: snap(4916, 2153), config, today: '2026-10-06' });

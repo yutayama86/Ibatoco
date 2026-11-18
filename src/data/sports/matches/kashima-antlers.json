@@ -1,6 +1,6 @@
 {
   "team": "kashima-antlers",
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-18",
   "matches": [
     {
       "id": "kashima-antlers-2026-08-07-j1-01",
@@ -1004,14 +1004,19 @@
       "opponent": "ブリーラム・ユナイテッド",
       "homeAway": "away",
       "venue": "ブリーラムスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜AFCチャンピオンズリーグElite 2026/27 リーグステージ マッチスケジュール（時刻は現地時間）",
-          "url": "https://www.antlers.co.jp/blogs/news/260819sptxt4",
-          "accessedAt": "2026-10-18"
+          "label": "鹿島アントラーズ公式｜試合結果",
+          "url": "https://www.antlers.co.jp/blogs/games/20261104191501",
+          "accessedAt": "2026-11-18"
         }
-      ]
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 0
+      },
+      "recap": "ブリーラムスタジアムでブリーラム・ユナイテッドと0-0で引き分けました。"
     },
     {
       "id": "kashima-antlers-2026-11-07-j1-14",
@@ -1023,17 +1028,22 @@
       "opponent": "FC東京",
       "homeAway": "away",
       "venue": "味の素スタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜試合日程・結果",
-          "url": "https://www.antlers.co.jp/blogs/games",
-          "accessedAt": "2026-11-01"
+          "label": "Ｊリーグ公式｜試合結果",
+          "url": "https://www.jleague.jp/match/j1/2026/110709/",
+          "accessedAt": "2026-11-18"
         }
       ],
       "broadcast": [
         "DAZN"
-      ]
+      ],
+      "score": {
+        "own": 0,
+        "opponent": 2
+      },
+      "recap": "味の素スタジアムでFC東京に0-2で敗れました。"
     },
     {
       "id": "kashima-antlers-2026-11-11-levain-1",
@@ -1044,17 +1054,12 @@
       "kind": "cup",
       "opponent": "横浜F・マリノス",
       "homeAway": "away",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜ルヴァンカップ準々決勝日程",
-          "url": "https://www.antlers.co.jp/blogs/news/261029h59m63",
-          "accessedAt": "2026-11-01"
-        },
-        {
-          "label": "横浜F・マリノス公式｜放送・配信情報",
-          "url": "https://www.f-marinos.com/news/match/10783",
-          "accessedAt": "2026-11-01"
+          "label": "Ｊリーグ公式｜試合結果",
+          "url": "https://www.jleague.jp/match/leaguecup/2026/111103/",
+          "accessedAt": "2026-11-18"
         }
       ],
       "venue": "日産スタジアム",
@@ -1062,7 +1067,12 @@
         "フジテレビNEXT（録画放送）",
         "スカパー！",
         "スカパー！動画ストア"
-      ]
+      ],
+      "score": {
+        "own": 3,
+        "opponent": 2
+      },
+      "recap": "ルヴァンカップ準々決勝第1戦は、日産スタジアムで横浜F・マリノスに3-2で勝利しました。"
     },
     {
       "id": "kashima-antlers-2026-11-15-levain-2",
@@ -1074,24 +1084,24 @@
       "opponent": "横浜F・マリノス",
       "homeAway": "home",
       "venue": "メルカリスタジアム",
-      "status": "scheduled",
+      "status": "finished",
       "sources": [
         {
-          "label": "鹿島アントラーズ公式｜ルヴァンカップ準々決勝日程",
-          "url": "https://www.antlers.co.jp/blogs/news/261029h59m63",
-          "accessedAt": "2026-11-01"
-        },
-        {
-          "label": "横浜F・マリノス公式｜放送・配信情報",
-          "url": "https://www.f-marinos.com/news/match/10783",
-          "accessedAt": "2026-11-01"
+          "label": "Ｊリーグ公式｜試合結果",
+          "url": "https://www.jleague.jp/match/leaguecup/2026/111503/",
+          "accessedAt": "2026-11-18"
         }
       ],
       "broadcast": [
         "フジテレビNEXT（録画放送）",
         "スカパー！",
         "スカパー！動画ストア"
-      ]
+      ],
+      "score": {
+        "own": 3,
+        "opponent": 2
+      },
+      "recap": "ルヴァンカップ準々決勝第2戦は横浜F・マリノスに3-2で勝利。2試合合計6-4で準決勝へ進みました。"
     },
     {
       "id": "kashima-antlers-2026-11-20-j1-15",

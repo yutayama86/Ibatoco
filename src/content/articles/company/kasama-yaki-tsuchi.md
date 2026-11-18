@@ -7,7 +7,6 @@ author: イバトコ編集部
 reporter: 編集長 大和
 area: 笠間市
 tags: [笠間焼, ものづくり, 窯元, BtoB]
-place: kasama-kobo-tsuchi
 featured: false
 draft: true
 ---

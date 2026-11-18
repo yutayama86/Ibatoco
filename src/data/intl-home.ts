@@ -11,6 +11,8 @@ export interface IntlHome {
   kicker: string;
   h1: string;
   lead: string[];
+  /** 冒頭の写真（Kakidai / Wikimedia Commons / CC BY-SA 4.0。日本語TOPのFVと同じ原本）の代替テキストとクレジット表記 */
+  heroPhoto: { alt: string; credit: string; cropped: string };
   whyHeading: string;
   why: { title: string; text: string }[];
   guidesHeading: string;
@@ -25,6 +27,7 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
     title: 'Ibaraki Travel Guide — Just Beyond Tokyo | IBATOCO',
     description: 'Ibaraki is about two hours from Tokyo: seaside parks, flower hills, waterfalls and coastal towns. Practical, fact-checked travel guides written by a local media team based in Ibaraki.',
     kicker: 'IBARAKI, JAPAN',
+    heroPhoto: { alt: 'Blue nemophila in bloom at Hitachi Seaside Park', credit: 'Photo', cropped: 'cropped' },
     h1: 'Just beyond Tokyo, a coast most visitors never reach.',
     lead: [
       'Ibaraki sits on the Pacific coast northeast of Tokyo — close enough for a day trip, far enough that it never feels like a tourist queue.',
@@ -63,6 +66,7 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
     title: '茨城旅遊指南｜從東京出發的近郊小旅行 | IBATOCO',
     description: '茨城距離東京約兩小時，有海濱公園、粉蝶花山丘、瀑布與海岸小鎮。由茨城在地媒體實際走訪、查證官方資料後撰寫的實用旅遊指南。',
     kicker: '日本 茨城',
+    heroPhoto: { alt: '國營常陸海濱公園盛開的粉蝶花（Nemophila）', credit: '照片', cropped: '經裁切' },
     h1: '距離東京兩小時，多數旅客還沒去過的海岸。',
     lead: [
       '茨城位於東京東北方的太平洋沿岸——近到可以當天來回，卻又不像熱門景點那樣總是在排隊。',
@@ -101,6 +105,7 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
     title: '이바라키 여행 가이드 — 도쿄 근교 | IBATOCO',
     description: '이바라키는 도쿄에서 약 2시간. 해변공원과 꽃 언덕, 폭포와 바닷가 마을이 있습니다. 이바라키 현지 매체가 직접 찾아가 공식 자료로 확인해 쓴 실용 여행 가이드.',
     kicker: '일본 이바라키',
+    heroPhoto: { alt: '히타치 해변공원에 핀 네모필라', credit: '사진', cropped: '일부 잘라냄' },
     h1: '도쿄에서 두 시간, 아직 많이 알려지지 않은 바닷가.',
     lead: [
       '이바라키는 도쿄 북동쪽 태평양 연안에 있습니다. 당일치기가 가능할 만큼 가깝지만, 유명 관광지처럼 줄을 서는 일은 드뭅니다.',

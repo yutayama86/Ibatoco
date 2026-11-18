@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "approvals": [
+    {
+      "id": "20261107-v42-fidelity-517",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 517,
+      "path": "/",
+      "baseSha": "cc665284545fbda44be9ab92f19c228e912c2280",
+      "previousChangeId": "20261106-home-v42-sitewide",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-07",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが提出v42への差分修正を優先し、観測期間の区切り直しと本番公開まで進めることを個別承認した。今回のPRと確認済みソースだけに適用する。",
+      "restartChangeId": "20261107-home-v42-fidelity",
+      "sourceBlobs": {
+        "src/pages/index.astro": "617055a6c4f4087facb5c01b462d2358ee55c4c6",
+        "src/components/HomeNow.astro": "91ba15b8c1377a2ca30ce6e59d8ba7fac14d33d9",
+        "src/components/SiteHeader.astro": "8872dd02addc3787ebbe86aa4add2317ccd637ab",
+        "src/components/NavDropdown.astro": "2e6f3aa4f243702ccadad54c808bb7ebfdb0d190",
+        "src/components/V42Icon.astro": "f4546abf07a6532346dab0d60d0dc2439e8117ce"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeNow.astro",
+        "src/components/SiteHeader.astro",
+        "src/components/NavDropdown.astro",
+        "src/components/V42Icon.astro",
+        "src/data/seo-changes.ts",
+        "scripts/observation-guard.mjs",
+        "scripts/lib/approved-ui-reset.mjs",
+        "scripts/growth-engine.test.mjs",
+        "data/editorial/approved-ui-resets.json",
+        "docs/GROWTH_ENGINE.md",
+        "docs/design/V42_FIDELITY_REVIEW_20261107.md",
+        "docs/design/v42-fidelity-checks.json",
+        "docs/design/v42-screenshots/pc-top-fidelity.jpg",
+        "docs/design/v42-screenshots/sp-top-fidelity.jpg"
+      ]
+    },
+    {
+      "id": "20261108-v42-home-journey-523",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 523,
+      "path": "/",
+      "baseSha": "f537bb4f5b870995e950910bc143a5a751aaa3c1",
+      "previousChangeId": "20261107-home-v42-fidelity",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-08",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが11月8日、提出v42デザインを正としてTOPを寄せ（信頼の要素は残す）、一次情報で確かめた中身を載せてマージ・本番公開まで進めることを個別承認した。今回のPRと確認済みソースだけに適用する。",
+      "restartChangeId": "20261108-home-v42-journey",
+      "sourceBlobs": {
+        "src/components/HomeJourney.astro": "1b4ba3358067bd87b25ecb74af89e8b1119c1e78",
+        "src/pages/index.astro": "e15b1cee27f5da7435ba613c9b045f5c562a23a9"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-home-journey-pc.jpg",
+        "docs/design/v42-screenshots/compare-home-flowers-sp.jpg"
+      ]
+    },
+    {
+      "id": "20261108-v42-fidelity-a-533",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 533,
+      "path": "/",
+      "baseSha": "641637bf23963c30f27060a422b541baeec28d24",
+      "previousChangeId": "20261108-home-v42-journey",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-08",
+      "validThrough": "2026-11-08",
+      "reason": "オーナーが11月8日にIssue #532で、提出版v42と見た目が違うTOPの字級・余白・カード、地図と5地域パネルの配置の修正を依頼した（目的別Draft PRのA）。この記録は今回のPRと確認済みソースだけに適用する。マージはオーナー承認後で、マージ日が11月8日でなければ日付を合わせて記録し直す。",
+      "restartChangeId": "20261108-home-v42-fidelity-a",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "d06405cfb733d7c5437686e75c368d2a614938a3",
+        "src/components/HomeJourney.astro": "405b73bf55765d4d919cfcc6e0fc5b2e92efa4db",
+        "src/pages/area/index.astro": "1db5dfbc8f5624fa703d632dc22bda33ec064e4f",
+        "src/pages/index.astro": "d63bcc497bdfd107fdfa8dd804f7ccad77476287"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-a-top-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-closing-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg",
+        "src/components/HomeAreaExplorer.astro",
+        "src/pages/area/index.astro",
+        "docs/design/v42-screenshots/compare-a-top-area-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-area-sp.jpg"
+      ]
+    },
+    {
+      "id": "20261109-v42-fidelity-a-533-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 533,
+      "path": "/",
+      "baseSha": "641637bf23963c30f27060a422b541baeec28d24",
+      "previousChangeId": "20261108-home-v42-journey",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日にこのチャットで「公開まで進めて」と明示承認した。前日のDraftで検証した同じv42修正をPR #533から公開し、本番反映日を新しい観測起点とする。11月8日の承認・履歴は書き換えず保持し、このPR・基点・確認済みソースだけに適用する。",
+      "restartChangeId": "20261109-home-v42-fidelity-a-release",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "d06405cfb733d7c5437686e75c368d2a614938a3",
+        "src/components/HomeJourney.astro": "405b73bf55765d4d919cfcc6e0fc5b2e92efa4db",
+        "src/pages/area/index.astro": "1db5dfbc8f5624fa703d632dc22bda33ec064e4f",
+        "src/pages/index.astro": "d63bcc497bdfd107fdfa8dd804f7ccad77476287"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeJourney.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-a-top-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-closing-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-top-news-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-top-origin-sp.jpg",
+        "src/components/HomeAreaExplorer.astro",
+        "src/pages/area/index.astro",
+        "docs/design/v42-screenshots/compare-a-top-area-sp.jpg",
+        "docs/design/v42-screenshots/compare-a-area-pc.jpg",
+        "docs/design/v42-screenshots/compare-a-area-sp.jpg"
+      ]
+    },
+    {
+      "id": "20261109-v42-mobile-followup-546-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 546,
+      "path": "/",
+      "baseSha": "c15496f2d241507681506260c28480bf852e9962",
+      "previousChangeId": "20261109-home-v42-fidelity-a-release",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日に、このチャットで今回の修正の公開とTOPの測定の区切り直しに「オッケー、進めて」と回答。PR #546の確認済みソースと、同じスタジアム挿絵を先に追加した基点に適用する。",
+      "restartChangeId": "20261109-home-v42-mobile-followup",
+      "sourceBlobs": {
+        "src/components/HomeThemeNav.astro": "4eaf45c649765dd62e4d01c20fdd39caeaa2d7a7",
+        "src/components/SiteHeader.astro": "18870373486f0129252bc86e57c61b366eef20ac",
+        "src/components/ThisWeek.astro": "cb7a70fc5941ca3997ec98e4f43f24ad9bbbc569",
+        "src/pages/index.astro": "54bb31d6257ea04d3f5d33a1b16ce755f0bb634e"
+      },
+      "allowedFiles": [
+        "data/editorial/approved-ui-resets.json",
+        "docs/design/v42-screenshots/compare-home-mobile-followup.jpg",
+        "src/components/HomeThemeNav.astro",
+        "src/components/SiteHeader.astro",
+        "src/components/ThisWeek.astro",
+        "src/data/seo-changes.ts",
+        "src/pages/index.astro"
+      ]
+    },
+    {
+      "id": "20261109-home-editorial-layout-548-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 548,
+      "path": "/",
+      "baseSha": "5c7976002721e011d289d9d5307927881dc2fbfb",
+      "previousChangeId": "20261109-home-v42-mobile-followup",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-09",
+      "validThrough": "2026-11-09",
+      "reason": "オーナーが2026年11月9日に、PR #548に限ってTOPの計測期間を公開日から取り直すことと、必須CI通過後のマージ・本番公開を明示承認した。#549で同一の画像と対応表を先に追加した基点に適用する。本番反映日を新しい観測起点とする。この記録はこのPR・基点・確認済みソースだけに適用する。",
+      "restartChangeId": "20261109-home-editorial-layout",
+      "sourceBlobs": {
+        "src/components/HomeAreaExplorer.astro": "3f6cf0f53522c89bb3a8167946c0b14a8dd1fb99",
+        "src/components/HomeEditorialProcess.astro": "446a96ac77c388fe453938e8517a3262c35fe920",
+        "src/components/HomeNow.astro": "ff549b166417c1cfbc85c05373b096a6a7ca50b4",
+        "src/components/HomeThemeNav.astro": "65e4d6b655b614ce244f9cc33825b118bf25698c",
+        "src/components/ThisWeek.astro": "2d6fd3b4b3ce0ed8dae7f806e6daa2a27f41bc89",
+        "src/pages/index.astro": "bb7ee3c9323be7b2b1c25bd0c1e50888ef63fa5a"
+      },
+      "allowedFiles": [
+        "src/components/HomeAreaExplorer.astro",
+        "src/components/HomeEditorialProcess.astro",
+        "src/components/HomeNow.astro",
+        "src/components/HomeThemeNav.astro",
+        "src/components/ThisWeek.astro",
+        "src/pages/index.astro",
+        "data/editorial/approved-ui-resets.json",
+        "src/data/seo-changes.ts"
+      ]
+    },
+    {
+      "id": "20261110-regional-supporter-562-release",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 562,
+      "path": "/",
+      "baseSha": "22284bf03026f56350564257a2a0cf4dd83b87ac",
+      "previousChangeId": "20261109-home-editorial-layout",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-10",
+      "validThrough": "2026-11-10",
+      "reason": "オーナーが2026年11月10日（JST）にPR #562の前倒し公開を明示承認した。#563で共通データを先に追加した基点と、確認済みの画面差分だけに適用し、本番反映日からTOPの観測を取り直す。",
+      "restartChangeId": "20261110-home-regional-supporter-release",
+      "sourceBlobs": {
+        "src/components/SponsorSlots.astro": "862e6940923072744b754d5604c10a46424ae86e",
+        "src/pages/about/pr-policy.astro": "b25f274dcdebc0491e4f337597f22ce03739c476",
+        "src/pages/index.astro": "07961051b012583e9244c7d47389695ea47a7006",
+        "src/pages/sponsor.astro": "300b014c3499d1b32f2f1451a93b01001bacb820",
+        "src/pages/sponsor/apply.astro": "2bbec8a5061f719e269b666070a8c74e5209db1c",
+        "src/pages/sponsor/terms.astro": "fd660698f2222a5556fa167e46abdc0c2751c973"
+      },
+      "allowedFiles": [
+        "src/components/SponsorSlots.astro",
+        "src/pages/about/pr-policy.astro",
+        "src/pages/index.astro",
+        "src/pages/sponsor.astro",
+        "src/pages/sponsor/apply.astro",
+        "src/pages/sponsor/terms.astro",
+        "data/editorial/approved-ui-resets.json",
+        "src/data/seo-changes.ts"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+---
+/**
+ * v42 の写真カード（写真＋札・小見出し・明朝の見出し・一文・「もっと読む →」）。
+ * 下層の「もうひと歩き」などで使う。リンク先は既存の URL だけを渡す。
+ * 写真は装飾ではなく内容の一部なので alt を付け、札（tag）で実写かイメージイラストかを示す。
+ */
+export interface V42CardItem {
+  href: string;
+  img: string;
+  alt: string;
+  tag: string;
+  kicker: string;
+  title: string;
+  text: string;
+  /** 既定は「もっと読む」。ページ内の移動などで言い換えるとき */
+  more?: string;
+}
+interface Props { items: V42CardItem[]; cols?: number }
+const { items, cols = 3 } = Astro.props;
+---
+<ul class="v42-cards" style={`--v42-cols-pc:${cols}`}>
+  {items.map((item) => (
+    <li class="v42-card">
+      <a href={item.href}>
+        <figure class="v42-card__photo">
+          <img src={item.img} alt={item.alt} width="720" height="540" loading="lazy" decoding="async" />
+          <figcaption>{item.tag}</figcaption>
+        </figure>
+        <p class="v42-card__kicker">{item.kicker}</p>
+        <h3>{item.title}</h3>
+        <p>{item.text}</p>
+        <span class="v42-card__more">{item.more ?? 'もっと読む'} <span aria-hidden="true">→</span></span>
+      </a>
+    </li>
+  ))}
+</ul>
