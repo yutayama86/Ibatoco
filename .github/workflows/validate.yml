@@ -89,3 +89,10 @@ jobs:
           name: editorial-brief-${{ github.run_id }}
           path: reports/editorial/
           retention-days: 30
+      - name: Preserve original dependency audit
+        if: always() && hashFiles('reports/security/dependency-audit.json') != ''
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dependency-audit-validate-${{ github.run_id }}
+          path: reports/security/dependency-audit.json
+          retention-days: 7
