@@ -19,9 +19,10 @@
 import { pathToFileURL } from 'node:url';
 import { loadContentPages } from './lib/content-pages.mjs';
 import { addDays, daysBetween, todayJst } from '../src/lib/growth-engine.mjs';
+import { parseDateOnly } from '../src/lib/date-only.js';
 
-const LIVE_WORDS = /(受付中|販売中|発売中|予約受付中|申込受付中|申し込み受付中|本日開催|開催中|残り\d+日)/;
-const PAST_CONTEXT = /(終了|締め切りました|締切りました|受付を終え|販売を終え|終わり|実績|昨年|前回|過去|参考|でした|流用しません|前年)/;
+const LIVE_WORDS = /(受付中|販売中|発売中|予約受付中|申込受付中|申し込み受付中|本日開催|開催中(?!止)|残り\d+日)/;
+const PAST_CONTEXT = /(終了|締め切りました|締切りました|締め切り済み|締切済み|されていました|受付を終え|販売を終え|終わり|実績|昨年|前回|過去|参考|でした|流用しません|前年)/;
 const DEADLINE_CONTEXT = /(受付|販売|申込|申し込|予約|募集|購入|応募|抽選)/;
 
 /** frontmatter のすべての文字列を、どの項目かと一緒に取り出す */
@@ -45,6 +46,19 @@ function findKey(value, key, path = '', out = []) {
 
 const sentences = (text) => String(text).split(/(?<=[。！？\n])/).map((s) => s.trim()).filter(Boolean);
 const dateOf = (value) => (value instanceof Date ? value.toISOString().slice(0, 10) : typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value) ? value.slice(0, 10) : null);
+
+/** URLの年はヒント。古い格納フォルダだけで当年の日付入り資料を前年扱いしない。 */
+function sourceUrlYears(value) {
+  const url = String(value ?? '');
+  const years = [...url.matchAll(/(?<!\d)(20\d{2})(?!\d)/g)].map((m) => Number(m[1]));
+  for (const match of url.matchAll(/(?<!\d)(20\d{2})(\d{2})(\d{2})(?!\d)/g)) {
+    try {
+      parseDateOnly(`${match[1]}-${match[2]}-${match[3]}`);
+      years.push(Number(match[1]));
+    } catch { /* 日付ではない8桁の識別子は年の根拠にしない。 */ }
+  }
+  return years;
+}
 
 /** @returns {{ severity: 'error' | 'warning', type: string, path: string, detail: string }[]} */
 export function auditFreshness({ pages, today = todayJst() }) {
@@ -111,7 +125,7 @@ export function auditFreshness({ pages, today = todayJst() }) {
         add('warning', 'year-title', page.path, `タイトルの年（${titleYears.join('・')}）に開催年 ${eventYear} が無い`);
       }
       for (const source of page.sourceUrls) {
-        const urlYears = [...String(source.url ?? '').matchAll(/(?<![\d])(20\d{2})(?![\d])/g)].map((m) => Number(m[1]));
+        const urlYears = sourceUrlYears(source.url);
         if (urlYears.length && Math.max(...urlYears) < eventYear) {
           add('warning', 'year-source-url', page.path, `出典URLの年（${Math.max(...urlYears)}）が開催年 ${eventYear} より古い：${source.url}`);
         }
