@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { discoveryGate, discoveryMarkdown, parseRegions, validateDiscovery } from './lib/discovery-gate.mjs';
 import { GOOGLE_CONFIRM_LAG_DAYS } from '../src/lib/ga4-daily.mjs';
 import { todayDateOnlyString } from '../src/lib/date-only.js';
+import { editorialPublicationErrors } from './lib/editorial-publication-state.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_DIR = join(ROOT, 'data/editorial');
@@ -249,6 +250,7 @@ function validate(registry, actions, performance, inventory) {
   for (const url of articleUrls) {
     if (!registryUrls.has(url)) errors.push(`イベント記事が台帳にありません。npm run editorial:sync を実行: ${url}`);
   }
+  errors.push(...editorialPublicationErrors(registry.events, inventory));
   // Discovery Gate：重複・見送り理由・importance・関連記事の実在（docs/EDITORIAL_OS.md）
   const discovery = validateDiscovery(registry.events, new Set(inventory.map((item) => item.url)));
   errors.push(...discovery.errors);
