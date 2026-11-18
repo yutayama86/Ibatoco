@@ -1,23 +1,25 @@
 {
   "schemaVersion": 1,
   "advisory": "GHSA-fc5q-39xc-vjpf",
-  "status": "pending-owner-approval",
+  "status": "approved",
   "reviewedOn": "2026-11-19",
   "expiresOn": "2026-11-24",
   "exploitFixed": false,
-  "reason": "PROPOSAL ONLY: renewed acceptance of the same known advisory and identical pinned configuration through 2026-11-23 JST, expiring 2026-11-24 00:00 Asia/Tokyo. The flaw remains unfixed. Explicit owner approval is required; this proposal cannot authorize main, scheduled deployment or local execution.",
+  "reason": "Owner-approved bounded acceptance of GHSA-fc5q-39xc-vjpf for the same evaluated versions and unchanged evidence hashes. Expires 2026-11-24 00:00 Asia/Tokyo.",
   "evidenceSha256": {
     "package-lock.json": "9c78b70b3813cfc4781f55fa144fbb3c0d6f63a6c48d01857b04955fd69cb2b0",
     "worker/index.js": "a59d5716e8e9bec4557dc63acb14a7ef090a16d7725da7a17102ce03df8fd518",
     "wrangler.jsonc": "e20a07f74fd8569a3faa11385c49d4cc6de7ecae4a75a9bf154bc9c7f965443b",
     "astro.config.mjs": "9cb1febde9587a912d258ab19f7ad3c8e3b8a7492ba3de873194e13f92fa4fc7"
   },
-  "approvalContext": "Renewal beyond the existing 2026-11-20 approval is NOT approved. Prepare for review only. No automatic extension and no acceptance of new findings or configuration changes. Apply the separate fresh-deployment-audit gate before any approved renewal.",
+  "approvalContext": "2026-11-19 JST: owner replied 「進めて」 to the explicit joint request for #653 and #654. Approval recorded at approvedAt, limited through 11/23 JST. No automatic renewal.",
   "previousApproval": {
     "approvedBy": "ゆうた (repository owner)",
     "approvedAt": "2026-11-18T03:40:18.499958Z",
     "reviewedOn": "2026-11-18",
     "expiresOn": "2026-11-21",
     "approvalContext": "2026-11-18: owner replied 「進めて！」 to the explicit PR #644 approval request covering the existing advisory only, valid through 2026-11-20 JST."
-  }
+  },
+  "approvedBy": "ゆうた (repository owner)",
+  "approvedAt": "2026-11-18T15:47:24Z"
 }

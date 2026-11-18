@@ -17,7 +17,7 @@
     "verify:prod": "node scripts/verify-production.mjs",
     "qa:prod": "node scripts/ui-smoke.mjs --production",
     "wait:deploy": "node scripts/wait-deploy.mjs",
-    "deploy": "node scripts/deploy-guard.mjs && npm run audit:site && npx wrangler deploy && node scripts/verify-production.mjs --wait && node scripts/ui-smoke.mjs --production",
+    "deploy": "node scripts/deploy-guard.mjs && node scripts/dependency-audit.mjs && npm audit --audit-level=critical && npm run audit:site && npx wrangler deploy && node scripts/verify-production.mjs --wait && node scripts/ui-smoke.mjs --production",
     "preview": "astro preview",
     "astro": "astro",
     "db:seed": "node scripts/csv-to-d1-seed.mjs",

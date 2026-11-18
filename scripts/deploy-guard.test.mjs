@@ -7,7 +7,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { addDateOnlyDays, parseDateOnly, toDateOnlyString, todayDateOnlyString } from '../src/lib/date-only.js';
 
 const run = (vars) => {
   const env = { ...process.env };
@@ -99,4 +103,105 @@ test('すべてのワークフロー：外部の Action はコミット SHA で�
       assert.match(m[1], /@[0-9a-f]{40}$/, `${name}：SHA で固定されていない ${m[1]}`);
     }
   }
+});
+
+/** Run the actual release command offline. Only network/build/publish boundaries are replaced. */
+function releaseFixture({ expired = false, clean = false, networkFailure = false, newAdvisory = false,
+  criticalDev = false, changedEvidence = false, pendingApproval = false } = {}) {
+  const root = mkdtempSync(join(tmpdir(), 'ibatoco-release-audit-'));
+  const write = (path, value, mode) => {
+    const file = join(root, path);
+    mkdirSync(dirname(file), { recursive: true });
+    writeFileSync(file, value, mode ? { mode } : undefined);
+  };
+  try {
+    for (const path of ['scripts/deploy-guard.mjs', 'scripts/dependency-audit.mjs', 'src/lib/dependency-audit.mjs', 'src/lib/date-only.js']) {
+      write(path, readFileSync(path, 'utf8'));
+    }
+    const today = todayDateOnlyString();
+    const day = (amount) => toDateOnlyString(addDateOnlyDays(parseDateOnly(today), amount));
+    const evidenceFiles = {
+      'package-lock.json': JSON.stringify({ packages: { 'node_modules/picomatch': { version: '4.0.7' } } }),
+      'worker/index.js': '// Offline fixture, never deployed',
+      'wrangler.jsonc': '{}',
+      'astro.config.mjs': 'export default {};',
+    };
+    const evidenceSha256 = {};
+    for (const [path, value] of Object.entries(evidenceFiles)) {
+      write(path, value);
+      evidenceSha256[path] = createHash('sha256').update(value).digest('hex');
+    }
+    const rule = { schemaVersion: 1, advisory: 'GHSA-fc5q-39xc-vjpf', exploitFixed: false,
+      status: pendingApproval ? 'pending-owner-approval' : 'approved',
+      reviewedOn: day(-1), expiresOn: expired ? today : day(1), evidenceSha256,
+      ...(pendingApproval ? {} : { approvedBy: 'offline-test-owner', approvedAt: new Date().toISOString() }) };
+    write('data/security/picomatch-risk-review.json', JSON.stringify(rule));
+    if (changedEvidence) write('worker/index.js', '// Different offline fixture');
+    const report = { auditReportVersion: 2,
+      metadata: { vulnerabilities: { info: 0, low: 0, moderate: 0, high: clean ? 0 : 1, critical: 0 } },
+      vulnerabilities: clean ? {} : { picomatch: { severity: 'high', nodes: ['node_modules/picomatch'],
+        via: [{ name: 'picomatch', dependency: 'picomatch', severity: 'high', range: '<=4.0.7',
+          url: `https://github.com/advisories/${newAdvisory ? 'GHSA-not-approved' : 'GHSA-fc5q-39xc-vjpf'}` }] } } };
+    write('audit-fixture.json', JSON.stringify(report));
+    write('bin/npm', `#!${process.execPath}\nimport {readFileSync,appendFileSync} from 'node:fs';
+const production=process.argv.includes('--omit=dev');
+appendFileSync(process.env.FIXTURE_STAGE_LOG,(production?'production-audit':'critical-audit')+'\\n');
+if(production){process.stdout.write(readFileSync(process.env.FIXTURE_AUDIT_PATH));process.exit(Number(process.env.FIXTURE_AUDIT_EXIT));}
+if(process.argv.includes('--audit-level=critical'))process.exit(Number(process.env.FIXTURE_CRITICAL_EXIT));
+process.exit(2);\n`, 0o755);
+    // Make extensionless executable stubs use ES modules, like the repository scripts.
+    write('package.json', JSON.stringify({ type: 'module' }));
+    for (const stage of ['build', 'publish', 'verify', 'ui']) {
+      write(`fixture-${stage}.mjs`, `import {appendFileSync} from 'node:fs';appendFileSync(process.env.FIXTURE_STAGE_LOG,'${stage}\\n');`);
+    }
+    const { scripts } = JSON.parse(readFileSync('package.json', 'utf8'));
+    const command = scripts.deploy
+      .replace('npm run audit:site', 'node fixture-build.mjs')
+      .replace('npx wrangler deploy', 'node fixture-publish.mjs')
+      .replace('node scripts/verify-production.mjs --wait', 'node fixture-verify.mjs')
+      .replace('node scripts/ui-smoke.mjs --production', 'node fixture-ui.mjs');
+    assert.doesNotMatch(command, /wrangler|verify-production|ui-smoke|audit:site/, 'Never execute real publishing or production QA in a fixture');
+    const result = spawnSync('/bin/sh', ['-c', command], { cwd: root, encoding: 'utf8', timeout: 10000,
+      env: { ...process.env, ...actions('Deploy production', 'refs/heads/main', 'schedule'), GITHUB_STEP_SUMMARY: '',
+        PATH: `${join(root, 'bin')}:${process.env.PATH ?? ''}`, FIXTURE_STAGE_LOG: join(root, 'stages.log'),
+        FIXTURE_AUDIT_PATH: join(root, 'audit-fixture.json'), FIXTURE_AUDIT_EXIT: networkFailure ? '2' : clean ? '0' : '1',
+        FIXTURE_CRITICAL_EXIT: criticalDev ? '1' : '0' } });
+    let stages = [];
+    try { stages = readFileSync(join(root, 'stages.log'), 'utf8').trim().split('\n'); } catch { /* A missing audit is detected by assertions below. */ }
+    return { ...result, stages };
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}
+
+test('公開直前監査：有効な個別承認でも、productionとcriticalを再監査してからビルド・公開する', () => {
+  const r = releaseFixture();
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(r.stages, ['production-audit', 'critical-audit', 'build', 'publish', 'verify', 'ui']);
+});
+
+for (const [name, options] of [
+  ['過去のCIに合格していても期限切れ', { expired: true }],
+  ['監査取得失敗', { networkFailure: true }],
+  ['新しいadvisory', { newAdvisory: true }],
+  ['未評価の構成変更', { changedEvidence: true }],
+  ['承認前の延長提案', { pendingApproval: true }],
+]) {
+  test(`公開直前監査で止める：${name}`, () => {
+    const r = releaseFixture(options);
+    assert.notEqual(r.status, 0);
+    assert.deepEqual(r.stages, ['production-audit']);
+  });
+}
+
+test('公開直前監査：開発依存のcriticalもビルド・公開前に止める', () => {
+  const r = releaseFixture({ criticalDev: true });
+  assert.notEqual(r.status, 0);
+  assert.deepEqual(r.stages, ['production-audit', 'critical-audit']);
+});
+
+test('公開直前監査：修正済みで厳格監査に合格すれば、古い例外が失効していても公開できる', () => {
+  const r = releaseFixture({ clean: true, expired: true });
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(r.stages, ['production-audit', 'critical-audit', 'build', 'publish', 'verify', 'ui']);
 });
