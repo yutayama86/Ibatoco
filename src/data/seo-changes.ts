@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261119-home-season-mobile-card-fix',
+    date: '2026-11-19',
+    url: '/',
+    kind: 'on-page',
+    experimentType: 'template',
+    change: '今月のよりみち帖でスマホ横2列によりCTAが一文字ずつ改行されていた不具合を修正。700px以下でカード縦1列とし、表示テストも追加',
+    queries: [],
+    commit: '7a51837c24d0801a5910f08f5cab0cc061530132',
+    note: 'PR #658、2026-11-19のオーナー承認。本文内容・title・description・canonicalは変更なし。前回の観測記録は保持し、今回のトップUI変更から観測期間を新たに計測。公開日と本番コミットはデプロイ後に照合する。',
+  },
+  {
     id: '20261118-odekake-model-course-links',
     date: '2026-11-18',
     url: '/odekake/',
