@@ -220,6 +220,30 @@ async function runViewport(viewport) {
         const count = result.counts[selector] ?? 0;
         if (count < min) local.push(`${where}: 主要要素の欠損 — ${selector} が ${count} 件（${min} 件以上必要）`);
       }
+      // トップの季節特集はスマホで1列。カードが2列に戻るとCTAが1文字ずつ改行されるため明示的に検知する。
+      if (target.path === '/' && viewport.width <= 700) {
+        const seasonLayout = await page.evaluate(() => {
+          const cards = [...document.querySelectorAll('.season__side .season-pick')];
+          const rects = cards.map((card) => card.getBoundingClientRect());
+          const stacked = rects.every((rect, i) => i === 0
+            || (Math.abs(rect.left - rects[i - 1].left) <= 2 && rect.top >= rects[i - 1].bottom - 2));
+          const wrappedCtas = cards.flatMap((card) => {
+            const cta = card.querySelector('.season-pick__cta');
+            const label = cta && [...cta.childNodes].find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+            if (!label) return [];
+            const range = document.createRange();
+            range.selectNodeContents(label);
+            return range.getClientRects().length > 1 ? [cta.textContent.trim()] : [];
+          });
+          return { cardCount: cards.length, stacked, wrappedCtas };
+        });
+        if (seasonLayout.cardCount && !seasonLayout.stacked) {
+          local.push(`${where}: 季節特集のスマホカードが横2列になっている（縦1列が必要）`);
+        }
+        if (seasonLayout.wrappedCtas.length) {
+          local.push(`${where}: 季節特集CTAが複数行に分割 — ${seasonLayout.wrappedCtas.join(' / ')}`);
+        }
+      }
       if (PRODUCTION) {
         for (const src of result.imgs) if (src.startsWith('/') && !src.startsWith('//')) pageImages.add(src);
         if (viewport.name === '375') {
