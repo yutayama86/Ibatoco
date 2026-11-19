@@ -4,6 +4,7 @@ const SUPPORT_FILES = new Set([
   'scripts/observation-guard.mjs',
   'scripts/lib/approved-ui-reset.mjs',
   'scripts/growth-engine.test.mjs',
+  'scripts/ui-smoke.mjs',
   'data/editorial/approved-ui-resets.json',
   'src/data/seo-changes.ts',
 ]);
