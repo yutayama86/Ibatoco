@@ -3,18 +3,18 @@ import V42Icon from './V42Icon.astro';
 
 const steps = [
   {
-    title: '会いに行く。',
-    text: '写真を撮るためだけではなく、声の調子と土地の空気まで受け取ります。',
+    title: '現地を歩く。',
+    text: '足を運んだ記事では、そこで見聞きしたことを自分たちの言葉で伝えます。',
     sketch: 'M16 20h8l3-5h10l3 5h6a3 3 0 0 1 3 3v17a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3V23a3 3 0 0 1 3-3Zm24 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm5-6h.5M10 15l3 2m1-7 2 4m29-2-2 4',
   },
   {
-    title: '事実を、確かめる。',
-    text: '確認できた事実と、編集部が感じたことを混ぜずに伝えます。',
+    title: '公式情報を確かめる。',
+    text: '未訪問の記事は自治体や主催者の発表を確認し、現地取材と区別します。',
     sketch: 'M19 14h23a3 3 0 0 1 3 3v27H20a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4Zm2 0v26m-5 0h29m-18-9 5 4 7-9m-12-5h11M11 20h6m-6 7h6m-6 7h6',
   },
   {
     title: '公開後も、見直す。',
-    text: '店や制度が変われば、もう一度確かめ、記事を更新します。',
+    text: '開催日や制度の変更を追い、広告・協賛関係もわかる形で伝えます。',
     sketch: 'M45 25a15 15 0 1 0-3 17m3-17v-9m0 9h-9m-7 13 1-6 12-12 5 5-12 12-6 1Zm10-15 5 5M16 17l-3-3m7 1-2-5m25 30 4 3',
   },
 ];
@@ -24,9 +24,13 @@ const steps = [
   <div class="ep-stage">
     <header class="ep-card">
       <p class="ep-kicker">取材と編集</p>
-      <h2 id="home-process-title">現地でしか、<br />わからないことを書く。</h2>
-      <p class="ep-intro">会って、聞いて、確かめる。公開したあとも、変化を追う。</p>
-      <a href="/about/editorial-policy/">編集方針を読む<V42Icon name="arrow" size={17} /></a>
+      <h2 id="home-process-title">歩いて確かめる。<br />公式情報も、丁寧に。</h2>
+      <p class="ep-intro">茨城のまちを歩き、そこで出会った人の声を届けます。まだ訪ねていない場所の情報は、自治体や主催者の公式発表をもとに編集し、出典を示します。</p>
+      <a href="/about/">イバトコについて<V42Icon name="arrow" size={17} /></a>
+      <nav class="ep-policy-links" aria-label="編集と広告の方針">
+        <a href="/about/editorial-policy/">編集方針</a>
+        <a href="/about/pr-policy/">PR・広告の方針</a>
+      </nav>
     </header>
 
     <figure class="ep-visual">
@@ -58,9 +62,11 @@ const steps = [
   .ep-card { min-width: 0; }
   .ep-kicker { padding-bottom: .55rem; border-bottom: 1px solid #cac3aa; color: #596c54; font: 500 .8125rem/1.6 var(--font-brand-body); letter-spacing: .12em; }
   .ep h2 { margin-top: .9rem; color: var(--v42-ink); font: 500 clamp(1.65rem,3vw,2.5rem)/1.5 var(--font-brand-display); letter-spacing: .025em; }
-  .ep-intro { max-width: 26rem; margin-top: 1rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.9; }
+  .ep-intro { max-width: 30em; margin-top: 1rem; color: var(--color-soil); font-size: clamp(.9375rem, 1.2vw, 1rem); line-height: 1.9; }
   .ep-card > a { display: inline-flex; gap: 1.35rem; align-items: center; min-height: 44px; margin-top: .95rem; border-bottom: 1px solid currentColor; color: var(--color-tide); font-size: .875rem; font-weight: 700; }
   .ep-card > a:hover { color: var(--v42-blue); }
+  .ep-policy-links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin-top: .25rem; }
+  .ep-policy-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-tide); font-size: .875rem; text-decoration: underline; text-underline-offset: .25em; }
   .ep-visual { min-width: 0; margin: 0; padding: .4rem .4rem 0; border: 1px solid #d8ceb3; background: #fffbef; box-shadow: 4px 5px 0 #d8ceb356; }
   .ep-visual img { display: block; width: 100%; height: auto; }
   .ep-visual figcaption { padding: .35rem .25rem; color: var(--color-soil); font-size: .6875rem; line-height: 1.65; }
