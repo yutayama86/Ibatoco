@@ -33,8 +33,8 @@ const policies = [
   </header>
 
   <div class="ab-intro bp-wrap">
-    <p class="ab-lead">イバトコが目指すのは、茨城のまちを歩き、人に会い、その土地の魅力を自分たちの言葉で伝えること。現在は現地取材と並行して、県内各地の情報を広く届けるための編集基盤を育てています。</p>
-    <p class="ab-lead ab-lead--follow">現地を訪ねて制作した記事のほか、自治体・観光協会・主催者などの公式発表を確認し、独自に整理・編集した記事も公開しています。現地で確認していないことを、訪問したかのようには書きません。取材方法と出典を明らかにしながら、現地取材を少しずつ広げていきます。</p>
+    <p class="ab-lead">イバトコの取材は、茨城のまちを歩き、人に会うことから始まります。その土地で見た風景や、話を聞いて初めてわかったことを、自分たちの言葉で伝えます。</p>
+    <p class="ab-lead ab-lead--follow">創刊期の今は、県内各地の催しや見どころを探せるよう、自治体・観光協会・主催者の公式発表をもとに編集した記事も届けています。出典と取材方法を示しながら、実際に訪ねるまちを少しずつ増やしていきます。</p>
     {/* 発行元は、枠で囲まず1行で置く */}
     <p class="ab-byline"><span class="ab-byline__item">発行：{SITE_CONFIG.name}編集部</span><span>／</span><span class="ab-byline__item">対象：茨城県 全{MUNICIPALITIES.length}市町村</span></p>
   </div>
@@ -107,11 +107,11 @@ const policies = [
    */
   .ab-tagline { max-width: 39em; margin-top: 1.1rem; color: var(--v42-copy); font-size: 15px; line-height: 1.95; }
   .ab-intro { padding-top: clamp(2rem, 4vw, 3rem); }
-  .ab-lead--follow { margin-top: 1rem; }
   .ab-belief__links { display:flex; justify-content:center; flex-wrap:wrap; gap:.6rem 1.5rem; }
   .ab-belief__links a { display:inline-flex; align-items:center; min-height:44px; gap:.4rem; color:var(--color-tide); font-weight:600; text-decoration:underline; text-underline-offset:.25em; }
   .ab-belief__links a:focus-visible { outline:2px solid var(--color-tide); outline-offset:3px; }
   .ab-lead { max-width: var(--measure); font: 500 clamp(1rem, 1.5vw, 1.15rem)/2.05 var(--font-brand-display); color: var(--color-soil); }
+  .ab-lead--follow { margin-top: 1em; font-family: var(--font-brand-body); font-size: 1rem; font-weight: 400; }
   .ab-byline { margin-top: 2.2rem; color: var(--color-soil); font: .78rem/1.9 var(--font-brand-meta); letter-spacing: .04em; }
   .ab-byline span:not(.ab-byline__item) { margin-inline: .55rem; color: var(--color-mist); }
   /* 「発行：…」「対象：…」はそれぞれ1行に保ち、折るのは区切りの前後だけ */
@@ -149,6 +149,8 @@ const policies = [
   .ab-close__actions a { display: inline-flex; align-items: center; min-height: 3rem; padding: .7rem 1.3rem; border: 1px solid rgba(31, 99, 191, .28); border-radius: 999px; color: var(--interior-blue); font-size: .9rem; font-weight: 600; }
 
   @media (max-width: 560px) {
+    .ab-belief__body { text-align: start; }
+    .ab-belief__links { justify-content: start; gap: 0 1.25rem; }
     .ab-policy-list a { grid-template-columns: 2.4rem minmax(0, 1fr); }
     .ab-policy-list em { display: none; }
   }

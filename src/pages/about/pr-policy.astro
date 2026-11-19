@@ -9,14 +9,14 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
 
 <BrandBase
   title="PR・広告の方針"
-  description="イバトコのPR・広告の方針。Editorial / Partner / PR の区分、費用を伴うコンテンツの明示、契約で編集評価や掲載順位を購入できないことについて。"
- jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
+  description="イバトコの記事に表示するEditorial・Partner・PRの違いと、協賛・招待・商品提供・アフィリエイト報酬の開示方法、掲載順位や編集評価の決め方を説明します。"
+  jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
   <section class="wrap policy">
     <header class="policy-head">
       <nav class="crumbs" aria-label="パンくず">
         <a href="/">ホーム</a><span aria-hidden="true">/</span>
         <a href="/about/">イバトコについて</a><span aria-hidden="true">/</span>
-        <span>PR・広告の方針</span>
+        <span aria-current="page">PR・広告の方針</span>
       </nav>
       <p class="eyebrow">PR &amp; Advertising Policy</p>
       <h1 class="display policy-title">PR・広告の方針</h1>
@@ -25,7 +25,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
 
     <div class="policy-layout">
       <nav class="policy-toc" aria-label="このページの目次">
-        <p>CONTENTS</p>
+        <p>このページの目次</p>
         <a href="#sec-1">コンテンツの区分</a>
         <a href="#sec-2">PartnerとPRの違い</a>
         <a href="#sec-3">個別に開示するもの</a>
@@ -39,7 +39,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
 
         <h2 id="sec-1">コンテンツの区分</h2>
         <p>すべての記事に、次のいずれかの区分を表示します。</p>
-        <ul class="pr-badges" aria-hidden="false">
+        <ul class="pr-badges">
           <li><DisclosureBadge type="editorial" /></li>
           <li><DisclosureBadge type="partner" /></li>
           <li><DisclosureBadge type="pr" /></li>
@@ -92,6 +92,9 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコ
   .crumbs a:hover { color: var(--color-tide); }
   .policy-title { font-size: var(--step-4); margin: 0.4rem 0 0.3rem; }
   .policy-updated { font-size: var(--step--1); }
+  .policy .policy-toc > p { color: var(--v42-note); font-size: .8125rem; letter-spacing: .06em; }
+  .policy .policy-toc > a { color: var(--v42-secondary); font-size: .9375rem; }
+  .policy a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 2px; }
   .policy-body { margin-top: 2rem; }
   .policy-body h2 { font-size: var(--step-2); margin-top: 2rem; }
   .pr-badges { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; padding: 0; margin: 1rem 0 1.5rem; }

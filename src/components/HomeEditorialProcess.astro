@@ -25,9 +25,12 @@ const steps = [
     <header class="ep-card">
       <p class="ep-kicker">取材と編集</p>
       <h2 id="home-process-title">歩いて確かめる。<br />公式情報も、丁寧に。</h2>
-      <p class="ep-intro">現地を歩く取材を大切にしながら、現在は自治体・観光協会・主催者などの公式情報も確認し、独自に整理・編集して届けています。現地取材の有無と出典を明示し、広告・協賛の関係も隠しません。</p>
+      <p class="ep-intro">茨城のまちを歩き、そこで出会った人の声を届けます。まだ訪ねていない場所の情報は、自治体や主催者の公式発表をもとに編集し、出典を示します。</p>
       <a href="/about/">イバトコについて<V42Icon name="arrow" size={17} /></a>
-      <p class="ep-policy-links"><a href="/about/editorial-policy/">編集方針</a> ／ <a href="/about/pr-policy/">PR・広告の方針</a></p>
+      <nav class="ep-policy-links" aria-label="編集と広告の方針">
+        <a href="/about/editorial-policy/">編集方針</a>
+        <a href="/about/pr-policy/">PR・広告の方針</a>
+      </nav>
     </header>
 
     <figure class="ep-visual">
@@ -59,12 +62,11 @@ const steps = [
   .ep-card { min-width: 0; }
   .ep-kicker { padding-bottom: .55rem; border-bottom: 1px solid #cac3aa; color: #596c54; font: 500 .8125rem/1.6 var(--font-brand-body); letter-spacing: .12em; }
   .ep h2 { margin-top: .9rem; color: var(--v42-ink); font: 500 clamp(1.65rem,3vw,2.5rem)/1.5 var(--font-brand-display); letter-spacing: .025em; }
-  .ep-intro { max-width: 32rem; margin-top: 1rem; color: var(--color-soil); font-size: .9375rem; line-height: 1.9; }
+  .ep-intro { max-width: 30em; margin-top: 1rem; color: var(--color-soil); font-size: clamp(.9375rem, 1.2vw, 1rem); line-height: 1.9; }
   .ep-card > a { display: inline-flex; gap: 1.35rem; align-items: center; min-height: 44px; margin-top: .95rem; border-bottom: 1px solid currentColor; color: var(--color-tide); font-size: .875rem; font-weight: 700; }
   .ep-card > a:hover { color: var(--v42-blue); }
-  .ep-policy-links { margin-top: .8rem; font-size: .8125rem; line-height: 1.8; color: var(--color-soil); }
-  .ep-policy-links a { text-decoration: underline; text-underline-offset: .2em; }
-  .ep-policy-links a:focus-visible { outline: 2px solid var(--color-tide); outline-offset: 3px; }
+  .ep-policy-links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin-top: .25rem; }
+  .ep-policy-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-tide); font-size: .875rem; text-decoration: underline; text-underline-offset: .25em; }
   .ep-visual { min-width: 0; margin: 0; padding: .4rem .4rem 0; border: 1px solid #d8ceb3; background: #fffbef; box-shadow: 4px 5px 0 #d8ceb356; }
   .ep-visual img { display: block; width: 100%; height: auto; }
   .ep-visual figcaption { padding: .35rem .25rem; color: var(--color-soil); font-size: .6875rem; line-height: 1.65; }
