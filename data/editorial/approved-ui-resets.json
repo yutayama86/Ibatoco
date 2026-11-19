@@ -224,6 +224,29 @@
         "data/editorial/approved-ui-resets.json",
         "src/data/seo-changes.ts"
       ]
+    },
+    {
+      "id": "20261119-home-season-mobile-658",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 658,
+      "path": "/",
+      "baseSha": "1c106f28f9b98174c5be284ecc2f0c2696137985",
+      "previousChangeId": "20261110-home-regional-supporter-release",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-19",
+      "validThrough": "2026-11-19",
+      "reason": "オーナーが2026年11月19日に実機スクリーンショットでトップ季節カードの崩れを報告し、続けて「進めて」と修正・公開を個別承認。観測期間内の限定的な不具合修正として、PR #658と確認済みソースのみを対象に観測開始日を更新する。SEO計測の過去履歴は保持し、変更後の観測を新規に開始する。",
+      "restartChangeId": "20261119-home-season-mobile-card-fix",
+      "sourceBlobs": {
+        "src/pages/index.astro": "e15652882a541c04fa58ea2cbeb27059c9f4eb3b"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "scripts/ui-smoke.mjs",
+        "scripts/lib/approved-ui-reset.mjs",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }
