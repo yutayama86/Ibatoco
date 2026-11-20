@@ -394,7 +394,8 @@ async function checkLanguageMenuKeyboard() {
         await trigger.click();
         if (await trigger.getAttribute('aria-expanded') !== 'true') throw new Error('ポインターで開かない');
         // 英語の狭い画面では、開いた面がH1に重なる。面の下にある本文を外側クリックの対象にする。
-        const outside = target.path === '/en/' ? page.locator('.ih-lead p').last() : page.locator('main h1').first();
+        // 日本語TOPのH1は読み上げ用。表示中の枚数表示を使い、リンク遷移を起こさず閉じる。
+        const outside = target.path === '/en/' ? page.locator('.ih-lead p').last() : page.locator('main .fv-count');
         await outside.click();
         if (await trigger.getAttribute('aria-expanded') !== 'false') throw new Error('外側クリックで閉じない');
       } catch (error) {

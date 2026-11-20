@@ -265,6 +265,7 @@
       },
       "allowedFiles": [
         "src/pages/index.astro",
+        "scripts/ui-smoke.mjs",
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
