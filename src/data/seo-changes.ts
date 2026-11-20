@@ -50,14 +50,14 @@ export interface SeoChange {
 export const SEO_CHANGES: SeoChange[] = [
   {
     id: '20261120-home-season-compact',
-    date: '2026-11-20',
+    date: '2026-11-21',
     url: '/',
     kind: 'on-page',
     experimentType: 'template',
     change: 'TOPの「今月の、よりみち帖。」でPC・スマホ共通の余白、月数字、写真の縦比率、カード余白を縮小し、季節特集のスクロール量を軽減',
     queries: [],
     commit: '459cd443959fea62ed55201835b1ff93aff3d97f',
-    note: 'PR #663。オーナーから2026-11-20に季節欄のコンパクト化と作業続行の依頼あり。既存の過去記録は維持し、実公開時にトップUIの観測開始日を取り直す。配信日が変わる場合はこの日付を実際の公開日に修正する。',
+    note: 'PR #663。オーナーから2026-11-20に季節欄のコンパクト化と作業続行の依頼あり。既存の過去記録は維持し、2026-11-21（JST）公開予定としてトップUIの観測開始日を記録する。配信日が変わる場合は実際の公開日に修正する。',
   },
   {
     id: '20261120-home-remove-fv-intro',
