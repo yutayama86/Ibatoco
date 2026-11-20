@@ -130,6 +130,31 @@ const existing = (performance.gscDiscovery?.findings ?? [])
 const revenueLanes = revenue.revenueLanes ?? [];
 const highRevenueLanes = revenueLanes.filter((lane) => lane.priority === 'high').map((lane) => lane.name);
 
+// GSCの確定ページ×クエリ実測を使い、既存URLで取れる需要を可視化する。
+const queryRows = Array.isArray(performance.gscQueries) ? performance.gscQueries : [];
+const queryCandidates = queryRows
+  .filter((row) => typeof row.page === 'string' && row.page.startsWith('/') && typeof row.query === 'string' && row.query.trim())
+  .map((row) => ({
+    page: row.page,
+    query: row.query,
+    impressions: Number(row.impressions28),
+    clicks: Number(row.clicks28),
+    ctr: Number(row.ctr28),
+    position: Number(row.position28),
+    isAnnual: /-20\d{2}(?:[-/])/.test(row.page),
+  }))
+  .filter((row) => [row.impressions, row.clicks, row.ctr, row.position].every(Number.isFinite)
+    && row.impressions >= 200 && row.ctr >= 0 && row.ctr < .04 && row.position >= 4 && row.position <= 15)
+  .sort((a, b) => b.impressions - a.impressions || a.ctr - b.ctr);
+const seenQueryPages = new Set();
+const queryPriorities = queryCandidates.filter((row) => {
+  if (seenQueryPages.has(row.page)) return false;
+  seenQueryPages.add(row.page);
+  return true;
+});
+const stablePriorities = queryPriorities.filter((row) => !row.isAnnual).slice(0, 10);
+const annualPriorities = queryPriorities.filter((row) => row.isAnnual).slice(0, 6);
+
 const topTen = [];
 for (const item of existing.slice(0, 5)) {
   topTen.push({
@@ -173,6 +198,19 @@ const lines = [
   ...(existing.length ? existing.slice(0, 10).map((item) =>
     `- **${item.query}**｜${item.page}｜${item.impressions} imp / ${item.clicks} click / CTR ${(item.ctr * 100).toFixed(2)}% / ${item.position.toFixed(1)}位 / Score ${item.score.toFixed(1)}`
   ) : ['- GSCのページ単位シグナルがありません。']),
+  '',
+  '## ページ×検索語の実測｜常設ページを優先',
+  '',
+  `- GSC集計期間: ${performance.source?.pageLevel?.periods?.recent28?.start ?? '不明'}〜${performance.source?.pageLevel?.periods?.recent28?.end ?? '不明'}（GSC検索クエリは取得上限・匿名化の影響を受ける）`,
+  ...(stablePriorities.length ? stablePriorities.map((row) =>
+    `- **${row.query}**｜${row.page}｜${row.impressions}表示 / ${row.clicks}クリック / CTR ${(row.ctr * 100).toFixed(2)}% / 平均${row.position.toFixed(1)}位｜改善前に公式一次情報と検索意図を確認`
+  ) : ['- 確認できる条件該当データがありません。推測で補完しません。']),
+  '',
+  '## 年次・期限つきページ｜翌年の資産化候補',
+  '',
+  ...(annualPriorities.length ? annualPriorities.map((row) =>
+    `- **${row.query}**｜${row.page}｜${row.impressions}表示 / CTR ${(row.ctr * 100).toFixed(2)}% / 平均${row.position.toFixed(1)}位｜終了済みなら年次事実を改変せず、恒久ガイド・翌年未発表の案内へ接続`
+  ) : ['- 該当データなし']),
   '',
   '## Discoveryの薄い領域',
   '',
