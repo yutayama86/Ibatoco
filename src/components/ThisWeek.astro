@@ -338,6 +338,15 @@ const KIND_LABEL: Record<HappeningKind, string> = {
   .tw--home-editorial .tw__when{display:block;margin:0;padding:0;border:0;border-radius:0;background:none;color:#24434a;font:500 clamp(1.3rem,1.8vw,1.65rem)/1.35 var(--font-brand-display);letter-spacing:.04em}
   .tw--home-editorial .tw__group-note{color:#576c64;font-size:.73rem;letter-spacing:.02em}
   .tw--home-editorial .tw__list{grid-template-columns:minmax(0,1fr);gap:.5rem;margin:0}
+  /* 「この先1週間」だけは週のカードを横並びにして、PCの右側に空白を残さない。 */
+  .tw--home-editorial .tw__group.is-thisWeek{grid-column:1/-1}
+  .tw--home-editorial .tw__group.is-thisWeek:only-child{max-width:none}
+  @media(min-width:681px){
+    .tw--home-editorial .tw__group.is-thisWeek .tw__list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media(min-width:1024px){
+    .tw--home-editorial .tw__group.is-thisWeek .tw__list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
   .tw--home-editorial .tw__list li{min-width:0}
   .tw--home-editorial .tw__list li::before{content:none}
   .tw--home-editorial .tw__list li:nth-child(n+4){display:none}
