@@ -290,6 +290,27 @@
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
+    },
+    {
+      "id": "20261121-home-remove-redundant-season-664",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 664,
+      "path": "/",
+      "baseSha": "f6e936b0fc7d68f9d7979081a5194377e1fd8f4b",
+      "previousChangeId": "20261120-home-season-compact",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-21",
+      "validThrough": "2026-11-22",
+      "reason": "2026-11-21（JST）にオーナーがTOPの『今月の、よりみち帖。』を不要と判断し、スマホで縦長かつ重複する理由を示して削除方針を承認。本文・記事URLは残す。今回のPR #664の確認済みUIのみ対象とし、古い観測履歴を保持して本番公開からTOPの観測を更新する。",
+      "restartChangeId": "20261121-home-remove-redundant-season",
+      "sourceBlobs": {
+        "src/pages/index.astro": "56dd99b61e5a1a5f8ef4a18e2507a342f1cca439"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }

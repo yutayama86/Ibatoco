@@ -2,7 +2,6 @@
 import BrandBase from '../layouts/BrandBase.astro';
 import { wikimediaImage } from '../lib/wikimedia-image';
 import { isWorthLinking, lifecycleOf } from '../lib/lifecycle';
-import { todayDateOnlyString } from '../lib/date-only.js';
 import HomeThemeNav from '../components/HomeThemeNav.astro';
 import ThisWeek from '../components/ThisWeek.astro';
 import HomeNow from '../components/HomeNow.astro';
@@ -33,7 +32,6 @@ const pageTitle = 'イバトコ｜茨城を歩いてつくるローカルメデ�
 const pageDescription = '茨城の44市町村を歩いて取材するローカルメディア。食べる、出かける、泊まる、暮らす、整える、働く。現地で会って聞いた茨城を届けます。';
 // §6：Organization / WebSite の構造化データ。公式SNSは sameAs に反映（実URLのみ）。
 const siteUrl = new URL('/', Astro.site).href;
-const currentDateJst = todayDateOnlyString();
 const socialSameAs = Object.values(SITE_CONFIG.social).filter((u) => typeof u === 'string' && u.length > 0);
 const homeJsonLd = [
   { '@context': 'https://schema.org', '@type': 'Organization', name: 'イバトコ', alternateName: ['IBATOCO', 'いばとこ'], url: siteUrl, areaServed: { '@type': 'AdministrativeArea', name: '茨城県' }, ...(socialSameAs.length ? { sameAs: socialSameAs } : {}) },
@@ -93,30 +91,6 @@ const heroSlides = [
     art: null,
   },
 ];
-
-// 今月のよりみち帖。月替わりの編集枠（季節の記事と催しの入口）。翌月は SEASON と picks を差し替える。
-const SEASON = { month: 11, year: 2026, label: '11月のおすすめ', english: 'NOV.' };
-const seasonPicks = {
-  walk: {
-    href: '/kouyou/',
-    kicker: '01 / 色づく森を歩く',
-    lines: ['足もとから、', '秋になる。'],
-    cta: '紅葉の行き先を探す',
-    place: '高萩市・花貫渓谷',
-    image: { src: '/images/v42/hananuki-season.webp', alt: '秋の花貫渓谷・汐見滝吊り橋を歩く人々', width: 800, height: 600 },
-    credit: '写真：Kanohara / Public domain',
-    creditHref: 'https://commons.wikimedia.org/wiki/File:Hananuki_valley_Shiomi-taki_bridge.jpg',
-  },
-  side: [
-    { theme: 'taste', href: '/events/oarai-ankou-nabe-guide/', kicker: '02 / あんこう鍋', lines: ['湯気まで、', 'ごちそう。'], place: '大洗町', note: '冬の味を、店と宿で。', cta: '食べられる店と宿へ', image: '/images/v42/hotpot.webp', alt: 'あんこう鍋をイメージした挿絵', w: 640, h: 427 },
-    { theme: 'night', href: '/events/ibaraki-flowerpark-illumination-2026/', kicker: '03 / 光の夜さんぽ', lines: ['光の庭で、', 'ひと寄り道。'], place: '石岡市', note: 'いばらきフラワーパーク', cta: '夜の開催情報を見る', image: '/images/v42/nightgarden.webp', alt: '灯りのともる庭の夜さんぽをイメージした挿絵。実際の会場を再現したものではありません', w: 760, h: 507 },
-  ],
-  more: { href: '/events/ibaraki-events-november-2026/', label: '11月のおすすめをもっと見る' },
-  extra: [
-    { href: '/events/tsuchiura-hanabi-2026/', label: '土浦全国花火競技大会2026', note: '土浦市｜11月7日', endDate: '2026-11-07' },
-    { href: '/events/oarai-ankou-matsuri-2026/', label: '大洗あんこう祭2026', note: '大洗町｜11月14・15日', endDate: '2026-11-15' },
-  ],
-};
 
 const matchdays = [
   { slug: 'mito', name: '水戸ホーリーホック', kicker: '水戸の試合へ', stub: '水戸', en: 'MITO', links: [{ href: '/sports/mito-hollyhock/', label: '試合・観戦ガイド' }, { href: '/news/mito-hollyhock-new-stadium-access/', label: '会場への行き方' }] },
@@ -191,53 +165,10 @@ const matchdays = [
     {/* 検索・いま読まれている記事・行き先診断（HomeNow）。TOPの検索フォームは /search/ へ送る */}
     <div id="discover-now"><HomeNow /></div>
 
-    <section class="season" id="season" aria-labelledby="season-title" data-module="home_november">
-      <img class="season__canopy" src="/images/v42/autumn-maple-print.webp" width="480" height="480" alt="" loading="lazy" decoding="async" />
-      <div class="v42-wrap">
-        <header class="season__head">
-          <p class="season__folio" aria-hidden="true"><span>{SEASON.english}</span><b>{SEASON.month}</b></p>
-          <div class="season__title"><p class="v42-label">{SEASON.label}</p><h2 id="season-title">今月の、<br class="v42-br-phone" />よりみち帖。</h2></div>
-          <p class="season__intro">色づく森、湯気の向こう、光の庭。<br />この季節の「行きたい」を、ひとつ。</p>
-        </header>
-        <div class="season__grid">
-          <a class="season-pick season-pick--walk" href={seasonPicks.walk.href}>
-            <figure class="season-pick__photo">
-              <img {...seasonPicks.walk.image} sizes="(min-width: 900px) 56vw, 100vw" loading="lazy" decoding="async" />
-              <span class="season-pick__place">{seasonPicks.walk.place}</span>
-            </figure>
-            <div class="season-pick__body">
-              <p class="season-pick__kicker">{seasonPicks.walk.kicker}</p>
-              <h3>{seasonPicks.walk.lines[0]}<br />{seasonPicks.walk.lines[1]}</h3>
-              <span class="season-pick__cta">{seasonPicks.walk.cta}<span aria-hidden="true">→</span></span>
-            </div>
-          </a>
-          <div class="season__side">
-            {seasonPicks.side.map((pick) => (
-              <a class:list={['season-pick', `season-pick--${pick.theme}`]} href={pick.href}>
-                <figure class="season-pick__photo"><img src={pick.image} alt={pick.alt} width={pick.w} height={pick.h} loading="lazy" decoding="async" /><figcaption>イメージイラスト</figcaption></figure>
-                <div class="season-pick__body">
-                  <p class="season-pick__kicker">{pick.kicker}</p>
-                  <h3>{pick.lines[0]}<br />{pick.lines[1]}</h3>
-                  <p class="season-pick__meta">{pick.place}｜{pick.note}</p>
-                  <span class="season-pick__cta">{pick.cta}<span aria-hidden="true">→</span></span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-        <p class="season__credit">花貫渓谷の写真：<a href={seasonPicks.walk.creditHref} target="_blank" rel="license noopener">{seasonPicks.walk.credit}</a></p>
-        <div class="season__more">
-          <img src="/images/v42/field-reporters.webp" width="360" height="540" alt="" loading="lazy" decoding="async" />
-          <ul>{seasonPicks.extra.filter((item) => item.endDate >= currentDateJst).map((item) => <li><a href={item.href}><small>{item.note}</small>{item.label}</a></li>)}</ul>
-          <a class="v42-button" href={seasonPicks.more.href}>{seasonPicks.more.label}<span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-    </section>
-
     {/* 日付から入る枠。該当が無ければブロックごと出ない */}
     <div id="events" data-module="home_this_week"><ThisWeek moreHref="/today/" /></div>
 
-    {/* 人気記事と開催中の案内は残し、季節の特集・イベントの後へ。 */}
+    {/* 開催中・人気の案内は週末枠の後に配置。月替わりの重複特集は置かない。 */}
     <HomeNow variant="updates" />
 
     {/* v42の花だより。公式の開花・開催情報を確かめた分だけ。期限を過ぎたカードは出さない */}
@@ -615,66 +546,6 @@ const matchdays = [
   .v42-intents a:hover,.v42-intents a:focus-visible{border-color:#6f897b;background:#fff}
   @media(max-width:1090px){.v42-intents ul{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:600px){.v42-intents ul{grid-template-columns:repeat(2,minmax(0,1fr))}.v42-intents a{grid-template-columns:auto minmax(0,1fr)}.v42-intents a b{display:none}.v42-intents a svg{width:19px;height:19px}}
-
-  /* ── 今月の、よりみち帖 ── */
-  .season{position:relative;overflow:hidden;padding-block:clamp(2rem,3.5vw,3.5rem);background:var(--v42-paper)}
-  .season__canopy{position:absolute;top:-40px;right:0;width:min(36vw,420px);height:auto;opacity:.9;pointer-events:none}
-  .season .v42-wrap{position:relative}
-  .season__head{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,.8fr);align-items:end;gap:.75rem 1.75rem;margin-bottom:1.5rem}
-  .season__folio{display:grid;color:#c1ad76;line-height:1}
-  .season__folio span{font-size:.625rem;letter-spacing:.14em;color:#8d8d78}
-  .season__folio b{font:400 clamp(4rem,6.5vw,6rem)/.9 var(--font-brand-display);letter-spacing:-.06em}
-  .season h2{margin-top:.35rem;font-size:clamp(1.75rem,2.8vw,2.5rem);line-height:1.35}
-  .season__intro{color:var(--v42-copy);font-size:.9375rem;line-height:1.7}
-  .season__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.125rem}
-  .season__side{display:grid;grid-template-columns:minmax(0,1fr);gap:1.125rem}
-  .season-pick{position:relative;display:grid;min-width:0;border:6px solid #fffefa;background:#fffdf6;box-shadow:0 10px 24px #263b3818;color:var(--v42-ink)}
-  .season-pick__photo{position:relative;margin:0;overflow:hidden}
-  .season-pick__photo img{display:block;width:100%;height:100%;object-fit:cover}
-  .season-pick__photo figcaption,.season-pick__place{position:absolute;padding:3px 7px;background:#fffdf4ed;color:#4f5d4f;font-size:10px}
-  .season-pick__photo figcaption{right:8px;bottom:8px}
-  .season-pick__place{top:10px;left:10px}
-  .season-pick__body{display:grid;gap:.4rem;padding:.9rem 1rem 1rem}
-  .season-pick__kicker{color:var(--v42-note);font-size:.75rem;letter-spacing:.06em}
-  .season-pick h3{font:500 clamp(1.35rem,2vw,1.8rem)/1.4 var(--font-brand-display);letter-spacing:.03em}
-  .season-pick__meta{color:var(--v42-copy);font-size:.8125rem}
-  .season-pick__cta{display:inline-flex;justify-content:space-between;gap:1.5rem;align-items:center;justify-self:start;min-height:44px;padding:.55rem 1rem;border:1px solid var(--v42-blue);color:var(--v42-blue);font-size:.8125rem;font-weight:700}
-  .season-pick:hover .season-pick__cta,.season-pick:focus-visible .season-pick__cta{background:var(--v42-blue);color:#fff}
-  .season-pick--walk .season-pick__photo{aspect-ratio:3/2}
-  .season-pick--walk .season-pick__body{position:absolute;left:1rem;bottom:1rem;max-width:min(24rem,calc(100% - 2rem));background:#fffdf6;box-shadow:3px 5px 0 #071b2b25}
-  .season-pick--walk h3{font-size:clamp(1.65rem,2.7vw,2.25rem)}
-  .season__side .season-pick{grid-template-columns:minmax(0,.9fr) minmax(0,1fr)}
-  .season__side .season-pick__photo{min-height:150px}
-  .season-pick--night{background:#23384a;color:#f5f0dd}
-  .season-pick--night .season-pick__kicker,.season-pick--night .season-pick__meta{color:#d8d2b8}
-  .season-pick--night .season-pick__cta{border-color:#f5f0dd;color:#f5f0dd}
-  .season__credit{margin-top:.75rem;color:var(--v42-note);font-size:.6875rem}
-  .season__credit a{text-decoration:underline;text-underline-offset:.15em}
-  .season__more{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.25rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--v42-rule)}
-  .season__more img{width:56px;height:auto}
-  .season__more ul{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;margin:0;padding:0;list-style:none}
-  .season__more li::before{content:none}
-  .season__more li a{display:grid;min-height:44px;align-content:center;color:var(--v42-ink);font-size:.9375rem;font-weight:700}
-  .season__more small{color:var(--v42-note);font-size:.75rem;font-weight:400}
-  @media(max-width:900px){.season__head{grid-template-columns:auto minmax(0,1fr)}.season__intro{grid-column:1/-1}.season__grid{grid-template-columns:minmax(0,1fr)}}
-  /* スマホの季節カードは2列にしない：CTAの1文字改行と極端に狭い本文を防ぐ。 */
-  @media(max-width:700px){
-    .season__canopy{width:130px;top:-10px;right:0}
-    .season__folio b{font-size:4.25rem}
-    .season__side{grid-template-columns:minmax(0,1fr);gap:1rem}
-    .season__side .season-pick{grid-template-columns:minmax(0,1fr)}
-    .season__side .season-pick__photo{min-height:0;aspect-ratio:2/1}
-    .season__side .season-pick__body{padding:.9rem 1rem 1rem}
-    .season__side .season-pick h3{font-size:clamp(1.5rem,6vw,1.85rem)}
-    .season__side .season-pick__meta{display:block;line-height:1.7}
-    .season__side .season-pick__cta{justify-self:stretch;width:100%;min-width:0;gap:1rem;font-size:.875rem;padding-inline:1rem}
-    .season-pick--walk .season-pick__photo{aspect-ratio:8/5}
-    .season-pick--walk .season-pick__body{position:static;max-width:none;box-shadow:none}
-    .season-pick--walk h3{font-size:clamp(1.6rem,6.5vw,2rem)}
-    .season__more{grid-template-columns:minmax(0,1fr)}
-    .season__more img{display:none}
-    .season__more .v42-button{justify-self:stretch}
-  }
 
   /* ── 44市町村の地図 ── */
   #events{scroll-margin-top:calc(var(--site-header-height) + 1rem)}
