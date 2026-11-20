@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261121-home-simplify-editorial-navigation',
+    date: '2026-11-21',
+    url: '/',
+    kind: 'on-page',
+    experimentType: 'template',
+    change: 'TOPの花・モデルコース・ペット大型3枠をカテゴリーハブへの小リンクへ集約。重複したブランド理念と取材・編集方針を1セクションに統合し、フッター直前のTOPだけの重複メッセージも省略',
+    queries: [],
+    commit: '97e06ca6edf32cff2ff98857f2f02b3f95e9d9c5',
+    note: 'PR #666。2026-11-21にオーナーがTOPの情報量削減と対象セクション削除・理念統合を具体的に希望。既存記事・URL・TOPメタデータは変更しない。公開日を確認して実際の観測起点へ調整し、過去の履歴は保持する。',
+  },
+  {
     id: '20261121-home-remove-redundant-season',
     date: '2026-11-21',
     url: '/',

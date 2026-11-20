@@ -63,6 +63,7 @@ const officialSocials = [
 ].filter((s) => Boolean(s.href));
 ---
 
+{Astro.url.pathname !== '/' && (
 <section class="v42-closing" aria-label="イバトコについて">
   <div class="v42-closing__inner">
     <img src="/images/v42/travelers.webp" width="240" height="160" alt="" loading="lazy" decoding="async" />
@@ -73,6 +74,7 @@ const officialSocials = [
     <a class="v42-closing__link" href="/about/">イバトコのこと<span aria-hidden="true">→</span></a>
   </div>
 </section>
+)}
 
 <footer class="site-footer2">
   <div class="site-footer2__inner">

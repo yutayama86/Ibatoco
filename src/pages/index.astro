@@ -7,7 +7,6 @@ import ThisWeek from '../components/ThisWeek.astro';
 import HomeNow from '../components/HomeNow.astro';
 import HomeEditorialProcess from '../components/HomeEditorialProcess.astro';
 import HomeAreaExplorer from '../components/HomeAreaExplorer.astro';
-import HomeJourney from '../components/HomeJourney.astro';
 import V42Icon from '../components/V42Icon.astro';
 import NewsCard from '../components/NewsCard.astro';
 import SponsorSlots from '../components/SponsorSlots.astro';
@@ -171,9 +170,6 @@ const matchdays = [
     {/* 開催中・人気の案内は週末枠の後に配置。月替わりの重複特集は置かない。 */}
     <HomeNow variant="updates" />
 
-    {/* v42の花だより。公式の開花・開催情報を確かめた分だけ。期限を過ぎたカードは出さない */}
-    <HomeJourney section="flowers" />
-
     <section class="v42-theme" id="discover" data-module="home_discover" aria-labelledby="discover-title">
       <div class="v42-wrap">
         <header class="v42-head">
@@ -192,13 +188,17 @@ const matchdays = [
               </a></li>
             ))}
           </ul>
+          <div class="v42-intents__quicklinks" aria-label="ほかの行き先">
+            <span>ほかにも探す</span>
+            <a id="flower-news" href="/hana/">花の名所</a>
+            <a id="trips" href="/course/">モデルコース</a>
+            <a id="pet-facilities" href="/pet/">ペットとおでかけ</a>
+          </div>
         </nav>
       </div>
     </section>
 
     <section class="area-home" id="area" data-module="home_area"><div class="v42-wrap"><HomeAreaExplorer compact /></div></section>
-
-    <HomeJourney section="trips" />
 
     <section class="food-home" data-module="home_hoshiimo" aria-labelledby="hoshiimo-home-title">
       <div class="v42-wrap food-home__layout">
@@ -233,8 +233,6 @@ const matchdays = [
       </div>
     </section>
 
-    <HomeJourney section="pets" />
-
     <section class="matchday" aria-labelledby="matchday-title" data-module="home_sports">
       <img class="matchday__art" src="/images/v42/v36-stadium.webp" width="1920" height="640" alt="" loading="lazy" decoding="async" />
       <div class="v42-wrap matchday__inner">
@@ -256,20 +254,6 @@ const matchdays = [
             </article>
           ))}
           <a class="v42-quiet-link" href="/sports/">茨城のスポーツをすべて見る<span aria-hidden="true">&nbsp;→</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section class="brand-origin" aria-labelledby="origin-title" data-module="home_origin">
-      <div class="v42-wrap origin-grid">
-        <div class="origin-copy">
-          <p class="origin-index">イバトコをつくった理由</p>
-          <h2 id="origin-title"><span>検索では見つからない、</span><span>この土地の理由を。</span></h2>
-          <p class="origin-lead">この街で店を続ける人の話。地図の先で出会う風景。<br />茨城を歩き、見つけた物語を、確かめながら届けます。</p>
-          <a href="/about/">イバトコについて<V42Icon name="arrow" size={17} /></a>
-        </div>
-        <div class="origin-cover">
-          <img src="/og-default-rich-header-20260819.png" alt="イバトコのロゴと茨城の風景を描いたブランドビジュアル" loading="lazy" decoding="async" width="1200" height="630" />
         </div>
       </div>
     </section>
@@ -546,6 +530,10 @@ const matchdays = [
   .v42-intents a:hover,.v42-intents a:focus-visible{border-color:#6f897b;background:#fff}
   @media(max-width:1090px){.v42-intents ul{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:600px){.v42-intents ul{grid-template-columns:repeat(2,minmax(0,1fr))}.v42-intents a{grid-template-columns:auto minmax(0,1fr)}.v42-intents a b{display:none}.v42-intents a svg{width:19px;height:19px}}
+  .v42-intents__quicklinks{display:flex;align-items:center;flex-wrap:wrap;gap:0 .95rem;margin-top:.65rem;padding-top:.55rem;border-top:1px solid #d4dccb;font-size:.8125rem}
+  .v42-intents__quicklinks span{color:#617357;font-size:.75rem}
+  .v42-intents__quicklinks a{display:inline-flex;align-items:center;min-height:40px;padding:0;background:transparent;border:0;color:#284d57;font-size:.8125rem;font-weight:700;text-decoration:underline;text-underline-offset:.2em}
+  .v42-intents__quicklinks a:hover,.v42-intents__quicklinks a:focus-visible{color:var(--v42-blue);background:transparent}
 
   /* ── 44市町村の地図 ── */
   #events{scroll-margin-top:calc(var(--site-header-height) + 1rem)}
@@ -617,24 +605,7 @@ const matchdays = [
     .matchday-visit__stub strong{font-size:1rem}
   }
 
-  /* ── イバトコをつくった理由 ── */
-  .brand-origin{border-block:1px solid #d6ded6;background:#f7f7ef}
-  .origin-grid{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);gap:clamp(1.65rem,4.6vw,4rem);align-items:center;padding-block:clamp(2.25rem,5.5vw,5rem)}
-  .origin-index{display:flex;align-items:center;gap:.65rem;color:#416574;font-size:.8125rem;font-weight:700;letter-spacing:.12em}
-  .origin-index::before{content:"";width:1.4rem;height:1px;background:#8c956f}
-  .brand-origin h2{margin-top:.75rem;font-size:clamp(2rem,3.85vw,3.35rem);line-height:1.35}
-  .brand-origin h2 span{display:block}
-  .brand-origin h2 span:first-child{margin-bottom:.24em;color:#45666c;font-size:.7em}
-  .origin-lead{max-width:31rem;margin-top:1rem;color:#405953;font-size:clamp(.9375rem,1.2vw,1.0625rem);line-height:1.9;word-break:auto-phrase}
-  .origin-copy>a{display:inline-flex;align-items:center;gap:1.2rem;min-height:44px;margin-top:.9rem;border-bottom:1px solid #6a8790;color:#2c5363;font-size:.875rem;font-weight:700}
-  .origin-copy>a:hover{color:var(--v42-blue);border-color:currentColor}
-  .brand-origin a:focus-visible{outline:2px solid var(--color-tide);outline-offset:3px}
-  .origin-cover{position:relative;isolation:isolate;min-width:0;margin:0 .5rem .5rem 0}
-  .origin-cover::before{content:"";position:absolute;inset:.5rem -.5rem -.5rem .5rem;z-index:-1;border:1px solid #b7c7c8;background:#e3eced}
-  .origin-cover img{display:block;width:100%;height:auto;border:1px solid #c7d4d4}
-  @media(max-width:760px){.origin-grid{grid-template-columns:minmax(0,1fr);gap:1.35rem}.brand-origin h2{font-size:clamp(1.75rem,8.6vw,2.65rem)}}
-
-  /* ── 取材と編集（3項目） ── */
+  /* ── イバトコの理念と取材方針を統合 ── */
   .process-home{background:#f6f1e6}
 
   /* ── 茨城を、一緒におもしろく（事業者向けの導線） ── */

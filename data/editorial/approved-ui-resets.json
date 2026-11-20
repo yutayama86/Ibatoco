@@ -311,6 +311,31 @@
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
+    },
+    {
+      "id": "20261121-home-simplify-editorial-666",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 666,
+      "path": "/",
+      "baseSha": "93da3494d6c9c2b784fcef815164966d8454c361",
+      "previousChangeId": "20261121-home-remove-redundant-season",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-21",
+      "validThrough": "2026-11-22",
+      "reason": "2026-11-21、オーナーがトップの情報量を減らす目的で、花・モデルコース・ペットの大型3枠の削除、および重複した理念・取材方針の1枠統合を具体的に希望。個別記事・常設ハブ・検索メタを保護する限定的なTOP構成変更のみを対象に、過去の観測履歴を維持し、公開後の観測を取り直す。マージ・本番公開の可否は別途確認する。 旧レイアウトに依存する表示QAはテスト無効化せず、統合編集3原則、編集・PR方針のHTMLリンク、花・コース・ペットの常設ハブ、移管先ページの主要リンクを検査する仕様へ改めた。 テストの新旧セクション移行とリンク検証は別の成功済みPR #667で先行マージした。文書の更新も別PRへ切り離し、このUI承認対象は実表示3ファイルの固定blobだけ。",
+      "restartChangeId": "20261121-home-simplify-editorial-navigation",
+      "sourceBlobs": {
+        "src/pages/index.astro": "68f85bdd6649101fe07797b13935918f065d2669",
+        "src/components/HomeEditorialProcess.astro": "6b59c411159968b7679252b30aef1154c4b6dd9f",
+        "src/components/SiteFooter.astro": "a526e595223b171b595d893545a27a4457b3e0f7"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/components/HomeEditorialProcess.astro",
+        "src/components/SiteFooter.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }
