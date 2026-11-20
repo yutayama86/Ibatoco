@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261121-home-remove-redundant-season',
+    date: '2026-11-21',
+    url: '/',
+    kind: 'on-page',
+    experimentType: 'template',
+    change: 'スマホで縦長かつ情報が重複する「今月の、よりみち帖。」をTOPから削除。記事や各URL・その他の入口は維持し、主要導線への到達を早めた',
+    queries: [],
+    commit: 'a0fdb22ac1bb36fb3bb28fdfd79a5bdfdfdd4183',
+    note: 'PR #664。オーナーから季節特集の削除意向とスマホでの重複・縦長の問題指摘があり、2026-11-21（JST）のリリース計画として変更を記録。実公開日が異なる場合は調整。#663以前の履歴を保持し新たな28日観測を開始する。',
+  },
+  {
     id: '20261120-home-season-compact',
     date: '2026-11-21',
     url: '/',
