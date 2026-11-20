@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261120-home-remove-fv-intro',
+    date: '2026-11-20',
+    url: '/',
+    kind: 'on-page',
+    experimentType: 'template',
+    change: 'TOPの導入帯（キャッチコピー・補足・年月）を削除し、ヒーローをヘッダー直下へ移動。H1は読み上げ用に保持',
+    queries: [],
+    commit: '078c8ded4298402e8222be1a9e9fbce2daddf23c',
+    note: 'PR #662。2026-11-20にオーナーが帯の削除と観測の取り直しを承認。過去の観測履歴は保持し、公開後28日間を新たに観測する。公開日と本番コミットはデプロイ後に照合する。',
+  },
+  {
     id: '20261119-home-season-mobile-card-fix',
     date: '2026-11-19',
     url: '/',

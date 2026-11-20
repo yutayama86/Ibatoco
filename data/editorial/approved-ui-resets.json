@@ -247,6 +247,27 @@
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
+    },
+    {
+      "id": "20261120-home-remove-fv-intro-662",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 662,
+      "path": "/",
+      "baseSha": "e3a992db2cec1455f0b22f1570f783c37cb35f43",
+      "previousChangeId": "20261119-home-season-mobile-card-fix",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-20",
+      "validThrough": "2026-11-20",
+      "reason": "オーナーが導入帯の削除とヒーローの上詰めを依頼し、公開後28日間の観測を取り直す記録追加とCI通過まで進める確認に「良い！」と承認。PR #662の確認済みソースだけに適用し、過去の観測履歴を保持して新しい観測を開始する。",
+      "restartChangeId": "20261120-home-remove-fv-intro",
+      "sourceBlobs": {
+        "src/pages/index.astro": "577d5a1ca2e29232983b74ba2eb409c904883f28"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }
