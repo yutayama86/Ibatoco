@@ -269,6 +269,27 @@
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
+    },
+    {
+      "id": "20261120-home-season-compact-663",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 663,
+      "path": "/",
+      "baseSha": "271f4e21f88d0e72eca655b782e76712f76fa532",
+      "previousChangeId": "20261120-home-remove-fv-intro",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-20",
+      "validThrough": "2026-11-22",
+      "reason": "2026年11月20日、オーナーがTOP季節特集をPCとスマホでコンパクトにする具体的修正を依頼し、Draft PR #663の検証・公開作業を「進めて」と個別承認した。今回のPRと確認済みソースだけに適用し、旧計測履歴を保持したまま本番公開からTOPの観測を再開する。",
+      "restartChangeId": "20261120-home-season-compact",
+      "sourceBlobs": {
+        "src/pages/index.astro": "06533d64e991dcb90a16dbc070bcf169e0f1a3ef"
+      },
+      "allowedFiles": [
+        "src/pages/index.astro",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }

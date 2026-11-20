@@ -617,40 +617,40 @@ const matchdays = [
   @media(max-width:600px){.v42-intents ul{grid-template-columns:repeat(2,minmax(0,1fr))}.v42-intents a{grid-template-columns:auto minmax(0,1fr)}.v42-intents a b{display:none}.v42-intents a svg{width:19px;height:19px}}
 
   /* ── 今月の、よりみち帖 ── */
-  .season{position:relative;overflow:hidden;padding-block:clamp(4rem,7vw,6.5rem);background:var(--v42-paper)}
+  .season{position:relative;overflow:hidden;padding-block:clamp(2rem,3.5vw,3.5rem);background:var(--v42-paper)}
   .season__canopy{position:absolute;top:-40px;right:0;width:min(36vw,420px);height:auto;opacity:.9;pointer-events:none}
   .season .v42-wrap{position:relative}
-  .season__head{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,.8fr);align-items:end;gap:1rem 2.5rem;margin-bottom:2.75rem}
+  .season__head{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,.8fr);align-items:end;gap:.75rem 1.75rem;margin-bottom:1.5rem}
   .season__folio{display:grid;color:#c1ad76;line-height:1}
   .season__folio span{font-size:.625rem;letter-spacing:.14em;color:#8d8d78}
-  .season__folio b{font:400 clamp(5rem,9vw,8rem)/.9 var(--font-brand-display);letter-spacing:-.06em}
-  .season h2{margin-top:.5rem;font-size:clamp(1.875rem,3.2vw,2.875rem);line-height:1.4}
-  .season__intro{color:var(--v42-copy);font-size:.9375rem;line-height:2}
-  .season__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem}
-  .season__side{display:grid;grid-template-columns:minmax(0,1fr);gap:1.6rem}
+  .season__folio b{font:400 clamp(4rem,6.5vw,6rem)/.9 var(--font-brand-display);letter-spacing:-.06em}
+  .season h2{margin-top:.35rem;font-size:clamp(1.75rem,2.8vw,2.5rem);line-height:1.35}
+  .season__intro{color:var(--v42-copy);font-size:.9375rem;line-height:1.7}
+  .season__grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.125rem}
+  .season__side{display:grid;grid-template-columns:minmax(0,1fr);gap:1.125rem}
   .season-pick{position:relative;display:grid;min-width:0;border:6px solid #fffefa;background:#fffdf6;box-shadow:0 10px 24px #263b3818;color:var(--v42-ink)}
   .season-pick__photo{position:relative;margin:0;overflow:hidden}
   .season-pick__photo img{display:block;width:100%;height:100%;object-fit:cover}
   .season-pick__photo figcaption,.season-pick__place{position:absolute;padding:3px 7px;background:#fffdf4ed;color:#4f5d4f;font-size:10px}
   .season-pick__photo figcaption{right:8px;bottom:8px}
   .season-pick__place{top:10px;left:10px}
-  .season-pick__body{display:grid;gap:.5rem;padding:1.15rem 1.25rem 1.3rem}
+  .season-pick__body{display:grid;gap:.4rem;padding:.9rem 1rem 1rem}
   .season-pick__kicker{color:var(--v42-note);font-size:.75rem;letter-spacing:.06em}
-  .season-pick h3{font:500 clamp(1.45rem,2.3vw,2rem)/1.45 var(--font-brand-display);letter-spacing:.03em}
+  .season-pick h3{font:500 clamp(1.35rem,2vw,1.8rem)/1.4 var(--font-brand-display);letter-spacing:.03em}
   .season-pick__meta{color:var(--v42-copy);font-size:.8125rem}
   .season-pick__cta{display:inline-flex;justify-content:space-between;gap:1.5rem;align-items:center;justify-self:start;min-height:44px;padding:.55rem 1rem;border:1px solid var(--v42-blue);color:var(--v42-blue);font-size:.8125rem;font-weight:700}
   .season-pick:hover .season-pick__cta,.season-pick:focus-visible .season-pick__cta{background:var(--v42-blue);color:#fff}
-  .season-pick--walk .season-pick__photo{aspect-ratio:4/3}
-  .season-pick--walk .season-pick__body{position:absolute;left:1.25rem;bottom:1.25rem;max-width:min(24rem,calc(100% - 2.5rem));background:#fffdf6;box-shadow:3px 5px 0 #071b2b25}
-  .season-pick--walk h3{font-size:clamp(1.8rem,3.2vw,2.6rem)}
+  .season-pick--walk .season-pick__photo{aspect-ratio:3/2}
+  .season-pick--walk .season-pick__body{position:absolute;left:1rem;bottom:1rem;max-width:min(24rem,calc(100% - 2rem));background:#fffdf6;box-shadow:3px 5px 0 #071b2b25}
+  .season-pick--walk h3{font-size:clamp(1.65rem,2.7vw,2.25rem)}
   .season__side .season-pick{grid-template-columns:minmax(0,.9fr) minmax(0,1fr)}
-  .season__side .season-pick__photo{min-height:180px}
+  .season__side .season-pick__photo{min-height:150px}
   .season-pick--night{background:#23384a;color:#f5f0dd}
   .season-pick--night .season-pick__kicker,.season-pick--night .season-pick__meta{color:#d8d2b8}
   .season-pick--night .season-pick__cta{border-color:#f5f0dd;color:#f5f0dd}
   .season__credit{margin-top:.75rem;color:var(--v42-note);font-size:.6875rem}
   .season__credit a{text-decoration:underline;text-underline-offset:.15em}
-  .season__more{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.5rem;margin-top:2.25rem;padding-top:1.5rem;border-top:1px solid var(--v42-rule)}
+  .season__more{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.25rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--v42-rule)}
   .season__more img{width:56px;height:auto}
   .season__more ul{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;margin:0;padding:0;list-style:none}
   .season__more li::before{content:none}
@@ -660,15 +660,15 @@ const matchdays = [
   /* スマホの季節カードは2列にしない：CTAの1文字改行と極端に狭い本文を防ぐ。 */
   @media(max-width:700px){
     .season__canopy{width:130px;top:-10px;right:0}
-    .season__folio b{font-size:5.2rem}
+    .season__folio b{font-size:4.25rem}
     .season__side{grid-template-columns:minmax(0,1fr);gap:1rem}
     .season__side .season-pick{grid-template-columns:minmax(0,1fr)}
-    .season__side .season-pick__photo{min-height:0;aspect-ratio:16/9}
-    .season__side .season-pick__body{padding:1.1rem 1rem 1.25rem}
+    .season__side .season-pick__photo{min-height:0;aspect-ratio:2/1}
+    .season__side .season-pick__body{padding:.9rem 1rem 1rem}
     .season__side .season-pick h3{font-size:clamp(1.5rem,6vw,1.85rem)}
     .season__side .season-pick__meta{display:block;line-height:1.7}
     .season__side .season-pick__cta{justify-self:stretch;width:100%;min-width:0;gap:1rem;font-size:.875rem;padding-inline:1rem}
-    .season-pick--walk .season-pick__photo{aspect-ratio:4/3}
+    .season-pick--walk .season-pick__photo{aspect-ratio:8/5}
     .season-pick--walk .season-pick__body{position:static;max-width:none;box-shadow:none}
     .season-pick--walk h3{font-size:clamp(1.6rem,6.5vw,2rem)}
     .season__more{grid-template-columns:minmax(0,1fr)}
