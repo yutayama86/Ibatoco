@@ -74,14 +74,14 @@
 - 変更は 作業ブランチ → PR → CI・セキュリティ検証・観測窓ガード → 承認後に main へマージ。main へ直接 push しない。マージは上記「公開の判断」と既存の承認ルールに従う。
 - 手元のPC・Claude Code・Codex から `npm run deploy`・`npx wrangler deploy`・`wrangler login`・`wrangler secret` を実行しない。`npm run deploy` は `scripts/deploy-guard.mjs` により Deploy production（main）以外では止まる。Cloudflareトークン・GitHub Secrets を作成・変更・削除せず、値を出力しない。
 
-## TOPはv42提出デザインが正
+## TOPはv42のトーンを維持した最新の簡素版が正
 
-2026年11月8日のオーナー決定により、TOPの構成・並び・見せ方は、v42提出デザイン（`ibatoco-all-pages-design-v42` の `index.html`）を正とします。旧プレビュー、旧バックアップ、過去の設計書、git履歴上の旧`index.astro`からTOPを復元してはいけません。
+2026年11月21日のオーナー判断により、TOPはv42のトーンを引き継いだ**コンパクトな検索・回遊の入口**を正とします。以前のv42提出HTML・旧プレビュー・バックアップ・過去の設計書・旧`index.astro`から削除済みブロックを復元してはいけません。現在の`src/pages/index.astro`と必須CIを正として判断します。
 
 TOPを変更する前に、必ず次の現行ファイルをすべて確認してください。
 
 - `src/pages/index.astro`
-- `src/components/HomeJourney.astro`（花だより・モデルコース・ペット）
+- `src/components/HomeJourney.astro`（旧TOPの花・モデルコース・ペット大型ブロック。TOPへ再挿入せず、/hana/・/course/・/pet/の常設リンクを維持）
 - `src/components/HomeThemeNav.astro`
 - `src/components/HomeAreaExplorer.astro`
 - `src/components/HomeEditorialProcess.astro`
@@ -89,10 +89,11 @@ TOPを変更する前に、必ず次の現行ファイルをすべて確認し�
 デザインに合わせても残す、信頼と導線の要素：
 
 - 5秒間隔のFVスライド3枚（操作ボタン、動きを抑える設定を含む）
-- 「イバトコをつくった理由」
+- ブランドの紹介と取材方針をまとめた1セクション（/about/・編集方針・PR・広告方針への明示リンクを含む）
 - テーマカード6件
 - 44市町村マップ。各`/area/[slug]/`へ直接遷移
-- 「取材と編集」は3項目
+- 「取材と編集」の3原則（現地を歩く／公式情報を確認／公開後も見直す）。カード3枚の再表示は不要
+- 花・モデルコース・ペットの独立ハブ（/hana/・/course/・/pet/）へのクロール可能なリンク。旧大型特集は復元しない
 - 地域事業者向け導線（協賛・取材の相談）
 
 これらは見せ方をv42に寄せてよいが、削除しない。デザインの見本にある店舗・施設・開花・日付は、公式の一次情報で確かめたものだけを載せ、確認日と出典リンクを画面に出す。期間のある情報は期限を持たせ、過ぎたら表示しない。
