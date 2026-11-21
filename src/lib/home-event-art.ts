@@ -25,6 +25,6 @@ export async function homeEventArt(href: string, kind?: HappeningKind): Promise<
   }
   const image = await listImageForPath(href);
   return image
-    ? { src: image.src, caption: image.source === 'card' ? 'エリア地図' : undefined, contain: image.source !== 'card' }
+    ? { src: image.src, caption: image.source === 'card' ? 'エリア地図' : undefined, contain: image.source !== 'visual' }
     : { src: '/images/v42/ibarakiscape.webp', caption: 'イメージイラスト' };
 }
