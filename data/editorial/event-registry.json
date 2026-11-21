@@ -1991,6 +1991,27 @@
         "logisticsDemand": "low"
       },
       "notes": "東京での茨城県大子町関連イベント（大子町主催、一般社団法人リダイゴ企画・運営）。2026-11-19（木）19:00〜21:00、BONUS TRACK HOUSE（東京・下北沢）、18:30開場。参加費1,000円、定員25名（先着）、Peatix申込。一般社団法人リダイゴの公式告知（2026-10-24公開）で確認。出席・満席状況は未確認。"
+    },
+    {
+      "id": "ibaraki-gourmet-fair-kasama-2026",
+      "name": "2026いばらきグルメ物産展",
+      "municipality": "kasama",
+      "startDate": "2026-11-28",
+      "endDate": "2026-12-06",
+      "officialUrl": "https://m-kasama.com/topics/p-06677",
+      "discoveredAt": "2026-11-19",
+      "verifiedAt": "2026-11-21",
+      "articleUrl": "/events/ibaraki-gourmet-fair-kasama-2026/",
+      "articleUpdatedAt": "2026-11-19",
+      "status": "draft",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11/28-29・12/5-6の4日間、道の駅かさま。11月と12月で出店地域が交代。会場公式と商工会議所を確認。新規記事はDraft PR #656でレビュー待ち。 2026-11-21に道の駅かさま・古河商工会議所・八千代町商工会の公式告知を再確認。未確認の料金・アクセス・荒天対応は推測で補わずDraft継続。"
     }
   ]
 }
