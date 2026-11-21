@@ -167,6 +167,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-highway-bus-roundup": "/images/card/ibaraki-highway-bus-roundup-bbce7a48.png",
   "ibaraki-hiking-roundup": "/images/card/ibaraki-hiking-roundup-c145e5e0.png",
   "ibaraki-hoshiimo-gourmet": "/images/card/ibaraki-hoshiimo-gourmet-f09e1d8a.png",
+  "ibaraki-ichigo-gari-guide": "/images/card/ibaraki-ichigo-gari-guide-dc6d0e49.png",
   "ibaraki-illumination-2026": "/images/card/ibaraki-illumination-2026-e95a9221.png",
   "ibaraki-jinja-meguri-roundup": "/images/card/ibaraki-jinja-meguri-roundup-45040031.png",
   "ibaraki-kenmin-no-hi-2026": "/images/card/ibaraki-kenmin-no-hi-2026-4c8cbdb8.png",
