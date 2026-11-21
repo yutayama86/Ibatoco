@@ -6,8 +6,12 @@
 - 作成日: 2026-11-21
 - 対象URL: /events/ibaraki-winter-guide/
 - 施策種別: new-article
-- 実装可否: candidate（一次情報の確認待ち。[要確認] をすべて解消し、出典を公式に差し替えるまで ready にしない）
+- 実装可否: superseded（新規記事は作らない）
 - 公開目標: 12/20〜12/25(冬の記事を束ねるハブ)
+
+## 重複確認（2026-11-21 追記）
+
+- 既存記事 /events/ibaraki-winter-odekake-2026/（茨城の冬のおでかけ2026-2027）と重複するため新規URLは作らない。代わりに既存記事へ /events/ibaraki-ichigo-gari-guide/・/events/oarai-hatsuhinode-2027/ などへの内部リンク追加を検討（観測窓を確認してから）。
 
 ## 目的と根拠
 
