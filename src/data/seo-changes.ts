@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261121-events-fukuroda-falls-autumn-2026',
+    date: '2026-11-21',
+    url: '/events/fukuroda-falls-autumn-2026/',
+    kind: 'on-page',
+    change: 'title・descriptionの先頭に色づき速報（11/14現在見ごろ）とライトアップ期限を明示。『袋田の滝 紅葉』『紅葉 現在』で表示7,185回・CTR1.0%（10/22〜11/18）の改善',
+    queries: [],
+    commit: '497f3a5',
+  },
+  {
     id: '20261121-events-oarai-ankou-matsuri-2026',
     date: '2026-11-21',
     url: '/events/oarai-ankou-matsuri-2026/',
