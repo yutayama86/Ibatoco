@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261121-events-ibaraki-ichigo-gari-guide',
+    date: '2026-11-21',
+    url: '/events/ibaraki-ichigo-gari-guide/',
+    kind: 'new-article',
+    change: '茨城のいちご狩りガイドを新規公開（県のいちご狩り園一覧・県資料・関東農政局の公的資料のみで作成）',
+    queries: [],
+    commit: '7dfe3b0',
+  },
+  {
     id: '20261121-events-fukuroda-falls-autumn-2026',
     date: '2026-11-21',
     url: '/events/fukuroda-falls-autumn-2026/',
