@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-18",
+  "updatedAt": "2026-11-20",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1381,6 +1381,27 @@
       "notes": "Discovery Gate の巡回（10/17）で常陸太田市観光物産協会のお知らせから発見。公式で11月15日（日）雨天決行、会場は西金砂湯けむりの郷「金砂の湯」前、14kmの部10:00・5kmの部10:05スタート、申込は9月30日で締切、正午に交通規制解除。参加型（中学生以下は参加不可）で、エントリーは締め切り済み。記事化・11月まとめへの追記・見送りは編集判断待ち。来場規模の根拠は未取得。"
     },
     {
+      "id": "mito-kakuuchi-wine-2026",
+      "name": "角打ち日和・ワールドワインフェスティバル",
+      "municipality": "mito",
+      "startDate": "2026-11-20",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1454&mode=detail",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/mito-kakuuchi-wine-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "mito-wan-park-2026",
       "name": "水戸Wanパーク",
       "municipality": "mito",
@@ -1431,11 +1452,11 @@
       "municipality": "tsuchiura",
       "startDate": "2026-11-21",
       "endDate": "2026-11-22",
-      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/kanko-matsuri-event/news/page022024.html",
+      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/news/page023748.html",
       "discoveredAt": "2026-09-29",
       "verifiedAt": "2026-09-29",
       "articleUrl": "/events/tsuchiura-curry-festival-2026/",
-      "articleUpdatedAt": "2026-10-31",
+      "articleUpdatedAt": "2026-11-20",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1489,6 +1510,111 @@
       "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
     },
     {
+      "id": "kamisu-wakudoki-anzen-festival-2026",
+      "name": "ワクドキ×かみす みんなの笑顔を守ろう安全フェスティバル",
+      "municipality": "kamisu",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.kamisu.ibaraki.jp/living/safety/1000947/1014213.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/kamisu-wakudoki-anzen-festival-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tsukuba-aist-openhouse-2026",
+      "name": "産総研25周年特別公開",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.aist.go.jp/sc/openhouse/2026/index.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/tsukuba-aist-openhouse-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "namegata-yakiimo-kojosai-2026",
+      "name": "秋のやきいも工場祭",
+      "municipality": "namegata",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.namegata-fv.jp/event/yakiimo-festival2026/",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/namegata-yakiimo-kojosai-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "hitachiomiya-hanadate-hoshi-2026",
+      "name": "第36回花立山星まつり",
+      "municipality": "hitachiomiya",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.hitachiomiya.lg.jp/kankou_guide/news/page012409.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/hitachiomiya-hanadate-hoshi-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "naka-chuo-kominkan-matsuri-2026",
+      "name": "中央公民館まつり2026",
+      "municipality": "naka",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-22",
+      "officialUrl": "https://www.city.naka.lg.jp/edu-board/shougai/chuou-kouminkan/page010515.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/naka-chuo-kominkan-matsuri-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
       "id": "yokota-iin-haikyo-tour-2026",
       "name": "横田医院 最恐廃墟ツアー",
       "municipality": "tsukuba",
@@ -1526,6 +1652,27 @@
         "searchDemand": "unknown",
         "visitorDraw": "unknown",
         "localSpend": "medium",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tsuchiura-sangyosai-2026",
+      "name": "第50回土浦市産業祭",
+      "municipality": "tsuchiura",
+      "startDate": "2026-11-23",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.city.tsuchiura.lg.jp/kanko-bunka-sports/news/page023748.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/tsuchiura-sangyosai-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
