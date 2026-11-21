@@ -58,6 +58,15 @@ export const SEO_CHANGES: SeoChange[] = [
     commit: '497f3a5',
   },
   {
+    id: '20261121-events-oarai-ankou-matsuri-2026',
+    date: '2026-11-21',
+    url: '/events/oarai-ankou-matsuri-2026/',
+    kind: 'on-page',
+    change: '事実修正：11/15終了後もdescriptionが『開催予定』のままだったため、title・descriptionを終了表記に更新。2027年は未確認、商品券の有効期限（2027年2月末）とあんこう鍋ガイドへの導線を明示',
+    queries: [],
+    commit: '12462e3',
+  },
+  {
     id: '20261121-events-evergreen-high-intent-links',
     date: '2026-11-21',
     url: '/events/',
