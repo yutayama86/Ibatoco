@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: 'title・descriptionの先頭に色づき速報（11/14現在見ごろ）とライトアップ期限を明示。『袋田の滝 紅葉』『紅葉 現在』で表示7,185回・CTR1.0%（10/22〜11/18）の改善',
     queries: [],
-    commit: 'PENDING',
+    commit: '497f3a5',
   },
   {
     id: '20261121-events-evergreen-high-intent-links',
