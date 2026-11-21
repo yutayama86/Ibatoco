@@ -191,6 +191,7 @@ sourceUrls:
     url: "https://hitachi-trail.com/"
     accessedAt: 2026-11-04
 relatedArticleUrls:
+  - "/events/ibaraki-ichigo-gari-guide/"
   - "/events/oarai-hatsuhinode-2027/"
   - "/events/mito-ume-matsuri-2027/"
   - "/events/ibaraki-illumination-2026/"
