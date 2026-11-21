@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'internal-link',
     change: '関連記事に新規公開のいちご狩りガイド（/events/ibaraki-ichigo-gari-guide/）を追加。新記事への被リンク確保',
     queries: [],
-    commit: 'PENDING',
+    commit: 'c4a1589',
   },
   {
     id: '20261121-events-ibaraki-ichigo-gari-guide',
