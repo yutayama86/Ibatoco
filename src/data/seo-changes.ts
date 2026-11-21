@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261121-events-evergreen-high-intent-links',
+    date: '2026-11-21',
+    url: '/events/',
+    kind: 'internal-link',
+    experimentType: 'internal-link',
+    change: 'イベント一覧の「行く前に調べたい」リンク群から終了した県民の日や季節限定りんご狩りを外し、GSCで表示実績のある筑波山の交通・特急ひたち/ときわ・牛久大仏・偕楽園の常設ガイドへHTMLリンクを追加',
+    queries: ['筑波山 ケーブルカー 料金', 'ひたち ときわ 停車駅', '牛久大仏 料金', '偕楽園 入園料'],
+    commit: '4bb3b1401655624ffa4477d068c5a8960569a9fd',
+    note: '2026-11-17確定のGSCページ別28日集計で検索露出を確認。検索意図とサイト内回遊を増やす仮説。公開後7/28日でSEO流入と対象記事の入口クリックを観測し、上昇を保証しない。',
+  },
+  {
     id: '20261121-home-simplify-editorial-navigation',
     date: '2026-11-21',
     url: '/',
