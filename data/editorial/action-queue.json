@@ -3,6 +3,30 @@
   "updatedAt": "2026-11-22",
   "actions": [
     {
+      "id": "20261122-ctr-title-wave1",
+      "title": "検索に出ているのに押されない5ページの title 改善（第1波）",
+      "kind": "seo",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-22",
+      "confidence": "medium",
+      "effort": "S",
+      "targetUrl": "/events/joso-shin-hanabi-2026/",
+      "targetFile": "src/content/events/joso-shin-hanabi-2026.md",
+      "specPath": "docs/editorial/specs/20261122-ctr-title-wave1.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/appearance/title-link"
+      ],
+      "source": "GSC 公式 API（2026-10-22〜11-18）：表示1,000以上・CTR2%未満が22ページ・表示約7万。第1波は観測窓外・未終了・他案件と重ならない5ページ（筑西商品券・牛久大仏・筑波山神社・茨城空港・常総新花火）。",
+      "reason": "5〜10位で CTR 1%前後。検索語が title 先頭にない・長くてスマホで切れる・title だけで答えが完結する、の3点を title だけ変えて検証。常総新花火は12月上旬に需要の山。オーナー承認 2026-11-22。",
+      "acceptanceCriteria": [
+        "仕様の表の5ページの frontmatter title だけを新しい title に変える（H1 は同じフィールドのため同じ文になる）。description・本文・URL・canonical は変えない",
+        "title の事実は仕様の根拠の範囲だけ。新しい事実を足さない",
+        "5ページを同じ日に公開し、seo-changes.ts に1ページ1エントリ（on-page・experimentType metadata・旧→新）",
+        "npm run verify:article -- <slug>（5件）・npm run date:check・npm run verify・必須CI"
+      ]
+    },
+    {
       "id": "20261122-events-hub-today-answer",
       "title": "/events/ 冒頭で「今日」に日付と件数で即答し、ItemList を追加（茨城 イベント 今日・第1段階）",
       "kind": "seo",
@@ -56,7 +80,7 @@
       "id": "20261122-recirculation-redesign",
       "title": "回遊の作り直し 第1段階：イベント記事の開催情報の直後に「次に調べること」（2群比較）",
       "kind": "internal-link",
-      "status": "ready",
+      "status": "done",
       "priority": "high",
       "createdAt": "2026-11-22",
       "confidence": "medium",
@@ -76,7 +100,7 @@
         "next_step_view / next_step_click（link_kind）を ALLOWED_EVENTS に追加して送信。google-api-daily.mjs にランディングページ別のセッション・PVの読み取りを追加し、A群・B群の views/session を performance-snapshot.json と Control Center に出す（workflow・認証・GA4計測設定は変えない）",
         "seo-changes.ts に internal-link として記録。npm run date:check・npm run verify・必須CI・375pxの画面確認を通す"
       ],
-      "notes": "判定は仕様の基準（28日後、A群がB群より views/session +0.10以上で展開、+0.03未満で中止。7日目にクリック率1%未満なら中止）。観測中の28日は対象テンプレートの回遊まわりを他の施策で変えない。"
+      "notes": "判定は仕様の基準（28日後、A群がB群より views/session +0.10以上で展開、+0.03未満で中止。7日目にクリック率1%未満なら中止）。観測中の28日は対象テンプレートの回遊まわりを他の施策で変えない。 2026-11-22 PR #684 でマージ・本番反映（第1段階）。判定は Issue #683（12/23ごろ）。第2・第3段階は判定後に別 action で登録する。"
     },
     {
       "id": "20261120-joban-tokuwari-application-end",
