@@ -22,7 +22,7 @@ const candidates = related.map(({ facets: f, reasons }) => {
   };
 }).filter((f) => f.kind !== null);
 const links = current ? selectNextSteps(current, candidates) : [];
-const labels: Record<string, string> = { access: '行き方', nearby: '周辺の常設ガイド', next: '次の開催・同じテーマ' };
+const labels: Record<string, string> = { access: '行き方', nearby: '周辺の常設ガイド', next: '同じテーマを探す' };
 ---
 {links.length > 0 && (
   <nav class="next-step" aria-label="次に調べること" data-next-step data-source-path={currentPath}>
