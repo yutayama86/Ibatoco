@@ -10,7 +10,7 @@ import performance from '../../../data/editorial/performance-snapshot.json';
 import config from '../../../data/editorial/growth-engine.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
-import { buildAnalyticsReport, nextStepAssessment, NEXT_STEP_CHANGE_ID, NEXT_STEP_MIN_SESSIONS } from '../../lib/analytics-report.mjs';
+import { buildAnalyticsReport, changePct, nextStepAssessment, NEXT_STEP_CHANGE_ID, NEXT_STEP_MIN_SESSIONS } from '../../lib/analytics-report.mjs';
 
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
@@ -21,6 +21,11 @@ const b = nextStep?.groups?.B;
 // 開始日＝本番反映日（seo-changes.ts の記録）。環境変数やワークフローには持たない
 const nextStepStart = SEO_CHANGES.find((c) => c.id === NEXT_STEP_CHANGE_ID)?.date ?? null;
 const ns = nextStepAssessment(nextStep, nextStepStart);
+// AI 検索・AI アシスタント経由（GA4「AI Assistant」）。未取得なら出さない
+const ai: any = (performance as any).aiReferrals ?? null;
+const aiPrevBySource = new Map((ai?.previous28?.bySource ?? []).map((x: any) => [x.source, x.sessions]));
+const aiSessionShare = ai?.recent28?.sessions != null && r.kpis && (performance as any).windows?.ga4?.recent28?.sessions
+  ? Math.round((ai.recent28.sessions / (performance as any).windows.ga4.recent28.sessions) * 1000) / 10 : null;
 const nsClass: Record<string, string> = { 展開: 'is-good', 中止: 'is-bad', 中止候補: 'is-bad' };
 const signed3 = (v: number | null | undefined) => (v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(3)}`);
 const verdictClass: Record<string, string> = { 伸び: 'is-good', 低下: 'is-bad' };
@@ -97,6 +102,40 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
         <p class="ar-note">28日：A群 {fmt(nextStep.groups28?.A?.sessions)} セッション・B群 {fmt(nextStep.groups28?.B?.sessions)} セッション（判定には各群 {fmt(NEXT_STEP_MIN_SESSIONS)} 以上）。</p>
       </>
     ) : <p class="ar-empty">GA4の群別集計は未取得。推測値や0で補いません。</p>}
+  </article>
+
+  <article class="ar-card" id="ar-ai">
+    <h3>AI検索・AIアシスタントからの流入（28日）</h3>
+    {ai?.recent28 ? (
+      <>
+        <dl class="ar-kpis">
+          <div><dt>セッション</dt><dd>{fmt(ai.recent28.sessions)}</dd><dd class:list={['ar-sub', tone(changePct(ai.recent28.sessions, ai.previous28?.sessions))]}>前の28日 {fmt(ai.previous28?.sessions)}（{signedPct(changePct(ai.recent28.sessions, ai.previous28?.sessions))}）</dd></div>
+          <div><dt>全セッションに占める割合</dt><dd>{pctText(aiSessionShare)}</dd></div>
+          <div><dt>PV</dt><dd>{fmt(ai.recent28.views)}</dd><dd class="ar-sub">着地ページ {fmt(ai.recent28.pageCount)} 種類</dd></div>
+        </dl>
+        <div class="ar-grid">
+          <div>
+            <p class="ar-note ar-note--lead">AIごと（セッション・前の28日比）</p>
+            <ul class="ar-bars">
+              {ai.recent28.bySource.map((x: any) => (
+                <li><span class="ar-bars__label">{x.source}</span><span class="ar-bars__bar"><span style={`width:${(x.sessions / Math.max(1, ai.recent28.bySource[0].sessions)) * 100}%`}></span></span><span class="ar-bars__value">{fmt(x.sessions)}<small class={tone(changePct(x.sessions, aiPrevBySource.get(x.source) as number | undefined))}>{aiPrevBySource.has(x.source) ? signedPct(changePct(x.sessions, aiPrevBySource.get(x.source) as number)) : '新規'}</small></span></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p class="ar-note ar-note--lead">AIから最も来ているページ</p>
+            <ol class="ar-obs">
+              {ai.recent28.topPages.slice(0, 10).map((p: any) => (
+                <li><b>{fmt(p.sessions)}</b> {p.path}<small>{Object.entries(p.sources).sort((a: any, b: any) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join('・')}</small></li>
+              ))}
+            </ol>
+          </div>
+        </div>
+        <p class="ar-note">GA4 の既定チャネル「AI Assistant」（AIの回答内リンクから来た訪問）。AIの回答に名前だけ出てリンクされない場合や、Google の AI による概要からの訪問は Organic Search に含まれ、ここには出ない。{ai.recent28.period.start}〜{ai.recent28.period.end}。</p>
+      </>
+    ) : (
+      <p class="ar-empty">AI経由の流入は未取得（毎朝の取り込みで追加。0では埋めない）。</p>
+    )}
   </article>
 
   <article class="ar-card" id="ar-changes">

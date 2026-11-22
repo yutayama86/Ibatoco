@@ -67,6 +67,8 @@ if (args.includes('--input')) {
   const firstBaseline = incomingExperiment?.groups28 && incomingExperiment?.period28 ? { period: incomingExperiment.period28, groups: incomingExperiment.groups28 } : null;
   const baseline = keptBaseline ?? firstBaseline;
   snapshot.nextStepExperiment = incomingExperiment ? { ...incomingExperiment, baseline } : (baseline ? { baseline } : null);
+  // AI 検索・AI アシスタント経由の流入（任意・読み取りのみ）。取れなかった日は古い値を残さず null
+  snapshot.aiReferrals = input.aiReferrals ?? null;
   snapshot.windows.ga4.daily = daily;
   snapshot.windows.ga4.dailyMeta = {
     source: input.source ?? ga4.dailyMeta?.source ?? null,
