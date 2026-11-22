@@ -1,7 +1,33 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-18",
+  "updatedAt": "2026-11-22",
   "actions": [
+    {
+      "id": "20261122-recirculation-redesign",
+      "title": "回遊の作り直し 第1段階：イベント記事の開催情報の直後に「次に調べること」（2群比較）",
+      "kind": "internal-link",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-22",
+      "confidence": "medium",
+      "effort": "M",
+      "targetUrl": "/events/",
+      "targetFile": "src/pages/events/[slug].astro",
+      "specPath": "docs/editorial/specs/20261122-recirculation-redesign.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema"
+      ],
+      "source": "GA4 公式 API の同期済み値（performance-snapshot.json）：views/session 1.147（11/12〜11/18）、回遊実験開始前 1.1535。「次に読む」枠は最良週でクリック160（10/11〜10/17）。",
+      "reason": "views/session が9月から動いていない。最下部の枠は置き場所のため上乗せが週160前後で、1.5に必要な週約1,950PVに届かない。オーナー承認 2026-11-22（PR #682）。",
+      "acceptanceCriteria": [
+        "仕様の第1段階だけを実装する（第2・第3段階は第1段階の28日判定が出るまで着手しない）",
+        "イベント記事を slug のハッシュで A/B に固定で分け、A群だけ #facts の直後に最大3件（行き方・近くで・同じ種類の次）を表示。割り当ては単体テストでビルドごとに不変を確認",
+        "リンク先は公開中・noindexでない・終了していないページのみ。GrowthNextReads・協賛枠・予約導線・title・URL・canonical・構造化データは変更しない",
+        "next_step_view / next_step_click（link_kind）を ALLOWED_EVENTS に追加して送信。google-api-daily.mjs にランディングページ別のセッション・PVの読み取りを追加し、A群・B群の views/session を performance-snapshot.json と Control Center に出す（workflow・認証・GA4計測設定は変えない）",
+        "seo-changes.ts に internal-link として記録。npm run date:check・npm run verify・必須CI・375pxの画面確認を通す"
+      ],
+      "notes": "判定は仕様の基準（28日後、A群がB群より views/session +0.10以上で展開、+0.03未満で中止。7日目にクリック率1%未満なら中止）。観測中の28日は対象テンプレートの回遊まわりを他の施策で変えない。"
+    },
     {
       "id": "20261120-joban-tokuwari-application-end",
       "title": "常磐線特急ガイド：50％割引の申込期限後の事実更新",
