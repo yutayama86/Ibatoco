@@ -240,3 +240,55 @@ export function buildAnalyticsReport(snapshot, { goal = LONG_TERM_GOAL, changes 
     decliners,
   };
 }
+
+/** 回遊A/B実験（Issue #683）の変更ID。開始日は src/data/seo-changes.ts のこの記録の日付（本番反映日） */
+export const NEXT_STEP_CHANGE_ID = '20261122-events-next-step-links';
+export const NEXT_STEP_MIN_SESSIONS = 2000;
+
+/**
+ * 回遊A/B実験の判定（docs/editorial/specs/20261122-recirculation-redesign.md）。
+ * A群とB群は記事の構成が違う（大きな記事が片方に寄る）ので、公開前の基準期間の差を差し引いた
+ * 「差の変化」（(A−B)公開後 −(A−B)公開前）で判定する。取れない値は null のまま、判定は出さない。
+ * @param {any} exp performance-snapshot.json の nextStepExperiment
+ * @param {string | null} startDate 本番反映日（YYYY-MM-DD）
+ */
+export function nextStepAssessment(exp, startDate) {
+  const vps = (g) => num(g?.viewsPerSession);
+  const gap = (groups) => (vps(groups?.A) != null && vps(groups?.B) != null ? groups.A.viewsPerSession - groups.B.viewsPerSession : null);
+  const r3 = (v) => (v == null ? null : Math.round(v * 1000) / 1000);
+  const started = typeof startDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(startDate);
+  const baseline = exp?.baseline ?? null;
+  const baselineValid = Boolean(started && baseline?.period?.end && baseline.period.end < startDate);
+  const eligible7 = Boolean(started && exp?.period?.start && exp.period.start >= startDate);
+  const eligible28 = Boolean(started && exp?.period28?.start && exp.period28.start >= startDate);
+  const gap7 = gap(exp?.groups);
+  const gap28 = gap(exp?.groups28);
+  const baselineGap = baselineValid ? gap(baseline.groups) : null;
+  const effect28 = eligible28 && gap28 != null && baselineGap != null ? gap28 - baselineGap : null;
+  const ctr = num(exp?.events?.ctr);
+  const engA = num(exp?.groups?.A?.engagementRate);
+  const engB = num(exp?.groups?.B?.engagementRate);
+  const engGapPt = engA != null && engB != null ? Math.round((engA - engB) * 1000) / 10 : null;
+  const enough28 = (num(exp?.groups28?.A?.sessions) ?? 0) >= NEXT_STEP_MIN_SESSIONS && (num(exp?.groups28?.B?.sessions) ?? 0) >= NEXT_STEP_MIN_SESSIONS;
+
+  let verdict = '判定前';
+  let reason = '';
+  if (!started) { verdict = '開始前'; reason = '本番反映日（seo-changes.ts）が未記録'; }
+  else if (!exp) { reason = 'GA4の群別集計が未取得'; }
+  else if (eligible7 && ctr != null && ctr < 0.01) { verdict = '中止候補'; reason = `クリック率 ${(ctr * 100).toFixed(2)}%（基準 1%）`; }
+  else if (eligible7 && engGapPt != null && engGapPt <= -5) { verdict = '中止候補'; reason = `A群のエンゲージメント率がB群より ${Math.abs(engGapPt)} ポイント低い`; }
+  else if (!eligible28) { reason = `公開後28日の期間がそろうまで判定しない${eligible7 ? '（7日目の中止基準には該当なし）' : ''}`; }
+  else if (!baselineValid) { reason = '公開前の基準期間がないため判定しない（群の構成差を差し引けない）'; }
+  else if (!enough28) { reason = `各群${NEXT_STEP_MIN_SESSIONS.toLocaleString('ja-JP')}セッション未満`; }
+  else if (effect28 == null) { reason = '回遊の差を計算できない'; }
+  else if (effect28 >= 0.10) { verdict = '展開'; reason = '差の変化 +0.10 以上'; }
+  else if (effect28 >= 0.03) { verdict = '改善して再実験'; reason = '差の変化 +0.03〜+0.10'; }
+  else { verdict = '中止'; reason = '差の変化 +0.03 未満'; }
+
+  return {
+    startDate: started ? startDate : null, eligible7, eligible28, baselineValid,
+    baselinePeriod: baseline?.period ?? null,
+    gap7: r3(gap7), gap28: r3(gap28), baselineGap: r3(baselineGap), effect28: r3(effect28),
+    ctrPct: ctr == null ? null : Math.round(ctr * 10000) / 100, engGapPt, enough28, verdict, reason,
+  };
+}

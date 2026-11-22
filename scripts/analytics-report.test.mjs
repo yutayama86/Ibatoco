@@ -72,3 +72,24 @@ test('fact updates are not shown as improvement results', () => {
   );
   assert.equal(r.changeResults.length, 0);
 });
+
+test('next-step assessment subtracts the pre-launch gap and waits for 28 days', async () => {
+  const { nextStepAssessment } = await import('../src/lib/analytics-report.mjs');
+  const g = (a, b, s = 3000) => ({ A: { viewsPerSession: a, sessions: s, engagementRate: 0.6 }, B: { viewsPerSession: b, sessions: s, engagementRate: 0.6 } });
+  const base = { baseline: { period: { start: '2026-10-20', end: '2026-11-16' }, groups: g(1.10, 1.20) }, events: { ctr: 0.05 } };
+  // 公開前の差 −0.10、公開後の差 +0.02 → 差の変化 +0.12 で展開
+  const after = nextStepAssessment({ ...base, period: { start: '2026-12-15' }, groups: g(1.2, 1.2), period28: { start: '2026-11-25' }, groups28: g(1.22, 1.20) }, '2026-11-23');
+  assert.equal(after.effect28, 0.12);
+  assert.equal(after.verdict, '展開');
+  // 28日そろう前は判定しない
+  const early = nextStepAssessment({ ...base, period: { start: '2026-11-25' }, groups: g(1.2, 1.2), period28: { start: '2026-11-01' }, groups28: g(1.3, 1.2) }, '2026-11-23');
+  assert.equal(early.verdict, '判定前');
+  // 7日目にクリック率1%未満なら中止候補
+  const lowCtr = nextStepAssessment({ ...base, events: { ctr: 0.005 }, period: { start: '2026-11-25' }, groups: g(1.2, 1.2) }, '2026-11-23');
+  assert.equal(lowCtr.verdict, '中止候補');
+  // 開始日が未記録なら開始前
+  assert.equal(nextStepAssessment(base, null).verdict, '開始前');
+  // 基準が公開後の期間なら判定しない
+  const badBase = nextStepAssessment({ ...base, baseline: { period: { start: '2026-11-25', end: '2026-12-20' }, groups: g(1, 1) }, period: { start: '2026-12-25' }, groups: g(1.2, 1.2), period28: { start: '2026-12-01' }, groups28: g(1.3, 1.2) }, '2026-11-23');
+  assert.equal(badBase.verdict, '判定前');
+});

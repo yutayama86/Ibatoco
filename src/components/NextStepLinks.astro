@@ -9,7 +9,7 @@ const { currentPath } = Astro.props;
 const facets = await getAllFacets();
 const current = facets.find((f) => f.path === currentPath);
 const related = current ? findRelated(current, facets, { limit: 40 }) : [];
-const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|駐車場|ケーブルカー|ロープウェイ/;
+const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|駐車場|エクスプレス|駅|運賃|きっぷ|乗り方/;
 const candidates = related.map(({ facets: f, reasons }) => {
   const sameTown = current?.municipalities.some((m) => f.municipalities.includes(m)) ?? false;
   const access = sameTown && f.evergreen && accessTerms.test(f.title);
