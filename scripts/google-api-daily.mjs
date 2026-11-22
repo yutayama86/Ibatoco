@@ -5,6 +5,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import { experimentGroup } from '../src/lib/next-step.mjs';
+import { aggregateAiReferrals } from '../src/lib/ai-referrals.mjs';
 import { BOOKING_CTA_AB_EVENTS, alignConfirmedThrough, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
 import {
@@ -238,6 +239,27 @@ try {
 } catch (error) {
   console.warn(`::warning title=回遊A/B計測::取得できませんでした（${error.message}）。未取得として扱います。`);
 }
+// AI 検索・AI アシスタント経由（既定チャネル「AI Assistant」）：どの AI から・どのページへ。読み取りのみ
+let aiReferrals = null;
+try {
+  const aiReport = async (period) => {
+    const report = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+      dateRanges: [{ startDate: period.start, endDate: period.end }],
+      dimensions: [{ name: 'sessionSource' }, { name: 'landingPage' }],
+      metrics: [{ name: 'sessions' }, { name: 'screenPageViews' }],
+      dimensionFilter: { filter: { fieldName: 'sessionDefaultChannelGroup', stringFilter: { matchType: 'EXACT', value: 'AI Assistant' } } },
+      limit: '10000',
+    });
+    const rows = report.rows ?? [];
+    if (Number(report.rowCount ?? rows.length) > rows.length) throw new Error('AI referral report truncated');
+    return { period, ...aggregateAiReferrals(rows) };
+  };
+  const recent28 = await aiReport({ start: addDays(through, -27), end: through });
+  const previous28 = await aiReport({ start: addDays(through, -55), end: addDays(through, -28) });
+  aiReferrals = { source: 'GA4 Data API: sessionDefaultChannelGroup = AI Assistant（sessionSource × landingPage）', confirmedThrough: through, recent28, previous28: { period: previous28.period, sessions: previous28.sessions, views: previous28.views, bySource: previous28.bySource } };
+} catch (error) {
+  console.warn(`::warning title=AI経由の流入::取得できませんでした（${error.message}）。未取得として扱います。`);
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -246,6 +268,7 @@ const output = {
   gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
   bookingCtaExperiment,
   ...(nextStepExperiment ? { nextStepExperiment } : {}),
+  ...(aiReferrals ? { aiReferrals } : {}),
   ...(pageLevel ? { pageLevel } : {}),
   ...(bookingReferrals ? { bookingReferrals } : {}),
 };
