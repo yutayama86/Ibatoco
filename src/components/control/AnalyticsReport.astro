@@ -10,11 +10,19 @@ import performance from '../../../data/editorial/performance-snapshot.json';
 import config from '../../../data/editorial/growth-engine.json';
 import { SEO_CHANGES } from '../../data/seo-changes';
 import { todayJst } from '../../lib/growth-engine.mjs';
-import { buildAnalyticsReport } from '../../lib/analytics-report.mjs';
+import { buildAnalyticsReport, nextStepAssessment, NEXT_STEP_CHANGE_ID, NEXT_STEP_MIN_SESSIONS } from '../../lib/analytics-report.mjs';
 
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
 const d = r.drivers;
+const nextStep: any = (performance as any).nextStepExperiment ?? null;
+const a = nextStep?.groups?.A;
+const b = nextStep?.groups?.B;
+// 開始日＝本番反映日（seo-changes.ts の記録）。環境変数やワークフローには持たない
+const nextStepStart = SEO_CHANGES.find((c) => c.id === NEXT_STEP_CHANGE_ID)?.date ?? null;
+const ns = nextStepAssessment(nextStep, nextStepStart);
+const nsClass: Record<string, string> = { 展開: 'is-good', 中止: 'is-bad', 中止候補: 'is-bad' };
+const signed3 = (v: number | null | undefined) => (v == null ? '—' : `${v >= 0 ? '+' : ''}${v.toFixed(3)}`);
 const verdictClass: Record<string, string> = { 伸び: 'is-good', 低下: 'is-bad' };
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const pctText = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
@@ -71,6 +79,24 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
     ) : (
       <p class="ar-empty">セッション数が未取得のため分解できない（0では埋めない）。</p>
     )}
+  </article>
+
+  <article class="ar-card" id="ar-next-step">
+    <h3>イベント記事「次に調べること」A/B実験（Issue #683）</h3>
+    <p class="ar-note ar-note--lead">A群＝開催情報の直後に表示／B群＝表示しない（slug で固定）。ランディングページ別の GA4 確定値。両群は記事の構成が違うため、<b>公開前の差を差し引いた「差の変化」</b>で判定する（28日後：+0.10 以上で展開、+0.03 未満で中止。7日目：クリック率1%未満、またはA群のエンゲージメント率が5ポイント以上低ければ中止候補）。開始日：{ns.startDate ?? '未記録'}{ns.baselinePeriod ? `／基準期間：${ns.baselinePeriod.start}〜${ns.baselinePeriod.end}${ns.baselineValid ? '' : '（公開後を含むため使えない）'}` : '／基準期間：未取得'}。</p>
+    <p class="ar-verdict"><span class:list={['ar-pill', nsClass[ns.verdict]]}>{ns.verdict}</span>{ns.reason}</p>
+    {a && b ? (
+      <>
+        <dl class="ar-kpis">
+          <div><dt>A群・回遊（7日）</dt><dd>{a.viewsPerSession == null ? '—' : a.viewsPerSession.toFixed(3)}</dd><dd class="ar-sub">セッション {fmt(a.sessions)}</dd></div>
+          <div><dt>B群・回遊（7日）</dt><dd>{b.viewsPerSession == null ? '—' : b.viewsPerSession.toFixed(3)}</dd><dd class="ar-sub">セッション {fmt(b.sessions)}</dd></div>
+          <div><dt>差の変化（28日）</dt><dd>{signed3(ns.effect28)}</dd><dd class="ar-sub">公開後の差 {signed3(ns.gap28)} − 公開前の差 {signed3(ns.baselineGap)}</dd></div>
+          <div><dt>枠のクリック率（7日）</dt><dd>{ns.ctrPct == null ? '—' : `${ns.ctrPct.toFixed(2)}%`}</dd><dd class="ar-sub">表示 {fmt(nextStep.events?.views)}・クリック {fmt(nextStep.events?.clicks)}</dd></div>
+          <div><dt>エンゲージメント率（7日）</dt><dd>{a.engagementRate == null || b.engagementRate == null ? '—' : `${(a.engagementRate * 100).toFixed(1)}% / ${(b.engagementRate * 100).toFixed(1)}%`}</dd><dd class="ar-sub">A群 / B群</dd></div>
+        </dl>
+        <p class="ar-note">28日：A群 {fmt(nextStep.groups28?.A?.sessions)} セッション・B群 {fmt(nextStep.groups28?.B?.sessions)} セッション（判定には各群 {fmt(NEXT_STEP_MIN_SESSIONS)} 以上）。</p>
+      </>
+    ) : <p class="ar-empty">GA4の群別集計は未取得。推測値や0で補いません。</p>}
   </article>
 
   <article class="ar-card" id="ar-changes">
@@ -226,6 +252,8 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
   .ar-obs{display:grid;gap:.4rem;margin:.6rem 0 0;padding:0;list-style:none}
   .ar-obs li{padding:.45rem .6rem;border-radius:8px;background:var(--panel-2);overflow-wrap:anywhere}
   .ar-obs small{display:block;color:var(--muted);font-size:.74rem}
+  .ar-verdict{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 .8rem;font-size:.85rem}
+  .ar-pill{padding:.2rem .65rem;border-radius:999px;background:var(--panel-2);font-weight:800}
   .ar .is-good{color:var(--good)}
   .ar .is-bad{color:var(--bad)}
 </style>

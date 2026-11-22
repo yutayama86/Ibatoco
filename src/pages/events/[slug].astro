@@ -15,6 +15,8 @@ import { breadcrumbJsonLd, faqPageJsonLd } from '../../lib/seo';
 import BusinessCta from '../../components/BusinessCta.astro';
 import BookingGuide from '../../components/BookingGuide.astro';
 import GrowthNextReads from '../../components/GrowthNextReads.astro';
+import NextStepLinks from '../../components/NextStepLinks.astro';
+import { experimentGroup } from '../../lib/next-step.mjs';
 import SponsorSlots from '../../components/SponsorSlots.astro';
 import AdDisclosure from '../../components/AdDisclosure.astro';
 import { hasPaidLink } from '../../data/affiliates';
@@ -246,6 +248,8 @@ if (d.faq.length > 0) jsonLd.push(faqPageJsonLd(d.faq));
       )}
     </section>
   )}
+
+  {factRows.length > 0 && experimentGroup(entry.id.split('/').pop() ?? '') === 'A' && <NextStepLinks currentPath={`/events/${entry.id.split('/').pop()}/`} />}
 
   {d.keyPoints.length > 0 && (
     <section id="points" aria-labelledby="ev-points">

@@ -83,6 +83,8 @@ const ALLOWED_EVENTS = new Set([
   'discovery_result_click',
   'growth_next_view',
   'growth_next_click',
+  'next_step_view',
+  'next_step_click',
   // 協賛枠（PR）。sponsor_id で協賛先ごとに集計する（docs/SPONSORSHIP.md）
   'sponsor_view',
   'sponsor_click',

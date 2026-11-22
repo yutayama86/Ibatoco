@@ -59,6 +59,14 @@ if (args.includes('--input')) {
     snapshot.windows.gsc = { ...(snapshot.windows.gsc ?? {}), daily: gscDaily, dailyMeta: { source: input.gsc.source ?? input.source ?? null, fetchedAt: input.gsc.fetchedAt ?? input.fetchedAt ?? null, confirmedThrough: through, rows: gscDaily.length } };
     console.log(`windows.gsc.daily：${gscDaily.length} 日（〜${through}）`);
   }
+  // Optional, read-only cohort report; missing data must not become zero or retain a stale report.
+  // 最初に取れた28日の群別値を「公開前の基準」として残す（群の構成差を差し引くため。docs/editorial/specs/20261122-recirculation-redesign.md）。
+  // 基準が公開前の期間かどうかは表示側で変更日（seo-changes.ts）と照合する。
+  const keptBaseline = snapshot.nextStepExperiment?.baseline ?? null;
+  const incomingExperiment = input.nextStepExperiment ?? null;
+  const firstBaseline = incomingExperiment?.groups28 && incomingExperiment?.period28 ? { period: incomingExperiment.period28, groups: incomingExperiment.groups28 } : null;
+  const baseline = keptBaseline ?? firstBaseline;
+  snapshot.nextStepExperiment = incomingExperiment ? { ...incomingExperiment, baseline } : (baseline ? { baseline } : null);
   snapshot.windows.ga4.daily = daily;
   snapshot.windows.ga4.dailyMeta = {
     source: input.source ?? ga4.dailyMeta?.source ?? null,

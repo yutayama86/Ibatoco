@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261122-events-next-step-links',
+    date: '2026-11-22',
+    url: '*',
+    kind: 'internal-link',
+    change: 'イベント記事のA群（slugで固定）だけ、開催情報の直後に「次に調べること」（行き方・周辺の常設ガイド・同じテーマ）を最大3件追加。B群は表示しない（Issue #683・回遊A/B実験）',
+    queries: [],
+    commit: 'PENDING',
+    note: '判定は docs/editorial/specs/20261122-recirculation-redesign.md の28日基準（公開前の群差を差し引いた差の変化）。date は本番反映日。マージが翌日以降になったら反映日に直す',
+  },
+  {
     id: '20261121-events-ibaraki-winter-odekake-2026',
     date: '2026-11-21',
     url: '/events/ibaraki-winter-odekake-2026/',

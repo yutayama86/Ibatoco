@@ -4,6 +4,7 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
+import { experimentGroup } from '../src/lib/next-step.mjs';
 import { BOOKING_CTA_AB_EVENTS, alignConfirmedThrough, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
 import {
@@ -178,6 +179,65 @@ try {
   console.warn(`::warning title=送客先別データ::取得できませんでした（${error.message}）。前回の値と期間を残します。`);
   bookingReferrals = null;
 }
+// Issue #683: read-only landing-page cohorts, same confirmed 7-day window.
+// Group by session landing page (not the destination page of a click).
+let nextStepExperiment = null;
+try {
+  const getCohorts = async (period) => {
+    const totals = { A: { views: 0, sessions: 0, engagedSessions: 0 }, B: { views: 0, sessions: 0, engagedSessions: 0 } };
+    let offset = 0;
+    while (true) {
+      const report = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+        dateRanges: [{ startDate: period.start, endDate: period.end }],
+        dimensions: [{ name: 'landingPage' }],
+        metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }, { name: 'engagedSessions' }],
+        limit: '10000', offset: String(offset),
+      });
+      const rows = report.rows ?? [];
+      if (offset === 0 && rows.length === 0) throw new Error('GA4 landing-page cohort report returned no rows');
+      if (rows.length === 0 && offset < Number(report.rowCount ?? 0)) throw new Error('GA4 landing-page cohort report truncated');
+      for (const row of rows) {
+        const path = row.dimensionValues?.[0]?.value ?? '';
+        const match = /^\/events\/([^/?#]+)\/?$/.exec(path);
+        if (!match) continue;
+        const group = experimentGroup(match[1]);
+        const nums = row.metricValues.map((v) => Number(v.value));
+        if (nums.length !== 3 || nums.some((v) => !Number.isFinite(v) || v < 0)) throw new Error('Invalid landing-page metrics');
+        totals[group].views += nums[0];
+        totals[group].sessions += nums[1];
+        totals[group].engagedSessions += nums[2];
+      }
+      offset += rows.length;
+      if (offset >= Number(report.rowCount ?? rows.length)) break;
+    }
+    return Object.fromEntries(Object.entries(totals).map(([group, v]) => [group, {
+      ...v, viewsPerSession: v.sessions > 0 ? v.views / v.sessions : null,
+      engagementRate: v.sessions > 0 ? v.engagedSessions / v.sessions : null,
+    }]));
+  };
+  const totals = await getCohorts(abPeriod);
+  const period28 = { start: addDays(through, -27), end: through };
+  const totals28 = await getCohorts(period28);
+  const events = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
+    dimensions: [{ name: 'eventName' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: ['next_step_view', 'next_step_click'] } } },
+    limit: '10',
+  });
+  const counts = Object.fromEntries((events.rows ?? []).map((r) => [r.dimensionValues[0].value, Number(r.metricValues[0].value)]));
+  const views = counts.next_step_view ?? null;
+  const clicks = counts.next_step_click ?? null;
+  // 効果の判定（公開日以降か・基準期間）は表示側で seo-changes.ts の変更日と照合する。ここでは実測だけを返す
+  nextStepExperiment = {
+    events: { views, clicks, ctr: views > 0 && clicks != null ? clicks / views : null },
+    period: abPeriod, confirmedThrough: through, source: 'GA4 Data API: landingPage × screenPageViews/sessions/engagedSessions',
+    groups: totals,
+    period28, groups28: totals28,
+  };
+} catch (error) {
+  console.warn(`::warning title=回遊A/B計測::取得できませんでした（${error.message}）。未取得として扱います。`);
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -185,6 +245,7 @@ const output = {
   daily: [...dailyMap.values()].sort((a,b)=>a.date.localeCompare(b.date)),
   gsc: { source: 'Search Console API', confirmedThrough: through, daily: gscDaily },
   bookingCtaExperiment,
+  ...(nextStepExperiment ? { nextStepExperiment } : {}),
   ...(pageLevel ? { pageLevel } : {}),
   ...(bookingReferrals ? { bookingReferrals } : {}),
 };
