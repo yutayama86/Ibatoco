@@ -183,24 +183,39 @@ try {
 // Group by session landing page (not the destination page of a click).
 let nextStepExperiment = null;
 try {
-  const report = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
-    dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
-    dimensions: [{ name: 'landingPage' }],
-    metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }, { name: 'engagedSessions' }],
-    limit: '100000',
-  });
-  const totals = { A: { views: 0, sessions: 0, engagedSessions: 0 }, B: { views: 0, sessions: 0, engagedSessions: 0 } };
-  for (const row of report.rows ?? []) {
-    const path = row.dimensionValues?.[0]?.value ?? '';
-    const match = /^\/events\/([^/?#]+)\/?$/.exec(path);
-    if (!match) continue;
-    const group = experimentGroup(match[1]);
-    const nums = row.metricValues.map((v) => Number(v.value));
-    if (nums.length !== 3 || nums.some((v) => !Number.isFinite(v) || v < 0)) throw new Error('Invalid landing-page metrics');
-    totals[group].views += nums[0];
-    totals[group].sessions += nums[1];
-    totals[group].engagedSessions += nums[2];
-  }
+  const getCohorts = async (period) => {
+    const totals = { A: { views: 0, sessions: 0, engagedSessions: 0 }, B: { views: 0, sessions: 0, engagedSessions: 0 } };
+    let offset = 0;
+    while (true) {
+      const report = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+        dateRanges: [{ startDate: period.start, endDate: period.end }],
+        dimensions: [{ name: 'landingPage' }],
+        metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }, { name: 'engagedSessions' }],
+        limit: '10000', offset: String(offset),
+      });
+      const rows = report.rows ?? [];
+      for (const row of rows) {
+        const path = row.dimensionValues?.[0]?.value ?? '';
+        const match = /^\\/events\\/([^/?#]+)\\/?$/.exec(path);
+        if (!match) continue;
+        const group = experimentGroup(match[1]);
+        const nums = row.metricValues.map((v) => Number(v.value));
+        if (nums.length !== 3 || nums.some((v) => !Number.isFinite(v) || v < 0)) throw new Error('Invalid landing-page metrics');
+        totals[group].views += nums[0];
+        totals[group].sessions += nums[1];
+        totals[group].engagedSessions += nums[2];
+      }
+      offset += rows.length;
+      if (!rows.length || offset >= Number(report.rowCount ?? rows.length)) break;
+    }
+    return Object.fromEntries(Object.entries(totals).map(([group, v]) => [group, {
+      ...v, viewsPerSession: v.sessions > 0 ? v.views / v.sessions : null,
+      engagementRate: v.sessions > 0 ? v.engagedSessions / v.sessions : null,
+    }]));
+  };
+  const totals = await getCohorts(abPeriod);
+  const period28 = { start: addDays(through, -27), end: through };
+  const totals28 = await getCohorts(period28);
   const events = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
     dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
     dimensions: [{ name: 'eventName' }],
@@ -214,10 +229,8 @@ try {
   nextStepExperiment = {
     events: { views, clicks, ctr: views > 0 && clicks != null ? clicks / views : null },
     period: abPeriod, confirmedThrough: through, source: 'GA4 Data API: landingPage × screenPageViews/sessions/engagedSessions',
-    groups: Object.fromEntries(Object.entries(totals).map(([group, v]) => [group, {
-      ...v, viewsPerSession: v.sessions > 0 ? v.views / v.sessions : null,
-      engagementRate: v.sessions > 0 ? v.engagedSessions / v.sessions : null,
-    }])),
+    groups: totals,
+    period28, groups28: totals28,
   };
 } catch (error) {
   console.warn(`::warning title=回遊A/B計測::取得できませんでした（${error.message}）。未取得として扱います。`);
