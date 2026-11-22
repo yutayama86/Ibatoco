@@ -1,0 +1,231 @@
+---
+/**
+ * Control Center「週次アナリティクスレポート」（運営者向け・非公開）。
+ * 2つの目標（11月10万PV／2027年1月 月間100万PV）に対する進み具合、週ごとの推移、
+ * 流入チャネル、コンテンツ種別、伸びたページ・失速したページを1か所で見る。
+ * 目的は更新ではなく改善：PVの増減を「訪問」と「回遊」に分け、実施した変更（seo-changes.ts）の効き目を並べる。
+ * データは毎朝の GA4 公式 API 同期（data/editorial/performance-snapshot.json）だけ。計算は src/lib/analytics-report.mjs。
+ */
+import performance from '../../../data/editorial/performance-snapshot.json';
+import config from '../../../data/editorial/growth-engine.json';
+import { SEO_CHANGES } from '../../data/seo-changes';
+import { todayJst } from '../../lib/growth-engine.mjs';
+import { buildAnalyticsReport } from '../../lib/analytics-report.mjs';
+
+const today = todayJst();
+const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
+const d = r.drivers;
+const verdictClass: Record<string, string> = { 伸び: 'is-good', 低下: 'is-bad' };
+const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
+const pctText = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
+const signedPct = (v: number | null | undefined) => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
+const tone = (v: number | null | undefined) => (v == null || v === 0 ? '' : v > 0 ? 'is-good' : 'is-bad');
+const md = (ymd: string | null | undefined) => (ymd ? `${Number(ymd.slice(5, 7))}/${Number(ymd.slice(8, 10))}` : '—');
+const range = (p: (string | null)[]) => `${md(p[0])}〜${md(p[1])}`;
+const maxWeek = Math.max(1, ...r.weeks.map((w: any) => w.views), r.longTerm.nextWeekRequired ?? 0);
+const maxType = Math.max(1, ...r.contentTypes.map((t: any) => t.views28));
+const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
+---
+
+<section id="analytics-report" class="ar" aria-labelledby="ar-title">
+  <header class="ar-head">
+    <p class="ar-eyebrow">ANALYTICS REPORT</p>
+    <h2 id="ar-title">週次アナリティクス</h2>
+    <p class="ar-note">GA4 公式 API（毎朝 5:30 同期）・{r.asOf ?? '—'} まで。直近7日 {range(r.periods.recent7)}／前の7日 {range(r.periods.previous7)}／28日 {range(r.periods.recent28)}。</p>
+  </header>
+
+  <div class="ar-goals">
+    <article class="ar-card">
+      <h3>11月 {fmt(r.november.target)} PV</h3>
+      <p class="ar-big">{pctText(r.november.progressPct)}</p>
+      <div class="ar-track" aria-hidden="true"><span style={`width:${Math.min(100, r.november.progressPct ?? 0)}%`}></span></div>
+      <p class="ar-note">直近28日 {fmt(r.november.current28)} PV（上の Growth と同じ値）</p>
+    </article>
+    <article class="ar-card">
+      <h3>{r.longTerm.label}</h3>
+      <p class="ar-big">{pctText(r.longTerm.progressPct)}</p>
+      <div class="ar-track" aria-hidden="true"><span style={`width:${Math.min(100, r.longTerm.progressPct ?? 0)}%`}></span></div>
+      <p class="ar-note">月間ペース {fmt(r.longTerm.pace)} PV（直近7日×30÷7）・あと {r.longTerm.multiplier ?? '—'} 倍。残り {r.longTerm.weeksLeft ?? '—'} 週で届くには毎週 +{r.longTerm.requiredWeeklyGrowthPct ?? '—'}%、翌週 {fmt(r.longTerm.nextWeekRequired)} PV が必要。</p>
+    </article>
+  </div>
+
+  <dl class="ar-kpis">
+    <div><dt>PV・直近7日</dt><dd>{fmt(r.kpis.views7)}</dd><dd class:list={['ar-sub', tone(r.kpis.views7ChangePct)]}>前週比 {signedPct(r.kpis.views7ChangePct)}</dd></div>
+    <div><dt>PV・前の7日</dt><dd>{fmt(r.kpis.views7Prev)}</dd></div>
+    <div><dt>PV・直近28日</dt><dd>{fmt(r.kpis.views28)}</dd></div>
+    <div><dt>エンゲージメント率・7日</dt><dd>{pctText(r.kpis.engagement7)}</dd><dd class="ar-sub">前の7日 {pctText(r.kpis.engagement7Prev)}</dd></div>
+  </dl>
+
+  <article class="ar-card" id="ar-drivers">
+    <h3>PVを動かしたのは「訪問」か「回遊」か（直近7日 vs 前の7日）</h3>
+    {d ? (
+      <>
+        <dl class="ar-kpis">
+          <div><dt>訪問（セッション）</dt><dd>{fmt(d.sessions)}</dd><dd class:list={['ar-sub', tone(d.sessionsChangePct)]}>前週比 {signedPct(d.sessionsChangePct)}</dd></div>
+          <div><dt>回遊（1訪問あたりのPV）</dt><dd>{d.viewsPerSession.toFixed(2)}</dd><dd class:list={['ar-sub', tone(d.viewsPerSessionChangePct)]}>前の7日 {d.viewsPerSessionPrev.toFixed(2)}（{signedPct(d.viewsPerSessionChangePct)}）</dd></div>
+          <div><dt>PVの伸びのうち訪問による分</dt><dd>{d.sessionSharePct == null ? '—' : `${d.sessionSharePct}%`}</dd><dd class="ar-sub">残りが回遊による分</dd></div>
+          <div><dt>回遊が1.5なら（同じ訪問数）</dt><dd>{fmt(d.viewsAt15)}</dd><dd class="ar-sub">直近7日の実績 {fmt(r.kpis.views7)}</dd></div>
+        </dl>
+        <p class="ar-note">PV＝訪問×回遊。回遊の改善は新しい記事なしで全ページに効く。{r.recirculationBaseline && <>回遊の実験（{r.recirculationBaseline.experimentId}）開始前の基準値は {r.recirculationBaseline.value.toFixed(2)}（{r.recirculationBaseline.period}）。</>}</p>
+      </>
+    ) : (
+      <p class="ar-empty">セッション数が未取得のため分解できない（0では埋めない）。</p>
+    )}
+  </article>
+
+  <article class="ar-card" id="ar-changes">
+    <h3>施策→結果（直近90日の変更）</h3>
+    <p class="ar-note ar-note--lead">src/data/seo-changes.ts の改善の変更（タイトル・本文・内部リンク・新規記事など。事実の更新・計測の修正は除く）に、そのページの直近の数字を並べる。観測窓の間は判定しない。判定は直近7日と前の7日のPV比較（±10%）による参考値で、変更日の厳密な前後比較ではない。2週で40PV未満のページは判定しない。イベント記事は開催前後の需要の山で動くため、「低下」が施策のせいとは限らない（CTR・順位も合わせて見る）。{Object.keys(r.verdictCounts).length > 0 && <>内訳：{Object.entries(r.verdictCounts).map(([k, v]) => `${k} ${v}件`).join('・')}。</>}</p>
+    <p class="ar-note">観測窓が終わり、判定できた変更（新しい順・最大20件）：</p>
+    {r.changeResults.length > 0 ? (
+      <div class="ar-scroll" tabindex="0" role="region" aria-label="施策と結果の表">
+        <table class="ar-table">
+          <thead><tr><th scope="col">ページ・変更</th><th scope="col">変更日</th><th scope="col">種類</th><th scope="col">判定</th><th scope="col">PV 前の7日→直近7日</th><th scope="col">CTR 前→直近</th><th scope="col">順位 前→直近</th></tr></thead>
+          <tbody>
+            {r.changeResults.map((c: any) => (
+              <tr>
+                <th scope="row">{c.path}<small>{c.change}</small></th>
+                <td>{md(c.date)}</td>
+                <td>{c.typeLabel}</td>
+                <td class={verdictClass[c.verdict] ?? ''}>{c.verdict}{c.observing && <small>〜{md(c.observeUntil)}</small>}</td>
+                <td>{fmt(c.viewsPrev7)}→{fmt(c.views7)}</td>
+                <td>{c.ctrPrev7 == null ? '—' : `${c.ctrPrev7}%`}→{c.ctr7 == null ? '—' : `${c.ctr7}%`}</td>
+                <td>{c.positionPrev7 ?? '—'}→{c.position7 ?? '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p class="ar-empty">判定できる変更はまだない（すべて観測中、またはページの数字が未取得）。</p>
+    )}
+    {r.observingChanges.length > 0 && (
+      <details class="ar-details">
+        <summary>観測中の変更 {r.observingChanges.length}件（判定はまだしない）</summary>
+        <ul class="ar-obs">
+          {r.observingChanges.map((c: any) => (
+            <li><b>{md(c.date)}</b> {c.typeLabel}：{c.path}<small>{c.change}（〜{md(c.observeUntil)}）</small></li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </article>
+
+  <div class="ar-grid">
+    <article class="ar-card">
+      <h3>週ごとのPV</h3>
+      {r.weeks.length > 0 ? (
+        <ul class="ar-bars">
+          {r.weeks.map((w: any) => (
+            <li><span class="ar-bars__label">{md(w.start)}〜</span><span class="ar-bars__bar"><span style={`width:${(w.views / maxWeek) * 100}%`}></span></span><span class="ar-bars__value">{fmt(w.views)}</span></li>
+          ))}
+          {r.longTerm.nextWeekRequired != null && (
+            <li class="is-target"><span class="ar-bars__label">翌週（必要）</span><span class="ar-bars__bar"><span style={`width:${(r.longTerm.nextWeekRequired / maxWeek) * 100}%`}></span></span><span class="ar-bars__value">{fmt(r.longTerm.nextWeekRequired)}</span></li>
+          )}
+        </ul>
+      ) : (
+        <p class="ar-empty">日別データが7日分そろっていないため未表示（0では埋めない）。</p>
+      )}
+      <p class="ar-note">点線は100万PVへ毎週同じ倍率で伸びる場合の翌週の必要量。</p>
+    </article>
+
+    <article class="ar-card">
+      <h3>流入チャネル（直近7日・PV）</h3>
+      {r.channels.length > 0 ? (
+        <ul class="ar-bars">
+          {r.channels.map((c: any) => (
+            <li><span class="ar-bars__label">{c.channel}</span><span class="ar-bars__bar"><span style={`width:${(c.views / maxChannel) * 100}%`}></span></span><span class="ar-bars__value">{fmt(c.views)}（{pctText(c.sharePct)}）</span></li>
+          ))}
+        </ul>
+      ) : (
+        <p class="ar-empty">チャネル別は未取得。</p>
+      )}
+    </article>
+
+    <article class="ar-card">
+      <h3>コンテンツ種別（上位{r.pageCount}ページ・28日PV）</h3>
+      <ul class="ar-bars">
+        {r.contentTypes.map((t: any) => (
+          <li><span class="ar-bars__label">{t.type}<small>{t.pages}ページ</small></span><span class="ar-bars__bar"><span style={`width:${(t.views28 / maxType) * 100}%`}></span></span><span class="ar-bars__value">{fmt(t.views28)}（{pctText(t.sharePct)}）<small class={tone(t.changePct)}>7日 {signedPct(t.changePct)}</small></span></li>
+        ))}
+      </ul>
+      <p class="ar-note">URLによる機械的な分類。時事＝/events/・/news/ の日付つき記事、常緑ガイド＝末尾 -guide/ など、エリア＝/area/ 配下。</p>
+    </article>
+  </div>
+
+  <article class="ar-card">
+    <h3>よく読まれたページ（直近7日）</h3>
+    <div class="ar-scroll" tabindex="0" role="region" aria-label="よく読まれたページの表">
+      <table class="ar-table">
+        <thead><tr><th scope="col">ページ</th><th scope="col">種別</th><th scope="col">7日</th><th scope="col">前の7日</th><th scope="col">前週比</th><th scope="col">28日</th></tr></thead>
+        <tbody>
+          {r.topPages.map((p: any) => (
+            <tr><th scope="row">{p.path}</th><td>{p.type}</td><td>{fmt(p.views7)}</td><td>{fmt(p.viewsPrev7)}</td><td class={tone(p.changePct)}>{p.changePct == null ? '新規' : signedPct(p.changePct)}</td><td>{fmt(p.views28)}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="ar-card">
+    <h3>失速しているページ</h3>
+    <p class="ar-note ar-note--lead">前の7日に50PV以上あり、30%以上減ったページ。イベント終了後に読まれなくなった記事の目安。</p>
+    {r.decliners.length > 0 ? (
+      <div class="ar-scroll" tabindex="0" role="region" aria-label="失速しているページの表">
+        <table class="ar-table">
+          <thead><tr><th scope="col">ページ</th><th scope="col">前の7日</th><th scope="col">直近7日</th><th scope="col">前週比</th></tr></thead>
+          <tbody>
+            {r.decliners.map((p: any) => (
+              <tr><th scope="row">{p.path}</th><td>{fmt(p.viewsPrev7)}</td><td>{fmt(p.views7)}</td><td class="is-bad">{signedPct(p.changePct)}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p class="ar-empty">該当なし。</p>
+    )}
+  </article>
+</section>
+
+<style>
+  .ar{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:1.5rem 0 2rem}
+  .ar-head h2{margin:0;font-size:clamp(1.3rem,3.6vw,1.7rem)}
+  .ar-eyebrow{margin:0 0 .2rem;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
+  .ar-card{min-width:0;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .ar-card h3{margin:0 0 .6rem;font-size:1rem}
+  .ar-goals,.ar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:1rem}
+  .ar-big{margin:0;font-size:clamp(1.5rem,5vw,2rem);font-weight:800;font-variant-numeric:tabular-nums}
+  .ar-track{height:8px;margin:.5rem 0 0;border-radius:999px;background:var(--panel-2);overflow:hidden}
+  .ar-track span{display:block;height:100%;min-width:2px;border-radius:999px;background:var(--accent)}
+  .ar-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:.75rem;margin:0}
+  .ar-kpis div{min-width:0;padding:.7rem .8rem;border-radius:12px;background:var(--panel-2)}
+  .ar-kpis dt{color:var(--muted);font-size:.8rem}
+  .ar-kpis dd{margin:.2rem 0 0;font-size:clamp(1.2rem,4vw,1.5rem);font-weight:800;font-variant-numeric:tabular-nums}
+  .ar-kpis dd.ar-sub{margin-top:.1rem;font-size:.78rem;font-weight:600;color:var(--muted)}
+  .ar-bars{display:grid;gap:.45rem;margin:0;padding:0;list-style:none;font-size:.8rem;font-variant-numeric:tabular-nums}
+  .ar-bars li{display:grid;grid-template-columns:minmax(6.5rem,9rem) minmax(0,1fr) auto;align-items:center;gap:.6rem}
+  .ar-bars__label{overflow-wrap:anywhere}
+  .ar-bars__label small,.ar-bars__value small{display:block;color:var(--muted);font-size:.72rem}
+  .ar-bars__bar{height:12px;border-radius:4px;background:var(--panel-2);overflow:hidden}
+  .ar-bars__bar span{display:block;height:100%;min-width:2px;border-radius:4px;background:var(--accent)}
+  .ar-bars li.is-target .ar-bars__bar span{background:transparent;border:1px dashed var(--muted);box-sizing:border-box}
+  .ar-bars__value{text-align:right;white-space:nowrap}
+  .ar-note,.ar-empty{margin:.6rem 0 0;color:var(--muted);font-size:.8rem;line-height:1.7}
+  .ar-note--lead{margin:0 0 .7rem}
+  .ar-scroll{overflow-x:auto;overscroll-behavior-x:contain;border:1px solid var(--line);border-radius:12px}
+  .ar-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .ar-table{width:100%;min-width:40rem;border-collapse:collapse;font-size:.82rem;font-variant-numeric:tabular-nums}
+  .ar-table th,.ar-table td{padding:.5rem .6rem;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  .ar-table thead th{color:var(--muted);font-weight:700;background:var(--panel-2)}
+  .ar-table thead th:first-child{text-align:left}
+  .ar-table tbody th{text-align:left;font-weight:600;white-space:normal;overflow-wrap:anywhere;min-width:14rem}
+  .ar-table tbody th small,.ar-table td small{display:block;color:var(--muted);font-size:.74rem;font-weight:500;line-height:1.5}
+  #ar-changes .ar-table tbody th{min-width:22rem}
+  .ar-details{margin:.8rem 0 0;font-size:.82rem}
+  .ar-details summary{cursor:pointer;color:var(--muted);font-weight:700}
+  .ar-obs{display:grid;gap:.4rem;margin:.6rem 0 0;padding:0;list-style:none}
+  .ar-obs li{padding:.45rem .6rem;border-radius:8px;background:var(--panel-2);overflow-wrap:anywhere}
+  .ar-obs small{display:block;color:var(--muted);font-size:.74rem}
+  .ar .is-good{color:var(--good)}
+  .ar .is-bad{color:var(--bad)}
+</style>

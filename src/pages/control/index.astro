@@ -4,6 +4,7 @@ import { todayDateOnlyString } from '../../lib/date-only.js';
 import { confirmedControlMetrics } from '../../lib/confirmed-control-metrics.mjs';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
+import AnalyticsReport from '../../components/control/AnalyticsReport.astro';
 import { loadAreaCoverage } from '../../lib/control-area-coverage';
 import { THIN_COVERAGE_MAX } from '../../lib/area-coverage.mjs';
 import performance from '../../../data/editorial/performance-snapshot.json';
@@ -362,8 +363,11 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
 
     <GrowthControl />
 
+    <AnalyticsReport />
+
     <nav class="quick-nav" aria-label="ダッシュボード内メニュー">
       <a href="#growth">11月目標</a>
+      <a href="#analytics-report">週次アナリティクス</a>
       <a href="#auto">自動運転</a>
       <a href="#today">今日やること</a>
       <a href="#goal">10万PV進捗</a>
