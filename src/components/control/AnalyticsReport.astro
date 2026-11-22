@@ -88,6 +88,7 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
           <div><dt>A−B</dt><dd>{cohortDiff == null ? '—' : `${cohortDiff >= 0 ? '+' : ''}${cohortDiff.toFixed(3)}`}</dd><dd class="ar-sub">28日判定には各群2,000セッション以上が必要</dd></div>
           <div><dt>エンゲージメント率</dt><dd>{a.engagementRate == null || b.engagementRate == null ? '—' : `${(a.engagementRate*100).toFixed(1)}% / ${(b.engagementRate*100).toFixed(1)}%`}</dd><dd class="ar-sub">A群 / B群</dd></div>
         </dl>
+        <p class="ar-note">28日集計（参考・公開前期間を含む場合は効果判定不可）：{nextStep.period28?.start}〜{nextStep.period28?.end} ／ A群 {fmt(nextStep.groups28?.A?.sessions)} セッション・{nextStep.groups28?.A?.viewsPerSession == null ? '—' : nextStep.groups28.A.viewsPerSession.toFixed(3)} PV/セッション ／ B群 {fmt(nextStep.groups28?.B?.sessions)} セッション・{nextStep.groups28?.B?.viewsPerSession == null ? '—' : nextStep.groups28.B.viewsPerSession.toFixed(3)} PV/セッション。各群2,000セッション以上、かつ公開後28日が揃うまで判定不可。</p>
         <p class="ar-note">枠の表示 {fmt(nextStep.events?.views)}・クリック {fmt(nextStep.events?.clicks)}・CTR {nextStep.events?.ctr == null ? '—' : `${(nextStep.events.ctr * 100).toFixed(2)}%`}。7日目にCTR 1%未満、またはA群のエンゲージメント率がB群より5ポイント以上低ければ中止候補。28日目は回遊差で判定。</p>
       </>
     ) : <p class="ar-empty">GA4の群別集計は未取得。推測値や0で補いません。</p>}
