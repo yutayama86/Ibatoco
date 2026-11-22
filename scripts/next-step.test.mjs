@@ -26,6 +26,12 @@ test('selects at most one link per kind in intended order and excludes ended/noi
   assert.equal(selectNextSteps(current, candidates, 2).length, 2);
 });
 
+test('does not link to future-dated articles', () => {
+  const current = { path: '/events/current/' };
+  const future = new Date(Date.now() + 86400000);
+  assert.deepEqual(selectNextSteps(current, [{ kind: 'access', path: '/events/future/', title: 'future', pubDate: future }]), []);
+});
+
 test('does not link to cancelled, postponed or unconfirmed events', () => {
   const current = { path: '/events/current/' };
   const candidates = ['ended', 'cancelled', 'postponed', 'unconfirmed'].map((state) => ({
