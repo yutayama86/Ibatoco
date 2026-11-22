@@ -214,9 +214,11 @@ export function buildAnalyticsReport(snapshot, { goal = LONG_TERM_GOAL, changes 
   const drivers = pvDrivers(r7, p7);
   const nextReads = (snapshot?.experiments ?? []).find((e) => e?.id === '20260921-growth-next-reads') ?? null;
   const results = changeResults({ changes, pages: snapshot?.pageMetrics ?? [], config, today: today ?? r7.end ?? null });
-  const verdictCounts = results.reduce((acc, r) => ({ ...acc, [r.verdict]: (acc[r.verdict] ?? 0) + 1 }), {});
+  const verdictCounts = results.filter((x) => x.type !== 'fact' && x.type !== 'measurement').reduce((acc, r) => ({ ...acc, [r.verdict]: (acc[r.verdict] ?? 0) + 1 }), {});
   // 判定できるもの（観測窓が終わり、数字がある）を先に。改善の判断に使うのはこちら
-  const judged = results.filter((x) => !x.observing && ['伸び', '横ばい', '低下'].includes(x.verdict)).slice(0, 20);
+  // 事実の更新・計測の修正は改善の実験ではないので判定の表に出さない
+  const isExperiment = (x) => x.type !== 'fact' && x.type !== 'measurement';
+  const judged = results.filter((x) => isExperiment(x) && !x.observing && ['伸び', '横ばい', '低下'].includes(x.verdict)).slice(0, 20);
   const observingList = results.filter((x) => x.observing);
 
   return {

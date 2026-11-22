@@ -64,3 +64,11 @@ test('changeResults does not judge during the observation window', async () => {
   assert.equal(judged.verdict, '伸び');
   assert.equal(judged.ctr7, 5);
 });
+
+test('fact updates are not shown as improvement results', () => {
+  const r = buildAnalyticsReport(
+    { pageMetrics: [{ path: '/a/', views7: 200, viewsPrev7: 100 }], windows: { ga4: { recent7: { end: '2026-11-18' } } } },
+    { changes: [{ id: 'f', date: '2026-11-01', url: '/a/', kind: 'on-page', change: '日程を更新', experimentType: 'fact' }], config: { observationWindows: { fact: 0 } }, today: '2026-11-22' },
+  );
+  assert.equal(r.changeResults.length, 0);
+});

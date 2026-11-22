@@ -75,7 +75,7 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
 
   <article class="ar-card" id="ar-changes">
     <h3>施策→結果（直近90日の変更）</h3>
-    <p class="ar-note ar-note--lead">src/data/seo-changes.ts の変更に、そのページの直近の数字を並べる。観測窓の間は判定しない。判定は直近7日と前の7日のPV比較（±10%）による参考値で、変更日の厳密な前後比較ではない。2週で40PV未満のページは判定しない。イベント記事は開催前後の需要の山で動くため、「低下」が施策のせいとは限らない（CTR・順位も合わせて見る）。{Object.keys(r.verdictCounts).length > 0 && <>内訳：{Object.entries(r.verdictCounts).map(([k, v]) => `${k} ${v}件`).join('・')}。</>}</p>
+    <p class="ar-note ar-note--lead">src/data/seo-changes.ts の改善の変更（タイトル・本文・内部リンク・新規記事など。事実の更新・計測の修正は除く）に、そのページの直近の数字を並べる。観測窓の間は判定しない。判定は直近7日と前の7日のPV比較（±10%）による参考値で、変更日の厳密な前後比較ではない。2週で40PV未満のページは判定しない。イベント記事は開催前後の需要の山で動くため、「低下」が施策のせいとは限らない（CTR・順位も合わせて見る）。{Object.keys(r.verdictCounts).length > 0 && <>内訳：{Object.entries(r.verdictCounts).map(([k, v]) => `${k} ${v}件`).join('・')}。</>}</p>
     <p class="ar-note">観測窓が終わり、判定できた変更（新しい順・最大20件）：</p>
     {r.changeResults.length > 0 ? (
       <div class="ar-scroll" tabindex="0" role="region" aria-label="施策と結果の表">
