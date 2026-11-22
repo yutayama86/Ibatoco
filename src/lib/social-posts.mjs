@@ -130,3 +130,82 @@ export function selectPostCandidates(pages, { today, limit = 12, freshSlots = 3 
   const out = [...upcomingPicked, ...freshPicked];
   return out;
 }
+
+/**
+ * 投稿の予定（いつ出すか）。イバトコの実績がまだないため、一般的な運用の型から始め、4週間後にインサイトで見直す仮説。
+ * - 短いイベント（3日以内）：7日前の昼（告知）と前日の夜（前日）。開催日の朝（当日）
+ * - 長いイベント（4日以上）：個別には終了2日前の昼（まもなく終了）だけ。週末の案内は木・金の「今週末の茨城」まとめに入れる
+ * - 記事の公開日（新着）：その日の夜
+ * 日付は日本の暦日（YYYY-MM-DD）だけで判定する。
+ */
+export const SLOT = {
+  当日: { time: '8:00', rank: 1 },
+  前日: { time: '19:00', rank: 2 },
+  まもなく終了: { time: '12:00', rank: 3 },
+  告知: { time: '12:00', rank: 4 },
+  新着: { time: '19:00', rank: 5 },
+};
+export const DAILY_CAP = 3;
+
+/** @param {any} page @param {string} today @returns {{ slot: string, date: string, time: string } | null} 今日以降で最も近い投稿予定 */
+export function nextPostSlot(page, today) {
+  const plans = [];
+  const add = (slot, date) => { if (valid(date) && date >= today) plans.push({ slot, date, time: SLOT[slot].time }); };
+  if (valid(page.pubDate)) add('新着', page.pubDate);
+  if (timingLine(page, today)) {
+    const end = valid(page.endDate) ? page.endDate : page.startDate;
+    const days = Math.round((parseDateOnly(end).valueOf() - parseDateOnly(page.startDate).valueOf()) / 86_400_000) + 1;
+    if (days <= 3) {
+      add('告知', shift(page.startDate, -7));
+      add('前日', shift(page.startDate, -1));
+      add('当日', page.startDate);
+    } else {
+      add('まもなく終了', shift(end, -2));
+    }
+  }
+  plans.sort((a, b) => a.date.localeCompare(b.date) || SLOT[a.slot].rank - SLOT[b.slot].rank);
+  return plans[0] ?? null;
+}
+
+/**
+ * 候補を「今日出す（最大 DAILY_CAP 件）」「今日、余裕があれば」「近日（予定日つき）」に分ける
+ * @param {Array<{ page: any, reason: string }>} candidates
+ * @param {string} today
+ */
+export function schedulePosts(candidates, today) {
+  const withSlot = candidates.map((c) => ({ ...c, plan: nextPostSlot(c.page, today) }));
+  const due = withSlot.filter((c) => c.plan?.date === today).sort((a, b) => SLOT[a.plan.slot].rank - SLOT[b.plan.slot].rank);
+  return {
+    today: due.slice(0, DAILY_CAP),
+    extra: due.slice(DAILY_CAP),
+    later: withSlot.filter((c) => c.plan && c.plan.date > today).sort((a, b) => a.plan.date.localeCompare(b.plan.date)),
+  };
+}
+
+/**
+ * 木曜・金曜に出す「今週末の茨城」のまとめ投稿。今週の土日に開催がある記事（最大6件）を並べ、/events/ へ案内する。
+ * @param {Iterable<any>} pages
+ * @param {string} today
+ */
+export function weekendRoundup(pages, today) {
+  if (!valid(today)) return null;
+  const wd = dateOnlyWeekday(parseDateOnly(today));
+  if (wd !== 4 && wd !== 5) return null;
+  const sat = shift(today, 6 - wd); const sun = shift(sat, 1);
+  const items = [...pages]
+    .filter((p) => !p.noindex && !p.frontmatter?.sample && p.frontmatter?.reviewed !== false && p.type === 'event' && timingLine(p, today))
+    .filter((p) => { const end = valid(p.endDate) ? p.endDate : p.startDate; return p.startDate <= sun && end >= sat; })
+    // その週末だけの短いイベントを先に、長期開催（イルミネーション等）は後に
+    .map((p) => ({ p, len: (parseDateOnly(valid(p.endDate) ? p.endDate : p.startDate).valueOf() - parseDateOnly(p.startDate).valueOf()) / 86_400_000 }))
+    .sort((a, b) => (a.len > 3) - (b.len > 3) || a.p.startDate.localeCompare(b.p.startDate))
+    .map((x) => x.p)
+    .slice(0, 6);
+  if (items.length < 2) return null;
+  const lines = items.map((p) => `・${p.title.split('｜')[0]}`);
+  const head = `今週末（${md(sat)}・${md(sun)}）の茨城`;
+  return {
+    sat, sun, count: items.length,
+    threads: `${head}\n\n${lines.join('\n')}\n\n日時・会場・駐車場は公式情報で確かめてまとめています。\n${SITE}/events/\n#イバトコ #茨城イベント #茨城週末`,
+    instagram: `${head}\n\n${lines.join('\n')}\n\n日時・会場・駐車場は公式情報で確かめてまとめています。\n詳しくはプロフィールのリンクから「イバトコ」へ。\n\n#イバトコ #茨城イベント #茨城週末 #茨城おでかけ`,
+  };
+}

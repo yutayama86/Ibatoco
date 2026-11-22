@@ -8,12 +8,19 @@
 import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
 import { MUNICIPALITIES } from '../../data/areas';
 import { todayDateOnlyString } from '../../lib/date-only.js';
-import { buildDrafts, md, selectPostCandidates, X_LIMIT } from '../../lib/social-posts.mjs';
+import { buildDrafts, DAILY_CAP, md, schedulePosts, selectPostCandidates, weekendRoundup, X_LIMIT } from '../../lib/social-posts.mjs';
 
 const today = todayDateOnlyString();
 const muni = new Map<string, string>(MUNICIPALITIES.map((m) => [m.slug as string, m.name as string]));
-const candidates = selectPostCandidates(loadContentPages().values(), { today });
-const drafts = candidates.map(({ page, reason }) => ({ ...buildDrafts(page, { today, muniName: (s: string) => muni.get(s) ?? null }), reason }));
+const pages = [...loadContentPages().values()];
+// 画像（/og-ig/）を作る候補と同じ範囲から、今日出すもの・近日の予定を決める
+const candidates = selectPostCandidates(pages, { today, limit: 40, freshSlots: 10 });
+const plan = schedulePosts(candidates, today);
+const draft = (c: any) => ({ ...buildDrafts(c.page, { today, muniName: (s: string) => muni.get(s) ?? null }), reason: c.reason, slot: c.plan.slot, time: c.plan.time });
+const todayDrafts = plan.today.map(draft);
+const extraDrafts = plan.extra.map(draft);
+const later = plan.later.slice(0, 12);
+const roundup = weekendRoundup(pages, today);
 const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
 ---
 
@@ -21,14 +28,41 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
   <p class="sp-eyebrow">SOCIAL POSTS</p>
   <h2 id="sp-title">SNS投稿の下書き</h2>
   <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は Instagram 用の縦長カードと、Threads・X 用の横長カードを自動で作る（実在の場所を AI 生成画像で描かない。現地の写真があればそちらを優先）。候補は毎日入れ替わるので、使うカードはその日のうちに保存する。各候補を開くと投稿文が出る。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
-  {drafts.length > 0 ? (
+  <div class="sp-rule">
+    <b>投稿のルール（仮説・4週間後にインサイトで見直す）</b>
+    <ul>
+      <li>1日に出すのは各SNSで最大{DAILY_CAP}件（多すぎるとフォローを外されやすい）</li>
+      <li>短いイベント：7日前の12:00に告知、前日19:00、当日8:00</li>
+      <li>長いイベント（イルミネーション等）：個別は終了2日前の12:00「まもなく終了」だけ。週末の案内は木曜19:00の「今週末の茨城」まとめに入れる（出せなかったら金曜）</li>
+      <li>新着記事：公開日の19:00</li>
+      <li>Threads と Instagram は必ず、X は余裕があれば同じ時間に</li>
+    </ul>
+  </div>
+
+  {roundup && (
+    <article class="sp-card sp-roundup">
+      <details open>
+        <summary class="sp-sum"><span class="sp-sum__text"><span class="sp-badge">19:00 今週末まとめ</span><b>今週末（{md(roundup.sat)}・{md(roundup.sun)}）の茨城　{roundup.count}件</b></span></summary>
+        <div class="sp-body">
+          <p class="sp-img">画像：今週末の記事のカードから1〜3枚（Instagram は複数枚投稿）</p>
+          <div class="sp-grid">
+            <label>Threads・X<textarea readonly rows={rows(roundup.threads)}>{roundup.threads}</textarea></label>
+            <label>Instagram<textarea readonly rows={rows(roundup.instagram)}>{roundup.instagram}</textarea></label>
+          </div>
+        </div>
+      </details>
+    </article>
+  )}
+
+  <h3 class="sp-h">今日出す（{todayDrafts.length}/{DAILY_CAP}件）</h3>
+  {todayDrafts.length > 0 ? (
     <ol class="sp-list">
-      {drafts.map((d) => (
+      {todayDrafts.map((d) => (
         <li class="sp-card">
           <details>
             <summary class="sp-sum">
               <img src={d.igImage.replace('https://ibatoco.jp', '')} alt="" width="72" height="90" loading="lazy" decoding="async" />
-              <span class="sp-sum__text"><span class="sp-badge">{d.reason}</span><b>{d.title}</b></span>
+              <span class="sp-sum__text"><span class="sp-badge">{d.time} {d.slot}</span><b>{d.title}</b></span>
             </summary>
             <div class="sp-body">
               <p class="sp-img">記事：<a href={d.path}>{d.path}</a><br />Instagram：<a href={d.igImage.replace('https://ibatoco.jp', '')}>縦長カード（1080×1350）</a>を保存して使う<br />Threads・X：<a href={d.image}>横長カード（1200×630）</a>（リンクを貼ると自動で付く）</p>
@@ -43,7 +77,42 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
       ))}
     </ol>
   ) : (
-    <p class="sp-note">今日出す候補はありません（開催が近いイベント・新着記事がない）。</p>
+    <p class="sp-note">今日の予定はありません（近日の予定は下）。</p>
+  )}
+
+  {extraDrafts.length > 0 && (
+    <>
+      <h3 class="sp-h">今日、余裕があれば（{extraDrafts.length}件）</h3>
+      <ol class="sp-list">
+        {extraDrafts.map((d) => (
+        <li class="sp-card">
+          <details>
+            <summary class="sp-sum">
+              <img src={d.igImage.replace('https://ibatoco.jp', '')} alt="" width="72" height="90" loading="lazy" decoding="async" />
+              <span class="sp-sum__text"><span class="sp-badge">{d.time} {d.slot}</span><b>{d.title}</b></span>
+            </summary>
+            <div class="sp-body">
+              <p class="sp-img">記事：<a href={d.path}>{d.path}</a><br />Instagram：<a href={d.igImage.replace('https://ibatoco.jp', '')}>縦長カード（1080×1350）</a>を保存して使う<br />Threads・X：<a href={d.image}>横長カード（1200×630）</a>（リンクを貼ると自動で付く）</p>
+              <div class="sp-grid">
+                <label>Threads<textarea readonly rows={rows(d.threads)}>{d.threads}</textarea></label>
+                <label>X<small>（{d.xWeight}/{X_LIMIT}）</small><textarea readonly rows={rows(d.x)}>{d.x}</textarea></label>
+                <label>Instagram<small>（本文のリンクは押せないのでプロフィールへ案内）</small><textarea readonly rows={rows(d.instagram)}>{d.instagram}</textarea></label>
+              </div>
+            </div>
+          </details>
+        </li>
+        ))}
+      </ol>
+    </>
+  )}
+
+  <h3 class="sp-h">近日の予定</h3>
+  {later.length > 0 ? (
+    <ul class="sp-later">
+      {later.map((c: any) => <li><b>{md(c.plan.date)} {c.plan.time}</b><span class="sp-badge">{c.plan.slot}</span><a href={c.page.path}>{c.page.title.split('｜')[0]}</a></li>)}
+    </ul>
+  ) : (
+    <p class="sp-note">14日以内の予定はありません。</p>
   )}
 </section>
 
@@ -52,7 +121,14 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
   .sp h2{margin:0;font-size:clamp(1.3rem,3.6vw,1.7rem)}
   .sp-eyebrow{margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
   .sp-note{margin:0;color:var(--muted);font-size:.8rem;line-height:1.7}
-  .sp-list{display:grid;gap:1rem;margin:0;padding:0;list-style:none}
+  .sp-list{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
+  .sp-h{margin:.6rem 0 0;font-size:1rem}
+  .sp-rule{padding:.8rem 1rem;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:.8rem;line-height:1.7}
+  .sp-rule ul{margin:.3rem 0 0;padding-left:1.1rem;color:var(--muted)}
+  .sp-roundup{border-color:var(--accent)}
+  .sp-later{display:grid;gap:.35rem;margin:0;padding:0;list-style:none;font-size:.82rem}
+  .sp-later li{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .6rem;padding:.5rem .7rem;border-radius:8px;background:var(--panel-2);overflow-wrap:anywhere}
+  .sp-later a{color:var(--text)}
   .sp-card{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
   .sp-sum{display:flex;align-items:center;gap:.8rem;padding:.7rem .9rem;cursor:pointer;list-style:none}
   .sp-sum::-webkit-details-marker{display:none}
