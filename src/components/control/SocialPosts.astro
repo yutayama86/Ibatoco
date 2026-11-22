@@ -1,0 +1,58 @@
+---
+/**
+ * Control Center「SNS投稿の下書き」（運営者向け・非公開）。
+ * 開催が近いイベントと新着記事から、Threads・X・Instagram の投稿文を作って並べる。投稿はしない（オーナーが確認して貼る）。
+ * 文面は記事の確認済みの title・description・日付だけから作る。計算は src/lib/social-posts.mjs。
+ * /control/ は CSP でスクリプトを使えないため、コピーは読み取り専用のテキスト欄から行う。
+ */
+import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
+import { MUNICIPALITIES } from '../../data/areas';
+import { todayDateOnlyString } from '../../lib/date-only.js';
+import { buildDrafts, md, selectPostCandidates, X_LIMIT } from '../../lib/social-posts.mjs';
+
+const today = todayDateOnlyString();
+const muni = new Map<string, string>(MUNICIPALITIES.map((m) => [m.slug as string, m.name as string]));
+const candidates = selectPostCandidates(loadContentPages().values(), { today });
+const drafts = candidates.map(({ page, reason }) => ({ ...buildDrafts(page, { today, muniName: (s: string) => muni.get(s) ?? null }), reason }));
+const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
+---
+
+<section id="social-posts" class="sp" aria-labelledby="sp-title">
+  <p class="sp-eyebrow">SOCIAL POSTS</p>
+  <h2 id="sp-title">SNS投稿の下書き</h2>
+  <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は各記事のカード画像を使う（実在の場所を AI 生成画像で描かない）。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
+  {drafts.length > 0 ? (
+    <ol class="sp-list">
+      {drafts.map((d) => (
+        <li class="sp-card">
+          <p class="sp-head"><span class="sp-badge">{d.reason}</span><a href={d.path}>{d.title}</a></p>
+          <p class="sp-img">画像：<a href={d.image}>{d.image.replace('https://ibatoco.jp', '')}</a></p>
+          <div class="sp-grid">
+            <label>Threads<textarea readonly rows={rows(d.threads)}>{d.threads}</textarea></label>
+            <label>X<small>（{d.xWeight}/{X_LIMIT}）</small><textarea readonly rows={rows(d.x)}>{d.x}</textarea></label>
+            <label>Instagram<small>（本文のリンクは押せないのでプロフィールへ案内）</small><textarea readonly rows={rows(d.instagram)}>{d.instagram}</textarea></label>
+          </div>
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <p class="sp-note">今日出す候補はありません（開催が近いイベント・新着記事がない）。</p>
+  )}
+</section>
+
+<style>
+  .sp{display:grid;gap:.8rem;margin:1.5rem 0 2rem}
+  .sp h2{margin:0;font-size:clamp(1.3rem,3.6vw,1.7rem)}
+  .sp-eyebrow{margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
+  .sp-note{margin:0;color:var(--muted);font-size:.8rem;line-height:1.7}
+  .sp-list{display:grid;gap:1rem;margin:0;padding:0;list-style:none}
+  .sp-card{min-width:0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+  .sp-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .6rem;margin:0;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+  .sp-head a{color:var(--text)}
+  .sp-badge{padding:.1rem .55rem;border-radius:999px;background:var(--panel-2);color:var(--accent);font-size:.75rem;font-weight:800;white-space:nowrap}
+  .sp-img{margin:.35rem 0 .7rem;color:var(--muted);font-size:.78rem;overflow-wrap:anywhere}
+  .sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.7rem}
+  .sp-grid label{display:grid;gap:.3rem;color:var(--muted);font-size:.78rem;font-weight:700}
+  .sp-grid small{font-weight:500}
+  .sp-grid textarea{width:100%;box-sizing:border-box;padding:.6rem;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);color:var(--text);font:inherit;font-size:16px;font-weight:500;line-height:1.6;resize:vertical}
+</style>
