@@ -12,7 +12,7 @@ const related = current ? findRelated(current, facets, { limit: 40 }) : [];
 const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|駐車場|ケーブルカー|ロープウェイ/;
 const candidates = related.map(({ facets: f, reasons }) => {
   const sameTown = current?.municipalities.some((m) => f.municipalities.includes(m)) ?? false;
-  const access = f.evergreen && accessTerms.test(f.title);
+  const access = sameTown && f.evergreen && accessTerms.test(f.title);
   const nearby = sameTown && (f.evergreen || f.eventLifecycle === 'ongoing' || f.eventLifecycle === 'today' || f.eventLifecycle === 'upcoming');
   const next = (f.collection === 'events' && (f.eventLifecycle === 'upcoming' || f.evergreen) && (reasons.includes('tag') || reasons.includes('category')));
   return {
