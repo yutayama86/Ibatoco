@@ -19,7 +19,7 @@ test('X draft stays within the weighted limit', () => {
   const long = ev({ startDate: '2026-11-23', title: 'あ'.repeat(70) + '｜' + 'い'.repeat(60) });
   const d = buildDrafts(long, { today: '2026-11-22', muniName: () => '東海村' });
   assert.ok(d.xWeight <= X_LIMIT, String(d.xWeight));
-  assert.ok(d.x.includes('https://ibatoco.jp/events/a/'));
+  assert.ok(d.x.split('\n').some((line) => line === 'https://ibatoco.jp/events/a/'), 'URL が独立した1行で入る');
   assert.ok(d.instagram.includes('プロフィールのリンク'));
   assert.equal(d.image, 'https://ibatoco.jp/og/events/a.png');
   assert.equal(xWeight('あa https://example.com/x'), 3 + 1 + 23);
