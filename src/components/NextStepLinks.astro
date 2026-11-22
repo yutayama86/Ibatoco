@@ -17,7 +17,7 @@ const candidates = related.map(({ facets: f, reasons }) => {
   const nearby = sameTown && Boolean(f.evergreen);
   const next = (f.collection === 'events' && (f.eventLifecycle === 'upcoming' || f.evergreen) && (reasons.includes('tag') || reasons.includes('category')));
   return {
-    path: f.path, title: f.title, noindex: f.noindex, eventLifecycle: f.eventLifecycle,
+    path: f.path, title: f.title, noindex: f.noindex, pubDate: f.pubDate, eventLifecycle: f.eventLifecycle,
     kind: access ? 'access' : nearby ? 'nearby' : next ? 'next' : null,
   };
 }).filter((f) => f.kind !== null);
