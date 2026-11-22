@@ -201,7 +201,18 @@ try {
     totals[group].sessions += nums[1];
     totals[group].engagedSessions += nums[2];
   }
+  const events = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
+    dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
+    dimensions: [{ name: 'eventName' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: ['next_step_view', 'next_step_click'] } } },
+    limit: '10',
+  });
+  const counts = Object.fromEntries((events.rows ?? []).map((r) => [r.dimensionValues[0].value, Number(r.metricValues[0].value)]));
+  const views = counts.next_step_view ?? null;
+  const clicks = counts.next_step_click ?? null;
   nextStepExperiment = {
+    events: { views, clicks, ctr: views > 0 && clicks != null ? clicks / views : null },
     period: abPeriod, confirmedThrough: through, source: 'GA4 Data API: landingPage × screenPageViews/sessions/engagedSessions',
     groups: Object.fromEntries(Object.entries(totals).map(([group, v]) => [group, {
       ...v, viewsPerSession: v.sessions > 0 ? v.views / v.sessions : null,
