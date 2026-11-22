@@ -231,7 +231,7 @@ try {
   // Do not infer experiment effectiveness from pre-release traffic.
   // Set only after the first verified production deployment of #683.
   const experimentStart = env.NEXT_STEP_EXPERIMENT_START_DATE ?? null;
-  const validStart = experimentStart != null && /^\\d{4}-\\d{2}-\\d{2}$/.test(experimentStart);
+  const validStart = experimentStart != null && /^\d{4}-\d{2}-\d{2}$/.test(experimentStart);
   const elapsed7 = validStart && abPeriod.start >= experimentStart;
   const elapsed28 = validStart && period28.start >= experimentStart;
   nextStepExperiment = {
