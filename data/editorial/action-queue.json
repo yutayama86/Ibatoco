@@ -3,6 +3,55 @@
   "updatedAt": "2026-11-22",
   "actions": [
     {
+      "id": "20261122-brand-top-h1",
+      "title": "TOP の画面に出ない H1 にブランド名「イバトコ」を入れる（指名検索の修正）",
+      "kind": "seo",
+      "status": "ready",
+      "priority": "medium",
+      "createdAt": "2026-11-22",
+      "notBefore": "2026-12-09",
+      "confidence": "medium",
+      "effort": "S",
+      "targetUrl": "/",
+      "targetFile": "src/pages/index.astro",
+      "specPath": "docs/editorial/specs/20261122-brand-and-ai-visibility.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/appearance/site-names"
+      ],
+      "source": "オーナー報告 2026-11-22：「イバトコ」の検索が別の語（いわとこなまず）に直される。GSC で「イバトコ」「いばとこ」「ibatoco」の検索語は0件。",
+      "reason": "TOP の H1（sr-only）にブランド名がない。TOP は観測窓（〜12/8）のため 12/9 から。オーナー承認 2026-11-22。",
+      "acceptanceCriteria": [
+        "src/pages/index.astro の sr-only の H1 を「イバトコ｜なんか茨城、いいかも。」にする。見た目・必須構成・title は変えない",
+        "FV3枚・テーマ6件・地図44件・取材と編集3件・事業者導線が残っていることを確認",
+        "seo-changes.ts に記録。npm run verify・必須CI"
+      ]
+    },
+    {
+      "id": "20261122-ai-citation-monthly",
+      "title": "AI の回答での引用を月1回記録する（20語×Google AI による概要・ChatGPT 検索・Perplexity）",
+      "kind": "measurement",
+      "status": "ready",
+      "priority": "medium",
+      "createdAt": "2026-11-22",
+      "notBefore": "2026-12-01",
+      "confidence": "high",
+      "effort": "S",
+      "targetUrl": "/control/",
+      "targetFile": "data/editorial/ai-citations.json",
+      "specPath": "docs/editorial/specs/20261122-brand-and-ai-visibility.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/appearance/ai-features"
+      ],
+      "source": "aiReferrals（PR #687）はリンク経由の訪問だけで、Google の AI による概要からのクリックと名前だけの言及は測れない。",
+      "reason": "AI 検索での露出を月ごとに比べ、どの施策が効いたかを判断する。初回は 2026-12-01。オーナー承認 2026-11-22。",
+      "acceptanceCriteria": [
+        "data/editorial/ai-citations.json を仕様の形で新設し、固定20語×3エンジンの初回結果を記録（確認できない項目は null）",
+        "editorial-os の検証に date 形式・engine の値・query が queries にあることを追加",
+        "以後は毎月1日に追記する運用を EDITORIAL_OS の日次タスクに記載",
+        "npm run verify・必須CI"
+      ]
+    },
+    {
       "id": "20261122-ctr-title-wave1",
       "title": "検索に出ているのに押されない5ページの title 改善（第1波）",
       "kind": "seo",
