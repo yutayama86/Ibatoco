@@ -194,6 +194,8 @@ try {
         limit: '10000', offset: String(offset),
       });
       const rows = report.rows ?? [];
+      if (offset === 0 && rows.length === 0) throw new Error('GA4 landing-page cohort report returned no rows');
+      if (rows.length === 0 && offset < Number(report.rowCount ?? 0)) throw new Error('GA4 landing-page cohort report truncated');
       for (const row of rows) {
         const path = row.dimensionValues?.[0]?.value ?? '';
         const match = /^\/events\/([^/?#]+)\/?$/.exec(path);
@@ -206,7 +208,7 @@ try {
         totals[group].engagedSessions += nums[2];
       }
       offset += rows.length;
-      if (!rows.length || offset >= Number(report.rowCount ?? rows.length)) break;
+      if (offset >= Number(report.rowCount ?? rows.length)) break;
     }
     return Object.fromEntries(Object.entries(totals).map(([group, v]) => [group, {
       ...v, viewsPerSession: v.sessions > 0 ? v.views / v.sessions : null,
