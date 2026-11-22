@@ -15,6 +15,10 @@ import { buildAnalyticsReport } from '../../lib/analytics-report.mjs';
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
 const d = r.drivers;
+const nextStep: any = (performance as any).nextStepExperiment ?? null;
+const a = nextStep?.groups?.A;
+const b = nextStep?.groups?.B;
+const cohortDiff = a?.viewsPerSession != null && b?.viewsPerSession != null ? a.viewsPerSession - b.viewsPerSession : null;
 const verdictClass: Record<string, string> = { 伸び: 'is-good', 低下: 'is-bad' };
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const pctText = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
@@ -71,6 +75,22 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
     ) : (
       <p class="ar-empty">セッション数が未取得のため分解できない（0では埋めない）。</p>
     )}
+  </article>
+
+  <article class="ar-card" id="ar-next-step">
+    <h3>イベント記事「次に調べること」A/B実験（Issue #683）</h3>
+    <p class="ar-note">同じ確定期間のランディングページ別GA4値。A群＝表示、B群＝非表示。{nextStep ? `${nextStep.period.start}〜${nextStep.period.end}` : '未取得'}。</p>
+    {a && b ? (
+      <>
+        <dl class="ar-kpis">
+          <div><dt>A群・回遊</dt><dd>{a.viewsPerSession == null ? '—' : a.viewsPerSession.toFixed(3)}</dd><dd class="ar-sub">セッション {fmt(a.sessions)}</dd></div>
+          <div><dt>B群・回遊</dt><dd>{b.viewsPerSession == null ? '—' : b.viewsPerSession.toFixed(3)}</dd><dd class="ar-sub">セッション {fmt(b.sessions)}</dd></div>
+          <div><dt>A−B</dt><dd>{cohortDiff == null ? '—' : `${cohortDiff >= 0 ? '+' : ''}${cohortDiff.toFixed(3)}`}</dd><dd class="ar-sub">28日判定には各群2,000セッション以上が必要</dd></div>
+          <div><dt>エンゲージメント率</dt><dd>{a.engagementRate == null || b.engagementRate == null ? '—' : `${(a.engagementRate*100).toFixed(1)}% / ${(b.engagementRate*100).toFixed(1)}%`}</dd><dd class="ar-sub">A群 / B群</dd></div>
+        </dl>
+        <p class="ar-note">7日目のCTR・エンゲージメント率、28日目の回遊差で判定。期間が満了するまで結論は出さない。</p>
+      </>
+    ) : <p class="ar-empty">GA4の群別集計は未取得。推測値や0で補いません。</p>}
   </article>
 
   <article class="ar-card" id="ar-changes">
