@@ -20,21 +20,25 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
 <section id="social-posts" class="sp" aria-labelledby="sp-title">
   <p class="sp-eyebrow">SOCIAL POSTS</p>
   <h2 id="sp-title">SNS投稿の下書き</h2>
-  <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は Instagram 用の縦長カードと、Threads・X 用の横長カードを自動で作る（実在の場所を AI 生成画像で描かない。現地の写真があればそちらを優先）。候補は毎日入れ替わるので、使うカードはその日のうちに保存する。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
+  <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は Instagram 用の縦長カードと、Threads・X 用の横長カードを自動で作る（実在の場所を AI 生成画像で描かない。現地の写真があればそちらを優先）。候補は毎日入れ替わるので、使うカードはその日のうちに保存する。各候補を開くと投稿文が出る。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
   {drafts.length > 0 ? (
     <ol class="sp-list">
       {drafts.map((d) => (
         <li class="sp-card">
-          <p class="sp-head"><span class="sp-badge">{d.reason}</span><a href={d.path}>{d.title}</a></p>
-          <div class="sp-media">
-            <a href={d.igImage.replace('https://ibatoco.jp', '')}><img src={d.igImage.replace('https://ibatoco.jp', '')} alt="" width="216" height="270" loading="lazy" decoding="async" /></a>
-            <p class="sp-img">Instagram：<a href={d.igImage.replace('https://ibatoco.jp', '')}>縦長カード（1080×1350）</a>を保存して使う<br />Threads・X：<a href={d.image}>横長カード（1200×630）</a>（リンクを貼ると自動で付く）</p>
-          </div>
-          <div class="sp-grid">
-            <label>Threads<textarea readonly rows={rows(d.threads)}>{d.threads}</textarea></label>
-            <label>X<small>（{d.xWeight}/{X_LIMIT}）</small><textarea readonly rows={rows(d.x)}>{d.x}</textarea></label>
-            <label>Instagram<small>（本文のリンクは押せないのでプロフィールへ案内）</small><textarea readonly rows={rows(d.instagram)}>{d.instagram}</textarea></label>
-          </div>
+          <details>
+            <summary class="sp-sum">
+              <img src={d.igImage.replace('https://ibatoco.jp', '')} alt="" width="72" height="90" loading="lazy" decoding="async" />
+              <span class="sp-sum__text"><span class="sp-badge">{d.reason}</span><b>{d.title}</b></span>
+            </summary>
+            <div class="sp-body">
+              <p class="sp-img">記事：<a href={d.path}>{d.path}</a><br />Instagram：<a href={d.igImage.replace('https://ibatoco.jp', '')}>縦長カード（1080×1350）</a>を保存して使う<br />Threads・X：<a href={d.image}>横長カード（1200×630）</a>（リンクを貼ると自動で付く）</p>
+              <div class="sp-grid">
+                <label>Threads<textarea readonly rows={rows(d.threads)}>{d.threads}</textarea></label>
+                <label>X<small>（{d.xWeight}/{X_LIMIT}）</small><textarea readonly rows={rows(d.x)}>{d.x}</textarea></label>
+                <label>Instagram<small>（本文のリンクは押せないのでプロフィールへ案内）</small><textarea readonly rows={rows(d.instagram)}>{d.instagram}</textarea></label>
+              </div>
+            </div>
+          </details>
         </li>
       ))}
     </ol>
@@ -49,13 +53,16 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
   .sp-eyebrow{margin:0;color:var(--muted);font-size:.75rem;font-weight:700;letter-spacing:.14em}
   .sp-note{margin:0;color:var(--muted);font-size:.8rem;line-height:1.7}
   .sp-list{display:grid;gap:1rem;margin:0;padding:0;list-style:none}
-  .sp-card{min-width:0;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
-  .sp-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .6rem;margin:0;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
-  .sp-head a{color:var(--text)}
+  .sp-card{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  .sp-sum{display:flex;align-items:center;gap:.8rem;padding:.7rem .9rem;cursor:pointer;list-style:none}
+  .sp-sum::-webkit-details-marker{display:none}
+  .sp-sum img{flex:0 0 auto;width:54px;height:auto;border:1px solid var(--line);border-radius:6px}
+  .sp-sum__text{display:grid;gap:.25rem;min-width:0;font-size:.86rem;line-height:1.5;overflow-wrap:anywhere}
+  .sp-sum__text .sp-badge{justify-self:start}
+  details[open]>.sp-sum{border-bottom:1px solid var(--line)}
+  .sp-body{padding:.8rem .9rem 1rem}
   .sp-badge{padding:.1rem .55rem;border-radius:999px;background:var(--panel-2);color:var(--accent);font-size:.75rem;font-weight:800;white-space:nowrap}
-  .sp-media{display:flex;flex-wrap:wrap;align-items:flex-start;gap:.8rem;margin:.5rem 0 .8rem}
-  .sp-media img{display:block;width:108px;height:auto;border:1px solid var(--line);border-radius:8px}
-  .sp-img{flex:1 1 12rem;margin:0;color:var(--muted);font-size:.78rem;line-height:1.7;overflow-wrap:anywhere}
+  .sp-img{margin:0 0 .8rem;color:var(--muted);font-size:.78rem;line-height:1.7;overflow-wrap:anywhere}
   .sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.7rem}
   .sp-grid label{display:grid;gap:.3rem;color:var(--muted);font-size:.78rem;font-weight:700}
   .sp-grid small{font-weight:500}

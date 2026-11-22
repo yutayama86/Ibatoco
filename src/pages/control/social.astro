@@ -1,0 +1,24 @@
+---
+import ControlBase from '../../layouts/ControlBase.astro';
+import ControlNav from '../../components/control/ControlNav.astro';
+import SocialPosts from '../../components/control/SocialPosts.astro';
+---
+
+<ControlBase title="SNS投稿｜Ibatoco Control Center">
+  <main class="cs">
+    <header>
+      <p class="cs-eyebrow">自分専用・非公開</p>
+      <h1>SNS投稿</h1>
+      <p class="cs-sub">開催が近いイベントと新着記事の投稿文・Instagram用カード。確認してから貼る。</p>
+    </header>
+    <ControlNav current="social" />
+    <SocialPosts />
+  </main>
+</ControlBase>
+
+<style>
+  .cs{width:min(1180px,100%);margin:0 auto;padding:1.4rem clamp(.9rem,3vw,1.6rem) 3rem;box-sizing:border-box}
+  .cs h1{margin:.2rem 0 0;font-size:clamp(1.5rem,4vw,2.2rem)}
+  .cs-eyebrow{margin:0;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.08em}
+  .cs-sub{margin:.4rem 0 0;color:var(--muted);font-size:.85rem;line-height:1.7}
+</style>

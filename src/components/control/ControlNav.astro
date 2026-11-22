@@ -1,0 +1,22 @@
+---
+/** Control Center のページ切り替え（/control/ は CSP でスクリプト不可のため、ページを分けてリンクで移動する） */
+interface Props { current: 'top' | 'analytics' | 'social' }
+const { current } = Astro.props;
+const pages = [
+  { key: 'top', href: '/control/', label: 'サマリー' },
+  { key: 'analytics', href: '/control/analytics/', label: '週次アナリティクス' },
+  { key: 'social', href: '/control/social/', label: 'SNS投稿' },
+];
+---
+<nav class="cn" aria-label="Control Center のページ">
+  {pages.map((p) => (
+    <a href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>
+  ))}
+</nav>
+
+<style>
+  .cn{position:sticky;top:0;z-index:20;display:flex;gap:.45rem;overflow:auto;margin:1rem -.2rem 0;padding:.75rem .2rem;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .cn a{flex:0 0 auto;padding:.55rem .9rem;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:.8rem;font-weight:700;text-decoration:none}
+  .cn a:hover{border-color:var(--accent)}
+  .cn a[aria-current="page"]{border-color:var(--accent);background:var(--accent);color:#0b1220}
+</style>
