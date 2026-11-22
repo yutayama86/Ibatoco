@@ -1,0 +1,82 @@
+---
+/** Issue #683: editorial links immediately after event facts, A cohort only. */
+import { getAllFacets, facetsOfEvent } from '../lib/taxonomy';
+import { findRelated } from '../lib/related';
+import { getEvents } from '../lib/content';
+import { selectNextSteps } from '../lib/next-step.mjs';
+
+interface Props { currentPath: string; }
+const { currentPath } = Astro.props;
+const facets = await getAllFacets();
+const current = facets.find((f) => f.path === currentPath);
+const events = await getEvents();
+const eventInfoByPath = new Map(events.map((e) => [`/events/${e.id.split('/').pop()}/`, e.data.eventInfo]));
+const related = current ? findRelated(current, facets, { limit: 40 }) : [];
+const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|駐車場|ケーブルカー|ロープウェイ/;
+const candidates = related.map(({ facets: f, reasons }) => {
+  const otherInfo = eventInfoByPath.get(f.path);
+  const sameTown = current?.municipalities.some((m) => f.municipalities.includes(m)) ?? false;
+  const access = f.evergreen && accessTerms.test(f.title);
+  const nearby = sameTown && (f.evergreen || f.eventLifecycle === 'ongoing' || f.eventLifecycle === 'today' || f.eventLifecycle === 'upcoming');
+  const next = (f.collection === 'events' && (f.eventLifecycle === 'upcoming' || f.evergreen) && (reasons.includes('tag') || reasons.includes('category')));
+  return {
+    path: f.path, title: f.title, noindex: f.noindex, eventLifecycle: f.eventLifecycle,
+    kind: access ? 'access' : nearby ? 'nearby' : next ? 'next' : null,
+  };
+}).filter((f) => f.kind !== null);
+const links = current ? selectNextSteps(current, candidates) : [];
+const labels: Record<string, string> = { access: '行き方', nearby: '近くで楽しむ', next: '次の開催・同じテーマ' };
+---
+{links.length > 0 && (
+  <nav class="next-step" aria-label="次に調べること" data-next-step data-source-path={currentPath}>
+    <h2>次に調べること</h2>
+    <ul>
+      {links.map((link) => (
+        <li>
+          <a href={link.path} data-next-step-link data-link-kind={link.kind}>
+            <span class="next-step__kind">{labels[link.kind]}</span>
+            <span class="next-step__title">{link.title}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+<script>
+  import { commonParams, trackEvent } from '../lib/analytics-events';
+  for (const block of document.querySelectorAll<HTMLElement>('[data-next-step]')) {
+    let viewed = false;
+    const sendView = () => {
+      if (viewed) return;
+      viewed = true;
+      trackEvent('next_step_view', { ...commonParams({ page_type: 'events' }), source_page: block.dataset.sourcePath ?? location.pathname });
+    };
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) { sendView(); observer.disconnect(); }
+      }, { threshold: 0.35 });
+      observer.observe(block);
+    } else sendView();
+    for (const link of block.querySelectorAll<HTMLAnchorElement>('[data-next-step-link]')) {
+      link.addEventListener('click', () => trackEvent('next_step_click', {
+        ...commonParams({ page_type: 'events' }),
+        source_page: block.dataset.sourcePath ?? location.pathname,
+        destination_url: link.getAttribute('href') ?? '',
+        link_kind: link.dataset.linkKind ?? '',
+      }));
+    }
+  }
+</script>
+<style>
+  .next-step{max-width:38em;margin:1.5rem 0 2rem;padding:1rem 1.15rem;border:1px solid var(--color-mist);border-radius:12px;background:var(--color-paper,#fff)}
+  .next-step h2{font:700 1rem/1.5 var(--font-brand-display);margin:0 0 .55rem;color:var(--color-ink)}
+  .next-step ul{list-style:none;padding:0;margin:0}
+  .next-step li+li{border-top:1px solid var(--color-mist)}
+  .next-step a{display:grid;grid-template-columns:6.8rem minmax(0,1fr) auto;gap:.65rem;align-items:center;min-height:48px;padding:.65rem 0;color:var(--color-ink);text-decoration:none}
+  .next-step a:hover .next-step__title,.next-step a:focus-visible .next-step__title{text-decoration:underline}
+  .next-step a:focus-visible{outline:2px solid var(--color-tide);outline-offset:2px}
+  .next-step__kind{font-size:.74rem;color:var(--color-tide);font-weight:700}
+  .next-step__title{font-size:.9rem;line-height:1.55;overflow-wrap:anywhere}
+  @media(max-width:560px){.next-step{padding:.85rem}.next-step a{grid-template-columns:1fr auto;gap:.15rem .5rem}.next-step__kind{grid-column:1/-1}}
+</style>
