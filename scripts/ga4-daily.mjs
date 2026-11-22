@@ -59,6 +59,8 @@ if (args.includes('--input')) {
     snapshot.windows.gsc = { ...(snapshot.windows.gsc ?? {}), daily: gscDaily, dailyMeta: { source: input.gsc.source ?? input.source ?? null, fetchedAt: input.gsc.fetchedAt ?? input.fetchedAt ?? null, confirmedThrough: through, rows: gscDaily.length } };
     console.log(`windows.gsc.daily：${gscDaily.length} 日（〜${through}）`);
   }
+  // Optional, read-only cohort report; missing data must not become zero or retain a stale report.
+  snapshot.nextStepExperiment = input.nextStepExperiment ?? null;
   snapshot.windows.ga4.daily = daily;
   snapshot.windows.ga4.dailyMeta = {
     source: input.source ?? ga4.dailyMeta?.source ?? null,
