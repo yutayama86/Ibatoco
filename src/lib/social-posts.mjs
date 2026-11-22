@@ -16,6 +16,11 @@ export const INSTAGRAM_LIMIT = 2200;
 const shift = (ymd, days) => toDateOnlyString(addDateOnlyDays(parseDateOnly(ymd), days));
 const valid = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 
+/** Instagram 用の縦長カードのパス（src/pages/og-ig/[...route].ts が作る） */
+export function igCardPath(page) {
+  return `/og-ig/${page.type === 'news' ? 'news' : 'events'}/${page.slug ?? page.path.split('/').filter(Boolean).pop()}.png`;
+}
+
 /** 「11/23（月）」 */
 export function md(ymd) {
   if (!valid(ymd)) return null;
@@ -77,6 +82,7 @@ export function buildDrafts(page, { today, muniName = () => null }) {
     path: page.path,
     title: page.title,
     reason: null,
+    igImage: `${SITE}${igCardPath(page)}`,
     image: `${SITE}/og/${page.type === 'news' ? 'news' : 'events'}${page.path.replace(/^\/(events|news)/, '').replace(/\/$/, '')}.png`,
     x, xWeight: xWeight(x), threads, instagram,
   };

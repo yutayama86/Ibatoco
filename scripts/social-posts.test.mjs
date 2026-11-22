@@ -38,3 +38,9 @@ test('candidates: upcoming within 14 days first, then new articles; excludes noi
   const c2 = selectPostCandidates([ev({ path: '/events/long/', startDate: '2026-11-01', endDate: '2027-01-31' }), ev({ path: '/events/ending/', startDate: '2026-11-01', endDate: '2026-11-23' })], { today: '2026-11-22' });
   assert.deepEqual(c2.map((x) => [x.page.path, x.reason]), [['/events/ending/', 'まもなく終了'], ['/events/long/', '開催中']]);
 });
+
+test('breakJa keeps katakana words, dates and numbers intact', async () => {
+  const { breakJa } = await import('../src/lib/instagram-card.mjs');
+  assert.equal(breakJa('茨城のイルミネーション2026-2027', 10), '茨城の\nイルミネーション\n2026-2027');
+  assert.equal(breakJa('筑西市プレミアム商品券第2弾は10月26日発売', 11), '筑西市プレミアム\n商品券第2弾は\n10月26日発売');
+});

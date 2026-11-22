@@ -20,13 +20,16 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
 <section id="social-posts" class="sp" aria-labelledby="sp-title">
   <p class="sp-eyebrow">SOCIAL POSTS</p>
   <h2 id="sp-title">SNS投稿の下書き</h2>
-  <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は各記事のカード画像を使う（実在の場所を AI 生成画像で描かない）。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
+  <p class="sp-note">{md(today)}時点で、開催が近いイベント（14日以内・開催中）と7日以内の新着記事から作成。文面は記事の確認済みの title・説明・日付だけで作るので、投稿前に記事と食い違いがないか確認してから貼る。画像は Instagram 用の縦長カードと、Threads・X 用の横長カードを自動で作る（実在の場所を AI 生成画像で描かない。現地の写真があればそちらを優先）。候補は毎日入れ替わるので、使うカードはその日のうちに保存する。テキスト欄は長押し（PCはクリック）→すべて選択→コピー。</p>
   {drafts.length > 0 ? (
     <ol class="sp-list">
       {drafts.map((d) => (
         <li class="sp-card">
           <p class="sp-head"><span class="sp-badge">{d.reason}</span><a href={d.path}>{d.title}</a></p>
-          <p class="sp-img">画像：<a href={d.image}>{d.image.replace('https://ibatoco.jp', '')}</a></p>
+          <div class="sp-media">
+            <a href={d.igImage.replace('https://ibatoco.jp', '')}><img src={d.igImage.replace('https://ibatoco.jp', '')} alt="" width="216" height="270" loading="lazy" decoding="async" /></a>
+            <p class="sp-img">Instagram：<a href={d.igImage.replace('https://ibatoco.jp', '')}>縦長カード（1080×1350）</a>を保存して使う<br />Threads・X：<a href={d.image}>横長カード（1200×630）</a>（リンクを貼ると自動で付く）</p>
+          </div>
           <div class="sp-grid">
             <label>Threads<textarea readonly rows={rows(d.threads)}>{d.threads}</textarea></label>
             <label>X<small>（{d.xWeight}/{X_LIMIT}）</small><textarea readonly rows={rows(d.x)}>{d.x}</textarea></label>
@@ -50,7 +53,9 @@ const rows = (text: string) => Math.min(12, text.split('\n').length + 1);
   .sp-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .6rem;margin:0;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
   .sp-head a{color:var(--text)}
   .sp-badge{padding:.1rem .55rem;border-radius:999px;background:var(--panel-2);color:var(--accent);font-size:.75rem;font-weight:800;white-space:nowrap}
-  .sp-img{margin:.35rem 0 .7rem;color:var(--muted);font-size:.78rem;overflow-wrap:anywhere}
+  .sp-media{display:flex;flex-wrap:wrap;align-items:flex-start;gap:.8rem;margin:.5rem 0 .8rem}
+  .sp-media img{display:block;width:108px;height:auto;border:1px solid var(--line);border-radius:8px}
+  .sp-img{flex:1 1 12rem;margin:0;color:var(--muted);font-size:.78rem;line-height:1.7;overflow-wrap:anywhere}
   .sp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.7rem}
   .sp-grid label{display:grid;gap:.3rem;color:var(--muted);font-size:.78rem;font-weight:700}
   .sp-grid small{font-weight:500}
