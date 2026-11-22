@@ -10,13 +10,14 @@ import { todayJst } from '../../lib/growth-engine.mjs';
 import { buildAnalyticsReport, changePct, nextStepAssessment, NEXT_STEP_CHANGE_ID } from '../../lib/analytics-report.mjs';
 import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
 import { todayDateOnlyString } from '../../lib/date-only.js';
-import { selectPostCandidates } from '../../lib/social-posts.mjs';
+import { DAILY_CAP, schedulePosts, selectPostCandidates } from '../../lib/social-posts.mjs';
 
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
 const ns = nextStepAssessment((performance as any).nextStepExperiment ?? null, SEO_CHANGES.find((c) => c.id === NEXT_STEP_CHANGE_ID)?.date ?? null);
 const ai: any = (performance as any).aiReferrals ?? null;
-const posts = selectPostCandidates(loadContentPages().values(), { today: todayDateOnlyString() });
+const postToday = todayDateOnlyString();
+const posts = schedulePosts(selectPostCandidates(loadContentPages().values(), { today: postToday, limit: 40, freshSlots: 10 }), postToday).today;
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const pct = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
 const signed = (v: number | null | undefined) => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
@@ -38,8 +39,8 @@ const verdict = r.verdictCounts as Record<string, number>;
 
   <div class="cx-links">
     <a class="cx-link" href="/control/social/">
-      <b>SNS投稿の候補 {posts.length}件</b>
-      <ul>{posts.slice(0, 3).map(({ page, reason }) => <li><span>{reason}</span>{page.title.split('｜')[0]}</li>)}</ul>
+      <b>今日のSNS投稿 {posts.length}/{DAILY_CAP}件</b>
+      <ul>{posts.length > 0 ? posts.map(({ page, plan }: any) => <li><span>{plan.time} {plan.slot}</span>{page.title.split('｜')[0]}</li>) : <li>今日の予定なし</li>}</ul>
       <i>SNS投稿のページへ →</i>
     </a>
     <a class="cx-link" href="/control/analytics/">
