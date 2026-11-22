@@ -192,7 +192,7 @@ try {
   const totals = { A: { views: 0, sessions: 0, engagedSessions: 0 }, B: { views: 0, sessions: 0, engagedSessions: 0 } };
   for (const row of report.rows ?? []) {
     const path = row.dimensionValues?.[0]?.value ?? '';
-    const match = /^\\/events\\/([^/?#]+)\\/?$/.exec(path);
+    const match = /^\/events\/([^/?#]+)\/?$/.exec(path);
     if (!match) continue;
     const group = experimentGroup(match[1]);
     const nums = row.metricValues.map((v) => Number(v.value));
