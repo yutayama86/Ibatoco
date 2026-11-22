@@ -79,7 +79,7 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
 
   <article class="ar-card" id="ar-next-step">
     <h3>イベント記事「次に調べること」A/B実験（Issue #683）</h3>
-    <p class="ar-note">同じ確定期間のランディングページ別GA4値。A群＝表示、B群＝非表示。{nextStep ? `${nextStep.period.start}〜${nextStep.period.end}` : '未取得'}。</p>
+    <p class="ar-note">同じ確定期間のランディングページ別GA4値。A群＝表示、B群＝非表示。{nextStep?.experimentStart ? `本番開始日 ${nextStep.experimentStart}。` : '本番開始日未設定のため判定不可。'}{nextStep?.eligible7 ? '7日評価可能。' : '7日評価不可。'}{nextStep?.eligible28 ? '28日評価期間経過。' : '28日評価不可。'}{nextStep ? `${nextStep.period.start}〜${nextStep.period.end}` : '未取得'}。</p>
     {a && b ? (
       <>
         <dl class="ar-kpis">
