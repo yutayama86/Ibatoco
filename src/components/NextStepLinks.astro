@@ -13,7 +13,8 @@ const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|�
 const candidates = related.map(({ facets: f, reasons }) => {
   const sameTown = current?.municipalities.some((m) => f.municipalities.includes(m)) ?? false;
   const access = sameTown && f.evergreen && accessTerms.test(f.title);
-  const nearby = sameTown && (f.evergreen || f.eventLifecycle === 'ongoing' || f.eventLifecycle === 'today' || f.eventLifecycle === 'upcoming');
+  // The facets model does not expose event date ranges. Never imply two events overlap.
+  const nearby = sameTown && Boolean(f.evergreen);
   const next = (f.collection === 'events' && (f.eventLifecycle === 'upcoming' || f.evergreen) && (reasons.includes('tag') || reasons.includes('category')));
   return {
     path: f.path, title: f.title, noindex: f.noindex, eventLifecycle: f.eventLifecycle,
@@ -21,7 +22,7 @@ const candidates = related.map(({ facets: f, reasons }) => {
   };
 }).filter((f) => f.kind !== null);
 const links = current ? selectNextSteps(current, candidates) : [];
-const labels: Record<string, string> = { access: '行き方', nearby: '近くで楽しむ', next: '次の開催・同じテーマ' };
+const labels: Record<string, string> = { access: '行き方', nearby: '周辺の常設ガイド', next: '次の開催・同じテーマ' };
 ---
 {links.length > 0 && (
   <nav class="next-step" aria-label="次に調べること" data-next-step data-source-path={currentPath}>
