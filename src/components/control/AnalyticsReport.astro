@@ -3,12 +3,19 @@
  * Control Center「週次アナリティクスレポート」（運営者向け・非公開）。
  * 2つの目標（11月10万PV／2027年1月 月間100万PV）に対する進み具合、週ごとの推移、
  * 流入チャネル、コンテンツ種別、伸びたページ・失速したページを1か所で見る。
+ * 目的は更新ではなく改善：PVの増減を「訪問」と「回遊」に分け、実施した変更（seo-changes.ts）の効き目を並べる。
  * データは毎朝の GA4 公式 API 同期（data/editorial/performance-snapshot.json）だけ。計算は src/lib/analytics-report.mjs。
  */
 import performance from '../../../data/editorial/performance-snapshot.json';
+import config from '../../../data/editorial/growth-engine.json';
+import { SEO_CHANGES } from '../../data/seo-changes';
+import { todayJst } from '../../lib/growth-engine.mjs';
 import { buildAnalyticsReport } from '../../lib/analytics-report.mjs';
 
-const r: any = buildAnalyticsReport(performance);
+const today = todayJst();
+const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
+const d = r.drivers;
+const verdictClass: Record<string, string> = { 伸び: 'is-good', 低下: 'is-bad' };
 const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
 const pctText = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
 const signedPct = (v: number | null | undefined) => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
@@ -48,6 +55,61 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
     <div><dt>PV・直近28日</dt><dd>{fmt(r.kpis.views28)}</dd></div>
     <div><dt>エンゲージメント率・7日</dt><dd>{pctText(r.kpis.engagement7)}</dd><dd class="ar-sub">前の7日 {pctText(r.kpis.engagement7Prev)}</dd></div>
   </dl>
+
+  <article class="ar-card" id="ar-drivers">
+    <h3>PVを動かしたのは「訪問」か「回遊」か（直近7日 vs 前の7日）</h3>
+    {d ? (
+      <>
+        <dl class="ar-kpis">
+          <div><dt>訪問（セッション）</dt><dd>{fmt(d.sessions)}</dd><dd class:list={['ar-sub', tone(d.sessionsChangePct)]}>前週比 {signedPct(d.sessionsChangePct)}</dd></div>
+          <div><dt>回遊（1訪問あたりのPV）</dt><dd>{d.viewsPerSession.toFixed(2)}</dd><dd class:list={['ar-sub', tone(d.viewsPerSessionChangePct)]}>前の7日 {d.viewsPerSessionPrev.toFixed(2)}（{signedPct(d.viewsPerSessionChangePct)}）</dd></div>
+          <div><dt>PVの伸びのうち訪問による分</dt><dd>{d.sessionSharePct == null ? '—' : `${d.sessionSharePct}%`}</dd><dd class="ar-sub">残りが回遊による分</dd></div>
+          <div><dt>回遊が1.5なら（同じ訪問数）</dt><dd>{fmt(d.viewsAt15)}</dd><dd class="ar-sub">直近7日の実績 {fmt(r.kpis.views7)}</dd></div>
+        </dl>
+        <p class="ar-note">PV＝訪問×回遊。回遊の改善は新しい記事なしで全ページに効く。{r.recirculationBaseline && <>回遊の実験（{r.recirculationBaseline.experimentId}）開始前の基準値は {r.recirculationBaseline.value.toFixed(2)}（{r.recirculationBaseline.period}）。</>}</p>
+      </>
+    ) : (
+      <p class="ar-empty">セッション数が未取得のため分解できない（0では埋めない）。</p>
+    )}
+  </article>
+
+  <article class="ar-card" id="ar-changes">
+    <h3>施策→結果（直近90日の変更）</h3>
+    <p class="ar-note ar-note--lead">src/data/seo-changes.ts の変更に、そのページの直近の数字を並べる。観測窓の間は判定しない。判定は直近7日と前の7日のPV比較（±10%）による参考値で、変更日の厳密な前後比較ではない。2週で40PV未満のページは判定しない。イベント記事は開催前後の需要の山で動くため、「低下」が施策のせいとは限らない（CTR・順位も合わせて見る）。{Object.keys(r.verdictCounts).length > 0 && <>内訳：{Object.entries(r.verdictCounts).map(([k, v]) => `${k} ${v}件`).join('・')}。</>}</p>
+    <p class="ar-note">観測窓が終わり、判定できた変更（新しい順・最大20件）：</p>
+    {r.changeResults.length > 0 ? (
+      <div class="ar-scroll" tabindex="0" role="region" aria-label="施策と結果の表">
+        <table class="ar-table">
+          <thead><tr><th scope="col">ページ・変更</th><th scope="col">変更日</th><th scope="col">種類</th><th scope="col">判定</th><th scope="col">PV 前の7日→直近7日</th><th scope="col">CTR 前→直近</th><th scope="col">順位 前→直近</th></tr></thead>
+          <tbody>
+            {r.changeResults.map((c: any) => (
+              <tr>
+                <th scope="row">{c.path}<small>{c.change}</small></th>
+                <td>{md(c.date)}</td>
+                <td>{c.typeLabel}</td>
+                <td class={verdictClass[c.verdict] ?? ''}>{c.verdict}{c.observing && <small>〜{md(c.observeUntil)}</small>}</td>
+                <td>{fmt(c.viewsPrev7)}→{fmt(c.views7)}</td>
+                <td>{c.ctrPrev7 == null ? '—' : `${c.ctrPrev7}%`}→{c.ctr7 == null ? '—' : `${c.ctr7}%`}</td>
+                <td>{c.positionPrev7 ?? '—'}→{c.position7 ?? '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p class="ar-empty">判定できる変更はまだない（すべて観測中、またはページの数字が未取得）。</p>
+    )}
+    {r.observingChanges.length > 0 && (
+      <details class="ar-details">
+        <summary>観測中の変更 {r.observingChanges.length}件（判定はまだしない）</summary>
+        <ul class="ar-obs">
+          {r.observingChanges.map((c: any) => (
+            <li><b>{md(c.date)}</b> {c.typeLabel}：{c.path}<small>{c.change}（〜{md(c.observeUntil)}）</small></li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </article>
 
   <div class="ar-grid">
     <article class="ar-card">
@@ -157,6 +219,13 @@ const maxChannel = Math.max(1, ...r.channels.map((c: any) => c.views));
   .ar-table thead th{color:var(--muted);font-weight:700;background:var(--panel-2)}
   .ar-table thead th:first-child{text-align:left}
   .ar-table tbody th{text-align:left;font-weight:600;white-space:normal;overflow-wrap:anywhere;min-width:14rem}
+  .ar-table tbody th small,.ar-table td small{display:block;color:var(--muted);font-size:.74rem;font-weight:500;line-height:1.5}
+  #ar-changes .ar-table tbody th{min-width:22rem}
+  .ar-details{margin:.8rem 0 0;font-size:.82rem}
+  .ar-details summary{cursor:pointer;color:var(--muted);font-weight:700}
+  .ar-obs{display:grid;gap:.4rem;margin:.6rem 0 0;padding:0;list-style:none}
+  .ar-obs li{padding:.45rem .6rem;border-radius:8px;background:var(--panel-2);overflow-wrap:anywhere}
+  .ar-obs small{display:block;color:var(--muted);font-size:.74rem}
   .ar .is-good{color:var(--good)}
   .ar .is-bad{color:var(--bad)}
 </style>
