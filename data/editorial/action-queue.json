@@ -3,6 +3,56 @@
   "updatedAt": "2026-11-22",
   "actions": [
     {
+      "id": "20261122-events-hub-today-answer",
+      "title": "/events/ 冒頭で「今日」に日付と件数で即答し、ItemList を追加（茨城 イベント 今日・第1段階）",
+      "kind": "seo",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-22",
+      "notBefore": "2026-12-05",
+      "confidence": "medium",
+      "effort": "S",
+      "targetUrl": "/events/",
+      "targetFile": "src/pages/events/index.astro",
+      "specPath": "docs/editorial/specs/20261122-events-hub-today-cluster.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/appearance/structured-data/carousel"
+      ],
+      "source": "GSC 公式 API（performance-snapshot.json、2026-10-22〜11-18）：「茨城＋イベント＋今日・今週末」140語で /events/ 表示11,107・クリック141・CTR1.3%・平均8.3位。上位はウォーカープラス（1日25〜33件）。",
+      "reason": "サイト最大の検索語群が平均8.3位・CTR1.3%。冒頭の日付つき即答と ItemList で順位・CTRを上げる。/events/ は11/21変更の観測窓のため12/5から。オーナー承認 2026-11-22。",
+      "acceptanceCriteria": [
+        "仕様の第1段階だけ。ThisWeek 見出し直下に閲覧日（Asia/Tokyo）の日付と件数の一文をクライアント側再計算と同じ基準で出し、0件の日は出さない。ビルド日付を固定で書かない",
+        "/events/ の JSON-LD に ItemList（開催中・これからの記事のみ、近い順に最大30件、ListItem は position・url・name）を追加。既存の CollectionPage・パンくずは変えない",
+        "title・description・H1・URL・canonical・/today/・TOP・記事テンプレート（#683 実験中）は変えない",
+        "seo-changes.ts に記録。npm run date:check・npm run verify・必須CI・375px確認・Rich Results Test"
+      ]
+    },
+    {
+      "id": "20261122-events-listings",
+      "title": "確認済みイベントの「短い掲載」で今日・今週末の件数を増やす（茨城 イベント 今日・第2段階）",
+      "kind": "event",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-22",
+      "notBefore": "2026-12-12",
+      "confidence": "medium",
+      "effort": "M",
+      "targetUrl": "/events/",
+      "targetFile": "data/editorial/event-listings.json",
+      "specPath": "docs/editorial/specs/20261122-events-hub-today-cluster.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+      ],
+      "source": "GSC 公式 API（performance-snapshot.json、2026-10-22〜11-18）：「茨城＋イベント＋今日・今週末」140語で /events/ 表示11,107・クリック141・CTR1.3%・平均8.3位。上位はウォーカープラス（1日25〜33件）。",
+      "reason": "競合との差は件数。記事を書かずに、公式で確認できたイベントを個別URLなしの短い掲載で今日・今週末に出す。第1段階と同じ週に公開しないため12/12から。オーナー承認 2026-11-22。",
+      "acceptanceCriteria": [
+        "仕様の第2段階どおり data/editorial/event-listings.json を新設（officialUrl・checkedAt・YYYY-MM-DD 必須）し、editorial-os の検証で欠けたらCIエラー",
+        "ThisWeek（/events/・/today/）で記事と並べて表示。外部の公式リンクと確認日つきで記事と区別し、記事と同じイベントは二重に出さない。終了したものは出さない",
+        "個別URLを作らない・自動生成ページを index しない。公式の一次情報がないものは載せない",
+        "目標は週末の確認済み件数25件以上（運用は ChatGPT の日次監視）。seo-changes.ts に記録。npm run date:check・npm run verify・必須CI・375px確認"
+      ]
+    },
+    {
       "id": "20261122-recirculation-redesign",
       "title": "回遊の作り直し 第1段階：イベント記事の開催情報の直後に「次に調べること」（2群比較）",
       "kind": "internal-link",
