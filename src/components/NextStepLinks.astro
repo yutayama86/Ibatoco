@@ -1,20 +1,16 @@
 ---
 /** Issue #683: editorial links immediately after event facts, A cohort only. */
-import { getAllFacets, facetsOfEvent } from '../lib/taxonomy';
+import { getAllFacets } from '../lib/taxonomy';
 import { findRelated } from '../lib/related';
-import { getEvents } from '../lib/content';
 import { selectNextSteps } from '../lib/next-step.mjs';
 
 interface Props { currentPath: string; }
 const { currentPath } = Astro.props;
 const facets = await getAllFacets();
 const current = facets.find((f) => f.path === currentPath);
-const events = await getEvents();
-const eventInfoByPath = new Map(events.map((e) => [`/events/${e.id.split('/').pop()}/`, e.data.eventInfo]));
 const related = current ? findRelated(current, facets, { limit: 40 }) : [];
 const accessTerms = /アクセス|行き方|鉄道|電車|バス|特急|交通|駐車場|ケーブルカー|ロープウェイ/;
 const candidates = related.map(({ facets: f, reasons }) => {
-  const otherInfo = eventInfoByPath.get(f.path);
   const sameTown = current?.municipalities.some((m) => f.municipalities.includes(m)) ?? false;
   const access = f.evergreen && accessTerms.test(f.title);
   const nearby = sameTown && (f.evergreen || f.eventLifecycle === 'ongoing' || f.eventLifecycle === 'today' || f.eventLifecycle === 'upcoming');
