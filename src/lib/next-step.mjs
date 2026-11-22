@@ -12,7 +12,7 @@ export function experimentGroup(slug) {
 export function selectNextSteps(current, candidates, limit = 3) {
   const used = new Set([current.path]);
   const valid = candidates.filter((item) =>
-    item.path && !item.noindex && item.eventLifecycle !== 'ended' &&
+    item.path && !item.noindex && item.eventLifecycle !== 'ended' && item.eventLifecycle !== 'unconfirmed' &&
     item.eventLifecycle !== 'cancelled' && item.eventLifecycle !== 'postponed' &&
     item.path !== current.path
   );
