@@ -196,7 +196,7 @@ try {
       const rows = report.rows ?? [];
       for (const row of rows) {
         const path = row.dimensionValues?.[0]?.value ?? '';
-        const match = /^\\/events\\/([^/?#]+)\\/?$/.exec(path);
+        const match = /^\/events\/([^/?#]+)\/?$/.exec(path);
         if (!match) continue;
         const group = experimentGroup(match[1]);
         const nums = row.metricValues.map((v) => Number(v.value));
