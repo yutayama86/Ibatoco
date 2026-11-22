@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261122-about-brand-entity',
+    date: '2026-11-22',
+    url: '/about/',
+    kind: 'on-page',
+    change: '構造化データに AboutPage（mainEntity：Organization イバトコ・別名 IBATOCO／いばとこ・公式SNS）を追加し、本文冒頭に「イバトコ（IBATOCO）は…ローカルメディアです。」の1文を追加（指名検索の修正）',
+    queries: ['イバトコ', 'いばとこ', 'ibatoco'],
+    commit: 'PENDING',
+    note: '正本：docs/editorial/specs/20261122-brand-and-ai-visibility.md。date は本番反映日。マージが翌日以降なら直す',
+  },
+  {
     id: '20261122-events-next-step-links',
     date: '2026-11-22',
     url: '*',

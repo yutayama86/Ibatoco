@@ -9,6 +9,32 @@ import { breadcrumbJsonLd } from '../lib/seo';
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'イバトコについて' }];
 
 /**
+ * ブランド名の認識（指名検索「イバトコ」で別の語に直されないように）。
+ * TOP の Organization と同じ名前・別名・公式SNSを、このページを「イバトコについて」のページとして示す。
+ * 正本：docs/editorial/specs/20261122-brand-and-ai-visibility.md
+ */
+const siteUrl = new URL('/', Astro.site).href;
+const socialSameAs = Object.values(SITE_CONFIG.social).filter((u) => typeof u === 'string' && u.length > 0);
+const aboutJsonLd = [
+  breadcrumbJsonLd(crumbs, Astro.site),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'イバトコについて',
+    url: new URL('/about/', Astro.site).href,
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'イバトコ',
+      alternateName: ['IBATOCO', 'いばとこ'],
+      url: siteUrl,
+      description: '茨城県全44市町村を対象に、現地取材と公式情報の確認をもとに出典を示して届けるローカルメディア。',
+      areaServed: { '@type': 'AdministrativeArea', name: '茨城県' },
+      ...(socialSameAs.length ? { sameAs: socialSameAs } : {}),
+    },
+  },
+];
+
+/**
  * 方針は「番号つきの一覧」で見せる。カードにすると、このページは
  * 枠の並びばかりになる（奥付・数字・方針で3回続いていた）。
  */
@@ -20,7 +46,7 @@ const policies = [
 ];
 ---
 
-<BrandBase title="イバトコについて｜現地から、信頼を編む。" description="イバトコは、茨城を歩く現地取材と、自治体・観光協会・主催者などの公式情報を確認した編集を組み合わせ、出典と取材方法を明示して届ける地域メディアです。" jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
+<BrandBase title="イバトコについて｜現地から、信頼を編む。" description="イバトコは、茨城を歩く現地取材と、自治体・観光協会・主催者などの公式情報を確認した編集を組み合わせ、出典と取材方法を明示して届ける地域メディアです。" jsonLd={aboutJsonLd}>
   {/* 見出しの組みは下層ページ共通（780pxの読みカラム）。ここだけ2カラムにすると左端が揃わない */}
   <header class="about-head v42-hero v42-hub-label bp-wrap">
     <Breadcrumbs items={crumbs} />
@@ -33,7 +59,7 @@ const policies = [
   </header>
 
   <div class="ab-intro bp-wrap">
-    <p class="ab-lead">イバトコの取材は、茨城のまちを歩き、人に会うことから始まります。その土地で見た風景や、話を聞いて初めてわかったことを、自分たちの言葉で伝えます。</p>
+    <p class="ab-lead">イバトコ（IBATOCO）は、茨城県の全{MUNICIPALITIES.length}市町村を対象にしたローカルメディアです。イバトコの取材は、茨城のまちを歩き、人に会うことから始まります。その土地で見た風景や、話を聞いて初めてわかったことを、自分たちの言葉で伝えます。</p>
     <p class="ab-lead ab-lead--follow">創刊期の今は、県内各地の催しや見どころを探せるよう、自治体・観光協会・主催者の公式発表をもとに編集した記事も届けています。出典と取材方法を示しながら、実際に訪ねるまちを少しずつ増やしていきます。</p>
     {/* 発行元は、枠で囲まず1行で置く */}
     <p class="ab-byline"><span class="ab-byline__item">発行：{SITE_CONFIG.name}編集部</span><span>／</span><span class="ab-byline__item">対象：茨城県 全{MUNICIPALITIES.length}市町村</span></p>
