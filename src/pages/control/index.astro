@@ -4,8 +4,8 @@ import { todayDateOnlyString } from '../../lib/date-only.js';
 import { confirmedControlMetrics } from '../../lib/confirmed-control-metrics.mjs';
 import GrowthControl from '../../components/control/GrowthControl.astro';
 import IndexHealthCard from '../../components/control/IndexHealthCard.astro';
-import AnalyticsReport from '../../components/control/AnalyticsReport.astro';
-import SocialPosts from '../../components/control/SocialPosts.astro';
+import ControlNav from '../../components/control/ControlNav.astro';
+import ControlSummary from '../../components/control/ControlSummary.astro';
 import { loadAreaCoverage } from '../../lib/control-area-coverage';
 import { THIN_COVERAGE_MAX } from '../../lib/area-coverage.mjs';
 import performance from '../../../data/editorial/performance-snapshot.json';
@@ -362,26 +362,7 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
     })();
   </script>
 
-    <GrowthControl />
-
-    <AnalyticsReport />
-
-    <SocialPosts />
-
-    <nav class="quick-nav" aria-label="ダッシュボード内メニュー">
-      <a href="#growth">11月目標</a>
-      <a href="#analytics-report">週次アナリティクス</a>
-      <a href="#social-posts">SNS投稿</a>
-      <a href="#auto">自動運転</a>
-      <a href="#today">今日やること</a>
-      <a href="#goal">10万PV進捗</a>
-      <a href="#traffic">集客</a>
-      <a href="#seo">SEO</a>
-      <a href="#revenue">収益</a>
-      <a href="#business">事業者</a>
-      <a href="#health">データ</a>
-      <a href="#index-health">インデックス</a>
-    </nav>
+    <ControlNav current="top" />
 
     <section class="executive">
       <div class="executive__main">
@@ -406,6 +387,18 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
         </div>
       </div>
     </section>
+
+    <ControlSummary />
+
+    <p class="fold-lead">詳しい内容は下の見出しを開く（ふだんは閉じたまま）。</p>
+
+    <details class="fold" id="growth-details">
+      <summary>11月目標の詳細（Growth：予測・施策・警告・需要・パイプライン）</summary>
+      <GrowthControl />
+    </details>
+
+    <details class="fold" id="decision-details">
+      <summary>経営判断・自動運転・今日やること</summary>
 
     {riskNotes.length > 0 && (
       <section class="risk-strip" aria-label="注意して見るポイント">
@@ -560,6 +553,10 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       </article>
     </section>
 
+    </details>
+
+    <details class="fold" id="metrics-details">
+      <summary>10万PV進捗・集客・SEO・エリア・収益・事業者</summary>
     <section class="north-card" id="goal">
       <div class="north-card__main">
         <span>11月 月間10万PV</span>
@@ -711,7 +708,12 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
       </article>
     </section>
 
-    <IndexHealthCard />
+    </details>
+
+    <details class="fold" id="index-details">
+      <summary>インデックスの状態</summary>
+      <IndexHealthCard />
+    </details>
 
     <footer class="control__foot">
       <span>イバトコ 管理ダッシュボード</span>
@@ -722,12 +724,17 @@ const areaTrend = (a: number | null, b: number | null) => (a == null || b == nul
 
 <style>
   .control{width:min(calc(100% - 2rem),1220px);margin:auto;padding:2rem 0 4rem}
+  .fold-lead{margin:1.2rem 0 .5rem;color:var(--muted);font-size:.78rem}
+  .fold{margin:.6rem 0;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  .fold>summary{cursor:pointer;padding:.95rem 1.1rem;font-weight:800;font-size:.92rem;list-style-position:inside}
+  .fold>summary:hover{color:var(--accent)}
+  .fold[open]{padding:0 .8rem .8rem}
+  .fold[open]>summary{margin:0 -.8rem .4rem;border-bottom:1px solid var(--line)}
   .control__head{display:flex;justify-content:space-between;gap:2rem;align-items:flex-end;padding:1rem 0 2rem;border-bottom:1px solid var(--line)}
   .eyebrow,.section-title span,.panel__head span{margin:0;color:var(--accent);font-size:.68rem;font-weight:800;letter-spacing:.14em}
   h1{margin:.4rem 0 0;font-size:clamp(2.2rem,5vw,4.8rem);line-height:1;letter-spacing:-.05em}
   .sub{max-width:48rem;margin:.9rem 0 0;color:var(--muted);font-size:.9rem;line-height:1.7}
   .freshness{display:grid;gap:.2rem;text-align:right}.freshness span{color:var(--muted);font-size:.62rem}.freshness strong{font-size:.8rem}.freshness small{color:var(--muted);font-size:.66rem}
-  .quick-nav{position:sticky;top:0;z-index:20;display:flex;gap:.45rem;overflow:auto;margin:0 -.2rem;padding:.75rem .2rem;background:rgba(11,18,32,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.quick-nav a{flex:0 0 auto;padding:.55rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--text);font-size:.72rem;text-decoration:none}.quick-nav a:hover{border-color:var(--accent)}
   .executive{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.8fr);gap:.8rem;margin-top:1rem}.executive__main,.weekly-box{padding:1.2rem;border:1px solid var(--line);border-radius:18px;background:var(--panel)}.executive__main{background:linear-gradient(135deg,#17263e 0%,#111a2b 62%)}.executive__label{margin:0;color:var(--accent);font-size:.72rem;font-weight:800;letter-spacing:.08em}.executive__main h2{max-width:54rem;margin:.6rem 0 0;font-size:clamp(1.2rem,2.8vw,2rem);line-height:1.5;letter-spacing:-.02em}.executive__chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}.executive__chips span{padding:.55rem .7rem;border:1px solid #2a3b58;border-radius:999px;background:#0e1828;color:var(--muted);font-size:.72rem}.executive__chips b{color:var(--text)}.weekly-box>p{margin:0 0 .8rem;color:var(--muted);font-size:.72rem;font-weight:800}.weekly-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.weekly-item{display:grid;gap:.2rem;padding:.7rem;border-radius:10px;background:var(--panel-2)}.weekly-item span{color:var(--muted);font-size:.64rem}.weekly-item strong{font-size:1.15rem}.weekly-item small{font-size:.62rem;color:var(--muted)}.weekly-item.good strong{color:var(--good)}.weekly-item.bad strong{color:var(--bad)}.risk-strip{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:flex-start;margin-top:.8rem;padding:.8rem 1rem;border:1px solid #5a4528;border-radius:12px;background:#17150f}.risk-strip>b{color:var(--warn);font-size:.72rem;white-space:nowrap}.risk-strip>div{display:flex;gap:.6rem;flex-wrap:wrap}.risk-strip span{color:#e9d7af;font-size:.72rem;line-height:1.5}
   .quantum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem}.quantum-card{padding:1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.scenario-list{display:grid;gap:.75rem}.scenario{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.3rem .8rem;align-items:end}.scenario>div:first-child{display:grid;gap:.15rem}.scenario b{font-size:.78rem}.scenario span{color:var(--muted);font-size:.66rem}.scenario strong{font-size:1.05rem}.scenario strong small{color:var(--muted);font-size:.62rem}.scenario-bar{grid-column:1/-1;height:6px;border-radius:999px;background:#22304a;overflow:hidden}.scenario-bar i{display:block;height:100%;background:var(--accent)}.quantum-note{margin:.9rem 0 0;padding:.75rem;border-radius:10px;background:#0f1929;color:var(--muted);font-size:.72rem;line-height:1.6}.quantum-note b{color:var(--text)}.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.status-pill{display:flex;justify-content:space-between;gap:.6rem;padding:.7rem;border-radius:10px;background:var(--panel-2);font-size:.72rem}.status-pill span{color:var(--muted)}.status-pill.is-good b{color:var(--good)}.status-pill.is-bad b{color:var(--bad)}.panel--focus{border-color:#294c72}.panel--dont{border-color:#493a2a}.focus-list{display:grid;gap:.35rem}.focus-item{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.7rem;border-radius:10px;text-decoration:none;background:var(--panel-2)}.focus-item>span{color:var(--muted);font-size:.62rem}.focus-item div{min-width:0;display:grid;gap:.2rem}.focus-item b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.75rem}.focus-item small{color:var(--muted);font-size:.65rem}.focus-item i{color:var(--accent);font-style:normal}.dont-list{display:grid;gap:.7rem;margin:0;padding-left:1.1rem}.dont-list li{color:#e8d6b5;font-size:.78rem;line-height:1.6}
   .auto-panel{border-color:#315074;background:linear-gradient(135deg,#111c2f,var(--panel))}

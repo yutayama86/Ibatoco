@@ -1,0 +1,72 @@
+---
+/**
+ * Control Center トップのサマリー。詳しい中身は /control/analytics/・/control/social/ に置き、ここは要点と入口だけ。
+ * 数字は各ページと同じ計算（src/lib/analytics-report.mjs・src/lib/social-posts.mjs）から取るので、食い違わない。
+ */
+import performance from '../../../data/editorial/performance-snapshot.json';
+import config from '../../../data/editorial/growth-engine.json';
+import { SEO_CHANGES } from '../../data/seo-changes';
+import { todayJst } from '../../lib/growth-engine.mjs';
+import { buildAnalyticsReport, changePct, nextStepAssessment, NEXT_STEP_CHANGE_ID } from '../../lib/analytics-report.mjs';
+import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
+import { todayDateOnlyString } from '../../lib/date-only.js';
+import { selectPostCandidates } from '../../lib/social-posts.mjs';
+
+const today = todayJst();
+const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
+const ns = nextStepAssessment((performance as any).nextStepExperiment ?? null, SEO_CHANGES.find((c) => c.id === NEXT_STEP_CHANGE_ID)?.date ?? null);
+const ai: any = (performance as any).aiReferrals ?? null;
+const posts = selectPostCandidates(loadContentPages().values(), { today: todayDateOnlyString() });
+const fmt = (n: number | null | undefined) => (n == null ? '—' : Number(n).toLocaleString('ja-JP'));
+const pct = (v: number | null | undefined) => (v == null ? '—' : `${v.toFixed(1)}%`);
+const signed = (v: number | null | undefined) => (v == null ? '—' : `${v > 0 ? '+' : ''}${v.toFixed(1)}%`);
+const tone = (v: number | null | undefined) => (v == null || v === 0 ? '' : v > 0 ? 'is-good' : 'is-bad');
+const aiChange = changePct(ai?.recent28?.sessions, ai?.previous28?.sessions);
+const verdict = r.verdictCounts as Record<string, number>;
+---
+
+<section class="cx" id="summary" aria-labelledby="cx-title">
+  <h2 id="cx-title" class="cx-title">サマリー<small>GA4 {r.asOf ?? '—'} まで</small></h2>
+  <dl class="cx-tiles">
+    <div><dt>11月 {fmt(r.november.target)} PV</dt><dd>{pct(r.november.progressPct)}</dd><dd class="cx-sub">直近28日 {fmt(r.november.current28)}</dd></div>
+    <div><dt>2027年1月 月間100万PV</dt><dd>{pct(r.longTerm.progressPct)}</dd><dd class="cx-sub">月間ペース {fmt(r.longTerm.pace)}・あと{r.longTerm.multiplier ?? '—'}倍</dd></div>
+    <div><dt>PV・直近7日</dt><dd>{fmt(r.kpis.views7)}</dd><dd class:list={['cx-sub', tone(r.kpis.views7ChangePct)]}>前週比 {signed(r.kpis.views7ChangePct)}</dd></div>
+    <div><dt>回遊（1訪問あたりPV）</dt><dd>{r.drivers ? r.drivers.viewsPerSession.toFixed(2) : '—'}</dd><dd class:list={['cx-sub', tone(r.drivers?.viewsPerSessionChangePct)]}>前週比 {signed(r.drivers?.viewsPerSessionChangePct)}</dd></div>
+    <div><dt>AI経由（28日）</dt><dd>{ai?.recent28 ? fmt(ai.recent28.sessions) : '未取得'}</dd><dd class:list={['cx-sub', tone(aiChange)]}>{ai?.recent28 ? `前の28日比 ${signed(aiChange)}` : '毎朝の取り込みで追加'}</dd></div>
+    <div><dt>回遊A/B実験</dt><dd>{ns.verdict}</dd><dd class="cx-sub">{ns.reason}</dd></div>
+  </dl>
+
+  <div class="cx-links">
+    <a class="cx-link" href="/control/social/">
+      <b>SNS投稿の候補 {posts.length}件</b>
+      <ul>{posts.slice(0, 3).map(({ page, reason }) => <li><span>{reason}</span>{page.title.split('｜')[0]}</li>)}</ul>
+      <i>SNS投稿のページへ →</i>
+    </a>
+    <a class="cx-link" href="/control/analytics/">
+      <b>施策→結果（直近90日）</b>
+      <p>{Object.keys(verdict).length > 0 ? Object.entries(verdict).map(([k, v]) => `${k} ${v}`).join('・') : '判定できる変更なし'}</p>
+      <p>PVの伸びのうち訪問による分 {r.drivers?.sessionSharePct == null ? '—' : `${r.drivers.sessionSharePct}%`}</p>
+      <i>週次アナリティクスのページへ →</i>
+    </a>
+  </div>
+</section>
+
+<style>
+  .cx{display:grid;gap:.8rem;margin:1rem 0 1.4rem}
+  .cx-title{display:flex;align-items:baseline;gap:.6rem;margin:0;font-size:1.15rem}
+  .cx-title small{color:var(--muted);font-size:.75rem;font-weight:500}
+  .cx-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10.5rem),1fr));gap:.6rem;margin:0}
+  .cx-tiles div{min-width:0;padding:.75rem .85rem;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .cx-tiles dt{color:var(--muted);font-size:.74rem}
+  .cx-tiles dd{margin:.2rem 0 0;font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+  .cx-tiles dd.cx-sub{margin-top:.1rem;color:var(--muted);font-size:.72rem;font-weight:600;line-height:1.5}
+  .cx-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:.6rem}
+  .cx-link{display:grid;gap:.35rem;padding:.9rem 1rem;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);text-decoration:none}
+  .cx-link:hover{border-color:var(--accent)}
+  .cx-link ul{display:grid;gap:.25rem;margin:0;padding:0;list-style:none;font-size:.8rem}
+  .cx-link li span{margin-right:.4rem;color:var(--accent);font-size:.72rem;font-weight:700}
+  .cx-link p{margin:0;color:var(--muted);font-size:.8rem}
+  .cx-link i{color:var(--accent);font-size:.78rem;font-style:normal;font-weight:700}
+  .cx .is-good{color:var(--good)}
+  .cx .is-bad{color:var(--bad)}
+</style>
