@@ -228,7 +228,16 @@ try {
   const counts = Object.fromEntries((events.rows ?? []).map((r) => [r.dimensionValues[0].value, Number(r.metricValues[0].value)]));
   const views = counts.next_step_view ?? null;
   const clicks = counts.next_step_click ?? null;
+  // Do not infer experiment effectiveness from pre-release traffic.
+  // Set only after the first verified production deployment of #683.
+  const experimentStart = env.NEXT_STEP_EXPERIMENT_START_DATE ?? null;
+  const validStart = experimentStart != null && /^\\d{4}-\\d{2}-\\d{2}$/.test(experimentStart);
+  const elapsed7 = validStart && abPeriod.start >= experimentStart;
+  const elapsed28 = validStart && period28.start >= experimentStart;
   nextStepExperiment = {
+    experimentStart: validStart ? experimentStart : null,
+    eligible7: Boolean(elapsed7),
+    eligible28: Boolean(elapsed28),
     events: { views, clicks, ctr: views > 0 && clicks != null ? clicks / views : null },
     period: abPeriod, confirmedThrough: through, source: 'GA4 Data API: landingPage × screenPageViews/sessions/engagedSessions',
     groups: totals,
