@@ -14,15 +14,15 @@ import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
 import snapshot from '../../data/editorial/performance-snapshot.json';
 import { SPONSOR_PLAN as plan, yen } from '../data/sponsorship';
 
-const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
 const inquiryUrl = '/contact/?subject=協賛・広告のご相談';
 
-// 2026-11-23：スポンサーの中身をTOPのロゴ掲載からPR記事・関連記事に変えたため、TOPの閲覧数ではなくサイト全体と記事の実測を出す
+const homeViews = snapshot.ga4TopPages.recent28.find((row) => row.path === '/')?.views;
 const asOfLabel = formatJapaneseDate(parseDateOnly(snapshot.asOf));
-const articleViews = snapshot.ga4TopPages.recent28.filter((row) => row.path.startsWith('/events/') || row.path.startsWith('/news/')).reduce((sum, row) => sum + row.views, 0);
 const stats = [
+  ...(typeof homeViews === 'number' && Number.isFinite(homeViews)
+    ? [{ value: homeViews, label: 'トップページの閲覧数' }] : []),
   { value: snapshot.northStar.current, label: 'サイト全体の閲覧数' },
-  ...(articleViews > 0 ? [{ value: articleViews, label: 'うち記事ページの閲覧数（上位ページの合計）' }] : []),
 ];
 
 const faq = [
