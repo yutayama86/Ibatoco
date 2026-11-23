@@ -13,6 +13,13 @@ updates:
         dependency-type: "production"
       development-dependencies:
         dependency-type: "development"
+    ignore:
+      # TypeScript 7 は @astrojs/check が未対応で npm ci が失敗する（#693、2026-11-23）。対応後に外す
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # 実行環境は Node 22。型だけ先の大きな版に上げない
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -21,3 +28,8 @@ updates:
       time: "05:15"
       timezone: "Asia/Tokyo"
     open-pull-requests-limit: 3
+    groups:
+      # init と analyze は同じ版でないと失敗する（#694、2026-11-23）
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"
