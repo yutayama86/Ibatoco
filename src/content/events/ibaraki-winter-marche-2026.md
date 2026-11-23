@@ -76,7 +76,7 @@ picks:
     area: "ひたちなか市・JR勝田駅東口のおもてまち通りと表町パーキングTAMARIBA"
     forWhom: "子どもと餅つきを体験したり、商店街で鍋を囲んだりしたい人"
     detail: "10時〜15時。餅つきは11時・13時の各回先着100名。「こたつで鍋」とミニ新幹線も予定されています。会場専用の駐車場はありません。"
-    url: "https://hcdi.jp/tamariba.html"
+    url: "/events/katsuta-tamariba-yokocho/"
   - name: "ほしぞらマルシェ（12月19日・20日）"
     area: "土浦市"
     forWhom: "イルミネーションを見ながら、夜に食べ歩きたい人"
