@@ -1,182 +1,199 @@
 ---
+/**
+ * 法人・自治体向けの窓口（BtoB 受託：コンサル・Web制作・SNS運用）。
+ * 仕様 docs/editorial/specs/20261123-biz-b2b-redesign.md、方針 docs/REVENUE_OS.md「事業方針（2026-11-23）」。
+ * - 料金の正本は src/data/services.ts。ここに数字を直接書かない
+ * - 「実例」はイバトコ自身の運営の実データだけ。ビルド時にスナップショットから出し、取れない値は出さない（0で埋めない）
+ * - 受託の取引実績はまだ無い。架空の実績・取引先・推薦文を載せない
+ */
+import { getCollection } from 'astro:content';
 import BrandBase from '../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/seo';
-import { SERVICE_PLANS, GROW_TERMS } from '../data/services';
+import { SERVICE_PLANS, SERVICE_TERMS, type ServicePlan } from '../data/services';
 import { yen } from '../data/sponsorship';
-const buildPlans = SERVICE_PLANS.filter((plan) => plan.group === 'build');
-const growPlans = SERVICE_PLANS.filter((plan) => plan.group === 'grow');
-const services=[
-  {n:'01',title:'情報を整える',body:'店舗・企業の基本情報を確認し、読者と検索サービスが理解しやすい形に整備します。'},
-  {n:'02',title:'伝わる形をつくる',body:'取材、撮影、文章、Webページ制作を通じて、事業の価値が正確に伝わる状態をつくります。'},
-  {n:'03',title:'発信を育てる',body:'Web、SNS、検索、AI検索など、必要な接点の運用と改善を継続的に支援します。'},
+import performance from '../../data/editorial/performance-snapshot.json';
+
+const perf: any = performance;
+const views28: number | null = perf?.windows?.ga4?.recent28?.views ?? null;
+const ai: any = perf?.aiReferrals ?? null;
+const aiNow: number | null = ai?.recent28?.sessions ?? null;
+const aiPrev: number | null = ai?.previous28?.sessions ?? null;
+const aiRatio = aiNow != null && aiPrev ? aiNow / aiPrev : null;
+const asOf: string | null = perf?.asOf ?? null;
+const published = (entry: any) => entry.data.draft !== true && entry.data.noindex !== true && entry.data.sample !== true;
+const articleCount = (await getCollection('events')).filter(published).length + (await getCollection('news')).filter(published).length;
+const fmt = (n: number) => n.toLocaleString('ja-JP');
+
+const facts = [
+  { label: '対象の市町村', value: '44', note: '茨城県のすべての市町村を一人＋AIで運営' },
+  { label: '公開中の記事', value: fmt(articleCount), note: '公式の一次情報で確認して掲載' },
+  ...(views28 != null ? [{ label: '直近28日のページビュー', value: fmt(views28), note: asOf ? `${asOf}までのGA4の実測` : 'GA4の実測' }] : []),
+  ...(aiNow != null ? [{ label: 'AI検索からの訪問（28日）', value: fmt(aiNow), note: aiRatio != null ? `前の28日の${aiRatio.toFixed(1)}倍（ChatGPT・Geminiなど）` : 'ChatGPT・Geminiなど' }] : []),
 ];
-/**
- * 困りごとから入る入口。ページ全体は「何をするか」の順で並んでいるが、
- * 相談する側は自分の困りごとの言葉で探すため、先に受け止める枠を置く。
- * 最後の1件は「決まっていない人」の受け皿で、ここを消さない。
- */
-const problems = [
-  { q: '店舗や施設の情報が、古いままになっている', a: '営業時間・場所・予約方法など、読者と検索サービスの両方が読める形に整理します。', href: '#reservation-setup' },
-  { q: '検索やSNSから、人が来ない', a: 'どの言葉で探されているかを確認し、足りない情報と伝え方を設計します。', href: null },
-  { q: '予約の導線が、たどりにくい', a: '予約できる場所までの道筋を短くし、迷う箇所を減らします。', href: '#reservation-setup' },
-  { q: 'Webサイトを直したいが、どこからか分からない', a: '直す価値のある箇所から順に、範囲と費用を決めて進めます。', href: null },
-  { q: '何を頼めばいいか、まだ決まっていない', a: 'それで構いません。現状をうかがったうえで、必要なことと不要なことを一緒に切り分けます。', href: null },
+
+const systems = [
+  { title: '公式情報の自動監視', body: '自治体・観光協会・施設など約60の公式サイトを毎朝確認し、新しい告知だけを編集の候補に上げます。' },
+  { title: '毎日の分析と改善', body: '検索・AI検索・アクセスの数字を毎朝取り込み、改善した施策の効果を期間を決めて判定します。' },
+  { title: '事実確認の仕組み', body: '日付・料金・運行などは公式の一次情報で確認し、公開前に自動の検査を通します。' },
 ];
-const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ' }];
+
+const groups: { keys: ServicePlan['group'][]; label: string }[] = [
+  { keys: ['consult'], label: 'コンサル' },
+  { keys: ['build', 'run', 'custom'], label: '制作・運用・自治体向け' },
+];
+const price = (plan: ServicePlan) => (plan.price == null ? '個別見積' : `${yen(plan.price)}${plan.from ? '〜' : ''}`);
+
+const steps = [
+  ['相談', 'フォームから、現状と目的をお送りください。'],
+  ['現状診断', '検索・AI検索・発信の現状を確認し、何から直すべきかを整理します。'],
+  ['提案・見積', '範囲・期間・費用を事前にお伝えします。合意いただいてから始めます。'],
+  ['実施', '決めた範囲で、改善・制作・運用を進めます。'],
+  ['月次の改善', '数字を見て、次に直すことを決めます。'],
+];
+
+const faqs = [
+  { q: '茨城県外でも依頼できますか', a: '全国から承ります。打ち合わせはオンラインが中心です。' },
+  { q: '成果は保証されますか', a: '検索順位・売上・AI検索での引用などの成果は保証しません。検索サービスの仕組みはこちらで決められないためです。その代わり、数字で現状と変化をお見せし、改善を続けます。' },
+  { q: '範囲外のことも頼めますか', a: 'はい。上限を超える作業や、現地での取材・撮影・追加の制作は、協力者と連携して対応します（別途お見積もり）。' },
+  { q: '依頼すると、イバトコの記事で紹介されますか', a: 'いいえ。ご依頼と編集記事は切り離しています。取引のある事業者を記事で扱うときは、その関係を明示し、記事の内容や評価は変えません。' },
+];
+
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ' }];
+const site = Astro.site?.origin ?? 'https://ibatoco.jp';
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'イバトコ',
+  url: `${site}/biz/`,
+  areaServed: { '@type': 'Country', name: '日本' },
+  description: '検索・AI検索で見つけられ、選ばれる情報発信のコンサル、Web制作、SNS運用。',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: '提供サービス',
+    itemListElement: SERVICE_PLANS.map((plan) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: plan.name, description: plan.summary },
+      ...(plan.price != null ? { priceSpecification: { '@type': 'PriceSpecification', price: plan.price, priceCurrency: 'JPY', valueAddedTaxIncluded: false } } : {}),
+    })),
+  },
+};
+const contact = '/contact/?subject=法人・自治体のご相談';
 ---
-<BrandBase title="地域事業者の方へ｜イバトコ" description="店舗・企業の情報整理、取材、Web制作、発信運用を支援します。広告と編集記事の区分も明示します。" jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
-  <header class="biz-head v42-hero bp-wrap"><Breadcrumbs items={crumbs} /><img class="v42-hero__art" src="/images/v42/kasama-market-print.webp" alt="" width="960" height="640" decoding="async" /><p class="bp-kicker">FOR LOCAL BUSINESSES</p><h1>載せるだけでは、<br />終わらせない。</h1><p>情報を載せただけでは、店や会社の良さは十分に伝わりません。イバトコは、有料支援を編集記事に見せず、情報整理・取材・制作・運用を必要な範囲で支えます。</p><a href="/contact/?subject=地域事業者の相談">相談内容を送る →</a><p class="biz-head__selfservice">掲載候補・営業時間などの修正だけなら、<a href="/submit/#business">情報送信フォーム</a>から無料で送れます。</p><p class="biz-head__sponsor">協賛・広告をご検討の方は <a href="/sponsor/">協賛のご案内（メニューと料金）</a> をご覧ください。</p></header>
-  <section class="problems bp-wrap bp-section" aria-labelledby="biz-problems">
-    <p class="bp-kicker">WHERE TO START</p>
-    <h2 id="biz-problems">こんなところで、止まっていませんか</h2>
-    <dl class="problems__list">
-      {problems.map((item) => (
-        <div>
-          <dt>{item.q}</dt>
-          <dd>{item.a}{item.href && <> <a href={item.href}>この支援を見る →</a></>}</dd>
-        </div>
+<BrandBase title="情報発信のコンサル・Web制作・SNS運用｜法人・自治体の方へ｜イバトコ" description="検索とAI検索で見つけられ、選ばれる情報発信を。茨城44市町村のメディアを一人＋AIで運営するイバトコが、コンサル・Web制作・SNS運用で支援します。全国対応。" jsonLd={[breadcrumbJsonLd(crumbs, Astro.site), serviceJsonLd]}>
+  <header class="biz-head v42-hero bp-wrap">
+    <Breadcrumbs items={crumbs} />
+    <img class="v42-hero__art" src="/images/v42/kasama-market-print.webp" alt="" width="960" height="640" decoding="async" />
+    <p class="bp-kicker">FOR COMPANIES &amp; LOCAL GOVERNMENTS</p>
+    <h1>見つけられ、<br />選ばれる仕組みを。</h1>
+    <p>AI検索の時代に、地域と事業の情報が正しく見つかり、選ばれる状態をつくります。自治体・観光協会・観光事業者・地方の企業の方へ、コンサル・Web制作・SNS運用でお手伝いします。全国対応です。</p>
+    <a class="biz-head__cta" href={contact} data-biz-service="hero">相談する →</a>
+    <p class="biz-head__selfservice">イバトコへの掲載候補・営業時間などの修正だけなら、<a href="/submit/#business">情報送信フォーム</a>から無料で送れます。</p>
+    <p class="biz-head__sponsor">イバトコへの広告・タイアップは <a href="/sponsor/">スポンサーのご案内</a> をご覧ください。</p>
+  </header>
+
+  <section class="proof bp-wrap bp-section" aria-labelledby="biz-proof">
+    <p class="bp-kicker">CASE: IBATOCO</p>
+    <h2 id="biz-proof">実例は、このメディアです。</h2>
+    <p class="proof__lead">イバトコは、茨城県の44市町村を一人とAIで運営している地域メディアです。ご提案する方法は、まずここで試し、数字で確かめています。以下は自社メディアの運営の実データで、受託の取引実績ではありません。</p>
+    <dl class="proof__facts">
+      {facts.map((fact) => (
+        <div><dt>{fact.label}</dt><dd>{fact.value}</dd><dd class="proof__note">{fact.note}</dd></div>
       ))}
     </dl>
-    <p class="problems__note">当てはまるものが無くても構いません。困っていることをそのまま書いて送っていただければ、こちらで整理します。</p>
-    <a class="problems__cta" href="/contact/?subject=地域事業者の相談">現状を相談する →</a>
+    <ul class="proof__systems">
+      {systems.map((item) => <li><h3>{item.title}</h3><p>{item.body}</p></li>)}
+    </ul>
   </section>
 
-  <section class="separation"><div class="bp-wrap"><p class="bp-kicker">TRANSPARENCY</p><h2>Editorial、Partner、PRを混ぜない。</h2><div class="types"><article><span>EDITORIAL</span><h3>編集記事</h3><p>掲載対価を受けず、編集部の判断で企画・取材・編集します。</p></article><article><span>PARTNER</span><h3>発信支援</h3><p>情報整備や制作、運用に対価をいただく支援サービスです。編集評価は販売しません。</p></article><article><span>PR</span><h3>広告・タイアップ</h3><p>広告主の依頼によるコンテンツです。読者が判別できるよう明確に表示します。</p></article></div><a href="/about/pr-policy/">PR・広告の方針を読む →</a></div></section>
-  <section class="services bp-wrap bp-section"><p class="bp-kicker">WHAT WE DO</p><h2>今あるものを、伝わる形へ。</h2><ol>{services.map((service)=><li><span>{service.n}</span><div><h3>{service.title}</h3><p>{service.body}</p></div></li>)}</ol></section>
-  <section class="scope"><div class="bp-wrap"><p class="bp-kicker">SCOPE</p><ul><li>取材・インタビュー</li><li>写真・文章制作</li><li>店舗・企業情報の整備</li><li>Webサイト制作・改善</li><li>SEO・AI検索への情報設計</li><li>SNS・LINEなどの運用支援</li></ul><p>費用と範囲は、現状と目的を確認したうえで事前に提示します。契約前に成果を保証する表現は行いません。</p></div></section>
-  {/* 料金の正本は src/data/services.ts。ここに数字を直接書かない */}
   <section id="price" class="price"><div class="bp-wrap">
-    <p class="bp-kicker">PRICE</p>
-    <h2>料金の目安</h2>
-    <p class="price__lead">範囲を決めた固定価格です。料金はすべて税別です。現状と目的をうかがったうえで、範囲と期間を事前にお伝えし、合意いただいてから始めます。</p>
-    <h3 class="price__group">つくる（一括）</h3>
-    <div class="price__grid">{buildPlans.map((plan) => (
-      <article id={plan.id}>
-        <h4>{plan.name}</h4>
-        <p class="price__amount"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
-        <p class="price__summary">{plan.summary}</p>
-        <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
-        {plan.excludes && <p class="price__excludes">含まないもの：{plan.excludes.join('、')}</p>}
-      </article>
-    ))}</div>
-    <h3 class="price__group">育てる（月額）</h3>
-    <div class="price__grid">{growPlans.map((plan) => (
-      <article id={plan.id}>
-        <h4>{plan.name}</h4>
-        <p class="price__amount"><strong>{yen(plan.price)}</strong><span>／{plan.unit}</span></p>
-        <p class="price__summary">{plan.summary}</p>
-        <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
-      </article>
-    ))}</div>
-    <p class="price__note">{GROW_TERMS}集客数・売上・検索順位の保証はしません。この支援は編集記事の掲載や評価とは切り離しています（編集記事は掲載料をいただきません）。広告・協賛は <a href="/sponsor/">協賛のご案内</a> をご覧ください。</p>
-    <a class="price__cta" href="/contact/?subject=地域事業者の相談" data-biz-service="price">料金について相談する <span aria-hidden="true">→</span></a>
+    <p class="bp-kicker">SERVICES &amp; PRICE</p>
+    <h2>サービスと料金</h2>
+    <p class="price__lead">中身と範囲を決めたプランです。範囲を超えることも、協力者と連携してお受けします。</p>
+    {groups.map((group) => {
+      const plans = SERVICE_PLANS.filter((plan) => group.keys.includes(plan.group));
+      return plans.length > 0 && (
+        <>
+          <h3 class="price__group">{group.label}</h3>
+          <div class="price__grid">{plans.map((plan) => (
+            <article id={plan.id}>
+              <h4>{plan.name}</h4>
+              <p class="price__amount"><strong>{price(plan)}</strong>{plan.price != null && <span>／{plan.unit}（税別）</span>}</p>
+              {plan.terms && <p class="price__terms">{plan.terms}</p>}
+              <p class="price__summary">{plan.summary}</p>
+              <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
+            </article>
+          ))}</div>
+        </>
+      );
+    })}
+    <ul class="price__note">{SERVICE_TERMS.map((line) => <li>{line}</li>)}</ul>
+    <a class="price__cta" href={contact} data-biz-service="price">料金について相談する <span aria-hidden="true">→</span></a>
   </div></section>
-  {/* 範囲を絞った有料サービス。料金は上の「料金の目安」（src/data/services.ts の setup） */}
-  <section id="reservation-setup" class="setup"><div class="bp-wrap">
-    <p class="bp-kicker">SERVICE</p>
-    <h2>店舗情報・予約導線の整備</h2>
-    <p class="setup__lead">「営業時間が探しても分からない」「予約は電話だけ」。この状態のまま広告を出しても、来店にはつながりません。店舗の基本情報を整え、お客さんが迷わず予約・来店できる導線をつくるところまでを、範囲を決めて支援します。</p>
-    <div class="setup__grid">
-      <article>
-        <h3>こんな事業者の方へ</h3>
-        <ul>
-          <li>営業日・定休日・駐車場・予約方法が、Web上でばらばらになっている</li>
-          <li>Googleマップの情報が古いまま、直し方が分からない</li>
-          <li>予約が電話だけで、営業中に取りこぼしている</li>
-          <li>サイトはあるが、予約・問い合わせまでの導線がない</li>
-        </ul>
-      </article>
-      <article>
-        <h3>お渡しするもの</h3>
-        <ul>
-          <li>店舗基本情報の整理表（営業日・時間・定休日・駐車場・アクセス・支払い手段・予約方法）</li>
-          <li>Googleビジネスプロフィールの現状確認と、修正する項目の一覧</li>
-          <li>予約導線の設計（電話・フォーム・外部予約サービスのどれを主にするか）と設置</li>
-          <li>自社サイト・SNSプロフィールの該当箇所の修正案</li>
-        </ul>
-      </article>
-      <article>
-        <h3>含まないもの</h3>
-        <ul>
-          <li>サイトの全面制作、デザイン刷新</li>
-          <li>写真・動画の撮影（必要な場合は別途お見積もり）</li>
-          <li>広告出稿の運用代行</li>
-          <li>予約システムやツールの月額費用</li>
-          <li>集客数・売上・順位の保証</li>
-        </ul>
-      </article>
-    </div>
-    <div class="setup__flow">
-      <h3>相談から公開までの流れ</h3>
-      <ol>
-        <li><strong>相談</strong><span>フォームから、現状と困っていることをお送りください</span></li>
-        <li><strong>現状確認</strong><span>公開情報を確認し、オンラインまたはお電話で30分程度お話を伺います</span></li>
-        <li><strong>範囲と見積もりの提示</strong><span>作業範囲・費用・期間を事前にお伝えします。合意できた場合のみ着手します</span></li>
-        <li><strong>整備</strong><span>情報の整理と導線の設置を行います</span></li>
-        <li><strong>確認・公開</strong><span>内容をご確認いただいてから公開します</span></li>
-        <li><strong>公開後の修正</strong><span>公開後1回の修正まで含みます</span></li>
-      </ol>
-      <p class="setup__note">料金は<a href="#setup">料金の目安</a>のとおりです（税別）。現状と目的を確認したうえで、範囲と期間を事前に提示します。実績のない成果を約束することはしません。また、この支援は編集記事の掲載や評価とは切り離しています（編集記事は掲載料をいただきません）。</p>
-      <a class="setup__cta" href="/contact/?subject=地域事業者の相談" data-biz-service="reservation_setup">店舗情報・予約導線の相談をする <span aria-hidden="true">→</span></a>
-    </div>
-  </div></section>
-  <section class="biz-cta bp-reading"><p class="bp-kicker">CONTACT</p><h2>今の悩みを、聞かせてください。</h2><p>掲載、取材、Web、発信運用について、困っていることをご連絡ください。</p><a href="/contact/?subject=地域事業者の相談">相談する →</a></section>
+
+  <section class="flow bp-wrap bp-section" aria-labelledby="biz-flow">
+    <p class="bp-kicker">HOW WE WORK</p>
+    <h2 id="biz-flow">進め方</h2>
+    <ol>{steps.map(([title, body]) => <li><strong>{title}</strong><span>{body}</span></li>)}</ol>
+  </section>
+
+  <section class="separation"><div class="bp-wrap"><p class="bp-kicker">TRANSPARENCY</p><h2>Editorial、Partner、PRを混ぜない。</h2><div class="types"><article><span>EDITORIAL</span><h3>編集記事</h3><p>掲載対価を受けず、編集部の判断で企画・取材・編集します。</p></article><article><span>PARTNER</span><h3>受託の支援</h3><p>コンサル・制作・運用に対価をいただく仕事です。取引先を記事で扱うときは関係を明示し、評価は変えません。</p></article><article><span>PR</span><h3>広告・タイアップ</h3><p>広告主の依頼によるコンテンツです。読者が判別できるよう明確に表示します。</p></article></div><a href="/about/pr-policy/">PR・広告の方針を読む →</a></div></section>
+
+  <section class="faq bp-wrap bp-section" aria-labelledby="biz-faq">
+    <p class="bp-kicker">FAQ</p>
+    <h2 id="biz-faq">よくある質問</h2>
+    <dl>{faqs.map((item) => <div><dt>{item.q}</dt><dd>{item.a}</dd></div>)}</dl>
+  </section>
+
+  <section class="biz-cta bp-reading"><p class="bp-kicker">CONTACT</p><h2>まず、現状を聞かせてください。</h2><p>何から頼めばいいか決まっていなくても構いません。現状と目的をうかがい、必要なことと不要なことを整理します。</p><a href={contact} data-biz-service="footer">相談する →</a></section>
 </BrandBase>
 <style>
-  .problems h2{margin-top:.6rem;font:600 clamp(1.5rem,2.8vw,2.2rem)/1.4 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
-  .problems__list{margin:2rem 0 0;display:grid;gap:0;border-top:1px solid var(--color-mist)}
-  .problems__list>div{padding:1.15rem 0;border-bottom:1px solid var(--color-mist)}
-  .problems__list dt{font:600 1rem/1.6 var(--font-brand-display);color:var(--color-ink)}
-  .problems__list dd{margin:.45rem 0 0;color:var(--color-soil);font-size:.9rem;line-height:1.85}
-  .problems__list dd a{color:var(--interior-blue,var(--color-tide));border-bottom:1px solid currentColor;white-space:nowrap}
-  .problems__note{margin:1.25rem 0 0;color:var(--color-soil);font-size:.86rem;line-height:1.85}
-  .problems__cta{display:inline-flex;align-items:center;min-height:44px;margin-top:1.25rem;padding:.6rem 1.4rem;border-radius:999px;background:var(--interior-blue,var(--color-tide));color:#fff;font-size:.9rem;font-weight:700;text-decoration:none}
-  .problems__cta:hover,.problems__cta:focus-visible{background:var(--color-ink)}
-
-  .biz-head{padding-block:clamp(5rem,11vw,10rem);border-bottom:1px solid var(--color-mist)}.biz-head h1{margin-top:1rem;font:600 clamp(2.7rem,7vw,6rem)/1.2 var(--font-brand-display);color:var(--color-ink)}.biz-head>p:not(.bp-kicker){max-width:var(--measure);margin-top:2rem;line-height:2;color:var(--color-soil)}.biz-head>a,.separation .bp-wrap>a,.biz-cta>a{display:inline-block;margin-top:2rem;color:var(--color-tide);border-bottom:1px solid}
+  .biz-head{padding-block:clamp(5rem,11vw,10rem);border-bottom:1px solid var(--color-mist)}.biz-head h1{margin-top:1rem;font:600 clamp(2.7rem,7vw,6rem)/1.2 var(--font-brand-display);color:var(--color-ink)}.biz-head>p:not(.bp-kicker){max-width:var(--measure);margin-top:2rem;line-height:2;color:var(--color-soil)}
+  .biz-head__cta{justify-self:start;width:fit-content;display:inline-flex;align-items:center;min-height:44px;margin-top:2rem;padding:.6rem 1.5rem;border-radius:999px;background:var(--interior-blue,var(--color-tide));color:#fff;font-weight:700;text-decoration:none}
+  .biz-head__cta:hover,.biz-head__cta:focus-visible{background:var(--color-ink)}
   .biz-head .biz-head__selfservice,.biz-head .biz-head__sponsor{margin-top:1.2rem;color:var(--color-soil);font-size:.9rem;line-height:1.9}.biz-head__selfservice a,.biz-head__sponsor a{color:var(--color-tide);border-bottom:1px solid}
-  .separation{padding-block:clamp(4rem,9vw,7rem);background:var(--color-white)}.separation h2,.services>h2,.biz-cta h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
-  /* 「聞かせてください。」（9字）が1行に入る大きさまで下げる。360pxで「聞かせてくださ／い。」と割れていた（2026-10-04） */
-  .biz-cta{container-type:inline-size}.biz-cta h2{font-size:min(clamp(2rem,5vw,4rem),calc(100cqi / 9.6))}/* 750pxで1列に落としていたが、768pxでは3列のまま1枚224px＝日本語で約10字になっていた。幅で畳む */
-  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:2rem;margin-top:3rem}.types article{padding-top:1rem;border-top:1px solid var(--color-tide)}.types span{font:.68rem var(--font-brand-meta);letter-spacing:.12em;color:var(--color-tide)}.types h3{margin-top:.6rem;font:600 1.4rem var(--font-brand-display);color:var(--color-ink)}.types p{margin-top:.7rem;line-height:1.9;color:var(--color-soil);font-size:.88rem}
-  .services ol{margin-top:3rem;border-top:1px solid var(--color-mist)}.services li{display:grid;grid-template-columns:5rem 1fr;gap:2rem;padding-block:1.7rem;border-bottom:1px solid var(--color-mist)}.services li>span{font:600 1.8rem var(--font-brand-display);color:var(--color-mist)}.services h3{font:600 1.5rem var(--font-brand-display);color:var(--color-ink)}.services li p{margin-top:.5rem;color:var(--color-soil);line-height:1.8}
-  .scope{padding-block:clamp(4rem,8vw,6rem);background:var(--color-white)}.scope ul{display:grid;grid-template-columns:repeat(2,1fr);margin-top:2rem;border-top:1px solid var(--color-mist)}.scope li{padding:1rem 1rem 1rem 2rem;border-bottom:1px solid var(--color-mist);color:var(--color-ink)}.scope .bp-wrap>p:last-child{max-width:var(--measure);margin-top:2rem;color:var(--color-soil);font-size:.82rem;line-height:1.8}.biz-cta{padding-block:clamp(5rem,11vw,9rem)}.biz-cta>p:not(.bp-kicker){margin-top:1.5rem;color:var(--color-soil)}
-  .setup{padding-block:clamp(4rem,9vw,7rem);background:var(--color-white);border-top:1px solid var(--color-mist)}
-  .setup h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
-  .setup__lead{max-width:var(--measure);margin-top:1.5rem;line-height:2;color:var(--color-soil)}
-  .setup__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.5rem;margin-top:2.5rem}
-  .setup__grid article{padding:1.25rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-paper)}
-  .setup__grid h3{font:600 1.15rem/1.5 var(--font-brand-display);color:var(--color-ink)}
-  .setup__grid ul{display:grid;gap:.5rem;margin-top:.9rem;padding-left:1.1rem;list-style:disc}
-  .setup__grid li{color:var(--color-soil);font-size:.88rem;line-height:1.8}
-  .setup__flow{margin-top:2.5rem}
-  .setup__flow h3{font:600 1.15rem/1.5 var(--font-brand-display);color:var(--color-ink)}
-  .setup__flow ol{display:grid;gap:0;margin-top:1rem;padding:0;list-style:none;counter-reset:step;border-top:1px solid var(--color-mist)}
-  .setup__flow li{display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.2rem .9rem;padding:.9rem 0;border-bottom:1px solid var(--color-mist);counter-increment:step}
-  .setup__flow li:before{content:counter(step);grid-row:span 2;display:grid;place-items:center;width:2.2rem;height:2.2rem;border:1px solid var(--color-tide);border-radius:50%;color:var(--color-tide);font:700 .85rem var(--font-brand-meta)}
-  .setup__flow strong{color:var(--color-ink)}
-  .setup__flow span{color:var(--color-soil);font-size:.86rem;line-height:1.8}
-  .setup__note{max-width:var(--measure);margin-top:1.5rem;color:var(--color-soil);font-size:.82rem;line-height:1.9}
-  .setup__cta{display:inline-flex;align-items:center;gap:.6rem;min-height:3.1rem;margin-top:1.75rem;padding:.75rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700}
-  .price{padding-block:clamp(4rem,9vw,7rem);border-top:1px solid var(--color-mist)}
-  .price h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink)}
+  .proof h2,.flow h2,.faq h2,.price h2,.separation h2,.biz-cta h2{margin-top:1rem;font:600 clamp(2rem,5vw,4rem)/1.35 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
+  .proof__lead{max-width:var(--measure);margin-top:1.4rem;line-height:2;color:var(--color-soil)}
+  .proof__facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:1rem;margin:2.2rem 0 0}
+  .proof__facts>div{padding:1.1rem 1.2rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white)}
+  .proof__facts dt{color:var(--color-soil);font-size:.82rem}
+  .proof__facts dd{margin:.3rem 0 0;font:600 2rem/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
+  .proof__facts dd.proof__note{font:400 .8rem/1.7 var(--font-brand-body,inherit);color:var(--color-soil)}
+  .proof__systems{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.5rem;margin-top:2.2rem;padding:0;list-style:none}
+  .proof__systems li{padding-top:1rem;border-top:1px solid var(--color-tide)}
+  .proof__systems h3{font:600 1.2rem/1.5 var(--font-brand-display);color:var(--color-ink)}
+  .proof__systems p{margin-top:.6rem;color:var(--color-soil);font-size:.88rem;line-height:1.9}
+  .price{padding-block:clamp(4rem,9vw,7rem);border-top:1px solid var(--color-mist);background:var(--color-white)}
   .price__lead{max-width:var(--measure);margin-top:1.4rem;line-height:2;color:var(--color-soil)}
   .price__group{margin-top:2.6rem;font:600 1.25rem/1.5 var(--font-brand-display);color:var(--color-ink)}
   .price__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.25rem;margin-top:1.1rem}
-  .price__grid article{display:flex;flex-direction:column;padding:1.3rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white)}
+  .price__grid article{display:flex;flex-direction:column;padding:1.3rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-paper)}
   .price__grid h4{font:600 1.1rem/1.5 var(--font-brand-display);color:var(--color-ink)}
   .price__amount{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem;margin-top:.6rem}
   .price__amount strong{font:600 1.7rem/1.2 var(--font-brand-display);color:var(--color-ink);font-variant-numeric:tabular-nums}
   .price__amount span{color:var(--color-soil);font-size:.84rem}
+  .price__terms{margin-top:.3rem;color:var(--color-tide);font-size:.8rem;font-weight:700}
   .price__summary{margin-top:.7rem;color:var(--color-soil);font-size:.88rem;line-height:1.85}
   .price__grid ul{display:grid;gap:.4rem;margin-top:.8rem;padding-left:1.1rem;list-style:disc}
   .price__grid li{color:var(--color-soil);font-size:.84rem;line-height:1.75}
-  .price__excludes{margin-top:auto;padding-top:.9rem;color:var(--color-soil);font-size:.78rem;line-height:1.7}
-  .price__note{max-width:var(--measure);margin-top:1.8rem;color:var(--color-soil);font-size:.84rem;line-height:1.9}
-  .price__note a{color:var(--color-tide);border-bottom:1px solid}
+  .price__note{display:grid;gap:.4rem;max-width:var(--measure);margin-top:1.8rem;padding-left:1.1rem;list-style:disc}
+  .price__note li{color:var(--color-soil);font-size:.84rem;line-height:1.85}
   .price__cta{display:inline-flex;align-items:center;gap:.6rem;min-height:3.1rem;margin-top:1.5rem;padding:.75rem 1.4rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700}
-  @media(max-width:750px){.types,.scope ul{grid-template-columns:minmax(0,1fr)}.services li{grid-template-columns:3rem 1fr}}
+  .flow ol{display:grid;margin-top:2rem;padding:0;list-style:none;counter-reset:step;border-top:1px solid var(--color-mist)}
+  .flow li{display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.2rem .9rem;padding:.9rem 0;border-bottom:1px solid var(--color-mist);counter-increment:step}
+  .flow li:before{content:counter(step);grid-row:span 2;display:grid;place-items:center;width:2.2rem;height:2.2rem;border:1px solid var(--color-tide);border-radius:50%;color:var(--color-tide);font:700 .85rem var(--font-brand-meta)}
+  .flow strong{color:var(--color-ink)}
+  .flow span{color:var(--color-soil);font-size:.88rem;line-height:1.8}
+  .separation{padding-block:clamp(4rem,9vw,7rem);background:var(--color-white)}
+  .separation .bp-wrap>a,.biz-cta>a{display:inline-block;margin-top:2rem;color:var(--color-tide);border-bottom:1px solid}
+  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:2rem;margin-top:3rem}.types article{padding-top:1rem;border-top:1px solid var(--color-tide)}.types span{font:.68rem var(--font-brand-meta);letter-spacing:.12em;color:var(--color-tide)}.types h3{margin-top:.6rem;font:600 1.4rem var(--font-brand-display);color:var(--color-ink)}.types p{margin-top:.7rem;line-height:1.9;color:var(--color-soil);font-size:.88rem}
+  .faq dl{margin:2rem 0 0;border-top:1px solid var(--color-mist)}
+  .faq dl>div{padding:1.1rem 0;border-bottom:1px solid var(--color-mist)}
+  .faq dt{font:600 1rem/1.6 var(--font-brand-display);color:var(--color-ink)}
+  .faq dd{margin:.45rem 0 0;color:var(--color-soil);font-size:.9rem;line-height:1.85}
+  .biz-cta{container-type:inline-size;padding-block:clamp(5rem,11vw,9rem)}.biz-cta>p:not(.bp-kicker){margin-top:1.5rem;color:var(--color-soil)}
+  /* 「まず、現状を聞かせてください。」（15字）を狭い幅で崩さない */
+  .biz-cta h2{font-size:min(clamp(2rem,5vw,4rem),calc(100cqi / 10))}
   @media(max-width:360px){.biz-head h1{font-size:1.8rem;line-height:1.4}}
 </style>
 <script>
