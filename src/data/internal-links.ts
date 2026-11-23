@@ -355,6 +355,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-hoshiimo-gourmet/': '茨城の干し芋',
   '/events/ibaraki-renkon-gourmet/': '茨城のれんこん',
   '/events/ibaraki-winter-flowers-spots/': '茨城の冬の花',
+  '/events/katsuta-tamariba-yokocho/': '勝田TAMARIBA横丁の開催案内',
   '/events/ibaraki-winter-marche-2026/': '茨城の冬のマルシェ・蚤の市',
   '/events/itaya-hazan-kinenkan-chikusei-guide/': '板谷波山記念館（筑西市）',
   '/events/kasama-kuri-gourmet/': '笠間の栗',

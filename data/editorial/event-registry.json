@@ -1937,10 +1937,10 @@
       "endDate": "2026-12-13",
       "officialUrl": "https://hcdi.jp/tamariba.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-11-23",
+      "articleUrl": "/events/katsuta-tamariba-yokocho/",
+      "articleUpdatedAt": "2026-11-23",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1948,7 +1948,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。主催ひたちなかまちづくり公式X（@hcdi_jp）の投稿で12月13日（日）、JR勝田駅東口おもてまち通りの歩行者天国、55店、餅つき体験（各回先着100名）・こたつ鍋・ミニ新幹線を確認。公式サイトの第67回告知（hcdi.jp/tamariba.html）は11/22掲載だが日付の照合は未了。定期開催のため回ごとに更新する常設ページ化を検討。"
+      "notes": "11/23に主催公式 https://hcdi.jp/tamariba.html で第67回の日時・会場・交通規制・55ブースの発表と出店変更・餅つき各回先着100名・こたつで鍋・ミニ新幹線を照合。第67回を常設URLの開催案内に掲載。"
     },
     {
       "articleUrl": null,
