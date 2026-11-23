@@ -26,3 +26,9 @@ export function selectNextSteps(current, candidates, limit = 3) {
   }
   return result;
 }
+
+/**
+ * 公開前の基準期間（固定）。本番反映 2026-11-22 の前日までの28日。
+ * 毎朝の取得でこの期間を毎回取り直すので、取得の失敗や時期に左右されない（GA4 は過去の値を保持している）。
+ */
+export const NEXT_STEP_BASELINE = { start: '2026-10-25', end: '2026-11-21' };

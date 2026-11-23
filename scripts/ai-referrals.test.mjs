@@ -27,3 +27,13 @@ test('aggregateAiReferrals sums by assistant and page', () => {
 test('aggregateAiReferrals rejects invalid metrics instead of zero-filling', () => {
   assert.throws(() => aggregateAiReferrals([row('chatgpt.com', '/a/', 'x', 1)]));
 });
+
+test('daily sync imports AI referrals and the A/B experiment (regression: they were only in ga4-daily.mjs)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const sync = readFileSync('scripts/google-analytics-sync.mjs', 'utf8');
+  assert.match(sync, /input\.aiReferrals/);
+  assert.match(sync, /input\.nextStepExperiment/);
+  const fetch = readFileSync('scripts/google-api-daily.mjs', 'utf8');
+  assert.match(fetch, /aiReferrals/);
+  assert.match(fetch, /baseline: \{ period: NEXT_STEP_BASELINE/);
+});

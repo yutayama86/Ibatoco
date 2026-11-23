@@ -110,6 +110,10 @@ const pageLevelMeta=pl?{source:pl.source,fetchedAt:input.fetchedAt,periods:pl.pe
 const referralIssues=checkBookingReferrals(input.bookingReferrals,{confirmedThrough:gaEnd});
 if(referralIssues.length) throw new Error('Booking referrals check failed: '+referralIssues.join(' | '));
 if(input.bookingReferrals) data.conversionDetail={...data.conversionDetail,...referralSnapshotFields(input.bookingReferrals,input.fetchedAt)};
+// 回遊A/B実験（Issue #683）と AI 経由の流入（PR #687）。取得できた日だけ置き換え、無い日は前の値と期間をそのまま残す
+// （以前は ga4-daily.mjs にだけ書かれていて、毎朝の取り込み（このファイル）で落ちていた）
+if(input.nextStepExperiment) data.nextStepExperiment={...input.nextStepExperiment,fetchedAt:input.fetchedAt};
+if(input.aiReferrals) data.aiReferrals={...input.aiReferrals,fetchedAt:input.fetchedAt};
 data.asOf=gaEnd;
 // 最上位の確定日は editorial-os が読む（Windsor 時代の項目）。source 側だけ更新すると古い日付が残る（#445）
 data.ga4LatestConfirmedDate=gaEnd;
