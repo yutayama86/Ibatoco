@@ -49,6 +49,17 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261123-biz',
+    date: '2026-11-23',
+    url: '/biz/',
+    kind: 'on-page',
+    change: '/biz/ を法人・自治体向けのBtoB受託の窓口に作り直し（title・H1・本文・料金・構造化データProfessionalService）。小規模店舗向けメニューを廃止',
+    queries: ['情報発信 コンサル', 'AI検索 対策', '観光 情報発信'],
+    commit: '9fe9d66',
+    note: '2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針、仕様 docs/editorial/specs/20261123-biz-b2b-redesign.md）。実例はイバトコ自身の実データのみ。',
+    experimentType: 'body',
+  },
+  {
     id: '20261123-events-joso-shin-hanabi-2026',
     date: '2026-11-23',
     url: '/events/joso-shin-hanabi-2026/',
