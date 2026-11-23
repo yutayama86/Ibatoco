@@ -1238,10 +1238,10 @@
       "endDate": "2026-12-25",
       "officialUrl": "https://www.aquaworld-oarai.com/2026/11/05/christmas2026/",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1249,7 +1249,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。プレスリリース転載サイトで11/13〜12/25（12/7〜11は休館）、テーマ「ヒゲ」とある。アクアワールド公式での確認、夜間特別営業の有無は未確認。クリスマスまとめに個別項目なし。 11/23追記：公式お知らせ（2026/11/05）で「クリスマス アクアワールド 2026」が11月13日開始と告知されていることを確認。終了日は詳細ページで要確認。"
+      "notes": "11/23にアクアワールド茨城県大洗水族館｜クリスマス アクアワールド 2026で日程と会場を確認。サンタのひげにちなんで、顔の周りにひげのような突起を持つオオセ科のサメ4種を紹介します。最終日は12月25日（金）。12月7日（月）〜11日（金）は休館です。 出典 https://www.aquaworld-oarai.com/2026/11/05/christmas2026/"
     },
     {
       "id": "hitachi-starlight-illumination-2026",
@@ -1809,12 +1809,12 @@
       "municipality": "kitaibaraki",
       "startDate": "2026-12-01",
       "endDate": "2027-01-11",
-      "officialUrl": null,
+      "officialUrl": "https://www.city.kitaibaraki.lg.jp/docs/2026103000028/file_contents/WEB2026-11No846.pdf",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1822,7 +1822,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。旅行会社のイベント掲載（情報元イベントバンク）で12/1〜2027/1/11、16:30〜22:00、磯原中央公園・JR磯原駅西口、12/1点灯式とある。北茨城市観光協会の公式告知（2026年版）は未確認。冬のイルミまとめ（ibaraki-illumination-2026）に未掲載。"
+      "notes": "11/23に北茨城市｜広報きたいばらき2026年11月号・13ページで日程と会場を確認。点灯時間は16時30分〜22時。12月1日（火）の点灯式は18時から磯原中央公園で開かれます。式に合わせて出かけるなら公園へ。駅西口ロータリーでもイルミネーションを楽しめます。 出典 https://www.city.kitaibaraki.lg.jp/docs/2026103000028/file_contents/WEB2026-11No846.pdf"
     },
     {
       "id": "ferme-de-noel-31-2026",
@@ -1830,12 +1830,12 @@
       "municipality": "inashiki",
       "startDate": "2026-12-05",
       "endDate": "2026-12-06",
-      "officialUrl": null,
+      "officialUrl": "https://www.ibaraido.co.jp/wp/27954/",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -1843,7 +1843,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。旅行会社のイベント掲載で12/5〜6、10:00〜16:30、入園料 大人1,500円・子供800円・犬600円とある。主催（IKINAMARKET）・イバライド公式での確認は未了。クリスマス／冬マルシェのまとめに未掲載。"
+      "notes": "11/23にこもれび森のイバライド｜Ferme de noel Vol.31で日程と会場を確認。2日間とも10時〜16時30分。アンティークや古道具、植物、クラフトの店が園内に並びます。入園券が必要で、中学生以上は前売1,000円、当日窓口1,500円。前売券に優先入園は付きません。 出典 https://www.ibaraido.co.jp/wp/27954/"
     },
     {
       "id": "koga-chochin-saomomi-matsuri-2026",
@@ -2080,14 +2080,14 @@
       "id": "kirakuyama-illumination-2026",
       "name": "きらくやまイルミネーション（2026-27）",
       "municipality": "tsukubamirai",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-12-01",
+      "endDate": "2026-12-25",
+      "officialUrl": "https://www2.tm-shakyo.jp/2026/10/2026-2.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2095,7 +2095,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。イルミネーション人気ランキングで県内2位として掲載されている恒例イベント。2026年の開催・期間は未確認。"
+      "notes": "11/23につくばみらい市社会福祉協議会｜きらくやまイルミネーション2026で日程と会場を確認。約10万球が16時30分〜20時30分に点灯します。休館日と雨天時は消灯。12月13日（日）は18時から豚汁の無料配布（なくなり次第終了）、18時30分からクリスマスコンサートが予定されています。 出典 https://www2.tm-shakyo.jp/2026/10/2026-2.html"
     },
     {
       "id": "shimotsuma-christmas-market-2026",
@@ -2122,14 +2122,14 @@
       "id": "tsukuba-christmas-market-2026",
       "name": "つくばクリスマスマーケット（2026）",
       "municipality": "tsukuba",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-12-04",
+      "endDate": "2026-12-06",
+      "officialUrl": "https://www.chrimachi.art/tsukuba-christmas-market",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2137,20 +2137,20 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。2025年は12/5〜7につくばセンター広場で開催。2026年の開催・日程は未確認。"
+      "notes": "11/23にXmas Town｜つくばクリスマスマーケット2026で日程と会場を確認。センター広場から中央公園の屋台と歩行者専用道路のマルシェへ歩けます。ランタンナイトは4日（金）と5日（土）の17時・19時、センター広場の滝の前で行われます。 出典 https://www.chrimachi.art/tsukuba-christmas-market"
     },
     {
       "id": "hitachinaka-ekimae-illumination-2026",
       "name": "ひたちなか市駅前イルミネーション（2026-27）",
       "municipality": "hitachinaka",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-12-01",
+      "endDate": "2027-01-31",
+      "officialUrl": "https://www.city.hitachinaka.lg.jp/business/shogyo/1017112/1013099.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2158,20 +2158,20 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。2025年は12/1〜2026/1/30、勝田・佐和・那珂湊の3駅前。2026年の開催は未確認。"
+      "notes": "11/23にひたちなか市｜駅前イルミネーション2026-2027で日程と会場を確認。3駅とも16時30分に点灯。勝田駅は24時、佐和駅は23時までで、どちらも2027年1月31日（日）が最終日です。那珂湊駅は21時に消灯し、2027年1月15日（金）で終了します。 出典 https://www.city.hitachinaka.lg.jp/business/shogyo/1017112/1013099.html"
     },
     {
       "id": "daigo-light-2026",
       "name": "大子来人～ダイゴライト～（2026-27）",
       "municipality": "daigo",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-11-07",
+      "endDate": "2027-01-31",
+      "officialUrl": "https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2179,20 +2179,20 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。2025年は11/1〜2026/1/12（大子町観光協会）。袋田の滝の記事内で触れているが、冬のイルミまとめに未掲載。2026年の期間は未確認。"
+      "notes": "11/23に大子町観光協会｜大子来人・袋田の滝ライトアップで日程と会場を確認。袋田の滝のライトアップは16時30分から。終了は11月が20時、12月・1月は19時です。滝へ通じるトンネルの利用料は大人500円、子ども300円。道の駅と常陸大子駅前は点灯時間が異なります。 出典 https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html"
     },
     {
       "id": "oarai-christmas-market-2026",
       "name": "大洗のクリスマスマーケット（2026年12月）",
       "municipality": "oarai",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-12-06",
+      "endDate": "2026-12-06",
+      "officialUrl": "https://www.oarai-info.jp/event/postid_11534/",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2200,20 +2200,20 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "official-source-watchが11/23に新規リンクとして検出（大洗観光協会イベント一覧「【開催告知-2026年12月】大洗で唯一のクリスマスマーケット」）が、どこにも連携されず未対応だった。日付・会場は一次情報で未確認。"
+      "notes": "11/23に大洗観光協会｜大洗のクリスマスマーケットで日程と会場を確認。11時〜18時、入場無料。ゆうなみさんのステージは14時〜15時、点灯式は17時ごろです。会場前の歩行者天国は10時〜19時。車は大洗小学校駐車場へ、大洗駅からバスなら「役場入口」で降ります。 出典 https://www.oarai-info.jp/event/postid_11534/"
     },
     {
       "id": "tsuchiura-winter-festival-34-2026",
       "name": "第34回 土浦ウインターフェスティバル（2026-27）",
       "municipality": "tsuchiura",
-      "startDate": null,
-      "endDate": null,
+      "startDate": "2026-11-30",
+      "endDate": "2027-01-31",
       "officialUrl": "https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-23",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2221,7 +2221,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "取りこぼし点検（11/23）で発見。2025年は第33回が12/10〜2026/2/1（土浦市観光協会）。2026年の開催・日程は未確認。毎年12月上旬点灯の恒例イベントで、冬のイルミまとめに未掲載。 11/23追記：土浦市観光協会が2026/11/12に第34回の開催を告知（点灯式あり）。期間・点灯式の日時は告知ページで要確認。"
+      "notes": "11/23に土浦市観光協会｜第34回土浦ウインターフェスティバルで日程と会場を確認。土浦駅の東西口から駅前通りにかけて約10万球が点灯します。17時から24時まで。11月30日（月）の点灯式は17時から、駅西口のうらら大屋根広場で開かれます。霞ケ浦総合公園の水郷桜イルミネーションとは会場が異なります。 出典 https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/"
     }
   ]
 }

@@ -49,6 +49,42 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261123-events-ibaraki-winter-marche-2026',
+    date: '2026-11-23',
+    url: '/events/ibaraki-winter-marche-2026/',
+    kind: 'on-page',
+    change: 'つくば・稲敷・大洗のクリスマスマーケットと勝田の冬開催を追加',
+    queries: ['茨城 冬 マルシェ'],
+    commit: '5df5546',
+  },
+  {
+    id: '20261123-events-ibaraki-events-december-2026',
+    date: '2026-11-23',
+    url: '/events/ibaraki-events-december-2026/',
+    kind: 'on-page',
+    change: '12月開催のマーケット・水族館の企画と勝田TAMARIBA横丁の来場案内を追加',
+    queries: ['茨城 12月 イベント 2026'],
+    commit: '5df5546',
+  },
+  {
+    id: '20261123-events-ibaraki-christmas-events-2026',
+    date: '2026-11-23',
+    url: '/events/ibaraki-christmas-events-2026/',
+    kind: 'on-page',
+    change: 'つくば・稲敷・大洗のマーケット、大洗水族館、きらくやまの公式日程を追加',
+    queries: ['茨城 クリスマスイベント 2026'],
+    commit: '5df5546',
+  },
+  {
+    id: '20261123-events-ibaraki-illumination-2026',
+    date: '2026-11-23',
+    url: '/events/ibaraki-illumination-2026/',
+    kind: 'on-page',
+    change: '土浦駅前・磯原・ひたちなか・きらくやま・大子の公式点灯日程と会場を追加',
+    queries: ['茨城 イルミネーション 2026'],
+    commit: '5df5546',
+  },
+  {
     id: '20261123-events-katsuta-tamariba-yokocho',
     date: '2026-11-23',
     url: '/events/katsuta-tamariba-yokocho/',

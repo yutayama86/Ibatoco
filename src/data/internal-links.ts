@@ -410,6 +410,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/oarai-ferry-sunflower-guide/': '大洗〜苫小牧フェリー「さんふらわあ」',
   '/events/okukuji-shimi-konnyaku-gourmet/': '凍みこんにゃく',
   '/events/shimotsuma-kiku-matsuri-2026/': '下妻市菊まつり2026',
+  '/events/itako-riverside-illumination-2026/': '潮来市の水の郷 水辺イルミネーション2026',
   '/events/suigo-sakura-illumination-2026/': '水郷桜イルミネーション2026',
   '/events/takahagi-relay-marathon-2026/': '高萩リレーマラソン2026',
   '/events/satomi-kakashi-matsuri-2026/': '里美かかし祭2026',
