@@ -232,6 +232,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kasumigaura-wakasagi-tsukudani-gourmet": "/images/card/kasumigaura-wakasagi-tsukudani-gourmet-26089d5f.png",
   "kasumigaura-yuransen-guide": "/images/card/kasumigaura-yuransen-guide-f6f540e3.png",
   "katsuta-marathon-2027": "/images/card/katsuta-marathon-2027-6864c88b.png",
+  "katsuta-tamariba-yokocho": "/images/card/katsuta-tamariba-yokocho-4e47820e.png",
   "kawachi-christmas-illumination-2026": "/images/card/kawachi-christmas-illumination-2026-6c2ba40d.png",
   "kensei-machinami-meguri-model-course": "/images/card/kensei-machinami-meguri-model-course-9aa4b0e6.png",
   "kewpie-goka-factory-guide": "/images/card/kewpie-goka-factory-guide-7c9ed7ff.png",

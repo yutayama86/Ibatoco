@@ -14,9 +14,9 @@ tags:
   - "マルシェ"
   - "勝田駅"
   - "商店街"
-draft: true
-reviewed: false
-noindex: true
+draft: false
+reviewed: true
+noindex: false
 summary: "2026年12月13日（日）、JR勝田駅東口のおもてまち通りが歩行者天国になります。第67回の勝田TAMARIBA横丁は10時〜15時。餅つきを目当てにするなら11時か13時、食を楽しむなら「こたつで鍋」のエリアへ。主催者の会場マップには、体験やステージ、出店ブースの位置が載っています。"
 keyPoints:
   - "餅つき体験は11時・13時の2回で、各回先着100名。公式マップの目印はG"

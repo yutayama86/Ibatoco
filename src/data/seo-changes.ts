@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261123-events-katsuta-tamariba-yokocho',
+    date: '2026-11-23',
+    url: '/events/katsuta-tamariba-yokocho/',
+    kind: 'new-article',
+    change: '勝田駅前の定期開催マルシェを常設URLに掲載。第67回の企画とアクセスを主催発表で確認。',
+    queries: ['勝田TAMARIBA横丁', '勝田 タマリバ横丁'],
+    commit: '9db06a3',
+  },
+  {
     id: '20261122-about-brand-entity',
     date: '2026-11-22',
     url: '/about/',
