@@ -12,7 +12,7 @@ import NewsCard from '../components/NewsCard.astro';
 import SponsorSlots from '../components/SponsorSlots.astro';
 import { getIndexableNews } from '../lib/content';
 import { SITE_CONFIG } from '../data/site';
-import { REGIONAL_SUPPORTER_PLAN } from '../data/sponsorship';
+import { SPONSOR_PLAN } from '../data/sponsorship';
 import { FOOD_GUIDES, FOOD_PHOTOS, licenseUrl } from '../data/food-library';
 
 // 終わった催しのニュースはTOPに出さない（/news/ の一覧と記事URLには残る）
@@ -263,14 +263,14 @@ const matchdays = [
     <section class="partner" data-module="home_partner" aria-labelledby="partner-title">
       <div class="v42-wrap">
         <header class="partner__head">
-          <p class="v42-label">地域サポーター募集</p>
+          <p class="v42-label">スポンサー募集</p>
           <h2 id="partner-title">茨城を、一緒に<br class="v42-br-phone" />おもしろく。</h2>
-          <p>茨城の取材と発信を支えてくださる<br class="v42-br-phone" />企業・お店を募集しています。</p>
+          <p>茨城の取材と発信を支えてくださる<br class="v42-br-phone" />企業・団体を募集しています。</p>
         </header>
         <div class="partner__invitation">
           <div>
-            <h3>{REGIONAL_SUPPORTER_PLAN.name}</h3>
-            <p>トップページに社名とロゴを掲載し、<br class="v42-br-phone" />公式サイトへリンクします。</p>
+            <h3>{SPONSOR_PLAN.name}</h3>
+            <p>PR記事と関連する記事・SNSでのご紹介で、<br class="v42-br-phone" />茨城を調べる人に届けます。</p>
           </div>
           <a class="partner__guide" href="/sponsor/">掲載内容・料金を見る<V42Icon name="arrow" size={17} /></a>
         </div>

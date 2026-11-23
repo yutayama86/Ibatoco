@@ -49,6 +49,28 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261123-home-sponsor-copy',
+    date: '2026-11-23',
+    url: '/',
+    kind: 'on-page',
+    change: 'TOPの事業者導線（スポンサー募集）の文言をイバトコスポンサーに合わせて更新（プラン名と中身の1文のみ）',
+    queries: [],
+    commit: '01867ab',
+    note: '2026-11-23 オーナー決定。観測窓（〜12/19）中のため事実の更新として扱う。構成・必須要素は不変。',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261123-sponsor',
+    date: '2026-11-23',
+    url: '/sponsor/',
+    kind: 'on-page',
+    change: 'スポンサーのプランを地域サポーター（3か月19,800円・TOPにロゴ）からイバトコスポンサー（月10万円・PR記事つき）に変更。プランの事実（名前・料金・中身・支払い・FAQ・表示のしかた）だけを変更し、構成・title・H1・閲覧数の表示は維持',
+    queries: [],
+    commit: '01867ab',
+    note: '2026-11-23 オーナー決定。観測窓（〜12/08）中のため事実の更新として扱う。',
+    experimentType: 'fact',
+  },
+  {
     id: '20261123-biz',
     date: '2026-11-23',
     url: '/biz/',

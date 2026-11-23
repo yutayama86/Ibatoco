@@ -2,7 +2,7 @@
 /**
  * 協賛の申込フォーム（/sponsor/apply/）。
  *
- * 地域サポーターの申し込みを受け付け、掲載条件は返信で確認する。
+ * イバトコスポンサーの申し込みを受け付け、掲載内容は返信で確認する。
  * - 送信先は問い合わせと同じ Formspree（SITE_CONFIG.formEndpoint）
  * - 送信完了は generate_lead（form_id: sponsor_apply）。到達・入力開始は contact_form_view / start
  * - 掲載規約への同意を必須にする（/sponsor/terms/）
@@ -12,19 +12,19 @@
 import BrandBase from '../../layouts/BrandBase.astro';
 import Breadcrumbs, { type Crumb } from '../../components/Breadcrumbs.astro';
 import { SITE_CONFIG } from '../../data/site';
-import { REGIONAL_SUPPORTER_PLAN as plan, yen } from '../../data/sponsorship';
+import { SPONSOR_PLAN as plan, yen } from '../../data/sponsorship';
 
 const FORM_ENDPOINT = SITE_CONFIG.formEndpoint;
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '協賛のご案内', href: '/sponsor/' }, { name: '協賛の申し込み' }];
 ---
-<BrandBase title="協賛の申し込み｜イバトコ" description="イバトコ地域サポーターの申込フォーム。企業・店舗・団体の社名とロゴをトップページの協賛欄で紹介します。" noindex>
+<BrandBase title="協賛の申し込み｜イバトコ" description="イバトコスポンサーの申込フォーム。PR記事と関連記事・SNSでのご紹介で、茨城を調べる人に届けます。" noindex>
   <section class="apply bp-wrap">
     <Breadcrumbs items={crumbs} />
     <header class="apply__head">
       <p class="bp-kicker">APPLY</p>
       <h1>協賛の申し込み</h1>
-      <div class="apply__plan"><strong>{plan.name}</strong><span>{yen(plan.price)}（税別）／{plan.duration}</span></div>
-      <p>お申し込みを確認し、3営業日以内にご連絡します。掲載内容と期間にご同意いただき、掲載開始後に一括でご請求します。</p>
+      <div class="apply__plan"><strong>{plan.name}</strong><span>{yen(plan.price)}（税別）／{plan.unit}・{plan.minTerm}</span></div>
+      <p>お申し込みを確認し、3営業日以内にご連絡します。掲載内容と期間にご同意いただいてから始めます。{plan.billing}</p>
       <p class="apply__note"><a href="/sponsor/">掲載内容・料金を確認する</a></p>
       <p class="apply__note">以前のお見積りや別の企画は、<a href="/contact/?subject=協賛・広告のご相談">協賛の相談窓口</a>へお寄せください。</p>
     </header>
@@ -39,19 +39,19 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '協賛のご
       <div class="field"><label for="name">ご担当者名 <small>必須</small></label><input id="name" name="name" type="text" required autocomplete="name" /></div>
       <div class="field field--wide"><label for="email">メールアドレス <small>必須</small></label><input id="email" name="email" type="email" required autocomplete="email" /></div>
       <div class="field field--wide">
-        <label for="url">掲載する公式サイトのURL <small>必須</small></label>
+        <label for="url">紹介する公式サイトのURL <small>必須</small></label>
         <input id="url" name="url" type="url" required pattern="https://.+" placeholder="https://" aria-describedby="url-help" />
         <p class="help" id="url-help">公式サイトや店舗ページの、https:// から始まるURLをご入力ください。</p>
       </div>
       <div class="field field--wide"><label for="period">掲載希望時期 <small class="is-optional">任意</small></label><input id="period" name="period" type="text" placeholder="例：12月ごろから" /></div>
       <div class="field field--wide"><label for="billing">請求書の宛名 <small class="is-optional">任意</small></label><input id="billing" name="billing" type="text" /></div>
       <div class="field field--wide"><label for="message">ご質問・ご要望 <small class="is-optional">任意</small></label><textarea id="message" name="message" rows="4"></textarea></div>
-      <p class="help field--wide">ロゴは、掲載の許諾がある画像を返信メールに添付してお送りください。</p>
+      <p class="help field--wide">PR記事の素材（文章・写真など）は、掲載の許諾があるものを返信メールでお送りください。</p>
       <div class="field field--wide field--check">
         <label class="check"><input type="checkbox" name="agree" value="同意する" required /> <span><a href="/sponsor/terms/" target="_blank" rel="noopener">協賛（広告）掲載規約</a>と<a href="/about/pr-policy/" target="_blank" rel="noopener">PR・広告の方針</a>に同意します <small>必須</small></span></label>
       </div>
       <div class="apply-form__actions field--wide">
-        <button type="submit"><span>地域サポーターに申し込む</span><span aria-hidden="true">→</span></button>
+        <button type="submit"><span>スポンサーに申し込む</span><span aria-hidden="true">→</span></button>
         <p class="privacy">送信前に<a href="/privacy/">プライバシーポリシー</a>をご確認ください。</p>
       </div>
       <p class="form-status field--wide" data-status role="status" aria-live="polite" hidden></p>
