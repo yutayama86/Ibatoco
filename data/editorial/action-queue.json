@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-22",
+  "updatedAt": "2026-11-23",
   "actions": [
     {
       "id": "20261122-brand-top-h1",
@@ -53,9 +53,9 @@
     },
     {
       "id": "20261122-ctr-title-wave1",
-      "title": "検索に出ているのに押されない5ページの title 改善（第1波）",
+      "title": "検索に出ているのに押されない title 改善（第1波・3ページ）",
       "kind": "seo",
-      "status": "ready",
+      "status": "done",
       "priority": "high",
       "createdAt": "2026-11-22",
       "confidence": "medium",
@@ -67,13 +67,38 @@
         "https://developers.google.com/search/docs/appearance/title-link"
       ],
       "source": "GSC 公式 API（2026-10-22〜11-18）：表示1,000以上・CTR2%未満が22ページ・表示約7万。第1波は観測窓外・未終了・他案件と重ならない5ページ（筑西商品券・牛久大仏・筑波山神社・茨城空港・常総新花火）。",
-      "reason": "5〜10位で CTR 1%前後。検索語が title 先頭にない・長くてスマホで切れる・title だけで答えが完結する、の3点を title だけ変えて検証。常総新花火は12月上旬に需要の山。オーナー承認 2026-11-22。",
+      "reason": "5〜10位で CTR 1%前後。検索語が title 先頭にない・長くてスマホで切れる・title だけで答えが完結する、の3点を title だけ変えて検証。常総新花火は12月上旬に需要の山。オーナー承認 2026-11-22。 2026-11-23実施：牛久大仏（11/29まで観測窓）と茨城空港（12/13まで観測窓）は growth:check で変更不可のため、第1波bとして分離。",
       "acceptanceCriteria": [
-        "仕様の表の5ページの frontmatter title だけを新しい title に変える（H1 は同じフィールドのため同じ文になる）。description・本文・URL・canonical は変えない",
+        "筑西商品券・筑波山神社・常総新花火の3ページの frontmatter title だけを仕様の新しい title に変える。description・本文・URL・canonical は変えない",
         "title の事実は仕様の根拠の範囲だけ。新しい事実を足さない",
-        "5ページを同じ日に公開し、seo-changes.ts に1ページ1エントリ（on-page・experimentType metadata・旧→新）",
+        "3ページを同じ日に公開し、seo-changes.ts に1ページ1エントリ（on-page・experimentType metadata・旧→新）",
         "npm run verify:article -- <slug>（5件）・npm run date:check・npm run verify・必須CI"
       ]
+    },
+    {
+      "id": "20261123-ctr-title-wave1b",
+      "title": "title 改善 第1波b：牛久大仏・茨城空港（観測窓明け）",
+      "kind": "seo",
+      "status": "ready",
+      "priority": "high",
+      "createdAt": "2026-11-23",
+      "confidence": "medium",
+      "effort": "S",
+      "targetUrl": "/events/ushiku-daibutsu-guide/",
+      "targetFile": "src/content/events/ushiku-daibutsu-guide.md",
+      "specPath": "docs/editorial/specs/20261122-ctr-title-wave1.md",
+      "primarySourceUrls": [
+        "https://developers.google.com/search/docs/appearance/title-link"
+      ],
+      "source": "GSC 公式 API（2026-10-22〜11-18）：表示1,000以上・CTR2%未満が22ページ・表示約7万。第1波は観測窓外・未終了・他案件と重ならない5ページ（筑西商品券・牛久大仏・筑波山神社・茨城空港・常総新花火）。",
+      "reason": "第1波の仕様のうち、観測窓中で11/23に実施できなかった2ページ。茨城空港の観測窓（12/13まで）明けにそろえて同じ日に公開する。オーナー承認 2026-11-22・実施は Claude（2026-11-23 オーナー指示）。",
+      "acceptanceCriteria": [
+        "仕様の表の牛久大仏・茨城空港の2ページの frontmatter title だけを新しい title に変える。description・本文・URL・canonical は変えない",
+        "実装前に両ページの growth:check が変更可であること、title の事実（料金・台数・利用時間）が本文と一致していることを確認",
+        "2ページを同じ日に公開し、seo-changes.ts に1ページ1エントリ（on-page・experimentType metadata・旧→新）",
+        "npm run verify:article -- <slug>（2件）・npm run date:check・npm run verify・必須CI"
+      ],
+      "notBefore": "2026-12-14"
     },
     {
       "id": "20261122-events-hub-today-answer",
