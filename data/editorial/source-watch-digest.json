@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-23T01:51:01.687Z",
+  "asOf": "2026-11-23",
+  "keepDays": 14,
+  "scan": {
+    "scanned": 55,
+    "fetched": 54,
+    "failed": 1,
+    "previousReportAvailable": true
+  },
+  "note": "公式サイトの新着リンク（キーワード一致の題名のみ）。未確認情報。記事化は一次情報で確認してから。",
+  "items": [
+    {
+      "firstSeenAt": "2026-11-23",
+      "sourceId": "oarai-tourism-news",
+      "municipality": "大洗町",
+      "title": "【開催告知-2026年12月】大洗で唯一のクリスマスマーケット",
+      "url": "https://www.oarai-info.jp/event/postid_11534/",
+      "registered": false
+    }
+  ]
+}

@@ -11,6 +11,8 @@ import { buildAnalyticsReport, changePct, nextStepAssessment, NEXT_STEP_CHANGE_I
 import { loadContentPages } from '../../../scripts/lib/content-pages.mjs';
 import { todayDateOnlyString } from '../../lib/date-only.js';
 import { DAILY_CAP, schedulePosts, selectPostCandidates } from '../../lib/social-posts.mjs';
+import sourceDigest from '../../../data/editorial/source-watch-digest.json';
+import { pendingNewLinks } from '../../lib/source-watch-digest.mjs';
 
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
@@ -24,6 +26,8 @@ const signed = (v: number | null | undefined) => (v == null ? '—' : `${v > 0 ?
 const tone = (v: number | null | undefined) => (v == null || v === 0 ? '' : v > 0 ? 'is-good' : 'is-bad');
 const aiChange = changePct(ai?.recent28?.sessions, ai?.previous28?.sessions);
 const verdict = r.verdictCounts as Record<string, number>;
+const watch: any = pendingNewLinks(sourceDigest as any, postToday, 7);
+const watchShown = watch.items.slice(0, 8);
 ---
 
 <section class="cx" id="summary" aria-labelledby="cx-title">
@@ -50,6 +54,22 @@ const verdict = r.verdictCounts as Record<string, number>;
       <i>週次アナリティクスのページへ →</i>
     </a>
   </div>
+
+  <section class="cx-watch" aria-labelledby="cx-watch-title">
+    <h3 id="cx-watch-title">公式サイトの新着<small>直近7日・台帳に未登録 {watch.items.length}件{(sourceDigest as any).asOf ? `（${(sourceDigest as any).asOf} 時点）` : ''}</small></h3>
+    {watch.stale && <p class="cx-warn">監視の新着が2日以上更新されていません。公式サイト監視のワークフローを確認してください。</p>}
+    {watchShown.length > 0 ? (
+      <ul>
+        {watchShown.map((item: any) => (
+          <li><span>{item.firstSeenAt.slice(5).replace('-', '/')} {item.municipality ?? '全県'}</span><a href={item.url} rel="noopener noreferrer" target="_blank">{item.title}</a></li>
+        ))}
+      </ul>
+    ) : (
+      <p>未登録の新着はありません。</p>
+    )}
+    {watch.items.length > watchShown.length && <p>ほか {watch.items.length - watchShown.length}件（data/editorial/source-watch-digest.json）</p>}
+    <p class="cx-note">リンクの題名だけで判定した未確認情報です。見る価値があれば台帳に登録し、一次情報で日付を確かめてから記事にします。</p>
+  </section>
 </section>
 
 <style>
@@ -68,6 +88,14 @@ const verdict = r.verdictCounts as Record<string, number>;
   .cx-link li span{margin-right:.4rem;color:var(--accent);font-size:.72rem;font-weight:700}
   .cx-link p{margin:0;color:var(--muted);font-size:.8rem}
   .cx-link i{color:var(--accent);font-size:.78rem;font-style:normal;font-weight:700}
+  .cx-watch{display:grid;gap:.4rem;padding:.9rem 1rem;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .cx-watch h3{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem;margin:0;font-size:.95rem}
+  .cx-watch h3 small{color:var(--muted);font-size:.72rem;font-weight:500}
+  .cx-watch ul{display:grid;gap:.3rem;margin:0;padding:0;list-style:none;font-size:.82rem}
+  .cx-watch li span{margin-right:.45rem;color:var(--accent);font-size:.72rem;font-weight:700}
+  .cx-watch a{color:var(--text);overflow-wrap:anywhere}
+  .cx-watch p{margin:0;color:var(--muted);font-size:.78rem}
+  .cx-watch .cx-warn{color:var(--bad);font-weight:700}
   .cx .is-good{color:var(--good)}
   .cx .is-bad{color:var(--bad)}
 </style>
