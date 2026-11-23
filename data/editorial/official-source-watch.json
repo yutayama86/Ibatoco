@@ -1365,6 +1365,47 @@
         "ビジネス"
       ],
       "note": "Specific 2026-11-19 Daigo-town official organizer event page. Direct-event signal remains possible when profile feeds contain no candidate anchors; do not generalize to other upcoming events."
+    },
+    {
+      "id": "hitachinaka-hcdi-news",
+      "category": "organizer",
+      "area": "県央",
+      "municipality": "ひたちなか市",
+      "url": "https://hcdi.jp/index.html",
+      "watchType": "news-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "横丁",
+        "クリスマス",
+        "開催",
+        "TAMARIBA"
+      ],
+      "note": "2026-11-23追加。ひたちなかまちづくり株式会社のお知らせ（勝田TAMARIBA横丁の主催）。市の公式ページに載らない民間主催の定期イベントを拾うため。"
+    },
+    {
+      "id": "kitaibaraki-kanko-events",
+      "category": "tourism",
+      "area": "県北",
+      "municipality": "北茨城市",
+      "url": "https://www.kitaibarakishi-kankokyokai.gr.jp/page/dir000198.html",
+      "watchType": "event-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "横丁",
+        "クリスマス",
+        "開催"
+      ],
+      "note": "2026-11-23追加。北茨城市観光協会「まつり・イベント」。磯原イルミネーション等、観光協会だけが告知するイベント用。"
     }
   ]
 }

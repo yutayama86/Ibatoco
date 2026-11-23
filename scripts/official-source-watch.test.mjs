@@ -229,7 +229,7 @@ test('live diagnosis fallbacks use official URLs without pretending Kawachi muni
   assert.equal(find('kawachi-town-home').watchType, 'fallback-home');
   assert.equal(find('kawachi-illumination-2026-official').watchType, 'single-event');
   assert.equal(find('tokyo-daigo-talk-2026-direct').scope, 'tokyo-ibaraki');
-  assert.equal(config.sources.length, 55);
+  assert.equal(config.sources.length, 57);
 });
 
 test('unverified-specific-event candidates outrank generic menus but all remain available', () => {
