@@ -110,3 +110,110 @@ jobs:
           path: reports/editorial/official-source-watch.json
           retention-days: 30
           if-no-files-found: warn
+
+  # 新着リンク（前日になかったもの）を data/editorial/source-watch-digest.json に積み上げ、/control/ のサマリーに出す。
+  # 監視の結果がどこにも届かず取りこぼしが続いたための連携（2026-11-23 オーナー承認）。
+  # main へ直接 push しない。GA4 日次同期と同じく bot 専用ブランチ → PR → 必須チェック → auto-merge。許可するのは1ファイルだけ。
+  publish-digest:
+    name: Publish new official links to Control (one file)
+    needs: official-watch
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      actions: write
+      pull-requests: write
+    concurrency:
+      group: official-source-watch-digest
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22.23.4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: official-source-watch-${{ github.run_id }}
+          path: /tmp/ibatoco-official-source-watch
+      - name: Install locked dependencies for verification
+        run: npm ci
+      - name: Build digest of new official links
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="bot/source-watch-digest"
+          # 前回の同期 PR がまだマージ前なら、そちらの積み上げを引き継ぐ（新しい方を使う）
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch --quiet --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            if git show "origin/$branch:data/editorial/source-watch-digest.json" > /tmp/bot-digest.json 2>/dev/null; then
+              node --input-type=module -e "
+                import {readFileSync,copyFileSync} from 'node:fs';
+                const a=JSON.parse(readFileSync('data/editorial/source-watch-digest.json','utf8')).asOf??'';
+                const b=JSON.parse(readFileSync('/tmp/bot-digest.json','utf8')).asOf??'';
+                if (b > a) copyFileSync('/tmp/bot-digest.json','data/editorial/source-watch-digest.json');"
+            fi
+          fi
+          node scripts/source-watch-digest.mjs /tmp/ibatoco-official-source-watch/official-source-watch.json
+          npm run verify
+      - name: Propose digest through protected PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          file="data/editorial/source-watch-digest.json"
+          if git diff --quiet -- "$file"; then
+            echo "No change in the official-link digest."
+            exit 0
+          fi
+          branch="bot/source-watch-digest"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch --quiet --no-tags origin "+refs/heads/$branch:refs/remotes/origin/$branch"
+            if ! node scripts/sync-branch-guard.mjs HEAD "origin/$branch"; then
+              echo "::error::$branch に main へ入っていない変更があるため上書きしません。PR をマージするか変更を移してから再実行してください。"
+              exit 1
+            fi
+          fi
+          git switch -C "$branch"
+          git add "$file"
+          git commit -m "chore(editorial): new official links digest (run $RUN_ID)"
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push --force origin "HEAD:refs/heads/$branch"
+          title="editorial: official source watch new-links digest"
+          body="Daily digest of official links first seen since the previous watch (run $RUN_ID). Unverified link titles only; shown on /control/ for editorial review. Changes only $file and is refreshed in place (one PR). npm run verify succeeded."
+          existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --repo "$REPOSITORY" --title "$title" --body "$body" || echo "::warning::PR #$existing の題名・本文は更新できなかった（中身は更新済み）"
+          else
+            gh pr create --repo "$REPOSITORY" --base main --head "$branch" --title "$title" --body "$body"
+          fi
+          # GITHUB_TOKEN の push では CI が起動しないので、必須チェックを同じブランチで起動する
+          gh workflow run validate.yml --ref "$branch"
+          gh workflow run codeql.yml --ref "$branch"
+          existing="$(gh pr list --repo "$REPOSITORY" --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$existing" ]; then
+            echo "::error::digest の PR がありません。"
+            exit 1
+          fi
+          changed="$(gh api --paginate "repos/$REPOSITORY/pulls/$existing/files?per_page=100" --jq '.[].filename')"
+          if [ "$changed" != "$file" ]; then
+            echo "::error title=自動マージ中止::PR #$existing は許可された1ファイル以外を変更しています：$changed"
+            exit 1
+          fi
+          pr_head="$(gh pr view "$existing" --repo "$REPOSITORY" --json headRefOid --jq '.headRefOid')"
+          if [ "$pr_head" != "$(git rev-parse HEAD)" ]; then
+            echo "::error title=自動マージ中止::PR の head が変更されました。"
+            exit 1
+          fi
+          if ! gh pr merge "$existing" --repo "$REPOSITORY" --auto --squash; then
+            echo "::error title=自動マージ設定が必要::auto-merge を設定できませんでした。"
+            exit 1
+          fi
+          echo "::notice::PR #$existing auto-merge を設定。必須チェック成功後だけ main に反映されます。"
