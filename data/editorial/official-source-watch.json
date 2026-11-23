@@ -1365,6 +1365,87 @@
         "ビジネス"
       ],
       "note": "Specific 2026-11-19 Daigo-town official organizer event page. Direct-event signal remains possible when profile feeds contain no candidate anchors; do not generalize to other upcoming events."
+    },
+    {
+      "id": "hitachinaka-hcdi-news",
+      "category": "organizer",
+      "area": "県央",
+      "municipality": "ひたちなか市",
+      "url": "https://hcdi.jp/index.html",
+      "watchType": "news-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "横丁",
+        "クリスマス",
+        "開催",
+        "TAMARIBA"
+      ],
+      "note": "2026-11-23追加。ひたちなかまちづくり株式会社のお知らせ（勝田TAMARIBA横丁の主催）。市の公式ページに載らない民間主催の定期イベントを拾うため。"
+    },
+    {
+      "id": "kitaibaraki-kanko-events",
+      "category": "tourism",
+      "area": "県北",
+      "municipality": "北茨城市",
+      "url": "https://www.kitaibarakishi-kankokyokai.gr.jp/page/dir000198.html",
+      "watchType": "event-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "横丁",
+        "クリスマス",
+        "開催"
+      ],
+      "note": "2026-11-23追加。北茨城市観光協会「まつり・イベント」。磯原イルミネーション等、観光協会だけが告知するイベント用。"
+    },
+    {
+      "id": "oarai-aquaworld-news",
+      "category": "venue",
+      "area": "県央",
+      "municipality": "大洗町",
+      "url": "https://www.aquaworld-oarai.com/news/",
+      "watchType": "news-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "クリスマス",
+        "開催",
+        "アクアワールド"
+      ],
+      "note": "2026-11-23追加。アクアワールド茨城県大洗水族館の公式お知らせ。季節イベント（クリスマス アクアワールド等）は施設だけが告知するため。"
+    },
+    {
+      "id": "tsuchiura-kankou-event",
+      "category": "tourism",
+      "area": "県南",
+      "municipality": "土浦市",
+      "url": "https://www.tsuchiura-kankou.jp/event/",
+      "watchType": "event-index",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "祭",
+        "フェス",
+        "イルミ",
+        "マルシェ",
+        "クリスマス",
+        "開催",
+        "ウインター"
+      ],
+      "note": "2026-11-23追加。土浦市観光協会のイベント一覧。土浦ウインターフェスティバル等、市の公式ページより観光協会が先に告知するイベント用。"
     }
   ]
 }

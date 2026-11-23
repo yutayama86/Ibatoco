@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-20",
+  "updatedAt": "2026-11-23",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -1044,7 +1044,7 @@
       "municipality": "tsukuba",
       "startDate": "2026-11-01",
       "endDate": "2027-01-11",
-      "officialUrl": "https://www.keisei.co.jp/news/detail.php?CN=8103",
+      "officialUrl": "https://mt-tsukuba.com/",
       "discoveredAt": "2026-10-30",
       "verifiedAt": "2026-11-03",
       "articleUrl": "/events/tsukuba-cablecar-last-run-campaign-2026/",
@@ -1082,7 +1082,7 @@
     },
     {
       "id": "shimotsuma-kiku-matsuri-2026",
-      "name": "下妻市菊まつり",
+      "name": "下妻市菊まつり（大宝八幡宮 菊花展）",
       "municipality": "shimotsuma",
       "startDate": "2026-11-01",
       "endDate": "2026-11-23",
@@ -1124,7 +1124,7 @@
     },
     {
       "id": "kawachi-christmas-illumination-2026",
-      "name": "かわちクリスマスイルミネーション2026（イルミネーションと花火）",
+      "name": "かわちイルミネーション2026",
       "municipality": "kawachi",
       "startDate": "2026-11-03",
       "endDate": "2027-02-14",
@@ -1229,6 +1229,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "茨城県近代美術館の公式検索本文で発見。本文・PDF、料金区分、無料日、祝日・年末年始の休館日の精査待ち。20261030-nakanishi-natsuyuki-exhibition-discoveryとして11月2日までに掲載判断。記事化しない場合も候補を削除しない。"
+    },
+    {
+      "id": "christmas-aquaworld-2026",
+      "name": "クリスマス アクアワールド2026",
+      "municipality": "oarai",
+      "startDate": "2026-11-13",
+      "endDate": "2026-12-25",
+      "officialUrl": "https://www.aquaworld-oarai.com/2026/11/05/christmas2026/",
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。プレスリリース転載サイトで11/13〜12/25（12/7〜11は休館）、テーマ「ヒゲ」とある。アクアワールド公式での確認、夜間特別営業の有無は未確認。クリスマスまとめに個別項目なし。 11/23追記：公式お知らせ（2026/11/05）で「クリスマス アクアワールド 2026」が11月13日開始と告知されていることを確認。終了日は詳細ページで要確認。"
     },
     {
       "id": "hitachi-starlight-illumination-2026",
@@ -1381,6 +1402,27 @@
       "notes": "Discovery Gate の巡回（10/17）で常陸太田市観光物産協会のお知らせから発見。公式で11月15日（日）雨天決行、会場は西金砂湯けむりの郷「金砂の湯」前、14kmの部10:00・5kmの部10:05スタート、申込は9月30日で締切、正午に交通規制解除。参加型（中学生以下は参加不可）で、エントリーは締め切り済み。記事化・11月まとめへの追記・見送りは編集判断待ち。来場規模の根拠は未取得。"
     },
     {
+      "id": "tokyo-daigo-food-business-talk-2026",
+      "name": "ローカルで食のビジネスを経営するリアル｜通える田舎で、ワガママに仕事をつくる",
+      "municipality": "daigo",
+      "startDate": "2026-11-19",
+      "endDate": "2026-11-19",
+      "officialUrl": "https://note.com/re_daigo/n/n82d06dbb3658",
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "articleUrl": "/events/tokyo-daigo-food-business-talk-2026/",
+      "articleUpdatedAt": "2026-11-17",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "low",
+        "localSpend": "unknown",
+        "logisticsDemand": "low"
+      },
+      "notes": "東京での茨城県大子町関連イベント（大子町主催、一般社団法人リダイゴ企画・運営）。2026-11-19（木）19:00〜21:00、BONUS TRACK HOUSE（東京・下北沢）、18:30開場。参加費1,000円、定員25名（先着）、Peatix申込。一般社団法人リダイゴの公式告知（2026-10-24公開）で確認。出席・満席状況は未確認。"
+    },
+    {
       "id": "mito-kakuuchi-wine-2026",
       "name": "角打ち日和・ワールドワインフェスティバル",
       "municipality": "mito",
@@ -1390,6 +1432,90 @@
       "discoveredAt": "2026-11-20",
       "verifiedAt": "2026-11-20",
       "articleUrl": "/events/mito-kakuuchi-wine-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "kamisu-wakudoki-anzen-festival-2026",
+      "name": "ワクドキ×かみす みんなの笑顔を守ろう安全フェスティバル",
+      "municipality": "kamisu",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.kamisu.ibaraki.jp/living/safety/1000947/1014213.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/kamisu-wakudoki-anzen-festival-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "tokyo-ibaraki-shukakusai-2026",
+      "name": "茨城をたべよう収穫祭2026 ～秋の大ごちそう博～",
+      "municipality": "tokyo",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://ibaraki-shukakusai2026.jp/",
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-19",
+      "articleUrl": "/events/tokyo-ibaraki-shukakusai-2026/",
+      "articleUpdatedAt": "2026-11-19",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "開催地：東京都世田谷区駒沢公園1-1 駒沢オリンピック公園中央広場（茨城県主催）。2026年11月21～23日10:00～20:00（最終日17:00まで）、入場無料。主催特設サイト https://ibaraki-shukakusai2026.jp/ 。東京開催の茨城関連イベントとして発見対象へ追加。登壇者など変動する情報は都度再確認。 11/18公式ステージスケジュール公開と11/16出演者変更を11/19再確認。"
+    },
+    {
+      "id": "tsukuba-aist-openhouse-2026",
+      "name": "産総研25周年特別公開",
+      "municipality": "tsukuba",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.aist.go.jp/sc/openhouse/2026/index.html",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/tsukuba-aist-openhouse-2026/",
+      "articleUpdatedAt": "2026-11-20",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "namegata-yakiimo-kojosai-2026",
+      "name": "秋のやきいも工場祭",
+      "municipality": "namegata",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.namegata-fv.jp/event/yakiimo-festival2026/",
+      "discoveredAt": "2026-11-20",
+      "verifiedAt": "2026-11-20",
+      "articleUrl": "/events/namegata-yakiimo-kojosai-2026/",
       "articleUpdatedAt": "2026-11-20",
       "status": "published",
       "importance": "normal",
@@ -1468,111 +1594,6 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
-      "id": "ryugasaki-igappe-ichi-croquette-2026",
-      "name": "龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁",
-      "municipality": "ryugasaki",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-21",
-      "officialUrl": "https://www.city.ryugasaki.ibaraki.jp/kanko/event/sangyousai-korofyesu.html",
-      "discoveredAt": "2026-11-13",
-      "verifiedAt": "2026-11-13",
-      "articleUrl": "/events/ryugasaki-igappe-ichi-croquette-2026/",
-      "articleUpdatedAt": "2026-11-13",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
-    },
-    {
-      "id": "daigo-hanabi-2026",
-      "name": "令和8年度大子町花火大会",
-      "municipality": "daigo",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-21",
-      "officialUrl": "https://www.daigo-kanko.jp/news/news-19551",
-      "discoveredAt": "2026-10-05",
-      "verifiedAt": "2026-10-11",
-      "articleUrl": "/events/daigo-hanabi-2026/",
-      "articleUpdatedAt": "2026-10-11",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
-    },
-    {
-      "id": "kamisu-wakudoki-anzen-festival-2026",
-      "name": "ワクドキ×かみす みんなの笑顔を守ろう安全フェスティバル",
-      "municipality": "kamisu",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-21",
-      "officialUrl": "https://www.city.kamisu.ibaraki.jp/living/safety/1000947/1014213.html",
-      "discoveredAt": "2026-11-20",
-      "verifiedAt": "2026-11-20",
-      "articleUrl": "/events/kamisu-wakudoki-anzen-festival-2026/",
-      "articleUpdatedAt": "2026-11-20",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
-    },
-    {
-      "id": "tsukuba-aist-openhouse-2026",
-      "name": "産総研25周年特別公開",
-      "municipality": "tsukuba",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-21",
-      "officialUrl": "https://www.aist.go.jp/sc/openhouse/2026/index.html",
-      "discoveredAt": "2026-11-20",
-      "verifiedAt": "2026-11-20",
-      "articleUrl": "/events/tsukuba-aist-openhouse-2026/",
-      "articleUpdatedAt": "2026-11-20",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
-    },
-    {
-      "id": "namegata-yakiimo-kojosai-2026",
-      "name": "秋のやきいも工場祭",
-      "municipality": "namegata",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-23",
-      "officialUrl": "https://www.namegata-fv.jp/event/yakiimo-festival2026/",
-      "discoveredAt": "2026-11-20",
-      "verifiedAt": "2026-11-20",
-      "articleUrl": "/events/namegata-yakiimo-kojosai-2026/",
-      "articleUpdatedAt": "2026-11-20",
-      "status": "published",
-      "importance": "normal",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
-    },
-    {
       "id": "hitachiomiya-hanadate-hoshi-2026",
       "name": "第36回花立山星まつり",
       "municipality": "hitachiomiya",
@@ -1613,6 +1634,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "ryugasaki-igappe-ichi-croquette-2026",
+      "name": "龍ケ崎産業祭いがっぺ市＆ご当地コロッケ横丁",
+      "municipality": "ryugasaki",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.city.ryugasaki.ibaraki.jp/kanko/event/sangyousai-korofyesu.html",
+      "discoveredAt": "2026-11-13",
+      "verifiedAt": "2026-11-13",
+      "articleUrl": "/events/ryugasaki-igappe-ichi-croquette-2026/",
+      "articleUpdatedAt": "2026-11-13",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "龍ケ崎市の公式ページ（2026-11-12更新）とチラシ・シャトルバス時刻表で確認。出店9店舗の店名と値段、臨時駐車場の台数は未確認。検索需要は未取得。"
+    },
+    {
+      "id": "daigo-hanabi-2026",
+      "name": "令和8年度大子町花火大会",
+      "municipality": "daigo",
+      "startDate": "2026-11-21",
+      "endDate": "2026-11-21",
+      "officialUrl": "https://www.daigo-kanko.jp/news/news-19551",
+      "discoveredAt": "2026-10-05",
+      "verifiedAt": "2026-10-11",
+      "articleUrl": "/events/daigo-hanabi-2026/",
+      "articleUpdatedAt": "2026-10-11",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "大子町観光協会の一次情報で開催日時・会場を確認。記事と同期済み。"
     },
     {
       "id": "yokota-iin-haikyo-tour-2026",
@@ -1657,6 +1720,27 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "tokai-imo-fes-2026",
+      "name": "IMOフェス2026",
+      "municipality": "tokai",
+      "startDate": "2026-11-23",
+      "endDate": "2026-11-23",
+      "officialUrl": "https://www.vill.tokai.ibaraki.jp/soshikikarasagasu/sangyobu/sangyoseisakuka/4/3/13641.html",
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "articleUrl": "/events/tokai-imo-fes-2026/",
+      "articleUpdatedAt": "2026-11-17",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "2026-11-17発見漏れ是正。東海村観光協会2026-10-19発表、東海村公式で11/23（月祝）10:00～15:00、阿漕ヶ浦公園、約60店がサツマイモ料理・スイーツ提供。https://www.vill.tokai.ibaraki.jp/soshikikarasagasu/sangyobu/sangyoseisakuka/4/3/13641.html 。記事未掲載。"
+    },
+    {
       "id": "tsuchiura-sangyosai-2026",
       "name": "第50回土浦市産業祭",
       "municipality": "tsuchiura",
@@ -1678,8 +1762,29 @@
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     },
     {
+      "id": "itako-riverside-illumination-2026",
+      "name": "水の郷 水辺イルミネーション Riverside Illumination2026",
+      "municipality": "itako",
+      "startDate": "2026-11-29",
+      "endDate": "2027-01-31",
+      "officialUrl": "https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html",
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": "2026-11-17",
+      "articleUrl": "/events/itako-riverside-illumination-2026/",
+      "articleUpdatedAt": "2026-11-17",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "2026-11-17発見漏れ是正。潮来市公式2026-11-12発表。点灯17:00～22:00、3会場：水郷潮来あやめ園・道の駅いたこ・津軽河岸あと広場。11/29点灯式、開催期間中に会場別イベント。土浦市の水郷桜イルミネーションとは別イベント。独立記事・県内イルミネーションまとめとも未掲載。"
+    },
+    {
       "id": "takahagi-relay-marathon-2026",
-      "name": "第1回 高萩リレーマラソン",
+      "name": "第1回 たかはぎさくら宇宙公園リレーマラソン",
       "municipality": "takahagi",
       "startDate": "2026-11-29",
       "endDate": "2026-11-29",
@@ -1697,6 +1802,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "大会公式（主催：高萩市・高萩市教育委員会）で11月29日、さくら宇宙公園を確認。申込締切は大会サイトが11月3日に延長、市のページは10月30日と食い違い。"
+    },
+    {
+      "id": "isohara-illumination-2026",
+      "name": "磯原イルミネーション ブルーウェーブいそはら（2026）",
+      "municipality": "kitaibaraki",
+      "startDate": "2026-12-01",
+      "endDate": "2027-01-11",
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。旅行会社のイベント掲載（情報元イベントバンク）で12/1〜2027/1/11、16:30〜22:00、磯原中央公園・JR磯原駅西口、12/1点灯式とある。北茨城市観光協会の公式告知（2026年版）は未確認。冬のイルミまとめ（ibaraki-illumination-2026）に未掲載。"
+    },
+    {
+      "id": "ferme-de-noel-31-2026",
+      "name": "Ferme de Noel vol.31（こもれび森のイバライド）",
+      "municipality": "inashiki",
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-06",
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。旅行会社のイベント掲載で12/5〜6、10:00〜16:30、入園料 大人1,500円・子供800円・犬600円とある。主催（IKINAMARKET）・イバライド公式での確認は未了。クリスマス／冬マルシェのまとめに未掲載。"
     },
     {
       "id": "koga-chochin-saomomi-matsuri-2026",
@@ -1746,7 +1893,7 @@
       "municipality": "hitachi",
       "startDate": "2026-12-06",
       "endDate": "2026-12-06",
-      "officialUrl": "https://www.ibarakiguide.jp/event.php?code=1365&mode=detail",
+      "officialUrl": "https://hitachi-trail.com/",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-11-03",
       "articleUrl": "/events/hitachi-alps-ocean-trail-2026/",
@@ -1781,6 +1928,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
+    },
+    {
+      "id": "katsuta-tamariba-yokocho-67-2026",
+      "name": "第67回 勝田TAMARIBA横丁",
+      "municipality": "hitachinaka",
+      "startDate": "2026-12-13",
+      "endDate": "2026-12-13",
+      "officialUrl": "https://hcdi.jp/tamariba.html",
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。主催ひたちなかまちづくり公式X（@hcdi_jp）の投稿で12月13日（日）、JR勝田駅東口おもてまち通りの歩行者天国、55店、餅つき体験（各回先着100名）・こたつ鍋・ミニ新幹線を確認。公式サイトの第67回告知（hcdi.jp/tamariba.html）は11/22掲載だが日付の照合は未了。定期開催のため回ごとに更新する常設ページ化を検討。"
+    },
+    {
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "discoveredAt": "2026-11-17",
+      "verifiedAt": null,
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "id": "tokyo-ibakyun-marche-2026",
+      "name": "いばキュン！マルシェ2026（東京・二子玉川）",
+      "municipality": "tokyo",
+      "startDate": "2026-12-19",
+      "endDate": "2026-12-20",
+      "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18469",
+      "status": "discovered",
+      "importance": "normal",
+      "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。"
     },
     {
       "id": "kasama-inari-hatsumode-2027",
@@ -1826,7 +2015,7 @@
     },
     {
       "id": "oarai-hatsuhinode-2027",
-      "name": "大洗の初日の出・大洗磯前神社の初詣（2027年元日）",
+      "name": "大洗の初日の出・大洗磯前神社の初詣（2027年）",
       "municipality": "oarai",
       "startDate": "2027-01-01",
       "endDate": "2027-01-03",
@@ -1851,7 +2040,7 @@
       "municipality": "hitachinaka",
       "startDate": "2027-01-31",
       "endDate": "2027-01-31",
-      "officialUrl": "https://katsutamarathon.jp/outline/",
+      "officialUrl": "https://katsutamarathon.jp/",
       "discoveredAt": "2026-10-17",
       "verifiedAt": "2026-10-17",
       "articleUrl": "/events/katsuta-marathon-2027/",
@@ -1888,109 +2077,151 @@
       "notes": "水戸観光コンベンション協会が第131回の日程を公開。主な行事・開花状況・偕楽園臨時駅は2026-11-10時点で未発表のため、発表後に更新する。検索需要は未取得。"
     },
     {
-      "articleUrl": "/events/tokai-imo-fes-2026/",
-      "articleUpdatedAt": "2026-11-17",
-      "discoveredAt": "2026-11-17",
-      "verifiedAt": "2026-11-17",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "id": "tokai-imo-fes-2026",
-      "name": "IMOフェス2026（東海村）",
-      "municipality": "tokai",
-      "startDate": "2026-11-23",
-      "endDate": "2026-11-23",
-      "officialUrl": "https://tokai-kanko.com/events/p-01142",
-      "status": "published",
-      "importance": "large",
-      "notes": "2026-11-17発見漏れ是正。東海村観光協会2026-10-19発表、東海村公式で11/23（月祝）10:00～15:00、阿漕ヶ浦公園、約60店がサツマイモ料理・スイーツ提供。https://www.vill.tokai.ibaraki.jp/soshikikarasagasu/sangyobu/sangyoseisakuka/4/3/13641.html 。記事未掲載。"
-    },
-    {
-      "articleUrl": "/events/itako-riverside-illumination-2026/",
-      "articleUpdatedAt": "2026-11-17",
-      "discoveredAt": "2026-11-17",
-      "verifiedAt": "2026-11-17",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "id": "itako-riverside-illumination-2026",
-      "name": "水の郷 水辺イルミネーション Riverside Illumination 2026",
-      "municipality": "itako",
-      "startDate": "2026-11-29",
-      "endDate": "2027-01-31",
-      "officialUrl": "https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html",
-      "status": "published",
-      "importance": "large",
-      "notes": "2026-11-17発見漏れ是正。潮来市公式2026-11-12発表。点灯17:00～22:00、3会場：水郷潮来あやめ園・道の駅いたこ・津軽河岸あと広場。11/29点灯式、開催期間中に会場別イベント。土浦市の水郷桜イルミネーションとは別イベント。独立記事・県内イルミネーションまとめとも未掲載。"
-    },
-    {
-      "articleUrl": "/events/tokyo-ibaraki-shukakusai-2026/",
-      "articleUpdatedAt": "2026-11-19",
-      "discoveredAt": "2026-11-17",
-      "verifiedAt": "2026-11-19",
-      "signals": {
-        "searchDemand": "unknown",
-        "visitorDraw": "unknown",
-        "localSpend": "unknown",
-        "logisticsDemand": "unknown"
-      },
-      "id": "tokyo-ibaraki-shukakusai-2026",
-      "name": "茨城をたべよう収穫祭2026 ～秋の大ごちそう博～（東京・駒沢）",
-      "municipality": "tokyo",
-      "startDate": "2026-11-21",
-      "endDate": "2026-11-23",
-      "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18485",
-      "status": "published",
-      "importance": "large",
-      "notes": "開催地：東京都世田谷区駒沢公園1-1 駒沢オリンピック公園中央広場（茨城県主催）。2026年11月21～23日10:00～20:00（最終日17:00まで）、入場無料。主催特設サイト https://ibaraki-shukakusai2026.jp/ 。東京開催の茨城関連イベントとして発見対象へ追加。登壇者など変動する情報は都度再確認。 11/18公式ステージスケジュール公開と11/16出演者変更を11/19再確認。"
-    },
-    {
+      "id": "kirakuyama-illumination-2026",
+      "name": "きらくやまイルミネーション（2026-27）",
+      "municipality": "tsukubamirai",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "discoveredAt": "2026-11-17",
-      "verifiedAt": null,
+      "status": "discovered",
+      "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
         "visitorDraw": "unknown",
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "id": "tokyo-ibakyun-marche-2026",
-      "name": "いばキュン！マルシェ2026（東京・二子玉川）",
-      "municipality": "tokyo",
-      "startDate": "2026-12-19",
-      "endDate": "2026-12-20",
-      "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18469",
-      "status": "discovered",
-      "importance": "normal",
-      "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。"
+      "notes": "取りこぼし点検（11/23）で発見。イルミネーション人気ランキングで県内2位として掲載されている恒例イベント。2026年の開催・期間は未確認。"
     },
     {
-      "id": "tokyo-daigo-food-business-talk-2026",
-      "name": "ローカルで食のビジネスを経営するリアル｜通える田舎で、ワガママに仕事をつくる",
-      "municipality": "tokyo",
-      "startDate": "2026-11-19",
-      "endDate": "2026-11-19",
-      "officialUrl": "https://note.com/re_daigo/n/n82d06dbb3658",
-      "discoveredAt": "2026-11-17",
-      "verifiedAt": "2026-11-17",
-      "articleUrl": "/events/tokyo-daigo-food-business-talk-2026/",
-      "articleUpdatedAt": "2026-11-17",
-      "status": "published",
+      "id": "shimotsuma-christmas-market-2026",
+      "name": "しもつまクリスマスマーケット（2026）",
+      "municipality": "shimotsuma",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
-        "visitorDraw": "low",
+        "visitorDraw": "unknown",
         "localSpend": "unknown",
-        "logisticsDemand": "low"
+        "logisticsDemand": "unknown"
       },
-      "notes": "東京での茨城県大子町関連イベント（大子町主催、一般社団法人リダイゴ企画・運営）。2026-11-19（木）19:00〜21:00、BONUS TRACK HOUSE（東京・下北沢）、18:30開場。参加費1,000円、定員25名（先着）、Peatix申込。一般社団法人リダイゴの公式告知（2026-10-24公開）で確認。出席・満席状況は未確認。"
+      "notes": "取りこぼし点検（11/23）で発見。2025年は11/29に下妻市が社会実験として旧本庁舎跡地で開催。2026年の開催は未確認。"
+    },
+    {
+      "id": "tsukuba-christmas-market-2026",
+      "name": "つくばクリスマスマーケット（2026）",
+      "municipality": "tsukuba",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。2025年は12/5〜7につくばセンター広場で開催。2026年の開催・日程は未確認。"
+    },
+    {
+      "id": "hitachinaka-ekimae-illumination-2026",
+      "name": "ひたちなか市駅前イルミネーション（2026-27）",
+      "municipality": "hitachinaka",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。2025年は12/1〜2026/1/30、勝田・佐和・那珂湊の3駅前。2026年の開催は未確認。"
+    },
+    {
+      "id": "daigo-light-2026",
+      "name": "大子来人～ダイゴライト～（2026-27）",
+      "municipality": "daigo",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。2025年は11/1〜2026/1/12（大子町観光協会）。袋田の滝の記事内で触れているが、冬のイルミまとめに未掲載。2026年の期間は未確認。"
+    },
+    {
+      "id": "oarai-christmas-market-2026",
+      "name": "大洗のクリスマスマーケット（2026年12月）",
+      "municipality": "oarai",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "official-source-watchが11/23に新規リンクとして検出（大洗観光協会イベント一覧「【開催告知-2026年12月】大洗で唯一のクリスマスマーケット」）が、どこにも連携されず未対応だった。日付・会場は一次情報で未確認。"
+    },
+    {
+      "id": "tsuchiura-winter-festival-34-2026",
+      "name": "第34回 土浦ウインターフェスティバル（2026-27）",
+      "municipality": "tsuchiura",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": "https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/",
+      "discoveredAt": "2026-11-23",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "取りこぼし点検（11/23）で発見。2025年は第33回が12/10〜2026/2/1（土浦市観光協会）。2026年の開催・日程は未確認。毎年12月上旬点灯の恒例イベントで、冬のイルミまとめに未掲載。 11/23追記：土浦市観光協会が2026/11/12に第34回の開催を告知（点灯式あり）。期間・点灯式の日時は告知ページで要確認。"
     }
   ]
 }
