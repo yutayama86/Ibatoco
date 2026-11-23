@@ -22,7 +22,7 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot" />
       {/* name="subject" は Formspree にメール件名として解釈され、本文に出ない。
           用件が本文で読めるよう inquiry_type にしている（元に戻さないこと）。 */}
-      <div class="field"><label for="subject">ご用件 <small>必須</small></label><select id="subject" name="inquiry_type" required><option value="">選択してください</option><option value="取材・掲載相談">取材・情報掲載について</option><option value="地域事業者の相談">Web・発信支援について</option><option value="訂正・更新">掲載内容の訂正・更新</option><option value="ローカルエディター">ローカルエディターについて</option><option value="協業希望">協業・提携</option><option value="その他">その他</option></select></div>
+      <div class="field"><label for="subject">ご用件 <small>必須</small></label><select id="subject" name="inquiry_type" required><option value="">選択してください</option><option value="取材・掲載相談">取材・情報掲載について</option><option value="法人・自治体のご相談">コンサル・Web制作・SNS運用のご相談</option><option value="地域事業者の相談">Web・発信支援について</option><option value="訂正・更新">掲載内容の訂正・更新</option><option value="ローカルエディター">ローカルエディターについて</option><option value="協業希望">協業・提携</option><option value="その他">その他</option></select></div>
       <div class="field"><label for="name">お名前 / 店舗・企業名 <small>必須</small></label><input id="name" name="name" type="text" required autocomplete="organization" /></div>
       <div class="field"><label for="email">メールアドレス <small>必須</small></label><input id="email" name="email" type="email" required autocomplete="email" /></div>
       <div class="field"><label for="tel">電話番号 <small class="is-optional">任意</small></label><input id="tel" name="tel" type="tel" autocomplete="tel" /></div>
