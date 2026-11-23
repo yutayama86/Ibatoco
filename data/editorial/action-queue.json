@@ -1994,7 +1994,7 @@
       "id": "20261123-biz-b2b-redesign",
       "title": "/biz/ を BtoB 受託（コンサル主軸・全国・自治体／観光／中堅企業）の窓口に作り直す",
       "kind": "revenue",
-      "status": "candidate",
+      "status": "ready",
       "priority": "high",
       "createdAt": "2026-11-23",
       "confidence": "medium",
@@ -2004,7 +2004,7 @@
       "specPath": "docs/editorial/specs/20261123-biz-b2b-redesign.md",
       "primarySourceUrls": [],
       "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md「事業方針」）。2027年2月独立・イバトコ1本・BtoB受託を収益の柱に。",
-      "reason": "売上目標 2027年5月に月150万円・年末に月300万円。イバトコの運営実績を営業材料に、検索・AI経由でBtoBの問い合わせを得る。料金・小規模店舗向けメニューの扱い・問い合わせ方法・事業者名の表記をオーナーが決めたら ready。",
+      "reason": "売上目標 2027年5月に月150万円・年末に月300万円。イバトコの運営実績を営業材料に、検索・AI経由でBtoBの問い合わせを得る。料金・小規模店舗向けメニューの扱い・問い合わせ方法・事業者名の表記をオーナーが決めたら ready。 2026-11-23 料金・作業の上限・協力者への委託の設計をオーナーが決定（ready）。",
       "acceptanceCriteria": [
         "仕様の構成（対象・イバトコの実データの実例・サービス3つ・進め方・料金・編集の独立性・FAQ・問い合わせ）で /biz/ を作り直す。URLは変えない",
         "実データはビルド時に performance-snapshot.json から表示し、直書きしない。取得できない値は表示しない",
