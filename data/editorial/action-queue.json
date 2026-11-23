@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-23",
+  "updatedAt": "2026-11-24",
   "actions": [
     {
       "id": "20261122-brand-top-h1",
@@ -2013,6 +2013,71 @@
         "架空の実績・取引先・推薦文・数字を載せない",
         "料金は src/data/services.ts を正本にし、オーナー承認済みの金額だけ公開",
         "seo:log 記録・npm run verify・必須CI"
+      ]
+    },
+    {
+      "kind": "revenue",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-24",
+      "confidence": "medium",
+      "specPath": "docs/editorial/specs/20261124-b2b-delivery-kit.md",
+      "primarySourceUrls": [],
+      "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針）。少ない工数で高い利益を仕組みで実現する。",
+      "id": "20261124-b2b-docs-kit",
+      "title": "BtoB受託の書類の型（提案書・見積書・業務委託契約書・NDA・現状診断レポート）",
+      "effort": "S",
+      "targetUrl": "/biz/",
+      "targetFile": "非公開リポジトリ（顧客情報を公開リポジトリに置かない）",
+      "reason": "独立前の12〜1月に最初の案件を決めるため最優先（12月中旬まで）。契約書・NDAは専門家の確認が前提。",
+      "acceptanceCriteria": [
+        "非公開リポジトリに5種類の型を置く",
+        "提案書・見積はsrc/data/services.tsのプランと一致",
+        "契約書・NDAは専門家確認前のたたき台と明記",
+        "顧客情報を公開リポジトリに置かない"
+      ]
+    },
+    {
+      "kind": "revenue",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-24",
+      "confidence": "medium",
+      "specPath": "docs/editorial/specs/20261124-b2b-delivery-kit.md",
+      "primarySourceUrls": [],
+      "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針）。少ない工数で高い利益を仕組みで実現する。",
+      "id": "20261124-b2b-client-report",
+      "title": "顧客向け月次・診断レポートの自動作成（GA4・GSCの汎用部品＋非公開リポジトリで実行）",
+      "effort": "M",
+      "targetUrl": "/control/",
+      "targetFile": "scripts/google-api-daily.mjs",
+      "reason": "現状診断・コンサル・SNS運用・スポンサーのレポート作業をほぼゼロにする（12月末まで）。",
+      "acceptanceCriteria": [
+        "取得・集計を顧客のプロパティを引数にとる汎用部品にする（顧客情報を含まない）",
+        "実行は非公開リポジトリのActions。Secretの作成はオーナー",
+        "イバトコ自身のプロパティでレポートが作れる",
+        "取得できない値は未取得（0で埋めない）"
+      ]
+    },
+    {
+      "kind": "revenue",
+      "status": "candidate",
+      "priority": "high",
+      "createdAt": "2026-11-24",
+      "confidence": "medium",
+      "specPath": "docs/editorial/specs/20261124-b2b-delivery-kit.md",
+      "primarySourceUrls": [],
+      "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針）。少ない工数で高い利益を仕組みで実現する。",
+      "id": "20261124-b2b-web-template",
+      "title": "Web制作の型（Astro・検索/AI検索向けの基本設定と公開前チェック入り）",
+      "effort": "M",
+      "targetUrl": "/biz/",
+      "targetFile": "（新規リポジトリ）",
+      "reason": "Web制作の想定25時間を短くする（2027年1月中旬まで）。",
+      "acceptanceCriteria": [
+        "構造化データ・サイトマップ・OGP・llms.txt・パンくずを最初から入れる",
+        "イバトコの品質監査の汎用部分で公開前チェック",
+        "型から1ページのサイトを2時間以内に立ち上げられる"
       ]
     }
   ]
