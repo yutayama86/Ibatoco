@@ -29,8 +29,8 @@
 - Deploy production の権限は読み取りだけ（`contents: read`・`actions: read`）。テストは `scripts/deploy-guard.test.mjs`。
 
 
-## 公開直前の依存監査（期限付き承認を含む）
+## 公開直前の依存監査
 
-過去のValidate成功は、公開時点で例外が有効であることを保証しません。定期・手動・main更新後の全ての正規経路で、deploy-guardの後、ビルドとwranglerの前にproductionのhigh/critical監査と全依存のcritical監査を再実行します。
+定期・手動・main更新後のすべての正規経路で、deploy-guardの後、ビルドとwranglerの前にproductionのhigh/critical監査と全依存のcritical監査を再実行します。新たな指摘も再検出も同じ基準で扱い、監査の取得や検証に失敗した場合は公開前に停止します。
 
-期限切れ・新たなhigh/critical・監査取得失敗・評価済み構成との差・未承認の提案は公開前に停止します。既に配信中のサイトを停止する処理ではありません。公式修正版の適用で厳格監査に合格した場合は、失効した例外を使わずに公開できます。
+picomatchの個別承認は2026-11-24 00:00 JSTに失効しました。[公式撤回](https://github.com/advisories/GHSA-fc5q-39xc-vjpf)と両監査の再確認に基づき、例外設定・適用処理を撤去しました。承認時の履歴は `docs/security/` にあります。
