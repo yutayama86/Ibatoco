@@ -4,7 +4,7 @@
  * Use ADC with a short-lived token from an authorized Workload Identity provider.
  */
 import { writeFileSync } from 'node:fs';
-import { experimentGroup } from '../src/lib/next-step.mjs';
+import { experimentGroup, NEXT_STEP_BASELINE } from '../src/lib/next-step.mjs';
 import { aggregateAiReferrals } from '../src/lib/ai-referrals.mjs';
 import { BOOKING_CTA_AB_EVENTS, alignConfirmedThrough, bookingCtaAbCounts, googleDailyRange } from '../src/lib/ga4-daily.mjs';
 import { addDays } from '../src/lib/growth-engine.mjs';
@@ -219,6 +219,8 @@ try {
   const totals = await getCohorts(abPeriod);
   const period28 = { start: addDays(through, -27), end: through };
   const totals28 = await getCohorts(period28);
+  // 公開前の基準（固定期間。毎回取り直す）
+  const baselineGroups = await getCohorts(NEXT_STEP_BASELINE);
   const events = await request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, {
     dateRanges: [{ startDate: abPeriod.start, endDate: abPeriod.end }],
     dimensions: [{ name: 'eventName' }],
@@ -235,6 +237,7 @@ try {
     period: abPeriod, confirmedThrough: through, source: 'GA4 Data API: landingPage × screenPageViews/sessions/engagedSessions',
     groups: totals,
     period28, groups28: totals28,
+    baseline: { period: NEXT_STEP_BASELINE, groups: baselineGroups },
   };
 } catch (error) {
   console.warn(`::warning title=回遊A/B計測::取得できませんでした（${error.message}）。未取得として扱います。`);
