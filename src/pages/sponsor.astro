@@ -12,24 +12,24 @@ import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd, faqPageJsonLd } from '../lib/seo';
 import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
 import snapshot from '../../data/editorial/performance-snapshot.json';
-import { REGIONAL_SUPPORTER_PLAN as plan, yen } from '../data/sponsorship';
+import { SPONSOR_PLAN as plan, yen } from '../data/sponsorship';
 
-const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
 const inquiryUrl = '/contact/?subject=協賛・広告のご相談';
 
-const homeViews = snapshot.ga4TopPages.recent28.find((row) => row.path === '/')?.views;
+// 2026-11-23：スポンサーの中身をTOPのロゴ掲載からPR記事・関連記事に変えたため、TOPの閲覧数ではなくサイト全体と記事の実測を出す
 const asOfLabel = formatJapaneseDate(parseDateOnly(snapshot.asOf));
+const articleViews = snapshot.ga4TopPages.recent28.filter((row) => row.path.startsWith('/events/') || row.path.startsWith('/news/')).reduce((sum, row) => sum + row.views, 0);
 const stats = [
-  ...(typeof homeViews === 'number' && Number.isFinite(homeViews)
-    ? [{ value: homeViews, label: 'トップページの閲覧数' }] : []),
   { value: snapshot.northStar.current, label: 'サイト全体の閲覧数' },
+  ...(articleViews > 0 ? [{ value: articleViews, label: 'うち記事ページの閲覧数（上位ページの合計）' }] : []),
 ];
 
 const faq = [
-  { q: '何を用意すればよいですか。', a: '掲載するお名前、ロゴの画像、公式サイトのURLをお知らせください。ロゴは掲載の許諾があるものをご用意ください。' },
-  { q: '支払いはいつですか。', a: `掲載を始めたあとに、${plan.duration}分を一括でご請求します。お支払いは銀行振込で、期限は請求書の発行月の翌月末日です。` },
-  { q: '掲載を続けたい場合はどうすればよいですか。', a: '掲載終了時にご希望をうかがい、次の掲載期間と料金に合意いただいてから更新します。' },
-  { q: '協賛枠の表示回数は分かりますか。', a: '掲載後、ご希望に応じて、計測できた範囲の表示回数とリンククリック数をお伝えします。' },
+  { q: '何を用意すればよいですか。', a: 'PR記事の素材（伝えたいこと・文章・写真など）と公式サイトのURLをお知らせください。オンラインで30分ほどお話をうかがい、イバトコの編集部が記事にします。写真は掲載の許諾があるものをご用意ください。' },
+  { q: '支払いはいつですか。', a: plan.billing },
+  { q: '契約期間と終了はどうなりますか。', a: `契約は${plan.minTerm}です。その後は終了のお申し出がない限り1か月ごとに更新し、終了したい月の前月末日までにお知らせいただければ終了します。PR記事は、終了後も「PR」と表示したまま掲載を続けます。` },
+  { q: '表示回数は分かりますか。', a: 'PR記事とPR枠の表示数・クリック数を、計測できた範囲の実測値で毎月ご報告します。表示数のお約束はしていません。' },
   { q: '集客や売上の効果は保証されますか。', a: 'お約束するのは事前に合意した掲載内容と期間です。集客・売上・検索順位の成果は保証の対象外です。' },
   { q: '掲載をお断りすることはありますか。', a: '内容を確認できないもの、法令や公序良俗に反するもの、読者に誤解を与えるおそれがあるものは、お断りすることがあります。' },
 ];
@@ -39,12 +39,12 @@ const jsonLd = [
   faqPageJsonLd(faq.map((item) => ({ question: item.q, answer: item.a }))),
 ];
 ---
-<BrandBase title="協賛のご案内｜イバトコ" description="茨城の取材と発信を支えるイバトコ地域サポーターのご案内。トップページの協賛欄に社名・ロゴ・公式サイトへのリンクを掲載する企業・店舗向けプランです。" jsonLd={jsonLd}>
+<BrandBase title="協賛のご案内｜イバトコ" description="イバトコスポンサーのご案内。PR記事と、関連する記事・SNSでのご紹介で、茨城を調べる人に届けます。月額10万円（税別）、3か月から。" jsonLd={jsonLd}>
   <header class="sp-head v42-hero bp-wrap">
     <Breadcrumbs items={crumbs} />
     <p class="bp-kicker">SPONSORSHIP</p>
     <h1>茨城へ行く前に、<br />調べる人へ届ける。</h1>
-    <p>茨城を歩き、出会った人や場所を取材して届ける。イバトコの活動を支えてくださる企業・お店を、トップページの協賛欄でご紹介します。</p>
+    <p>茨城を歩き、出会った人や場所を取材して届ける。イバトコの活動を支えてくださる企業・団体を、PR記事と、関連する記事・SNSでご紹介します。</p>
     <div class="sp-head__actions">
       <a class="sp-head__cta" href="#sp-plans-h">掲載内容・料金を見る <span aria-hidden="true">↓</span></a>
       <a class="sp-head__sub" href={inquiryUrl} data-sponsor-cta="head">協賛について相談する</a>
@@ -53,26 +53,22 @@ const jsonLd = [
   </header>
 
   <section class="sp-plans" aria-labelledby="sp-plans-h"><div class="bp-wrap">
-    <p class="bp-kicker">SUPPORTER</p>
+    <p class="bp-kicker">SPONSOR</p>
     <h2 id="sp-plans-h">掲載内容と料金</h2>
     <article class="sp-plan">
       <div class="sp-plan__details">
-          <p class="sp-plan__for">企業・店舗・団体向け</p>
+          <p class="sp-plan__for">企業・自治体・観光団体向け</p>
           <h3>{plan.name}</h3>
-          <p class="sp-plan__price"><strong>{yen(plan.price)}</strong><span>（税別）／{plan.duration}</span></p>
-          <ul>
-            <li>トップページ下部の協賛欄に社名・ロゴを掲載</li>
-            <li>公式サイトや店舗ページへのリンク1つ</li>
-            <li>掲載開始後に{plan.duration}分を一括でお支払い</li>
-          </ul>
-          <a class="sp-head__cta sp-plan__apply" href="/sponsor/apply/" data-sponsor-cta="apply_regional-supporter">地域サポーターに申し込む <span aria-hidden="true">→</span></a>
+          <p class="sp-plan__price"><strong>{yen(plan.price)}</strong><span>（税別）／{plan.unit}・{plan.minTerm}</span></p>
+          <ul>{plan.includes.map((line) => <li>{line}</li>)}</ul>
+          <a class="sp-head__cta sp-plan__apply" href="/sponsor/apply/" data-sponsor-cta="apply_sponsor">スポンサーに申し込む <span aria-hidden="true">→</span></a>
       </div>
       <figure class="sp-placement">
-        <figcaption>掲載イメージ<span>トップページ下部</span></figcaption>
+        <figcaption>表示のしかた<span>記事とPR枠</span></figcaption>
         <div class="sp-placement__example">
-          <p>茨城を、一緒におもしろく。</p>
-          <p class="sp-placement__label">地域サポーター（協賛広告）</p>
-          <div class="sp-placement__logo"><span aria-hidden="true">LOGO</span>事業者名 <span aria-hidden="true">↗︎</span></div>
+          <p>PR記事の冒頭と、関連記事のPR枠に必ず表示します。</p>
+          <p class="sp-placement__label">PR｜イバトコスポンサー（協賛広告）</p>
+          <div class="sp-placement__logo"><span aria-hidden="true">PR</span>事業者名 <span aria-hidden="true">↗︎</span></div>
         </div>
       </figure>
     </article>
@@ -91,7 +87,7 @@ const jsonLd = [
     <p class="bp-kicker">TRANSPARENCY</p>
     <h2 id="sp-rules-h">協賛しても、事実は変えない。</h2>
     <ul class="sp-rules__list">
-      <li>地域サポーターは「協賛広告」と明示してご紹介します。</li>
+      <li>スポンサーの記事・枠・SNSでのご紹介は、「PR」「協賛広告」と明示します。</li>
       <li>取材・記事の評価・掲載順は編集方針に沿って決めます。</li>
     </ul>
     <p class="sp-links"><a class="sp-link" href="/about/pr-policy/">PR・広告の方針を読む →</a><a class="sp-link" href="/sponsor/terms/">協賛（広告）掲載規約を読む →</a></p>
@@ -102,8 +98,8 @@ const jsonLd = [
     <h2 id="sp-flow-h">お申し込みから掲載まで</h2>
     <ol>
       <li><strong>お申し込み</strong><span><a href="/sponsor/apply/">申込フォーム</a>から事業者名と公式サイトをお知らせください。</span></li>
-      <li><strong>掲載内容の確認</strong><span>利用許諾のあるロゴを返信メールでお送りください。掲載内容と期間をご確認いただきます。</span></li>
-      <li><strong>掲載・ご請求</strong><span>合意した日に掲載を始め、{plan.duration}分を一括でご請求します。</span></li>
+      <li><strong>内容の確認</strong><span>オンラインで30分ほどお話をうかがい、PR記事の内容と掲載の時期を決めます。</span></li>
+      <li><strong>掲載・ご請求</strong><span>内容をご確認いただいてから掲載します。毎月末に当月分をご請求します。</span></li>
     </ol>
   </div></section>
 
@@ -116,7 +112,7 @@ const jsonLd = [
   <section class="sp-cta v42-band bp-reading">
     <img class="sp-cta__art" src="/images/v42/kasama-market-print.webp" alt="" width="960" height="640" loading="lazy" decoding="async" />
     <p class="bp-kicker">CONTACT</p>
-    <h2>地域サポーターのお申し込み</h2>
+    <h2>スポンサーのお申し込み</h2>
     <p>掲載前のご質問、以前のお見積りや個別の企画については、協賛の相談窓口へお寄せください。</p>
     <div class="sp-head__actions">
       <a class="sp-head__cta" href="/sponsor/apply/" data-sponsor-cta="bottom_apply">申し込む <span aria-hidden="true">→</span></a>
