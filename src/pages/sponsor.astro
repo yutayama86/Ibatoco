@@ -14,7 +14,7 @@ import { formatJapaneseDate, parseDateOnly } from '../lib/date-only.js';
 import snapshot from '../../data/editorial/performance-snapshot.json';
 import { REGIONAL_SUPPORTER_PLAN as plan, yen } from '../data/sponsorship';
 
-const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '地域事業者の方へ', href: '/biz/' }, { name: '協賛のご案内' }];
 const inquiryUrl = '/contact/?subject=協賛・広告のご相談';
 
 const homeViews = snapshot.ga4TopPages.recent28.find((row) => row.path === '/')?.views;
