@@ -49,6 +49,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261124-events-tsukubasan-day-trip-model-course',
+    date: '2026-11-24',
+    url: '/events/tsukubasan-day-trip-model-course/',
+    kind: 'on-page',
+    change: 'ロープウェイ・ケーブルカーの運休日（11月24日発表）と、運休日のコースの組み替えを反映（事実の更新）',
+    queries: [],
+    commit: '9c41035',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261124-events-tsukuba-cablecar-last-run-campaig',
+    date: '2026-11-24',
+    url: '/events/tsukuba-cablecar-last-run-campaign-2026/',
+    kind: 'on-page',
+    change: '新車両の更新工事による運休（2027年1月12日〜2月19日）と12月の運休日を反映（事実の更新）',
+    queries: [],
+    commit: '9c41035',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261124-events-tsukuba-cablecar-ropeway-guide',
+    date: '2026-11-24',
+    url: '/events/tsukuba-cablecar-ropeway-guide/',
+    kind: 'on-page',
+    change: 'titleを「筑波山ケーブルカー・ロープウェイの料金と運休日」に変更し、終わった10月24日運行再開の見出しを、12月・1〜2月の運休日（11月24日発表）に置き換え。本文・FAQ・descriptionも運休日を反映（28日：表示6,127・CTR1.1%・平均7.8位）',
+    queries: ['筑波山ケーブルカー 料金', '筑波山 ロープウェイ 料金', '筑波山 ケーブルカー'],
+    commit: '9c41035',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261124-biz-insights-event-coverage-gaps',
     date: '2026-11-24',
     url: '/biz/insights/event-coverage-gaps/',
