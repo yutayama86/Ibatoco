@@ -27,6 +27,7 @@ export function registeredUrls(registry) {
  */
 export function buildSourceWatchDigest(report, previous, { registry = null, sources = [], today, keepDays = DIGEST_KEEP_DAYS }) {
   const muni = new Map(sources.map((s) => [s.id, s.municipality ?? null]));
+  const scopes = new Map(sources.map((s) => [s.id, s.scope ?? 'ibaraki']));
   const known = registeredUrls(registry);
   const since = shift(today, -(keepDays - 1));
   const items = new Map();
@@ -43,6 +44,7 @@ export function buildSourceWatchDigest(report, previous, { registry = null, sour
         firstSeenAt: today,
         sourceId: row.id,
         municipality: muni.get(row.id) ?? row.municipality ?? null,
+        scope: scopes.get(row.id) ?? row.scope ?? 'ibaraki',
         title: String(link.title ?? '').replace(/\s+/g, ' ').trim().slice(0, 120),
         url: link.url,
       });
@@ -62,12 +64,20 @@ export function buildSourceWatchDigest(report, previous, { registry = null, sour
   };
 }
 
-/** サマリー表示用：直近 days 日の未登録の新着 */
-export function pendingNewLinks(digest, today, days = 7) {
+/** BtoB の公募（入札・プロポーザル）の監視先。イベントの新着とは分けて表示する */
+export const PROCUREMENT_SCOPE = 'b2b-procurement';
+
+/**
+ * サマリー表示用：直近 days 日の未登録の新着
+ * @param {{ scope?: 'events' | 'procurement' }} [options] events（既定）は公募を除く、procurement は公募だけ
+ */
+export function pendingNewLinks(digest, today, days = 7, { scope = 'events' } = {}) {
   if (!digest?.asOf) return { items: [], stale: true };
   const since = shift(today, -(days - 1));
+  const wantProcurement = scope === 'procurement';
   return {
-    items: (digest.items ?? []).filter((item) => !item.registered && item.firstSeenAt >= since),
+    items: (digest.items ?? []).filter((item) => !item.registered && item.firstSeenAt >= since
+      && ((item.scope === PROCUREMENT_SCOPE) === wantProcurement)),
     stale: digest.asOf < shift(today, -2),
   };
 }

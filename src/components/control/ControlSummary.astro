@@ -28,6 +28,8 @@ const aiChange = changePct(ai?.recent28?.sessions, ai?.previous28?.sessions);
 const verdict = r.verdictCounts as Record<string, number>;
 const watch: any = pendingNewLinks(sourceDigest as any, postToday, 7);
 const watchShown = watch.items.slice(0, 8);
+// BtoB の公募（入札・プロポーザル）はイベントの新着と分ける。14日分を見る（公募は締切まで2〜3週間あることが多い）
+const tenders: any = pendingNewLinks(sourceDigest as any, postToday, 14, { scope: 'procurement' });
 ---
 
 <section class="cx" id="summary" aria-labelledby="cx-title">
@@ -69,6 +71,20 @@ const watchShown = watch.items.slice(0, 8);
     )}
     {watch.items.length > watchShown.length && <p>ほか {watch.items.length - watchShown.length}件（data/editorial/source-watch-digest.json）</p>}
     <p class="cx-note">リンクの題名だけで判定した未確認情報です。見る価値があれば台帳に登録し、一次情報で日付を確かめてから記事にします。</p>
+  </section>
+
+  <section class="cx-watch" aria-labelledby="cx-tender-title">
+    <h3 id="cx-tender-title">公募（BtoB）の新着<small>直近14日 {tenders.items.length}件・観光の入札・プロポーザル（全国）</small></h3>
+    {tenders.items.length > 0 ? (
+      <ul>
+        {tenders.items.slice(0, 8).map((item: any) => (
+          <li><span>{item.firstSeenAt.slice(5).replace('-', '/')}</span><a href={item.url} rel="noopener noreferrer" target="_blank">{item.title}</a></li>
+        ))}
+      </ul>
+    ) : (
+      <p>新着の公募はありません。</p>
+    )}
+    <p class="cx-note">題名で拾った候補です。応募するかは、発注者の公告で資格（法人・入札参加資格・同種の実績など）と締切を確かめてから決めます。</p>
   </section>
 </section>
 
