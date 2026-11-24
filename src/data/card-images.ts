@@ -189,6 +189,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-sakagura-roundup": "/images/card/ibaraki-sakagura-roundup-6ccb2f93.png",
   "ibaraki-shichigosan-2026": "/images/card/ibaraki-shichigosan-2026-f691a6ac.png",
   "ibaraki-sunset-sunrise-spots": "/images/card/ibaraki-sunset-sunrise-spots-6832dfd2.png",
+  "ibaraki-swan-spots-2026": "/images/card/ibaraki-swan-spots-2026-5aceaf97.png",
   "ibaraki-ume-meisho-roundup": "/images/card/ibaraki-ume-meisho-roundup-6e47730c.png",
   "ibaraki-winter-flowers-spots": "/images/card/ibaraki-winter-flowers-spots-f58e786b.png",
   "ibaraki-winter-marche-2026": "/images/card/ibaraki-winter-marche-2026-33931947.png",
