@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '発注者向けの記事「地域のイベント情報を取りこぼさない仕組み（実際の取りこぼしと直し方）」を新設',
     queries: [],
-    commit: 'PENDING',
+    commit: '161673b',
     note: 'action 20261124-biz-insights（2〜5本目）。数字は記事内に記した日までの実測。',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '発注者向けの記事「一人とAIで44市町村のメディアを運営する仕組み」を新設',
     queries: [],
-    commit: 'PENDING',
+    commit: '161673b',
     note: 'action 20261124-biz-insights（2〜5本目）。数字は記事内に記した日までの実測。',
   },
   {
@@ -75,7 +75,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '発注者向けの記事「観光の情報発信で、検索から人が来ない3つの理由（検索データで解説）」を新設',
     queries: [],
-    commit: 'PENDING',
+    commit: '161673b',
     note: 'action 20261124-biz-insights（2〜5本目）。数字は記事内に記した日までの実測。',
   },
   {
@@ -85,7 +85,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '発注者向けの記事「AI検索対策（AIO・LLMO）の基本：観光・地域の情報をAIに正しく伝える」を新設',
     queries: [],
-    commit: 'PENDING',
+    commit: '161673b',
     note: 'action 20261124-biz-insights（2〜5本目）。数字は記事内に記した日までの実測。',
   },
   {
