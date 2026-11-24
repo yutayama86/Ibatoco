@@ -39,3 +39,13 @@ test('サマリーは未登録の直近分だけ、古い digest は stale', () 
   assert.equal(pendingNewLinks(digest, '2026-11-27').stale, true);
   assert.equal(pendingNewLinks({ asOf: null, items: [] }, '2026-11-23').stale, true);
 });
+
+test('公募（BtoB）はイベントの新着と分け、scope を引き継ぐ', () => {
+  const rep = { generatedAt: 'x', results: [
+    { id: 'oarai-tourism-news', candidateLinks: [{ title: 'イベント', url: 'https://e.example/1', firstSeenInCurrentReport: true }] },
+    { id: 'tenders', candidateLinks: [{ title: '情報発信業務の公募型プロポーザル', url: 'https://t.example/1', firstSeenInCurrentReport: true }] },
+  ] };
+  const d = buildSourceWatchDigest(rep, null, { sources: [{ id: 'oarai-tourism-news', municipality: '大洗町' }, { id: 'tenders', scope: 'b2b-procurement' }], today: '2026-11-24' });
+  assert.deepEqual(pendingNewLinks(d, '2026-11-24').items.map((x) => x.url), ['https://e.example/1']);
+  assert.deepEqual(pendingNewLinks(d, '2026-11-24', 7, { scope: 'procurement' }).items.map((x) => x.url), ['https://t.example/1']);
+});
