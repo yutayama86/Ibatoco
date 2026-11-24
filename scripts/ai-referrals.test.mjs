@@ -37,3 +37,11 @@ test('daily sync imports AI referrals and the A/B experiment (regression: they w
   assert.match(fetch, /aiReferrals/);
   assert.match(fetch, /baseline: \{ period: NEXT_STEP_BASELINE/);
 });
+
+test('BtoB の窓口の数字も毎朝の取り込みで main のスナップショットへ渡す', async () => {
+  const { readFileSync } = await import('node:fs');
+  const sync = readFileSync(new URL('./google-analytics-sync.mjs', import.meta.url), 'utf8');
+  const fetcher = readFileSync(new URL('./google-api-daily.mjs', import.meta.url), 'utf8');
+  assert.ok(sync.includes('input.b2bFunnel'));
+  assert.ok(fetcher.includes('...(b2bFunnel ? { b2bFunnel } : {})'));
+});

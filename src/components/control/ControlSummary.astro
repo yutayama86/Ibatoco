@@ -13,6 +13,7 @@ import { todayDateOnlyString } from '../../lib/date-only.js';
 import { DAILY_CAP, schedulePosts, selectPostCandidates } from '../../lib/social-posts.mjs';
 import sourceDigest from '../../../data/editorial/source-watch-digest.json';
 import { pendingNewLinks } from '../../lib/source-watch-digest.mjs';
+import b2bSummary from '../../../data/business/b2b-summary.json';
 
 const today = todayJst();
 const r: any = buildAnalyticsReport(performance, { changes: SEO_CHANGES, config, today });
@@ -29,6 +30,13 @@ const verdict = r.verdictCounts as Record<string, number>;
 const watch: any = pendingNewLinks(sourceDigest as any, postToday, 7);
 const watchShown = watch.items.slice(0, 8);
 // BtoB の公募（入札・プロポーザル）はイベントの新着と分ける。14日分を見る（公募は締切まで2〜3週間あることが多い）
+// BtoB の窓口（GA4・毎朝の取り込み）と、手入力の商談・成約・入金（件数と合計額のみ）
+const b2b: any = (performance as any).b2bFunnel ?? null;
+const b2bNow: any = b2b?.recent28 ?? null;
+const b2bPrev: any = b2b?.previous28 ?? null;
+const b2bMonth: any = ((b2bSummary as any).months ?? []).at(-1) ?? null;
+const orNa = (v: number | null | undefined, unit = '') => (v == null ? '未取得' : `${fmt(v)}${unit}`);
+const orBlank = (v: number | null | undefined, unit = '') => (v == null ? '未入力' : `${fmt(v)}${unit}`);
 const tenders: any = pendingNewLinks(sourceDigest as any, postToday, 14, { scope: 'procurement' });
 ---
 
@@ -73,6 +81,18 @@ const tenders: any = pendingNewLinks(sourceDigest as any, postToday, 14, { scope
     <p class="cx-note">リンクの題名だけで判定した未確認情報です。見る価値があれば台帳に登録し、一次情報で日付を確かめてから記事にします。</p>
   </section>
 
+
+  <section class="cx-watch" aria-labelledby="cx-b2b-title">
+    <h3 id="cx-b2b-title">BtoB（受託）<small>{b2bNow ? `直近28日（〜${b2bNow.period.end}）` : '毎朝の取り込みで追加'}</small></h3>
+    <dl class="cx-b2b">
+      <div><dt>/biz/ の表示</dt><dd>{orNa(b2bNow?.bizViews)}</dd><dd class="cx-sub">前の28日 {orNa(b2bPrev?.bizViews)}・うち記事 {orNa(b2bNow?.insightViews)}</dd></div>
+      <div><dt>相談ボタンのクリック</dt><dd>{orNa(b2bNow?.bizCtaClicks)}</dd><dd class="cx-sub">前の28日 {orNa(b2bPrev?.bizCtaClicks)}</dd></div>
+      <div><dt>法人・自治体の問い合わせ</dt><dd>{orNa(b2bNow?.bizLeads, '件')}</dd><dd class="cx-sub">問い合わせ全体 {orNa(b2bNow?.leadsAll, '件')}</dd></div>
+      <div><dt>商談・成約{b2bMonth ? `（${b2bMonth.month}）` : ''}</dt><dd>{orBlank(b2bMonth?.won, '件')}</dd><dd class="cx-sub">商談 {orBlank(b2bMonth?.deals, '件')}・成約額 {orBlank(b2bMonth?.wonAmountYen, '円')}・入金 {orBlank(b2bMonth?.paidYen, '円')}</dd></div>
+    </dl>
+    <p class="cx-note">商談・成約・入金は、Googleドライブ「イバトコ受託」の台帳から月1回 data/business/b2b-summary.json に件数と合計額だけを転記します（顧客名は書かない）。売上・成約・入金は分けて扱います。</p>
+  </section>
+
   <section class="cx-watch" aria-labelledby="cx-tender-title">
     <h3 id="cx-tender-title">公募（BtoB）の新着<small>直近14日 {tenders.items.length}件・観光の入札・プロポーザル（全国）</small></h3>
     {tenders.items.length > 0 ? (
@@ -112,6 +132,11 @@ const tenders: any = pendingNewLinks(sourceDigest as any, postToday, 14, { scope
   .cx-watch a{color:var(--text);overflow-wrap:anywhere}
   .cx-watch p{margin:0;color:var(--muted);font-size:.78rem}
   .cx-watch .cx-warn{color:var(--bad);font-weight:700}
+  .cx-b2b{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:.5rem;margin:0}
+  .cx-b2b div{min-width:0;padding:.6rem .7rem;border:1px solid var(--line);border-radius:10px}
+  .cx-b2b dt{color:var(--muted);font-size:.72rem}
+  .cx-b2b dd{margin:.15rem 0 0;font-size:1.1rem;font-weight:800;font-variant-numeric:tabular-nums}
+  .cx-b2b dd.cx-sub{color:var(--muted);font-size:.7rem;font-weight:600}
   .cx .is-good{color:var(--good)}
   .cx .is-bad{color:var(--bad)}
 </style>
