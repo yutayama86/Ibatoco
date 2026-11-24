@@ -17,23 +17,33 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /control/; do
-            response=$(curl -sS -L --max-time 15 --max-redirs 3 -o /dev/null -w '%{http_code} %{url_effective}' "https://ibatoco.jp${path}")
-            code="${response%% *}"
-            final_url="${response#* }"
-            echo "${path}: HTTP ${code}, final=${final_url}"
-            case "${path}" in
-              /control/)
-                # Login is expected to be accessible, never check secrets or submit passwords.
-                [[ "${code}" == 200 || "${code}" == 403 ]] || exit 1 ;;
-              *)
-                [[ "${code}" == 200 ]] || exit 1 ;;
-            esac
-            [[ "${final_url}" == https://ibatoco.jp/* || "${final_url}" == https://ibatoco.jp ]] || exit 1
-          done
-          header_file=$(mktemp)
-          curl -fsSI --max-time 15 https://ibatoco.jp/ > "${header_file}"
-          grep -qi '^x-content-type-options: nosniff' "${header_file}" || { echo 'Missing nosniff'; exit 1; }
-          grep -qi '^content-security-policy:' "${header_file}" || { echo 'Missing CSP'; exit 1; }
-          grep -qi '^strict-transport-security:' "${header_file}" || { echo 'Missing HSTS'; exit 1; }
-          rm -f "${header_file}"
+          tmp=$(mktemp -d)
+          trap 'rm -rf "$tmp"' EXIT
+          site=https://ibatoco.jp
+          # Do not follow redirects. Inspect the boundary and login page independently.
+          get() {
+            curl --silent --show-error --max-time 15 --dump-header "$tmp/headers" \
+              --output "$tmp/body" --write-out '%{http_code}' "$site$1"
+          }
+          require_header() {
+            tr -d '\r' < "$tmp/headers" | grep -Ei "$1" > /dev/null || {
+              echo "::error::Missing or unexpected header on $2"
+              return 1
+            }
+          }
+          [[ "$(get /)" == 200 ]]
+          require_header '^x-content-type-options: *nosniff *$' /
+          require_header '^content-security-policy: *[^ ]' /
+          require_header '^strict-transport-security: *[^ ]' /
+
+          [[ "$(get /control/)" == 303 ]]
+          require_header '^location: */control/login *$' /control/
+          require_header '^cache-control:.*no-store' /control/
+          require_header '^x-robots-tag:.*noindex' /control/
+
+          [[ "$(get /control/login)" == 200 ]]
+          require_header '^cache-control:.*no-store' /control/login
+          require_header '^x-robots-tag:.*noindex' /control/login
+          grep -Eq '<form[^>]*action="/control/login"' "$tmp/body"
+          grep -Eq '<input[^>]*type="password"' "$tmp/body"
+          echo 'Public homepage, protected redirect and login form verified.'
