@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261124-events-hananuki-gorge-autumn-2026',
+    date: '2026-11-24',
+    url: '/events/hananuki-gorge-autumn-2026/',
+    kind: 'on-page',
+    change: 'ライトアップ（11/23）とシャトルバス（最終運行日11/24）の終了を反映し、titleを「紅葉まつりは11月30日まで、ライトアップとシャトルバスは終了」に変更（28日：表示11,054・CTR3.1%・平均6.2位）',
+    queries: ['花貫渓谷紅葉まつり 2026', '花貫渓谷 紅葉 見頃', '花貫渓谷 シャトルバス'],
+    commit: 'ca1a850',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261124-events-ibaraki-rekishikan-guide',
     date: '2026-11-24',
     url: '/events/ibaraki-rekishikan-guide/',
