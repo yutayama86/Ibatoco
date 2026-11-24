@@ -1,0 +1,42 @@
+---
+/**
+ * 発注者向けの記事の一覧（/biz/insights/）。仕様 docs/editorial/specs/20261124-biz-insights.md。
+ * 記事が3本そろうまでは検索に出さない（noindex）。
+ */
+import { getCollection } from 'astro:content';
+import BrandBase from '../../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../../../lib/seo';
+import { formatJapaneseDate, dateOnlyFromCoercedDate } from '../../../lib/date-only.js';
+
+const MIN_INDEXABLE = 3;
+const items = (await getCollection('insights', ({ data }) => !data.draft && data.reviewed))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ', href: '/biz/' }, { name: '発信の実例と知見' }];
+const date = (d: Date) => formatJapaneseDate(dateOnlyFromCoercedDate(d));
+---
+<BrandBase title="発信の実例と知見｜法人・自治体の方へ｜イバトコ" description="AI検索対策・観光の情報発信・地域メディアの運営について、イバトコ自身の運営の実データで解説します。" noindex={items.length < MIN_INDEXABLE} jsonLd={breadcrumbJsonLd(crumbs, Astro.site)}>
+  <section class="ins bp-wrap bp-section">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">INSIGHTS</p>
+    <h1>発信の実例と知見</h1>
+    <p class="ins__lead">茨城の44市町村を一人とAIで運営している地域メディア「イバトコ」の実データで、検索・AI検索・情報発信の実際をお伝えします。数字はすべて自社メディアの実測で、受託の取引実績ではありません。</p>
+    <ul class="ins__list">
+      {items.map((item) => (
+        <li><a href={`/biz/insights/${item.id}/`}><span>{date(item.data.publishedAt)}</span><strong>{item.data.title}</strong><em>{item.data.description}</em></a></li>
+      ))}
+    </ul>
+    <p class="ins__back"><a href="/biz/">法人・自治体の方へ（サービスと料金）→</a></p>
+  </section>
+</BrandBase>
+<style>
+  .ins h1{margin-top:1rem;font:600 clamp(2rem,5vw,3.4rem)/1.3 var(--font-brand-display);color:var(--color-ink)}
+  .ins__lead{max-width:var(--measure);margin-top:1.2rem;line-height:2;color:var(--color-soil)}
+  .ins__list{display:grid;gap:0;margin-top:2rem;padding:0;list-style:none;border-top:1px solid var(--color-mist)}
+  .ins__list a{display:grid;gap:.35rem;padding:1.2rem 0;border-bottom:1px solid var(--color-mist);color:var(--color-ink);text-decoration:none}
+  .ins__list span{color:var(--color-soil);font-size:.8rem}
+  .ins__list strong{font:600 1.15rem/1.6 var(--font-brand-display)}
+  .ins__list em{color:var(--color-soil);font-size:.88rem;font-style:normal;line-height:1.8}
+  .ins__list a:hover strong{color:var(--color-tide)}
+  .ins__back{margin-top:2rem}.ins__back a{color:var(--color-tide);border-bottom:1px solid}
+</style>

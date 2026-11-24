@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
 import { getAreaCounts, getArticles, getIndexableNews, getIndexableEvents, getStores } from '../lib/content';
 import { CATEGORIES, SITE_CONFIG } from '../data/site';
 import { VISIBLE_GUIDES } from '../data/guides';
@@ -47,6 +48,11 @@ export const GET: APIRoute = async () => {
   }
 
   for (const item of news) entries.push({ path: `/news/${item.id.split('/').pop()}/`, lastmod: item.data.updatedDate ?? item.data.pubDate });
+
+  // 発注者向けの記事（/biz/insights/）。一覧は3本そろうまで noindex のため、記事だけを載せる
+  for (const item of await getCollection('insights', ({ data }) => !data.draft && data.reviewed)) {
+    entries.push({ path: `/biz/insights/${item.id}/`, lastmod: item.data.updatedAt ?? item.data.publishedAt });
+  }
 
   // イベント・おでかけ記事。開催日が過ぎても消さない（翌年に更新して使う）。
   for (const item of await getIndexableEvents()) {

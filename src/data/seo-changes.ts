@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261124-biz-insights-ai-search-traffic-doubled',
+    date: '2026-11-24',
+    url: '/biz/insights/ai-search-traffic-doubled/',
+    kind: 'new-article',
+    change: '発注者向けの記事の1本目「AI検索からの流入が28日で約2倍に。地域メディアがやっていること（実データ）」を新設（/biz/insights/ の新設を含む）',
+    queries: ['AI検索 対策', 'AIO 対策', 'LLMO 対策'],
+    commit: '242e3eb',
+    note: 'action 20261124-biz-insights。数字は2026-11-20までのGA4実測。一覧 /biz/insights/ は3本そろうまで noindex。',
+  },
+  {
     id: '20261123-home-sponsor-copy',
     date: '2026-11-23',
     url: '/',
