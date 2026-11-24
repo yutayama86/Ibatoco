@@ -1,23 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T01:51:01.687Z",
-  "asOf": "2026-11-23",
+  "generatedAt": "2026-11-24T05:23:05.650Z",
+  "asOf": "2026-11-24",
   "keepDays": 14,
   "scan": {
-    "scanned": 55,
-    "fetched": 54,
-    "failed": 1,
+    "scanned": 60,
+    "fetched": 58,
+    "failed": 2,
     "previousReportAvailable": true
   },
   "note": "公式サイトの新着リンク（キーワード一致の題名のみ）。未確認情報。記事化は一次情報で確認してから。",
   "items": [
+    {
+      "firstSeenAt": "2026-11-24",
+      "sourceId": "ibaraki-town-events",
+      "municipality": "茨城町",
+      "scope": "ibaraki",
+      "title": "サイクリング企画第６弾！自転車でめぐる「まちめぐりスタンプラリー」開催！",
+      "url": "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-24",
+      "sourceId": "ibaraki-town-events",
+      "municipality": "茨城町",
+      "scope": "ibaraki",
+      "title": "「2026いばらきまつり」を開催します！",
+      "url": "https://www.town.ibaraki.lg.jp/gyousei/kurashitetuduki/ibaraki_event/004065.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-24",
+      "sourceId": "tokyo-ibaraki-food-news",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "title": "11月29日「いい肉の日」から！三笠会館で「常陸牛 煌」グルメフェアを開催",
+      "url": "https://ibaraki-shokusai.net/info/detail/18490",
+      "registered": false
+    },
     {
       "firstSeenAt": "2026-11-23",
       "sourceId": "oarai-tourism-news",
       "municipality": "大洗町",
       "title": "【開催告知-2026年12月】大洗で唯一のクリスマスマーケット",
       "url": "https://www.oarai-info.jp/event/postid_11534/",
-      "registered": false
+      "registered": true
     }
   ]
 }
