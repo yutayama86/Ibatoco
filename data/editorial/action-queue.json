@@ -2017,7 +2017,7 @@
     },
     {
       "kind": "revenue",
-      "status": "candidate",
+      "status": "done",
       "priority": "high",
       "createdAt": "2026-11-24",
       "confidence": "medium",
@@ -2029,7 +2029,7 @@
       "effort": "S",
       "targetUrl": "/biz/",
       "targetFile": "非公開リポジトリ（顧客情報を公開リポジトリに置かない）",
-      "reason": "独立前の12〜1月に最初の案件を決めるため最優先（12月中旬まで）。契約書・NDAは専門家の確認が前提。",
+      "reason": "独立前の12〜1月に最初の案件を決めるため最優先（12月中旬まで）。契約書・NDAは専門家の確認が前提。 2026-11-24 Googleドライブ「イバトコ受託」に5種類の型と台帳を作成（非公開リポジトリは作らない方針に変更）。",
       "acceptanceCriteria": [
         "非公開リポジトリに5種類の型を置く",
         "提案書・見積はsrc/data/services.tsのプランと一致",
@@ -2039,41 +2039,45 @@
     },
     {
       "kind": "revenue",
-      "status": "candidate",
+      "status": "ready",
       "priority": "high",
       "createdAt": "2026-11-24",
       "confidence": "medium",
       "specPath": "docs/editorial/specs/20261124-b2b-delivery-kit.md",
-      "primarySourceUrls": [],
+      "primarySourceUrls": [
+        "https://lookerstudio.google.com/"
+      ],
       "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針）。少ない工数で高い利益を仕組みで実現する。",
       "id": "20261124-b2b-client-report",
-      "title": "顧客向け月次・診断レポートの自動作成（GA4・GSCの汎用部品＋非公開リポジトリで実行）",
+      "title": "顧客向け月次・診断レポートの型（Looker Studio、無料）",
       "effort": "M",
       "targetUrl": "/control/",
-      "targetFile": "scripts/google-api-daily.mjs",
-      "reason": "現状診断・コンサル・SNS運用・スポンサーのレポート作業をほぼゼロにする（12月末まで）。",
+      "targetFile": "（Looker Studio）",
+      "reason": "2026-11-24 オーナー決定：自前のプログラムではなく Looker Studio の型にする（12月中）。顧客5社超で独自の自動化を検討。",
       "acceptanceCriteria": [
-        "取得・集計を顧客のプロパティを引数にとる汎用部品にする（顧客情報を含まない）",
-        "実行は非公開リポジトリのActions。Secretの作成はオーナー",
-        "イバトコ自身のプロパティでレポートが作れる",
-        "取得できない値は未取得（0で埋めない）"
+        "イバトコ自身のGA4・Search ConsoleでLooker Studioのレポートの型を作る",
+        "顧客ごとにコピーして接続先を差し替えるだけで使える",
+        "取得できない値は未取得として表示（0で埋めない）",
+        "顧客情報を公開リポジトリに置かない"
       ]
     },
     {
       "kind": "revenue",
-      "status": "candidate",
+      "status": "ready",
       "priority": "high",
       "createdAt": "2026-11-24",
       "confidence": "medium",
       "specPath": "docs/editorial/specs/20261124-b2b-delivery-kit.md",
-      "primarySourceUrls": [],
+      "primarySourceUrls": [
+        "https://docs.astro.build/"
+      ],
       "source": "2026-11-23 オーナー決定（docs/REVENUE_OS.md 事業方針）。少ない工数で高い利益を仕組みで実現する。",
       "id": "20261124-b2b-web-template",
       "title": "Web制作の型（Astro・検索/AI検索向けの基本設定と公開前チェック入り）",
       "effort": "M",
       "targetUrl": "/biz/",
       "targetFile": "（新規リポジトリ）",
-      "reason": "Web制作の想定25時間を短くする（2027年1月中旬まで）。",
+      "reason": "Web制作の想定25時間を短くする（2027年1月中旬まで）。 2026-11-24 オーナー決定：公開してよい。",
       "acceptanceCriteria": [
         "構造化データ・サイトマップ・OGP・llms.txt・パンくずを最初から入れる",
         "イバトコの品質監査の汎用部分で公開前チェック",
