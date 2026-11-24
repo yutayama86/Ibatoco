@@ -68,9 +68,16 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
   import { submitForm } from '../lib/forms';
   import { readCtaOrigin, trackEvent } from '../lib/analytics-events';
   const form=document.querySelector<HTMLFormElement>('.contact-form'); const params=new URLSearchParams(location.search); const subject=params.get('subject'); const select=document.getElementById('subject') as HTMLSelectElement|null;
+  // Capture the site's categories before adding any free-text URL option.
+  const categories = new Set(Array.from(select?.options ?? [], option => option.value));
+  categories.add('協賛・広告のご相談');
+  const analyticsSubject = () => {
+    const value = select?.value ?? '';
+    return categories.has(value) ? value : 'その他';
+  };
   if(subject&&select){let option=Array.from(select.options).find((item)=>item.value===subject||item.textContent?.trim()===subject);if(!option){option=new Option(subject,subject);select.add(option,1)}select.value=option.value;const detail=params.get('detail');const message=document.getElementById('message') as HTMLTextAreaElement|null;if(detail&&message&&!message.value)message.value=detail}
   // フォーム到達と入力開始。送信完了（generate_lead）とは別のイベントで、キーイベントにはしない
-  if(form){const origin=readCtaOrigin();const inquiry=()=>(form.elements.namedItem('inquiry_type') as HTMLSelectElement|null)?.value||'';trackEvent('contact_form_view',{form_id:'contact',form_subject:inquiry(),...(origin??{})});form.addEventListener('focusin',()=>{trackEvent('contact_form_start',{form_id:'contact',form_subject:inquiry(),...(origin??{})})},{once:true})}
+  if(form){const origin=readCtaOrigin();trackEvent('contact_form_view',{form_id:'contact',form_subject:analyticsSubject(),...(origin??{})});form.addEventListener('focusin',()=>{trackEvent('contact_form_start',{form_id:'contact',form_subject:analyticsSubject(),...(origin??{})})},{once:true})}
   // 確認画面：入力画面では送らずに内容を見せ、確認画面の「この内容で送信する」だけで送る
   if(form){
     const review=form.querySelector<HTMLElement>('[data-review]');const list=form.querySelector<HTMLElement>('[data-review-list]');const back=form.querySelector<HTMLButtonElement>('[data-review-back]');const send=form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -83,5 +90,5 @@ const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: 'お問い合
     // 送信が失敗して送信ボタンが戻ったら、戻るボタンも戻す。成功したら戻るボタンは隠す
     if(send&&back)new MutationObserver(()=>{if(send.style.display==='none')back.hidden=true;else if(!send.disabled)back.disabled=false}).observe(send,{attributes:true,attributeFilter:['disabled','style']});
   }
-  if(form){form.addEventListener('submit',()=>{const type=(form.elements.namedItem('inquiry_type') as HTMLSelectElement|null)?.value||'お問い合わせ';const name=((form.elements.namedItem('name') as HTMLInputElement|null)?.value||'').trim();const field=form.querySelector<HTMLInputElement>('input[name="_subject"]');if(field)field.value=name?`【${type}】${name}`:`【${type}】お問い合わせ`});submitForm(form,{successText:'お問い合わせを受け付けました。内容を確認してご連絡します。',conversionId:'contact'})}
+  if(form){form.addEventListener('submit',()=>{const type=(form.elements.namedItem('inquiry_type') as HTMLSelectElement|null)?.value||'お問い合わせ';const name=((form.elements.namedItem('name') as HTMLInputElement|null)?.value||'').trim();const field=form.querySelector<HTMLInputElement>('input[name="_subject"]');if(field)field.value=name?`【${type}】${name}`:`【${type}】お問い合わせ`});submitForm(form,{successText:'お問い合わせを受け付けました。内容を確認してご連絡します。',conversionId:'contact',analyticsSubject})}
 </script>

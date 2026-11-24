@@ -11,6 +11,7 @@ interface Options {
   mailSubject?: string;
   /** GA4へ送るCV名。未指定なら form の id、それも無ければ 'contact' */
   conversionId?: string;
+  analyticsSubject?: () => string;
 }
 
 /**
@@ -69,7 +70,7 @@ export function submitForm(form: HTMLFormElement, opts: Options): void {
       if (res.ok) {
         trackConversion(
           opts.conversionId || form.id || 'contact',
-          String(data.get('inquiry_type') ?? ''),
+          opts.analyticsSubject ? opts.analyticsSubject() : String(data.get('inquiry_type') ?? ''),
         );
         clearCtaOrigin();
         form.reset();

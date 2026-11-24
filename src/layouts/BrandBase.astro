@@ -185,6 +185,22 @@ const routeSegment = pathname.split('/').filter(Boolean)[0]?.replace(/[^a-z0-9-]
   w.gtag = function(){ w.dataLayer.push(arguments); };
   w.gtag('js', new Date());
   var params = { traffic_kind: kind, landing_traffic_kind: landing.kind };
+  // Exclude contact prefill text from GA4 URLs, including subsequent page referrers.
+  function analyticsContactUrl(raw) {
+    if (!raw) return null;
+    try {
+      var url = new URL(raw);
+      if (url.origin !== loc.origin || (url.pathname !== '/contact/' && url.pathname !== '/contact')) return null;
+      url.searchParams.delete('subject');
+      url.searchParams.delete('detail');
+      url.hash = '';
+      return url.href;
+    } catch (e) { return null; }
+  }
+  var contactLocation = analyticsContactUrl(loc.href);
+  var contactReferrer = analyticsContactUrl(d.referrer);
+  if (contactLocation) params.page_location = contactLocation;
+  if (contactReferrer) params.page_referrer = contactReferrer;
   if (ai) params.ai_source = ai;
   w.gtag('config', C.id, params);
   w.__ibatocoTraffic = { kind: kind, aiSource: ai || null, referrerHost: refHost || null, landingKind: landing.kind, landingPath: landing.path };
