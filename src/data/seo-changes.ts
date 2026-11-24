@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '発注者向けの記事の1本目「AI検索からの流入が28日で約2倍に。地域メディアがやっていること（実データ）」を新設（/biz/insights/ の新設を含む）',
     queries: ['AI検索 対策', 'AIO 対策', 'LLMO 対策'],
-    commit: 'PENDING',
+    commit: '242e3eb',
     note: 'action 20261124-biz-insights。数字は2026-11-20までのGA4実測。一覧 /biz/insights/ は3本そろうまで noindex。',
   },
   {
