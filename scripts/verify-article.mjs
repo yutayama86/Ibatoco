@@ -16,6 +16,8 @@
  *  - draft記事はページが生成されない。「無い」ことが正しい場合がある。
  *    → draft状態を先に読み、期待する結果を切り替える。
  */
+import { parse, walkSync, TEXT_NODE } from 'ultrahtml';
+import { querySelectorAll } from 'ultrahtml/selector';
 import { readFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -138,7 +140,13 @@ if (isDraft) {
   } else {
     const html = await readFile(distPath, 'utf8');
     const title = html.match(tag('title'))?.[1] ?? '';
-    const h1 = html.match(tag('h1'))?.[1]?.replace(/<[^>]+>/g, '') ?? '';
+    const headings = querySelectorAll(parse(html), 'h1');
+    let hasHeadingText = false;
+    if (headings.length) {
+      walkSync(headings[0], node => {
+        if (node.type === TEXT_NODE && node.value.trim()) hasHeadingText = true;
+      });
+    }
     const desc = html.match(meta('description'))?.[1] ?? '';
     const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1] ?? '';
     const ogImage = html.match(meta('og:image', 'property'))?.[1] ?? '';
@@ -146,8 +154,8 @@ if (isDraft) {
 
     console.log(`\n  title              ${title.length}字`);
     if (!title) fail('title がありません');
-    if (!h1) fail('h1 がありません');
-    const h1Count = (html.match(/<h1\b/g) ?? []).length;
+    if (!hasHeadingText) fail('h1 の本文がありません');
+    const h1Count = headings.length;
     if (h1Count !== 1) fail(`h1が${h1Count}個あります（1個であるべき）`);
 
     // description は 40〜180字（スキーマの検証と同じ範囲）

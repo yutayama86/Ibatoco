@@ -18,6 +18,7 @@
  * 実行：node scripts/verify-production.mjs [--wait] [--timeout 420]
  *       （npm run deploy の最後でも実行される）
  */
+import { unescape as decode } from 'html-escaper';
 import { execFile } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -71,7 +72,6 @@ async function get(url, { method = 'GET' } = {}) {
 
 const assetsOf = (html) => [...new Set(html.match(/\/_astro\/[^"'\s)]+\.(?:css|js)/g) ?? [])].sort().join('\n');
 const titleOf = (html) => html.match(/<title>([^<]*)<\/title>/)?.[1]?.trim() ?? '';
-const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 const distHtml = (path) => {
   const file = join('dist', path.split('?')[0], 'index.html');
   return existsSync(file) ? readFileSync(file, 'utf8') : null;

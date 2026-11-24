@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { unescape as decode } from 'html-escaper';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,12 +22,6 @@ const performance = JSON.parse(readFileSync(PERFORMANCE, 'utf8'));
 const revenue = JSON.parse(readFileSync(REVENUE, 'utf8'));
 const html = readFileSync(DISCOVER_HTML, 'utf8');
 
-const decode = (value = '') => value
-  .replaceAll('&quot;', '"')
-  .replaceAll('&#39;', "'")
-  .replaceAll('&amp;', '&')
-  .replaceAll('&lt;', '<')
-  .replaceAll('&gt;', '>');
 
 const cards = [...html.matchAll(/<li\s+[^>]*data-discovery-card[^>]*>/g)].map((match) => {
   const tag = match[0];
