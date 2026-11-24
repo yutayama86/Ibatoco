@@ -114,6 +114,7 @@ if(input.bookingReferrals) data.conversionDetail={...data.conversionDetail,...re
 // （以前は ga4-daily.mjs にだけ書かれていて、毎朝の取り込み（このファイル）で落ちていた）
 if(input.nextStepExperiment) data.nextStepExperiment={...input.nextStepExperiment,fetchedAt:input.fetchedAt};
 if(input.aiReferrals) data.aiReferrals={...input.aiReferrals,fetchedAt:input.fetchedAt};
+if(input.b2bFunnel) data.b2bFunnel={...input.b2bFunnel,fetchedAt:input.fetchedAt};
 data.asOf=gaEnd;
 // 最上位の確定日は editorial-os が読む（Windsor 時代の項目）。source 側だけ更新すると古い日付が残る（#445）
 data.ga4LatestConfirmedDate=gaEnd;

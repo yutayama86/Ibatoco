@@ -263,6 +263,47 @@ try {
 } catch (error) {
   console.warn(`::warning title=AI経由の流入::取得できませんでした（${error.message}）。未取得として扱います。`);
 }
+// BtoB の窓口（/biz/・発注者向け記事）の表示と、相談までの流れ。読み取りのみ（2026-11-24 オーナー決定：/control/ に出す）
+// 送信完了の件名（form_subject）は GA4 のカスタムディメンションに登録されている場合だけ取れる。取れなければ未取得のまま
+let b2bFunnel = null;
+try {
+  const runReport = (body) => request(`https://analyticsdata.googleapis.com/v1beta/properties/${property}:runReport`, body);
+  const funnel = async (period) => {
+    const dateRanges = [{ startDate: period.start, endDate: period.end }];
+    const pages = await runReport({ dateRanges, dimensions: [{ name: 'pagePath' }], metrics: [{ name: 'screenPageViews' }],
+      dimensionFilter: { filter: { fieldName: 'pagePath', stringFilter: { matchType: 'BEGINS_WITH', value: '/biz/' } } }, limit: '1000' });
+    const events = await runReport({ dateRanges, dimensions: [{ name: 'eventName' }, { name: 'pagePath' }], metrics: [{ name: 'eventCount' }],
+      dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: ['business_cta_click', 'contact_form_view', 'contact_form_start', 'generate_lead'] } } }, limit: '10000' });
+    const num = (v) => Number(v ?? 0);
+    const pageRows = pages.rows ?? [];
+    const bizViews = pageRows.reduce((sum, r) => sum + num(r.metricValues?.[0]?.value), 0);
+    const insightViews = pageRows.filter((r) => String(r.dimensionValues?.[0]?.value ?? '').startsWith('/biz/insights/')).reduce((sum, r) => sum + num(r.metricValues?.[0]?.value), 0);
+    const count = (name, pred) => (events.rows ?? []).filter((r) => r.dimensionValues?.[0]?.value === name && pred(String(r.dimensionValues?.[1]?.value ?? ''))).reduce((sum, r) => sum + num(r.metricValues?.[0]?.value), 0);
+    let bizLeads = null;
+    try {
+      const leads = await runReport({ dateRanges, dimensions: [{ name: 'customEvent:form_subject' }], metrics: [{ name: 'eventCount' }],
+        dimensionFilter: { filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: 'generate_lead' } } }, limit: '100' });
+      bizLeads = (leads.rows ?? []).filter((r) => r.dimensionValues?.[0]?.value === '法人・自治体のご相談').reduce((sum, r) => sum + num(r.metricValues?.[0]?.value), 0);
+    } catch { bizLeads = null; }
+    return {
+      period,
+      bizViews,
+      insightViews,
+      bizCtaClicks: count('business_cta_click', (path) => path.startsWith('/biz/')),
+      contactFormViews: count('contact_form_view', (path) => path.startsWith('/contact/')),
+      leadsAll: count('generate_lead', () => true),
+      bizLeads,
+    };
+  };
+  b2bFunnel = {
+    source: 'GA4 Data API: pagePath BEGINS_WITH /biz/（screenPageViews）、eventName（business_cta_click・contact_form_view・generate_lead）、generate_lead の customEvent:form_subject（登録時のみ）',
+    confirmedThrough: through,
+    recent28: await funnel({ start: addDays(through, -27), end: through }),
+    previous28: await funnel({ start: addDays(through, -55), end: addDays(through, -28) }),
+  };
+} catch (error) {
+  console.warn(`::warning title=BtoBの窓口::取得できませんでした（${error.message}）。未取得として扱います。`);
+}
 const output = {
   source: 'Google official read-only APIs (ADC external OIDC)',
   fetchedAt: new Date().toISOString(),
@@ -272,6 +313,7 @@ const output = {
   bookingCtaExperiment,
   ...(nextStepExperiment ? { nextStepExperiment } : {}),
   ...(aiReferrals ? { aiReferrals } : {}),
+  ...(b2bFunnel ? { b2bFunnel } : {}),
   ...(pageLevel ? { pageLevel } : {}),
   ...(bookingReferrals ? { bookingReferrals } : {}),
 };
