@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-23",
+  "updatedAt": "2026-11-25",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -2222,6 +2222,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "11/23に土浦市観光協会｜第34回土浦ウインターフェスティバルで日程と会場を確認。土浦駅の東西口から駅前通りにかけて約10万球が点灯します。17時から24時まで。11月30日（月）の点灯式は17時から、駅西口のうらら大屋根広場で開かれます。霞ケ浦総合公園の水郷桜イルミネーションとは会場が異なります。 出典 https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/"
+    },
+    {
+      "id": "ibaraki-machi-cycling-stamp-rally-6-2026",
+      "name": "のんびり、よりみち、まちめぐりスタンプラリー（サイクリング企画第6弾）",
+      "municipality": "ibaraki-machi",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-24",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月24日の公式サイト監視で発見。出典 https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html"
+    },
+    {
+      "id": "tokyo-mikasa-hitachigyu-kirameki-fair-2026",
+      "name": "三笠会館「常陸牛 煌」グルメフェア",
+      "municipality": "tokyo",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-24",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月24日の公式サイト監視で発見。出典 https://ibaraki-shokusai.net/info/detail/18490"
     }
   ]
 }
