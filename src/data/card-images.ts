@@ -172,6 +172,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-jinja-meguri-roundup": "/images/card/ibaraki-jinja-meguri-roundup-45040031.png",
   "ibaraki-kenmin-no-hi-2026": "/images/card/ibaraki-kenmin-no-hi-2026-4c8cbdb8.png",
   "ibaraki-kids-odekake-roundup": "/images/card/ibaraki-kids-odekake-roundup-d755ba19.png",
+  "ibaraki-local-lines-roundup": "/images/card/ibaraki-local-lines-roundup-d10dfb65.png",
   "ibaraki-michinoeki-drive-2026": "/images/card/ibaraki-michinoeki-drive-2026-2af3e39f.png",
   "ibaraki-michinoeki-roundup": "/images/card/ibaraki-michinoeki-roundup-cc4b79ed.png",
   "ibaraki-modern-art-museum-guide": "/images/card/ibaraki-modern-art-museum-guide-6c5eb34d.png",
