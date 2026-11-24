@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261124-events-ibaraki-rekishikan-guide',
+    date: '2026-11-24',
+    url: '/events/ibaraki-rekishikan-guide/',
+    kind: 'on-page',
+    change: 'いちょうまつり（11/23終了）の日程をtitleから外し、通年の入館料・高校生以下無料・年末年始休館を前に出す。終わった11/21の催し・県民の日の案内を整理し、次の企画展（2027/1/9〜3/14）を反映（28日：表示3,084・CTR1.5%・平均7.8位）',
+    queries: ['茨城県立歴史館', '茨城県立歴史館 料金', '茨城県立歴史館 駐車場'],
+    commit: '8dad39c',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261124-biz-insights-event-coverage-gaps',
     date: '2026-11-24',
     url: '/biz/insights/event-coverage-gaps/',
