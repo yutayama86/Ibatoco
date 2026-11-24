@@ -1,3 +1,4 @@
+import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { SITE_CONFIG, CATEGORY_LIST, CATEGORY_PAGE_META } from '../data/site';
 import { getArticles, getIndexableNews, getStores } from '../lib/content';
@@ -95,6 +96,9 @@ export const GET: APIRoute = async () => {
   // 事業者向け
   L.push('## 事業者・関係者の方へ');
   L.push(`- [法人・自治体の方へ](${abs('/biz/')}): 検索・AI検索に強い情報発信のコンサル・Web制作・SNS運用（全国対応）`);
+  for (const item of (await getCollection('insights', ({ data }) => !data.draft && data.reviewed))) {
+    L.push(`- [${item.data.title}](${abs(`/biz/insights/${item.id}/`)}): ${item.data.conclusion}`);
+  }
   L.push(`- [ローカルエディター](${abs('/reporters/')}): 著者と編集体制`);
   L.push(`- [お問い合わせ](${abs('/contact/')}): 取材・掲載・協業のご相談`);
   L.push('');

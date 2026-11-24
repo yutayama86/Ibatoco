@@ -1,0 +1,84 @@
+---
+/**
+ * 発注者向けの記事（/biz/insights/[slug]/）。仕様 docs/editorial/specs/20261124-biz-insights.md。
+ * 自社メディアの運営の実データで書いた、イバトコの事業のための記事であることを冒頭に明記する。
+ */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BrandBase from '../../../layouts/BrandBase.astro';
+import Breadcrumbs, { type Crumb } from '../../../components/Breadcrumbs.astro';
+import { breadcrumbJsonLd } from '../../../lib/seo';
+import { formatJapaneseDate, dateOnlyFromCoercedDate, toDateOnlyString } from '../../../lib/date-only.js';
+
+export async function getStaticPaths() {
+  const items = await getCollection('insights', ({ data }) => !data.draft && data.reviewed);
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props as { entry: CollectionEntry<'insights'> };
+const { data } = entry;
+const { Content } = await render(entry);
+const date = (d: Date) => formatJapaneseDate(dateOnlyFromCoercedDate(d));
+const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '法人・自治体の方へ', href: '/biz/' }, { name: '発信の実例と知見', href: '/biz/insights/' }, { name: data.title }];
+const site = Astro.site?.origin ?? 'https://ibatoco.jp';
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: toDateOnlyString(dateOnlyFromCoercedDate(data.publishedAt)),
+  ...(data.updatedAt ? { dateModified: toDateOnlyString(dateOnlyFromCoercedDate(data.updatedAt)) } : {}),
+  author: { '@type': 'Organization', name: 'イバトコ編集部', url: `${site}/about/` },
+  publisher: { '@type': 'Organization', name: 'イバトコ', url: `${site}/` },
+  mainEntityOfPage: `${site}/biz/insights/${entry.id}/`,
+};
+const contact = '/contact/?subject=法人・自治体のご相談';
+---
+<BrandBase title={`${data.title}｜イバトコ`} description={data.description} type="article" publishedAt={data.publishedAt} updatedAt={data.updatedAt} jsonLd={[breadcrumbJsonLd(crumbs, Astro.site), articleJsonLd]}>
+  <article class="insight bp-wrap bp-section">
+    <Breadcrumbs items={crumbs} />
+    <p class="bp-kicker">INSIGHTS</p>
+    <h1>{data.title}</h1>
+    <p class="insight__meta">{date(data.publishedAt)}公開{data.updatedAt && `・${date(data.updatedAt)}更新`}／数字は{date(data.measuredAt)}までの実測／イバトコ編集部</p>
+    <p class="insight__note">この記事は、イバトコが自社メディアの運営の実データをもとに書いた、イバトコの事業（法人・自治体向けの支援）のための記事です。受託の取引実績や、特定の顧客の話ではありません。</p>
+    <div class="insight__conclusion"><strong>結論</strong><p>{data.conclusion}</p></div>
+    <div class="insight__body prose"><Content /></div>
+    {data.sourceUrls.length > 0 && (
+      <section class="insight__sources" aria-labelledby="insight-sources">
+        <h2 id="insight-sources">出典</h2>
+        <ul>{data.sourceUrls.map((s) => <li>{s.url ? <a href={s.url} rel="noopener noreferrer">{s.label}</a> : s.label}</li>)}</ul>
+      </section>
+    )}
+    <aside class="insight__cta">
+      <p>自社の検索・AI検索・発信の現状を知りたい方へ。改善の優先順位をレポートでお渡しする「現状診断」を承っています。</p>
+      <a href="/biz/#diagnosis" data-biz-service="insight_diagnosis">現状診断の内容と料金を見る →</a>
+      <a class="insight__cta-sub" href={contact} data-biz-service="insight_contact">相談する</a>
+    </aside>
+  </article>
+</BrandBase>
+<style>
+  .insight{max-width:780px}
+  .insight h1{margin-top:1rem;font:600 clamp(1.8rem,4.5vw,2.8rem)/1.4 var(--font-brand-display);color:var(--color-ink);text-wrap:balance}
+  .insight__meta{margin-top:.8rem;color:var(--color-soil);font-size:.82rem}
+  .insight__note{margin-top:1.2rem;padding:.9rem 1rem;border-left:3px solid var(--color-tide);background:var(--color-white);color:var(--color-soil);font-size:.86rem;line-height:1.85}
+  .insight__conclusion{margin-top:1.5rem;padding:1.1rem 1.2rem;border:1px solid var(--color-mist);border-radius:.85rem;background:var(--color-white)}
+  .insight__conclusion strong{color:var(--color-tide);font-size:.82rem}
+  .insight__conclusion p{margin-top:.4rem;line-height:1.95;color:var(--color-ink)}
+  .insight__body{margin-top:2rem}
+  .insight__sources{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--color-mist)}
+  .insight__sources h2{font:600 1.05rem var(--font-brand-display);color:var(--color-ink)}
+  .insight__sources ul{display:grid;gap:.4rem;margin-top:.6rem;padding-left:1.1rem;list-style:disc;color:var(--color-soil);font-size:.86rem}
+  .insight__sources a{color:var(--color-tide);border-bottom:1px solid}
+  .insight__cta{display:grid;gap:.8rem;margin-top:2.5rem;padding:1.3rem;border-radius:.85rem;background:var(--color-white);border:1px solid var(--color-mist)}
+  .insight__cta p{line-height:1.9;color:var(--color-ink)}
+  .insight__cta a:first-of-type{justify-self:start;display:inline-flex;align-items:center;min-height:44px;padding:.6rem 1.3rem;border-radius:999px;background:var(--color-tide);color:#fff;font-weight:700;text-decoration:none}
+  .insight__cta-sub{justify-self:start;color:var(--color-tide);border-bottom:1px solid}
+</style>
+<script>
+  import { rememberCtaOrigin, trackEvent } from '../../../lib/analytics-events';
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-biz-service]')) {
+    link.addEventListener('click', () => {
+      const service = link.dataset.bizService ?? '';
+      rememberCtaOrigin({ cta_type: 'service_' + service, cta_location: 'biz_insight', cta_page_type: 'biz', cta_origin_path: window.location.pathname });
+      trackEvent('business_cta_click', { cta_type: 'service_' + service, cta_location: 'biz_insight', cta_page_type: 'biz', link_url: link.getAttribute('href') ?? '' });
+    });
+  }
+</script>
