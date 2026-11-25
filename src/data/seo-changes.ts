@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-area-daigo',
+    date: '2026-11-25',
+    url: '/area/daigo/',
+    kind: 'on-page',
+    change: 'title：「大子町の歩き方｜袋田の滝と奥久慈・半日コース｜イバトコ」→「大子町の歩き方｜袋田の滝と奥久慈の観光・半日モデルコース｜イバトコ」',
+    queries: ['奥久慈 観光 モデルコース', '奥久慈 どこ'],
+    commit: '67b1b5b',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261125-events-kairakuen-guide',
     date: '2026-11-25',
     url: '/events/kairakuen-guide/',
