@@ -181,6 +181,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-nashi-gourmet": "/images/card/ibaraki-nashi-gourmet-12e759e5.png",
   "ibaraki-nature-museum-guide": "/images/card/ibaraki-nature-museum-guide-defd7775.png",
   "ibaraki-observatory-roundup": "/images/card/ibaraki-observatory-roundup-20af4748.png",
+  "ibaraki-onsen-stay-roundup": "/images/card/ibaraki-onsen-stay-roundup-b90566ed.png",
   "ibaraki-park-playground-roundup": "/images/card/ibaraki-park-playground-roundup-5a34c7f5.png",
   "ibaraki-rainy-day-spots": "/images/card/ibaraki-rainy-day-spots-c6eadd64.png",
   "ibaraki-rekishikan-guide": "/images/card/ibaraki-rekishikan-guide-6c5eb34d.png",
