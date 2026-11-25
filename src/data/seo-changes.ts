@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-kairakuen-guide',
+    date: '2026-11-25',
+    url: '/events/kairakuen-guide/',
+    kind: 'on-page',
+    change: 'title：「偕楽園の入園料・開園時間・駐車場｜県民は無料、朝9時までは誰でも無料（梅まつり以外）」→「偕楽園の入園料は大人320円｜茨城県民と朝9時までは無料（梅まつり期間は500円）・開園時間・駐車場」',
+    queries: ['偕楽園 入園料', '偕楽園 入場料', '水戸 偕楽園 料金'],
+    commit: '69501a6',
+    experimentType: 'metadata',
+  },
+  {
     id: '20261125-events-hinuma-de-marche-2026',
     date: '2026-11-25',
     url: '/events/hinuma-de-marche-2026/',
