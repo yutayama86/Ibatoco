@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-ibaraki-onsen-stay-roundup',
+    date: '2026-11-25',
+    url: '/events/ibaraki-onsen-stay-roundup/',
+    kind: 'new-article',
+    change: '茨城で泊まれる温泉地5つのまとめを新規公開（泉質・宿の探し方・日帰り入浴）',
+    queries: ['茨城 温泉 宿', '茨城 温泉地', '筑波山温泉 泉質'],
+    commit: '67ec592',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261124-events-hananuki-gorge-autumn-2026',
     date: '2026-11-24',
     url: '/events/hananuki-gorge-autumn-2026/',
