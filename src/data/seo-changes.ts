@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-mito-night-guide',
+    date: '2026-11-25',
+    url: '/events/mito-night-guide/',
+    kind: 'new-article',
+    change: '水戸の夜の過ごし方と帰りの終電ガイドを新規公開（大工町・泉町、常磐線・水郡線の最終、みと号）',
+    queries: ['水戸 終電', '水戸 夜', '水戸 大工町 飲み'],
+    commit: '2b93bd3',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261124-events-hananuki-gorge-autumn-2026',
     date: '2026-11-24',
     url: '/events/hananuki-gorge-autumn-2026/',
