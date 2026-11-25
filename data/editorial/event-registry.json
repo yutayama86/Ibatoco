@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-25",
+  "updatedAt": "2026-11-26",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -22,6 +22,69 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "inashiki-ride-photo-cycling-vol3-2026",
+      "name": "イナシキライド フォトサイクリング VOL.3",
+      "municipality": "inashiki",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.inashiki.lg.jp/page/page011660.html"
+    },
+    {
+      "id": "naka-shogatsu-kazari-exhibition-2027",
+      "name": "那珂市歴史民俗資料館 季節展「正月飾り展」",
+      "municipality": "naka",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.naka.lg.jp/edu-board/news/page008163.html"
+    },
+    {
+      "id": "kitaibaraki-mayors-cup-junior-soft-tennis-12-2026",
+      "name": "北茨城市長杯 第12回中学校ソフトテニス選抜大会",
+      "municipality": "kitaibaraki",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.kitaibaraki.lg.jp/docs/2026111000010/"
     },
     {
       "id": "mito-hagi-matsuri-2026",
@@ -1249,7 +1312,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23にアクアワールド茨城県大洗水族館｜クリスマス アクアワールド 2026で日程と会場を確認。サンタのひげにちなんで、顔の周りにひげのような突起を持つオオセ科のサメ4種を紹介します。最終日は12月25日（金）。12月7日（月）〜11日（金）は休館です。 出典 https://www.aquaworld-oarai.com/2026/11/05/christmas2026/"
+      "notes": "11/23にアクアワールド茨城県大洗水族館｜クリスマス アクアワールド 2026で日程と会場を確認。サンタのひげにちなんで、顔の周りにひげのような突起を持つオオセ科のサメ4種を紹介します。最終日は12月25日（金）。12月7日（月）〜11日（金）は休館です。 出典 https://www.aquaworld-oarai.com/2026/11/05/christmas2026/",
+      "relatedArticleUrls": [
+        "/events/ibaraki-christmas-events-2026/"
+      ]
     },
     {
       "id": "hitachi-starlight-illumination-2026",
@@ -1769,9 +1835,9 @@
       "endDate": "2027-01-31",
       "officialUrl": "https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html",
       "discoveredAt": "2026-11-17",
-      "verifiedAt": "2026-11-17",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/itako-riverside-illumination-2026/",
-      "articleUpdatedAt": "2026-11-17",
+      "articleUpdatedAt": "2026-11-25",
       "status": "published",
       "importance": "large",
       "signals": {
@@ -1790,9 +1856,9 @@
       "endDate": "2026-11-29",
       "officialUrl": "https://sports-hitachi.com/takahagi-relay/",
       "discoveredAt": "2026-11-04",
-      "verifiedAt": "2026-11-04",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/takahagi-relay-marathon-2026/",
-      "articleUpdatedAt": "2026-11-03",
+      "articleUpdatedAt": "2026-11-25",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1811,7 +1877,7 @@
       "endDate": "2027-01-11",
       "officialUrl": "https://www.city.kitaibaraki.lg.jp/docs/2026103000028/file_contents/WEB2026-11No846.pdf",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": "2026-11-23",
+      "verifiedAt": "2026-11-25",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -1822,7 +1888,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23に北茨城市｜広報きたいばらき2026年11月号・13ページで日程と会場を確認。点灯時間は16時30分〜22時。12月1日（火）の点灯式は18時から磯原中央公園で開かれます。式に合わせて出かけるなら公園へ。駅西口ロータリーでもイルミネーションを楽しめます。 出典 https://www.city.kitaibaraki.lg.jp/docs/2026103000028/file_contents/WEB2026-11No846.pdf"
+      "notes": "11/23に北茨城市｜広報きたいばらき2026年11月号・13ページで日程と会場を確認。点灯時間は16時30分〜22時。12月1日（火）の点灯式は18時から磯原中央公園で開かれます。式に合わせて出かけるなら公園へ。駅西口ロータリーでもイルミネーションを楽しめます。 出典 https://www.city.kitaibaraki.lg.jp/docs/2026103000028/file_contents/WEB2026-11No846.pdf 11/25時点で2026年分の駐車場案内は公式に見当たらない（観光協会の駐車場の記載は2024年分）。2026年の情報は広報11月号のみ。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
     },
     {
       "id": "ferme-de-noel-31-2026",
@@ -1843,7 +1912,11 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23にこもれび森のイバライド｜Ferme de noel Vol.31で日程と会場を確認。2日間とも10時〜16時30分。アンティークや古道具、植物、クラフトの店が園内に並びます。入園券が必要で、中学生以上は前売1,000円、当日窓口1,500円。前売券に優先入園は付きません。 出典 https://www.ibaraido.co.jp/wp/27954/"
+      "notes": "11/23にこもれび森のイバライド｜Ferme de noel Vol.31で日程と会場を確認。2日間とも10時〜16時30分。アンティークや古道具、植物、クラフトの店が園内に並びます。入園券が必要で、中学生以上は前売1,000円、当日窓口1,500円。前売券に優先入園は付きません。 出典 https://www.ibaraido.co.jp/wp/27954/",
+      "relatedArticleUrls": [
+        "/events/ibaraki-winter-marche-2026/",
+        "/events/ibaraki-christmas-events-2026/"
+      ]
     },
     {
       "id": "koga-chochin-saomomi-matsuri-2026",
@@ -1853,9 +1926,9 @@
       "endDate": "2026-12-05",
       "officialUrl": "https://www.kogakanko.jp/chochin",
       "discoveredAt": "2026-10-17",
-      "verifiedAt": "2026-10-17",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/koga-chochin-saomomi-matsuri-2026/",
-      "articleUpdatedAt": "2026-11-05",
+      "articleUpdatedAt": "2026-11-25",
       "status": "draft",
       "importance": "large",
       "signals": {
@@ -1874,9 +1947,9 @@
       "endDate": null,
       "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004084.html",
       "discoveredAt": "2026-11-03",
-      "verifiedAt": "2026-11-03",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/hinuma-de-marche-2026/",
-      "articleUpdatedAt": "2026-11-03",
+      "articleUpdatedAt": "2026-11-25",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1895,9 +1968,9 @@
       "endDate": "2026-12-06",
       "officialUrl": "https://hitachi-trail.com/",
       "discoveredAt": "2026-10-17",
-      "verifiedAt": "2026-11-03",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/hitachi-alps-ocean-trail-2026/",
-      "articleUpdatedAt": "2026-11-03",
+      "articleUpdatedAt": "2026-11-25",
       "status": "published",
       "importance": "normal",
       "signals": {
@@ -1916,7 +1989,7 @@
       "endDate": null,
       "officialUrl": "https://shin-hanabi.com/",
       "discoveredAt": "2026-10-18",
-      "verifiedAt": "2026-10-18",
+      "verifiedAt": "2026-11-25",
       "articleUrl": "/events/joso-shin-hanabi-2026/",
       "articleUpdatedAt": "2026-10-18",
       "status": "published",
@@ -1927,7 +2000,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。"
+      "notes": "鬼怒川堤防決壊の碑特設会場、17:00〜、約1万発。チケット・交通案内を含む独立記事を優先。 11/25に大会公式サイトで日時（12/12 17:00〜）・会場・チケット販売中（9/11発売）を再確認、変更なし。プログラムは「準備中」。記事は既存（/events/joso-shin-hanabi-2026/）のため新規記事は作らない。"
     },
     {
       "id": "katsuta-tamariba-yokocho-67-2026",
@@ -1969,7 +2042,7 @@
       "officialUrl": "https://www.ibaraki-shokusai.net/info?id=18469",
       "status": "discovered",
       "importance": "normal",
-      "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。"
+      "notes": "茨城県の出店者募集案内2026-09-30では東京都世田谷区・二子玉川ライズガレリアで12月19～20日11:00～18:00を『予定』と案内。一般来場者向け確定告知・営業時間・出店者は別途一次情報で再確認。東京都内の茨城関連イベントの追跡対象。 11/25夜、「いばらき食と農のポータルサイト」に開催告知「いばキュンマルシェ2026を二子玉川ライズで開催します！」（https://ibaraki-shokusai.net/info/detail/18491）が出たことを公式サイトの新着監視で確認。本文（日時・出店数）は未読で未確認。県外（東京）開催のため単独記事は作らず、告知の本文で日時・会場を確かめてから、冬のマルシェまとめへの追記を判断する。 11/25、会場の二子玉川ライズ公式「イベント＆ニュース」（https://www.rise.sc/eventnews/）で、いばキュン！マルシェが2026年12月19日〜20日に二子玉川ライズ ガレリアで開かれることを確認。時間・出店数は未確認。"
     },
     {
       "id": "kasama-inari-hatsumode-2027",
@@ -2084,7 +2157,7 @@
       "endDate": "2026-12-25",
       "officialUrl": "https://www2.tm-shakyo.jp/2026/10/2026-2.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": "2026-11-23",
+      "verifiedAt": "2026-11-25",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -2095,7 +2168,11 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23につくばみらい市社会福祉協議会｜きらくやまイルミネーション2026で日程と会場を確認。約10万球が16時30分〜20時30分に点灯します。休館日と雨天時は消灯。12月13日（日）は18時から豚汁の無料配布（なくなり次第終了）、18時30分からクリスマスコンサートが予定されています。 出典 https://www2.tm-shakyo.jp/2026/10/2026-2.html"
+      "notes": "11/23につくばみらい市社会福祉協議会｜きらくやまイルミネーション2026で日程と会場を確認。約10万球が16時30分〜20時30分に点灯します。休館日と雨天時は消灯。12月13日（日）は18時から豚汁の無料配布（なくなり次第終了）、18時30分からクリスマスコンサートが予定されています。 出典 https://www2.tm-shakyo.jp/2026/10/2026-2.html 11/25に同じページで期間（12/1〜12/25）・点灯時間（16:30〜20:30）・休館日と雨天時は消灯を再確認、変更なし。駐車場の案内はページに記載なし。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/",
+        "/events/ibaraki-christmas-events-2026/"
+      ]
     },
     {
       "id": "shimotsuma-christmas-market-2026",
@@ -2137,7 +2214,11 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23にXmas Town｜つくばクリスマスマーケット2026で日程と会場を確認。センター広場から中央公園の屋台と歩行者専用道路のマルシェへ歩けます。ランタンナイトは4日（金）と5日（土）の17時・19時、センター広場の滝の前で行われます。 出典 https://www.chrimachi.art/tsukuba-christmas-market"
+      "notes": "11/23にXmas Town｜つくばクリスマスマーケット2026で日程と会場を確認。センター広場から中央公園の屋台と歩行者専用道路のマルシェへ歩けます。ランタンナイトは4日（金）と5日（土）の17時・19時、センター広場の滝の前で行われます。 出典 https://www.chrimachi.art/tsukuba-christmas-market",
+      "relatedArticleUrls": [
+        "/events/ibaraki-winter-marche-2026/",
+        "/events/ibaraki-christmas-events-2026/"
+      ]
     },
     {
       "id": "hitachinaka-ekimae-illumination-2026",
@@ -2147,7 +2228,7 @@
       "endDate": "2027-01-31",
       "officialUrl": "https://www.city.hitachinaka.lg.jp/business/shogyo/1017112/1013099.html",
       "discoveredAt": "2026-11-23",
-      "verifiedAt": "2026-11-23",
+      "verifiedAt": "2026-11-25",
       "articleUrl": null,
       "articleUpdatedAt": null,
       "status": "verified",
@@ -2158,7 +2239,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23にひたちなか市｜駅前イルミネーション2026-2027で日程と会場を確認。3駅とも16時30分に点灯。勝田駅は24時、佐和駅は23時までで、どちらも2027年1月31日（日）が最終日です。那珂湊駅は21時に消灯し、2027年1月15日（金）で終了します。 出典 https://www.city.hitachinaka.lg.jp/business/shogyo/1017112/1013099.html"
+      "notes": "11/23にひたちなか市｜駅前イルミネーション2026-2027で日程と会場を確認。3駅とも16時30分に点灯。勝田駅は24時、佐和駅は23時までで、どちらも2027年1月31日（日）が最終日です。那珂湊駅は21時に消灯し、2027年1月15日（金）で終了します。 出典 https://www.city.hitachinaka.lg.jp/business/shogyo/1017112/1013099.html 11/25時点でひたちなか市の新着情報に「駅前イルミネーション」（11/18掲載）があり、内容は11/23確認分から変更なし。",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
     },
     {
       "id": "daigo-light-2026",
@@ -2179,7 +2263,11 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23に大子町観光協会｜大子来人・袋田の滝ライトアップで日程と会場を確認。袋田の滝のライトアップは16時30分から。終了は11月が20時、12月・1月は19時です。滝へ通じるトンネルの利用料は大人500円、子ども300円。道の駅と常陸大子駅前は点灯時間が異なります。 出典 https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html"
+      "notes": "11/23に大子町観光協会｜大子来人・袋田の滝ライトアップで日程と会場を確認。袋田の滝のライトアップは16時30分から。終了は11月が20時、12月・1月は19時です。滝へ通じるトンネルの利用料は大人500円、子ども300円。道の駅と常陸大子駅前は点灯時間が異なります。 出典 https://www.daigo-kanko.jp/fukuroda-falls/daigolight.html",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/",
+        "/events/fukuroda-falls-winter-guide/"
+      ]
     },
     {
       "id": "oarai-christmas-market-2026",
@@ -2200,7 +2288,11 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23に大洗観光協会｜大洗のクリスマスマーケットで日程と会場を確認。11時〜18時、入場無料。ゆうなみさんのステージは14時〜15時、点灯式は17時ごろです。会場前の歩行者天国は10時〜19時。車は大洗小学校駐車場へ、大洗駅からバスなら「役場入口」で降ります。 出典 https://www.oarai-info.jp/event/postid_11534/"
+      "notes": "11/23に大洗観光協会｜大洗のクリスマスマーケットで日程と会場を確認。11時〜18時、入場無料。ゆうなみさんのステージは14時〜15時、点灯式は17時ごろです。会場前の歩行者天国は10時〜19時。車は大洗小学校駐車場へ、大洗駅からバスなら「役場入口」で降ります。 出典 https://www.oarai-info.jp/event/postid_11534/",
+      "relatedArticleUrls": [
+        "/events/ibaraki-winter-marche-2026/",
+        "/events/ibaraki-christmas-events-2026/"
+      ]
     },
     {
       "id": "tsuchiura-winter-festival-34-2026",
@@ -2221,7 +2313,10 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11/23に土浦市観光協会｜第34回土浦ウインターフェスティバルで日程と会場を確認。土浦駅の東西口から駅前通りにかけて約10万球が点灯します。17時から24時まで。11月30日（月）の点灯式は17時から、駅西口のうらら大屋根広場で開かれます。霞ケ浦総合公園の水郷桜イルミネーションとは会場が異なります。 出典 https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/"
+      "notes": "11/23に土浦市観光協会｜第34回土浦ウインターフェスティバルで日程と会場を確認。土浦駅の東西口から駅前通りにかけて約10万球が点灯します。17時から24時まで。11月30日（月）の点灯式は17時から、駅西口のうらら大屋根広場で開かれます。霞ケ浦総合公園の水郷桜イルミネーションとは会場が異なります。 出典 https://www.tsuchiura-kankou.jp/whats_new/%e7%ac%ac34%e5%9b%9e%e5%9c%9f%e6%b5%a6%e3%82%a6%e3%82%a4%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%95%e3%82%a7%e3%82%b9%e3%83%86%e3%82%a3%e3%83%90%e3%83%ab/",
+      "relatedArticleUrls": [
+        "/events/ibaraki-illumination-2026/"
+      ]
     },
     {
       "id": "ibaraki-machi-cycling-stamp-rally-6-2026",
