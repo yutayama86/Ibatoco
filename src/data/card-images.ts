@@ -266,6 +266,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "mito-komon-marathon-2026": "/images/card/mito-komon-marathon-2026-6c5eb34d.png",
   "mito-nakanishi-natsuyuki-exhibition-2026": "/images/card/mito-nakanishi-natsuyuki-exhibition-2026-6c5eb34d.png",
   "mito-natto-gourmet": "/images/card/mito-natto-gourmet-6c5eb34d.png",
+  "mito-night-guide": "/images/card/mito-night-guide-6c5eb34d.png",
   "mito-oarai-1night-model-course": "/images/card/mito-oarai-1night-model-course-d83b4767.png",
   "mito-station-walk-guide": "/images/card/mito-station-walk-guide-6c5eb34d.png",
   "mito-ume-matsuri-2027": "/images/card/mito-ume-matsuri-2027-6c5eb34d.png",
