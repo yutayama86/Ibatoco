@@ -59,8 +59,6 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'new-article',
   },
   {
-  },
-  {
     id: '20261125-events-ibaraki-local-lines-roundup',
     date: '2026-11-25',
     url: '/events/ibaraki-local-lines-roundup/',
