@@ -2111,7 +2111,7 @@
     },
     {
       "kind": "new-article",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-11-25",
       "specPath": "docs/editorial/specs/20261125-guide-series.md",
       "source": "2026-11-25 オーナー依頼（観光いばらき・イバナビの特集を手がかりに記事化・シリーズ化）。他サイトはテーマの手がかりだけに使い、本文は写さない。",
@@ -2121,16 +2121,17 @@
       "confidence": "medium",
       "effort": "M",
       "dueDate": "2026-12-15",
-      "targetUrl": "/events/",
+      "targetUrl": "/events/ibaraki-swan-spots-2026/",
       "reason": "飛来の時期（12〜2月）に検索が増える。既存は菅生沼の1本だけ。各地の時期・観察場所・最新の飛来数の確かめ方を公式情報で比べる。",
       "primarySourceUrls": [
         "https://www.bandokanko.com/"
       ],
-      "nextAction": "各飛来地の自治体・観光協会の公式ページを特定し、時期・駐車場・飛来数の公表の有無・立入制限を確認する。"
+      "nextAction": "各飛来地の自治体・観光協会の公式ページを特定し、時期・駐車場・飛来数の公表の有無・立入制限を確認する。",
+      "notes": "2026-11-25 #730 で公開（/events/ibaraki-swan-spots-2026/）。"
     },
     {
       "kind": "new-article",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-11-25",
       "specPath": "docs/editorial/specs/20261125-guide-series.md",
       "source": "2026-11-25 オーナー依頼（観光いばらき・イバナビの特集を手がかりに記事化・シリーズ化）。他サイトはテーマの手がかりだけに使い、本文は写さない。",
@@ -2139,16 +2140,17 @@
       "priority": "medium",
       "confidence": "high",
       "effort": "M",
-      "targetUrl": "/events/",
+      "targetUrl": "/events/ibaraki-local-lines-roundup/",
       "reason": "既存の各線ガイド（湊線・常総線・竜ケ崎線・大洗鹿島線）を束ねるまとめがない。水郡線のガイドが未作成。",
       "primarySourceUrls": [
         "https://www.jreast.co.jp/"
       ],
-      "nextAction": "水郡線の区間・運賃の例・本数・きっぷをJR東日本の公式で確認。まとめは既存各線の記事の確認日を引き継ぎ、古い値は再確認する。"
+      "nextAction": "水郡線の区間・運賃の例・本数・きっぷをJR東日本の公式で確認。まとめは既存各線の記事の確認日を引き継ぎ、古い値は再確認する。",
+      "notes": "2026-11-25 #731 で公開（/events/ibaraki-local-lines-roundup/）。水郡線の個別ガイドは既存の /events/suigun-line-okukuji-guide/ があるため、まとめのみ作成。"
     },
     {
       "kind": "new-article",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-11-25",
       "specPath": "docs/editorial/specs/20261125-guide-series.md",
       "source": "2026-11-25 オーナー依頼（観光いばらき・イバナビの特集を手がかりに記事化・シリーズ化）。他サイトはテーマの手がかりだけに使い、本文は写さない。",
@@ -2157,16 +2159,17 @@
       "priority": "medium",
       "confidence": "medium",
       "effort": "M",
-      "targetUrl": "/events/",
+      "targetUrl": "/events/ibaraki-onsen-stay-roundup/",
       "reason": "日帰り温泉のまとめはあるが、宿泊の温泉地ガイドがない。冬の宿泊需要に合わせる。宿の料金は載せない。",
       "primarySourceUrls": [
         "https://www.ibarakiguide.jp/special/onsen/page001828.html"
       ],
-      "nextAction": "温泉地ごと（袋田・大子、五浦、笠間、筑波山、大洗など）に自治体・観光協会の公式情報で泉質・行き方・日帰り入浴の有無を確認する。"
+      "nextAction": "温泉地ごと（袋田・大子、五浦、笠間、筑波山、大洗など）に自治体・観光協会の公式情報で泉質・行き方・日帰り入浴の有無を確認する。",
+      "notes": "2026-11-25 #732 で公開（/events/ibaraki-onsen-stay-roundup/）。"
     },
     {
       "kind": "new-article",
-      "status": "candidate",
+      "status": "done",
       "createdAt": "2026-11-25",
       "specPath": "docs/editorial/specs/20261125-guide-series.md",
       "source": "2026-11-25 オーナー依頼（観光いばらき・イバナビの特集を手がかりに記事化・シリーズ化）。他サイトはテーマの手がかりだけに使い、本文は写さない。",
@@ -2175,12 +2178,13 @@
       "priority": "low",
       "confidence": "low",
       "effort": "L",
-      "targetUrl": "/events/",
+      "targetUrl": "/events/mito-night-guide/",
       "reason": "店の一覧ではなく、エリアの特徴と終電・高速バスの最終を軸にする。店を載せるなら店自身の発信で営業時間を確認した店だけ。",
       "primarySourceUrls": [
         "https://www.jreast.co.jp/"
       ],
-      "nextAction": "終電・最終の高速バスを公式で確認し、掲載する店の基準を決めてから着手する。"
+      "nextAction": "終電・最終の高速バスを公式で確認し、掲載する店の基準を決めてから着手する。",
+      "notes": "2026-11-25 #733 で公開（/events/mito-night-guide/）。2027年3月のダイヤ改正後に時刻を見直す。"
     }
   ]
 }
