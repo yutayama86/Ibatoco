@@ -49,6 +49,26 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-itako-riverside-illumination-2026',
+    date: '2026-11-25',
+    url: '/events/itako-riverside-illumination-2026/',
+    kind: 'on-page',
+    change: '開催7日前の公式再確認（変更なし）を注記に追記',
+    queries: ['潮来 イルミネーション'],
+    commit: '738c978',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261125-events-takahagi-relay-marathon-2026',
+    date: '2026-11-25',
+    url: '/events/takahagi-relay-marathon-2026/',
+    kind: 'on-page',
+    change: '開催7日前の公式再確認（変更なし）と注記の整理',
+    queries: ['高萩 リレーマラソン'],
+    commit: '738c978',
+    experimentType: 'fact',
+  },
+  {
     id: '20261125-events-mito-night-guide',
     date: '2026-11-25',
     url: '/events/mito-night-guide/',

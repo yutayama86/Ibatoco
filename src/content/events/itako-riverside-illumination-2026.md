@@ -123,12 +123,10 @@ businessIntent:
 commercialPriority: "medium"
 evergreen: false
 sourceUrls:
-  -
-    label: "潮来市｜水の郷 水辺イルミネーション Riverside Illumination（2026年11月12日発表）"
+  - label: "潮来市｜水の郷 水辺イルミネーション Riverside Illumination（2026年11月12日発表）"
     url: "https://www.city.itako.lg.jp/kankou/kankou-info/page007950.html"
-    accessedAt: "2026-11-17"
-  -
-    label: "潮来市商工会｜公式サイト"
+    accessedAt: "2026-11-25"
+  - label: "潮来市商工会｜公式サイト"
     url: "https://www.itako-cia.jp/"
     accessedAt: "2026-11-17"
 relatedArticleUrls:
