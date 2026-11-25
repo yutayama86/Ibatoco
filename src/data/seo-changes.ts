@@ -59,6 +59,15 @@ export const SEO_CHANGES: SeoChange[] = [
     experimentType: 'new-article',
   },
   {
+    id: '20261125-events-ibaraki-swan-spots-2026',
+    date: '2026-11-25',
+    url: '/events/ibaraki-swan-spots-2026/',
+    kind: 'new-article',
+    change: '茨城の白鳥飛来地7か所を公式情報で比べるまとめを新設（シリーズ1）。時期・種類・公式の羽数と実測の違い・鳥インフルエンザの最新状況',
+    queries: ['茨城 白鳥 飛来地', '茨城 白鳥', '古徳沼 白鳥', '白鳥の里 潮来'],
+    commit: '4ce5b19',
+  },
+  {
     id: '20261124-events-hananuki-gorge-autumn-2026',
     date: '2026-11-24',
     url: '/events/hananuki-gorge-autumn-2026/',
