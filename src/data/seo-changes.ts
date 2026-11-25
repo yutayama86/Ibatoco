@@ -49,6 +49,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-hinuma-de-marche-2026',
+    date: '2026-11-25',
+    url: '/events/hinuma-de-marche-2026/',
+    kind: 'on-page',
+    change: '開催14日前の公式再確認と注記の追記',
+    queries: ['ひぬまdeマルシェ'],
+    commit: '8fcf3c2',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261125-events-hitachi-alps-ocean-trail-2026',
+    date: '2026-11-25',
+    url: '/events/hitachi-alps-ocean-trail-2026/',
+    kind: 'on-page',
+    change: '開催14日前の公式再確認と注記の追記',
+    queries: ['日立アルプスOCEANトレイル'],
+    commit: '8fcf3c2',
+    experimentType: 'fact',
+  },
+  {
+    id: '20261125-events-koga-chochin-saomomi-matsuri-2026',
+    date: '2026-11-25',
+    url: '/events/koga-chochin-saomomi-matsuri-2026/',
+    kind: 'on-page',
+    change: '開催14日前の公式再確認と注記の追記',
+    queries: ['古河提灯竿もみまつり'],
+    commit: '8fcf3c2',
+    experimentType: 'fact',
+  },
+  {
     id: '20261125-events-itako-riverside-illumination-2026',
     date: '2026-11-25',
     url: '/events/itako-riverside-illumination-2026/',
