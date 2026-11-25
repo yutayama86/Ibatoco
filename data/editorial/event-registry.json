@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-23",
+  "updatedAt": "2026-11-26",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -22,6 +22,69 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "inashiki-ride-photo-cycling-vol3-2026",
+      "name": "イナシキライド フォトサイクリング VOL.3",
+      "municipality": "inashiki",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.inashiki.lg.jp/page/page011660.html"
+    },
+    {
+      "id": "naka-shogatsu-kazari-exhibition-2027",
+      "name": "那珂市歴史民俗資料館 季節展「正月飾り展」",
+      "municipality": "naka",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.naka.lg.jp/edu-board/news/page008163.html"
+    },
+    {
+      "id": "kitaibaraki-mayors-cup-junior-soft-tennis-12-2026",
+      "name": "北茨城市長杯 第12回中学校ソフトテニス選抜大会",
+      "municipality": "kitaibaraki",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-25",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.kitaibaraki.lg.jp/docs/2026111000010/"
     },
     {
       "id": "mito-hagi-matsuri-2026",
