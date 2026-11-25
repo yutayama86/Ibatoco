@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261125-events-ibaraki-local-lines-roundup',
+    date: '2026-11-25',
+    url: '/events/ibaraki-local-lines-roundup/',
+    kind: 'new-article',
+    change: '茨城のローカル線5路線の比較まとめを新規公開（ときわ路パス・ICカード可否・開運号）',
+    queries: ['茨城 ローカル線', 'ときわ路パス', '大洗鹿島線 suica'],
+    commit: '220cbb9',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261125-events-ibaraki-swan-spots-2026',
     date: '2026-11-25',
     url: '/events/ibaraki-swan-spots-2026/',
