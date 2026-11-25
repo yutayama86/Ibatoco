@@ -1,16 +1,97 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-24T05:23:05.650Z",
-  "asOf": "2026-11-24",
+  "generatedAt": "2026-11-25T04:21:06.288Z",
+  "asOf": "2026-11-25",
   "keepDays": 14,
   "scan": {
-    "scanned": 60,
-    "fetched": 58,
+    "scanned": 61,
+    "fetched": 59,
     "failed": 2,
     "previousReportAvailable": true
   },
   "note": "公式サイトの新着リンク（キーワード一致の題名のみ）。未確認情報。記事化は一次情報で確認してから。",
   "items": [
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "韓国旅行会社招請ファムツアー及び商談会開催事業業務に係る公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1771",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "インバウンド誘客促進に向けた海外メディア等を通じた情報発信業務に係る企画提案の公募",
+      "url": "https://www.travelvoice.jp/tenders/1772",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "「やまがた庄内×にいがた村上秋の観光キャンペーン」におけるプロモーション事業業務、公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1773",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "ibaraki-town-events",
+      "municipality": "茨城町",
+      "scope": "ibaraki",
+      "title": "「第16回ひぬまあじさいまつり」フォトコンテストの開催について",
+      "url": "https://www.town.ibaraki.lg.jp/gyousei/kurashitetuduki/kinkyu/corona/corono_event/003939.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "ibaraki-town-events",
+      "municipality": "茨城町",
+      "scope": "ibaraki",
+      "title": "「2026いばらきまつり」を開催します！",
+      "url": "https://www.town.ibaraki.lg.jp/gyousei/news/division3/syoukoukankou/004065.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "inashiki-city-events",
+      "municipality": "稲敷市",
+      "scope": "ibaraki",
+      "title": "【開催】イナシキライド フォトサイクリングVOL.3 2026.12.5",
+      "url": "https://www.city.inashiki.lg.jp/page/page011660.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "kitaibaraki-city-news",
+      "municipality": "北茨城市",
+      "scope": "ibaraki",
+      "title": "市長杯第１２回中学校ソフトテニス選抜大会を開催します！",
+      "url": "https://www.city.kitaibaraki.lg.jp/docs/2026111000010/",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "naka-city-events",
+      "municipality": "那珂市",
+      "scope": "ibaraki",
+      "title": "那珂市歴史民俗資料館季節展『正月飾り展』の開催",
+      "url": "https://www.city.naka.lg.jp/edu-board/news/page008163.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-25",
+      "sourceId": "tokyo-ibaraki-food-news",
+      "municipality": null,
+      "scope": "tokyo-ibaraki",
+      "title": "「いばキュンマルシェ2026」を二子玉川ライズで開催します！",
+      "url": "https://ibaraki-shokusai.net/info/detail/18491",
+      "registered": false
+    },
     {
       "firstSeenAt": "2026-11-24",
       "sourceId": "ibaraki-town-events",
