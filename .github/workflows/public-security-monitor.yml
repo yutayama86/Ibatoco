@@ -1,49 +1,14 @@
 name: Public security smoke monitor
-
 on:
-  schedule:
-    - cron: '20 21 * * *' # 06:20 JST
   workflow_dispatch:
-
-permissions:
-  contents: read
-
+permissions: {}
 jobs:
   production-check:
+    if: github.ref == 'refs/heads/audit/727-notification-drill-20261125'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 1
     steps:
-      - name: Verify public endpoints safely
-        shell: bash
+      - name: Approved notification delivery test for issue 727
         run: |
-          set -euo pipefail
-          tmp=$(mktemp -d)
-          trap 'rm -rf "$tmp"' EXIT
-          site=https://ibatoco.jp
-          # Do not follow redirects. Inspect the boundary and login page independently.
-          get() {
-            curl --silent --show-error --max-time 15 --dump-header "$tmp/headers" \
-              --output "$tmp/body" --write-out '%{http_code}' "$site$1"
-          }
-          require_header() {
-            tr -d '\r' < "$tmp/headers" | grep -Ei "$1" > /dev/null || {
-              echo "::error::Missing or unexpected header on $2"
-              return 1
-            }
-          }
-          [[ "$(get /)" == 200 ]]
-          require_header '^x-content-type-options: *nosniff *$' /
-          require_header '^content-security-policy: *[^ ]' /
-          require_header '^strict-transport-security: *[^ ]' /
-
-          [[ "$(get /control/)" == 303 ]]
-          require_header '^location: */control/login *$' /control/
-          require_header '^cache-control:.*no-store' /control/
-          require_header '^x-robots-tag:.*noindex' /control/
-
-          [[ "$(get /control/login)" == 200 ]]
-          require_header '^cache-control:.*no-store' /control/login
-          require_header '^x-robots-tag:.*noindex' /control/login
-          grep -Eq '<form[^>]*action="/control/login"' "$tmp/body"
-          grep -Eq '<input[^>]*type="password"' "$tmp/body"
-          echo 'Public homepage, protected redirect and login form verified.'
+          echo "::error::Intentional notification test for issue 727. No production endpoints contacted."
+          exit 1
