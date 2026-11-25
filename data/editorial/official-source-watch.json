@@ -33,6 +33,25 @@
       "watchType": "regional-aggregator"
     },
     {
+      "id": "ibaraki-guide-news",
+      "category": "tourism",
+      "area": "全県",
+      "municipality": null,
+      "url": "https://www.ibarakiguide.jp/news.php",
+      "watchTerms": [
+        "イベント",
+        "まつり",
+        "開催",
+        "公開",
+        "情報",
+        "初日の出",
+        "初詣",
+        "イルミネーション"
+      ],
+      "note": "観光いばらき（茨城県観光物産協会）の新着情報。公式X（@kanko_ibaraki）で告知される特集・季節情報の多くがここにも載る。Xは無料で自動取得できないため、この一覧で代替する。",
+      "watchType": "regional-aggregator"
+    },
+    {
       "id": "kenpoku-2026-november",
       "category": "government",
       "area": "県北",
