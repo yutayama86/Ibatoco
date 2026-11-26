@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-26",
+  "updatedAt": "2026-11-27",
   "events": [
     {
       "id": "joso-kinugawa-hanabi-2026",
@@ -2359,6 +2359,48 @@
         "logisticsDemand": "unknown"
       },
       "notes": "11月24日の公式サイト監視で発見。出典 https://ibaraki-shokusai.net/info/detail/18490"
+    },
+    {
+      "id": "moriya-arcus-open-studios-2026",
+      "name": "アーカスプロジェクト2026オープンスタジオ",
+      "municipality": "moriya",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-26",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月26日の公式サイト監視で発見。出典 https://www.city.moriya.ibaraki.jp/bunka_sports_shiminkatsudou/bunka_geijutsu/1003611/1013065.html"
+    },
+    {
+      "id": "oarai-aquaworld-student-discount-2026",
+      "name": "アクアワールド学割キャンペーン（2026年度）",
+      "municipality": "oarai",
+      "startDate": null,
+      "endDate": null,
+      "officialUrl": null,
+      "discoveredAt": "2026-11-26",
+      "verifiedAt": null,
+      "articleUrl": null,
+      "articleUpdatedAt": null,
+      "status": "discovered",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11月26日の公式サイト監視で発見。出典 https://www.aquaworld-oarai.com/2026/11/26/gakuwari2026/"
     }
   ]
 }
