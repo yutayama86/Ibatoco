@@ -7,15 +7,15 @@
  *  ロープウェイ・ケーブルカーの運休日が続く。旅行者が知らずに行って困らないよう、運休日を最初に出す。
  *
  * 事実の扱い:
- *  2026-11-27 に公式ページを読み直そうとしたが、取得の承認が得られず再確認できなかった。
- *  そのため、イバトコ編集部が公式一次情報で確認済みの日本語記事の内容（確認日つき）だけを使う。
+ *  初版は日本語記事の確認内容（確認日つき）で作成。2026-11-27 に運休のお知らせ・ケーブルカー運賃・ロープウェイ運賃を
+ *  公式で再確認し、未就学児の扱い・連絡券の小児料金・工事期間中の休業施設を反映した。
  *  - 運休日（ロープウェイ 2026/12/7〜11・14〜18、ケーブルカー 12/21〜23・2027/1/12〜2/19）、
  *    5代目ケーブルカーの最終運行 2027/1/11、新車両 2027年2月予定、工事期間中もロープウェイは営業
  *    … 筑波観光鉄道の2026-11-24発表（日本語記事 tsukuba-cablecar-ropeway-guide / tsukubasan-day-trip-model-course、2026-11-24 確認）
  *  - ケーブルカー（宮脇駅〜筑波山頂駅 約8分）・ロープウェイ（つつじヶ丘駅〜女体山駅 約6分）、20分間隔、
  *    大人 片道930円・往復1,860円、小児 ケーブル470円/940円・ロープウェイ400円/800円、
- *    6歳未満は保護者1人につき2人まで無料、運行 12〜2月 両方9:20〜16:40、
- *    3〜11月 ケーブル9:00〜17:00・ロープウェイ9:20〜17:00、連絡片道乗車券 大人1,860円
+ *    未就学児は大人1人につき2人まで無料（公式は「未就学児」表記。2026-11-27に修正）、運行 12〜2月 両方9:20〜16:40、
+ *    3〜11月 ケーブル9:00〜17:00・ロープウェイ9:20〜17:00、連絡片道乗車券 大人1,860円・小児870円
  *    … mt-tsukuba.com 運賃・時刻表（2026-11-03〜11-24 確認）
  *  - 御幸ヶ原から男体山頂・女体山頂へ各徒歩約15分、女体山駅から女体山頂へ約5分 … mt-tsukuba.com hiking（2026-09-29 確認）
  *  - TX 秋葉原〜つくば 約45分（筑波山神社の案内）、大人きっぷ1,280円（TX運賃表、2026-11-04 確認）
@@ -64,7 +64,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     },
     quickAnswerLabel: 'Quick answers',
     quickAnswer: [
-      { q: 'How much are the cable car and ropeway?', a: 'Each costs ¥930 one way or ¥1,860 return for adults. Children: cable car ¥470 / ¥940, ropeway ¥400 / ¥800. Up to two children under 6 ride free with each adult.' },
+      { q: 'How much are the cable car and ropeway?', a: 'Each costs ¥930 one way or ¥1,860 return for adults. Children: cable car ¥470 / ¥940, ropeway ¥400 / ¥800. Preschool children ride free, up to two per adult.' },
       { q: 'When are they closed?', a: 'Ropeway: December 7–11 and 14–18, 2026. Cable car: December 21–23, 2026 and January 12 – February 19, 2027. All full-day closures, announced by the operator on November 24, 2026.' },
       { q: 'What are the hours in winter?', a: 'From December to February, both run 9:20–16:40, every 20 minutes.' },
       { q: 'How long does it take from Tokyo?', a: 'About 45 minutes from Akihabara to Tsukuba by Tsukuba Express, then about 40 minutes by shuttle bus to Tsukubasan Jinja Iriguchi.' },
@@ -80,7 +80,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         table: [
           ['Ropeway (Tsutsujigaoka – Nyotaisan)', 'Closed December 7–11 and December 14–18, 2026 (weekdays) for annual inspection.'],
           ['Cable car (Miyawaki – Tsukubasan-cho)', 'Closed December 21–23, 2026 for track maintenance.'],
-          ['Cable car', 'Closed January 12 – February 19, 2027 for the switch to a new car. The ropeway operates during this period.'],
+          ['Cable car', 'Closed January 12 – February 19, 2027 for the switch to a new car. The ropeway operates during this period. The Koma observatory and the Miyawaki Station shop are also closed.'],
           ['Last run of the current car', 'January 11, 2027 (national holiday). The new car is planned for February 2027.'],
         ],
       },
@@ -99,7 +99,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: 'A simple route: up one way, down the other',
         body: [
           'One easy plan: take the shuttle bus to Tsukubasan Jinja Iriguchi, visit the shrine, and ride the cable car (about 8 minutes) up to Miyukigahara. From there, each summit is about a 15-minute walk. Walk to Nyotai-san, then ride the ropeway (about 6 minutes) down to Tsutsujigaoka and take the shuttle bus back.',
-          'If you go one way on each, the operator sells a combined one-way ticket for the cable car and ropeway (¥1,860 for adults).',
+          'If you go one way on each, the operator sells a combined one-way ticket for the cable car and ropeway (¥1,860 for adults, ¥870 for children).',
           'On closure days, do the route in reverse or ride the working line both ways.',
         ],
       },
@@ -108,8 +108,8 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: 'Fares and hours',
         table: [
           ['Adults', 'Cable car or ropeway: ¥930 one way, ¥1,860 return'],
-          ['Children (6 to elementary school)', 'Cable car: ¥470 / ¥940. Ropeway: ¥400 / ¥800'],
-          ['Under 6', 'Free, up to two children per accompanying adult'],
+          ['Children (elementary school)', 'Cable car: ¥470 / ¥940. Ropeway: ¥400 / ¥800'],
+          ['Preschool children', 'Free, up to two per accompanying adult'],
           ['December – February', 'Both 9:20–16:40, every 20 minutes'],
           ['March – November', 'Cable car 9:00–17:00, ropeway 9:20–17:00, every 20 minutes'],
         ],
@@ -136,7 +136,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     updatedDate: UPDATED,
     authorLabel: 'Written by',
     author: 'IBATOCO Editorial Team',
-    disclaimer: 'Closures, fares, hours and timetables can change. Facts here were confirmed with official sources between November 3 and 24, 2026. Please check the official websites before you travel.',
+    disclaimer: 'Closures, fares, hours and timetables can change. Facts here were confirmed with official sources between November 3 and 27, 2026. Please check the official websites before you travel.',
     related: {
       label: 'Read next',
       items: [
@@ -169,7 +169,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     },
     quickAnswerLabel: '快速重點',
     quickAnswer: [
-      { q: '纜車票價多少？', a: '地面纜車與空中纜車大人都是單程930日圓、來回1,860日圓。兒童：地面纜車470／940日圓，空中纜車400／800日圓。每位大人可帶2名未滿6歲兒童免費。' },
+      { q: '纜車票價多少？', a: '地面纜車與空中纜車大人都是單程930日圓、來回1,860日圓。兒童：地面纜車470／940日圓，空中纜車400／800日圓。學齡前兒童每位大人最多2名免費。' },
       { q: '什麼時候停駛？', a: '空中纜車：2026年12月7～11日、14～18日。地面纜車：2026年12月21～23日，以及2027年1月12日～2月19日。皆為全日停駛（營運公司2026年11月24日公布）。' },
       { q: '冬季營運時間？', a: '12～2月兩者都是9:20～16:40，每20分鐘一班。' },
       { q: '從東京要多久？', a: '秋葉原搭筑波快線到筑波約45分鐘，再搭接駁巴士到「筑波山神社入口」約40分鐘。' },
@@ -185,7 +185,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         table: [
           ['空中纜車（躑躅丘～女體山）', '2026年12月7～11日、12月14～18日（平日）年度檢修停駛。'],
           ['地面纜車（宮脇～筑波山頂）', '2026年12月21～23日軌道整修停駛。'],
-          ['地面纜車', '2027年1月12日～2月19日更換新車廂停駛，期間空中纜車照常營運。'],
+          ['地面纜車', '2027年1月12日～2月19日更換新車廂停駛，期間空中纜車照常營運。Koma展望台與宮脇站商店也休業。'],
           ['現行車廂最後運行', '2027年1月11日（國定假日）。新車廂預計2027年2月啟用。'],
         ],
       },
@@ -204,7 +204,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: '簡單路線：上山搭一種、下山搭另一種',
         body: [
           '推薦走法：搭接駁巴士到「筑波山神社入口」，參拜神社後搭地面纜車（約8分鐘）上到御幸原。從這裡到兩座山頂各步行約15分鐘。走到女體山後搭空中纜車（約6分鐘）下到躑躅丘，再搭接駁巴士回去。',
-          '如果兩種各搭單程，營運公司有販售地面纜車與空中纜車的聯絡單程票（大人1,860日圓）。',
+          '如果兩種各搭單程，營運公司有販售地面纜車與空中纜車的聯絡單程票（大人1,860日圓、兒童870日圓）。',
           '遇到停駛日，可以反過來走，或來回都搭有營運的那一條。',
         ],
       },
@@ -213,8 +213,8 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: '票價與營運時間',
         table: [
           ['大人', '地面纜車或空中纜車：單程930日圓、來回1,860日圓'],
-          ['兒童（6歲～國小）', '地面纜車470／940日圓，空中纜車400／800日圓'],
-          ['未滿6歲', '每位同行大人最多2名免費'],
+          ['兒童（國小）', '地面纜車470／940日圓，空中纜車400／800日圓'],
+          ['學齡前兒童', '每位同行大人最多2名免費'],
           ['12～2月', '兩者皆9:20～16:40，每20分鐘一班'],
           ['3～11月', '地面纜車9:00～17:00，空中纜車9:20～17:00，每20分鐘一班'],
         ],
@@ -241,7 +241,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     updatedDate: UPDATED,
     authorLabel: '撰文',
     author: 'IBATOCO 編輯部',
-    disclaimer: '停駛日、票價、營運時間與班次可能變動。本篇內容於2026年11月3日至24日依官方資料確認，出發前請務必再確認官網。',
+    disclaimer: '停駛日、票價、營運時間與班次可能變動。本篇內容於2026年11月3日至27日依官方資料確認，出發前請務必再確認官網。',
     related: {
       label: '延伸閱讀',
       items: [
@@ -274,7 +274,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     },
     quickAnswerLabel: '핵심 요약',
     quickAnswer: [
-      { q: '케이블카·로프웨이 요금은?', a: '둘 다 어른 편도 930엔, 왕복 1,860엔. 어린이: 케이블카 470엔/940엔, 로프웨이 400엔/800엔. 6세 미만은 어른 1명당 2명까지 무료.' },
+      { q: '케이블카·로프웨이 요금은?', a: '둘 다 어른 편도 930엔, 왕복 1,860엔. 어린이: 케이블카 470엔/940엔, 로프웨이 400엔/800엔. 미취학 아동은 어른 1명당 2명까지 무료.' },
       { q: '언제 운휴하나요?', a: '로프웨이: 2026년 12월 7~11일, 14~18일. 케이블카: 2026년 12월 21~23일, 2027년 1월 12일~2월 19일. 모두 종일 운휴(운영사 2026년 11월 24일 발표).' },
       { q: '겨울 운행 시간은?', a: '12~2월은 둘 다 9:20~16:40, 20분 간격.' },
       { q: '도쿄에서 얼마나 걸려요?', a: '아키하바라에서 쓰쿠바까지 쓰쿠바 익스프레스로 약 45분, 셔틀버스로 ‘쓰쿠바산진자이리구치’까지 약 40분.' },
@@ -290,7 +290,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         table: [
           ['로프웨이(쓰쓰지가오카~뇨타이산)', '2026년 12월 7~11일, 12월 14~18일(평일) 정기 점검 운휴.'],
           ['케이블카(미야와키~쓰쿠바산초)', '2026년 12월 21~23일 궤도 정비 운휴.'],
-          ['케이블카', '2027년 1월 12일~2월 19일 새 차량 교체 공사로 운휴. 이 기간 로프웨이는 운행합니다.'],
+          ['케이블카', '2027년 1월 12일~2월 19일 새 차량 교체 공사로 운휴. 이 기간 로프웨이는 운행합니다. 고마 전망대와 미야와키역 매점도 휴업합니다.'],
           ['현재 차량 마지막 운행', '2027년 1월 11일(공휴일). 새 차량은 2027년 2월 예정.'],
         ],
       },
@@ -309,7 +309,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: '간단한 코스: 올라갈 때와 내려올 때 다르게',
         body: [
           '추천 코스: 셔틀버스로 ‘쓰쿠바산진자이리구치’까지 가서 신사에 참배하고, 케이블카(약 8분)로 미유키가하라까지 오릅니다. 여기서 두 정상까지 각각 도보 약 15분입니다. 뇨타이산까지 걸어간 뒤 로프웨이(약 6분)로 쓰쓰지가오카까지 내려와 셔틀버스로 돌아갑니다.',
-          '편도씩 탄다면 운영사가 케이블카·로프웨이 연결 편도 승차권(어른 1,860엔)을 판매합니다.',
+          '편도씩 탄다면 운영사가 케이블카·로프웨이 연결 편도 승차권(어른 1,860엔, 어린이 870엔)을 판매합니다.',
           '운휴일에는 코스를 반대로 하거나, 운행하는 쪽으로 왕복하세요.',
         ],
       },
@@ -318,8 +318,8 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         heading: '요금과 운행 시간',
         table: [
           ['어른', '케이블카 또는 로프웨이: 편도 930엔, 왕복 1,860엔'],
-          ['어린이(6세~초등학생)', '케이블카 470엔/940엔, 로프웨이 400엔/800엔'],
-          ['6세 미만', '동반 어른 1명당 2명까지 무료'],
+          ['어린이(초등학생)', '케이블카 470엔/940엔, 로프웨이 400엔/800엔'],
+          ['미취학 아동', '동반 어른 1명당 2명까지 무료'],
           ['12~2월', '둘 다 9:20~16:40, 20분 간격'],
           ['3~11월', '케이블카 9:00~17:00, 로프웨이 9:20~17:00, 20분 간격'],
         ],
@@ -346,7 +346,7 @@ export const MOUNT_TSUKUBA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
     updatedDate: UPDATED,
     authorLabel: '작성',
     author: 'IBATOCO 편집부',
-    disclaimer: '운휴일, 요금, 운행 시간, 교통 시간표는 변경될 수 있습니다. 이 글은 2026년 11월 3~24일 공식 자료로 확인했습니다. 출발 전 공식 사이트에서 다시 확인해 주세요.',
+    disclaimer: '운휴일, 요금, 운행 시간, 교통 시간표는 변경될 수 있습니다. 이 글은 2026년 11월 3~27일 공식 자료로 확인했습니다. 출발 전 공식 사이트에서 다시 확인해 주세요.',
     related: {
       label: '이어서 읽기',
       items: [
