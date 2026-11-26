@@ -78,6 +78,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'A bronze Buddha with a viewing floor at 85 meters. Tickets, winter closing times, free entry on January 1–3, and the bus from JR Ushiku Station.',
         cta: 'Read the guide',
       },
+      {
+        key: 'mount-tsukuba',
+        title: 'Mount Tsukuba: A Day Trip from Akihabara',
+        text: 'About 45 minutes by train from Akihabara. Cable car and ropeway fares, the winter closure dates, and an easy up-one-way, down-the-other route.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -141,6 +147,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '離地85公尺有展望台的青銅大佛。門票、冬季閉園時間、1月1～3日免費參拜，以及從JR牛久站搭巴士的走法。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'mount-tsukuba',
+        title: '筑波山：從秋葉原出發的一日遊',
+        text: '從秋葉原搭電車約45分鐘。地面纜車與空中纜車票價、冬季停駛日，以及上下山各搭一種的簡單路線。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -202,6 +214,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'ushiku-daibutsu',
         title: '우시쿠 대불: 안으로 걸어 들어가는 120m 불상',
         text: '지상 85m 전망층이 있는 청동 대불. 입장료, 겨울 폐원 시간, 1월 1~3일 무료 참배, JR 우시쿠역에서 가는 버스.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'mount-tsukuba',
+        title: '쓰쿠바산: 아키하바라에서 떠나는 당일치기',
+        text: '아키하바라에서 열차로 약 45분. 케이블카·로프웨이 요금, 겨울 운휴일, 올라갈 때와 내려올 때 다르게 타는 코스.',
         cta: '가이드 읽기',
       },
     ],
