@@ -91,6 +91,14 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/ushiku-daibutsu/',
     ko: '/ko/ushiku-daibutsu/',
   },
+  // ja は未登録：/events/tsukuba-cablecar-ropeway-guide/ が 2026-11-24 の更新で観測窓のため本文を変えていない。
+  // 観測窓が明けたら ja: '/events/tsukuba-cablecar-ropeway-guide/' をここに足し、記事の frontmatter に
+  // translationKey: "mount-tsukuba" を入れる。
+  'mount-tsukuba': {
+    en: '/en/mount-tsukuba/',
+    'zh-tw': '/zh-tw/mount-tsukuba/',
+    ko: '/ko/mount-tsukuba/',
+  },
 };
 
 export interface Alternate {
