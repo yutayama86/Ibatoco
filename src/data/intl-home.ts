@@ -72,6 +72,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'A torii on a sea rock — and it is a sunrise view, not a sunset. Shrine hours, New Year’s Day, the cash-only line from Mito, and Aqua World Oarai nearby.',
         cta: 'Read the guide',
       },
+      {
+        key: 'ushiku-daibutsu',
+        title: 'Ushiku Daibutsu: The 120-Meter Buddha You Can Walk Inside',
+        text: 'A bronze Buddha with a viewing floor at 85 meters. Tickets, winter closing times, free entry on January 1–3, and the bus from JR Ushiku Station.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -129,6 +135,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '立在海中礁石上的鳥居，看的是日出不是夕陽。開門時間、元旦初日出、水戶出發只收現金的鐵道，以及附近的大洗水族館。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'ushiku-daibutsu',
+        title: '牛久大佛：可以走進去的120公尺大佛',
+        text: '離地85公尺有展望台的青銅大佛。門票、冬季閉園時間、1月1～3日免費參拜，以及從JR牛久站搭巴士的走法。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -184,6 +196,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'oarai-isosaki-shrine',
         title: '오아라이 이소사키 신사: 바다 위 도리이의 일출',
         text: '바다 바위 위의 도리이는 일몰이 아니라 일출 명소. 신사 운영 시간, 새해 첫 일출, 미토에서 현금만 받는 노선, 근처의 아쿠아월드.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'ushiku-daibutsu',
+        title: '우시쿠 대불: 안으로 걸어 들어가는 120m 불상',
+        text: '지상 85m 전망층이 있는 청동 대불. 입장료, 겨울 폐원 시간, 1월 1~3일 무료 참배, JR 우시쿠역에서 가는 버스.',
         cta: '가이드 읽기',
       },
     ],
