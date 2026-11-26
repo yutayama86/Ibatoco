@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261126-events-tokumanji-tone-guide',
+    date: '2026-11-26',
+    url: '/events/tokumanji-tone-guide/',
+    kind: 'new-article',
+    change: '利根町・徳満寺の子育て地蔵・間引き絵馬・地蔵市のガイドを新規公開',
+    queries: ['徳満寺 利根町', '徳満寺 地蔵市', '間引き絵馬'],
+    commit: '84ef2b8',
+    experimentType: 'new-article',
+  },
+  {
     id: '20261126-biz-insights-event-date-errors',
     date: '2026-11-26',
     url: '/biz/insights/event-date-errors/',

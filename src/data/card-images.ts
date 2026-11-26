@@ -342,6 +342,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "the-hirosawa-city-guide": "/images/card/the-hirosawa-city-guide-480f2a7d.png",
   "tokai-imo-fes-2026": "/images/card/tokai-imo-fes-2026-035c6bd3.png",
   "tokugawa-museum-mito-guide": "/images/card/tokugawa-museum-mito-guide-6c5eb34d.png",
+  "tokumanji-tone-guide": "/images/card/tokumanji-tone-guide-c0724987.png",
   "tokyo-daigo-food-business-talk-2026": "/images/card/tokyo-daigo-food-business-talk-2026-49bd2cf5.png",
   "tokyo-ibaraki-shukakusai-2026": "/images/card/tokyo-ibaraki-shukakusai-2026-4c8cbdb8.png",
   "tone-town-sightseeing-guide": "/images/card/tone-town-sightseeing-guide-c0724987.png",
