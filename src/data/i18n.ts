@@ -75,6 +75,14 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/kairakuen-plum-blossoms/',
     ko: '/ko/kairakuen-plum-blossoms/',
   },
+  // ja は未登録：/events/oarai-isosaki-jinja-guide/ が 2026-12 中旬まで観測窓（本文28日）のため本文（translationKey）を変えていない。
+  // 観測窓が明けたら ja: '/events/oarai-isosaki-jinja-guide/' をここに足し、記事の frontmatter に
+  // translationKey: "oarai-isosaki-shrine" を入れる。
+  'oarai-isosaki-shrine': {
+    en: '/en/oarai-isosaki-shrine/',
+    'zh-tw': '/zh-tw/oarai-isosaki-shrine/',
+    ko: '/ko/oarai-isosaki-shrine/',
+  },
 };
 
 export interface Alternate {

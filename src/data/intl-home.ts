@@ -66,6 +66,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'Japan’s plum season comes before the cherry blossoms. Festival dates (February 11 – March 22), the festival-period ticket price, the night illumination, and the bus from Mito Station.',
         cta: 'Read the guide',
       },
+      {
+        key: 'oarai-isosaki-shrine',
+        title: 'Oarai Isosaki Shrine: The Torii in the Sea at Sunrise',
+        text: 'A torii on a sea rock — and it is a sunrise view, not a sunset. Shrine hours, New Year’s Day, the cash-only line from Mito, and Aqua World Oarai nearby.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -117,6 +123,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '比櫻花更早的梅花季。梅花祭日期（2月11日至3月22日）、期間門票、夜間點燈，以及從水戶站搭巴士的走法。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'oarai-isosaki-shrine',
+        title: '大洗磯前神社：海上鳥居的日出',
+        text: '立在海中礁石上的鳥居，看的是日出不是夕陽。開門時間、元旦初日出、水戶出發只收現金的鐵道，以及附近的大洗水族館。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -166,6 +178,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'kairakuen-plum-blossoms',
         title: '가이라쿠엔 매화: 2027 미토 매화 축제 가이드',
         text: '벚꽃보다 먼저 오는 매화 시즌. 축제 기간(2월 11일~3월 22일), 축제 기간 입장료, 야간 라이트업, 미토역에서 버스로 가는 법.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'oarai-isosaki-shrine',
+        title: '오아라이 이소사키 신사: 바다 위 도리이의 일출',
+        text: '바다 바위 위의 도리이는 일몰이 아니라 일출 명소. 신사 운영 시간, 새해 첫 일출, 미토에서 현금만 받는 노선, 근처의 아쿠아월드.',
         cta: '가이드 읽기',
       },
     ],
