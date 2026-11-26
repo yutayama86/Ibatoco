@@ -6,6 +6,7 @@ updatedDate: 2026-11-10
 articleType: "event"
 searchIntent: "2027年の水戸の梅まつりに行くため、開催期間、偕楽園と弘道館の料金と時間、駐車場、水戸駅からの行き方、夜のライトアップを知りたい"
 keyword: "水戸 梅まつり 2027"
+translationKey: "kairakuen-plum-blossoms"
 lifespan: "seasonal"
 prefecture: "茨城県"
 municipalities:

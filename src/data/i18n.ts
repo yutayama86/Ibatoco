@@ -66,6 +66,14 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/fukuroda-falls/',
     ko: '/ko/fukuroda-falls/',
   },
+  // 日本語版は年ごとの記事（/events/mito-ume-matsuri-YYYY/）、海外版は年を入れない常設URL。
+  // 翌年は ja の行だけ差し替える。
+  'kairakuen-plum-blossoms': {
+    ja: '/events/mito-ume-matsuri-2027/',
+    en: '/en/kairakuen-plum-blossoms/',
+    'zh-tw': '/zh-tw/kairakuen-plum-blossoms/',
+    ko: '/ko/kairakuen-plum-blossoms/',
+  },
 };
 
 export interface Alternate {

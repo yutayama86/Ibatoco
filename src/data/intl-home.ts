@@ -60,6 +60,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'A four-tier waterfall in the mountains of northern Ibaraki — the current ticket price, winter hours, when it may freeze, and the bus times that decide your day.',
         cta: 'Read the guide',
       },
+      {
+        key: 'kairakuen-plum-blossoms',
+        title: 'Kairakuen Plum Blossoms: Mito Plum Festival 2027',
+        text: 'Japan’s plum season comes before the cherry blossoms. Festival dates (February 11 – March 22), the festival-period ticket price, the night illumination, and the bus from Mito Station.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -105,6 +111,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '茨城北部山中的四段瀑布。目前的門票、冬季開放時間、冰瀑可能出現的時期，以及決定行程的巴士班次。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'kairakuen-plum-blossoms',
+        title: '偕樂園賞梅：2027水戶梅花祭攻略',
+        text: '比櫻花更早的梅花季。梅花祭日期（2月11日至3月22日）、期間門票、夜間點燈，以及從水戶站搭巴士的走法。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -148,6 +160,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'fukuroda-falls',
         title: '후쿠로다 폭포: 도쿄에서 가는 법과 겨울 얼음 폭포',
         text: '이바라키 북부 산속의 4단 폭포. 현재 입장료, 겨울 운영 시간, 얼음 폭포가 생길 수 있는 시기, 하루를 좌우하는 버스 시간.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'kairakuen-plum-blossoms',
+        title: '가이라쿠엔 매화: 2027 미토 매화 축제 가이드',
+        text: '벚꽃보다 먼저 오는 매화 시즌. 축제 기간(2월 11일~3월 22일), 축제 기간 입장료, 야간 라이트업, 미토역에서 버스로 가는 법.',
         cta: '가이드 읽기',
       },
     ],
