@@ -1,16 +1,61 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T04:21:06.288Z",
-  "asOf": "2026-11-25",
+  "generatedAt": "2026-11-26T03:39:53.663Z",
+  "asOf": "2026-11-26",
   "keepDays": 14,
   "scan": {
     "scanned": 61,
-    "fetched": 59,
-    "failed": 2,
+    "fetched": 61,
+    "failed": 0,
     "previousReportAvailable": true
   },
   "note": "公式サイトの新着リンク（キーワード一致の題名のみ）。未確認情報。記事化は一次情報で確認してから。",
   "items": [
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "HIS社員が地域で実践する地方創生とは？ 誘客から関係人口づくりまで、旅行会社のノウハウとデジタル技術を活用した3地域の事例（PR） 2026年11月25日",
+      "url": "https://www.travelvoice.jp/20261125-160854",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "joso-city-news",
+      "municipality": "常総市",
+      "scope": "ibaraki",
+      "title": "「食生活改善推進員養成講座」を開催します",
+      "url": "https://www.city.joso.lg.jp/kurashi_gyousei/kurashi/iryou_fukushi/kenkou/page002902.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "moriya-city-events",
+      "municipality": "守谷市",
+      "scope": "ibaraki",
+      "title": "令和8年11月25日 新拠点で初開催!アーカスプロジェクトオープンスタジオ（11月27日（金曜）から29日（日曜）まで）",
+      "url": "https://www.city.moriya.ibaraki.jp/bunka_sports_shiminkatsudou/bunka_geijutsu/1003611/1013065.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "oarai-aquaworld-news",
+      "municipality": "大洗町",
+      "scope": "ibaraki",
+      "title": "2026.11.26 お知らせ 学生応援企画『アクアワールド学割』キャンペーン12月1日からスタート！",
+      "url": "https://www.aquaworld-oarai.com/2026/11/26/gakuwari2026/",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "omitama-city-calendar",
+      "municipality": "小美玉市",
+      "scope": "ibaraki",
+      "title": "2026年11月1日 【イベント終了いたしました】11月1日（日曜日）開催 OMITAMA まる市",
+      "url": "https://www.city.omitama.lg.jp/0465/info-0000012835-0.html",
+      "registered": false
+    },
     {
       "firstSeenAt": "2026-11-25",
       "sourceId": "b2b-tourism-tenders-travelvoice",
@@ -63,7 +108,7 @@
       "scope": "ibaraki",
       "title": "【開催】イナシキライド フォトサイクリングVOL.3 2026.12.5",
       "url": "https://www.city.inashiki.lg.jp/page/page011660.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -72,7 +117,7 @@
       "scope": "ibaraki",
       "title": "市長杯第１２回中学校ソフトテニス選抜大会を開催します！",
       "url": "https://www.city.kitaibaraki.lg.jp/docs/2026111000010/",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -81,7 +126,7 @@
       "scope": "ibaraki",
       "title": "那珂市歴史民俗資料館季節展『正月飾り展』の開催",
       "url": "https://www.city.naka.lg.jp/edu-board/news/page008163.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -90,7 +135,7 @@
       "scope": "tokyo-ibaraki",
       "title": "「いばキュンマルシェ2026」を二子玉川ライズで開催します！",
       "url": "https://ibaraki-shokusai.net/info/detail/18491",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-24",
@@ -99,7 +144,7 @@
       "scope": "ibaraki",
       "title": "サイクリング企画第６弾！自転車でめぐる「まちめぐりスタンプラリー」開催！",
       "url": "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-24",
@@ -117,7 +162,7 @@
       "scope": "tokyo-ibaraki",
       "title": "11月29日「いい肉の日」から！三笠会館で「常陸牛 煌」グルメフェアを開催",
       "url": "https://ibaraki-shokusai.net/info/detail/18490",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-23",
