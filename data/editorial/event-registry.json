@@ -27,14 +27,14 @@
       "id": "inashiki-ride-photo-cycling-vol3-2026",
       "name": "イナシキライド フォトサイクリング VOL.3",
       "municipality": "inashiki",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-12-05",
+      "endDate": "2026-12-05",
+      "officialUrl": "https://www.city.inashiki.lg.jp/page/page011660.html",
       "discoveredAt": "2026-11-25",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-26",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -42,20 +42,20 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.inashiki.lg.jp/page/page011660.html"
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.inashiki.lg.jp/page/page011660.html 11/26に稲敷市の公式ページで確認：2026年12月5日（土）。フォトポイントを自由に回り写真とミッションで得点を競う。上位に稲敷市産米一俵など。申込はスポーツエントリー。集合場所・時間・参加費・定員・締切はページ本文になく、PDF（31MB）のみのため未確認。記事化は未確認項目を確かめてから。"
     },
     {
       "id": "naka-shogatsu-kazari-exhibition-2027",
       "name": "那珂市歴史民俗資料館 季節展「正月飾り展」",
       "municipality": "naka",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2027-01-05",
+      "endDate": "2027-01-11",
+      "officialUrl": "https://www.city.naka.lg.jp/edu-board/news/page008163.html",
       "discoveredAt": "2026-11-25",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-26",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -63,7 +63,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.naka.lg.jp/edu-board/news/page008163.html"
+      "notes": "11月25日の公式サイト監視で発見。出典 https://www.city.naka.lg.jp/edu-board/news/page008163.html 11/26に那珂市の公式ページで確認：会期2027年1月5日（火）〜1月11日（月）、9:00〜16:30（入館受付16:00まで）、那珂市歴史民俗資料館・多目的ホール、無料。羽子板・破魔弓と手芸グループ「キルティー工房」の干支・正月の作品。ページ更新日2026-11-25。単独記事は作らず、お正月イベントのまとめ（仕様20261121-ibaraki-newyear-events-2027）の掲載候補。"
     },
     {
       "id": "kitaibaraki-mayors-cup-junior-soft-tennis-12-2026",
@@ -2322,14 +2322,14 @@
       "id": "ibaraki-machi-cycling-stamp-rally-6-2026",
       "name": "のんびり、よりみち、まちめぐりスタンプラリー（サイクリング企画第6弾）",
       "municipality": "ibaraki-machi",
-      "startDate": null,
-      "endDate": null,
-      "officialUrl": null,
+      "startDate": "2026-09-12",
+      "endDate": "2026-11-29",
+      "officialUrl": "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html",
       "discoveredAt": "2026-11-24",
-      "verifiedAt": null,
+      "verifiedAt": "2026-11-26",
       "articleUrl": null,
       "articleUpdatedAt": null,
-      "status": "discovered",
+      "status": "verified",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2337,7 +2337,7 @@
         "localSpend": "unknown",
         "logisticsDemand": "unknown"
       },
-      "notes": "11月24日の公式サイト監視で発見。出典 https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html"
+      "notes": "11月24日の公式サイト監視で発見。出典 https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html 11/26に茨城町の公式ページで確認：期間2026年9月12日〜11月29日。終了間近のため記事化は見送り候補。"
     },
     {
       "id": "tokyo-mikasa-hitachigyu-kirameki-fair-2026",
