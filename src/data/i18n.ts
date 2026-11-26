@@ -83,6 +83,14 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/oarai-isosaki-shrine/',
     ko: '/ko/oarai-isosaki-shrine/',
   },
+  // ja は未登録：/events/ushiku-daibutsu-guide/ が 2026-11-15 の title 変更で観測窓（14日）のため本文を変えていない。
+  // 観測窓が明けたら ja: '/events/ushiku-daibutsu-guide/' をここに足し、記事の frontmatter に
+  // translationKey: "ushiku-daibutsu" を入れる。
+  'ushiku-daibutsu': {
+    en: '/en/ushiku-daibutsu/',
+    'zh-tw': '/zh-tw/ushiku-daibutsu/',
+    ko: '/ko/ushiku-daibutsu/',
+  },
 };
 
 export interface Alternate {
