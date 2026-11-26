@@ -139,6 +139,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "hitachinaka-kaihin-railway-guide": "/images/card/hitachinaka-kaihin-railway-guide-4e47820e.png",
   "hitachiomiya-hanadate-hoshi-2026": "/images/card/hitachiomiya-hanadate-hoshi-2026-026aa449.png",
   "hokota-melon-gourmet": "/images/card/hokota-melon-gourmet-b04ce018.png",
+  "hororu-no-yu-shirosato-guide": "/images/card/hororu-no-yu-shirosato-guide-48dfd82f.png",
   "hotel-r9-the-yard-chikusei-open-202611": "/images/card/hotel-r9-the-yard-chikusei-open-202611-480f2a7d.png",
   "hotel-r9-the-yard-hitachiomiya-open-202610": "/images/card/hotel-r9-the-yard-hitachiomiya-open-202610-026aa449.png",
   "howaen-guide": "/images/card/howaen-guide-6c5eb34d.png",
