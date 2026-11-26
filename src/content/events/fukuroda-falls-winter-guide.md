@@ -6,6 +6,7 @@ updatedDate: 2026-11-03
 articleType: "guide"
 searchIntent: "冬の袋田の滝を見に行きたい。氷瀑はいつ見られるか、冬の営業時間や料金、凍結状況の確かめ方を知りたい"
 keyword: "袋田の滝 氷瀑"
+translationKey: "fukuroda-falls"
 lifespan: "evergreen"
 prefecture: "茨城県"
 municipalities:

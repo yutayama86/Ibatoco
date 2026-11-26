@@ -59,6 +59,13 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/hitachi-seaside-park-nemophila/',
     ko: '/ko/hitachi-seaside-park-nemophila/',
   },
+  // 日本語版は冬の常設ガイド（氷瀑・冬の営業時間）。海外版も冬の情報を主題に含む通年ページ。
+  'fukuroda-falls': {
+    ja: '/events/fukuroda-falls-winter-guide/',
+    en: '/en/fukuroda-falls/',
+    'zh-tw': '/zh-tw/fukuroda-falls/',
+    ko: '/ko/fukuroda-falls/',
+  },
 };
 
 export interface Alternate {
