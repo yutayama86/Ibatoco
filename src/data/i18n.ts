@@ -99,6 +99,12 @@ export const TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
     'zh-tw': '/zh-tw/mount-tsukuba/',
     ko: '/ko/mount-tsukuba/',
   },
+  'kasama-day-trip': {
+    ja: '/events/kasama-day-trip-model-course/',
+    en: '/en/kasama-day-trip/',
+    'zh-tw': '/zh-tw/kasama-day-trip/',
+    ko: '/ko/kasama-day-trip/',
+  },
 };
 
 export interface Alternate {
