@@ -6,6 +6,7 @@ updatedDate: 2026-11-03
 articleType: "tourism"
 searchIntent: "笠間に日帰りで行く。笠間稲荷神社と陶芸美術館などをどの順番で回ればいいか、時間・料金・休みの日・バスを知りたい"
 keyword: "笠間 日帰り モデルコース"
+translationKey: "kasama-day-trip"
 lifespan: "evergreen"
 prefecture: "茨城県"
 municipalities:

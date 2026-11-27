@@ -84,6 +84,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: 'About 45 minutes by train from Akihabara. Cable car and ropeway fares, the winter closure dates, and an easy up-one-way, down-the-other route.',
         cta: 'Read the guide',
       },
+      {
+        key: 'kasama-day-trip',
+        title: 'Kasama: A Shrine and Pottery Town Day Trip',
+        text: 'Kasama Inari Shrine, the Ceramic Art Museum and pottery workshops — with the one-day loop bus, and why Monday is the day to avoid.',
+        cta: 'Read the guide',
+      },
     ],
     trustHeading: 'How we work',
     trustBody: [
@@ -153,6 +159,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         text: '從秋葉原搭電車約45分鐘。地面纜車與空中纜車票價、冬季停駛日，以及上下山各搭一種的簡單路線。',
         cta: '閱讀攻略',
       },
+      {
+        key: 'kasama-day-trip',
+        title: '笠間：神社與陶藝小鎮一日遊',
+        text: '笠間稻荷神社、陶藝美術館與陶藝體驗，加上周遊巴士一日券，以及為什麼要避開星期一。',
+        cta: '閱讀攻略',
+      },
     ],
     trustHeading: '我們的做法',
     trustBody: [
@@ -220,6 +232,12 @@ export const INTL_HOME: Record<Exclude<Locale, 'ja'>, IntlHome> = {
         key: 'mount-tsukuba',
         title: '쓰쿠바산: 아키하바라에서 떠나는 당일치기',
         text: '아키하바라에서 열차로 약 45분. 케이블카·로프웨이 요금, 겨울 운휴일, 올라갈 때와 내려올 때 다르게 타는 코스.',
+        cta: '가이드 읽기',
+      },
+      {
+        key: 'kasama-day-trip',
+        title: '가사마: 신사와 도자기 마을 당일치기',
+        text: '가사마 이나리 신사, 도예미술관, 도예 체험. 1일 순환버스와 월요일을 피해야 하는 이유.',
         cta: '가이드 읽기',
       },
     ],
