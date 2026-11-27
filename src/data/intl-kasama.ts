@@ -6,8 +6,10 @@
  *  神社・陶芸美術館・工芸の丘・周遊バスがそろって月曜休みになりやすいこと、
  *  陶芸体験の作品は仕上がりまで約3か月かかること（短期旅行者には重要）を先に出す。
  *
- * 事実の扱い（下書き時点：2026-11-27 に公式ページの再取得を試みたが承認が得られず、未再確認）:
- *  イバトコ編集部が公式一次情報で確認済みの日本語記事の内容（確認日つき）だけを使う。
+ * 事実の扱い（2026-11-27 に下記の公式ページを再確認。初版は日本語記事の確認内容で作成）:
+ *  再確認で追加：工芸の丘の年末年始休業 12/25〜1/1、陶芸美術館の休館 12/29〜1/1・月曜が祝日なら翌平日、
+ *  八重藤は樹齢約400年・昭和42年に県の天然記念物、御本殿は昭和63年に国の重要文化財（keidai.html / about）。
+ *  周遊バスの笠間駅発の時刻範囲は時刻表PDFを再確認していないため外した。
  *  - 笠間稲荷神社：社伝で白雉2年（651年）創建、年間350万余の参拝者（公式）、御本殿は国の重要文化財、
  *    八重藤は県の天然記念物、笠間稲荷美術館 9:00〜16:30（入館16:00）・一般300円、
  *    JR水戸線 笠間駅から徒歩約20分・タクシー約5分 … kasama.or.jp（2026-09-28〜11-03 確認、日本語記事 kasama-inari-jinja-guide）
@@ -23,7 +25,6 @@
  *  - 特急ひたち1号 上野7:00発→友部8:03着 … JR東日本 時刻表（2026-11-03 確認）
  *  - 友部〜笠間のJR水戸線の所要時間・運賃、陶芸体験の料金・予約方法・海外発送の可否は書かない（確認していないため）。
  *  - 写真は載せない（海外ガイドは自前写真のみの方針）。
- *  公開前に kasama.or.jp・tougei.museum・kasama-crafthills.com・笠間市の周遊バスのページを再確認すること。
  */
 import type { IntlGuide } from './intl-guides';
 import type { Locale } from './i18n';
@@ -74,7 +75,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         ],
         table: [
           ['Loop bus — connector route', 'From Tomobe Station North Exit to Michi-no-Eki Kasama: about 16 minutes. Change there to the sightseeing loop.'],
-          ['Loop bus — sightseeing loop', 'From Kasama Station around the main sights (about 40 minutes), including the Art Forest Park east gate, the Ceramic Art Museum / Craft Hills and Inari Shrine. Departures from Kasama Station run 10:08–17:08, seven runs a day.'],
+          ['Loop bus — sightseeing loop', 'From Kasama Station around the main sights (about 40 minutes), including the Art Forest Park east gate, the Ceramic Art Museum / Craft Hills and Inari Shrine. Seven runs a day; check the timetable on the city’s site.'],
           ['Loop bus fare', 'One-day pass only: ¥300 on weekdays, ¥500 on weekends, holidays and in the spring and autumn seasons. Preschool children ride free. Cash, credit cards, QR payment and the “Ibappi” IC card are accepted.'],
           ['Loop bus closed', 'Mondays (the next day if Monday is a holiday).'],
           ['Station to shrine', 'From JR Kasama Station: about 20 minutes on foot, about 5 minutes by taxi.'],
@@ -84,7 +85,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'shrine',
         heading: 'Kasama Inari Shrine',
         body: [
-          'According to shrine tradition, Kasama Inari Shrine was founded in 651. The shrine says more than 3.5 million people visit each year. Its main hall is a nationally designated Important Cultural Property, and its double-flowered wisteria is a prefectural natural monument.',
+          'According to shrine tradition, Kasama Inari Shrine was founded in 651. The shrine says more than 3.5 million people visit each year. Its main hall is a nationally designated Important Cultural Property, and one of its two wisteria trees, about 400 years old, is a prefectural natural monument.',
           'The Kasama Inari Museum on the grounds shows old ceramics. It is open 9:00–16:30 (last entry 16:00), ¥300 for adults.',
         ],
       },
@@ -92,8 +93,8 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'pottery',
         heading: 'Pottery: see it, then make it',
         table: [
-          ['Ibaraki Ceramic Art Museum', 'Inside Kasama Art Forest Park. 9:30–17:00 (last entry 16:30), closed Mondays. ¥950 for adults during special exhibitions, ¥360 for the collection only.'],
-          ['Kasama Craft Hills', 'Next to the museum. 10:00–17:00, closed Mondays (the next day after a holiday). Pottery workshops: wheel throwing, hand-building and painting. The finished piece takes about three months.'],
+          ['Ibaraki Ceramic Art Museum', 'Inside Kasama Art Forest Park. 9:30–17:00 (last entry 16:30). Closed Mondays (the next weekday if Monday is a holiday) and December 29 – January 1. ¥950 for adults during special exhibitions, ¥360 for the collection only.'],
+          ['Kasama Craft Hills', 'Next to the museum. 10:00–17:00. Closed Mondays (the next day if Monday is a holiday) and December 25 – January 1. Pottery workshops: wheel throwing, hand-building and painting. The finished piece takes about three months.'],
           ['Kasama Art Forest Park', 'Free entry, 8:30–17:00.'],
         ],
       },
@@ -174,7 +175,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         ],
         table: [
           ['周遊巴士・聯絡路線', '友部站北口→道之驛笠間 約16分鐘，在這裡轉觀光周遊路線。'],
-          ['周遊巴士・觀光周遊路線', '從笠間站出發繞行主要景點（約40分鐘），經過藝術之森公園東門、陶藝美術館／工藝之丘、稻荷神社等。笠間站發車10:08～17:08，一天7班。'],
+          ['周遊巴士・觀光周遊路線', '從笠間站出發繞行主要景點（約40分鐘），經過藝術之森公園東門、陶藝美術館／工藝之丘、稻荷神社等。一天7班，時刻請看市公所網站的時刻表。'],
           ['周遊巴士票價', '只賣一日券：平日300日圓，週末、假日與春秋觀光季500日圓。學齡前兒童免費。可用現金、信用卡、QR支付與「いばっピ」IC卡。'],
           ['周遊巴士停駛', '星期一（遇假日則隔天）。'],
           ['車站到神社', 'JR笠間站步行約20分鐘，計程車約5分鐘。'],
@@ -184,7 +185,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'shrine',
         heading: '笠間稻荷神社',
         body: [
-          '依社傳，笠間稻荷神社創建於651年。神社表示每年有超過350萬人前來參拜。本殿是日本國家重要文化財，八重藤是茨城縣天然紀念物。',
+          '依社傳，笠間稻荷神社創建於651年。神社表示每年有超過350萬人前來參拜。本殿是日本國家重要文化財，境內兩株樹齡約400年的藤樹中，八重藤是茨城縣天然紀念物。',
           '境內的笠間稻荷美術館展出古陶器，開放9:00～16:30（最後入館16:00），大人300日圓。',
         ],
       },
@@ -192,8 +193,8 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'pottery',
         heading: '陶藝：先看再做',
         table: [
-          ['茨城縣陶藝美術館', '位於笠間藝術之森公園內。9:30～17:00（最後入館16:30），星期一休館。特展期間大人950日圓，只看館藏展360日圓。'],
-          ['笠間工藝之丘', '在美術館旁。10:00～17:00，星期一休館（遇假日則隔天）。陶藝體驗有拉坯、手捏與彩繪三種，作品約需3個月完成。'],
+          ['茨城縣陶藝美術館', '位於笠間藝術之森公園內。9:30～17:00（最後入館16:30）。星期一休館（遇假日則隔個平日），12月29日～1月1日休館。特展期間大人950日圓，只看館藏展360日圓。'],
+          ['笠間工藝之丘', '在美術館旁。10:00～17:00。星期一休館（遇假日則隔天），12月25日～1月1日休館。陶藝體驗有拉坯、手捏與彩繪三種，作品約需3個月完成。'],
           ['笠間藝術之森公園', '免費入園，8:30～17:00。'],
         ],
       },
@@ -274,7 +275,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         ],
         table: [
           ['순환버스·연결 루트', '도모베역 북쪽 출구 → 미치노에키 가사마 약 16분. 여기서 관광 순환 루트로 갈아탑니다.'],
-          ['순환버스·관광 순환 루트', '가사마역에서 주요 명소를 도는 노선(약 40분). 예술의 숲 공원 동문, 도예미술관·공예의 언덕, 이나리 신사 등을 지납니다. 가사마역 출발 10:08~17:08, 하루 7편.'],
+          ['순환버스·관광 순환 루트', '가사마역에서 주요 명소를 도는 노선(약 40분). 예술의 숲 공원 동문, 도예미술관·공예의 언덕, 이나리 신사 등을 지납니다. 하루 7편. 시각은 시청 사이트의 시간표를 확인하세요.'],
           ['순환버스 요금', '1일 승차권만: 평일 300엔, 주말·공휴일과 봄·가을 시즌 500엔. 미취학 아동 무료. 현금, 신용카드, QR 결제, ‘이밧피’ IC카드 사용 가능.'],
           ['순환버스 운휴', '월요일(공휴일이면 다음 날).'],
           ['역에서 신사까지', 'JR 가사마역에서 도보 약 20분, 택시 약 5분.'],
@@ -284,7 +285,7 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'shrine',
         heading: '가사마 이나리 신사',
         body: [
-          '신사 전승에 따르면 가사마 이나리 신사는 651년에 세워졌습니다. 신사는 매년 350만 명 이상이 참배한다고 밝힙니다. 본전은 일본 국가 중요문화재, 겹꽃 등나무는 현 천연기념물입니다.',
+          '신사 전승에 따르면 가사마 이나리 신사는 651년에 세워졌습니다. 신사는 매년 350만 명 이상이 참배한다고 밝힙니다. 본전은 일본 국가 중요문화재, 수령 약 400년의 등나무 두 그루 중 겹꽃 등나무는 현 천연기념물입니다.',
           '경내의 가사마 이나리 미술관은 옛 도자기를 전시합니다. 9:00~16:30(최종 입관 16:00), 어른 300엔.',
         ],
       },
@@ -292,8 +293,8 @@ export const KASAMA: Record<Exclude<Locale, 'ja'>, IntlGuide> = {
         id: 'pottery',
         heading: '도자기: 보고, 만들어 보기',
         table: [
-          ['이바라키현 도예미술관', '가사마 예술의 숲 공원 안. 9:30~17:00(최종 입장 16:30), 월요일 휴관. 기획전 기간 어른 950엔, 소장품전만 360엔.'],
-          ['가사마 공예의 언덕', '미술관 옆. 10:00~17:00, 월요일 휴관(공휴일이면 다음 날). 도예 체험: 물레, 손빚기, 그림 그리기. 완성까지 약 3개월.'],
+          ['이바라키현 도예미술관', '가사마 예술의 숲 공원 안. 9:30~17:00(최종 입장 16:30). 월요일(공휴일이면 다음 평일)과 12월 29일~1월 1일 휴관. 기획전 기간 어른 950엔, 소장품전만 360엔.'],
+          ['가사마 공예의 언덕', '미술관 옆. 10:00~17:00. 월요일(공휴일이면 다음 날)과 12월 25일~1월 1일 휴관. 도예 체험: 물레, 손빚기, 그림 그리기. 완성까지 약 3개월.'],
           ['가사마 예술의 숲 공원', '무료 입장, 8:30~17:00.'],
         ],
       },
