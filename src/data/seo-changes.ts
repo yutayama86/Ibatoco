@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '茨城県立高校入試2027（令和9年度）の日程と第2希望校制度を新規公開（県教育委員会の公表資料のみ）',
     queries: [],
-    commit: 'PENDING',
+    commit: '6cdd6c1',
   },
   {
     id: '20261128-events-ibaraki-furusato-nozei-guide-cta',
