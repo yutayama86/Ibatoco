@@ -2,7 +2,7 @@
 title: "常陸牛とは｜等級の基準、「常陸牛 煌」との違い、食べられる店・買える店の探し方"
 description: "常陸牛は、指定生産者が茨城県内で最も長く育てた黒毛和牛のうち、歩留A・B等級かつ肉質4・5等級のものです。2025年11月に加わった月齢27か月以上の基準、上位の「常陸牛 煌」、協会の店舗検索の使い方を公式情報で整理しました。"
 pubDate: 2026-11-03
-updatedDate: 2026-11-03
+updatedDate: 2026-11-28
 articleType: "gourmet"
 searchIntent: "常陸牛がどんな牛肉なのか、等級や「煌」との違い、茨城でどこで食べられるか・買えるかを知りたい"
 keyword: "常陸牛"
@@ -58,7 +58,7 @@ faq:
 booking:
   heading: "公式情報を確認する"
   intro: "取り扱い店と基準は、茨城県常陸牛振興協会の公式サイトが最新です。"
-  basis: "この記事は、茨城県常陸牛振興協会と茨城県の公式サイトだけで作っています。この案内のリンクはすべて公式サイトで、広告ではありません。"
+  basis: "この記事は、茨城県常陸牛振興協会と茨城県の公式サイトだけで作っています。公式サイトのリンクを先に置いています。最後の「楽天ふるさと納税」は提携リンク（広告）です。"
   items:
     - label: "指定店・推奨店の店舗検索（常陸牛振興協会）"
       provider: "official"
@@ -75,6 +75,11 @@ booking:
       url: "https://ibaraki.lin.gr.jp/hitachigyukirameki/"
       kind: "official"
       note: "最上位ブランドの案内とお知らせ"
+    - label: "茨城県の自治体へのふるさと納税（楽天ふるさと納税）"
+      provider: "rakuten-furusato"
+      url: "https://event.rakuten.co.jp/furusato/area/ibaraki/"
+      kind: "ota"
+      note: "茨城県内の自治体の一覧。返礼品と寄附額は各自治体のページで確認"
   note: "イバトコは商品の販売・予約を受け付けていません。"
 businessIntent:
   booking: false

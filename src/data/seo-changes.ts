@@ -49,6 +49,36 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-hokota-melon-gourmet',
+    date: '2026-11-28',
+    url: '/events/hokota-melon-gourmet/',
+    kind: 'on-page',
+    change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
+    queries: [],
+    commit: '2cdeda6',
+    experimentType: 'cta',
+  },
+  {
+    id: '20261128-events-hitachi-gyu-gourmet',
+    date: '2026-11-28',
+    url: '/events/hitachi-gyu-gourmet/',
+    kind: 'on-page',
+    change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
+    queries: [],
+    commit: '2cdeda6',
+    experimentType: 'cta',
+  },
+  {
+    id: '20261128-events-ibaraki-hoshiimo-gourmet',
+    date: '2026-11-28',
+    url: '/events/ibaraki-hoshiimo-gourmet/',
+    kind: 'on-page',
+    change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
+    queries: [],
+    commit: '2cdeda6',
+    experimentType: 'cta',
+  },
+  {
     id: '20261128-events-ibaraki-furusato-nozei-guide',
     date: '2026-11-28',
     url: '/events/ibaraki-furusato-nozei-guide/',
