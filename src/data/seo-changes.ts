@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261129-events-ibaraki-robots-home-games-decembe',
+    date: '2026-11-29',
+    url: '/events/ibaraki-robots-home-games-december-2026/',
+    kind: 'new-article',
+    change: '茨城ロボッツ12月のホームゲーム2026（12日・13日水戸、19日・20日日立）を新規公開（包括承認）',
+    queries: [],
+    commit: '9aaf702',
+  },
+  {
     id: '20261129-news-ibaraki-kengikai-senkyo-2026',
     date: '2026-11-29',
     url: '/news/ibaraki-kengikai-senkyo-2026/',
