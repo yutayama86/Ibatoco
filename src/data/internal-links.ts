@@ -103,6 +103,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/hanazono-gorge-guide/': '花園渓谷・花園神社の紅葉の見頃と駐車場',
   '/events/senbako-guide/': '千波湖の駐車場・周回コース・行き方',
   '/events/the-hirosawa-city-guide/': 'ザ・ヒロサワ・シティ（ユメノバ）の料金・休み・行き方',
+  '/events/namegata-hobikisen-2026/': '行方市の観光帆引き船2026（12月13日まで）',
   '/events/kasumigaura-sogo-koen-guide/': '霞ヶ浦総合公園の駐車場・行き方・施設',
   '/events/hitachi-civic-center-science-museum-guide/': '日立シビックセンター科学館サクリエの料金・休館日・駐車場',
   '/events/koga-kubo-koen-guide/': '古河公方公園の開園時間・駐車場・行き方',

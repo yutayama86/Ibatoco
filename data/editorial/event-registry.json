@@ -2380,6 +2380,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "namegata-hobikisen-2026",
+      "name": "行方市 観光帆引き船操業（令和8年度）",
+      "municipality": "namegata",
+      "startDate": "2026-09-20",
+      "endDate": "2026-12-13",
+      "officialUrl": "https://namegata-machi.jp/page/page000042.html",
+      "discoveredAt": "2026-11-28",
+      "verifiedAt": "2026-11-28",
+      "articleUrl": "/events/namegata-hobikisen-2026/",
+      "articleUpdatedAt": "2026-11-28",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "11/28に行方市まちづくり推進機構の公式案内で、通常操業（〜12/13の日曜）、12/5・12/12のライトアップ操業（麻生）、料金・予約締切・中止判断を確認して記事化。"
     }
   ]
 }
