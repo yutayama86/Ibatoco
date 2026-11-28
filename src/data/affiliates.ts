@@ -45,6 +45,10 @@ export interface LinkProvider {
    * 楽天以外のASPには適用しない。
    */
   affiliateLinks?: Record<string, string>;
+  /** 予約サイトではない提供元の種類の表示（例：ふるさと納税）。無ければ記事の kind の表示を使う */
+  kindLabel?: string;
+  /** 提携リンクのボタン文言を提供元に合わせる（例：ふるさと納税に「空室・料金を確認」は出さない） */
+  paidCta?: string;
 }
 
 export const LINK_PROVIDERS: Record<string, LinkProvider> = {
@@ -60,6 +64,8 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
     status: 'active',
     network: '楽天アフィリエイト（提携審査なし／2026-11-28 オーナーが管理画面でリンク作成）',
     note: 'ふるさと納税は返礼品の「お得さ」を強調しない（総務省の基準）。寄附先の探し方としてPR表記つきで置く',
+    kindLabel: 'ふるさと納税',
+    paidCta: '茨城県の寄附先を見る',
     affiliateLinks: {
       'https://event.rakuten.co.jp/furusato/area/ibaraki/':
         'https://a.r10.to/hPOPRI',
@@ -146,6 +152,16 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
 
 export function providerName(id: string): string {
   return LINK_PROVIDERS[id]?.name ?? id;
+}
+
+/** 提供元に種類の表示があればそれを使う（ふるさと納税を「予約サイト」と表示しないため） */
+export function providerKindLabel(id: string): string | undefined {
+  return LINK_PROVIDERS[id]?.kindLabel;
+}
+
+/** 提供元に合わせた提携リンクのボタン文言 */
+export function providerPaidCta(id: string): string | undefined {
+  return LINK_PROVIDERS[id]?.paidCta;
 }
 
 /**

@@ -9,7 +9,7 @@
  *   noreferrer を付けない理由：参照元が消えると掲載サイトの照合ができず、成果が否認されうる
  * - クリックはGA4へ送る。提携していない状態で押されている数も見えるようにする
  */
-import { hasPaidLink, isPaidLink, monetizationState, outboundHref, partnerStatus, providerName } from '../data/affiliates';
+import { hasPaidLink, isPaidLink, monetizationState, outboundHref, partnerStatus, providerKindLabel, providerName, providerPaidCta } from '../data/affiliates';
 import { BOOKING_CTA_EXPERIMENT } from '../data/experiments';
 
 export interface BookingItem {
@@ -80,7 +80,7 @@ const KIND_LABEL: Record<string, string> = {
           data-deadline-label={item.deadline?.checkedAt ? item.deadline.label : ''}
         >
           <span class="bkg__meta">
-            <span class="bkg__kind">{KIND_LABEL[item.kind ?? 'official']}</span>
+            <span class="bkg__kind">{providerKindLabel(item.provider) ?? KIND_LABEL[item.kind ?? 'official']}</span>
             <span class="bkg__provider">{providerName(item.provider)}</span>
             {isPaidLink(item.provider, item.url) && <span class="bkg__pr">広告</span>}
           </span>
@@ -88,7 +88,7 @@ const KIND_LABEL: Record<string, string> = {
           {item.note && <span class="bkg__note">{item.note}</span>}
           {isPaidLink(item.provider, item.url) && (
             <span class="bkg__experiment-cta" data-experiment-paid-cta aria-hidden="true">
-              {BOOKING_CTA_EXPERIMENT.variants.b.paidCta}<span>→</span>
+              {providerPaidCta(item.provider) ?? BOOKING_CTA_EXPERIMENT.variants.b.paidCta}<span>→</span>
             </span>
           )}
         </a>
