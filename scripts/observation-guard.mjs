@@ -19,6 +19,7 @@
  *
  * テンプレート・共通部品（src/pages/{events,news}/[slug]・src/components・src/layouts・src/styles）の変更は、観測中のページ数を警告として出す（止めない）。
  * 個別承認されたUIの区切り直しは approved-ui-resets.json のPR・基点・期限・ソースblobが全て一致する場合だけ許可する。
+ * 記事（events/news）への個別承認も同じファイルに scope: 'content' で記録し、同じ条件で許可する（scripts/lib/approved-content-change.mjs、2026-11-28 オーナー決定）。
  * 通常のUI変更に使える例外宣言は追加しない。公開日の新しい変更履歴を必須にし、過去の観測記録は残す。
  *
  * 実行：npm run verify の中で自動（pull_request のときだけ動く）
@@ -30,6 +31,7 @@ import { parse } from 'yaml';
 import { observationWindows, todayJst } from '../src/lib/growth-engine.mjs';
 import { parseSeoChanges } from './lib/seo-changes.mjs';
 import { approvedUiResetFor } from './lib/approved-ui-reset.mjs';
+import { approvedContentChangeFor } from './lib/approved-content-change.mjs';
 
 const args = process.argv.slice(2);
 const argValue = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : null);
@@ -100,6 +102,9 @@ const deletedFiles = git('diff', '--name-only', '--diff-filter=D', baseSha, 'HEA
 const uiFileHashes = Object.fromEntries(allChanged.filter((file) => /^src\/(?:pages|components|styles)\/.+\.(?:astro|css)$/.test(file)).map((file) => {
   try { return [file, git('rev-parse', `HEAD:${file}`).trim()]; } catch { return [file, null]; }
 }));
+const contentFileHashes = Object.fromEntries(allChanged.filter((file) => /^src\/content\/(?:events|news)\/[^/]+\.md$/.test(file)).map((file) => {
+  try { return [file, git('rev-parse', `HEAD:${file}`).trim()]; } catch { return [file, null]; }
+}));
 
 // ---- 宣言された例外 ----
 const declared = [...String(body).matchAll(/observation-exception:\s*([a-z-]+)\s*[—\-–:：]?\s*(.*)/gi)].map((m) => ({ type: m[1].toLowerCase(), reason: m[2].trim() }));
@@ -146,7 +151,11 @@ for (const file of changed) {
     const uiReset = approvedUiResetFor({ approvals, repository, prNumber, baseSha, today, path, type, observedChangeId: row.changeId, changedFiles: allChanged, deletedFiles, fileHashes: uiFileHashes, changes: currentChanges });
     if (exception) allowed.push({ ...entry, by: exception });
     else if (uiReset) allowed.push({ ...entry, by: { type: 'approved-ui-reset', reason: `${uiReset.approvedBy} ${uiReset.approvedOn} 承認・PR #${prNumber}・${uiReset.reason}（新しい観測記録 ${uiReset.restartChangeId}）` } });
-    else violations.push(entry);
+    else {
+      const contentApproval = isContent ? approvedContentChangeFor({ approvals, repository, prNumber, baseSha, today, path, type, observedChangeId: row.changeId, changedFiles: allChanged, deletedFiles, fileHashes: contentFileHashes, changes: currentChanges }) : null;
+      if (contentApproval) allowed.push({ ...entry, by: { type: 'approved-content-change', reason: `${contentApproval.approvedBy} ${contentApproval.approvedOn} 承認・PR #${prNumber}・${contentApproval.reason}（新しい観測記録 ${contentApproval.restartChangeId}）` } });
+      else violations.push(entry);
+    }
     continue;
   }
   // テンプレート・共通部品：観測中のページへの影響を警告だけ出す
