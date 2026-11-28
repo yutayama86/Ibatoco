@@ -67,6 +67,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/kasama-inari-jinja-guide/': '笠間稲荷神社の駐車場と行き方',
   '/events/mentai-park-oarai-guide/': 'めんたいパーク大洗の営業時間・駐車場',
   '/events/kashima-jingu-guide/': '鹿島神宮の駐車場・行き方・見どころ',
+  '/events/aquaworld-oarai-christmas-2026/': 'クリスマス アクアワールド2026（12月25日まで）',
   '/events/kashima-jingu-hatsumode-2027/': '鹿島神宮の初詣2027（駐車場と元日の祭典）',
   '/events/jaxa-tsukuba-space-center-guide/': 'JAXA筑波宇宙センターの見学（ツアー・特別公開）',
   '/events/ibaraki-ceramic-art-museum-guide/': '茨城県陶芸美術館の観覧料・休館日・行き方',

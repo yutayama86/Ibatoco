@@ -94,6 +94,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "amabiki-kannon-guide": "/images/card/amabiki-kannon-guide-09465f76.png",
   "ami-premium-outlets-guide": "/images/card/ami-premium-outlets-guide-aa8ca6d9.png",
   "ami-premium-outlets-new-shops-202611": "/images/card/ami-premium-outlets-new-shops-202611-aa8ca6d9.png",
+  "aquaworld-oarai-christmas-2026": "/images/card/aquaworld-oarai-christmas-2026-7e5f8ef8.png",
   "aquaworld-oarai-guide": "/images/card/aquaworld-oarai-guide-7e5f8ef8.png",
   "art-tower-mito-guide": "/images/card/art-tower-mito-guide-6c5eb34d.png",
   "ayumizaki-koen-kasumigaura-guide": "/images/card/ayumizaki-koen-kasumigaura-guide-1f77a732.png",
