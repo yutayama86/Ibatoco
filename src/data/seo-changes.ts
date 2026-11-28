@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-ibaraki-furusato-nozei-guide-cta',
+    date: '2026-11-28',
+    url: '/events/ibaraki-furusato-nozei-guide/',
+    kind: 'on-page',
+    change: '締め切り前のオーナー個別承認により、総務省の公式リンクの後に楽天ふるさと納税（茨城県一覧）の提携リンクをPR表記つきで追加',
+    queries: [],
+    commit: '93098af',
+    experimentType: 'cta',
+  },
+  {
     id: '20261128-events-hokota-melon-gourmet',
     date: '2026-11-28',
     url: '/events/hokota-melon-gourmet/',
