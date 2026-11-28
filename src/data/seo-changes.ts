@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '第34回土浦ウインターフェスティバル（2027年1月31日まで）を新規公開（包括承認）',
     queries: [],
-    commit: 'PENDING',
+    commit: '8bdb0e5',
   },
   {
     id: '20261128-events-kusuriya-ibaraki-stamp-rally-2026',
