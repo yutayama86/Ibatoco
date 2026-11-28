@@ -56,6 +56,8 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '2026つくばクリスマスマーケット（12月4日〜6日）を新規公開（包括承認）',
     queries: [],
     commit: 'bdc58a8',
+  },
+  {
     id: '20261128-events-kashima-jingu-hatsumode-2027',
     date: '2026-11-28',
     url: '/events/kashima-jingu-hatsumode-2027/',
