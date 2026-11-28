@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-kusuriya-ibaraki-stamp-rally-2026',
+    date: '2026-11-28',
+    url: '/events/kusuriya-ibaraki-stamp-rally-2026/',
+    kind: 'new-article',
+    change: '薬屋のひとりごと×茨城県 スタンプラリー第2弾（2027年1月18日まで）を新規公開（県の報道発表のみ）',
+    queries: [],
+    commit: 'aa6333e',
+  },
+  {
     id: '20261128-events-ibaraki-koko-nyushi-2027',
     date: '2026-11-28',
     url: '/events/ibaraki-koko-nyushi-2027/',
