@@ -88,6 +88,28 @@ test('同期ブランチの上書き：共通の履歴が無ければ判定で�
   } finally { r.cleanup(); }
 });
 
+test('公式新着の固定ブランチだけが digest を更新でき、計測データや別ファイルの削除は止める', () => {
+  const r = repo();
+  const digest = 'data/editorial/source-watch-digest.json';
+  const watch = 'origin/bot/source-watch-digest';
+  const metrics = 'origin/bot/google-analytics-daily';
+  try {
+    r.git('switch', '-q', '-c', 'work');
+    r.write(digest, '{"asOf":"2026-11-28"}\n');
+    r.commit('update digest');
+    r.git('update-ref', 'refs/remotes/' + watch, 'HEAD');
+    r.git('update-ref', 'refs/remotes/' + metrics, 'HEAD');
+    const pending = (branch) => pendingChanges({ main: 'main', branch, cwd: r.dir }).sort();
+    assert.deepEqual(pending(watch), []);
+    assert.deepEqual(pending(metrics), [digest]);
+    r.git('mv', 'scripts/sync.mjs', 'scripts/moved.mjs');
+    r.write(SNAPSHOT, '{"asOf":"2026-11-25"}\n');
+    r.commit('unexpected changes');
+    r.git('update-ref', 'refs/remotes/' + watch, 'HEAD');
+    assert.deepEqual(pending(watch), [SNAPSHOT, 'scripts/moved.mjs', 'scripts/sync.mjs']);
+  } finally { r.cleanup(); }
+});
+
 test('GA4/GSC 日次同期のワークフロー：強制 push の前に同期ブランチを検査する', () => {
   const workflow = readFileSync('.github/workflows/google-analytics-daily.yml', 'utf8');
   const guard = workflow.indexOf('node scripts/sync-branch-guard.mjs HEAD "origin/$branch"');

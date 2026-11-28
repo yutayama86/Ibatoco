@@ -1,9 +1,9 @@
 /**
- * GA4/GSC 日次同期の固定ブランチ（bot/google-analytics-daily）を、上書きしてよいかを確かめる。
+ * GA4/GSC・公式新着の日次同期ブランチを、上書きしてよいかを確かめる。
  *
  * 同期は毎朝、このブランチを「最新の main ＋ 当日のスナップショット」に強制 push する。
  * 人がこのブランチ（同期 PR）に足した修正が main にまだ入っていないうちに上書きすると、修正が黙って消える（2026-10-28・#445）。
- * ブランチで変わったファイルのうち、同期が持つファイル（スナップショット）以外で、main と中身が違うものがあれば止める。
+ * ブランチで変わったファイルのうち、各同期が持つファイル以外で、main と中身が違うものがあれば止める。
  * squash でマージ済みの修正は main と同じ中身になるので止めない。main を取り込んだマージコミットも止めない。
  *
  *   node scripts/sync-branch-guard.mjs <main の ref> <同期ブランチの ref>
@@ -24,11 +24,16 @@ const gitIn = (cwd) => (args) => execFileSync('git', args, { cwd, encoding: 'utf
  * @returns {string[]}
  */
 export function pendingChanges({ main, branch, cwd = process.cwd() }) {
+  // 日次ジョブが実際に渡す固定のリモート参照に対してだけ、新着 digest を許可する。
+  // 計測ブランチと公式新着ブランチは、互いのデータを書き換えられない。
+  const ownedFiles = branch === 'origin/bot/source-watch-digest'
+    ? ['data/editorial/source-watch-digest.json']
+    : SYNC_OWNED_FILES;
   const git = gitIn(cwd);
   const base = git(['merge-base', main, branch]).trim();
-  const changed = git(['diff', '--name-only', base, branch]).split('\n').filter(Boolean);
+  const changed = git(['diff', '--no-renames', '--name-only', '-z', base, branch]).split('\0').filter(Boolean);
   return changed.filter((file) => {
-    if (SYNC_OWNED_FILES.includes(file)) return false;
+    if (ownedFiles.includes(file)) return false;
     try {
       git(['diff', '--quiet', main, branch, '--', file]);
       return false; // main と同じ中身（マージ済み）
@@ -55,5 +60,5 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
     console.error(`::error title=同期ブランチに未マージの修正::${branch} に main へ入っていない変更があるため、上書きしません：${pending.join('・')}。同期 PR をマージするか、変更を別の PR へ移してから、同期を再実行してください（docs/GA4_GSC_DAILY_SYNC.md）`);
     process.exit(1);
   }
-  console.log(`${branch}：main に無い変更は無い（同期のスナップショットだけ）。上書きしてよい`);
+  console.log(`${branch}：main に無い変更は無い（同期が管理するファイルだけ）。上書きしてよい`);
 }
