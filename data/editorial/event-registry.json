@@ -2359,6 +2359,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "11月24日の公式サイト監視で発見。出典 https://ibaraki-shokusai.net/info/detail/18490"
+    },
+    {
+      "id": "kusuriya-ibaraki-stamp-rally-2026",
+      "name": "TVアニメ『薬屋のひとりごと』×茨城県 コラボスタンプラリー第2弾『IBARAKI is Blossoming 続 薬屋の巡遊録』",
+      "municipality": "naka",
+      "startDate": "2026-10-17",
+      "endDate": "2027-01-18",
+      "officialUrl": "https://www.pref.ibaraki.jp/houdou/pdf/20261001/261002kankousenryaku_stamp.pdf",
+      "discoveredAt": "2026-11-28",
+      "verifiedAt": "2026-11-28",
+      "articleUrl": "/events/kusuriya-ibaraki-stamp-rally-2026/",
+      "articleUpdatedAt": "2026-11-28",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "unknown"
+      },
+      "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
     }
   ]
 }

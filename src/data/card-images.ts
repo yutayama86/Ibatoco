@@ -251,6 +251,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kohori-no-watashi-toride-guide": "/images/card/kohori-no-watashi-toride-guide-1f63e4a4.png",
   "kujiragaoka-hitachiota-guide": "/images/card/kujiragaoka-hitachiota-guide-0eca618d.png",
   "kurito-purindo-mito-excel-open-202610": "/images/card/kurito-purindo-mito-excel-open-202610-6c5eb34d.png",
+  "kusuriya-ibaraki-stamp-rally-2026": "/images/card/kusuriya-ibaraki-stamp-rally-2026-e6706a57.png",
   "makabe-machinami-sakuragawa-guide": "/images/card/makabe-machinami-sakuragawa-guide-09465f76.png",
   "mamiya-rinzo-kinenkan-tsukubamirai-guide": "/images/card/mamiya-rinzo-kinenkan-tsukubamirai-guide-60156f4a.png",
   "matsuri-yuki-2026": "/images/card/matsuri-yuki-2026-fd1f9fbe.png",
