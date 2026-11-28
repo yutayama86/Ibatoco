@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-koga-chochin-saomomi-matsuri-2026',
+    date: '2026-11-28',
+    url: '/events/koga-chochin-saomomi-matsuri-2026/',
+    kind: 'new-article',
+    change: '第166回古河提灯竿もみまつり（12月5日）を公開。2026年チラシの時間割・交通規制・特別観覧席を追記（包括承認）',
+    queries: [],
+    commit: '91f55f3',
+  },
+  {
     id: '20261128-events-tsuchiura-winter-festival-2026',
     date: '2026-11-28',
     url: '/events/tsuchiura-winter-festival-2026/',
