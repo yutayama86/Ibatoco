@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-tsuchiura-winter-festival-2026',
+    date: '2026-11-28',
+    url: '/events/tsuchiura-winter-festival-2026/',
+    kind: 'new-article',
+    change: '第34回土浦ウインターフェスティバル（2027年1月31日まで）を新規公開（包括承認）',
+    queries: [],
+    commit: 'PENDING',
+  },
+  {
     id: '20261128-events-kusuriya-ibaraki-stamp-rally-2026',
     date: '2026-11-28',
     url: '/events/kusuriya-ibaraki-stamp-rally-2026/',
