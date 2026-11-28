@@ -1489,6 +1489,57 @@
         "サイト"
       ],
       "note": "2026-11-24追加（オーナー指示）。BtoB受託の営業用。観光専門の入札・公募情報の一覧（全国、観光庁・自治体・観光協会・DMO）。イベントの発見には使わない。/control/ では「公募（BtoB）」として分けて表示する。応募の判断は各発注者の公告（一次情報）で確認する。"
+    },
+    {
+      "id": "sports-ibaraki-robots-news",
+      "category": "organizer",
+      "area": "県央",
+      "municipality": "水戸市",
+      "url": "https://www.ibarakirobots.win/",
+      "watchTerms": [
+        "ホームゲーム",
+        "試合",
+        "チケット",
+        "イベント",
+        "アクセス",
+        "グルメ"
+      ],
+      "note": "茨城ロボッツ公式（2026-11-28追加・需要創出レーンB）。試合日の観戦ガイド候補。日程・会場は公式で照合する。",
+      "watchType": "news-index"
+    },
+    {
+      "id": "sports-kashima-antlers-news",
+      "category": "organizer",
+      "area": "鹿行",
+      "municipality": "鹿嶋市",
+      "url": "https://www.antlers.co.jp/",
+      "watchTerms": [
+        "ホームゲーム",
+        "試合",
+        "チケット",
+        "イベント",
+        "アクセス",
+        "シャトルバス"
+      ],
+      "note": "鹿島アントラーズ公式（2026-11-28追加・需要創出レーンB）。初回実行で疎通を確認する。",
+      "watchType": "news-index"
+    },
+    {
+      "id": "sports-mito-hollyhock-news",
+      "category": "organizer",
+      "area": "県央",
+      "municipality": "那珂市",
+      "url": "https://www.mito-hollyhock.net/",
+      "watchTerms": [
+        "ホームゲーム",
+        "試合",
+        "チケット",
+        "イベント",
+        "アクセス",
+        "シャトルバス"
+      ],
+      "note": "水戸ホーリーホック公式（2026-11-28追加・需要創出レーンB）。ホームは水戸信用金庫スタジアム（那珂市）。初回実行で疎通を確認する。",
+      "watchType": "news-index"
     }
   ]
 }
