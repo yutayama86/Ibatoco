@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T04:21:06.288Z",
-  "asOf": "2026-11-25",
+  "generatedAt": "2026-11-28T03:22:30.875Z",
+  "asOf": "2026-11-28",
   "keepDays": 14,
   "scan": {
     "scanned": 61,
@@ -11,6 +11,222 @@
   },
   "note": "公式サイトの新着リンク（キーワード一致の題名のみ）。未確認情報。記事化は一次情報で確認してから。",
   "items": [
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "ami-town-notices",
+      "municipality": "阿見町",
+      "scope": "ibaraki",
+      "title": "温水プール整備事業オープンハウスを開催しました",
+      "url": "https://www.town.ami.lg.jp/0000017028.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "第32回九州国際スリーデーマーチ2027運営補助業務に係る公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1778",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "T-Messe2027富山県ものづくり総合見本市、開催準備全体コーディネート業務に係る公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1779",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "街歩きマップ5言語版制作業務に係る公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1780",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "joso-city-news",
+      "municipality": "常総市",
+      "scope": "ibaraki",
+      "title": "令和8年度いばらき防災大学（水戸会場）の開催について",
+      "url": "https://www.city.joso.lg.jp/kurashi_gyousei/kurashi/bousai_koutsu/bousai/effort/bousaishi/page002870.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-28",
+      "sourceId": "tone-town-events",
+      "municipality": "利根町",
+      "scope": "ibaraki",
+      "title": "第8回トネマチ冬まつり開催におけるライブパフォーマンス出演者を募集します！",
+      "url": "https://www.town.tone.ibaraki.jp/kanko-bunka/ibenntogyouzi/huyumaturi/page007465.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "ami-town-notices",
+      "municipality": "阿見町",
+      "scope": "ibaraki",
+      "title": "舟島ふれあいセンターイベント「りり先生の料理教室」開催案内",
+      "url": "https://www.town.ami.lg.jp/0000000843.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "ami-town-notices",
+      "municipality": "阿見町",
+      "scope": "ibaraki",
+      "title": "司法書士による全国一斉生活保護相談会開催のお知らせ",
+      "url": "https://www.town.ami.lg.jp/0000017266.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "ami-town-notices",
+      "municipality": "阿見町",
+      "scope": "ibaraki",
+      "title": "「令和8年度人権週間記念フェスタ」開催のお知らせ",
+      "url": "https://www.town.ami.lg.jp/0000017268.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "湯けむり国スポ・全スポぐんま実行委員会財務会計システム構築・運用保守計画策定業務に係る公募型プロポーザル",
+      "url": "https://www.travelvoice.jp/tenders/1774",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "Beyond Osaka Kyoto関西広域滞在促進事業（海外事業）、シンガポールプロモーション事業に係る公募型プロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1775",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "新宿観光案内所運営業務に係るプロポーザルの実施",
+      "url": "https://www.travelvoice.jp/tenders/1776",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "那須塩原市地域共創展企画運営事業業務に係る公募型プロポーザル",
+      "url": "https://www.travelvoice.jp/tenders/1777",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "ibaraki-town-events",
+      "municipality": "茨城町",
+      "scope": "ibaraki",
+      "title": "【いばSUNホール】12月イベントカレンダー",
+      "url": "https://www.town.ibaraki.lg.jp/gyousei/kurashitetuduki/ibasunhall/004178.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "joso-city-news",
+      "municipality": "常総市",
+      "scope": "ibaraki",
+      "title": "2026年11月7日にJOSOワールドフェスタ2026を開催しました！",
+      "url": "https://www.city.joso.lg.jp/kurashi_gyousei/kurashi/machidukuri/globalize/page005310.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "oarai-aquaworld-news",
+      "municipality": "大洗町",
+      "scope": "ibaraki",
+      "title": "2026.11.27 新着情報 12月開催の特別プログラムについて",
+      "url": "https://www.aquaworld-oarai.com/2026/11/27/specialprogram202612/",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "oarai-tourism-news",
+      "municipality": "大洗町",
+      "scope": "ibaraki",
+      "title": "【定期開催-2026年12月】駅横マルシェ",
+      "url": "https://www.oarai-info.jp/event/postid_9239/",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "omitama-city-calendar",
+      "municipality": "小美玉市",
+      "scope": "ibaraki",
+      "title": "2026年11月25日 「青果物輸出 はじめの一歩セミナー」を開催します",
+      "url": "https://www.city.omitama.lg.jp/0104/info-0000012917-0.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-27",
+      "sourceId": "omitama-city-calendar",
+      "municipality": "小美玉市",
+      "scope": "ibaraki",
+      "title": "2026年11月1日 【イベント終了いたしました】11月1日（日曜日）開催 OMITAMA まる市",
+      "url": "https://www.city.omitama.lg.jp/0466/info-0000012835-0.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "b2b-tourism-tenders-travelvoice",
+      "municipality": null,
+      "scope": "b2b-procurement",
+      "title": "HIS社員が地域で実践する地方創生とは？ 誘客から関係人口づくりまで、旅行会社のノウハウとデジタル技術を活用した3地域の事例（PR） 2026年11月25日",
+      "url": "https://www.travelvoice.jp/20261125-160854",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "joso-city-news",
+      "municipality": "常総市",
+      "scope": "ibaraki",
+      "title": "「食生活改善推進員養成講座」を開催します",
+      "url": "https://www.city.joso.lg.jp/kurashi_gyousei/kurashi/iryou_fukushi/kenkou/page002902.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "moriya-city-events",
+      "municipality": "守谷市",
+      "scope": "ibaraki",
+      "title": "令和8年11月25日 新拠点で初開催!アーカスプロジェクトオープンスタジオ（11月27日（金曜）から29日（日曜）まで）",
+      "url": "https://www.city.moriya.ibaraki.jp/bunka_sports_shiminkatsudou/bunka_geijutsu/1003611/1013065.html",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "oarai-aquaworld-news",
+      "municipality": "大洗町",
+      "scope": "ibaraki",
+      "title": "2026.11.26 お知らせ 学生応援企画『アクアワールド学割』キャンペーン12月1日からスタート！",
+      "url": "https://www.aquaworld-oarai.com/2026/11/26/gakuwari2026/",
+      "registered": false
+    },
+    {
+      "firstSeenAt": "2026-11-26",
+      "sourceId": "omitama-city-calendar",
+      "municipality": "小美玉市",
+      "scope": "ibaraki",
+      "title": "2026年11月1日 【イベント終了いたしました】11月1日（日曜日）開催 OMITAMA まる市",
+      "url": "https://www.city.omitama.lg.jp/0465/info-0000012835-0.html",
+      "registered": false
+    },
     {
       "firstSeenAt": "2026-11-25",
       "sourceId": "b2b-tourism-tenders-travelvoice",
@@ -63,7 +279,7 @@
       "scope": "ibaraki",
       "title": "【開催】イナシキライド フォトサイクリングVOL.3 2026.12.5",
       "url": "https://www.city.inashiki.lg.jp/page/page011660.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -72,7 +288,7 @@
       "scope": "ibaraki",
       "title": "市長杯第１２回中学校ソフトテニス選抜大会を開催します！",
       "url": "https://www.city.kitaibaraki.lg.jp/docs/2026111000010/",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -81,7 +297,7 @@
       "scope": "ibaraki",
       "title": "那珂市歴史民俗資料館季節展『正月飾り展』の開催",
       "url": "https://www.city.naka.lg.jp/edu-board/news/page008163.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-25",
@@ -90,7 +306,7 @@
       "scope": "tokyo-ibaraki",
       "title": "「いばキュンマルシェ2026」を二子玉川ライズで開催します！",
       "url": "https://ibaraki-shokusai.net/info/detail/18491",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-24",
@@ -99,7 +315,7 @@
       "scope": "ibaraki",
       "title": "サイクリング企画第６弾！自転車でめぐる「まちめぐりスタンプラリー」開催！",
       "url": "https://www.town.ibaraki.lg.jp/gyousei/kenkoukaigo/sports/004038.html",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-24",
@@ -117,7 +333,7 @@
       "scope": "tokyo-ibaraki",
       "title": "11月29日「いい肉の日」から！三笠会館で「常陸牛 煌」グルメフェアを開催",
       "url": "https://ibaraki-shokusai.net/info/detail/18490",
-      "registered": false
+      "registered": true
     },
     {
       "firstSeenAt": "2026-11-23",
