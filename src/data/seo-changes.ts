@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261129-news-zenkoku-hoshiimo-grandprix-2027',
+    date: '2026-11-29',
+    url: '/news/zenkoku-hoshiimo-grandprix-2027/',
+    kind: 'new-article',
+    change: '全国ほしいもグランプリ2027（1/8有楽町で一般審査、1/10水戸で表彰、出品12/10締切）を新規公開（包括承認）',
+    queries: [],
+    commit: 'f4af5ec',
+  },
+  {
     id: '20261129-news-onosato-kyushu-basho-yusho-2026',
     date: '2026-11-29',
     url: '/news/onosato-kyushu-basho-yusho-2026/',
