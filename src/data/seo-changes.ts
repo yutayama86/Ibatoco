@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261129-news-onosato-kyushu-basho-yusho-2026',
+    date: '2026-11-29',
+    url: '/news/onosato-kyushu-basho-yusho-2026/',
+    kind: 'new-article',
+    change: '大の里が十一月場所で優勝（2場所連続・通算7度目、所属の二所ノ関部屋は阿見町）を新規公開（県の知事談話のみ・包括承認）',
+    queries: [],
+    commit: 'c86e6f9',
+  },
+  {
     id: '20261129-events-ibaraki-robots-home-games-decembe',
     date: '2026-11-29',
     url: '/events/ibaraki-robots-home-games-december-2026/',
