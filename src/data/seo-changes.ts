@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261205-events-today-answer',
+    date: '2026-12-05',
+    url: '/events/',
+    kind: 'on-page',
+    change: '冒頭に閲覧日（日本時間）の日付と今日開催中・開催予定の件数を一文で表示し、JSON-LD に ItemList（開催中・これからの日付つきイベント記事を近い順に最大30件）を追加。title・H1・URL・canonical は変更なし',
+    queries: ['茨城 イベント 今日', '茨城県イベント 今日', '今日のイベント 茨城'],
+    experimentType: 'metadata',
+    commit: '96a83f9',
+  },
+  {
     id: '20261128-events-tsuchiura-winter-festival-2026',
     date: '2026-11-28',
     url: '/events/tsuchiura-winter-festival-2026/',
