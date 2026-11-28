@@ -192,6 +192,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-rekishikan-guide": "/images/card/ibaraki-rekishikan-guide-6c5eb34d.png",
   "ibaraki-renkon-gourmet": "/images/card/ibaraki-renkon-gourmet-38de5b72.png",
   "ibaraki-rental-cycle-roundup": "/images/card/ibaraki-rental-cycle-roundup-40415f8d.png",
+  "ibaraki-robots-home-games-december-2026": "/images/card/ibaraki-robots-home-games-december-2026-2665c47c.png",
   "ibaraki-sa-pa-guide": "/images/card/ibaraki-sa-pa-guide-e0d5248f.png",
   "ibaraki-sakagura-roundup": "/images/card/ibaraki-sakagura-roundup-6ccb2f93.png",
   "ibaraki-shichigosan-2026": "/images/card/ibaraki-shichigosan-2026-f691a6ac.png",

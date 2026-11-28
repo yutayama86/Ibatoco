@@ -147,6 +147,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/company/': '茨城で働く・つくる',
   '/area/ibaraki-machi/': '茨城町の地域情報',
   '/sports/': '茨城のスポーツ',
+  '/events/ibaraki-robots-home-games-december-2026/': '茨城ロボッツ12月のホームゲーム2026',
   '/sports/mito-hollyhock/': '水戸ホーリーホックの記事と試合',
   '/sports/kashima-antlers/': '鹿島アントラーズの記事と試合',
   '/sports/ibaraki-robots/': '茨城ロボッツの記事と試合',
