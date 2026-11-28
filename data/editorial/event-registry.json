@@ -2380,6 +2380,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "コンテンツから自動同期。重要度と需要シグナルは実データ確認後に更新する。"
+    },
+    {
+      "id": "kashima-jingu-hatsumode-2027",
+      "name": "鹿島神宮の初詣（2027年）",
+      "municipality": "kashima",
+      "startDate": "2027-01-01",
+      "endDate": "2027-01-03",
+      "officialUrl": "https://kashimajingu.jp/",
+      "discoveredAt": "2026-11-21",
+      "verifiedAt": "2026-11-28",
+      "articleUrl": "/events/kashima-jingu-hatsumode-2027/",
+      "articleUpdatedAt": "2026-11-28",
+      "status": "published",
+      "importance": "large",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "medium"
+      },
+      "notes": "11/28に鹿島神宮公式（アクセス・駐車場、年間の祭典・行事、令和9年御正月節分期間の御朱印、大寒禊）で確認。三が日の交通規制・臨時駐車場は未発表。"
     }
   ]
 }
