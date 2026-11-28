@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-aquaworld-oarai-christmas-2026',
+    date: '2026-11-28',
+    url: '/events/aquaworld-oarai-christmas-2026/',
+    kind: 'new-article',
+    change: 'クリスマス アクアワールド2026（12月25日まで、19・20日の無料クラフト）を新規公開（包括承認）',
+    queries: [],
+    commit: '4ee6f6e',
+  },
+  {
     id: '20261128-events-tsukuba-christmas-market-2026',
     date: '2026-11-28',
     url: '/events/tsukuba-christmas-market-2026/',
