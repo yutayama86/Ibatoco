@@ -95,6 +95,20 @@ const townNames = (e: (typeof all)[number]) => {
     : names.join('・');
 };
 
+/**
+ * ItemList（action 20261122-events-hub-today-answer）。
+ * 開催中・これからの日付つきイベント記事だけを、開催が近い順に最大30件。
+ * 終了・未確定（延期）・日付のないガイドは入れない。Event の詳細は各記事の JSON-LD に任せる。
+ */
+const ITEM_LIST_LIMIT = 30;
+const itemListEvents = upcoming
+  .filter((e) => ['upcoming', 'today', 'ongoing'].includes(lifecycleById.get(e.id) ?? ''))
+  .filter((e) => e.data.eventInfo?.startDate)
+  .map((e) => ({ e, start: dateOnlyFromCoercedDate(e.data.eventInfo!.startDate!) }))
+  .sort((a, b) => a.start.valueOf() - b.start.valueOf() || a.e.id.localeCompare(b.e.id))
+  .slice(0, ITEM_LIST_LIMIT)
+  .map(({ e }) => e);
+
 const crumbs: Crumb[] = [{ name: 'ホーム', href: '/' }, { name: '茨城のイベント・おでかけ' }];
 const jsonLd = [
   breadcrumbJsonLd(crumbs, Astro.site),
@@ -104,6 +118,18 @@ const jsonLd = [
     url: new URL('/events/', Astro.site).href,
     description: '茨城県のイベント、花火大会、祭り、季節のおでかけ。公式で確認できた日程・会場・駐車場だけをまとめています。',
   },
+  ...(itemListEvents.length > 0 ? [{
+    '@context': 'https://schema.org', '@type': 'ItemList',
+    name: '茨城で開催中・これから開催のイベント',
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: itemListEvents.length,
+    itemListElement: itemListEvents.map((e, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: new URL(path(e), Astro.site).href,
+      name: e.data.eventInfo?.name ?? e.data.title,
+    })),
+  }] : []),
 ];
 ---
 
@@ -126,6 +152,7 @@ const jsonLd = [
     pageType="events"
     heading="今日・今週末、茨城でできること"
     moreHref="/today/"
+    todayAnswer
     lead="日程を公式で確認できたイベント・試合・期間もののうち、これから来るものだけを出しています。終わったものは出しません。"
   />
 
