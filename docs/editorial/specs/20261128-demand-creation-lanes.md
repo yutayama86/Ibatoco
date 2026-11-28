@@ -36,7 +36,7 @@
 
 - 対象：県アンテナショップ IBARAKI sense の催事、「茨城をたべよう」フェア、収穫祭、都内ホテル・百貨店の茨城フェア、県のトップセールス等で生まれる催し
 - 監視元（既存）：`tokyo-ibaraki-sense`、`tokyo-ibaraki-food-news`、`tokyo-ibaraki-shukakusai-2026`
-- 追加候補（URL未確認のため未登録）：茨城県の報道発表一覧（営業戦略部・販売戦略課のリリースが掲載される）。一覧ページのURLを確認してから `official-source-watch.json` に追加する
+- 追加済み（2026-11-28）：茨城県の報道発表資料 `ibaraki-pref-press-releases`（https://www.pref.ibaraki.jp/houdou/index.html）。都内フェア・アニメコラボ・空港の就航なども掲載される
 - 記事の型：日程・会場・出店者・買えるもの・アクセス。出典は県の報道発表・主催者公式
 
 ### レーンB：県内プロスポーツの観戦ガイド
