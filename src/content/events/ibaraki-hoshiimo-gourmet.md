@@ -2,7 +2,7 @@
 title: "茨城の干し芋（ほしいも）｜ひたちなか・東海・那珂が主産地。平干し・丸干し・切甲と品種の違い、買える店の探し方"
 description: "茨城の干し芋は全国シェア約9割と県が紹介し、主な産地はひたちなか市・東海村・那珂市です。砂糖や添加物を使わず、さつまいもを蒸して干して作ります。平干し・丸干し・切甲の違い、べにはるか等の品種、1月10日「ほしいもの日」、県の販売店一覧の使い方を公式情報で整理しました。"
 pubDate: 2026-11-03
-updatedDate: 2026-11-03
+updatedDate: 2026-11-28
 articleType: "gourmet"
 searchIntent: "茨城の干し芋の産地、種類や品種の違い、おいしい時期、どこで買えるかを知りたい"
 keyword: "干し芋 茨城"
@@ -66,7 +66,7 @@ faq:
 booking:
   heading: "公式情報を確認する"
   intro: "品種の説明と買える店の一覧は、茨城県の「茨城をたべよう」で確認できます。"
-  basis: "この記事は、茨城県の公式情報だけで作っています。この案内のリンクはすべて公式サイトで、広告ではありません。"
+  basis: "この記事は、茨城県の公式情報だけで作っています。公式サイトのリンクを先に置いています。最後の「楽天ふるさと納税」は提携リンク（広告）です。"
   items:
     - label: "ほしいも（茨城をたべよう）"
       provider: "official"
@@ -83,6 +83,11 @@ booking:
       url: "https://www.pref.ibaraki.jp/bugai/koho/kenmin/syun/20251219.html"
       kind: "official"
       note: "作り方とほしいもの日"
+    - label: "茨城県の自治体へのふるさと納税（楽天ふるさと納税）"
+      provider: "rakuten-furusato"
+      url: "https://event.rakuten.co.jp/furusato/area/ibaraki/"
+      kind: "ota"
+      note: "茨城県内の自治体の一覧。返礼品と寄附額は各自治体のページで確認"
   note: "イバトコは商品の販売・予約を受け付けていません。"
 businessIntent:
   booking: false
