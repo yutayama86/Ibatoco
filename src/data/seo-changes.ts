@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '薬屋のひとりごと×茨城県 スタンプラリー第2弾（2027年1月18日まで）を新規公開（県の報道発表のみ）',
     queries: [],
-    commit: 'PENDING',
+    commit: 'aa6333e',
   },
   {
     id: '20261128-events-ibaraki-koko-nyushi-2027',
