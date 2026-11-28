@@ -2401,6 +2401,27 @@
         "logisticsDemand": "unknown"
       },
       "notes": "11/28に行方市まちづくり推進機構の公式案内で、通常操業（〜12/13の日曜）、12/5・12/12のライトアップ操業（麻生）、料金・予約締切・中止判断を確認して記事化。"
+    },
+    {
+      "id": "ibaraki-robots-home-games-december-2026",
+      "name": "茨城ロボッツ 2026年12月のホームゲーム",
+      "municipality": "mito",
+      "startDate": "2026-12-12",
+      "endDate": "2026-12-20",
+      "officialUrl": "https://www.ibarakirobots.win/schedule/list/?year=2026&month=all&scheduledate=upcoming",
+      "discoveredAt": "2026-11-29",
+      "verifiedAt": "2026-11-29",
+      "articleUrl": "/events/ibaraki-robots-home-games-december-2026/",
+      "articleUpdatedAt": "2026-11-29",
+      "status": "published",
+      "importance": "normal",
+      "signals": {
+        "searchDemand": "unknown",
+        "visitorDraw": "unknown",
+        "localSpend": "unknown",
+        "logisticsDemand": "medium"
+      },
+      "notes": "11/29に球団の試合日程と各試合特設ページ（12/12・13、12/19・20）で確認して記事化。日立会場のアクセス・駐車場は未公開。"
     }
   ]
 }
