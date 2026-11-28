@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-ibaraki-koko-nyushi-2027',
+    date: '2026-11-28',
+    url: '/events/ibaraki-koko-nyushi-2027/',
+    kind: 'new-article',
+    change: '茨城県立高校入試2027（令和9年度）の日程と第2希望校制度を新規公開（県教育委員会の公表資料のみ）',
+    queries: [],
+    commit: 'PENDING',
+  },
+  {
     id: '20261128-events-ibaraki-furusato-nozei-guide-cta',
     date: '2026-11-28',
     url: '/events/ibaraki-furusato-nozei-guide/',
