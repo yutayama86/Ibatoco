@@ -163,6 +163,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "ibaraki-flowerpark-illumination-2026": "/images/card/ibaraki-flowerpark-illumination-2026-6b2d089e.png",
   "ibaraki-free-spots": "/images/card/ibaraki-free-spots-75657d36.png",
   "ibaraki-from-tokyo-by-train-roundup": "/images/card/ibaraki-from-tokyo-by-train-roundup-5ecf9d47.png",
+  "ibaraki-furusato-nozei-guide": "/images/card/ibaraki-furusato-nozei-guide-07baaba7.png",
   "ibaraki-hanabi-2026": "/images/card/ibaraki-hanabi-2026-33e50ab6.png",
   "ibaraki-higaeri-onsen-roundup": "/images/card/ibaraki-higaeri-onsen-roundup-354dd82f.png",
   "ibaraki-highway-bus-roundup": "/images/card/ibaraki-highway-bus-roundup-bbce7a48.png",
