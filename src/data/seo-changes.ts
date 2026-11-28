@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
     queries: [],
-    commit: 'PENDING',
+    commit: '2cdeda6',
     experimentType: 'cta',
   },
   {
@@ -65,7 +65,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
     queries: [],
-    commit: 'PENDING',
+    commit: '2cdeda6',
     experimentType: 'cta',
   },
   {
@@ -75,7 +75,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'on-page',
     change: '公式リンクの後に楽天ふるさと納税（茨城県の自治体一覧）の提携リンクをPR表記つきで追加',
     queries: [],
-    commit: 'PENDING',
+    commit: '2cdeda6',
     experimentType: 'cta',
   },
   {
