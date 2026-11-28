@@ -92,6 +92,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "yachiyo-illumination-hakusai-2026": "/images/card/yachiyo-illumination-hakusai-2026-16494163.png",
   "yakult-swallows-farm-moriya-2027": "/images/card/yakult-swallows-farm-moriya-2027-07baaba7.png",
   "yokota-iin-haikyo-tour-2026": "/images/card/yokota-iin-haikyo-tour-2026-866134fe.png",
+  "zenkoku-hoshiimo-grandprix-2027": "/images/card/zenkoku-hoshiimo-grandprix-2027-4c8cbdb8.png",
   "aiyu-shuzo-tour-guide": "/images/card/aiyu-shuzo-tour-guide-9adfb2e1.png",
   "amabiki-kannon-guide": "/images/card/amabiki-kannon-guide-09465f76.png",
   "ami-premium-outlets-guide": "/images/card/ami-premium-outlets-guide-aa8ca6d9.png",
