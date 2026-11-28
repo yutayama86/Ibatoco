@@ -370,6 +370,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsukuba-botanical-garden-guide": "/images/card/tsukuba-botanical-garden-guide-866134fe.png",
   "tsukuba-cablecar-last-run-campaign-2026": "/images/card/tsukuba-cablecar-last-run-campaign-2026-866134fe.png",
   "tsukuba-cablecar-ropeway-guide": "/images/card/tsukuba-cablecar-ropeway-guide-866134fe.png",
+  "tsukuba-christmas-market-2026": "/images/card/tsukuba-christmas-market-2026-866134fe.png",
   "tsukuba-expo-center-guide": "/images/card/tsukuba-expo-center-guide-866134fe.png",
   "tsukuba-express-ibaraki-guide": "/images/card/tsukuba-express-ibaraki-guide-5fffaf73.png",
   "tsukuba-go-highway-bus-guide": "/images/card/tsukuba-go-highway-bus-guide-866134fe.png",

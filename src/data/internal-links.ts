@@ -73,6 +73,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/events/ibaraki-modern-art-museum-guide/': '茨城県近代美術館の観覧料・休館日・駐車場',
   '/events/kodokan-mito-guide/': '弘道館の入館料・開館時間・駐車場',
   '/events/hitachi-izumo-taisha-guide/': '常陸国出雲大社の駐車場・御朱印・参拝時間',
+  '/events/tsukuba-christmas-market-2026/': 'つくばクリスマスマーケット2026（12月4日〜6日）',
   '/events/tsukuba-expo-center-guide/': 'つくばエキスポセンターの料金・プラネタリウム・休館日',
   '/events/yokaren-heiwa-kinenkan-guide/': '予科練平和記念館の入館料・開館時間・駐車場',
   '/events/oiwa-jinja-guide/': '御岩神社の参拝時間・駐車場・御岩山の登拝',
