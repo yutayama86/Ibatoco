@@ -1540,6 +1540,25 @@
       ],
       "note": "水戸ホーリーホック公式（2026-11-28追加・需要創出レーンB）。ホームは水戸信用金庫スタジアム（那珂市）。初回実行で疎通を確認する。",
       "watchType": "news-index"
+    },
+    {
+      "id": "ibaraki-pref-press-releases",
+      "category": "government",
+      "area": "全県",
+      "municipality": null,
+      "url": "https://www.pref.ibaraki.jp/houdou/index.html",
+      "watchTerms": [
+        "フェア",
+        "IBARAKI sense",
+        "東京",
+        "開催",
+        "コラボ",
+        "イベント",
+        "就航",
+        "移住"
+      ],
+      "note": "茨城県の報道発表資料（掲載日の新しい順）。需要創出レーンA（全国・東京の茨城関連の催し）・F（コラボ）・G（空港・移住）の主な監視元（2026-11-28追加）。",
+      "watchType": "news-index"
     }
   ]
 }
