@@ -38,6 +38,11 @@ export interface LinkProvider {
    * 関数でURLを組み立てない理由：ASPによっては「生成されたリンクを変更しないこと」が
    * 条件になっている（例：じゃらんnetの商品リンクは計測用パラメータを含む）。
    * 組み立て直すと計測に反映されず、成果が計上されないことがある。
+   *
+   * 例外（2026-11-28 オーナー依頼）：楽天アフィリエイトのテキストリンクは、
+   * `npm run affiliate:rakuten -- <URL>` で生成してよい。管理画面で作った既存リンクと
+   * 完全一致することを scripts/rakuten-link.test.mjs で毎回検証している。
+   * 楽天以外のASPには適用しない。
    */
   affiliateLinks?: Record<string, string>;
 }
@@ -48,6 +53,17 @@ export const LINK_PROVIDERS: Record<string, LinkProvider> = {
     name: '公式サイト',
     status: 'none',
     note: '施設・自治体・観光協会などの一次情報。広告ではない',
+  },
+  'rakuten-furusato': {
+    id: 'rakuten-furusato',
+    name: '楽天ふるさと納税',
+    status: 'active',
+    network: '楽天アフィリエイト（提携審査なし／2026-11-28 オーナーが管理画面でリンク作成）',
+    note: 'ふるさと納税は返礼品の「お得さ」を強調しない（総務省の基準）。寄附先の探し方としてPR表記つきで置く',
+    affiliateLinks: {
+      'https://event.rakuten.co.jp/furusato/area/ibaraki/':
+        'https://a.r10.to/hPOPRI',
+    },
   },
   'rakuten-travel': {
     id: 'rakuten-travel',
