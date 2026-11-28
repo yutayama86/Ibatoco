@@ -247,6 +247,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kiuchi-brewery-honten-guide": "/images/card/kiuchi-brewery-honten-guide-6a250769.png",
   "kobai-jinja-tone-guide": "/images/card/kobai-jinja-tone-guide-c0724987.png",
   "kodokan-mito-guide": "/images/card/kodokan-mito-guide-6c5eb34d.png",
+  "koga-chochin-saomomi-matsuri-2026": "/images/card/koga-chochin-saomomi-matsuri-2026-9c272547.png",
   "koga-kubo-koen-guide": "/images/card/koga-kubo-koen-guide-9c272547.png",
   "koga-rekishi-hakubutsukan-guide": "/images/card/koga-rekishi-hakubutsukan-guide-9c272547.png",
   "kohori-no-watashi-toride-guide": "/images/card/kohori-no-watashi-toride-guide-1f63e4a4.png",
