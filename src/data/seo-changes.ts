@@ -49,6 +49,16 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261209-top-brand-h1',
+    date: '2026-12-09',
+    url: '/',
+    kind: 'on-page',
+    change: '画面に出ない H1（sr-only）を「なんか茨城、いいかも。」→「イバトコ｜なんか茨城、いいかも。」に変更（指名検索の修正）。見た目・title・必須構成は変更なし',
+    queries: ['イバトコ', 'いばとこ', 'ibatoco'],
+    experimentType: 'metadata',
+    commit: '0a50589',
+  },
+  {
     id: '20261128-events-tsuchiura-winter-festival-2026',
     date: '2026-11-28',
     url: '/events/tsuchiura-winter-festival-2026/',
