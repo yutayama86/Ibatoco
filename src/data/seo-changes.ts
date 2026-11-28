@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-tsukuba-christmas-market-2026',
+    date: '2026-11-28',
+    url: '/events/tsukuba-christmas-market-2026/',
+    kind: 'new-article',
+    change: '2026つくばクリスマスマーケット（12月4日〜6日）を新規公開（包括承認）',
+    queries: [],
+    commit: 'bdc58a8',
+  },
+  {
     id: '20261128-events-koga-chochin-saomomi-matsuri-2026',
     date: '2026-11-28',
     url: '/events/koga-chochin-saomomi-matsuri-2026/',
