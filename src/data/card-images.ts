@@ -360,6 +360,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "tsuchiura-hanabi-2026-kaisai": "/images/card/tsuchiura-hanabi-2026-kaisai-7f388fe6.png",
   "tsuchiura-hanabi-2026": "/images/card/tsuchiura-hanabi-2026-7f388fe6.png",
   "tsuchiura-sangyosai-2026": "/images/card/tsuchiura-sangyosai-2026-7f388fe6.png",
+  "tsuchiura-winter-festival-2026": "/images/card/tsuchiura-winter-festival-2026-7f388fe6.png",
   "tsukimachi-falls-guide": "/images/card/tsukimachi-falls-guide-49bd2cf5.png",
   "tsukinoi-shuzo-shop-guide": "/images/card/tsukinoi-shuzo-shop-guide-7e5f8ef8.png",
   "tsukuba-aist-openhouse-2026": "/images/card/tsukuba-aist-openhouse-2026-866134fe.png",
