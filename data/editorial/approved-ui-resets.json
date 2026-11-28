@@ -336,6 +336,29 @@
         "src/data/seo-changes.ts",
         "data/editorial/approved-ui-resets.json"
       ]
+    },
+    {
+      "id": "20261128-furusato-cta-760",
+      "scope": "content",
+      "repository": "yutayama86/Ibatoco",
+      "pullRequest": 760,
+      "path": "/events/ibaraki-furusato-nozei-guide/",
+      "baseSha": "cf3deceea321ca49d5d890706e27fa2dd66e4b4f",
+      "previousChangeId": "20261128-events-ibaraki-furusato-nozei-guide",
+      "approvedBy": "yutayama86",
+      "approvedOn": "2026-11-28",
+      "validThrough": "2026-11-30",
+      "reason": "オーナーが、ふるさと納税の12月31日の締め切り前に提携導線を置くため、観測期間中の変更を個別承認した（2026-11-28チャット「1・2どちらも進めて」）。本PRと承認時の記事内容だけに適用する。",
+      "restartChangeId": "20261128-events-ibaraki-furusato-nozei-guide-cta",
+      "restartExperimentType": "cta",
+      "sourceBlobs": {
+        "src/content/events/ibaraki-furusato-nozei-guide.md": "313b98639e3bc8d319e720e08ba13e60bcdd6c63"
+      },
+      "allowedFiles": [
+        "src/content/events/ibaraki-furusato-nozei-guide.md",
+        "src/data/seo-changes.ts",
+        "data/editorial/approved-ui-resets.json"
+      ]
     }
   ]
 }
