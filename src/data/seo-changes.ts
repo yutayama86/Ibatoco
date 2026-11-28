@@ -58,6 +58,15 @@ export const SEO_CHANGES: SeoChange[] = [
     commit: '9aaf702',
   },
   {
+    id: '20261129-news-ibaraki-kengikai-senkyo-2026',
+    date: '2026-11-29',
+    url: '/news/ibaraki-kengikai-senkyo-2026/',
+    kind: 'new-article',
+    change: '茨城県議会議員選挙2026（12月13日投票・期日前12/5〜12/12・32選挙区定数62）の投票案内を新規公開（県選管の発表のみ・包括承認）',
+    queries: [],
+    commit: '8ed7ac4',
+  },
+  {
     id: '20261128-events-namegata-hobikisen-2026',
     date: '2026-11-28',
     url: '/events/namegata-hobikisen-2026/',

@@ -17,6 +17,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/night-park-oarai-2026-guide/': 'Night Park OARAI 2026（10月30日〜11月1日・入場とアクセス）',
   '/news/mitsukaido-rail-yard-event-2026/': '水海道車両基地公開イベント2026（11月3日・参加条件）',
   '/news/': '茨城ニュース解説の新着記事',
+  '/area/': '茨城県44市町村の一覧',
   '/news/ibaraki-airport-busan-air-busan-charter-2026/': '茨城空港に初の「釜山便」（解説）',
   '/news/mito-hollyhock-soccer-tourism-2026/': '水戸ホーリーホックのサッカーツーリズム（解説）',
   '/news/mito-hollyhock-new-stadium-access/': '水戸信用金庫スタジアムのアクセス・駐車場・最寄り駅',
