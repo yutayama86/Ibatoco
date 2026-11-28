@@ -56,6 +56,13 @@ export const SEO_CHANGES: SeoChange[] = [
     change: '2026つくばクリスマスマーケット（12月4日〜6日）を新規公開（包括承認）',
     queries: [],
     commit: 'bdc58a8',
+    id: '20261128-events-kashima-jingu-hatsumode-2027',
+    date: '2026-11-28',
+    url: '/events/kashima-jingu-hatsumode-2027/',
+    kind: 'new-article',
+    change: '鹿島神宮の初詣2027（正月の駐車場料金・年末年始の祭典・令和9年の御朱印）を新規公開。交通規制は未発表と明記（包括承認）',
+    queries: [],
+    commit: '27a9927',
   },
   {
     id: '20261128-events-koga-chochin-saomomi-matsuri-2026',

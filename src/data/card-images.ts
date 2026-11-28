@@ -231,6 +231,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "kashima-go-highway-bus-guide": "/images/card/kashima-go-highway-bus-guide-41cb970e.png",
   "kashima-itako-day-trip-model-course": "/images/card/kashima-itako-day-trip-model-course-41cb970e.png",
   "kashima-jingu-guide": "/images/card/kashima-jingu-guide-57697a75.png",
+  "kashima-jingu-hatsumode-2027": "/images/card/kashima-jingu-hatsumode-2027-57697a75.png",
   "kashima-rinkai-oarai-kashima-line-guide": "/images/card/kashima-rinkai-oarai-kashima-line-guide-d301d30c.png",
   "kashimanada-hamaguri-gourmet": "/images/card/kashimanada-hamaguri-gourmet-c02613f6.png",
   "kasumi-motoyoshida-mito-open-202611": "/images/card/kasumi-motoyoshida-mito-open-202611-6c5eb34d.png",

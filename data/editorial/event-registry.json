@@ -2071,12 +2071,12 @@
       "municipality": "kashima",
       "startDate": "2027-01-01",
       "endDate": "2027-01-03",
-      "officialUrl": null,
+      "officialUrl": "https://kashimajingu.jp/",
       "discoveredAt": "2026-10-17",
-      "verifiedAt": null,
-      "articleUrl": null,
-      "articleUpdatedAt": null,
-      "status": "discovered",
+      "verifiedAt": "2026-11-28",
+      "articleUrl": "/events/kashima-jingu-hatsumode-2027/",
+      "articleUpdatedAt": "2026-11-28",
+      "status": "published",
       "importance": "normal",
       "signals": {
         "searchDemand": "unknown",
@@ -2084,7 +2084,7 @@
         "localSpend": "medium",
         "logisticsDemand": "high"
       },
-      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の候補として登録。対応記事なし。検索需要は未取得（トレンド未比較）。終了日の1/3は三が日の目安で、公式の期間ではない。2026〜27年の交通規制・臨時駐車場の公式案内は未確認。"
+      "notes": "Discovery Gate 初回巡回（10/17）で、年末年始の候補として登録。対応記事なし。検索需要は未取得（トレンド未比較）。終了日の1/3は三が日の目安で、公式の期間ではない。2026〜27年の交通規制・臨時駐車場の公式案内は未確認。11/28に鹿島神宮公式（アクセス・駐車場、年間の祭典・行事、令和9年御正月節分期間の御朱印、大寒禊）で確認し記事化。交通規制・臨時駐車場は引き続き未発表。"
     },
     {
       "id": "oarai-hatsuhinode-2027",
