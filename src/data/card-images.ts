@@ -144,6 +144,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "hotel-r9-the-yard-hitachiomiya-open-202610": "/images/card/hotel-r9-the-yard-hitachiomiya-open-202610-026aa449.png",
   "howaen-guide": "/images/card/howaen-guide-6c5eb34d.png",
   "hozumike-jutaku-takahagi-guide": "/images/card/hozumike-jutaku-takahagi-guide-19f4a7d1.png",
+  "ibakyun-marche-futakotamagawa-2026": "/images/card/ibakyun-marche-futakotamagawa-2026-4c8cbdb8.png",
   "ibaraki-airport-parking-access-guide": "/images/card/ibaraki-airport-parking-access-guide-a392698c.png",
   "ibaraki-autumn-odekake-2026": "/images/card/ibaraki-autumn-odekake-2026-36366c15.png",
   "ibaraki-botanical-garden-guide": "/images/card/ibaraki-botanical-garden-guide-6a250769.png",

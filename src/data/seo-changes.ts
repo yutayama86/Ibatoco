@@ -58,6 +58,15 @@ export const SEO_CHANGES: SeoChange[] = [
     commit: '8bdb0e5',
   },
   {
+    id: '20261128-events-ibakyun-marche-futakotamagawa-202',
+    date: '2026-11-28',
+    url: '/events/ibakyun-marche-futakotamagawa-2026/',
+    kind: 'new-article',
+    change: 'いばキュン！マルシェ2026（二子玉川・12月19〜20日、茨城県主催）を新規公開（包括承認）',
+    queries: [],
+    commit: 'c79de21',
+  },
+  {
     id: '20261128-events-kusuriya-ibaraki-stamp-rally-2026',
     date: '2026-11-28',
     url: '/events/kusuriya-ibaraki-stamp-rally-2026/',
