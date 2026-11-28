@@ -400,6 +400,7 @@ export const INTERNAL_LINK_LABELS: Record<string, string> = {
   '/news/yachiyo-aki-matsuri-2026/': '八千代の秋まつり2026（11/14・15、ステージの時間とシャトルバス）',
   '/news/yachiyo-illumination-hakusai-2026/': '八千代町イルミネーション点灯式（11/28・はくさいサミット プレイベント）',
   '/events/ibaraki-ichigo-gari-guide/': '茨城のいちご狩り（旬・農園の探し方・予約・品種）',
+  '/events/tokyo-ibaraki-shukakusai-2026/': '茨城をたべよう収穫祭2026（駒沢公園・11月21〜23日）',
   '/events/oarai-hatsuhinode-2027/': '大洗の初日の出・初詣2027（日の出時刻・駐車場・開門時間）',
   '/events/mito-ume-matsuri-2027/': '水戸の梅まつり2027（日程・料金・駐車場）',
   '/events/kasumi-oarai-open-202609/': 'カスミ大洗店の開店（2026年9月）',
