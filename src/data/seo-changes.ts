@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-ibaraki-furusato-nozei-guide',
+    date: '2026-11-28',
+    url: '/events/ibaraki-furusato-nozei-guide/',
+    kind: 'new-article',
+    change: '茨城のふるさと納税ガイドを新規公開（締め切り・ワンストップ特例・県内受入額。総務省等の公式情報のみ）',
+    queries: [],
+    commit: '2465a9b',
+  },
+  {
     id: '20261126-events-tokumanji-tone-guide',
     date: '2026-11-26',
     url: '/events/tokumanji-tone-guide/',
