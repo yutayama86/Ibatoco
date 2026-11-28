@@ -55,7 +55,7 @@ export const SEO_CHANGES: SeoChange[] = [
     kind: 'new-article',
     change: '茨城のふるさと納税ガイドを新規公開（締め切り・ワンストップ特例・県内受入額。総務省等の公式情報のみ）',
     queries: [],
-    commit: 'PENDING',
+    commit: '2465a9b',
   },
   {
     id: '20261126-events-tokumanji-tone-guide',
