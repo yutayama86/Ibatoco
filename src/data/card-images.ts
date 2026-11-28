@@ -287,6 +287,7 @@ export const CARD_IMAGES: Record<string, string> = {
   "nakaminato-ichibazushi-guide": "/images/card/nakaminato-ichibazushi-guide-4e47820e.png",
   "nakaminato-kaijo-hanabi-2026": "/images/card/nakaminato-kaijo-hanabi-2026-4e47820e.png",
   "nakaminato-osakana-ichiba-guide": "/images/card/nakaminato-osakana-ichiba-guide-4e47820e.png",
+  "namegata-hobikisen-2026": "/images/card/namegata-hobikisen-2026-3c261f03.png",
   "namegata-satsumaimo-gourmet": "/images/card/namegata-satsumaimo-gourmet-58bffa95.png",
   "namegata-sunset-festa-2026": "/images/card/namegata-sunset-festa-2026-3c261f03.png",
   "namegata-yakiimo-kojosai-2026": "/images/card/namegata-yakiimo-kojosai-2026-3c261f03.png",

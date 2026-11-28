@@ -49,6 +49,15 @@ export interface SeoChange {
  */
 export const SEO_CHANGES: SeoChange[] = [
   {
+    id: '20261128-events-namegata-hobikisen-2026',
+    date: '2026-11-28',
+    url: '/events/namegata-hobikisen-2026/',
+    kind: 'new-article',
+    change: '行方市の観光帆引き船2026（12月13日まで・12日ライトアップ）を新規公開（包括承認）',
+    queries: [],
+    commit: '9e8aa0d',
+  },
+  {
     id: '20261128-events-aquaworld-oarai-christmas-2026',
     date: '2026-11-28',
     url: '/events/aquaworld-oarai-christmas-2026/',
